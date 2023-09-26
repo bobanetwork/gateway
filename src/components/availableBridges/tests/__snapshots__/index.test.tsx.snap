@@ -3,48 +3,48 @@
 exports[`Available Bridges should match snapshot connected on mainnet 1`] = `
 <DocumentFragment>
   <div
-    class="sc-ewnqHT govArP"
+    class="sc-eqUAAy hLmkdz"
   >
     <p
-      class="sc-bgqQcB sc-fFGjHI llaVrj jrSeWS"
+      class="sc-aXZVg sc-fqkvVR ijoHgY iWVMlt"
     >
       Third party bridges
     </p>
     <a
-      class="sc-dicizt dsNRSm"
+      class="sc-dcJsrY cVcTHT"
       data-testid="banxa"
       href="https://boba.banxa.com/?coinType=ETH&fiatType=USD&blockchain=Boba Network&walletAddress=random-code"
       rel="noopener noreferrer"
       target="_blank"
     >
       <p
-        class="sc-bgqQcB sc-iVCKna llaVrj bGQzVG"
+        class="sc-aXZVg sc-iGgWBj ijoHgY hSZnBh"
       >
         Banxa
       </p>
     </a>
     <a
-      class="sc-dicizt dsNRSm"
+      class="sc-dcJsrY cVcTHT"
       data-testid="bridge"
       href="https://synapseprotocol.com/"
       rel="noopener noreferrer"
       target="_blank"
     >
       <p
-        class="sc-bgqQcB sc-iVCKna llaVrj bGQzVG"
+        class="sc-aXZVg sc-iGgWBj ijoHgY hSZnBh"
       >
         Synapse
       </p>
     </a>
     <a
-      class="sc-dicizt dsNRSm"
+      class="sc-dcJsrY cVcTHT"
       data-testid="bridge"
       href="https://cbridge.celer.network/#/transfer"
       rel="noopener noreferrer"
       target="_blank"
     >
       <p
-        class="sc-bgqQcB sc-iVCKna llaVrj bGQzVG"
+        class="sc-aXZVg sc-iGgWBj ijoHgY hSZnBh"
       >
         Celer
       </p>

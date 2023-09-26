@@ -3,14 +3,14 @@
 exports[`SwitchButton SwitchButton Default State 1`] = `
 <DocumentFragment>
   <label
-    class="sc-ewnqHT byTfLr"
+    class="sc-eqUAAy kFMUIf"
   >
     <input
-      class="sc-gTRrQi fYYSjw"
+      class="sc-gEvEer ezKwCG"
       type="checkbox"
     />
     <span
-      class="sc-bgqQcB fNGpeI"
+      class="sc-aXZVg bmBdqL"
     />
   </label>
 </DocumentFragment>
@@ -19,15 +19,15 @@ exports[`SwitchButton SwitchButton Default State 1`] = `
 exports[`SwitchButton SwitchButton is Active 1`] = `
 <DocumentFragment>
   <label
-    class="sc-ewnqHT byTfLr"
+    class="sc-eqUAAy kFMUIf"
   >
     <input
       checked=""
-      class="sc-gTRrQi fYYSjw"
+      class="sc-gEvEer ezKwCG"
       type="checkbox"
     />
     <span
-      class="sc-bgqQcB fNGpeI"
+      class="sc-aXZVg bmBdqL"
     />
   </label>
 </DocumentFragment>
@@ -36,16 +36,16 @@ exports[`SwitchButton SwitchButton is Active 1`] = `
 exports[`SwitchButton SwitchButton is Disable & Active 1`] = `
 <DocumentFragment>
   <label
-    class="sc-ewnqHT byTfLr"
+    class="sc-eqUAAy kFMUIf"
   >
     <input
       checked=""
-      class="sc-gTRrQi fYYSjw"
+      class="sc-gEvEer ezKwCG"
       disabled=""
       type="checkbox"
     />
     <span
-      class="sc-bgqQcB fNGpeI"
+      class="sc-aXZVg bmBdqL"
     />
   </label>
 </DocumentFragment>
@@ -54,15 +54,15 @@ exports[`SwitchButton SwitchButton is Disable & Active 1`] = `
 exports[`SwitchButton SwitchButton is Disable 1`] = `
 <DocumentFragment>
   <label
-    class="sc-ewnqHT byTfLr"
+    class="sc-eqUAAy kFMUIf"
   >
     <input
-      class="sc-gTRrQi fYYSjw"
+      class="sc-gEvEer ezKwCG"
       disabled=""
       type="checkbox"
     />
     <span
-      class="sc-bgqQcB fNGpeI"
+      class="sc-aXZVg bmBdqL"
     />
   </label>
 </DocumentFragment>

@@ -3,60 +3,65 @@
 exports[`Layout => Header should match the snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fABZjn fNXwka"
+    class="sc-fPXMVe ftesQA"
   >
     <a
       class=""
       href="/bridge"
     >
       <div
-        class="sc-gUMnWI dkUFbU"
+        class="sc-gFqAkR jmtPti"
       />
     </a>
     <div
-      class="sc-hjLWnZ kFZkac"
+      class="sc-hzhJZQ eTHxzX"
     >
       <a
-        activeclassname="active"
-        class="sc-fWFeAW dJFBmS"
+        class="sc-fHjqPf frKNMc ({
+          isActive
+        }) => isActive ? 'active' : ''"
         href="/bridge"
       >
         Bridge
       </a>
       <a
-        activeclassname="active"
-        class="sc-fWFeAW dJFBmS"
+        class="sc-fHjqPf frKNMc ({
+          isActive
+        }) => isActive ? 'active' : ''"
         href="/history"
       >
         History
       </a>
       <a
-        activeclassname="active"
-        class="sc-fWFeAW dJFBmS"
+        class="sc-fHjqPf frKNMc ({
+          isActive
+        }) => isActive ? 'active' : ''"
         href="/earn"
       >
         Earn
       </a>
       <a
-        activeclassname="active"
-        class="sc-fWFeAW dJFBmS"
+        class="sc-fHjqPf frKNMc ({
+          isActive
+        }) => isActive ? 'active' : ''"
         href="/stake"
       >
         Stake
       </a>
       <a
-        activeclassname="active"
-        class="sc-fWFeAW dJFBmS"
+        class="sc-fHjqPf frKNMc ({
+          isActive
+        }) => isActive ? 'active' : ''"
         href="/DAO"
       >
         Dao
       </a>
     </div>
     <div
-      class="sc-hUOJWJ kkAMsz"
+      class="sc-ikkxIA fOPkmS"
     >
       <button
-        class="sc-crozmw joSqYT"
+        class="sc-cwHptR gLbuCq"
         label="Connect Wallet"
         style="white-space: nowrap;"
         type="button"
@@ -64,10 +69,10 @@ exports[`Layout => Header should match the snapshot 1`] = `
          Connect Wallet
       </button>
       <div
-        class="sc-dPwPAC UluVn"
+        class="sc-dAbbOL cvqTyF"
       >
         <div
-          class="sc-ePzlA-D hiWbI"
+          class="sc-feUZmu jPLZfu"
         >
           <div>
             <div
@@ -78,7 +83,7 @@ exports[`Layout => Header should match the snapshot 1`] = `
         </div>
       </div>
       <div
-        class="sc-gjJAnY imSQnB"
+        class="sc-fUnMCh lmwSPa"
         title="light-icon"
       >
         <div>

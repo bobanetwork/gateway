@@ -3,7 +3,7 @@
 exports[`Typography should match snapshots body1 1`] = `
 <DocumentFragment>
   <p
-    class="sc-bgqQcB ciRvxv"
+    class="sc-aXZVg eECYig"
   >
     Text goes here
   </p>
@@ -13,7 +13,7 @@ exports[`Typography should match snapshots body1 1`] = `
 exports[`Typography should match snapshots body2 1`] = `
 <DocumentFragment>
   <p
-    class="sc-bgqQcB eCuYeS"
+    class="sc-aXZVg Roykd"
   >
     Text goes here
   </p>
@@ -23,7 +23,7 @@ exports[`Typography should match snapshots body2 1`] = `
 exports[`Typography should match snapshots body3 1`] = `
 <DocumentFragment>
   <p
-    class="sc-bgqQcB eBLtca"
+    class="sc-aXZVg kDnCsN"
   >
     Text goes here
   </p>
@@ -33,7 +33,7 @@ exports[`Typography should match snapshots body3 1`] = `
 exports[`Typography should match snapshots h1 1`] = `
 <DocumentFragment>
   <p
-    class="sc-bgqQcB fLFrDT"
+    class="sc-aXZVg fKKumM"
   >
     Text goes here
   </p>
@@ -43,7 +43,7 @@ exports[`Typography should match snapshots h1 1`] = `
 exports[`Typography should match snapshots head 1`] = `
 <DocumentFragment>
   <p
-    class="sc-bgqQcB cgRXLP"
+    class="sc-aXZVg ckieKA"
   >
     Text goes here
   </p>
@@ -53,7 +53,7 @@ exports[`Typography should match snapshots head 1`] = `
 exports[`Typography should match snapshots subtitle 1`] = `
 <DocumentFragment>
   <p
-    class="sc-bgqQcB bqiEPL"
+    class="sc-aXZVg fHhmls"
   >
     Text goes here
   </p>
@@ -63,7 +63,7 @@ exports[`Typography should match snapshots subtitle 1`] = `
 exports[`Typography should match snapshots title 1`] = `
 <DocumentFragment>
   <p
-    class="sc-bgqQcB goFeVO"
+    class="sc-aXZVg lcLNsl"
   >
     Text goes here
   </p>

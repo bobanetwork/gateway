@@ -3,7 +3,7 @@
 exports[`Button Default Button 1`] = `
 <DocumentFragment>
   <button
-    class="sc-bgqQcB iCiqEp"
+    class="sc-aXZVg SPVcy"
     label="Test Button"
     type="button"
   >
@@ -15,7 +15,7 @@ exports[`Button Default Button 1`] = `
 exports[`Button Disable Button 1`] = `
 <DocumentFragment>
   <button
-    class="sc-bgqQcB buwCqV"
+    class="sc-aXZVg gpVnru"
     label="Test Button"
     type="button"
   >
@@ -27,12 +27,12 @@ exports[`Button Disable Button 1`] = `
 exports[`Button Loading Button 1`] = `
 <DocumentFragment>
   <button
-    class="sc-bgqQcB kNhvec"
+    class="sc-aXZVg FfRTb"
     label="Test Button"
     type="button"
   >
     <span
-      class="sc-gTRrQi daKBPn"
+      class="sc-gEvEer jcjyZH"
     />
      Test Button
   </button>
@@ -42,7 +42,7 @@ exports[`Button Loading Button 1`] = `
 exports[`Button Outline Button 1`] = `
 <DocumentFragment>
   <button
-    class="sc-bgqQcB eGWGxW"
+    class="sc-aXZVg bsRbWB"
     label="Outline Button"
     type="button"
   >
@@ -54,7 +54,7 @@ exports[`Button Outline Button 1`] = `
 exports[`Button Small Button 1`] = `
 <DocumentFragment>
   <button
-    class="sc-bgqQcB hCCYhJ"
+    class="sc-aXZVg eCPrBm"
     label="Test Button"
     type="button"
   >
