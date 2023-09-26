@@ -43,8 +43,9 @@ const Navigation: FC<MenuProps> = ({ isOpen }) => {
           <NavLinkItem
             key={menu.label}
             to={menu.path}
-            activeclassname="active"
-            // onClick={() => isMobile ? setOpen(false) : null}
+            className={({ isActive, isPending }) =>
+              isPending ? '' : isActive ? 'active' : ''
+            }
           >
             {menu.label}
           </NavLinkItem>

@@ -128,7 +128,9 @@ export const NavList = styled.div`
   gap: 40px;
   padding: 40px 16px;
 `
-export const NavLinkItem = styled(NavLink)`
+export const NavLinkItem = styled(NavLink).withConfig({
+  shouldForwardProp: (prop) => !['activeclassname'].includes(prop),
+})`
   padding: 0px 16px;
   font-family: Montserrat;
   font-size: 24px;
