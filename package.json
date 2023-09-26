@@ -37,7 +37,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
     "@mui/styles": "^5.3.0",
-    "@sentry/react": "^7.51.0",
+    "@sentry/react": "^7.72.0",
     "@sentry/tracing": "^7.51.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "assert": "^2.0.0",
