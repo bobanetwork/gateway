@@ -3,10 +3,10 @@
 exports[`MaxInput Max Input Component with Initial Value 1`] = `
 <DocumentFragment>
   <div
-    class="sc-bgqQcB iFQfPY"
+    class="sc-aXZVg kqaFxL"
   >
     <input
-      class="sc-ewnqHT jwbTWF"
+      class="sc-eqUAAy gJPWPZ"
       max="10"
       min="0"
       placeholder="Enter Amount"
@@ -15,7 +15,7 @@ exports[`MaxInput Max Input Component with Initial Value 1`] = `
       value="5"
     />
     <button
-      class="sc-gTRrQi enhoLL"
+      class="sc-gEvEer ioNmuv"
     >
       Max
     </button>
@@ -26,10 +26,10 @@ exports[`MaxInput Max Input Component with Initial Value 1`] = `
 exports[`MaxInput Max Input Component without Initial Value 1`] = `
 <DocumentFragment>
   <div
-    class="sc-bgqQcB iFQfPY"
+    class="sc-aXZVg kqaFxL"
   >
     <input
-      class="sc-ewnqHT jwbTWF"
+      class="sc-eqUAAy gJPWPZ"
       max="10"
       min="0"
       placeholder="Enter Amount"
@@ -38,7 +38,7 @@ exports[`MaxInput Max Input Component without Initial Value 1`] = `
       value=""
     />
     <button
-      class="sc-gTRrQi enhoLL"
+      class="sc-gEvEer ioNmuv"
     >
       Max
     </button>

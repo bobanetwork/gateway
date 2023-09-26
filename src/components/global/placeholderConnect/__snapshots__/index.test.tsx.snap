@@ -3,11 +3,11 @@
 exports[`PlaceholderConnect PlaceholderConnect is loading 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fFGjHI eWYtNO"
+    class="sc-fqkvVR fqfTpR"
   >
     loading
     <div
-      class="sc-iVCKna dyLvdT"
+      class="sc-iGgWBj bSZpIE"
     >
       <div>
         <div
@@ -17,12 +17,12 @@ exports[`PlaceholderConnect PlaceholderConnect is loading 1`] = `
       </div>
     </div>
     <p
-      class="sc-ewnqHT bIrpBD sc-dicizt jMoYNm"
+      class="sc-eqUAAy bPnpZv sc-dcJsrY dltCnb"
     >
       No 
     </p>
     <button
-      class="sc-bgqQcB hCCYhJ"
+      class="sc-aXZVg eCPrBm"
       label="Connect Wallet"
       type="button"
     >
@@ -35,10 +35,10 @@ exports[`PlaceholderConnect PlaceholderConnect is loading 1`] = `
 exports[`PlaceholderConnect PlaceholderConnect is not loading 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fFGjHI eWYtNO"
+    class="sc-fqkvVR fqfTpR"
   >
     <div
-      class="sc-iVCKna dyLvdT"
+      class="sc-iGgWBj bSZpIE"
     >
       <div>
         <div
@@ -48,12 +48,12 @@ exports[`PlaceholderConnect PlaceholderConnect is not loading 1`] = `
       </div>
     </div>
     <p
-      class="sc-ewnqHT bIrpBD sc-dicizt jMoYNm"
+      class="sc-eqUAAy bPnpZv sc-dcJsrY dltCnb"
     >
       No 
     </p>
     <button
-      class="sc-bgqQcB hCCYhJ"
+      class="sc-aXZVg eCPrBm"
       label="Connect Wallet"
       type="button"
     >
