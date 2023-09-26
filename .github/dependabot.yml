@@ -10,20 +10,16 @@ updates:
     schedule:
       interval: "weekly"
     reviewers:
-      - "souradeep-das"
-      - "wsdt"
-      - "Boyuan-Chen"
-      - "InoMurko"
+      - "sk-enya"
+      - "alvaro-ricotta"
     rebase-strategy: "disabled"
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/ops" # Location of package manifests
     schedule:
       interval: "weekly"
     reviewers:
-      - "souradeep-das"
-      - "wsdt"
-      - "Boyuan-Chen"
-      - "InoMurko"
+      - "sk-enya"
+      - "alvaro-ricotta"
   - package-ecosystem: "github-actions"
     # Workflow files stored in the
     # default location of `.github/workflows`
@@ -31,7 +27,5 @@ updates:
     schedule:
       interval: "weekly"
     reviewers:
-      - "souradeep-das"
-      - "wsdt"
-      - "Boyuan-Chen"
-      - "InoMurko"
+      - "sk-enya"
+      - "alvaro-ricotta"
