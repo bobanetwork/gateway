@@ -45,7 +45,6 @@ jobs:
       - name: Test Coverage
         run: yarn test:coverage
         env:
-          FORCE_COLOR: 1
           SKIP_PREFLIGHT_CHECK: true
 
       - uses: codecov/codecov-action@v3
