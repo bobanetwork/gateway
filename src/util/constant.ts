@@ -20,8 +20,6 @@ export const SENTRY_DSN: EnvType = process.env.REACT_APP_SENTRY_DSN || null
 export const MAX_HEALTH_BLOCK_LAG: EnvType =
   process.env.REACT_APP_MAX_HEALTH_BLOCK_LAG
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
-export const SPEED_CHECK: EnvType = process.env.REACT_APP_SPEED_CHECK
-export const TARGET_CHAIN_URL: EnvType = process.env.REACT_APP_TARGET_CHAIN_URL
 // WalletConnect FLAG
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
