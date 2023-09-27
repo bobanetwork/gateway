@@ -1,5 +1,18 @@
-# Gateway
-gateway.boba.betwork.
+<h1 align="center">Boba Gateway</h1>
+
+</br>
+
+<p align="center">
+  <a href="https://gateway.boba.network/">
+    <img alt="boba-logo" src="./boba-logo.svg" width="50%"/>
+  </a>
+</p>
+</br>
+
+<p align="center">The Boba Gateway helps users to bridge cryptos tokens from L1 to L2 and vice versa. </p>
+
+</br>
+
 
 # Environment variables listed to below to get the app running
 
