@@ -32,7 +32,7 @@ export interface IDropdownItem {
 }
 
 export interface IDropdownProps {
-  error: boolean
+  error?: boolean
   items: IDropdownItem[]
   defaultItem: IDropdownItem
   onItemSelected?: (item: IDropdownItem) => void

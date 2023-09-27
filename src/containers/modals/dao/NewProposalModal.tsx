@@ -13,61 +13,59 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ChangeEvent, FC } from 'react'
 import { Box } from '@mui/material'
-
 import { useDispatch, useSelector } from 'react-redux'
-
 import { closeModal, openAlert } from 'actions/uiAction'
-
 import Modal from 'components/modal/Modal'
 import Button from 'components/button/Button'
 import Input from 'components/input/Input'
-
 import { createDaoProposal } from 'actions/daoAction'
 import { selectProposalThreshold } from 'selectors'
 import { Dropdown } from 'components/global/dropdown'
 import { Typography } from 'components/global'
 import styled from 'styled-components'
+import { NewProposalModalProps, ActionType } from './types'
 
 const StyledDescription = styled(Typography).attrs({
-  variant: 'body2'
-})`
-color: ${({ theme, error }) => error ? theme.colors.red[ 200 ] : theme.name === 'light' ? theme.colors.gray[ 700 ] : theme.colors.gray[ 100 ]};
+  variant: 'body2',
+})<{ error?: boolean }>`
+  color: ${({ theme, error }) =>
+    error
+      ? theme.colors.red[200]
+      : theme.name === 'light'
+      ? theme.colors.gray[700]
+      : theme.colors.gray[100]};
 `
+const NewProposalModal: FC<NewProposalModalProps> = ({ open }) => {
+  const dispatch = useDispatch<any>()
 
-const NewProposalModal = ({ open }) => {
-
-  const dispatch = useDispatch()
-
-  const [ action, setAction ] = useState('')
-  const [ selectedAction, setSelectedAction ] = useState('')
-  const [ tokens, setTokens ] = useState([])
-  const [ votingThreshold, setVotingThreshold ] = useState('')
-
-  const [ errorText, setErrorText ] = useState('')
-
-  const [ LPfeeMin, setLPfeeMin ] = useState('')
-  const [ LPfeeMax, setLPfeeMax ] = useState('')
-  const [ LPfeeOwn, setLPfeeOwn ] = useState('')
-
-  const [ proposeText, setProposeText ] = useState('')
-  const [ proposalUri, setProposalUri ] = useState('')
-
-
-  const loading = false //ToDo useSelector(selectLoading([ 'PROPOSAL_DAO/CREATE' ]))
+  const [action, setAction] = useState<string>('')
+  const [selectedAction, setSelectedAction] = useState<ActionType | null>(null)
+  const [tokens, setTokens] = useState<
+    Array<{ value: number; balance: number }>
+  >([])
+  const [votingThreshold, setVotingThreshold] = useState<string>('')
+  const [errorText, setErrorText] = useState<string>('')
+  const [LPfeeMin, setLPfeeMin] = useState<string>('')
+  const [LPfeeMax, setLPfeeMax] = useState<string>('')
+  const [LPfeeOwn, setLPfeeOwn] = useState<string>('')
+  const [proposeText, setProposeText] = useState<string>('')
+  const [proposalUri, setProposalUri] = useState<string>('')
+  const loading = false
 
   const proposalThreshold = useSelector(selectProposalThreshold)
 
   useEffect(() => {
-    let tokensSum = tokens.reduce((c, i) => c + Number(i.balance), 0);
+    const tokensSum = tokens.reduce((c, i) => c + Number(i.balance), 0)
     if (tokensSum < proposalThreshold) {
-      setErrorText(`Insufficient govBOBA to create a new proposal. You need at least ${proposalThreshold} govBOBA to create a proposal.`)
+      setErrorText(
+        `Insufficient govBOBA to create a new proposal. You need at least ${proposalThreshold} govBOBA to create a proposal.`
+      )
     } else {
       setErrorText('')
     }
-  }, [ tokens, proposalThreshold ])
-
+  }, [tokens, proposalThreshold])
 
   const onActionChange = (e) => {
     setVotingThreshold('')
@@ -80,7 +78,7 @@ const NewProposalModal = ({ open }) => {
     setAction(e.value)
   }
 
-  function handleClose() {
+  const handleClose = () => {
     setVotingThreshold('')
     setLPfeeMin('')
     setLPfeeMax('')
@@ -95,7 +93,7 @@ const NewProposalModal = ({ open }) => {
     { value: 'change-threshold', label: 'Change Voting Threshold' },
     { value: 'text-proposal', label: 'Freeform Text Proposal' },
     { value: 'change-lp1-fee', label: 'Change L1 LP fees' },
-    { value: 'change-lp2-fee', label: 'Change L2 LP fees' }
+    { value: 'change-lp2-fee', label: 'Change L2 LP fees' },
   ]
 
   const customStyles = {
@@ -106,30 +104,39 @@ const NewProposalModal = ({ open }) => {
   }
 
   const submit = async () => {
-
     let res = null
-    let tokenIds = tokens.map((t) => t.value);
+    const tokenIds = tokens.map((t) => t.value)
 
     if (action === 'change-threshold') {
-      res = await dispatch(createDaoProposal({
-        action,
-        tokenIds,
-        value: [ votingThreshold ],
-        text: '' //extra text if any
-      }))
+      res = await dispatch(
+        createDaoProposal({
+          action,
+          tokenIds,
+          value: [votingThreshold],
+          text: '',
+        })
+      )
     } else if (action === 'text-proposal') {
-      res = await dispatch(createDaoProposal({
-        action,
-        tokenIds,
-        text: `${proposeText}@@${proposalUri}`
-      }))
+      res = await dispatch(
+        createDaoProposal({
+          action,
+          tokenIds,
+          text: `${proposeText}@@${proposalUri}`,
+        })
+      )
     } else if (action === 'change-lp1-fee' || action === 'change-lp2-fee') {
-      res = await dispatch(createDaoProposal({
-        action,
-        tokenIds,
-        value: [ Math.round(Number(LPfeeMin) * 10), Math.round(Number(LPfeeMax) * 10), Math.round(Number(LPfeeOwn) * 10) ],
-        text: ''  //extra text if any
-      }))
+      res = await dispatch(
+        createDaoProposal({
+          action,
+          tokenIds,
+          value: [
+            Math.round(Number(LPfeeMin) * 10),
+            Math.round(Number(LPfeeMax) * 10),
+            Math.round(Number(LPfeeOwn) * 10),
+          ],
+          text: '',
+        })
+      )
     }
 
     if (res) {
@@ -181,30 +188,32 @@ const NewProposalModal = ({ open }) => {
     >
       <Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {action === '' &&
+          {action === '' && (
             <StyledDescription>
-              Currently, the DAO can change the voting threshold, propose free-form text proposals, and
-              change to the bridge fee limits for the L1 and L2 bridge pools.
+              Currently, the DAO can change the voting threshold, propose
+              free-form text proposals, and change to the bridge fee limits for
+              the L1 and L2 bridge pools.
             </StyledDescription>
-          }
+          )}
           <Dropdown
             style={{ zIndex: 1 }}
             onItemSelected={onActionChange}
             defaultItem={{
-              value: null,
+              value: undefined,
               label: 'Select Proposal type',
             }}
             items={options}
           />
 
-          {action === 'change-threshold' &&
+          {action === 'change-threshold' && (
             <>
-            <StyledDescription>
-                The minimum number of votes required for an account to create a proposal. The current value is {proposalThreshold}.
-            </StyledDescription>
+              <StyledDescription>
+                The minimum number of votes required for an account to create a
+                proposal. The current value is {proposalThreshold}.
+              </StyledDescription>
               <Input
                 label="DAO voting threshold"
-                placeholder='New voting threshold (e.g. 65000)'
+                placeholder="New voting threshold (e.g. 65000)"
                 value={votingThreshold}
                 type="number"
                 onChange={(i) => setVotingThreshold(i.target.value)}
@@ -212,13 +221,14 @@ const NewProposalModal = ({ open }) => {
                 sx={{ marginBottom: '20px' }}
               />
             </>
-          }
-          {(action === 'change-lp1-fee' || action === 'change-lp2-fee') &&
+          )}
+          {(action === 'change-lp1-fee' || action === 'change-lp2-fee') && (
             <>
-            <StyledDescription>
-                Possible settings range from 0.0% to 5.0%.
-                All three values must be specified and the maximum fee must be larger than the minimum fee.
-            </StyledDescription>
+              <StyledDescription>
+                Possible settings range from 0.0% to 5.0%. All three values must
+                be specified and the maximum fee must be larger than the minimum
+                fee.
+              </StyledDescription>
               <Input
                 label="New LP minimium fee (%)"
                 placeholder="Minimium fee (e.g. 1.0)"
@@ -244,37 +254,48 @@ const NewProposalModal = ({ open }) => {
                 fullWidth
               />
             </>
-          }
-          {action === 'text-proposal' &&
+          )}
+          {action === 'text-proposal' && (
             <>
-            <StyledDescription>
-                Your proposal title is limited to 100 characters. Use the link field below to provide more information.
-            </StyledDescription>
+              <StyledDescription>
+                Your proposal title is limited to 100 characters. Use the link
+                field below to provide more information.
+              </StyledDescription>
               <Input
                 placeholder="Title (<100 characters)"
                 value={proposeText}
                 onChange={(i) => setProposeText(i.target.value.slice(0, 100))}
               />
-            <StyledDescription>
-                You should provide additional information (technical specifications, diagrams, forum threads, and other material) on a seperate
-                website. The link length is limited to 150 characters. You may need to use a link shortener.
-            </StyledDescription>
+              <StyledDescription>
+                You should provide additional information (technical
+                specifications, diagrams, forum threads, and other material) on
+                a seperate website. The link length is limited to 150
+                characters. You may need to use a link shortener.
+              </StyledDescription>
               <Input
                 placeholder="URI, https://..."
                 value={proposalUri}
                 onChange={(i) => setProposalUri(i.target.value.slice(0, 150))}
               />
             </>
-          }
-          {errorText ? <StyledDescription error={true}>{errorText}</StyledDescription> : null}
+          )}
+          {errorText ? (
+            <StyledDescription error={true}>{errorText}</StyledDescription>
+          ) : null}
         </Box>
       </Box>
       <Box sx={{ width: '100%', my: 2 }}>
         <Button
-          onClick={() => { submit() }}
-          color='primary'
-          variant='outlined'
-          tooltip={loading ? "Your transaction is still pending. Please wait for confirmation." : "Click here to submit a new proposal"}
+          onClick={() => {
+            submit()
+          }}
+          color="primary"
+          variant="outlined"
+          tooltip={
+            loading
+              ? 'Your transaction is still pending. Please wait for confirmation.'
+              : 'Click here to submit a new proposal'
+          }
           loading={loading}
           disabled={disabled() || !!errorText}
           fullWidth={true}
@@ -283,7 +304,7 @@ const NewProposalModal = ({ open }) => {
           Submit
         </Button>
       </Box>
-    </Modal >
+    </Modal>
   )
 }
 

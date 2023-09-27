@@ -16,7 +16,7 @@ limitations under the License. */
 import React from 'react'
 import BN from 'bignumber.js'
 import Select from 'react-select'
-import * as S from './Input.styles'
+import * as S from './styles'
 
 import { selectCustomStyles } from './Select.styles'
 
@@ -25,7 +25,7 @@ import Button from 'components/button/Button'
 import { useTheme, Box, Typography } from '@mui/material'
 
 import { getCoinImage } from 'util/coinImage'
-
+import { InputProps } from './types'
 export const Input = ({
   placeholder,
   label,
@@ -56,13 +56,14 @@ export const Input = ({
   openTokenPicker,
   textarea = false,
   maxRows = 10,
-}) => {
-
+}: InputProps) => {
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText()
       if (text) {
-        onChange({ target: { value: text } })
+        onChange({
+          target: { value: text },
+        } as React.ChangeEvent<HTMLInputElement>)
       }
     } catch (err) {
       // navigator clipboard api not supported in client browser
@@ -70,30 +71,38 @@ export const Input = ({
   }
 
   const handleClickMax = () => {
-    onUseMax()
+    onUseMax?.()
   }
 
   const underZero = new BN(value).lt(new BN(0))
-  const overMax = new BN(value).gt(new BN(maxValue))
+  const overMax =
+    maxValue !== undefined ? new BN(value).gt(new BN(maxValue)) : false
   const theme = useTheme()
 
   const tokenImageElement = (unit) => {
     return (
       <>
-        <Typography variant="body2" component="div">{unit}</Typography>
+        <Typography variant="body2" component="div">
+          {unit}
+        </Typography>
         <img src={getCoinImage(unit)} alt="logo" width={50} height={50} />
       </>
     )
   }
 
-  const options =  selectOptions ? selectOptions.reduce((acc, cur) => {
-    acc.push({ value: cur, label: tokenImageElement(cur) })
-    return acc
-  }, []): null
+  const options = selectOptions
+    ? selectOptions.reduce<{ value: string; label: JSX.Element }[]>(
+        (acc, cur) => {
+          acc.push({ value: cur, label: tokenImageElement(cur) })
+          return acc
+        },
+        []
+      )
+    : null
 
   if (textarea) {
     return (
-      <div style={{width: '100%'}}>
+      <div style={{ width: '100%' }}>
         <S.Wrapper newstyle={newStyle ? 1 : 0} style={style}>
           <S.TextareaAutosizeWrapper
             maxRows={maxRows}
@@ -112,7 +121,7 @@ export const Input = ({
                 position: 'absolute',
                 right: '70px',
                 fontSize: '14px',
-                zIndex: '100'
+                zIndex: '100',
               }}
             >
               PASTE
@@ -124,12 +133,16 @@ export const Input = ({
   }
 
   return (
-    <div style={{width: '100%'}}>
+    <div style={{ width: '100%' }}>
       <S.Wrapper newstyle={newStyle ? 1 : 0} style={style}>
         {!unit && (
           <S.InputWrapperFull>
             {label && (
-              <Typography variant="body2" component="div" sx={{opacity: 0.7, mb: 1}}>
+              <Typography
+                variant="body2"
+                component="div"
+                sx={{ opacity: 0.7, mb: 1 }}
+              >
                 {label}
               </Typography>
             )}
@@ -151,31 +164,44 @@ export const Input = ({
 
         {unit && (
           <>
-            {selectOptions ?
+            {selectOptions ? (
               <Select
-                options={options}
+                options={options || []}
                 styles={selectCustomStyles(newStyle, theme)}
                 isSearchable={false}
                 onChange={onSelect}
-                value={selectValue ? { value: selectValue, label: tokenImageElement(selectValue) } : null}
-              />:
+                value={
+                  selectValue
+                    ? {
+                        value: selectValue,
+                        label: tokenImageElement(selectValue),
+                      }
+                    : null
+                }
+              />
+            ) : (
               <S.UnitContent>
                 <Box
                   sx={{
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                   }}
                   onClick={() => {
-                  if (isBridge) {
-                    openTokenPicker()
-                  }
-                }}>
+                    if (isBridge) {
+                      openTokenPicker?.()
+                    }
+                  }}
+                >
                   {tokenImageElement(unit)}
                 </Box>
               </S.UnitContent>
-            }
+            )}
             <S.InputWrapper>
               {label && (
-                <Typography variant="body2" component="div" sx={{opacity: 0.7, mb: 1}}>
+                <Typography
+                  variant="body2"
+                  component="div"
+                  sx={{ opacity: 0.7, mb: 1 }}
+                >
                   {label}
                 </Typography>
               )}
@@ -194,20 +220,25 @@ export const Input = ({
               />
             </S.InputWrapper>
           </>
-          )
-        }
+        )}
 
         {unit && (
           <S.ActionsWrapper>
-            <Typography variant="body2" component="p" sx={{opacity: 0.7, textAlign: "end", mb: 2}}>
-              Max Amount<br/>{Number(maxValue).toFixed(5)}
+            <Typography
+              variant="body2"
+              component="p"
+              sx={{ opacity: 0.7, textAlign: 'end', mb: 2 }}
+            >
+              Max Amount
+              <br />
+              {Number(maxValue).toFixed(5)}
             </Typography>
             {allowUseAll && (
               <Box>
                 <Button
                   onClick={handleClickMax}
-                  color='primary'
-                  variant='contained'
+                  color="primary"
+                  variant="contained"
                   size="small"
                 >
                   Use All
@@ -227,24 +258,24 @@ export const Input = ({
               position: 'absolute',
               right: '70px',
               fontSize: '14px',
-              zIndex: '100'
+              zIndex: '100',
             }}
           >
             PASTE
           </Box>
         )}
       </S.Wrapper>
-      {value !== '' && underZero ?
-        <Typography variant="body2" sx={{mt: 1}}>
+      {value !== '' && underZero ? (
+        <Typography variant="body2" sx={{ mt: 1 }}>
           Value too small: the value must be greater than 0
         </Typography>
-        : null
-      }
-      {value !== '' && overMax ?
-        <Typography variant="body2" sx={{mt: 1}}>
-          Value too large: the value must be smaller than {Number(maxValue).toFixed(5)}
+      ) : null}
+      {value !== '' && overMax ? (
+        <Typography variant="body2" sx={{ mt: 1 }}>
+          Value too large: the value must be smaller than{' '}
+          {Number(maxValue).toFixed(5)}
         </Typography>
-        : null}
+      ) : null}
     </div>
   )
 }
