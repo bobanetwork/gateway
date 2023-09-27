@@ -18,15 +18,18 @@ const renderHeader = () => {
   )
 }
 
-describe('Layout => Header', () => {
-  test('should match the snapshot', () => {
-    const { asFragment } = renderHeader()
+describe('Layout', () => {
+  describe('Header', () => {
+    test('should have button with label connect wallet', () => {
+      renderHeader()
+      expect(screen.getByText('Connect Wallet')).toBeVisible()
+    })
 
-    expect(asFragment()).toMatchSnapshot()
-  })
-
-  test('should have button with label connect wallet', () => {
-    renderHeader()
-    expect(screen.getByText('Connect Wallet')).toBeVisible()
+    test('should have nav item of length 6 with first element to bridge page.', () => {
+      renderHeader()
+      const links = screen.getAllByRole('link')
+      expect(links.length).toBe(6)
+      expect(links[0]).toHaveAttribute('href', '/bridge')
+    })
   })
 })

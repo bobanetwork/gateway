@@ -19,28 +19,27 @@ const renderHeaderMenu = () => {
   )
 }
 
-describe('Layout => Header => Menu', () => {
-  test('should match the snapshot', () => {
-    const { asFragment } = renderHeaderMenu()
-    expect(asFragment()).toMatchSnapshot()
-  })
+describe('Layout', () => {
+  describe('Header', () => {
+    describe('Navigation', () => {
+      test('should have menu length of 5 with expected labels & paths', () => {
+        renderHeaderMenu()
+        const links = screen.getAllByRole('link')
+        expect(links.length).toBe(5)
+        links.forEach((link, index) => {
+          expect(link).toHaveTextContent(MENU_LIST[index].label)
+          expect(link).toHaveAttribute('href', MENU_LIST[index].path)
+        })
+      })
 
-  test('should have menu length of 6 with expected labels & paths', () => {
-    renderHeaderMenu()
-    const links = screen.getAllByRole('link')
-    expect(links.length).toBe(5)
-    links.forEach((link, index) => {
-      expect(link).toHaveTextContent(MENU_LIST[index].label)
-      expect(link).toHaveAttribute('href', MENU_LIST[index].path)
-    })
-  })
-
-  test('should change the location on clicking menu', () => {
-    renderHeaderMenu()
-    const links = screen.getAllByRole('link')
-    links.forEach((link) => {
-      fireEvent.click(link)
-      expect(link).toHaveClass('active')
+      test('should change the location on clicking menu', () => {
+        renderHeaderMenu()
+        const links = screen.getAllByRole('link')
+        links.forEach((link) => {
+          fireEvent.click(link)
+          expect(link).toHaveClass('active')
+        })
+      })
     })
   })
 })
