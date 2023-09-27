@@ -1,0 +1,7 @@
+{
+  "*.{ts,tsx}": [
+    "yarn format:fix",
+    "yarn lint:check",
+    "yarn test"
+  ]
+}

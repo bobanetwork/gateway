@@ -1,18 +1,17 @@
-name: typescript / contracts
+name: Typescript checks
 
 on:
   push:
     branches:
       - 'master'
       - 'develop'
-      - '*rc'
-      - 'regenesis/*'
+      - 'main'
   pull_request:
   workflow_dispatch:
 
 jobs:
   test-coverage:
-    name: Generate test coverage
+    name: Generate Test Coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -47,18 +46,17 @@ jobs:
         run: yarn test:coverage
         env:
           FORCE_COLOR: 1
-          ENABLE_GAS_REPORT: 1
           SKIP_PREFLIGHT_CHECK: true
 
       - uses: codecov/codecov-action@v3
         with:
-          files: ./packages/*/coverage.json, ./packages/boba/*/coverage.json
+          files: ./coverage/coverage-final.json
           fail_ci_if_error: false
           verbose: true
           flags: coverage
 
   lint:
-    name: Linting
+    name: Run Linting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
