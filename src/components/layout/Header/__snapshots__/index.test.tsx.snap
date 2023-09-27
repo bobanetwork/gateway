@@ -18,40 +18,85 @@ exports[`Layout => Header should match the snapshot 1`] = `
     >
       <a
         class="sc-fHjqPf frKNMc ({
-          isActive
-        }) => isActive ? 'active' : ''"
+              isActive
+            }) => {
+              /* istanbul ignore next */
+              cov_e5m933x91().f[2]++;
+              cov_e5m933x91().s[6]++;
+              return isActive ?
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][0]++, 'active') :
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][1]++, '');
+            }"
         href="/bridge"
       >
         Bridge
       </a>
       <a
         class="sc-fHjqPf frKNMc ({
-          isActive
-        }) => isActive ? 'active' : ''"
+              isActive
+            }) => {
+              /* istanbul ignore next */
+              cov_e5m933x91().f[2]++;
+              cov_e5m933x91().s[6]++;
+              return isActive ?
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][0]++, 'active') :
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][1]++, '');
+            }"
         href="/history"
       >
         History
       </a>
       <a
         class="sc-fHjqPf frKNMc ({
-          isActive
-        }) => isActive ? 'active' : ''"
+              isActive
+            }) => {
+              /* istanbul ignore next */
+              cov_e5m933x91().f[2]++;
+              cov_e5m933x91().s[6]++;
+              return isActive ?
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][0]++, 'active') :
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][1]++, '');
+            }"
         href="/earn"
       >
         Earn
       </a>
       <a
         class="sc-fHjqPf frKNMc ({
-          isActive
-        }) => isActive ? 'active' : ''"
+              isActive
+            }) => {
+              /* istanbul ignore next */
+              cov_e5m933x91().f[2]++;
+              cov_e5m933x91().s[6]++;
+              return isActive ?
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][0]++, 'active') :
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][1]++, '');
+            }"
         href="/stake"
       >
         Stake
       </a>
       <a
         class="sc-fHjqPf frKNMc ({
-          isActive
-        }) => isActive ? 'active' : ''"
+              isActive
+            }) => {
+              /* istanbul ignore next */
+              cov_e5m933x91().f[2]++;
+              cov_e5m933x91().s[6]++;
+              return isActive ?
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][0]++, 'active') :
+              /* istanbul ignore next */
+              (cov_e5m933x91().b[2][1]++, '');
+            }"
         href="/DAO"
       >
         Dao

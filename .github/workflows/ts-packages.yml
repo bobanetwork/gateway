@@ -1,4 +1,4 @@
-name: typescript / contracts
+name: typescript / 
 
 on:
   push:
