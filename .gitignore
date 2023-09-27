@@ -10,7 +10,7 @@ integration-tests/result/output.xml
 
 .env
 
-coverage*
+coverage
 
 # vim
 *.swp
