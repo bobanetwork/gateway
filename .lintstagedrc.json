@@ -1,9 +1,9 @@
 {
   "*.{ts,tsx}": [
-    "yarn format:fix",
+    "yarn format:check",
     "yarn lint:check"
   ],
-  "!(*stories|*test|styles).{ts,tsx}": [
-    "yarn test"
+  "!(__tests__|*stories|*test|styles).{ts,tsx}": [
+    "yarn test --passWithNoTests"
   ]
 }

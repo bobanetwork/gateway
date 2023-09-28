@@ -11,9 +11,15 @@ class VerifierService {
   */
 
   async getVerifierStatus() {
-    const response = await verifierWatcherAxiosInstance(
+    const watcherInstance = verifierWatcherAxiosInstance(
       networkService.networkConfig
-    ).post('/', { jsonrpc: "2.0", method: "status", id: 1 })
+    );
+
+    if (!watcherInstance) {
+      return false;
+    }
+
+    const response = await watcherInstance.post('/', { jsonrpc: "2.0", method: "status", id: 1 })
 
     if (response.status === 200) {
       const status = response.data.result

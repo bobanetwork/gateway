@@ -10,7 +10,7 @@ export const ethereumConfig = {
       chainId: 5,
       chainIdHex: '0x5',
       rpcUrl: [
-        `https://goerli.gateway.tenderly.co`,
+        `https://goerli.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
         `https://rpc.ankr.com/eth_goerli`,
       ],
       transaction: `https://goerli.etherscan.io/tx/`,
@@ -57,9 +57,9 @@ export const ethereumConfig = {
       chainId: 1,
       chainIdHex: '0x1',
       rpcUrl: [
+        `https://boba-ethereum.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
         `https://rpc.ankr.com/eth`,
-        `http://gateway.tenderly.co/public/boba-ethereum`,
-        `https://cloudflare-eth.com`,
+        `https://cloudflare-eth.com`
       ],
       transaction: ` https://etherscan.io/tx/`,
       blockExplorerUrl: `https://etherscan.io/`,
