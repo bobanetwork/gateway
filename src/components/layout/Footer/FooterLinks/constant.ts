@@ -14,7 +14,6 @@ export const FOOTERLINKS: Array<LinkProps> = [
   {
     label: 'Dev Tools',
     path: 'https://docs.boba.network/for-developers',
-    isNav: true,
   },
   {
     label: 'Bobascope',
