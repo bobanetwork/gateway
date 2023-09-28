@@ -26,7 +26,7 @@ export const bnbConfig = {
       rpcUrl: [
         `https://testnet.bnb.boba.network`,
         `https://replica.testnet.bnb.boba.network`,
-        `https://boba-bnb-testnet.gateway.tenderly.co`
+        `https://boba-bnb-testnet.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`
       ],
       blockExplorer: `https://testnet.bobascan.com/`,
       transaction: `https://testnet.bobascan.com/tx/`,
