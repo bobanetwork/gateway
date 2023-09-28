@@ -55,11 +55,9 @@ export const TableHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  ${mobile(
-    css`
-      padding: 0px;
-    `
-  )}
+  ${mobile(css`
+    padding: 0px;
+  `)}
 `
 
 export const TableFilters = styled.div`
