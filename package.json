@@ -93,7 +93,7 @@
     "sass": "^1.62.1",
     "serve": "^11.3.2",
     "stream-browserify": "^3.0.0",
-    "styled-components": "^5.3.10",
+    "styled-components": "^6.0.8",
     "truncate-middle": "^1.0.6",
     "ts-md5": "^1.2.11",
     "typescript": "^5.2.2",
