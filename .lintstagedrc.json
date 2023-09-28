@@ -1,7 +1,9 @@
 {
   "*.{ts,tsx}": [
     "yarn format:fix",
-    "yarn lint:check",
+    "yarn lint:check"
+  ],
+  "!(*stories|*test).{ts,tsx}": [
     "yarn test"
   ]
 }

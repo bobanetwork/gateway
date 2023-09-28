@@ -49,7 +49,7 @@ export const Palette = () => {
                   <div key={name} style={{ margin: '10px' }}>
                     <ColorBox style={{ backgroundColor: color as string }} />
                     <SubTitle>{name}</SubTitle>
-                    <Item>{color}</Item>
+                    <Item>{color as string}</Item>
                   </div>
                 ))
               ) : (
