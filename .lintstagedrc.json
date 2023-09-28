@@ -3,7 +3,7 @@
     "yarn format:fix",
     "yarn lint:check"
   ],
-  "!(*stories|*test).{ts,tsx}": [
+  "!(*stories|*test|styles).{ts,tsx}": [
     "yarn test"
   ]
 }
