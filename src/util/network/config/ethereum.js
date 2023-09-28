@@ -57,9 +57,9 @@ export const ethereumConfig = {
       chainId: 1,
       chainIdHex: '0x1',
       rpcUrl: [
-        `https://rpc.ankr.com/eth`,
         `https://boba-ethereum.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
-        `https://cloudflare-eth.com`,
+        `https://rpc.ankr.com/eth`,
+        `https://cloudflare-eth.com`
       ],
       transaction: ` https://etherscan.io/tx/`,
       blockExplorerUrl: `https://etherscan.io/`,
