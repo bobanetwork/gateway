@@ -18,6 +18,7 @@ import {
   selectlayer2Balance,
   selectActiveNetwork,
   selectActiveNetworkType,
+  selectDestChainIdTeleportation,
 } from 'selectors'
 import { getCoinImage } from 'util/coinImage'
 import { LAYER } from 'util/constant'
@@ -69,6 +70,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
   const tokenToBridge = useSelector(selectTokenToBridge())
   const activeNetwork = useSelector(selectActiveNetwork())
   const activeNetworkType = useSelector(selectActiveNetworkType())
+  const destTeleportationChainId = useSelector(selectDestChainIdTeleportation())
 
   const [isMyToken, setIsMyToken] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -90,9 +92,11 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
   const onTokenSelect = async (token: any) => {
     dispatch(updateToken({ token, tokenIndex: 0 }))
 
-    const destChainId = NetworkList[activeNetworkType].find(
-      (n) => n.chain === activeNetwork
-    ).chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
+    const destChainId =
+      destTeleportationChainId ??
+      NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
+        .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
+
     const isSupported = await dispatch(
       isTeleportationOfAssetSupported(layer, token.address, destChainId)
     )
