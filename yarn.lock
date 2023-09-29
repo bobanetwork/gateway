@@ -1240,12 +1240,12 @@
     "@ethersproject/abstract-signer" "^5.5.0"
     "@ethersproject/hardware-wallets" "^5.5.0"
 
-"@bobanetwork/register@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.1.tgz#e3948ca0fb570cf49fd09aa5123c7de0154ade0f"
-  integrity sha512-LTRi3/OMeue5KwnBTy9mIoaWo+MX2CK/BqoCS5oOhm/tl23lfhuJ5w3ZeiTN8uSfFRi4jtaprw6BscLSAi/3uQ==
+"@bobanetwork/register@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.2.tgz#cb4f7e88e537d69b81d588750de16499762a7a87"
+  integrity sha512-Ljy0wf8kGA/1iljKT5LohN939H4IuedbL/ta4r9vl+SFKAcnSqGBA4Vft06oFQK1f/KXiVFHQXp4+UHvMqQ2ZQ==
   dependencies:
-    "@eth-optimism/contracts" "0.5.11"
+    "@bobanetwork/core_contracts" "0.5.13"
     "@eth-optimism/core-utils" "^0.8.1"
     "@ethersproject/abstract-provider" "^5.5.0"
     "@ethersproject/abstract-signer" "^5.5.0"
