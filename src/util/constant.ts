@@ -65,6 +65,7 @@ export const EXPIRY_OPTIONS: ExpiryOptionType[] = [
 type RoutesPathType = {
   BRIDGE: string
   HISTORY: string
+  ALTBRIDGE: string
   EARN: string
   LOCK: string
   STAKE: string
@@ -77,6 +78,7 @@ type RoutesPathType = {
 
 export const ROUTES_PATH: RoutesPathType = {
   BRIDGE: '/bridge',
+  ALTBRIDGE: '/altbridge',
   HISTORY: '/history',
   EARN: '/earn',
   LOCK: '/lock',

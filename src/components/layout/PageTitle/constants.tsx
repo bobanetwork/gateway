@@ -6,6 +6,11 @@ export const pageTitleWhiteList = [
     path: ROUTES_PATH.HISTORY,
   },
   {
+    title: 'Alt L1 Bridge',
+    slug: 'Bridge tokens to alt l1',
+    path: ROUTES_PATH.ALTBRIDGE,
+  },
+  {
     title: 'Earn',
     slug: 'Stake more, Earn more',
     path: ROUTES_PATH.EARN,

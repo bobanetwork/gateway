@@ -15,7 +15,6 @@ module.exports = {
   },
   plugins: [
     'eslint-plugin-import',
-    'eslint-plugin-jsdoc',
     'eslint-plugin-prefer-arrow',
     'eslint-plugin-react',
     '@typescript-eslint',
@@ -103,8 +102,6 @@ module.exports = {
     'import/no-internal-modules': 'off',
     'import/order': 'off',
     indent: 'off',
-    'jsdoc/check-alignment': 'error',
-    'jsdoc/check-indentation': 'error',
     'linebreak-style': 'off',
     'max-classes-per-file': 'off',
     'max-len': 'off',
