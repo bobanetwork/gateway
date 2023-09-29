@@ -1230,6 +1230,16 @@
     dotenv "^8.2.0"
     glob "^7.1.6"
 
+"@bobanetwork/core_contracts@0.5.13":
+  version "0.5.13"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/core_contracts/-/core_contracts-0.5.13.tgz#af445c7f8a34f0e0c1700daf555b67474665a999"
+  integrity sha512-oCA/28/ZAeT0g+oPfd5c/U8UTGWSjFT9HP3CILJ7jlNzGjhx9w7Bg+fvMv+QwphuS8BMgSDdnw8Q/fiJizwT6w==
+  dependencies:
+    "@eth-optimism/core-utils" "0.8.1"
+    "@ethersproject/abstract-provider" "^5.5.0"
+    "@ethersproject/abstract-signer" "^5.5.0"
+    "@ethersproject/hardware-wallets" "^5.5.0"
+
 "@bobanetwork/register@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.1.tgz#e3948ca0fb570cf49fd09aa5123c7de0154ade0f"
@@ -1245,6 +1255,18 @@
     dotenv "^8.2.0"
     glob "^7.1.6"
     patch-package "^6.4.7"
+
+"@bobanetwork/sdk@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/sdk/-/sdk-1.0.7.tgz#65310019b14f3d8986c797175b1cc7ec46ea4e86"
+  integrity sha512-KhE4FEaCyslDfOrOIkkaoMfgJlbFPE5EPVwtbD+1ZLlzgXgzhY82t8lrO24XurelXtzhw7RVcqEapnpHIsUY6g==
+  dependencies:
+    "@bobanetwork/core_contracts" "0.5.13"
+    "@eth-optimism/core-utils" "0.8.1"
+    lodash "^4.17.21"
+    merkletreejs "^0.2.27"
+    node-fetch "^2.6.7"
+    rlp "^2.2.7"
 
 "@bobanetwork/turing-hybrid-compute@0.2.0", "@bobanetwork/turing-hybrid-compute@^0.2.0":
   version "0.2.0"
@@ -1668,16 +1690,6 @@
     "@ethersproject/abstract-signer" "^5.4.1"
     "@ethersproject/hardware-wallets" "^5.4.0"
 
-"@eth-optimism/contracts@0.5.17":
-  version "0.5.17"
-  resolved "https://registry.yarnpkg.com/@eth-optimism/contracts/-/contracts-0.5.17.tgz#7a14618797c354486f2263a1d5dfab6c28a46458"
-  integrity sha512-mkey2YjRQ2O+85qeDhkiicAiukWfKixw/vktFO1KqLQ9K2phozJu/79dgBCABjyJfhE5kqJDSn5fBrtgIfc3hQ==
-  dependencies:
-    "@eth-optimism/core-utils" "0.8.1"
-    "@ethersproject/abstract-provider" "^5.5.1"
-    "@ethersproject/abstract-signer" "^5.5.0"
-    "@ethersproject/hardware-wallets" "^5.5.0"
-
 "@eth-optimism/core-utils@0.7.5":
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/@eth-optimism/core-utils/-/core-utils-0.7.5.tgz#31b11171fdd816fd17459437f7ac67d26ebad422"
@@ -1716,17 +1728,6 @@
     bufio "^1.0.7"
     chai "^4.3.4"
     ethers "^5.6.8"
-
-"@eth-optimism/sdk@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@eth-optimism/sdk/-/sdk-1.0.1.tgz#4e9c3bfb4ef05cae4b4959918461455a43c85dd6"
-  integrity sha512-inWOwJpqGtlZu/amE4JsmN9YgwnKuCWSsSiCYVrF2CWHK7MYKXbc61dW7EMwITTDqPzJNd2LD6jk7Y1Ps0b6oQ==
-  dependencies:
-    "@eth-optimism/contracts" "0.5.17"
-    "@eth-optimism/core-utils" "0.8.1"
-    lodash "^4.17.21"
-    merkletreejs "^0.2.27"
-    rlp "^2.2.7"
 
 "@ethereumjs/common@2.5.0":
   version "2.5.0"
