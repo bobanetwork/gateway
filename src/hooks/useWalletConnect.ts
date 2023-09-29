@@ -62,7 +62,6 @@ export const useWalletConnect = () => {
         dispatch(setLayer(initialized))
         dispatch(setEnableAccount(true))
         dispatch(setWalletAddress(networkService.account))
-        // dispatch(fetchTransactions())
         dispatch(addTokenList())
         return true
       } else {
