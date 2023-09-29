@@ -35,8 +35,17 @@ import { PlaceholderConnect } from 'components/global/placeholderConnect'
 import { ModalTypography } from 'components/global/modalTypography'
 import { Preloader } from 'components/dao/preloader'
 
-import { selectFixed, selectSetup, selectBalance, selectLayer } from 'selectors'
+import {
+  selectFixed,
+  selectSetup,
+  selectBalance,
+  selectLayer,
+  selectActiveNetwork,
+} from 'selectors'
 import styled from 'styled-components'
+import useInterval from 'hooks/useInterval'
+import { NETWORK } from 'util/network/network.util'
+import { POLL_INTERVAL } from 'util/constant'
 
 export const OutputLabel = styled(Typography).attrs({
   variant: 'title',
@@ -54,6 +63,7 @@ export const Description = styled(Typography).attrs({
 `
 
 const Save = () => {
+  const activeNetwork = useSelector(selectActiveNetwork())
   const layer = useSelector(selectLayer())
   const { stakeInfo } = useSelector(selectFixed())
   const { accountEnabled, netLayer, bobaFeeChoice, bobaFeePriceRatio } =
@@ -73,6 +83,15 @@ const Save = () => {
     dispatch(getFS_Info())
     getMaxTransferValue()
   }, [])
+
+  useInterval(() => {
+    if (accountEnabled /*== MetaMask is connected*/) {
+      if (activeNetwork === NETWORK.ETHEREUM) {
+        dispatch(getFS_Info()) // account specific
+        dispatch(getFS_Saves()) // account specific
+      }
+    }
+  }, POLL_INTERVAL)
 
   useEffect(() => {
     getMaxTransferValue()

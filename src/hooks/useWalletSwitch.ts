@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
 import { openModal } from 'actions/uiAction'
-import {
-  setBaseState,
-  setEnableAccount,
-  setConnect,
-  setConnectBOBA,
-  setConnectETH,
-} from 'actions/setupAction'
+import { setConnect, setConnectBOBA, setConnectETH } from 'actions/setupAction'
 
 import { setActiveNetwork } from 'actions/networkAction'
 
@@ -20,14 +13,12 @@ import {
   selectBaseEnabled,
   selectLayer,
   selectAccountEnabled,
-  selectSetup,
 } from 'selectors'
 
 import { LAYER } from 'util/constant'
 
 const useWalletSwitch = () => {
   const dispatch = useDispatch<any>()
-  const walletInfo = useSelector(selectSetup())
   const accountEnabled = useSelector(selectAccountEnabled())
   const network = useSelector(selectNetwork())
   const activeNetwork = useSelector(selectActiveNetwork())
@@ -55,9 +46,7 @@ const useWalletSwitch = () => {
   useEffect(() => {
     if (accountEnabled) {
       if (activeNetwork !== network || activeNetworkType !== networkType) {
-        dispatch(setActiveNetwork())
-        dispatch(setBaseState(false))
-        dispatch(setEnableAccount(false))
+        dispatch(openModal('switchNetworkModal'))
       }
     }
   }, [activeNetwork, activeNetworkType, network, networkType, dispatch])

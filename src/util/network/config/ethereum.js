@@ -22,7 +22,7 @@ export const ethereumConfig = {
       name: "BOBA Goerli L2",
       chainId: 2888,
       chainIdHex: '0xB48',
-      rpcUrl: `https://goerli.boba.network`,
+      rpcUrl: [ `https://goerli.boba.network` ],
       blockExplorer: `https://testnet.bobascan.com/`,
       transaction: `https://testnet.bobascan.com/tx/`,
       blockExplorerUrl: `https://testnet.bobascan.com/`,

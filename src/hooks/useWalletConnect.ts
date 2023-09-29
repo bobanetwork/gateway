@@ -1,4 +1,4 @@
-import { fetchTransactions, addTokenList } from 'actions/networkAction'
+import { addTokenList } from 'actions/networkAction'
 import {
   setConnect,
   setConnectBOBA,
@@ -52,6 +52,7 @@ export const useWalletConnect = () => {
         dispatch(openModal('noMetaMaskModal'))
         return false
       } else if (initialized === 'wrongnetwork') {
+        dispatch(openModal('wrongNetworkModal'))
         return false
       } else if (initialized === false) {
         dispatch(setEnableAccount(false))
@@ -61,7 +62,7 @@ export const useWalletConnect = () => {
         dispatch(setLayer(initialized))
         dispatch(setEnableAccount(true))
         dispatch(setWalletAddress(networkService.account))
-        dispatch(fetchTransactions())
+        // dispatch(fetchTransactions())
         dispatch(addTokenList())
         return true
       } else {
