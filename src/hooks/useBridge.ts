@@ -17,6 +17,7 @@ import {
   selectAmountToBridge,
   selectBridgeToAddressState,
   selectBridgeType,
+  selectDestChainIdTeleportation,
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
@@ -42,10 +43,13 @@ export const useBridge = () => {
   const activeNetwork = useSelector(selectActiveNetwork())
 
   const destLayer = layer === Layer.L1 ? Layer.L2 : Layer.L1
-  const destChainIdBridge = (
-    NetworkList[activeNetworkType] as INetwork[]
-  )?.find((n) => n.chain === activeNetwork)?.chainId[destLayer]
-  if (!destChainIdBridge) {
+  const destChainIdBridge =
+    useSelector(selectDestChainIdTeleportation()) ??
+    (NetworkList[activeNetworkType] as INetwork[])?.find(
+      (n) => n.chain === activeNetwork
+    )?.chainId[destLayer]
+
+  if (bridgeType === BRIDGE_TYPE.TELEPORTATION && !destChainIdBridge) {
     dispatch(openError('Failed to get destination chain id'))
     console.error(
       'Destination chainId is undefined, this should never happen: ',

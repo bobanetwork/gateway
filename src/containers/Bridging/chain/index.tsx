@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkIcon,
   selectActiveNetworkName,
+  selectBridgeType,
+  selectDestChainIdTeleportation,
   selectLayer,
 } from 'selectors'
 import { openModal } from 'actions/uiAction'
@@ -21,6 +23,8 @@ import {
   SwitchChainIcon,
   SwitchIcon,
 } from './styles'
+import { BRIDGE_TYPE } from '../BridgeTypeSelector'
+import { CHAIN_ID_LIST } from '../../../util/network/network.util'
 
 type Props = {}
 
@@ -84,6 +88,39 @@ const Chains = (props: Props) => {
     )
   }
 
+  const TeleportationDestChainInfo = () => {
+    const network = CHAIN_ID_LIST[teleportationDestChainId]
+    if (!network) {
+      console.warn('TeleportationDestChainInfo: Unknown network id')
+      return
+    }
+    // use correct chain for icons
+    const NetworkIcon =
+      NETWORK_ICONS[network?.chain?.toLowerCase()][
+        network?.layer?.toUpperCase()
+      ]
+
+    return (
+      <>
+        <ChainIcon>
+          <NetworkIcon />
+        </ChainIcon>
+        <ChainPickerPlaceHolder>
+          {network?.name || DEFAULT_NETWORK.NAME.L2}
+        </ChainPickerPlaceHolder>
+      </>
+    )
+  }
+
+  const bridgeType = useSelector(selectBridgeType())
+  const teleportationDestChainId = useSelector(selectDestChainIdTeleportation())
+
+  let toChainLabel =
+    !layer || layer === LAYER.L1 ? <L2ChainInfo /> : <L1ChainInfo />
+  if (bridgeType === BRIDGE_TYPE.TELEPORTATION && !!teleportationDestChainId) {
+    // light bridge/teleportation allows for independent network selection
+    toChainLabel = <TeleportationDestChainInfo />
+  }
   return (
     <ChainContainer>
       <ChainPickerContainer>
@@ -100,8 +137,12 @@ const Chains = (props: Props) => {
       </SwitchChainIcon>
       <ChainPickerContainer>
         <SectionLabel>To</SectionLabel>
-        <ChainPicker onClick={() => openNetworkPicker('l2', true)}>
-          {!layer || layer === LAYER.L1 ? <L2ChainInfo /> : <L1ChainInfo />}
+        <ChainPicker
+          onClick={() =>
+            openNetworkPicker('l2', bridgeType === BRIDGE_TYPE.TELEPORTATION)
+          }
+        >
+          {toChainLabel}
           <ChainPickerIcon>
             <DownArrow />
           </ChainPickerIcon>

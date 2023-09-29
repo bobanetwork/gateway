@@ -18,7 +18,7 @@ import TransferPendingModal from './transferPending/TransferPending'
 import WalletSelectorModal from './walletSelector/WalletSelectorModal'
 import DepositStake from './stake/DepositStake'
 import SettingsModal from './settings'
-import NetworkPickerModal from './networkPicker'
+import NetworkPickerModal, { NetworkPickerModalProps } from './networkPicker'
 import BridgeConfirmModal from './BridgeConfirmModal'
 import BridgeInProgressModal from './BridgeInProgressModal'
 import TransactionSuccessModal from './TransactionSuccessModal'
@@ -65,6 +65,9 @@ const ModalContainer = () => {
   const tokenIndex = useSelector(selectModalState('tokenIndex'))
   const lock = useSelector(selectModalState('lock'))
   const proposalId = useSelector(selectModalState('proposalId'))
+  const destNetworkSelection = useSelector(
+    selectModalState('destNetworkSelection')
+  )
 
   const EarnDepositModalState = useSelector(
     selectModalState('EarnDepositModal')
@@ -157,7 +160,10 @@ const ModalContainer = () => {
       )}
       {!!SettingsModalState && <SettingsModal open={SettingsModalState} />}
       {!!networkPickerModalState && (
-        <NetworkPickerModal open={networkPickerModalState} />
+        <NetworkPickerModal
+          open={networkPickerModalState}
+          destNetworkSelection={destNetworkSelection}
+        />
       )}
 
       {!!bridgeConfirmModalState && (
