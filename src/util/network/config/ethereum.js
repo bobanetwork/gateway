@@ -57,7 +57,7 @@ export const ethereumConfig = {
       chainId: 1,
       chainIdHex: '0x1',
       rpcUrl: [
-        `https://boba-ethereum.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
+        'https://mainnet.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI',
         `https://rpc.ankr.com/eth`,
         `https://cloudflare-eth.com`
       ],
@@ -70,7 +70,10 @@ export const ethereumConfig = {
       name: "BOBA L2",
       chainId: 288,
       chainIdHex: '0x120',
-      rpcUrl: `https://mainnet.boba.network`,
+      rpcUrl: [
+        `https://mainnet.boba.network`,
+        `https://boba-ethereum.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
+      ],
       blockExplorer: `https://bobascan.com/`,
       transaction: `https://bobascan.com/tx/`,
       blockExplorerUrl: `https://bobascan.com/`,
