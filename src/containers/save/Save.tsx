@@ -15,28 +15,34 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-import React, { useState, useEffect, useCallback } from 'react'
+/* 
+  @Stake
+    - Staking is only available on Boba L2 (Ethereum network) only.
+*/
+
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getFS_Saves, getFS_Info } from 'actions/fixedAction'
+import { getFS_Info, getFS_Saves } from 'actions/fixedAction'
 import { openModal } from 'actions/uiAction'
 
 import * as S from './Save.styles'
 
 import Connect from 'containers/connect'
 
-import { toWei_String } from 'util/amountConvert'
-import networkService from 'services/networkService'
-import { BigNumber, utils } from 'ethers'
-import { Typography } from 'components/global/typography'
-import { Button } from 'components/global/button'
-import TransactionList from 'components/stake/transactionList'
-import { PlaceholderConnect } from 'components/global/placeholderConnect'
-import { ModalTypography } from 'components/global/modalTypography'
 import { Preloader } from 'components/dao/preloader'
+import { Button } from 'components/global/button'
+import { PlaceholderConnect } from 'components/global/placeholderConnect'
+import { Typography } from 'components/global/typography'
+import TransactionList from 'components/stake/transactionList'
+import { BigNumber, utils } from 'ethers'
+import networkService from 'services/networkService'
+import { toWei_String } from 'util/amountConvert'
 
-import { selectFixed, selectSetup, selectBalance, selectLayer } from 'selectors'
+import useInterval from 'hooks/useInterval'
+import { selectBalance, selectFixed, selectLayer, selectSetup } from 'selectors'
 import styled from 'styled-components'
+import { POLL_INTERVAL } from 'util/constant'
 
 export const OutputLabel = styled(Typography).attrs({
   variant: 'title',
@@ -69,10 +75,19 @@ const Save = () => {
   })
 
   useEffect(() => {
-    dispatch(getFS_Saves())
-    dispatch(getFS_Info())
-    getMaxTransferValue()
-  }, [])
+    if (accountEnabled) {
+      dispatch(getFS_Saves())
+      dispatch(getFS_Info())
+      getMaxTransferValue()
+    }
+  }, [accountEnabled])
+
+  useInterval(() => {
+    if (accountEnabled) {
+      dispatch(getFS_Info())
+      dispatch(getFS_Saves())
+    }
+  }, POLL_INTERVAL)
 
   useEffect(() => {
     getMaxTransferValue()
