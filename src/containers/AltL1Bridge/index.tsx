@@ -115,6 +115,9 @@ export const ListBodyItem = styled.div`
   width: calc(25% - 5px);
 `
 
+export const BodyText = styled(Typography).attrs({
+  variant: 'body2',
+})``
 export const ListHeadItem = styled(Typography).attrs({
   variant: 'body1',
 })`
@@ -159,9 +162,13 @@ const TokenList = ({ token, showBalanceToken }) => {
           }}
         />
       </ListBodyItem>
-      <ListBodyItem>{amount}</ListBodyItem>
       <ListBodyItem>
-        {`$${amountToUsd(amountInNumber, lookupPrice, token).toFixed(2)}`}
+        <BodyText>{amount}</BodyText>
+      </ListBodyItem>
+      <ListBodyItem>
+        <BodyText>
+          {`$${amountToUsd(amountInNumber, lookupPrice, token).toFixed(2)}`}
+        </BodyText>
       </ListBodyItem>
       <ListBodyItem>
         {layer === 'L1' && token.symbol === 'BOBA' ? (
@@ -190,8 +197,6 @@ const AltL1Bridge: FC = () => {
   const l2Balance = useSelector(selectlayer2Balance, isEqual)
   const l1Balance = useSelector(selectlayer1Balance, isEqual)
 
-  const depositLoading = useSelector(selectLoading(['DEPOSIT/CREATE']))
-  const exitLoading = useSelector(selectLoading(['EXIT/CREATE']))
   const balanceLoading = useSelector(selectLoading(['BALANCE/GET']))
 
   useEffect(() => {
@@ -289,8 +294,12 @@ const AltL1Bridge: FC = () => {
               <ListHeadItem>Value</ListHeadItem>
               <ListHeadItem>Actions</ListHeadItem>
             </TokenListHead>
-            {balanceLoading ? `Loading Balances for ${layer}` : ``}
-            {layer === 'L1'
+            {balanceLoading ? (
+              <BodyText>Loading Balances for {layer}</BodyText>
+            ) : (
+              ``
+            )}
+            {!balanceLoading && layer === 'L1'
               ? (l1Balance as any[]).map((i: any) => (
                   <TokenList
                     showBalanceToken={showMyTokens}
@@ -299,7 +308,7 @@ const AltL1Bridge: FC = () => {
                   />
                 ))
               : null}
-            {layer === 'L2'
+            {!balanceLoading && layer === 'L2'
               ? (l2Balance as any[]).map((i: any) => (
                   <TokenList
                     showBalanceToken={showMyTokens}

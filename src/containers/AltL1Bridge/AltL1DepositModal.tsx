@@ -25,6 +25,12 @@ import { BridgeInfoContainer } from 'containers/Bridging/BridgeInput/styles'
 import BridgeAlert from 'containers/Bridging/BridgeAlert'
 import { clearBridgeAlert, setBridgeAlert } from 'actions/bridgeAction'
 
+export const WariningText = styled(Typography).attrs({
+  variant: 'head',
+})`
+  color: ${({ theme, error }) => theme.colors.red[300]};
+`
+
 export const AltL1DepositModalBody = styled.div`
   width: 350px;
   display: flex;
@@ -210,12 +216,21 @@ const AltL1DepositModal = ({ token, isBridge, open }: any) => {
   if (Number(logAmount(token.balance, token.decimals)) === 0) {
     //no token in this account
     return (
-      <div>
-        <Typography variant="body2">
-          Sorry, nothing to deposit - no {token.symbol} in this wallet
-        </Typography>
-        <NewButton onClick={handleClose} label="Cancel" outline={true} />
-      </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        minHeight="180px"
+        title={`Bridge ${token && token.symbol ? token.symbol : ''} to Alt L1s`}
+        transparent={false}
+      >
+        <AltL1DepositModalBody>
+          <WariningText>
+            Nothing to Bridge - Balance: 0 {token.symbol}
+          </WariningText>
+
+          <NewButton onClick={handleClose} label="Cancel" outline={true} />
+        </AltL1DepositModalBody>
+      </Modal>
     )
   }
 
