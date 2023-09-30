@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import {formatEther, parseEther} from '@ethersproject/units'
-import {CrossChainMessenger,} from '@eth-optimism/sdk'
+import {CrossChainMessenger,} from '@bobanetwork/sdk'
 
 import {BigNumber, ethers, utils} from 'ethers'
 
@@ -35,12 +35,12 @@ import {
 } from 'actions/signAction'
 
 // Base contracts
-// import L1StandardBridgeJson from '@eth-optimism/contracts/artifacts/contracts/L1/messaging/L1StandardBridge.sol/L1StandardBridge.json'
+// import L1StandardBridgeJson from '@bobanetwork/core_contracts/artifacts/contracts/L1/messaging/L1StandardBridge.sol/L1StandardBridge.json'
 import L2StandardBridgeJson
-  from '@eth-optimism/contracts/artifacts/contracts/L2/messaging/L2StandardBridge.sol/L2StandardBridge.json'
-import L2ERC20Json from '@eth-optimism/contracts/artifacts/contracts/standards/L2StandardERC20.sol/L2StandardERC20.json'
+  from '@bobanetwork/core_contracts/artifacts/contracts/L2/messaging/L2StandardBridge.sol/L2StandardBridge.json'
+import L2ERC20Json from '@bobanetwork/core_contracts/artifacts/contracts/standards/L2StandardERC20.sol/L2StandardERC20.json'
 import OVM_GasPriceOracleJson
-  from '@eth-optimism/contracts/artifacts/contracts/L2/predeploys/OVM_GasPriceOracle.sol/OVM_GasPriceOracle.json'
+  from '@bobanetwork/core_contracts/artifacts/contracts/L2/predeploys/OVM_GasPriceOracle.sol/OVM_GasPriceOracle.json'
 
 // Boba contracts
 // import DiscretionaryExitFeeJson
@@ -402,9 +402,15 @@ class NetworkService {
         activeL1RpcURL
       )
 
-      this.L2Provider = new ethers.providers.StaticJsonRpcProvider(
-        networkDetail['L2']['rpcUrl']
-      )
+      let activeL2RpcURL = networkDetail[ 'L2' ][ 'rpcUrl' ][ 0 ]
+      for (const rpcURL of networkDetail[ 'L2' ][ 'rpcUrl' ]) {
+        if (await pingRpcUrl(rpcURL)) {
+          activeL1RpcURL = rpcURL
+          break
+        }
+      }
+
+      this.L2Provider = new ethers.providers.StaticJsonRpcProvider(activeL2RpcURL)
 
       this.L1NativeTokenSymbol = networkDetail['L1']['symbol']
       this.L1NativeTokenName = networkDetail['L1']['tokenName'] || this.L1NativeTokenSymbol
@@ -438,7 +444,6 @@ class NetworkService {
       }
 
       this.addresses = addresses
-      console.log("LOADED ADDRESSES", this.addresses)
 
       // this.AddressManagerAddress = nw[networkGateway].addressManager
       // console.log("AddressManager address:",this.AddressManagerAddress)

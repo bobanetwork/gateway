@@ -10,6 +10,7 @@ export const bnbConfig = {
       chainId: 97,
       chainIdHex: '0x61',
       rpcUrl: [
+        `https://bsc-testnet.publicnode.com`,
         `https://data-seed-prebsc-1-s1.binance.org:8545`,
         `https://data-seed-prebsc-2-s1.binance.org:8545`,
         `https://bsc-testnet.public.blastapi.io`,
@@ -24,8 +25,8 @@ export const bnbConfig = {
       chainId: 9728,
       chainIdHex: '0x2600',
       rpcUrl: [
-        `https://boba-bnb-testnet.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
         `https://testnet.bnb.boba.network`,
+        `https://boba-bnb-testnet.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
         `https://replica.testnet.bnb.boba.network`
       ],
       blockExplorer: `https://testnet.bobascan.com/`,

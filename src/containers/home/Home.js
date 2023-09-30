@@ -14,54 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import React, { memo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import { getFS_Saves, getFS_Info } from 'actions/fixedAction'
-
-import { fetchBalances } from 'actions/networkAction'
-
-import { selectAccountEnabled, selectActiveNetwork, selectBaseEnabled,selectChainIdChanged
-} from 'selectors'
-
 /******** COMPONENTS ********/
 import { PageTitle } from 'components/layout/PageTitle'
-
 /******** UTILS ********/
-import { POLL_INTERVAL } from 'util/constant'
-import useInterval from 'hooks/useInterval'
+import NotificationAlert from 'components/alert/Alert'
+import { Footer, Header } from 'components/layout'
+import NotificationBanner from 'components/notificationBanner'
+import ModalContainer from 'containers/modals'
 import useGoogleAnalytics from 'hooks/useGoogleAnalytics'
 import useNetwork from 'hooks/useNetwork'
-import { NETWORK } from 'util/network/network.util'
-import NotificationBanner from 'components/notificationBanner'
-import { Footer, Header } from 'components/layout'
-import ModalContainer from 'containers/modals'
-import NotificationAlert from 'components/alert/Alert'
 
-import { HomeContainer, HomeContent } from './styles'
 import { useOnboard } from 'hooks/useOnboard'
 import { useWalletConnect } from 'hooks/useWalletConnect'
 import useWalletSwitch from 'hooks/useWalletSwitch'
+import { HomeContainer, HomeContent } from './styles'
 
 const Home = () => {
-  const dispatch = useDispatch()
-  const activeNetwork = useSelector(selectActiveNetwork())
-  const accountEnabled = useSelector(selectAccountEnabled())
-  const baseEnabled = useSelector(selectBaseEnabled())
-
-  useInterval(() => {
-    if (accountEnabled /*== MetaMask is connected*/) {
-      if(baseEnabled) {
-        dispatch(fetchBalances()) // account specific
-      }
-      if (activeNetwork === NETWORK.ETHEREUM) {
-        dispatch(getFS_Info())   // account specific
-        dispatch(getFS_Saves()) // account specific
-      }
-    }
-  }, POLL_INTERVAL)
-
-
-
   useGoogleAnalytics(); // Invoking GA analysis page view hooks
   useOnboard()
   useNetwork()

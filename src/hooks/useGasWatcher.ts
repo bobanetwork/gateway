@@ -20,7 +20,7 @@ import { GAS_POLL_INTERVAL } from 'util/constant'
  *
  * Gas Calculation
  *
-   Fetch gas savings & gas details.
+   Fetch gas savings (ONLY ETH MAINNET) & gas details.
    The l1 security fee is moved to the l2 fee
    const gasSavings = (Number(gas.gasL1) * (l2Fee - l1SecurityFee) / Number(gas.gasL2)) / l2Fee;
    The l1 security fee is directly deducted from the user's account
@@ -66,7 +66,7 @@ const useGasWatcher = () => {
         (l2Fee + l1SecurityFee)
       setSavings(gasSavings ? gasSavings : 0)
     }
-    // fetch savings only if network is ethereum and mainnet.
+    // Load gas savings only in case of ETHEREUM MAINNET
     if (
       activeNetwork === NETWORK.ETHEREUM &&
       activeNetworkType === NETWORK_TYPE.MAINNET &&
