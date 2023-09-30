@@ -19,9 +19,6 @@ import networkService from 'services/networkService'
 import { amountToUsd, logAmount } from 'util/amountConvert'
 import { getCoinImage } from 'util/coinImage'
 
-import BNBIcon from 'components/icons/chain/L1/BNBIcon'
-import AvalancheIcon from 'components/icons/chain/L1/AvalancheIcon'
-
 import InputWithButton from 'components/global/inputWithButton'
 import styled from 'styled-components'
 import { BridgeInfoContainer } from 'containers/Bridging/BridgeInput/styles'
@@ -102,7 +99,7 @@ const AltL1DepositModal = ({ token, isBridge, open }: any) => {
   const dispatch = useDispatch<any>()
 
   const [value, setValue] = useState('')
-  const [altL1Bridge, setAltL1Bridge] = useState('')
+  const [altL1Bridge, setAltL1Bridge] = useState('BNB')
 
   const [validValue, setValidValue] = useState(false)
   const depositLoading = useSelector(selectLoading(['DEPOSIT_ALTL1/CREATE']))
