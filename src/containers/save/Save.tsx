@@ -15,36 +15,33 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-import React, { useState, useEffect, useCallback } from 'react'
+/* 
+  @Stake
+    - Staking is only available on Boba L2 (Ethereum network) only.
+*/
+
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getFS_Saves, getFS_Info } from 'actions/fixedAction'
+import { getFS_Info, getFS_Saves } from 'actions/fixedAction'
 import { openModal } from 'actions/uiAction'
 
 import * as S from './Save.styles'
 
 import Connect from 'containers/connect'
 
-import { toWei_String } from 'util/amountConvert'
-import networkService from 'services/networkService'
-import { BigNumber, utils } from 'ethers'
-import { Typography } from 'components/global/typography'
-import { Button } from 'components/global/button'
-import TransactionList from 'components/stake/transactionList'
-import { PlaceholderConnect } from 'components/global/placeholderConnect'
-import { ModalTypography } from 'components/global/modalTypography'
 import { Preloader } from 'components/dao/preloader'
+import { Button } from 'components/global/button'
+import { PlaceholderConnect } from 'components/global/placeholderConnect'
+import { Typography } from 'components/global/typography'
+import TransactionList from 'components/stake/transactionList'
+import { BigNumber, utils } from 'ethers'
+import networkService from 'services/networkService'
+import { toWei_String } from 'util/amountConvert'
 
-import {
-  selectFixed,
-  selectSetup,
-  selectBalance,
-  selectLayer,
-  selectActiveNetwork,
-} from 'selectors'
-import styled from 'styled-components'
 import useInterval from 'hooks/useInterval'
-import { NETWORK } from 'util/network/network.util'
+import { selectBalance, selectFixed, selectLayer, selectSetup } from 'selectors'
+import styled from 'styled-components'
 import { POLL_INTERVAL } from 'util/constant'
 
 export const OutputLabel = styled(Typography).attrs({
@@ -63,7 +60,6 @@ export const Description = styled(Typography).attrs({
 `
 
 const Save = () => {
-  const activeNetwork = useSelector(selectActiveNetwork())
   const layer = useSelector(selectLayer())
   const { stakeInfo } = useSelector(selectFixed())
   const { accountEnabled, netLayer, bobaFeeChoice, bobaFeePriceRatio } =
@@ -79,17 +75,17 @@ const Save = () => {
   })
 
   useEffect(() => {
-    dispatch(getFS_Saves())
-    dispatch(getFS_Info())
-    getMaxTransferValue()
-  }, [])
+    if (accountEnabled) {
+      dispatch(getFS_Saves())
+      dispatch(getFS_Info())
+      getMaxTransferValue()
+    }
+  }, [accountEnabled])
 
   useInterval(() => {
-    if (accountEnabled /*== MetaMask is connected*/) {
-      if (activeNetwork === NETWORK.ETHEREUM) {
-        dispatch(getFS_Info()) // account specific
-        dispatch(getFS_Saves()) // account specific
-      }
+    if (accountEnabled) {
+      dispatch(getFS_Info())
+      dispatch(getFS_Saves())
     }
   }, POLL_INTERVAL)
 

@@ -104,9 +104,9 @@ type Page =
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
-  ethereum: ['Bridge', 'Wallet', 'History', 'Earn', 'Stake', 'DAO'],
-  bnb: ['Bridge', 'Wallet', 'Earn', 'History'],
-  avax: ['Bridge', 'Wallet', 'Earn', 'History'],
+  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
+  bnb: ['Bridge', 'Earn', 'History'],
+  avax: ['Bridge', 'Earn', 'History'],
 }
 
 export enum Layer {
