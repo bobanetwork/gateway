@@ -23,6 +23,7 @@ import BridgeConfirmModal from './BridgeConfirmModal'
 import BridgeInProgressModal from './BridgeInProgressModal'
 import TransactionSuccessModal from './TransactionSuccessModal'
 import UnsupportedNetworkModal from './UnsupportedNetworkModal'
+import AltL1DepositModal from 'containers/AltL1Bridge/AltL1DepositModal'
 /**
  *
  * NOTE:TODO: https://github.com/bobanetwork/boba/pull/982#discussion_r1253868688
@@ -33,8 +34,8 @@ const ModalContainer = () => {
     selectModalState('UnsupportedNetwork')
   )
 
-  const depositBatchModalState = useSelector(
-    selectModalState('depositBatchModal')
+  const depositAltL1ModalState = useSelector(
+    selectModalState('ALTL1DEPOSITMODAL')
   )
 
   const transferModalState = useSelector(selectModalState('transferModal'))
@@ -105,6 +106,10 @@ const ModalContainer = () => {
     <>
       {!!UnsupportedNetworkModalState && (
         <UnsupportedNetworkModal open={UnsupportedNetworkModalState} />
+      )}
+
+      {!!depositAltL1ModalState && (
+        <AltL1DepositModal open={depositAltL1ModalState} token={token} />
       )}
 
       {!!transferModalState && (

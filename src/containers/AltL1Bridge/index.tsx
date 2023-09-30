@@ -27,6 +27,8 @@ import styled, { css } from 'styled-components'
 import { sdesktop } from 'themes/screens'
 import { amountToUsd, logAmount } from 'util/amountConvert'
 import BN from 'bn.js'
+import { Layer } from 'util/constant'
+import { openModal } from 'actions/uiAction'
 
 export const AltL1BridgeContainer = styled.div`
   margin: 0px auto;
@@ -121,8 +123,9 @@ export const ListHeadItem = styled(Typography).attrs({
 
 const TokenList = ({ token, showBalanceToken }) => {
   const { name, symbol, address, decimals } = token
-
+  const dispatch = useDispatch<any>()
   const lookupPrice = useSelector(selectLookupPrice)
+  const layer = useSelector(selectLayer())
 
   const amountInNumber =
     token.symbol === 'ETH'
@@ -161,10 +164,10 @@ const TokenList = ({ token, showBalanceToken }) => {
         {`$${amountToUsd(amountInNumber, lookupPrice, token).toFixed(2)}`}
       </ListBodyItem>
       <ListBodyItem>
-        {token.symbol === 'BOBA' ? (
+        {layer === 'L1' && token.symbol === 'BOBA' ? (
           <Button
             onClick={() => {
-              console.log('on bridge!!')
+              dispatch(openModal('ALTL1DEPOSITMODAL', token))
             }}
             label={'Bridge to alt L1'}
             small

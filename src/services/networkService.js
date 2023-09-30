@@ -3916,9 +3916,9 @@ class NetworkService {
    */
 
   async depositErc20ToL1({
-                           value,
-                           type
-                         }) {
+    value,
+    type
+  }) {
     if (this.account === null) {
       console.log('NS: depositErc20ToL1() error - called but account === null')
       return
@@ -3964,7 +3964,7 @@ class NetworkService {
       console.log(`✅  approval done`)
 
       let payload = ethers.utils.defaultAbiCoder.encode(
-        ["address", "address", "address", "address", "uint256", "bytes"],
+        ["address","address","address","address","uint256","bytes"],
         [
           ETH_L1_BOBA_ADDRESS,
           ALT_L1_BOBA_ADDRESS,
@@ -4000,7 +4000,7 @@ class NetworkService {
       console.log(`🔥 🔥 🔥 🔥 🔥  ${value} AMT TRANSFER  👉  ${type} !`);
       return true;
     } catch (error) {
-      console.log("NS: Ve: depositErc20ToL1 error:", error)
+      console.log("NS: Ve: depositErc20ToL1 error:",error)
       return error;
     }
   }

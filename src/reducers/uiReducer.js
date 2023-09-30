@@ -35,6 +35,7 @@ const initialState = {
   CDMCompletionModal: false,
   switchNetworkModal: false,
   UnsupportedNetwork: false,
+  ALTL1DEPOSITMODAL: false,
 
   ledger: false,
   alert: null,
