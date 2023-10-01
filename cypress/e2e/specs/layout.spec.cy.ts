@@ -3,16 +3,29 @@ const page = new Page()
 
 describe('Page Layout', () => {
   before(() => {
-    page.addSupportedNetwork()
+    // added supported network only when actual check is done on connections
+    // page.addSupportedNetwork()
     page.visit()
   })
 
-  describe('Page Header', () => {
+  describe('Header', () => {
     it('Navigation links should be correct and functional', () => {
       page.checkNavigationListEthereum()
+      page.setNetworkTo('BNB')
+      page.checkNaviagtionListBinanace()
+      page.setNetworkTo('AVAX')
+      page.checkNaviagtionListAvalanche()
     })
+
     it('Theme switcher should work', () => {
       page.checkThemeSwitcher()
     })
   })
+  /* 
+  describe('Footer', () => {
+    it('Navigation links', () => {})
+    it('BlockExplorer links', () => {})
+    it('Social links', () => {})
+    it('Copyright & Version', () => {})
+  }) */
 })

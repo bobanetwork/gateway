@@ -1,11 +1,13 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
 import { Layer } from '../../../src/util/constant'
+import { ReduxStore } from './base/store'
 
 export default class Bridge extends Page {
   constructor() {
     super()
     this.id = 'bridge'
+    this.store = new ReduxStore()
     this.walletConnectButtonText = 'Connect Wallet'
   }
 
@@ -13,7 +15,7 @@ export default class Bridge extends Page {
     this.withinPage().find('#settings').should('exist').click()
     cy.get('label[title="testnetSwitch"]').should('exist').click()
 
-    this.verifyReduxStoreNetwork(
+    this.store.verifyReduxStoreNetwork(
       'activeNetworkType',
       isTestnet ? 'Testnet' : 'Mainnet'
     )
@@ -36,7 +38,7 @@ export default class Bridge extends Page {
     } else {
       this.allowNetworkSwitch()
     }
-    this.verifyReduxStoreSetup('netLayer', newOriginLayer)
+    this.store.verifyReduxStoreSetup('netLayer', newOriginLayer)
   }
 
   selectToken(tokenSymbol: string) {
@@ -48,7 +50,8 @@ export default class Bridge extends Page {
       .click()
 
     // ensure store has correct values
-    this.getReduxStore()
+    this.store
+      .getReduxStore()
       .its('bridge')
       .its('tokens')
       .its(0)
@@ -68,14 +71,20 @@ export default class Bridge extends Page {
   bridgeToken(tokenSymbol: string, amount: string, destinationLayer: Layer) {
     this.selectToken(tokenSymbol)
     if (destinationLayer === Layer.L1) {
-      this.getReduxStore()
+      this.store
+        .getReduxStore()
         .its('setup')
         .its('bobaFeePriceRatio')
         .should('not.be.empty')
 
-      this.verifyReduxStoreSetup('netLayer', Layer.L2)
-      this.getReduxStore().its('balance').its('exitFee').should('not.be.empty')
-      this.getReduxStore()
+      this.store.verifyReduxStoreSetup('netLayer', Layer.L2)
+      this.store
+        .getReduxStore()
+        .its('balance')
+        .its('exitFee')
+        .should('not.be.empty')
+      this.store
+        .getReduxStore()
         .its('balance')
         .its('classicExitCost')
         .should('equal', 0)
@@ -86,7 +95,8 @@ export default class Bridge extends Page {
       .focus()
       .type(`${amount}`)
 
-    this.getReduxStore()
+    this.store
+      .getReduxStore()
       .its('bridge')
       .its('amountToBridge')
       .then(parseFloat)
