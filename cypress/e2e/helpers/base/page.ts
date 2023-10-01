@@ -2,14 +2,17 @@
 import Base from './base'
 import PageHeader from './page.header'
 import PageFooter from './page.footer'
+import { ReduxStore } from './store'
 
 export default class Page extends Base {
   header: PageHeader
   footer: PageFooter
+  store: ReduxStore
   walletConnectButtonText: string
   id: string
   constructor() {
     super()
+    this.store = new ReduxStore()
     this.header = new PageHeader()
     this.footer = new PageFooter()
     this.id = 'header'
@@ -22,9 +25,7 @@ export default class Page extends Base {
   withinPage() {
     return cy.get(`#${this.id}`)
   }
-  getReduxStore() {
-    return cy.window().its('store').invoke('getState')
-  }
+
   connectWallet() {
     this.withinPage()
       .contains('button', this.walletConnectButtonText)
@@ -34,6 +35,37 @@ export default class Page extends Base {
   requestMetamaskConnect() {
     this.connectWallet()
     cy.get('#connectMetaMask').should('exist').click()
+  }
+
+  setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {
+    const bnbConfig = {
+      network: 'BNB',
+      name: {
+        l1: 'Binance Smart Chain',
+        l2: 'Boba BNB',
+      },
+      networkIcon: 'bnb',
+      chainIds: { L1: '56', L2: '56288' },
+      networkType: 'Mainnet',
+    }
+
+    const avaxConfig = {
+      network: 'AVAX',
+      name: {
+        l1: 'Avalanche Mainnet C-Chain',
+        l2: 'Boba Avalanche',
+      },
+      networkIcon: 'avax',
+      chainIds: { L1: '43114', L2: '43288' },
+      networkType: 'Mainnet',
+    }
+
+    const payload = network === 'BNB' ? bnbConfig : avaxConfig
+
+    cy.window().its('store').invoke('dispatch', {
+      type: 'NETWORK/SET',
+      payload,
+    })
   }
 
   checkNaviagtionListBinanace() {
@@ -72,7 +104,7 @@ export default class Page extends Base {
       .should('not.be.empty')
       .and(($p) => {
         // should have found 4 elements for Avalanche
-        expect($p).to.have.length(6)
+        expect($p).to.have.length(4)
 
         // // use jquery's map to grab all of their classes
         // // jquery's map returns a new jquery object
@@ -159,10 +191,13 @@ export default class Page extends Base {
       .should('have.text', 'BNB Testnet')
       .should('have.text', 'Fuji Testnet')
   }
+
+  // check theme switching functionality
   checkThemeSwitcher() {
-    this.header.getLightThemeSwitcher().should('exist').click()
-    this.header.getDarkThemeSwitcher().should('exist').click()
-    this.header.getLightThemeSwitcher().should('exist')
+    this.header.getLightThemeSwitcher().click()
+    this.store.verifyReduxUiState('theme', 'light')
+    this.header.getDarkThemeSwitcher().click()
+    this.store.verifyReduxUiState('theme', 'dark')
   }
 
   checkSocialMediaLinks() {
@@ -245,8 +280,8 @@ export default class Page extends Base {
       .should('exist')
       .click()
 
-    this.verifyReduxStoreSetup('accountEnabled', false)
-    this.verifyReduxStoreSetup('baseEnabled', false)
+    this.store.verifyReduxStoreSetup('accountEnabled', false)
+    this.store.verifyReduxStoreSetup('baseEnabled', false)
 
     cy.get(
       `button[label="Connect to the ${networkAbbreviation} ${
@@ -279,24 +314,10 @@ export default class Page extends Base {
   }
 
   checkNetworkSwitchSuccessful(networkAbbreviation: string) {
-    this.verifyReduxStoreNetwork('activeNetwork', networkAbbreviation)
+    this.store.verifyReduxStoreNetwork('activeNetwork', networkAbbreviation)
 
-    this.verifyReduxStoreSetup('accountEnabled', true)
-    this.verifyReduxStoreSetup('baseEnabled', true)
-  }
-
-  verifyReduxStoreSetup(attribute: string, expectedValue: boolean | string) {
-    this.getReduxStore()
-      .its('setup')
-      .its(attribute)
-      .should(`equal`, expectedValue)
-  }
-
-  verifyReduxStoreNetwork(attribute: string, expectedValue: boolean | string) {
-    this.getReduxStore()
-      .its('network')
-      .its(attribute)
-      .should('equal', expectedValue)
+    this.store.verifyReduxStoreSetup('accountEnabled', true)
+    this.store.verifyReduxStoreSetup('baseEnabled', true)
   }
 
   disconnectWallet() {

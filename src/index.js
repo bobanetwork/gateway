@@ -34,3 +34,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+
+// Exposes store to window when running Cypress test only.
+if (window.Cypress) {
+  window['store'] = store
+}

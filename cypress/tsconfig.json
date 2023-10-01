@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "types": [
-      "@synthetixio/synpress"
+      "@synthetixio/synpress/support",
     ]
   }
 }

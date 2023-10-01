@@ -9,6 +9,7 @@ export default defineConfig({
   defaultCommandTimeout: 30000,
   pageLoadTimeout: 30000,
   requestTimeout: 30000,
+  video: true,
   e2e: {
     testIsolation: false,
     setupNodeEvents: (on, config) => {
