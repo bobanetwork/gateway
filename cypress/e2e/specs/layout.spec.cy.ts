@@ -21,11 +21,16 @@ describe('Page Layout', () => {
       page.checkThemeSwitcher()
     })
   })
-  /* 
+
   describe('Footer', () => {
-    it('Navigation links', () => {})
-    it('BlockExplorer links', () => {})
-    it('Social links', () => {})
-    it('Copyright & Version', () => {})
-  }) */
+    it('Navigation links', () => {
+      page.checkFooterLinks()
+    })
+    it('Social links', () => {
+      page.checkSocialMediaLinks()
+    })
+    it('Copyright & Version', () => {
+      page.checkCopyrightAndVersion()
+    })
+  })
 })

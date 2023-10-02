@@ -54,7 +54,7 @@ const FooterLinks = () => {
 
   return (
     <LinkContainer>
-      <StyledLinks>
+      <StyledLinks id="footerLinks">
         {FOOTERLINKS.map((link) => {
           if (link.isNav) {
             return (
