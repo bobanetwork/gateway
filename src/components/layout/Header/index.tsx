@@ -31,7 +31,7 @@ export const Header: FC<HeaderProps> = () => {
   }
 
   return (
-    <HeaderContainer>
+    <HeaderContainer id="header">
       <NavLink to={ROUTES_PATH.BRIDGE}>
         <BobaLogo />
       </NavLink>
