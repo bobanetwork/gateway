@@ -16,7 +16,7 @@ interface Props {}
 
 const SocialLinks = (props: Props) => {
   return (
-    <SocialLinksContainer>
+    <SocialLinksContainer id="socialLinks">
       <DisclaimerContainer>
         <DisclaimerText>©2023 Enya Labs</DisclaimerText>
         <DisclaimerText>v{WALLET_VERSION}</DisclaimerText>

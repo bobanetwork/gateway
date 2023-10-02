@@ -8,4 +8,13 @@ export default class PageFooter {
   getFooterLinks() {
     return cy.get('#footerLinks').find('a')
   }
+
+  getCompanyInfo() {
+    return cy.get('#socialLinks').contains('©2023 Enya Labs')
+  }
+
+  getVersionInfo() {
+    // @ts-ignore
+    return cy.get('#socialLinks').contains(/^v\w+/)
+  }
 }
