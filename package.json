@@ -23,6 +23,7 @@
     "test:coverage": "yarn test --coverage",
     "test:u": "yarn test -u",
     "test:w": "yarn test --watchAll=true",
+    "test:integration": "start-server-and-test 'yarn start' http-get://localhost:3000 'yarn cypress:run'",
     "storybook": "storybook dev -p 6006"
   },
   "browserslist": [

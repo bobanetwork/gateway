@@ -3,8 +3,6 @@ permissions: read-all
 
 on:
   pull_request:
-      branches:
-      - main # main instead of master to reduce time-to-discover
 
 jobs:
   End-to-End-Test:
