@@ -66,22 +66,7 @@ limitations under the License. */
 
     window.ethereum.on('chainChanged', (chainId) => {
       if (CHAIN_ID_LIST[Number(chainId)]) {
-        const { networkType, chain } = CHAIN_ID_LIST[Number(chainId)]
-        const {
-          chain: network,
-          icon: networkIcon,
-          name
-        } = NetworkList[ networkType ].find(network => network.chain === chain);
-        store.dispatch({ type: 'SETUP/CHAINIDCHANGED/SET', payload: Number(chainId) })
-        store.dispatch(
-          setNetwork({
-            networkType,
-            network,
-            networkIcon,
-            name
-          })
-        )
-        store.dispatch(setActiveNetwork())
+        store.dispatch({type: 'SETUP/CHAINIDCHANGED/SET',payload: Number(chainId)})
       } else {
         store.dispatch(openModal('UnsupportedNetwork'))
       }
