@@ -4,9 +4,6 @@ permissions: read-all
 on:
   pull_request:
 
-concurrency:
-  cancel-in-progress: true
-
 jobs:
   End-to-End-Test:
     name: Integration Test
