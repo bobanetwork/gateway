@@ -1,0 +1,65 @@
+name: End2End test (non-headless)
+permissions: read-all
+
+on:
+  pull_request:
+      branches:
+      - main # main instead of master to reduce time-to-discover
+
+jobs:
+  End-to-End-Test:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.16.0
+          cache: 'yarn'
+      - name: Cache node modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Install dependencies
+        run: yarn
+      - uses: actions/cache/save@v3
+        if: ${{steps.cache-node-modules.outputs.cache-hit != 'true'}}
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+      - name: Install linux deps
+        run: |
+          sudo apt-get install --no-install-recommends -y \
+          fluxbox \
+          xvfb
+      - name: Run E2E Test
+        working-directory: ./
+        run: |
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          fluxbox & yarn test:integration
+        env:
+          REACT_APP_POLL_INTERVAL: 15000
+          SKIP_PREFLIGHT_CHECK: true
+          REACT_APP_WALLET_VERSION: 0.9.1
+          REACT_APP_ENV: prod
+          REACT_APP_STATUS: normal
+          CYPRESS_REMOTE_DEBUGGING_PORT: 9222
+          NETWORK_NAME: 'goerli'
+          SECRET_WORDS: ${{secrets.SECRET_WORDS}}
+          DISPLAY: :0.0
+          CYPRESS_ENABLE_VIDEO: true
+      - name: Upload videos
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Test footage
+          path: |
+            ./packages/boba/gateway/cypress/videos/
+            ./packages/boba/gateway/cypress/screenshots/
+        continue-on-error: true
