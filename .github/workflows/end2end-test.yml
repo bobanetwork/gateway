@@ -2,7 +2,12 @@ name: End2End test (non-headless)
 permissions: read-all
 
 on:
+  push:
   pull_request:
+    branches: [main]
+
+concurrency:
+  cancel-in-progress: true
 
 jobs:
   End-to-End-Test:
@@ -11,16 +16,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Node.js environment
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 16.16.0
           cache: 'yarn'
-      - name: Cache node modules
+      - name: Setup Cache Node Modules, Cypress
         id: cache-node-modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
@@ -36,7 +43,7 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
           fluxbox \
           xvfb
-      - name: Run E2E Test
+      - name: Run E2E Test (non-headless)
         working-directory: ./
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
@@ -52,12 +59,12 @@ jobs:
           SECRET_WORDS: ${{secrets.SECRET_WORDS}}
           DISPLAY: :0.0
           CYPRESS_ENABLE_VIDEO: true
-      - name: Upload videos
+      - name: Upload Archive e2e artifacts
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: Test footage
+          name: e2e-archive
           path: |
-            ./packages/boba/gateway/cypress/videos/
-            ./packages/boba/gateway/cypress/screenshots/
+            ./cypress/videos/
+            ./cypress/screenshots/
         continue-on-error: true
