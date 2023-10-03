@@ -16,45 +16,44 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React,{useEffect,useState} from 'react';
+import {useDispatch,useSelector} from 'react-redux';
 
-import { HelpOutline } from '@mui/icons-material'
+import {HelpOutline} from '@mui/icons-material';
 
 import {
-  selectUserInfo,
-  selectPoolInfo,
-  selectlayer1Balance,
-  selectlayer2Balance,
-  selectBaseEnabled,
   selectAccountEnabled,
-  selectLayer,
   selectActiveNetworkName,
-  selectChainIdChanged
-} from 'selectors'
+  selectBaseEnabled,
+  selectLayer,
+  selectPoolInfo,
+  selectUserInfo,
+  selectlayer1Balance,
+  selectlayer2Balance
+} from 'selectors';
 
-import { getEarnInfo } from 'actions/earnAction'
+import {getEarnInfo} from 'actions/earnAction';
 
-import Connect from 'containers/connect'
+import Connect from 'containers/connect';
 
-import ListEarn from 'components/listEarn/ListEarn'
-import AlertIcon from 'components/icons/AlertIcon'
+import Button from 'components/button/Button';
+import AlertIcon from 'components/icons/AlertIcon';
+import ListEarn from 'components/listEarn/ListEarn';
 import Tooltip from 'components/tooltip/Tooltip';
-import Button from 'components/button/Button'
 
-import networkService from 'services/networkService'
+import networkService from 'services/networkService';
 
-import * as S from './styles'
-import { fetchBalances } from 'actions/networkAction';
+import {fetchBalances} from 'actions/networkAction';
+import * as S from './styles';
 
-import { TableHeader } from 'components/global/table'
-import { CheckboxWithLabel } from 'components/global/checkbox'
-import { tableHeaderOptions } from './consts'
-import { Typography } from 'components/global/typography'
-import { toLayer } from './types'
+import {CheckboxWithLabel} from 'components/global/checkbox';
+import {TableHeader} from 'components/global/table';
+import {Typography} from 'components/global/typography';
+import {tableHeaderOptions} from './consts';
+import {toLayer} from './types';
 
-import { BridgeTooltip } from './tooltips'
-import { setConnectBOBA, setConnectETH } from 'actions/setupAction';
+import {setConnectBOBA,setConnectETH} from 'actions/setupAction';
+import {BridgeTooltip} from './tooltips';
 
 const Earn = () => {
   const dispatch = useDispatch();
@@ -70,7 +69,6 @@ const Earn = () => {
 
   const baseEnabled = useSelector(selectBaseEnabled())
   const accountEnabled = useSelector(selectAccountEnabled())
-  const chainIdChanged = useSelector(selectChainIdChanged())
   const networkName = useSelector(selectActiveNetworkName())
 
   const [showMDO, setShowMDO] = useState(false)

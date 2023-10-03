@@ -627,7 +627,7 @@ class NetworkService {
     }
   }
 
-  async initializeAccount({chainIdChanged}) {
+  async initializeAccount() {
 
     try {
 
@@ -642,10 +642,7 @@ class NetworkService {
       this.chainId = (await this.provider.getNetwork()).chainId
       this.account = await this.provider.getSigner().getAddress()
 
-      let chainId = chainIdChanged
-      if (!chainId) {
-        chainId = await this.provider.getNetwork().then(nt => nt.chainId)
-      }
+      let chainId = await this.provider.getNetwork().then(nt => nt.chainId)
 
       // defines the set of possible networks along with chainId for L1 and L2
       const networkDetail = getNetworkDetail({
