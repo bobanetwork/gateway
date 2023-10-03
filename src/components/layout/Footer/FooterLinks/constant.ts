@@ -13,8 +13,7 @@ export const FOOTERLINKS: Array<LinkProps> = [
   },
   {
     label: 'Dev Tools',
-    path: ROUTES_PATH.DEV_TOOLS,
-    isNav: true,
+    path: 'https://docs.boba.network/for-developers',
   },
   {
     label: 'Bobascope',
