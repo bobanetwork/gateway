@@ -1,0 +1,65 @@
+name: Release Pull Request
+
+on:
+  workflow_dispatch: 
+    inputs: 
+      target_Version:
+        description: 'What is the release version?'
+        required: true
+      last_release_pr:
+        description: 'What is the last release PR?'
+        required: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Git User
+        run: |
+            git config --global user.name noreply@github.com
+            git config --global user.email ${{ github.actor }}@users.noreply.github.com
+      - name: Run
+        run: |
+          git fetch
+          #this might break if there's more then 400 commits in a PR
+          LAST_COMMIT=$(gh api   -H "Accept: application/vnd.github+json"   -H "X-GitHub-Api-Version: 2022-11-28"   /repos/bobanetwork/gateway/pulls/${{ github.event.inputs.last_release_pr }}/commits?per_page=400 | jq '.[-1].commit.message' | grep -o -E -e "[0-9a-f]{40}")
+          echo 'LAST_COMMIT'
+          echo $LAST_COMMIT
+          TIP_OF_MAIN=$(gh api   -H "Accept: application/vnd.github+json"   -H "X-GitHub-Api-Version: 2022-11-28"   /repos/bobanetwork/gateway/commits?per_page=1 | jq '.[-1].sha' | tr -d '"')
+          echo 'TIP_OF_MAIN'
+          echo $TIP_OF_MAIN
+          git checkout master
+          #git checkout -b release/${{ github.event.inputs.target_version }}
+          echo $(git rev-list --reverse --ancestry-path $LAST_COMMIT..$TIP_OF_MAIN)
+          git rev-list --reverse --ancestry-path $LAST_COMMIT..$TIP_OF_MAIN | sed 's/^/git cherry-pick -x /' > commits.txt
+          echo $(git rev-list --reverse --ancestry-path $LAST_COMMIT..$TIP_OF_MAIN | sed 's/^/git cherry-pick -x /')
+          echo $(cat commits.txt)
+          while read -r line; do eval $line; done < commits.txt
+          rm commits.txt
+          #git push origin release/${{ github.event.inputs.target_version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          base: master
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          commit-message: New release ${{ github.event.inputs.target_version }}
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: release/${{ github.event.inputs.target_version }}
+          delete-branch: true
+          title: 'New release'
+          body: New release
+          labels: release
+          reviewers: |
+            sk-enya
+            alvaro-ricotta
+          draft: false
