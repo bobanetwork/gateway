@@ -36,7 +36,11 @@ import {
   TokenSymbol,
 } from './styles'
 import { formatTokenAmount } from 'util/common'
-import { NetworkList } from '../../../util/network/network.util'
+import {
+  NETWORK,
+  NETWORK_TYPE,
+  NetworkList,
+} from '../../../util/network/network.util'
 import Tooltip from 'components/tooltip/Tooltip'
 import networkService from 'services/networkService'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
@@ -89,10 +93,15 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
     const destChainId = NetworkList[activeNetworkType].find(
       (n) => n.chain === activeNetwork
     ).chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
-    const isSupported = await dispatch(
-      isTeleportationOfAssetSupported(layer, token.address, destChainId)
-    )
-    dispatch(setTeleportationOfAssetSupported(isSupported))
+    if (
+      activeNetwork === NETWORK.ETHEREUM &&
+      activeNetworkType === NETWORK_TYPE.TESTNET
+    ) {
+      const isSupported = await dispatch(
+        isTeleportationOfAssetSupported(layer, token.address, destChainId)
+      )
+      dispatch(setTeleportationOfAssetSupported(isSupported))
+    }
     handleClose()
   }
 
