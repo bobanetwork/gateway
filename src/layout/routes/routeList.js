@@ -11,6 +11,7 @@ const EarnWrapper = React.lazy(() => import('containers/earn/EarnWrapper'));
 const Home = React.lazy(() => import('containers/home/Home'));
 const SaveWrapper = React.lazy(() => import('containers/save/SaveWrapper'));
 const History = React.lazy(() => import('containers/history/History'));
+const Faucet = React.lazy(() => import('containers/Faucet'));
 
 export const COMMON_ROUTES = [
   {
@@ -39,6 +40,11 @@ export const ROUTE_LIST = [
         path: ROUTES_PATH.BRIDGE,
         element: <Bridging />,
         key: 'Bridge',
+      },
+      {
+        path: ROUTES_PATH.FAUCET,
+        element: <Faucet />,
+        key: 'Faucet',
       },
       {
         path: ROUTES_PATH.HISTORY,

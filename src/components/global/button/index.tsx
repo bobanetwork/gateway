@@ -13,6 +13,7 @@ export const Button: FC<ButtonTypes> = ({
   label,
   onClick,
   style,
+  fullWidth = false,
 }) => {
   return (
     <ButtonContainer
@@ -27,6 +28,7 @@ export const Button: FC<ButtonTypes> = ({
       onClick={!disable ? onClick : () => {}}
       className={className}
       label={label}
+      fullWidth={fullWidth}
     >
       {loading && <SpinLoader />} {label}
     </ButtonContainer>

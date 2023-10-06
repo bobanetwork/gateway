@@ -1,10 +1,16 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { ButtonTypes } from './types'
 export const ButtonContainer = styled.button.withConfig({
   shouldForwardProp: (prop) =>
-    !['loading', 'disable', 'small', 'outline', 'transparent', 'tiny'].includes(
-      prop
-    ),
+    ![
+      'loading',
+      'disable',
+      'small',
+      'outline',
+      'transparent',
+      'tiny',
+      'fullWidth',
+    ].includes(prop),
 })<ButtonTypes>`
   display: flex;
   flex-direction: row;
@@ -48,6 +54,12 @@ export const ButtonContainer = styled.button.withConfig({
     cursor:default;
   `}
 
+  ${(props) =>
+    props.fullWidth &&
+    css`
+      width: 100%;
+    `}
+  
   ${(props) =>
     !props.disable &&
     `

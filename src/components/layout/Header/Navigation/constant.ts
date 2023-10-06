@@ -7,6 +7,10 @@ export const MENU_LIST: Array<IMenuItem> = [
     path: ROUTES_PATH.BRIDGE,
   },
   {
+    label: 'Faucet',
+    path: ROUTES_PATH.FAUCET,
+  },
+  {
     label: 'History',
     path: ROUTES_PATH.HISTORY,
   },

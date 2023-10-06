@@ -7,6 +7,7 @@ type ButtonType = {
   outline?: boolean
   tiny?: boolean
   transparent?: boolean
+  fullWidth?: boolean
 }
 
 export interface ButtonTypes extends ButtonType {

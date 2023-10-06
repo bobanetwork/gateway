@@ -64,6 +64,7 @@ export const EXPIRY_OPTIONS: ExpiryOptionType[] = [
 
 type RoutesPathType = {
   BRIDGE: string
+  FAUCET: string
   HISTORY: string
   EARN: string
   LOCK: string
@@ -77,6 +78,7 @@ type RoutesPathType = {
 
 export const ROUTES_PATH: RoutesPathType = {
   BRIDGE: '/bridge',
+  FAUCET: '/faucet',
   HISTORY: '/history',
   EARN: '/earn',
   LOCK: '/lock',
@@ -91,13 +93,20 @@ export const ROUTES_PATH: RoutesPathType = {
 export const PER_PAGE: number = 8
 
 type Network = 'ethereum' | 'bnb' | 'avax' //we move this to global network type once we define this
-type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO' | 'Monster'
+type Page =
+  | 'Bridge'
+  | 'Faucet'
+  | 'History'
+  | 'Earn'
+  | 'Stake'
+  | 'DAO'
+  | 'Monster'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
-  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
-  bnb: ['Bridge', 'Earn', 'History'],
-  avax: ['Bridge', 'Earn', 'History'],
+  ethereum: ['Bridge', 'Faucet', 'History', 'Earn', 'Stake', 'DAO'],
+  bnb: ['Bridge', 'Faucet', 'Earn', 'History'],
+  avax: ['Bridge', 'Faucet', 'Earn', 'History'],
 }
 
 export enum Layer {
