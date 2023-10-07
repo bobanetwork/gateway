@@ -274,7 +274,7 @@ export default class Page extends Base {
         // call classes.get() to make this a plain array
         expect(links.get()).to.deep.eq([
           'https://docs.boba.network/faq',
-          '/devtools',
+          'https://docs.boba.network/for-developers',
           '/bobascope',
           'https://boba.network',
           'https://boba.network/terms-of-use/',
