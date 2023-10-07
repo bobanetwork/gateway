@@ -10,6 +10,7 @@ export default class Page extends Base {
   store: ReduxStore
   walletConnectButtonText: string
   id: string
+  title: string
   constructor() {
     super()
     this.store = new ReduxStore()
@@ -17,6 +18,7 @@ export default class Page extends Base {
     this.footer = new PageFooter()
     this.id = 'header'
     this.walletConnectButtonText = 'Connect Wallet'
+    this.title = 'Bridge'
   }
 
   visit() {
@@ -329,5 +331,8 @@ export default class Page extends Base {
   checkCopyrightAndVersion() {
     this.footer.getCompanyInfo().should('be.visible')
     this.footer.getVersionInfo().should('be.visible')
+  }
+  checkTitle() {
+    this.withinPage().contains(this.title).should('exist')
   }
 }

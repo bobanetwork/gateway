@@ -1,6 +1,6 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
-import { Layer } from '../../../src/util/constant'
+import { Layer } from './base/constants'
 import { ReduxStore } from './base/store'
 
 export default class Bridge extends Page {
@@ -9,6 +9,7 @@ export default class Bridge extends Page {
     this.id = 'bridge'
     this.store = new ReduxStore()
     this.walletConnectButtonText = 'Connect Wallet'
+    this.title = 'Bridge'
   }
 
   switchNetworkType(network: string, isTestnet: boolean, newNetwork: boolean) {
@@ -120,5 +121,8 @@ export default class Bridge extends Page {
       .find('div[aria-label=closeModalIcon]')
       .should('have.length', 1)
       .click()
+  }
+  checkDescription() {
+    this.withinPage()
   }
 }
