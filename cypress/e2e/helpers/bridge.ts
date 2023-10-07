@@ -122,7 +122,4 @@ export default class Bridge extends Page {
       .should('have.length', 1)
       .click()
   }
-  checkDescription() {
-    this.withinPage()
-  }
 }
