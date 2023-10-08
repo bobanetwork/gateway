@@ -48,14 +48,6 @@ const useSwitchChain = () => {
           currChainIds.L2 === teleportationDestChainId
         currChainId = currChainIds[layer]
       }
-      console.log(
-        'same chain: ',
-        currChainId,
-        isOnSameChain,
-        bridgeType === BRIDGE_TYPE.LIGHT &&
-          teleportationDestChainId &&
-          !isOnSameChain
-      )
 
       if (
         bridgeType === BRIDGE_TYPE.LIGHT &&
@@ -71,13 +63,6 @@ const useSwitchChain = () => {
           )
           return
         }
-        console.log({
-          network: prevDestChainNetwork.chain,
-          name: prevDestChainNetwork.name,
-          networkIcon: prevDestChainNetwork.icon,
-          chainIds: teleportationDestChainId,
-          networkType: prevDestChainNetwork.networkType,
-        })
 
         dispatch(
           setNetwork({
