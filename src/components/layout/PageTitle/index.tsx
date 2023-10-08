@@ -17,7 +17,7 @@ export const PageTitle: FC<PageTitleTypes> = ({ title, slug }) => {
   }
 
   return (
-    <PageTitleContainer>
+    <PageTitleContainer id={'title'}>
       <Title variant="h1">{pageTitle || title}</Title>
       {slug || (pageSlug && <Slug variant="body1">{pageSlug || slug}</Slug>)}
     </PageTitleContainer>

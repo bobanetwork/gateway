@@ -1,13 +1,11 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
 import { Layer } from './base/constants'
-import { ReduxStore } from './base/store'
 
 export default class Bridge extends Page {
   constructor() {
     super()
     this.id = 'bridge'
-    this.store = new ReduxStore()
     this.walletConnectButtonText = 'Connect Wallet'
     this.title = 'Bridge'
   }

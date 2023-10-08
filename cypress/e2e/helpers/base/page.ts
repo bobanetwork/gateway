@@ -27,6 +27,9 @@ export default class Page extends Base {
   withinPage() {
     return cy.get(`#${this.id}`)
   }
+  getTitle() {
+    return cy.get(`#title`)
+  }
 
   connectWallet() {
     this.withinPage()
@@ -333,6 +336,10 @@ export default class Page extends Base {
     this.footer.getVersionInfo().should('be.visible')
   }
   checkTitle() {
-    this.withinPage().contains(this.title).should('exist')
+    if (this.id === 'bridge') {
+      this.withinPage().contains(this.title).should('exist')
+    } else {
+      this.getTitle().contains(this.title).should('exist')
+    }
   }
 }
