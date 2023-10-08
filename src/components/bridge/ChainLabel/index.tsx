@@ -66,7 +66,7 @@ export const ChainLabel = ({ direction }: ChainLabelInterface) => {
   }
 
   let toChainLabel = toL2 ? <L2ChainLabel /> : <L1ChainLabel />
-  if (bridgeType === BRIDGE_TYPE.TELEPORTATION && !!teleportationDestChainId) {
+  if (bridgeType === BRIDGE_TYPE.LIGHT && !!teleportationDestChainId) {
     toChainLabel = <TeleportationDestChainLabel />
   }
 

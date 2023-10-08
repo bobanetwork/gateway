@@ -83,7 +83,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
 
   const teleportationDestChainId = useSelector(selectDestChainIdTeleportation())
 
-  if (bridgeType === BRIDGE_TYPE.TELEPORTATION && !!teleportationDestChainId) {
+  if (bridgeType === BRIDGE_TYPE.LIGHT && !!teleportationDestChainId) {
     // light bridge/teleportation allows for independent network selection
     const targetNetwork = CHAIN_ID_LIST[teleportationDestChainId]
     const NetworkIcon =

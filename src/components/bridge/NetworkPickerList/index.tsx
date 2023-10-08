@@ -77,7 +77,7 @@ export const NetworkList: FC<NetworkListProps> = ({
     close()
   }
 
-  const getNetworkItem = (chainDetail: INetwork, layer) => {
+  const getNetworkItem = (chainDetail: INetwork, layer: string) => {
     if (
       useIndependentDestNetwork &&
       activeNetwork === chainDetail.chain &&
@@ -90,10 +90,15 @@ export const NetworkList: FC<NetworkListProps> = ({
     const CurrentIcon =
       layer === 'l1' ? l1Icon[chainDetail.icon] : l2Icon[chainDetail.icon]
 
+    const selected =
+      useIndependentDestNetwork && currTeleportationDestChainId
+        ? currTeleportationDestChainId ===
+          chainDetail.chainId[layer?.toUpperCase()]
+        : chainDetail.chain === activeNetwork && currentLayer === layer
     return (
       <NetworkItem
-        selected={chainDetail.chain === activeNetwork && currentLayer === layer}
-        key={`${chainDetail.label}_${layer}`}
+        selected={selected}
+        key={`${chainDetail.label}_${layer}_${chainDetail.key}`}
         onClick={() => onChainChange(chainDetail, layer)}
       >
         <NetworkIcon>
@@ -108,12 +113,12 @@ export const NetworkList: FC<NetworkListProps> = ({
     <NetworkPickerList>
       {networks.map((chainDetail: INetwork) => {
         return (
-          <>
+          <React.Fragment key={chainDetail.key}>
             {getNetworkItem(chainDetail, currentLayer)}
             {useIndependentDestNetwork
               ? getNetworkItem(chainDetail, currentLayer === 'l1' ? 'l2' : 'l1')
               : null}
-          </>
+          </React.Fragment>
         )
       })}
     </NetworkPickerList>

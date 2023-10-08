@@ -86,7 +86,7 @@ const useBridgeAlerts = () => {
   const LPLiquidity = useSelector(selectL1LPLiquidity)
 
   useEffect(() => {
-    if (bridgeType === BRIDGE_TYPE.TELEPORTATION) {
+    if (bridgeType === BRIDGE_TYPE.LIGHT) {
       if (!tokenForTeleportationSupported.supported) {
         dispatch(
           clearBridgeAlert({
@@ -229,7 +229,7 @@ const useBridgeAlerts = () => {
         keys: [ALERT_KEYS.FAST_EXIT_ERROR],
       })
     )
-    if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.TELEPORTATION) {
+    if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
       // trigger only when withdrawing funds.
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))

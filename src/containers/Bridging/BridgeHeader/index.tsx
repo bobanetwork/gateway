@@ -58,6 +58,14 @@ const BridgeHeader = (props: Props) => {
                 A swap-based bridge to Boba L2. This option is only available if
                 the pool balance is sufficient.
               </ValueStyle>
+              <br />
+              <br />
+              <LabelStyle>Light Bridge</LabelStyle>
+              <br />
+              <ValueStyle>
+                Bridge assets instantaneously and even between L2's. This option
+                is only available for a few selected assets (mostly BOBA).
+              </ValueStyle>
             </>
           }
         >
