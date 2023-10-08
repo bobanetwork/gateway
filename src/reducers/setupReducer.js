@@ -31,7 +31,7 @@ const initialState = {
   connectBOBA: false,
   connect: false,
   walletConnected: false,
-  chainIdChanged: false,
+  chainIdChanged: null,
   networkChanged: false,
 }
 
@@ -111,7 +111,7 @@ function setupReducer(state = initialState, action) {
     case 'SETUP/CHAINIDCHANGED/RESET':
       return {
         ...state,
-        chainIdChanged: false
+        chainIdChanged: null
       }
     default:
       return state

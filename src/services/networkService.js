@@ -402,9 +402,15 @@ class NetworkService {
         activeL1RpcURL
       )
 
-      this.L2Provider = new ethers.providers.StaticJsonRpcProvider(
-        networkDetail['L2']['rpcUrl']
-      )
+      let activeL2RpcURL = networkDetail[ 'L2' ][ 'rpcUrl' ][ 0 ]
+      for (const rpcURL of networkDetail[ 'L2' ][ 'rpcUrl' ]) {
+        if (await pingRpcUrl(rpcURL)) {
+          activeL1RpcURL = rpcURL
+          break
+        }
+      }
+
+      this.L2Provider = new ethers.providers.StaticJsonRpcProvider(activeL2RpcURL)
 
       this.L1NativeTokenSymbol = networkDetail['L1']['symbol']
       this.L1NativeTokenName = networkDetail['L1']['tokenName'] || this.L1NativeTokenSymbol
@@ -438,7 +444,6 @@ class NetworkService {
       }
 
       this.addresses = addresses
-      console.log("LOADED ADDRESSES", this.addresses)
 
       // this.AddressManagerAddress = nw[networkGateway].addressManager
       // console.log("AddressManager address:",this.AddressManagerAddress)
@@ -622,7 +627,7 @@ class NetworkService {
     }
   }
 
-  async initializeAccount({chainIdChanged}) {
+  async initializeAccount() {
 
     try {
 
@@ -637,10 +642,7 @@ class NetworkService {
       this.chainId = (await this.provider.getNetwork()).chainId
       this.account = await this.provider.getSigner().getAddress()
 
-      let chainId = chainIdChanged
-      if (!chainId) {
-        chainId = await this.provider.getNetwork().then(nt => nt.chainId)
-      }
+      let chainId = await this.provider.getNetwork().then(nt => nt.chainId)
 
       // defines the set of possible networks along with chainId for L1 and L2
       const networkDetail = getNetworkDetail({

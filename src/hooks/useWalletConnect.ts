@@ -1,4 +1,4 @@
-import { fetchTransactions, addTokenList } from 'actions/networkAction'
+import { addTokenList } from 'actions/networkAction'
 import {
   setConnect,
   setConnectBOBA,
@@ -19,7 +19,6 @@ import {
   selectConnectETH,
   selectConnectBOBA,
   selectConnect,
-  selectChainIdChanged,
 } from 'selectors'
 import networkService from 'services/networkService'
 import { DISABLE_WALLETCONNECT, LAYER } from 'util/constant'
@@ -36,7 +35,6 @@ export const useWalletConnect = () => {
   const connectETHRequest = useSelector(selectConnectETH())
   const connectBOBARequest = useSelector(selectConnectBOBA())
   const connectRequest = useSelector(selectConnect())
-  const chainIdChanged = useSelector(selectChainIdChanged())
 
   /**
    * @triggerInit
@@ -45,13 +43,12 @@ export const useWalletConnect = () => {
 
   const triggerInit = useCallback(() => {
     const initAccount = async () => {
-      const initialized = await networkService.initializeAccount({
-        chainIdChanged,
-      })
+      const initialized = await networkService.initializeAccount()
       if (initialized === 'nometamask') {
         dispatch(openModal('noMetaMaskModal'))
         return false
       } else if (initialized === 'wrongnetwork') {
+        dispatch(openModal('wrongNetworkModal'))
         return false
       } else if (initialized === false) {
         dispatch(setEnableAccount(false))
@@ -61,7 +58,6 @@ export const useWalletConnect = () => {
         dispatch(setLayer(initialized))
         dispatch(setEnableAccount(true))
         dispatch(setWalletAddress(networkService.account))
-        dispatch(fetchTransactions())
         dispatch(addTokenList())
         return true
       } else {
@@ -69,17 +65,10 @@ export const useWalletConnect = () => {
       }
     }
 
-    if ((!accountEnabled && baseEnabled) || chainIdChanged) {
+    if (!accountEnabled && baseEnabled) {
       initAccount()
     }
-  }, [
-    dispatch,
-    accountEnabled,
-    network,
-    networkType,
-    baseEnabled,
-    chainIdChanged,
-  ])
+  }, [dispatch, accountEnabled, network, networkType, baseEnabled])
 
   // do connect layer.
   const doConnectToLayer = useCallback(
