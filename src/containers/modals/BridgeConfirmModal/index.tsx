@@ -9,7 +9,7 @@ import {
 } from './index.styles'
 import { closeModal } from 'actions/uiAction'
 import Modal from 'components/modal/Modal'
-import React, { FC, JSX } from 'react'
+import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkIcon,
