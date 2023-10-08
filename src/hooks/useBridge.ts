@@ -49,7 +49,7 @@ export const useBridge = () => {
       (n) => n.chain === activeNetwork
     )?.chainId[destLayer]
 
-  if (bridgeType === BRIDGE_TYPE.TELEPORTATION && !destChainIdBridge) {
+  if (bridgeType === BRIDGE_TYPE.LIGHT && !destChainIdBridge) {
     dispatch(openError('Failed to get destination chain id'))
     console.error(
       'Destination chainId is undefined, this should never happen: ',
@@ -150,7 +150,7 @@ export const useBridge = () => {
         receipt = await triggerDeposit(amountWei)
       } else if (bridgeType === BRIDGE_TYPE.FAST) {
         receipt = await triggerFastDeposit(amountWei)
-      } else if (bridgeType === BRIDGE_TYPE.TELEPORTATION) {
+      } else if (bridgeType === BRIDGE_TYPE.LIGHT) {
         receipt = await triggerTeleportAsset(amountWei, destChainIdBridge!)
       }
     } else {
@@ -158,7 +158,7 @@ export const useBridge = () => {
         receipt = await triggerExit(amountWei)
       } else if (bridgeType === BRIDGE_TYPE.FAST) {
         receipt = await triggerFastExit(amountWei)
-      } else if (bridgeType === BRIDGE_TYPE.TELEPORTATION) {
+      } else if (bridgeType === BRIDGE_TYPE.LIGHT) {
         receipt = await triggerTeleportAsset(amountWei, destChainIdBridge!)
       }
     }

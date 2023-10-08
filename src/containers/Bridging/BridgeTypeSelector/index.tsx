@@ -12,7 +12,7 @@ import { NETWORK_TYPE } from '../../../util/network/network.util'
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
   FAST = 'FAST',
-  TELEPORTATION = 'TELEPORTATION',
+  LIGHT = 'LIGHT',
 }
 const BridgeTypeSelector = () => {
   const dispatch = useDispatch<any>()
@@ -43,10 +43,10 @@ const BridgeTypeSelector = () => {
 
       {isTestnet ? (
         <BridgeTabItem
-          active={bridgeType === BRIDGE_TYPE.TELEPORTATION}
-          onClick={() => onTabClick(BRIDGE_TYPE.TELEPORTATION)}
+          active={bridgeType === BRIDGE_TYPE.LIGHT}
+          onClick={() => onTabClick(BRIDGE_TYPE.LIGHT)}
         >
-          Now
+          Light
         </BridgeTabItem>
       ) : null}
     </BridgeTabs>

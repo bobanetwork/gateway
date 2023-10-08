@@ -42,7 +42,7 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
       <InprogressContainer>
         <ProgressLoader />
         <Heading variant="h1">Bridging...</Heading>
-        {layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.TELEPORTATION ? (
+        {layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT ? (
           <BlockConfirmation onClose={handleClose} />
         ) : (
           <>

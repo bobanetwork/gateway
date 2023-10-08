@@ -117,7 +117,7 @@ const Chains = (props: Props) => {
 
   let toChainLabel =
     !layer || layer === LAYER.L1 ? <L2ChainInfo /> : <L1ChainInfo />
-  if (bridgeType === BRIDGE_TYPE.TELEPORTATION && !!teleportationDestChainId) {
+  if (bridgeType === BRIDGE_TYPE.LIGHT && !!teleportationDestChainId) {
     // light bridge/teleportation allows for independent network selection
     toChainLabel = <TeleportationDestChainInfo />
   }
@@ -139,7 +139,7 @@ const Chains = (props: Props) => {
         <SectionLabel>To</SectionLabel>
         <ChainPicker
           onClick={() =>
-            openNetworkPicker('l2', bridgeType === BRIDGE_TYPE.TELEPORTATION)
+            openNetworkPicker('l2', bridgeType === BRIDGE_TYPE.LIGHT)
           }
         >
           {toChainLabel}
