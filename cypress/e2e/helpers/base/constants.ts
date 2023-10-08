@@ -36,9 +36,4 @@ export const AvalancheTestnet: MetamaskNetwork = {
   isTestnet: true,
 }
 
-export enum Layer {
-  L1 = 'L1',
-  L2 = 'L2',
-}
-
 // Update the configs for boba networks TESTNET / MAINNET

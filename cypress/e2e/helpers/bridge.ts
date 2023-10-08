@@ -1,6 +1,6 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
-import { Layer } from './base/constants'
+import { Layer } from '../../../src/util/constant'
 
 export default class Bridge extends Page {
   constructor() {
