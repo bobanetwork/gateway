@@ -13,8 +13,13 @@ import {
 import { SwitchButton } from 'components/global'
 import { setActiveNetworkType } from 'actions/networkAction'
 import { NETWORK_TYPE } from 'util/network/network.util'
-import { selectActiveNetworkType, selectBridgeToAddressState } from 'selectors'
+import {
+  selectActiveNetworkType,
+  selectBridgeToAddressState,
+  selectBridgeType,
+} from 'selectors'
 import { setBridgeToAddress } from 'actions/bridgeAction'
+import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 
 interface SettingsModalProps {
   open: boolean
@@ -24,6 +29,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const bridgeToAddressEnable = useSelector(selectBridgeToAddressState())
+  const bridgeType = useSelector(selectBridgeType())
 
   const handleClose = () => {
     dispatch(closeModal('settingsModal'))
@@ -64,20 +70,23 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
             />
           </SettingsAction>
         </SettingsItem>
-        <SettingsItem>
-          <SettingsText>
-            <SettingTitle>Add Destination Address</SettingTitle>
-            <SettingSubTitle>
-              Allows you to transfer to a different address
-            </SettingSubTitle>
-          </SettingsText>
-          <SettingsAction>
-            <SwitchButton
-              isActive={bridgeToAddressEnable}
-              onStateChange={onChangeDestinationAddress}
-            />
-          </SettingsAction>
-        </SettingsItem>
+        {/* Custom destination address seems to be only available for classic bridge */}
+        {bridgeType === BRIDGE_TYPE.CLASSIC ? (
+          <SettingsItem>
+            <SettingsText>
+              <SettingTitle>Add Destination Address</SettingTitle>
+              <SettingSubTitle>
+                Allows you to transfer to a different address
+              </SettingSubTitle>
+            </SettingsText>
+            <SettingsAction>
+              <SwitchButton
+                isActive={bridgeToAddressEnable}
+                onStateChange={onChangeDestinationAddress}
+              />
+            </SettingsAction>
+          </SettingsItem>
+        ) : null}
         <SettingsItem></SettingsItem>
       </SettingsWrapper>
     </Modal>

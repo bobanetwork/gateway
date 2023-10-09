@@ -81,7 +81,15 @@ import { graphQLService } from "./graphql.service"
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
 import { isDevBuild, Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
-import {CHAIN_ID_LIST, getNetworkDetail, getRpcUrl, NETWORK, NETWORK_TYPE, pingRpcUrl} from 'util/network/network.util'
+import {
+  CHAIN_ID_LIST,
+  getNetworkDetail,
+  getRpcUrl,
+  NETWORK,
+  NETWORK_TYPE,
+  networkLimitedAvailability,
+  pingRpcUrl
+} from 'util/network/network.util'
 import appService from './app.service'
 import walletService from './wallet.service'
 
@@ -379,7 +387,6 @@ class NetworkService {
       network,
       networkType
     })
-
     this.networkConfig = networkDetail;
 
     try {
@@ -463,161 +470,167 @@ class NetworkService {
         if (!(await this.getAddressCached(this.addresses, 'Proxy__BobaFixedSavings', 'BobaFixedSavings'))) return
       }
 
-      if (!(await this.getAddressCached(this.addresses, 'Proxy__L1CrossDomainMessenger', 'L1MessengerAddress'))) return
-      if (!(await this.getAddressCached(this.addresses, 'Proxy__L1CrossDomainMessengerFast', 'L1FastMessengerAddress'))) return
-      if (!(await this.getAddressCached(this.addresses, 'Proxy__L1StandardBridge', 'L1StandardBridgeAddress'))) return
-      if (!(await this.getAddressCached(this.addresses, 'Proxy__Boba_GasPriceOracle', 'Boba_GasPriceOracle'))) return
+      const isLimitedNetwork = networkLimitedAvailability(networkType, network);
+
+      if (!isLimitedNetwork) {
+        if (!(await this.getAddressCached(this.addresses, 'Proxy__L1CrossDomainMessenger', 'L1MessengerAddress'))) return
+        if (!(await this.getAddressCached(this.addresses, 'Proxy__L1CrossDomainMessengerFast', 'L1FastMessengerAddress'))) return
+        if (!(await this.getAddressCached(this.addresses, 'Proxy__L1StandardBridge', 'L1StandardBridgeAddress'))) return
+        if (!(await this.getAddressCached(this.addresses, 'Proxy__Boba_GasPriceOracle', 'Boba_GasPriceOracle'))) return
+      }
 
       // not critical
       this.getAddressCached(this.addresses, 'DiscretionaryExitFee', 'DiscretionaryExitFee')
 
-      this.L1StandardBridgeContract = new ethers.Contract(
-        this.addresses.L1StandardBridgeAddress,
-        L1StandardBridgeABI,
-        this.L1Provider
-      )
+      if (!isLimitedNetwork) {
+        this.L1StandardBridgeContract = new ethers.Contract(
+            this.addresses.L1StandardBridgeAddress,
+            L1StandardBridgeABI,
+            this.L1Provider
+        )
 
-      const tokenList = {}
+        const tokenList = {}
 
-      this.supportedTokens.forEach((key) => {
-        const L1a = this.addresses['TK_L1' + key]
-        const L2a = this.addresses['TK_L2' + key]
+        this.supportedTokens.forEach((key) => {
+          const L1a = this.addresses['TK_L1' + key]
+          const L2a = this.addresses['TK_L2' + key]
 
-        if (key === 'xBOBA') {
-          if (L2a === ERROR_ADDRESS) {
+          if (key === 'xBOBA') {
+            if (L2a === ERROR_ADDRESS) {
+              return false
+            } else {
+              tokenList[key] = {
+                'L1': 'xBOBA',
+                'L2': L2a
+              }
+            }
+          }
+
+          // NOTE: if not in address manager then refer it from token assets config.
+          if (typeof L1a === 'undefined' || typeof L2a === 'undefined') {
+            if (typeof this.supportedTokenAddresses[key] !== 'undefined') {
+              tokenList[key] = this.supportedTokenAddresses[key]
+            }
             return false
           } else {
             tokenList[key] = {
-              'L1': 'xBOBA',
+              'L1': L1a,
               'L2': L2a
             }
           }
+        })
+
+        this.tokenAddresses = tokenList
+        allTokens = tokenList;
+
+        if (this.addresses.L2StandardBridgeAddress !== null) {
+          this.L2StandardBridgeContract = new ethers.Contract(
+              this.addresses.L2StandardBridgeAddress,
+              L2StandardBridgeJson.abi,
+              this.L2Provider
+          )
         }
 
-        // NOTE: if not in address manager then refer it from token assets config.
-        if (typeof L1a === 'undefined' || typeof L2a === 'undefined') {
-          if (typeof this.supportedTokenAddresses[key] !== 'undefined') {
-            tokenList[key] = this.supportedTokenAddresses[key]
-          }
-          return false
-        } else {
-          tokenList[key] = {
-            'L1': L1a,
-            'L2': L2a
-          }
+        this.L2_ETH_Contract = new ethers.Contract(
+            this.addresses.L2_ETH_Address,
+            L2ERC20Json.abi,
+            this.L2Provider
+        )
+
+        /*The test token*/
+        this.L1_TEST_Contract = new ethers.Contract(
+            allTokens.BOBA.L1, //this will get changed anyway when the contract is used
+            L1ERC20Json.abi,
+            this.L1Provider
+        )
+
+        this.L2_TEST_Contract = new ethers.Contract(
+            allTokens.BOBA.L2, //this will get changed anyway when the contract is used
+            L2ERC20Json.abi,
+            this.L2Provider
+        )
+
+        // Teleportation
+        if (this.addresses.Proxy__L1Teleportation) {
+          // not deployed on mainnets yet
+          this.Teleportation = new ethers.Contract(
+              // correct one is used accordingly
+              this.addresses.Proxy__L1Teleportation,
+              TeleportationJson.abi,
+          )
         }
-      })
 
-      this.tokenAddresses = tokenList
-      allTokens = tokenList;
+        // Liquidity pools
 
-      if (this.addresses.L2StandardBridgeAddress !== null) {
-        this.L2StandardBridgeContract = new ethers.Contract(
-          this.addresses.L2StandardBridgeAddress,
-          L2StandardBridgeJson.abi,
-          this.L2Provider
+        this.L1LPContract = new ethers.Contract(
+            this.addresses.L1LPAddress,
+            L1LPJson.abi,
+            this.L1Provider
+        )
+        this.L2LPContract = new ethers.Contract(
+            this.addresses.L2LPAddress,
+            L2LPJson.abi,
+            this.L2Provider
+        )
+
+        this.watcher = new CrossChainMessenger({
+          l1SignerOrProvider: this.L1Provider,
+          l2SignerOrProvider: this.L2Provider,
+          l1ChainId: chainId,
+          fastRelayer: false,
+        })
+        this.fastWatcher = new CrossChainMessenger({
+          l1SignerOrProvider: this.L1Provider,
+          l2SignerOrProvider: this.L2Provider,
+          l1ChainId: chainId,
+          fastRelayer: true,
+        })
+
+        let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
+        if (NETWORK.ETHEREUM === network && chainId === 1) {
+          l2SecondaryFeeTokenAddress = allTokens.BOBA.L2
+        }
+        this.BobaContract = new ethers.Contract(
+            l2SecondaryFeeTokenAddress,
+            Boba.abi,
+            this.L2Provider
+        )
+
+        if (NETWORK.ETHEREUM === network) {
+          this.xBobaContract = new ethers.Contract(
+              allTokens.xBOBA.L2,
+              Boba.abi,
+              this.L2Provider
+          )
+
+          if (!(await this.getAddressCached(this.addresses, 'GovernorBravoDelegate', 'GovernorBravoDelegate'))) return
+          if (!(await this.getAddressCached(this.addresses, 'GovernorBravoDelegator', 'GovernorBravoDelegator'))) return
+
+          this.delegateContract = new ethers.Contract(
+              this.addresses.GovernorBravoDelegate,
+              GovernorBravoDelegate.abi,
+              this.L2Provider
+          )
+
+          this.delegatorContract = new ethers.Contract(
+              this.addresses.GovernorBravoDelegator,
+              GovernorBravoDelegator.abi,
+              this.L2Provider
+          )
+
+          this.delegatorContractV2 = new ethers.Contract(
+              this.addresses.GovernorBravoDelegatorV2,
+              GovernorBravoDelegator.abi,
+              this.L2Provider
+          )
+        }
+
+        this.gasOracleContract = new ethers.Contract(
+            L2GasOracle,
+            OVM_GasPriceOracleJson.abi,
+            this.L2Provider
         )
       }
-
-      this.L2_ETH_Contract = new ethers.Contract(
-        this.addresses.L2_ETH_Address,
-        L2ERC20Json.abi,
-        this.L2Provider
-      )
-
-      /*The test token*/
-      this.L1_TEST_Contract = new ethers.Contract(
-        allTokens.BOBA.L1, //this will get changed anyway when the contract is used
-        L1ERC20Json.abi,
-        this.L1Provider
-      )
-
-      this.L2_TEST_Contract = new ethers.Contract(
-        allTokens.BOBA.L2, //this will get changed anyway when the contract is used
-        L2ERC20Json.abi,
-        this.L2Provider
-      )
-
-      // Teleportation
-      if (this.addresses.Proxy__L1Teleportation) {
-        // not deployed on mainnets yet
-        this.Teleportation = new ethers.Contract(
-          // correct one is used accordingly
-          this.addresses.Proxy__L1Teleportation,
-          TeleportationJson.abi,
-        )
-      }
-
-      // Liquidity pools
-
-      this.L1LPContract = new ethers.Contract(
-        this.addresses.L1LPAddress,
-        L1LPJson.abi,
-        this.L1Provider
-      )
-      this.L2LPContract = new ethers.Contract(
-        this.addresses.L2LPAddress,
-        L2LPJson.abi,
-        this.L2Provider
-      )
-
-      this.watcher = new CrossChainMessenger({
-        l1SignerOrProvider: this.L1Provider,
-        l2SignerOrProvider: this.L2Provider,
-        l1ChainId: chainId,
-        fastRelayer: false,
-      })
-      this.fastWatcher = new CrossChainMessenger({
-        l1SignerOrProvider: this.L1Provider,
-        l2SignerOrProvider: this.L2Provider,
-        l1ChainId: chainId,
-        fastRelayer: true,
-      })
-
-      let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
-      if (NETWORK.ETHEREUM === network && chainId === 1) {
-        l2SecondaryFeeTokenAddress = allTokens.BOBA.L2
-      }
-      this.BobaContract = new ethers.Contract(
-        l2SecondaryFeeTokenAddress,
-        Boba.abi,
-        this.L2Provider
-      )
-
-      if (NETWORK.ETHEREUM === network) {
-        this.xBobaContract = new ethers.Contract(
-          allTokens.xBOBA.L2,
-          Boba.abi,
-          this.L2Provider
-        )
-
-        if (!(await this.getAddressCached(this.addresses, 'GovernorBravoDelegate', 'GovernorBravoDelegate'))) return
-        if (!(await this.getAddressCached(this.addresses, 'GovernorBravoDelegator', 'GovernorBravoDelegator'))) return
-
-        this.delegateContract = new ethers.Contract(
-          this.addresses.GovernorBravoDelegate,
-          GovernorBravoDelegate.abi,
-          this.L2Provider
-        )
-
-        this.delegatorContract = new ethers.Contract(
-          this.addresses.GovernorBravoDelegator,
-          GovernorBravoDelegator.abi,
-          this.L2Provider
-        )
-
-        this.delegatorContractV2 = new ethers.Contract(
-          this.addresses.GovernorBravoDelegatorV2,
-          GovernorBravoDelegator.abi,
-          this.L2Provider
-        )
-      }
-
-      this.gasOracleContract = new ethers.Contract(
-        L2GasOracle,
-        OVM_GasPriceOracleJson.abi,
-        this.L2Provider
-      )
 
       return 'enabled'
 
@@ -668,10 +681,9 @@ class NetworkService {
         return 'wrongnetwork'
       }
 
-
-
+      const isLimitedNetwork = CHAIN_ID_LIST[L1ChainId]?.limitedAvailability || CHAIN_ID_LIST[L2ChainId]?.limitedAvailability
       // this should not do anything unless we changed chains
-      if (this.L1orL2 === 'L2') {
+      if (this.L1orL2 === 'L2' && !isLimitedNetwork) {
         await this.getBobaFeeChoice()
       }
 
@@ -2432,7 +2444,8 @@ class NetworkService {
     }
     const networkConfig = CHAIN_ID_LIST[chainId]
     if (!networkConfig) {
-      throw new Error(`Unknown chainId to retrieve teleportation contract from: ${chainId}`)
+      console.error(`Unknown chainId to retrieve teleportation contract from: ${chainId}`)
+      return {teleportationAddr: null, networkConfig: null};
     }
     if (networkConfig.networkType !== NETWORK_TYPE.TESTNET) {
       if (isDevBuild()) {

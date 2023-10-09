@@ -121,14 +121,18 @@ limitations under the License. */
         })
         return true
       } catch (error) {
+        console.log("ERROR SWITCH: ", error.code)
         if (error.code === 4902 || this.walletType === 'walletconnect') {
           try {
+            console.log("chain info: ", chainInfo)
             await provider.request({
               method: "wallet_addEthereumChain",
               params: [chainInfo, this.account],
             })
+            console.log("request done", this.account, chainId)
             // After adding the chain, we need to call switchEthereumChain again to finish the process for WalletConnect
             if (this.walletType === 'walletconnect') {
+              console.log("switch chain: ", chainId)
               await provider.request({
                 method: "wallet_switchEthereumChain",
                 params: [{ chainId }],
@@ -136,11 +140,11 @@ limitations under the License. */
             }
             return true
           } catch (addError) {
-            console.log(`Error adding chain: ${addError}`)
+            console.log('Error adding chain:', addError)
             return false
           }
         } else {
-          console.log(`Error switching chain: ${error?.message}`)
+          console.log('Error switching chain: ', error?.message)
           return false
         }
       }

@@ -16,7 +16,7 @@ limitations under the License. */
 import { NETWORK, NETWORK_TYPE } from "util/network/network.util"
 
 /**
- * network : ethereum, bnb, avax
+ * network : ethereum, bnb, avax, optimism, arbitrum
  * networkType : mainnet, testnet.
  **/
 
@@ -46,7 +46,8 @@ function networkReducer(state = initialState, action) {
         networkType,
         networkIcon,
         chainIds,
-        name
+        name,
+        limitedAvailability
       } = action.payload;
       return {
         ...state,
@@ -54,7 +55,8 @@ function networkReducer(state = initialState, action) {
         chainIds,
         networkIcon,
         networkType,
-        name
+        name,
+        limitedAvailability,
       }
     }
     case 'NETWORK/SET_TYPE/ACTIVE': {

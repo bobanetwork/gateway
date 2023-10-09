@@ -9,6 +9,8 @@ import { CHAIN_NAME, ChainMap } from './types'
 import bobaEth from 'assets/bobaEth.svg'
 import bobaBnb from 'assets/bobaBNB.svg'
 import bobaAvax from 'assets/bobaAvax.svg'
+import optimism from 'assets/optimism.svg'
+import arbitrum from 'assets/arbitrum.svg'
 
 import ethIcon from 'assets/ethereum.svg'
 
@@ -90,6 +92,18 @@ export const Chains: ChainMap = {
     transactionUrlPrefix: 'https://blockexplorer.testnet.avax.boba.network/tx/',
     symbol: 'BOBA',
     imgSrc: bobaAvax,
+  },
+  '420': {
+    name: CHAIN_NAME.Optimism_Goerli,
+    transactionUrlPrefix: 'https://goerli-optimism.etherscan.io/tx/',
+    symbol: 'ETH',
+    imgSrc: optimism,
+  },
+  '421613': {
+    name: CHAIN_NAME.Arbitrum_Goerli,
+    transactionUrlPrefix: 'https://goerli.arbiscan.io/tx/',
+    symbol: 'ETH',
+    imgSrc: arbitrum,
   },
 }
 
@@ -176,6 +190,18 @@ export const NETWORK_L2_OPTIONS = [
     value: '4328',
     label: 'Boba Fuji',
     imgSrc: bobaAvax,
+    headerName: NETWORK_TYPE.TESTNET,
+  },
+  {
+    value: '420',
+    label: 'Optimism Goerli',
+    imgSrc: optimism,
+    headerName: NETWORK_TYPE.TESTNET,
+  },
+  {
+    value: '421613',
+    label: 'Arbitrum Goerli',
+    imgSrc: arbitrum,
     headerName: NETWORK_TYPE.TESTNET,
   },
 ]

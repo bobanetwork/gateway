@@ -265,7 +265,7 @@ export function getAllAddresses() {
 /********************************/
 /**
  * @params
- *  network - ethereum, bnb, avax
+ *  network - ethereum, bnb, avax, arbitrum, optimism
  *  networkType -  MAINNET, TESTNET
 */
 export function setNetwork(payload) {
