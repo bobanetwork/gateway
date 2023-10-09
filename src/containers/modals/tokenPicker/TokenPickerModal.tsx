@@ -93,15 +93,10 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
     const destChainId = NetworkList[activeNetworkType].find(
       (n) => n.chain === activeNetwork
     ).chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
-    if (
-      activeNetwork === NETWORK.ETHEREUM &&
-      activeNetworkType === NETWORK_TYPE.TESTNET
-    ) {
-      const isSupported = await dispatch(
-        isTeleportationOfAssetSupported(layer, token.address, destChainId)
-      )
-      dispatch(setTeleportationOfAssetSupported(isSupported))
-    }
+    const isSupported = await dispatch(
+      isTeleportationOfAssetSupported(layer, token.address, destChainId)
+    )
+    dispatch(setTeleportationOfAssetSupported(isSupported))
     handleClose()
   }
 

@@ -2463,6 +2463,17 @@ class NetworkService {
 
   async isTeleportationOfAssetSupported(layer, token, destChainId) {
     const teleportationAddr = (layer === Layer.L1 ? this.addresses.Proxy__L1Teleportation : this.addresses.Proxy__L2Teleportation)
+
+    if (!teleportationAddr) {
+      return {
+        supported: false,
+        minDepositAmount: 0,
+        maxDepositAmount: 0,
+        maxTransferAmountPerDay: 0,
+        transferredAmount: 0
+      }
+    }
+
     const contract = this.Teleportation
       .attach(teleportationAddr)
       .connect(this.provider.getSigner());
