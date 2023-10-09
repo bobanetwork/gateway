@@ -11,6 +11,7 @@ describe('Testing Entire Site', () => {
       describe('Stake Layout', () => {
         it('Should have the correct title', () => {
           stake.checkTitle()
+          stake.checkDescription()
         })
       })
     })

@@ -11,6 +11,7 @@ describe('Testing Entire Site', () => {
       describe('Dao Layout', () => {
         it('Should have the correct title', () => {
           dao.checkTitle()
+          dao.checkDescription()
         })
       })
     })

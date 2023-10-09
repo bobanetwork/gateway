@@ -3,6 +3,7 @@ import Base from './base'
 import PageHeader from './page.header'
 import PageFooter from './page.footer'
 import { ReduxStore } from './store'
+import { pageTitleWhiteList } from '../../../../src/components/layout/PageTitle/constants'
 
 export default class Page extends Base {
   header: PageHeader
@@ -153,7 +154,7 @@ export default class Page extends Base {
           '/history',
           '/earn',
           '/stake',
-          '/DAO',
+          '/dao',
         ])
 
         // get labels and verify
@@ -341,5 +342,15 @@ export default class Page extends Base {
     } else {
       this.getTitle().contains(this.title).should('exist')
     }
+  }
+  checkDescription() {
+    const webPage = pageTitleWhiteList.find(
+      (whiteListedPage) => whiteListedPage.path === '/' + this.id.toLowerCase()
+    )
+    const slogan = webPage ? webPage.slug : ''
+    if (!slogan) {
+      return assert(false)
+    }
+    this.getTitle().contains(slogan)
   }
 }

@@ -11,6 +11,7 @@ describe('Testing Entire Site', () => {
       describe('History Layout', () => {
         it('Should have the correct title', () => {
           history.checkTitle()
+          history.checkDescription()
         })
       })
     })

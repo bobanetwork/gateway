@@ -10,7 +10,9 @@ export const PageTitle: FC<PageTitleTypes> = ({ title, slug }) => {
   const currentPath = location.pathname
 
   const { title: pageTitle = '', slug: pageSlug = '' } =
-    pageTitleWhiteList.find((page) => page.path === currentPath) || {}
+    pageTitleWhiteList.find(
+      (page) => page.path === currentPath.toLowerCase()
+    ) || {}
 
   if (!title && !pageTitle) {
     return <></>
