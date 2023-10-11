@@ -32,13 +32,7 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
   }
 
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      minHeight="180px"
-      title=""
-      transparent={false}
-    >
+    <Modal open={open} onClose={handleClose} title="" transparent={false}>
       <InprogressContainer>
         <ProgressLoader />
         <Heading variant="h1">Bridging...</Heading>

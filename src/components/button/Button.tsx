@@ -14,11 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import React from 'react'
-import { CircularProgress } from '@mui/material'
-import { Button as ButtonMUI } from '@mui/material'
+import { CircularProgress, Button as ButtonMUI } from '@mui/material'
 import Tooltip from '../tooltip/Tooltip'
 
-function Button({
+const Button = ({
   children,
   style,
   onClick,
@@ -32,9 +31,11 @@ function Button({
   tooltip = '',
   size,
   className,
-  triggerTime
-}) {
-  if (disabled || loading) pulsate = false
+  triggerTime,
+}: any) => {
+  if (disabled || loading) {
+    pulsate = false
+  }
 
   let timeDefined = false
   if (typeof triggerTime !== 'undefined') {
@@ -42,7 +43,7 @@ function Button({
   }
 
   // Save the current date to be able to trigger an update
-  const [now, setTime] = React.useState(new Date())
+  const [now, setTime] = React.useState<any>(new Date())
 
   React.useEffect(() => {
     if (loading) {
@@ -56,7 +57,9 @@ function Button({
   }, [loading])
 
   let waitTime = (now - triggerTime) / 1000
-  if (waitTime < 0) waitTime = 0
+  if (waitTime < 0) {
+    waitTime = 0
+  }
   waitTime = Math.round(waitTime)
 
   const muiProps = {

@@ -211,7 +211,6 @@ class EarnWithdrawModal extends React.Component {
       <Modal
         open={open}
         onClose={()=>{this.handleClose()}}
-        maxWidth="md"
         title={`Unstake`}
 
       >

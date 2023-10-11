@@ -6,7 +6,4 @@ export interface ModalInterface {
   light?: any
   title?: any
   transparent?: any
-  maxWidth?: any
-  minHeight?: any
-  newStyle?: boolean | undefined
 }

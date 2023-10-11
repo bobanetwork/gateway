@@ -24,7 +24,6 @@ const UnsupportedNetworkModal: FC<UnsupportedNetworkModalProps> = ({
     <Modal
       open={open}
       onClose={handleClose}
-      minHeight="180px"
       title="Switch Networks"
       transparent={false}
     >

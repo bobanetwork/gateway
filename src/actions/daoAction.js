@@ -76,4 +76,8 @@ export function castProposalVote(payload) {
     return createAction('PROPOSAL/CAST/VOTE', () => networkService.castProposalVote(payload))
 }
 
+export function createTextError(payload) {
+    return createAction('SET_ERROR_TEXT', () => networkService.setErrorText(payload))
+}
+
 

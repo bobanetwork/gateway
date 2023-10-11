@@ -14,8 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import React, { useState } from 'react'
-import { Box } from '@mui/material'
-
 import { useDispatch, useSelector } from 'react-redux'
 
 import { closeModal, openAlert } from 'actions/uiAction'
@@ -26,14 +24,18 @@ import { selectLoading } from 'selectors'
 import Modal from 'components/modal/Modal'
 import { Dropdown } from 'components/global/dropdown'
 import { Button } from 'components/global/button'
+import { Container } from './styles'
+import { CastVoteModalInterface, VoteType, optionsType } from './types'
 
-const CastVoteModal = ({ open, proposalId }) => {
+const CastVoteModal: React.FC<CastVoteModalInterface> = ({
+  open,
+  proposalId,
+}) => {
+  const dispatch = useDispatch<any>()
+  const [selectedVoteType, setselectedVoteType] = useState<VoteType>(null)
+  const loading = useSelector(selectLoading(['PROPOSAL/CAST/VOTE']))
 
-  const dispatch = useDispatch()
-  const [ selectedVoteType, setselectedVoteType ] = useState(null)
-  const loading = useSelector(selectLoading([ 'PROPOSAL/CAST/VOTE' ]))
-
-  const onVoteTypeChange = (voteType) => {
+  const onVoteTypeChange = (voteType: VoteType) => {
     setselectedVoteType(voteType)
   }
 
@@ -41,55 +43,55 @@ const CastVoteModal = ({ open, proposalId }) => {
     dispatch(closeModal('castVoteModal'))
   }
 
-  const options = [
+  const options: optionsType[] = [
     { value: 0, label: 'Vote Against' },
     { value: 1, label: 'Vote For' },
-    { value: 2, label: 'Vote Abstain' }
+    { value: 2, label: 'Vote Abstain' },
   ]
 
   const submit = async () => {
-    const res = await dispatch(
-      castProposalVote({
-        id: Number(proposalId),
-        userVote: selectedVoteType.value
-      })
-    );
+    if (selectedVoteType) {
+      const res = await dispatch(
+        castProposalVote({
+          id: Number(proposalId),
+          userVote: selectedVoteType.value,
+        })
+      )
 
-    if (res) {
-      dispatch(openAlert(`Your vote has been submitted successfully.`))
+      if (res) {
+        dispatch(openAlert(`Your vote has been submitted successfully.`))
+      }
+      handleClose()
     }
-    handleClose()
   }
 
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      maxWidth="sm"
       title={`Cast Vote on proposal ${proposalId}`}
     >
-      <Box>
-
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div>
+        <Container>
           <Dropdown
             style={{ zIndex: 2 }}
-            onItemSelected={(option)=> onVoteTypeChange(option)}
+            onItemSelected={(option) => onVoteTypeChange(option as optionsType)}
             defaultItem={{
-                value: null,
-                label: 'Select a Vote type',
+              label: 'Select a Vote type',
             }}
             items={options}
           />
-
-        </Box>
-      </Box>
+        </Container>
+      </div>
       <Button
-        onClick={() => { submit() }}
+        onClick={() => {
+          submit()
+        }}
         loading={loading}
-        disabled={!selectedVoteType}
+        disable={!selectedVoteType}
         label="Submit"
       />
-    </Modal >
+    </Modal>
   )
 }
 

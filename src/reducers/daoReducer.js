@@ -14,6 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 const initialState = {
+  action: '',
+  selectedAction: '',
+  tokens: [],
+  votingThreshold: '',
+  errorText: '',
+  LPfeeMin: '',
+  LPfeeMax: '',
+  LPfeeOwn: '',
+  proposeText: '',
+  proposalUri: '',
+  loading:false,
   balance: 0,
   votes: 0,
   balanceX: 0,
@@ -25,6 +36,28 @@ const initialState = {
 
 function daoReducer(state = initialState, action) {
   switch (action.type) {
+    case 'SET_ACTION':
+      return {
+        ...state,
+        selectedAction: action.payload,
+        action: action.payload.value,
+        votingThreshold: '',
+        LPfeeMin: '',
+        LPfeeMax: '',
+        LPfeeOwn: '',
+        proposeText: '',
+        proposalUri: '',
+      }
+
+    case 'SET_ERROR_TEXT':
+      return { ...state, errorText: action.payload }
+
+      case 'SET_LOADING':
+        return { ...state, loading: action.payload }
+
+    case 'UPDATE_FIELD':
+      return { ...state, [action.field]: action.value }
+
     case 'BALANCE/DAO/GET/SUCCESS':
       return { ...state, ...action.payload }
 

@@ -155,7 +155,7 @@ function TransferModal ({ open, token }) {
   }
 
   return (
-    <Modal open={open} onClose={handleClose} maxWidth="md" minHeight="500px">
+    <Modal open={open} onClose={handleClose} >
       <Box>
 
         <Typography variant="h2" sx={{fontWeight: 700, mb: 2}}>

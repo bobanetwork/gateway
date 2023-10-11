@@ -29,10 +29,7 @@ const _Modal = ({
   onClose,
   title,
   transparent,
-  maxWidth,
-  minHeight,
   isMobile = false,
-  newStyle = false,
 }: ModalInterface) => {
   return (
     <S.StyledModal

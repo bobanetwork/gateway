@@ -302,7 +302,6 @@ class EarnDepositModal extends React.Component {
     return (
       <Modal
         open={open}
-        maxWidth="md"
         onClose={() => {
           this.handleClose()
         }}

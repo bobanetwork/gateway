@@ -87,7 +87,6 @@ const NewProposalModal = ({ open }) => {
     <Modal
       open={open}
       onClose={handleClose}
-      maxWidth="sm"
       title="Create Proposal"
     >
       <Box>

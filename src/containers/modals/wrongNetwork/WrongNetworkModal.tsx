@@ -34,7 +34,6 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
     <Modal
       open={open}
       onClose={handleClose}
-      minHeight="180px"
       title="Wrong Network"
       transparent={false}
     >

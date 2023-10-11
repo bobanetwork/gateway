@@ -16,8 +16,6 @@ function TransferPendingModal({open}) {
     <Modal
       open={open}
       onClose={handleClose}
-      maxWidth="xs"
-      minHeight="300px"
       title="Transaction Pending"
       newStyle={true}
     >

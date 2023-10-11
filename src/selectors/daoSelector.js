@@ -13,6 +13,49 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+export function selectLPfeeMax(state) {
+    return state.dao.LPfeeMax
+}
+
+export function selectLPfeeMin(state) {
+    return state.dao.LPfeeMin
+}
+
+export function selectLPfeeOwn(state) {
+    return state.dao.LPfeeOwn
+}
+
+export function selectDaoTokens(state) {
+    return state.dao.tokens
+}
+
+export function selectVotingThreshold(state) {
+    return state.dao.votingThreshold
+}
+
+export function selectErrorText(state) {
+    return state.dao.errorText
+}
+
+export function selectProposeText(state) {
+    return state.dao.proposeText
+}
+
+export function selectProposalUri(state) {
+    return state.dao.proposalUri
+}
+
+export function selectAction(state) {
+    return state.dao.action
+}
+
+export function selectSelectedAction(state) {
+    return state.dao.selectedAction
+}
+
+export function selectDaoLoading(state) {
+    return state.dao.loading
+}
 
 export function selectDaoBalance(state) {
     return state.dao.balance

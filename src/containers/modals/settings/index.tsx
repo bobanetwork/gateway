@@ -15,12 +15,10 @@ import { setActiveNetworkType } from 'actions/networkAction'
 import { NETWORK_TYPE } from 'util/network/network.util'
 import { selectActiveNetworkType, selectBridgeToAddressState } from 'selectors'
 import { setBridgeToAddress } from 'actions/bridgeAction'
+import { ModalInterface } from '../types'
+import { SettingRowTypes } from './types'
 
-interface SettingsModalProps {
-  open: boolean
-}
-
-const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
+const SettingsModal: FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const bridgeToAddressEnable = useSelector(selectBridgeToAddressState())
@@ -41,43 +39,45 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
     dispatch(setBridgeToAddress(value))
   }
 
+  const SettingRow: React.FC<SettingRowTypes> = ({
+    title,
+    subTitle,
+    isActive,
+    onStateChange,
+  }) => {
+    return (
+      <SettingsItem>
+        <SettingsText>
+          <SettingTitle>{title}</SettingTitle>
+          <SettingSubTitle>{subTitle}</SettingSubTitle>
+        </SettingsText>
+        <SettingsAction>
+          <SwitchButton isActive={isActive} onStateChange={onStateChange} />
+        </SettingsAction>
+      </SettingsItem>
+    )
+  }
+
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      minHeight="180px"
       title="Settings"
       transparent={false}
     >
       <SettingsWrapper>
-        <SettingsItem>
-          <SettingsText>
-            <SettingTitle>Show Testnets</SettingTitle>
-            <SettingSubTitle>
-              Testnets will be available to bridge
-            </SettingSubTitle>
-          </SettingsText>
-          <SettingsAction>
-            <SwitchButton
-              isActive={activeNetworkType === NETWORK_TYPE.TESTNET}
-              onStateChange={(v: boolean) => onChangeNetworkType(v)}
-            />
-          </SettingsAction>
-        </SettingsItem>
-        <SettingsItem>
-          <SettingsText>
-            <SettingTitle>Add Destination Address</SettingTitle>
-            <SettingSubTitle>
-              Allows you to transfer to a different address
-            </SettingSubTitle>
-          </SettingsText>
-          <SettingsAction>
-            <SwitchButton
-              isActive={bridgeToAddressEnable}
-              onStateChange={onChangeDestinationAddress}
-            />
-          </SettingsAction>
-        </SettingsItem>
+        <SettingRow
+          title="Show Testnets"
+          subTitle="Testnets will be available to bridge"
+          isActive={activeNetworkType === NETWORK_TYPE.TESTNET}
+          onStateChange={(v) => onChangeNetworkType(v)}
+        />
+        <SettingRow
+          title="Add Destination Address"
+          subTitle="Allows you to transfer to a different address"
+          isActive={bridgeToAddressEnable}
+          onStateChange={onChangeDestinationAddress}
+        />
         <SettingsItem></SettingsItem>
       </SettingsWrapper>
     </Modal>

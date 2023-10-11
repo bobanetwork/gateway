@@ -106,7 +106,6 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
     <Modal
       open={open}
       onClose={handleClose}
-      minHeight="180px"
       title="Select Token"
       transparent={false}
     >

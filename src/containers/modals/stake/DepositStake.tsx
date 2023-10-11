@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { openAlert, closeModal } from 'actions/uiAction'
 
@@ -18,6 +18,7 @@ import { MaxInput } from 'components/global/InputMax'
 
 import { ModalTypography } from 'components/global/modalTypography'
 import { selectFixed, selectSetup, selectBalance } from 'selectors'
+import { TokenType } from './types'
 
 const DepositStake = (props: any) => {
   const { stakeInfo } = useSelector(selectFixed())
@@ -46,41 +47,27 @@ const DepositStake = (props: any) => {
   }, [layer2])
 
   const getMaxTransferValue = async () => {
-    // as staking BOBA check the bobabalance
-    const token: any = Object.values(layer2).find(
+    const token = Object.values(layer2).find(
       (t: any) => t['symbolL2'] === 'BOBA'
-    )
+    ) as TokenType
+    if (!token) {
+      return
+    }
 
-    // BOBA available prepare transferEstimate
-    if (token) {
-      let max_BN = BigNumber.from(token.balance.toString())
-      let fee = '0'
+    let max_BN = BigNumber.from(token.balance.toString())
 
-      if (netLayer === 'L2') {
-        const cost_BN: any = await networkService.savingEstimate()
+    if (netLayer === 'L2') {
+      const cost_BN: any = await networkService.savingEstimate()
+      const fee_BN = bobaFeeChoice
+        ? cost_BN.mul(BigNumber.from(bobaFeePriceRatio))
+        : cost_BN
 
-        if (bobaFeeChoice) {
-          // we are staking BOBA and paying in BOBA
-          // so need to subtract the BOBA fee
-          max_BN = max_BN.sub(cost_BN.mul(BigNumber.from(bobaFeePriceRatio)))
-        }
-
-        // make sure user maintains minimum BOBA in account
-        max_BN = max_BN.sub(BigNumber.from(toWei_String(3.0, 18)))
-
-        if (bobaFeeChoice) {
-          fee = utils.formatUnits(
-            cost_BN.mul(BigNumber.from(bobaFeePriceRatio)),
-            token.decimals
-          )
-        } else {
-          fee = utils.formatUnits(cost_BN, token.decimals)
-        }
-      }
-
+      max_BN = max_BN.sub(fee_BN).sub(BigNumber.from(toWei_String(3.0, 18)))
       if (max_BN.lt(BigNumber.from('0'))) {
         max_BN = BigNumber.from('0')
       }
+
+      const fee = utils.formatUnits(fee_BN, token.decimals)
 
       setState((prevState) => ({
         ...prevState,
@@ -90,28 +77,18 @@ const DepositStake = (props: any) => {
     }
   }
 
-  const handleStakeValue = (value: any) => {
+  const handleStakeValue = (value: string) => {
     const { max_Float_String } = state
 
-    if (
-      value &&
-      Number(value) > 0.0 &&
-      Number(value) <= Number(max_Float_String)
-    ) {
-      setState((prevState) => ({
-        ...prevState,
-        stakeValue: value,
-        stakeValueValid: true,
-        value_Wei_String: toWei_String(value, 18),
-      }))
-    } else {
-      setState((prevState) => ({
-        ...prevState,
-        stakeValue: value,
-        stakeValueValid: false,
-        value_Wei_String: '',
-      }))
-    }
+    const isValueInRange =
+      value && Number(value) > 0.0 && Number(value) <= Number(max_Float_String)
+
+    setState((prevState) => ({
+      ...prevState,
+      stakeValue: value,
+      stakeValueValid: isValueInRange,
+      value_Wei_String: isValueInRange ? toWei_String(value, 18) : '',
+    }))
   }
 
   const handleConfirm = async () => {
@@ -148,7 +125,6 @@ const DepositStake = (props: any) => {
   return (
     <Modal
       open={open}
-      maxWidth="md"
       onClose={() => {
         handleClose()
       }}

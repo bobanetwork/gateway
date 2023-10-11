@@ -84,8 +84,6 @@ function CDMCompletionModal({ open }) {
     <Modal
       open={open}
       onClose={handleClose}
-      maxWidth="sm"
-      minHeight="200px"
       newStyle={true}
       title={builder.header}
     >

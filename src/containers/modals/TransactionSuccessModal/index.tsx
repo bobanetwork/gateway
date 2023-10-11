@@ -56,13 +56,7 @@ const TransactionSuccessModal: FC<Props> = ({ open }) => {
   }
 
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      minHeight="180px"
-      title=""
-      transparent={false}
-    >
+    <Modal open={open} onClose={handleClose} title="" transparent={false}>
       <SuccessContainer>
         <CircleOuter>
           <CircleInner>
