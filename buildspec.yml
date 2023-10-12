@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16.16
+   
+    commands:
+        # install npm
+        - yarn
+       
+  build:
+    commands:
+        - yarn build:prod
+     
+artifacts:
+  # include all files required to run the application
+  files:
+    - build/**/*
