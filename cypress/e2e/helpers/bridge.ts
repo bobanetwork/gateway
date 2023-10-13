@@ -1,6 +1,14 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
 import { Layer } from '../../../src/util/constant'
+import {
+  mainnetL1NetworkNames,
+  mainnetL2NetworkNames,
+  testnetL1NetworkNames,
+  testnetL2NetworkNames,
+} from './base/constants'
+
+import { NETWORK_TYPE } from '../../../src/util/network/network.util'
 
 export default class Bridge extends Page {
   constructor() {
@@ -8,6 +16,51 @@ export default class Bridge extends Page {
     this.id = 'bridge'
     this.walletConnectButtonText = 'Connect Wallet'
     this.title = 'Bridge'
+    // console.log(cy.NetworkUtils.NETWORK_TYPE)
+  }
+
+  checkNetworksModals(accountConnected: boolean) {
+    this.clickThroughNetworksInModals(
+      mainnetL1NetworkNames,
+      mainnetL2NetworkNames,
+      accountConnected
+    )
+    this.clickThroughNetworksInModals(
+      mainnetL2NetworkNames,
+      mainnetL1NetworkNames,
+      accountConnected
+    )
+    this.switchToTestnet()
+
+    this.clickThroughNetworksInModals(
+      testnetL1NetworkNames,
+      testnetL2NetworkNames,
+      accountConnected
+    )
+    this.clickThroughNetworksInModals(
+      testnetL2NetworkNames,
+      testnetL1NetworkNames,
+      accountConnected
+    )
+  }
+
+  openNetworkModal(networkName: string) {
+    this.withinPage().contains(networkName).should('exist').click()
+  }
+  selectNetworkFromModal(networkName: string) {
+    this.getModal().contains(networkName).should('exist').click()
+  }
+  clickThroughNetworksInModals(
+    networksToSwitchThrough: string[],
+    correspondingNetworks: string[],
+    accountConnected: boolean
+  ) {
+    for (let i = 0; i < 3; i++) {
+      this.withinPage().contains(correspondingNetworks[i]).should('exist')
+      this.openNetworkModal(networksToSwitchThrough[i])
+      this.selectNetworkFromModal(networksToSwitchThrough[(i + 1) % 3])
+      this.store.allowBaseEnabledToUpdate(accountConnected)
+    }
   }
 
   switchNetworkType(network: string, isTestnet: boolean, newNetwork: boolean) {
@@ -117,6 +170,16 @@ export default class Bridge extends Page {
     }
     this.getModal()
       .find('div[aria-label=closeModalIcon]')
+      .should('have.length', 1)
+      .click()
+  }
+  switchToTestnet() {
+    this.withinPage().find('#settings').should('exist').click()
+    this.getModal().find('label[title="testnetSwitch"]').should('exist').click()
+
+    this.store.verifyReduxStoreNetwork('activeNetworkType', 'Testnet')
+    this.getModal() // filter can be used to accomplish this
+      .find('svg[data-src^=/[^\\]*close.[a-zA-Z0-9]*.(svg)$/]')
       .should('have.length', 1)
       .click()
   }

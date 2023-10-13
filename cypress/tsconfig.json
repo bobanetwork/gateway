@@ -1,6 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "types": ["@synthetixio/synpress/support"]
-  }
+    "types": ["@synthetixio/synpress/support"],
+    "baseUrl": "../src"
+  },
+  "includes": ["cypress/**/*"],
+  "exclude": ["**.svg"]
 }

@@ -36,4 +36,23 @@ export const AvalancheTestnet: MetamaskNetwork = {
   isTestnet: true,
 }
 
+export const mainnetL1NetworkNames = [
+  'Ethereum',
+  'Binance Smart Chain',
+  'Avalanche Mainnet C-Chain',
+]
+
+export const mainnetL2NetworkNames = ['Boba ETH', 'Boba BNB', 'Boba Avalanche']
+
+export const testnetL1NetworkNames = [
+  'Ethereum (Goerli)',
+  'BNB Testnet',
+  'Fuji Testnet',
+]
+export const testnetL2NetworkNames = [
+  'Boba (Goerli)',
+  'Boba BNB Testnet',
+  'Boba Fuji Testnet',
+]
+
 // Update the configs for boba networks TESTNET / MAINNET

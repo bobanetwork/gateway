@@ -12,6 +12,10 @@ describe('Testing Entire Site', () => {
         it('Should have the correct title', () => {
           bridge.checkTitle()
         })
+        it('Should have functional network modals', () => {
+          const accountConnected = false
+          bridge.checkNetworksModals(accountConnected)
+        })
       })
     })
   })

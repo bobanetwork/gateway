@@ -61,6 +61,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
             <SwitchButton
               isActive={activeNetworkType === NETWORK_TYPE.TESTNET}
               onStateChange={(v: boolean) => onChangeNetworkType(v)}
+              title={'testnetSwitch'}
             />
           </SettingsAction>
         </SettingsItem>
