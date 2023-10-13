@@ -9,7 +9,7 @@ import {
 } from './index.styles'
 import { closeModal } from 'actions/uiAction'
 import Modal from 'components/modal/Modal'
-import React, { FC } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkIcon,
@@ -25,12 +25,9 @@ import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import useBridge from 'hooks/useBridge'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK, LAYER } from 'util/constant'
+import { ModalInterface } from '../types'
 
-interface Props {
-  open: boolean
-}
-
-const BridgeConfirmModal: FC<Props> = ({ open }) => {
+const BridgeConfirmModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
@@ -46,22 +43,21 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const { triggerSubmit } = useBridge()
 
   const estimateTime = () => {
-    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
-      if (layer === LAYER.L1) {
-        return '13 ~ 14mins.'
-      } else {
-        return '1 ~ 5min.'
-      }
-    } else if (bridgeType === BRIDGE_TYPE.FAST) {
-      if (layer === LAYER.L1) {
-        return '1 ~ 5min.'
-      } else {
-        return '15min ~ 3hrs.'
-      }
-    } else {
-      // Teleportation, instant
-      return '~1min.'
+    const TIME_ESTIMATES = {
+      [BRIDGE_TYPE.CLASSIC]: {
+        [LAYER.L1]: '13 ~ 14mins.',
+        default: '1 ~ 5min.',
+      },
+      [BRIDGE_TYPE.FAST]: {
+        [LAYER.L1]: '1 ~ 5min.',
+        default: '15min ~ 3hrs.',
+      },
+      default: '~1min.',
     }
+    const bridgeEstimate = TIME_ESTIMATES[bridgeType] || TIME_ESTIMATES.default
+    return typeof bridgeEstimate === 'string'
+      ? bridgeEstimate
+      : bridgeEstimate[layer] || bridgeEstimate.default
   }
 
   const handleClose = () => {

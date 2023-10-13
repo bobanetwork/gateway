@@ -20,12 +20,9 @@ import {
 } from 'selectors'
 import { LAYER } from 'util/constant'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { ModalInterface } from '../types'
 
-interface Props {
-  open: boolean
-}
-
-const TransactionSuccessModal: FC<Props> = ({ open }) => {
+const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const navigate = useNavigate()
   const layer = useSelector(selectLayer())
@@ -33,22 +30,23 @@ const TransactionSuccessModal: FC<Props> = ({ open }) => {
   const bridgeType = useSelector(selectBridgeType())
 
   const estimateTime = () => {
-    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
-      if (layer === LAYER.L1) {
-        return '13 ~ 14mins.'
-      } else {
-        return '7 days'
-      }
-    } else if (bridgeType === BRIDGE_TYPE.FAST) {
-      if (layer === LAYER.L1) {
-        return '1 ~ 5min.'
-      } else {
-        return '15min ~ 3hrs.'
-      }
-    } else {
-      // Teleportation, instant
-      return '~1min.'
+    const estimates = {
+      [BRIDGE_TYPE.CLASSIC]: {
+        [LAYER.L1]: '13 ~ 14mins.',
+        default: '7 days',
+      },
+      [BRIDGE_TYPE.FAST]: {
+        [LAYER.L1]: '1 ~ 5min.',
+        default: '15min ~ 3hrs.',
+      },
+      default: '~1min.',
     }
+
+    return (
+      estimates[bridgeType]?.[layer] ||
+      estimates[bridgeType]?.default ||
+      estimates.default
+    )
   }
 
   const handleClose = () => {

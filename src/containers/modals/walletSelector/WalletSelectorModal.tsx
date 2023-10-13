@@ -1,41 +1,37 @@
-
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useWalletConnect } from 'hooks/useWalletConnect'
+
+import Modal from 'components/modal/Modal'
 
 import { closeModal } from 'actions/uiAction'
 import {
   setConnectBOBA,
   setConnectETH,
+  setConnect,
 } from 'actions/setupAction.js'
-
-import Modal from 'components/modal/Modal'
 import { Typography } from 'components/global/typography'
-import { Svg } from 'components/global/svg'
 import networkService from 'services/networkService'
+
 import metaMaskLogo from 'assets/images/metamask.svg'
 import walletConnectLogo from 'assets/images/walletconnect.svg'
 import ArrowIcon from 'assets/images/icons/arrowright.svg'
 
-import { Wallets, Wallet, Icon, ArrowContainer, IconContainer } from './styles'
+import { ModalInterface } from '../types'
+import {
+  Wallets,
+  Wallet,
+  Icon,
+  ArrowContainer,
+  IconContainer,
+  StyledSvg,
+} from './styles'
 
-import { useWalletConnect } from 'hooks/useWalletConnect'
-import { setConnect } from 'actions/setupAction'
-import styled from 'styled-components'
-
-const StyledSvg = styled(Svg)`
-  display: flex;
-  svg {
-    fill: ${({ theme }) => theme.name == 'light' ? theme.colors.gray[ 600 ] : theme.colors.gray[ 100 ]}
-  }
-`
-
-const WalletSelectorModal = ({ open }) => {
+const WalletSelectorModal: React.FC<ModalInterface> = ({ open }) => {
+  const dispatch = useDispatch<any>()
 
   const { triggerInit } = useWalletConnect()
-
-  const dispatch = useDispatch()
-
-  const [ walletNotFound, setWalletNotFound ] = useState(false)
+  const [walletNotFound, setWalletNotFound] = useState(false)
 
   const connectToWallet = async (type) => {
     const resetConnectChain = () => {
@@ -46,7 +42,7 @@ const WalletSelectorModal = ({ open }) => {
     try {
       if (await networkService.walletService.connectWallet(type)) {
         dispatch(closeModal('walletSelectorModal'))
-        triggerInit();
+        triggerInit()
       } else {
         resetConnectChain()
       }
@@ -63,33 +59,37 @@ const WalletSelectorModal = ({ open }) => {
     dispatch(setConnectBOBA(false))
   }
 
+  const handleSetWallet = () => {
+    if (window?.ethereum) {
+      connectToWallet('metamask')
+    } else {
+      setWalletNotFound(true)
+    }
+  }
+
+  const handleWalletClick = () => {
+    window.open('https://metamask.io/download/', '_blank')
+    setWalletNotFound(false)
+  }
+
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      newStyle={true}
-      title={walletNotFound ? "No MetaMask Install" : "Connect Wallet"}
+      title={walletNotFound ? 'No MetaMask Install' : 'Connect Wallet'}
     >
-
-      {walletNotFound ? <Wallets>
-        <Wallet onClick={() => {
-          window.open('https://metamask.io/download/', '_blank');
-          setWalletNotFound(false);
-        }}>
-          <IconContainer>
-            <Icon src={metaMaskLogo} alt="metamask" />
-          </IconContainer>
-          <Typography variant="title">Download MetaMask wallet</Typography>
-        </Wallet>
-      </Wallets> :
+      {walletNotFound ? (
         <Wallets>
-          <Wallet onClick={() => {
-            if (window.ethereum) {
-              connectToWallet('metamask')
-            } else {
-              setWalletNotFound(true);
-            }
-          }}>
+          <Wallet onClick={() => handleWalletClick()}>
+            <IconContainer>
+              <Icon src={metaMaskLogo} alt="metamask" />
+            </IconContainer>
+            <Typography variant="title">Download MetaMask wallet</Typography>
+          </Wallet>
+        </Wallets>
+      ) : (
+        <Wallets>
+          <Wallet onClick={() => handleSetWallet()}>
             <IconContainer>
               <Icon src={metaMaskLogo} alt="metamask" />
             </IconContainer>
@@ -107,7 +107,8 @@ const WalletSelectorModal = ({ open }) => {
               <StyledSvg src={ArrowIcon} />
             </ArrowContainer>
           </Wallet>
-        </Wallets>}
+        </Wallets>
+      )}
     </Modal>
   )
 }

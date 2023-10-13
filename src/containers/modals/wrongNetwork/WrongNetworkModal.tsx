@@ -9,12 +9,9 @@ import { closeModal } from 'actions/uiAction'
 
 import { Button } from 'components/global'
 import { selectActiveNetworkType, selectNetwork } from 'selectors'
+import { ModalInterface } from '../types'
 
-interface Props {
-  open: boolean
-}
-
-const WrongNetworkModal: FC<Props> = ({ open }) => {
+const WrongNetworkModal: FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const network = useSelector(selectNetwork())
   const networkType = useSelector(selectActiveNetworkType())

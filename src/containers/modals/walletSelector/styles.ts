@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Svg } from 'components/global/svg'
 
 export const Wallets = styled.div`
   display: flex;
@@ -38,4 +39,12 @@ export const Icon = styled.img`
 export const ArrowContainer = styled.div`
   margin-left: auto;
   margin-right: 5px;
+`
+
+export const StyledSvg = styled(Svg)`
+  display: flex;
+  svg {
+    fill: ${({ theme }) =>
+      theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[100]};
+  }
 `
