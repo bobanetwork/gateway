@@ -7,12 +7,11 @@ export const cypressWebpackPlugin = (on, config) => {
     webpackOptions: {
       resolve: {
         extensions: ['.ts', '.js', '.tsx', '.jsx'],
-        alias: {
-          _: [
-            path.resolve(__dirname, 'src'),
-            path.resolve(__dirname, 'cypress'),
-          ],
-        },
+        modules: [
+          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'cypress'), 
+          'node_modules' 
+        ]
       },
       module: {
         rules: [
