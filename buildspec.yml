@@ -3,11 +3,10 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16
-   
+      nodejs: 18
     commands:
-        # install npm
-        - yarn
+      - n 16
+      - yarn
        
   build:
     commands:
