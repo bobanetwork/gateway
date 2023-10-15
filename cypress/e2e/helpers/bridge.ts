@@ -8,15 +8,12 @@ import {
   testnetL2NetworkNames,
 } from './base/constants'
 
-import { NETWORK_TYPE } from '../../../src/util/network/network.util'
-
 export default class Bridge extends Page {
   constructor() {
     super()
     this.id = 'bridge'
     this.walletConnectButtonText = 'Connect Wallet'
     this.title = 'Bridge'
-    // console.log(cy.NetworkUtils.NETWORK_TYPE)
   }
 
   checkNetworksModals(accountConnected: boolean) {
@@ -179,7 +176,15 @@ export default class Bridge extends Page {
 
     this.store.verifyReduxStoreNetwork('activeNetworkType', 'Testnet')
     this.getModal() // filter can be used to accomplish this
-      .find('svg[data-src^=/[^\\]*close.[a-zA-Z0-9]*.(svg)$/]')
+      .find('svg')
+      .filter((_, e) => {
+        const srcRegEx = RegExp('[^\\]*close.[a-zA-Z0-9]*.(svg)')
+        const data_src = Cypress.$(e).attr('data-src')
+        if (data_src) {
+          return srcRegEx.test(data_src)
+        }
+        return false
+      })
       .should('have.length', 1)
       .click()
   }

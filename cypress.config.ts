@@ -15,13 +15,9 @@ export default defineConfig({
   e2e: {
     testIsolation: false,
     setupNodeEvents: (on, config) => {
-      cypressWebpackPlugin(on, config)
       synpressPlugins(on, config)
-      // gatewayPlugins(on, config)
-      // const NetworkUtils = require('./src/util/network/network.util')
-      // networkUtils: NetworkUtils
     },
-    baseUrl: 'https://gateway.boba.network/bridge',
+    baseUrl: 'http://localhost:3000',
     supportFile: 'cypress/support/e2e.ts',
     specPattern: ['cypress/e2e/**/*.spec.cy.ts'],
   },
