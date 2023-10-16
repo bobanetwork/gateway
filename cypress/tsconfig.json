@@ -4,6 +4,6 @@
     "types": ["@synthetixio/synpress/support"],
     "baseUrl": "../src"
   },
-  "includes": ["cypress/**/*"],
-  "exclude": ["**.svg"]
+  "includes": ["cypress/**/*"]
+  // "exclude": ["**.svg"]
 }

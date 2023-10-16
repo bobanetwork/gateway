@@ -15,7 +15,7 @@ export default defineConfig({
   e2e: {
     testIsolation: false,
     setupNodeEvents: (on, config) => {
-      cypressWebpackPlugin(on, config)
+      // cypressWebpackPlugin(on, config)
       synpressPlugins(on, config)
       // gatewayPlugins(on, config)
       // const NetworkUtils = require('./src/util/network/network.util')

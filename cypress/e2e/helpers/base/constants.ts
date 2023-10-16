@@ -1,4 +1,5 @@
 import { MetamaskNetwork } from './types'
+import { NETWORK_TYPE } from '../../../../src/util/network/network.util'
 
 export const Binance: MetamaskNetwork = {
   networkName: 'Binance Mainnet',
@@ -54,5 +55,7 @@ export const testnetL2NetworkNames = [
   'Boba BNB Testnet',
   'Boba Fuji Testnet',
 ]
+
+export { NETWORK_TYPE }
 
 // Update the configs for boba networks TESTNET / MAINNET
