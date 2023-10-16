@@ -3,17 +3,18 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16.16
-   
+      nodejs: 18
     commands:
-        # install npm
-        - yarn
+      - n 16
+      - yarn
        
   build:
     commands:
-        - yarn build:prod
+        - REACT_APP_WALLET_VERSION=$(git rev-parse --short HEAD) yarn build:prod
      
 artifacts:
   # include all files required to run the application
   files:
-    - build/**/*
+    - '**/*'
+  discard-paths: no
+  base-directory: build

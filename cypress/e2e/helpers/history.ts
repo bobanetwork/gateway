@@ -32,6 +32,7 @@ export default class History extends Page {
     this.networkLayerFrom = Layer.L1
     this.fromNetwork = 'All Networks'
     this.toNetwork = 'All Networks'
+    this.title = 'History'
   }
   getSearchInput() {
     return this.withinPage()
