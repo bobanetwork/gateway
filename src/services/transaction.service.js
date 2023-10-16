@@ -156,10 +156,6 @@ class TransactionService {
   async fetchTeleportationTransactions(networkConfig = networkService.networkConfig) {
     let rawTx = []
 
-    if (NETWORK.ETHEREUM !== networkConfig.chain && NETWORK_TYPE.TESTNET !== networkConfig.networkType) {
-      return Promise.resolve([]);
-    }
-
     const contractL1 = networkService.getTeleportationContract(networkConfig.L1.chainId)
     const contractL2 = networkService.getTeleportationContract(networkConfig.L2.chainId)
 

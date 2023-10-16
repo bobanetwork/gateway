@@ -39,7 +39,7 @@ export const NetworkList: FC<NetworkListProps> = ({ close = () => {} }) => {
   const l2Icon = L2_ICONS as Record<string, ElementType>
 
   const networks = (NetworkLists as Record<string, any>)[networkType]
-  const currentLayer = selectionLayer || (layer as string).toLowerCase()
+  const currentLayer = selectionLayer || (layer as string)?.toLowerCase()
   const onChainChange = (chainDetail: INetwork) => {
     dispatch(
       setNetwork({
