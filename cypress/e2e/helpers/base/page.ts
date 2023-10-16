@@ -3,6 +3,7 @@ import Base from './base'
 import PageHeader from './page.header'
 import PageFooter from './page.footer'
 import { ReduxStore } from './store'
+import { pageTitleWhiteList } from '../../../../src/components/layout/PageTitle/constants'
 
 export default class Page extends Base {
   header: PageHeader
@@ -10,6 +11,7 @@ export default class Page extends Base {
   store: ReduxStore
   walletConnectButtonText: string
   id: string
+  title: string
   constructor() {
     super()
     this.store = new ReduxStore()
@@ -17,6 +19,7 @@ export default class Page extends Base {
     this.footer = new PageFooter()
     this.id = 'header'
     this.walletConnectButtonText = 'Connect Wallet'
+    this.title = 'Bridge'
   }
 
   visit() {
@@ -24,6 +27,9 @@ export default class Page extends Base {
   }
   withinPage() {
     return cy.get(`#${this.id}`)
+  }
+  getTitle() {
+    return cy.get(`#title`)
   }
 
   connectWallet() {
@@ -148,7 +154,7 @@ export default class Page extends Base {
           '/history',
           '/earn',
           '/stake',
-          '/DAO',
+          '/dao',
         ])
 
         // get labels and verify
@@ -329,5 +335,22 @@ export default class Page extends Base {
   checkCopyrightAndVersion() {
     this.footer.getCompanyInfo().should('be.visible')
     this.footer.getVersionInfo().should('be.visible')
+  }
+  checkTitle() {
+    if (this.id === 'bridge') {
+      this.withinPage().contains(this.title).should('exist')
+    } else {
+      this.getTitle().contains(this.title).should('exist')
+    }
+  }
+  checkDescription() {
+    const webPage = pageTitleWhiteList.find(
+      (whiteListedPage) => whiteListedPage.path === '/' + this.id.toLowerCase()
+    )
+    const slogan = webPage ? webPage.slug : ''
+    if (!slogan) {
+      return assert(false)
+    }
+    this.getTitle().contains(slogan)
   }
 }

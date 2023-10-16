@@ -155,7 +155,7 @@ const Save = () => {
     )
   }
   return (
-    <S.StakePageContainer>
+    <S.StakePageContainer id={'stake'}>
       <S.PaddingContainer>
         <Connect
           userPrompt={'Please connect to Boba to stake'}

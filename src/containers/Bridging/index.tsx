@@ -53,7 +53,7 @@ const Bridging = () => {
 
   return (
     <BridginContainer>
-      <BridgeWrapper>
+      <BridgeWrapper id="bridge">
         <BridgeContent>
           <BridgeHeader />
           <BridgeAlert />
