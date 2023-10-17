@@ -10,14 +10,16 @@ export const PageTitle: FC<PageTitleTypes> = ({ title, slug }) => {
   const currentPath = location.pathname
 
   const { title: pageTitle = '', slug: pageSlug = '' } =
-    pageTitleWhiteList.find((page) => page.path === currentPath) || {}
+    pageTitleWhiteList.find(
+      (page) => page.path === currentPath.toLowerCase()
+    ) || {}
 
   if (!title && !pageTitle) {
     return <></>
   }
 
   return (
-    <PageTitleContainer>
+    <PageTitleContainer id={'title'}>
       <Title variant="h1">{pageTitle || title}</Title>
       {slug || (pageSlug && <Slug variant="body1">{pageSlug || slug}</Slug>)}
     </PageTitleContainer>

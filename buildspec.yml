@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - n 16
+      - yarn
+       
+  build:
+    commands:
+        - REACT_APP_WALLET_VERSION=$(git rev-parse --short HEAD) yarn build:prod
+     
+artifacts:
+  # include all files required to run the application
+  files:
+    - '**/*'
+  discard-paths: no
+  base-directory: build
