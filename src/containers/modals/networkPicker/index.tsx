@@ -1,18 +1,17 @@
-import { NetworkPickerModalContainer } from './index.styles'
+import React from 'react'
+
 import { closeModal } from 'actions/uiAction'
+import { useDispatch } from 'react-redux'
+
 import Modal from 'components/modal/Modal'
-import React, { ElementType, FC } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ListLabel } from '../tokenPicker/styles'
 import { NetworkList } from 'components/bridge/NetworkPickerList'
 
-interface NetworkPickerModalProps {
-  open: boolean
-}
+import { ModalInterface } from '../types'
 
-const NetworkPickerModal: FC<NetworkPickerModalProps> = ({
-  open,
-}: NetworkPickerModalProps) => {
+import { NetworkPickerModalContainer } from './styles'
+import { ListLabel } from '../tokenPicker/styles'
+
+const NetworkPickerModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
 
   const handleClose = () => {
@@ -23,7 +22,6 @@ const NetworkPickerModal: FC<NetworkPickerModalProps> = ({
     <Modal
       open={open}
       onClose={handleClose}
-      minHeight="180px"
       title="Select Network"
       transparent={false}
     >
