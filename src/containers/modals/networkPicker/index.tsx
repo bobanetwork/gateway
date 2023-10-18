@@ -33,7 +33,7 @@ const NetworkPickerModal: FC<NetworkPickerModalProps> = ({
       <NetworkPickerModalContainer>
         <NetworkList
           close={handleClose}
-          useIndependentDestNetwork={destNetworkSelection}
+          isIndependentDestNetwork={destNetworkSelection}
         />
       </NetworkPickerModalContainer>
     </Modal>
