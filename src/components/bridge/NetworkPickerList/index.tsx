@@ -13,7 +13,6 @@ import {
   selectActiveNetworkType,
   selectModalState,
   selectLayer,
-  selectIsTeleportationOfAssetSupported,
   selectDestChainIdTeleportation,
 } from 'selectors'
 

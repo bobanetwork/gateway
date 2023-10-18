@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetwork,
-  selectActiveNetworkType,
   selectAmountToBridge,
   selectBobaFeeChoice,
   selectBobaPriceRatio,
