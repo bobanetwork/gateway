@@ -12,7 +12,7 @@ export const ButtonContainer = styled.div`
   justify-content: center;
 `
 
-export const Circle = styled.div`
+export const Circle = styled.span`
   display: inline-block;
   background-color: #bae21a;
   width: 10px;

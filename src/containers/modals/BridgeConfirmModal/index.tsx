@@ -1,3 +1,7 @@
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { closeModal } from 'actions/uiAction'
+
 import { Heading } from 'components/global'
 import {
   ConfirmModalContainer,
@@ -6,11 +10,8 @@ import {
   ConfirmActionButton,
   Item,
   LayerNames,
-} from './index.styles'
-import { closeModal } from 'actions/uiAction'
+} from './styles'
 import Modal from 'components/modal/Modal'
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkIcon,
   selectActiveNetworkName,
@@ -37,6 +38,7 @@ const BridgeConfirmModal: React.FC<ModalInterface> = ({ open }) => {
   const activeNetworkIcon = useSelector(selectActiveNetworkIcon())
   const layer = useSelector(selectLayer())
   const icons = NETWORK_ICONS[activeNetworkIcon]
+
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
 
@@ -81,12 +83,12 @@ const BridgeConfirmModal: React.FC<ModalInterface> = ({ open }) => {
           <LayerNames>
             {layer === LAYER.L1 ? (
               <>
-                <L1Icon selected />{' '}
+                <L1Icon selected />
                 {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
               </>
             ) : (
               <>
-                <L2Icon selected />{' '}
+                <L2Icon selected />
                 {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
               </>
             )}
@@ -97,13 +99,13 @@ const BridgeConfirmModal: React.FC<ModalInterface> = ({ open }) => {
           <LayerNames>
             {layer === LAYER.L1 ? (
               <>
-                <L2Icon selected />{' '}
+                <L2Icon selected />
                 {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
               </>
             ) : (
               <>
-                <L1Icon selected />{' '}
-                {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}{' '}
+                <L1Icon selected />
+                {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
               </>
             )}
           </LayerNames>

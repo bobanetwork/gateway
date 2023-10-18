@@ -1,10 +1,11 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { MaxInputTypes } from './types'
-import CustomThemeProvider from 'themes'
 import { MaxInput } from './'
 import { Provider } from 'react-redux'
+
 import configureStore from 'redux-mock-store'
+import CustomThemeProvider from 'themes'
 
 const mockStore = configureStore()
 

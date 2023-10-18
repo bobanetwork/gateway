@@ -1,13 +1,17 @@
-import { NetworkPickerModalContainer } from './styles'
+import React from 'react'
+
 import { closeModal } from 'actions/uiAction'
+import { useDispatch } from 'react-redux'
+
 import Modal from 'components/modal/Modal'
-import React, { ElementType, FC } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ListLabel } from '../tokenPicker/styles'
 import { NetworkList } from 'components/bridge/NetworkPickerList'
+
 import { ModalInterface } from '../types'
 
-const NetworkPickerModal: FC<ModalInterface> = ({ open }) => {
+import { NetworkPickerModalContainer } from './styles'
+import { ListLabel } from '../tokenPicker/styles'
+
+const NetworkPickerModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
 
   const handleClose = () => {

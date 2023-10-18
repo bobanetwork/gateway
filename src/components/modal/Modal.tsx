@@ -46,7 +46,10 @@ const _Modal = ({
               <S.ModalHead>
                 <S.TitleContainer>
                   <Heading variant="h2">{title}</Heading>
-                  <S.IconButtonTag onClick={onClose}>
+                  <S.IconButtonTag
+                    onClick={onClose}
+                    data-testid="modal-close-button"
+                  >
                     <Svg src={CloseIcon} fill="#fff" />
                   </S.IconButtonTag>
                 </S.TitleContainer>
