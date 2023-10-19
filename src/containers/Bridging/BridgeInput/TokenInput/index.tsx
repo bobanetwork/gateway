@@ -54,7 +54,7 @@ const TokenInput = (props: Props) => {
       setZeroBalanceError(false)
     }
 
-    if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.TELEPORTATION) {
+    if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
       let cost = classicExitCost || 0
       if (bridgeType === BRIDGE_TYPE.FAST) {
         cost = fastExitCost || 0
@@ -105,7 +105,11 @@ const TokenInput = (props: Props) => {
         Balance: {maxBalance} {token ? token.symbol : ''}
       </InputContainerLabel>
       <InputWithButton
-        placeholder={`Amount to bridge to ${layer === LAYER.L1 ? 'L2' : 'L1'}`}
+        placeholder={
+          bridgeType === BRIDGE_TYPE.LIGHT
+            ? 'Amount to bridge'
+            : `Amount to bridge to ${layer === LAYER.L1 ? 'L2' : 'L1'}`
+        }
         buttonLabel="max"
         type="number"
         name="bridgeAmount"

@@ -6,12 +6,15 @@ import { useDispatch } from 'react-redux'
 import Modal from 'components/modal/Modal'
 import { NetworkList } from 'components/bridge/NetworkPickerList'
 
-import { ModalInterface } from '../types'
-
 import { NetworkPickerModalContainer } from './styles'
 import { ListLabel } from '../tokenPicker/styles'
 
-const NetworkPickerModal: React.FC<ModalInterface> = ({ open }) => {
+import { NetworkPickerModalInterface } from './types'
+
+const NetworkPickerModal: React.FC<NetworkPickerModalInterface> = ({
+  open,
+  destNetworkSelection,
+}: NetworkPickerModalInterface) => {
   const dispatch = useDispatch<any>()
 
   const handleClose = () => {
@@ -28,7 +31,10 @@ const NetworkPickerModal: React.FC<ModalInterface> = ({ open }) => {
     >
       <ListLabel> Network Names </ListLabel>
       <NetworkPickerModalContainer>
-        <NetworkList close={handleClose} />
+        <NetworkList
+          close={handleClose}
+          isIndependentDestNetwork={destNetworkSelection}
+        />
       </NetworkPickerModalContainer>
     </Modal>
   )

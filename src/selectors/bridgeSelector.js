@@ -31,6 +31,12 @@ export function selectBridgeType() {
   }
 }
 
+export function selectDestChainIdTeleportation() {
+  return function (state) {
+    return state.bridge.destChainIdTeleportation;
+  }
+}
+
 export function selectMultiBridgeMode() {
   return function (state) {
     return state.bridge.multiBridgeMode
