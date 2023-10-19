@@ -10,14 +10,21 @@ import { mockedInitialState } from 'util/tests'
 
 describe('NetworkPickerModal', () => {
   it('NetworkPickerModal is Visible', () => {
+    const initialState = {
+      ...mockedInitialState,
+      ui: {
+        ...mockedInitialState.ui,
+        networkPicker: true,
+      },
+    }
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
-    const store = mockStore(mockedInitialState)
+    const store = mockStore(initialState)
 
     const { queryByTestId } = render(
       <Provider store={store}>
         <CustomThemeProvider>
-          <NetworkPickerModal open={mockedInitialState.ui.networkPicker} />
+          <NetworkPickerModal open={initialState.ui.networkPicker} />
         </CustomThemeProvider>
       </Provider>
     )
@@ -26,14 +33,22 @@ describe('NetworkPickerModal', () => {
   })
 
   it('NetworkPickerModal is Close after click on close button', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      ui: {
+        ...mockedInitialState.ui,
+        networkPicker: true,
+      },
+    }
+
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
-    const store = mockStore(mockedInitialState)
+    const store = mockStore(initialState)
 
     const { getByTestId } = render(
       <Provider store={store}>
         <CustomThemeProvider>
-          <NetworkPickerModal open={mockedInitialState.ui.networkPicker} />
+          <NetworkPickerModal open={initialState.ui.networkPicker} />
         </CustomThemeProvider>
       </Provider>
     )
@@ -50,22 +65,14 @@ describe('NetworkPickerModal', () => {
   })
 
   it('NetworkPickerModal should not be visible', () => {
-    const initialState = {
-      ...mockedInitialState,
-      ui: {
-        ...mockedInitialState.ui,
-        networkPicker: false,
-      },
-    }
-
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
-    const store = mockStore(initialState)
+    const store = mockStore(mockedInitialState)
 
     const { queryByTestId } = render(
       <Provider store={store}>
         <CustomThemeProvider>
-          <NetworkPickerModal open={initialState.ui.networkPicker} />
+          <NetworkPickerModal open={mockedInitialState.ui.networkPicker} />
         </CustomThemeProvider>
       </Provider>
     )

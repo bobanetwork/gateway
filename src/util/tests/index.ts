@@ -1,7 +1,7 @@
 export const mockedInitialState = {
   ui: {
     theme: 'light',
-    networkPicker: true,
+    networkPicker: false,
   },
   network: {
     activeNetworkType: 'Mainnet',
