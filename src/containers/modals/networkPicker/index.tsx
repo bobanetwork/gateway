@@ -24,6 +24,7 @@ const NetworkPickerModal: React.FC<ModalInterface> = ({ open }) => {
       onClose={handleClose}
       title="Select Network"
       transparent={false}
+      testId="network-picker-modal"
     >
       <ListLabel> Network Names </ListLabel>
       <NetworkPickerModalContainer>
