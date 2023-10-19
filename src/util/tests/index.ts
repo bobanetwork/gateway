@@ -9,4 +9,7 @@ export const mockedInitialState = {
   setup: {
     netLayer: 'L1',
   },
+  birdge: {
+    destChainIdTeleportation: 'ethereum',
+  },
 }

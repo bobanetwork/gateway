@@ -24,7 +24,10 @@ describe('NetworkPickerModal', () => {
     const { queryByTestId } = render(
       <Provider store={store}>
         <CustomThemeProvider>
-          <NetworkPickerModal open={initialState.ui.networkPicker} />
+          <NetworkPickerModal
+            open={initialState.ui.networkPicker}
+            destNetworkSelection={false}
+          />
         </CustomThemeProvider>
       </Provider>
     )
@@ -48,7 +51,10 @@ describe('NetworkPickerModal', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <CustomThemeProvider>
-          <NetworkPickerModal open={initialState.ui.networkPicker} />
+          <NetworkPickerModal
+            open={initialState.ui.networkPicker}
+            destNetworkSelection={false}
+          />
         </CustomThemeProvider>
       </Provider>
     )
@@ -72,7 +78,10 @@ describe('NetworkPickerModal', () => {
     const { queryByTestId } = render(
       <Provider store={store}>
         <CustomThemeProvider>
-          <NetworkPickerModal open={mockedInitialState.ui.networkPicker} />
+          <NetworkPickerModal
+            open={mockedInitialState.ui.networkPicker}
+            destNetworkSelection={false}
+          />
         </CustomThemeProvider>
       </Provider>
     )

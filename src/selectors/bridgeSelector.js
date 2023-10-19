@@ -33,7 +33,7 @@ export function selectBridgeType() {
 
 export function selectDestChainIdTeleportation() {
   return function (state) {
-    return state.bridge.destChainIdTeleportation;
+    return state.bridge?.destChainIdTeleportation;
   }
 }
 
