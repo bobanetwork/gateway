@@ -13,7 +13,6 @@ import {
   selectActiveNetworkType,
   selectModalState,
   selectLayer,
-  selectIsTeleportationOfAssetSupported,
   selectDestChainIdTeleportation,
 } from 'selectors'
 
@@ -29,12 +28,12 @@ import { setTeleportationDestChainId } from '../../../actions/bridgeAction'
 
 export interface NetworkListProps {
   close?: () => void
-  useIndependentDestNetwork?: boolean
+  isIndependentDestNetwork?: boolean
 }
 
 export const NetworkList: FC<NetworkListProps> = ({
   close = () => {},
-  useIndependentDestNetwork,
+  isIndependentDestNetwork,
 }) => {
   const dispatch = useDispatch<any>()
 
@@ -50,9 +49,9 @@ export const NetworkList: FC<NetworkListProps> = ({
   const l2Icon = L2_ICONS as Record<string, ElementType>
 
   const networks = (NetworkLists as Record<string, any>)[networkType]
-  const currentLayer = selectionLayer || (layer as string).toLowerCase()
+  const currentLayer = selectionLayer || (layer as string)?.toLowerCase()
   const onChainChange = (chainDetail: INetwork, layer: string) => {
-    if (useIndependentDestNetwork) {
+    if (isIndependentDestNetwork) {
       dispatch(
         setTeleportationDestChainId(chainDetail.chainId[layer?.toUpperCase()])
       )
@@ -79,7 +78,7 @@ export const NetworkList: FC<NetworkListProps> = ({
 
   const getNetworkItem = (chainDetail: INetwork, layer: string) => {
     if (
-      useIndependentDestNetwork &&
+      isIndependentDestNetwork &&
       activeNetwork === chainDetail.chain &&
       currentLayer !== layer
     ) {
@@ -91,7 +90,7 @@ export const NetworkList: FC<NetworkListProps> = ({
       layer === 'l1' ? l1Icon[chainDetail.icon] : l2Icon[chainDetail.icon]
 
     const selected =
-      useIndependentDestNetwork && currTeleportationDestChainId
+      isIndependentDestNetwork && currTeleportationDestChainId
         ? currTeleportationDestChainId ===
           chainDetail.chainId[layer?.toUpperCase()]
         : chainDetail.chain === activeNetwork && currentLayer === layer
@@ -115,7 +114,7 @@ export const NetworkList: FC<NetworkListProps> = ({
         return (
           <React.Fragment key={chainDetail.key}>
             {getNetworkItem(chainDetail, currentLayer)}
-            {useIndependentDestNetwork
+            {isIndependentDestNetwork
               ? getNetworkItem(chainDetail, currentLayer === 'l1' ? 'l2' : 'l1')
               : null}
           </React.Fragment>

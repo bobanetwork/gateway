@@ -2431,22 +2431,23 @@ class NetworkService {
       chainId = this.chainId
     }
     const networkConfig = CHAIN_ID_LIST[chainId]
+    let teleportationAddr;
     if (!networkConfig) {
       throw new Error(`Unknown chainId to retrieve teleportation contract from: ${chainId}`)
     }
     if (networkConfig.networkType !== NETWORK_TYPE.TESTNET) {
       if (isDevBuild()) {
-       /*console.log("DEV: Teleportation is only supported on testnet for now, chainId: ", chainId)*/
+        /*console.log("DEV: Teleportation is only supported on testnet for now, chainId: ", chainId)*/
       }
-      return {teleportationAddr: undefined, networkConfig}
+      return {teleportationAddr,networkConfig}
     }
-    const addresses = appService.fetchAddresses({networkType: networkConfig.networkType, network: networkConfig.chain})
-
-    let teleportationAddr = addresses.Proxy__L2Teleportation
+    const addresses = appService.fetchAddresses({networkType: networkConfig.networkType,network: networkConfig.chain})
     if (networkConfig.layer === LAYER.L1) {
       teleportationAddr = addresses.Proxy__L1Teleportation
+    } else if (networkConfig.layer === LAYER.L2) {
+      teleportationAddr = addresses.Proxy__L2Teleportation
     }
-    return {teleportationAddr, networkConfig};
+    return {teleportationAddr,networkConfig};
   }
 
   getTeleportationContract(chainId) {
@@ -2463,6 +2464,17 @@ class NetworkService {
 
   async isTeleportationOfAssetSupported(layer, token, destChainId) {
     const teleportationAddr = (layer === Layer.L1 ? this.addresses.Proxy__L1Teleportation : this.addresses.Proxy__L2Teleportation)
+
+    if (!teleportationAddr) {
+      return {
+        supported: false,
+        minDepositAmount: 0,
+        maxDepositAmount: 0,
+        maxTransferAmountPerDay: 0,
+        transferredAmount: 0
+      }
+    }
+
     const contract = this.Teleportation
       .attach(teleportationAddr)
       .connect(this.provider.getSigner());

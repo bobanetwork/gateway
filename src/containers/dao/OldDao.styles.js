@@ -6,7 +6,7 @@ export const DaoPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 10px
+  padding: 10px;
   padding-top: 0px;
   width:100%;
   max-width:1200px;

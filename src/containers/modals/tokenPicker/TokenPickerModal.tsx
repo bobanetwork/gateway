@@ -37,7 +37,11 @@ import {
   TokenSymbol,
 } from './styles'
 import { formatTokenAmount } from 'util/common'
-import { NetworkList } from '../../../util/network/network.util'
+import {
+  NETWORK,
+  NETWORK_TYPE,
+  NetworkList,
+} from '../../../util/network/network.util'
 import Tooltip from 'components/tooltip/Tooltip'
 import networkService from 'services/networkService'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
