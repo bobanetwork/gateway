@@ -24,7 +24,10 @@ import {
   NetworkIcon,
   NetworkLabel,
 } from './styles'
-import { setTeleportationDestChainId } from '../../../actions/bridgeAction'
+import {
+  resetToken,
+  setTeleportationDestChainId,
+} from '../../../actions/bridgeAction'
 
 export interface NetworkListProps {
   close?: () => void
@@ -52,6 +55,7 @@ export const NetworkList: FC<NetworkListProps> = ({
   const currentLayer = selectionLayer || (layer as string)?.toLowerCase()
   const onChainChange = (chainDetail: INetwork, layer: string) => {
     if (isIndependentDestNetwork) {
+      dispatch(resetToken())
       dispatch(
         setTeleportationDestChainId(chainDetail.chainId[layer?.toUpperCase()])
       )

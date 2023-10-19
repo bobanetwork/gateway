@@ -105,7 +105,11 @@ const TokenInput = (props: Props) => {
         Balance: {maxBalance} {token ? token.symbol : ''}
       </InputContainerLabel>
       <InputWithButton
-        placeholder={`Amount to bridge to ${layer === LAYER.L1 ? 'L2' : 'L1'}`}
+        placeholder={
+          bridgeType === BRIDGE_TYPE.LIGHT
+            ? 'Amount to bridge'
+            : `Amount to bridge to ${layer === LAYER.L1 ? 'L2' : 'L1'}`
+        }
         buttonLabel="max"
         type="number"
         name="bridgeAmount"

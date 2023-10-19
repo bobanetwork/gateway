@@ -16,10 +16,12 @@ import { useNavigate } from 'react-router-dom'
 import {
   selectActiveNetworkName,
   selectBridgeType,
+  selectDestChainIdTeleportation,
   selectLayer,
 } from 'selectors'
 import { LAYER } from 'util/constant'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { CHAIN_ID_LIST } from '../../../util/network/network.util'
 
 interface Props {
   open: boolean
@@ -31,6 +33,13 @@ const TransactionSuccessModal: FC<Props> = ({ open }) => {
   const layer = useSelector(selectLayer())
   const name = useSelector(selectActiveNetworkName())
   const bridgeType = useSelector(selectBridgeType())
+  const destNetworkLightBridgeChainId = useSelector(
+    selectDestChainIdTeleportation()
+  )
+  let destNetworkLightBridge: string | null = null
+  if (bridgeType === BRIDGE_TYPE.LIGHT && destNetworkLightBridgeChainId) {
+    destNetworkLightBridge = CHAIN_ID_LIST[destNetworkLightBridgeChainId]?.name
+  }
 
   const estimateTime = () => {
     if (bridgeType === BRIDGE_TYPE.CLASSIC) {
@@ -46,7 +55,7 @@ const TransactionSuccessModal: FC<Props> = ({ open }) => {
         return '15min ~ 3hrs.'
       }
     } else {
-      // Teleportation, instant
+      // Light bridge, instant
       return '~1min.'
     }
   }
@@ -73,7 +82,9 @@ const TransactionSuccessModal: FC<Props> = ({ open }) => {
           <Heading variant="h1">Bridge Successful</Heading>
           <TitleText>
             Your funds will arrive in {estimateTime()} at your wallet on{' '}
-            {layer === LAYER.L1 ? name['l2'] : name['l1']}.
+            {destNetworkLightBridge ??
+              (layer === LAYER.L1 ? name['l2'] : name['l1'])}
+            .
           </TitleText>
           <MutedText>To monitor progress, go to History page.</MutedText>
         </SuccessContent>
