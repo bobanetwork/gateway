@@ -9,7 +9,7 @@ import NetworkPickerModal from './'
 import { mockedInitialState } from 'util/tests'
 
 describe('NetworkPickerModal', () => {
-  it('Should be visible', () => {
+  test('Should be visible', () => {
     const initialState = {
       ...mockedInitialState,
       ui: {
@@ -35,7 +35,7 @@ describe('NetworkPickerModal', () => {
     expect(queryByTestId('network-picker-modal')).toBeInTheDocument()
   })
 
-  it('Should dispatch close modal action on click close button', async () => {
+  test('Should dispatch close modal action on click close button', async () => {
     const initialState = {
       ...mockedInitialState,
       ui: {
@@ -70,7 +70,7 @@ describe('NetworkPickerModal', () => {
     })
   })
 
-  it('Should be not visible', () => {
+  test('Should be not visible', () => {
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
     const store = mockStore(mockedInitialState)
