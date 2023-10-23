@@ -1,4 +1,7 @@
-import { fetchVerifierStatus } from 'actions/verifierAction'
+import {
+  fetchVerifierStatus,
+  resetVerifierStatus,
+} from 'actions/verifierAction'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -51,6 +54,8 @@ const useGasWatcher = () => {
 
       if (activeNetwork === NETWORK.ETHEREUM) {
         dispatch(fetchVerifierStatus())
+      } else {
+        dispatch(resetVerifierStatus())
       }
     }
   }, [networkName, baseEnabled, dispatch])
@@ -73,6 +78,8 @@ const useGasWatcher = () => {
       gas
     ) {
       getGasSavings()
+    } else {
+      setSavings(1)
     }
 
     fetchGasDetail()
