@@ -7,10 +7,12 @@ import {
   selectActiveNetworkName,
   selectBridgeType,
   selectLayer,
+  selectDestChainIdTeleportation,
 } from 'selectors'
 
 import Modal from 'components/modal/Modal'
 import { Button, Heading, Typography } from 'components/global'
+import { CHAIN_ID_LIST } from '../../../util/network/network.util'
 
 import { LAYER } from 'util/constant'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
@@ -32,6 +34,16 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   const layer = useSelector(selectLayer())
   const name = useSelector(selectActiveNetworkName())
   const bridgeType = useSelector(selectBridgeType())
+
+  const destNetworkLightBridgeChainId = useSelector(
+    selectDestChainIdTeleportation()
+  )
+
+  let destNetworkLightBridge: string | null = null
+
+  if (bridgeType === BRIDGE_TYPE.LIGHT && destNetworkLightBridgeChainId) {
+    destNetworkLightBridge = CHAIN_ID_LIST[destNetworkLightBridgeChainId]?.name
+  }
 
   const estimateTime = () => {
     const estimates = {
@@ -75,7 +87,10 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
           <Heading variant="h1">Bridge Successful</Heading>
           <TitleText>
             Your funds will arrive in {estimateTime()} at your wallet on{' '}
-            {layer === LAYER.L1 ? name['l2'] : name['l1']}.
+            {destNetworkLightBridge && layer === LAYER.L1
+              ? name['l2']
+              : name['l1']}
+            .
           </TitleText>
           <MutedText>To monitor progress, go to History page.</MutedText>
         </SuccessContent>
