@@ -3,6 +3,8 @@ export const mockedInitialState = {
     theme: 'light',
     networkPicker: false,
     transactionSuccess: false,
+    noMetaMaskModal: false,
+    installMetaMaskModal: false,
   },
   network: {
     activeNetworkName: {
