@@ -2,6 +2,7 @@ export const mockedInitialState = {
   ui: {
     theme: 'light',
     networkPicker: false,
+    noMetaMaskModal: false,
     installMetaMaskModal: false,
   },
   network: {
