@@ -1,4 +1,4 @@
-import { MetamaskNetwork } from './types'
+import { MetamaskNetwork, NetworkTestInfo } from './types'
 
 export const Binance: MetamaskNetwork = {
   networkName: 'Binance Mainnet',
@@ -36,23 +36,76 @@ export const AvalancheTestnet: MetamaskNetwork = {
   isTestnet: true,
 }
 
-export const mainnetL1NetworkNames = [
-  'Ethereum',
-  'Binance Smart Chain',
-  'Avalanche Mainnet C-Chain',
+export const MainnetL1Networks: NetworkTestInfo[] = [
+  {
+    networkName: 'Ethereum',
+    networkAbbreviation: 'ETHEREUM',
+    isTestnet: false,
+  },
+  {
+    networkName: 'Binance Smart Chain',
+    networkAbbreviation: 'BNB',
+    isTestnet: false,
+  },
+  {
+    networkName: 'Avalanche Mainnet C-Chain',
+    networkAbbreviation: 'AVAX',
+    isTestnet: false,
+  },
 ]
 
-export const mainnetL2NetworkNames = ['Boba ETH', 'Boba BNB', 'Boba Avalanche']
-
-export const testnetL1NetworkNames = [
-  'Ethereum (Goerli)',
-  'BNB Testnet',
-  'Fuji Testnet',
+export const MainnetL2Networks: NetworkTestInfo[] = [
+  {
+    networkName: 'Boba ETH',
+    networkAbbreviation: 'Boba Eth',
+    isTestnet: false,
+  },
+  {
+    networkName: 'Boba BNB',
+    networkAbbreviation: 'Boba BNB',
+    isTestnet: false,
+  },
+  {
+    networkName: 'Boba Avalanche',
+    networkAbbreviation: 'Boba Avalanche',
+    isTestnet: false,
+  },
 ]
-export const testnetL2NetworkNames = [
-  'Boba (Goerli)',
-  'Boba BNB Testnet',
-  'Boba Fuji Testnet',
+
+export const TestnetL1Networks: NetworkTestInfo[] = [
+  {
+    networkName: 'Ethereum (Goerli)',
+    networkAbbreviation: 'Ethereum (Goerli)',
+    isTestnet: true,
+  },
+  {
+    networkName: 'BNB Testnet',
+    networkAbbreviation: 'BNB Testnet',
+    isTestnet: true,
+  },
+  {
+    networkName: 'Fuji Testnet',
+    networkAbbreviation: 'Fuji Testnet',
+    isTestnet: true,
+  },
+]
+
+export const TestnetL2Networks: NetworkTestInfo[] = [
+  {
+    networkName: 'Boba (Goerli)',
+    networkAbbreviation: 'Boba (Goerli)',
+    isTestnet: true,
+  },
+  {
+    networkName: 'Boba BNB Testnet',
+    networkAbbreviation: 'Boba BNB Testnet',
+    isTestnet: true,
+  },
+  {
+    networkName: 'Boba Fuji Testnet',
+    networkAbbreviation: 'Boba Fuji Testnet',
+    isTestnet: true,
+  },
 ]
 
 // Update the configs for boba networks TESTNET / MAINNET

@@ -6,3 +6,9 @@ export type MetamaskNetwork = {
   blockExplorer: string
   isTestnet: boolean
 }
+
+export type NetworkTestInfo = {
+  networkName: string
+  networkAbbreviation: string
+  isTestnet: boolean
+}

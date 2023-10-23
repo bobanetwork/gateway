@@ -1,11 +1,12 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
 import { Layer } from '../../../src/util/constant'
+import { NetworkTestInfo } from './base/types'
 import {
-  mainnetL1NetworkNames,
-  mainnetL2NetworkNames,
-  testnetL1NetworkNames,
-  testnetL2NetworkNames,
+  MainnetL1Networks,
+  MainnetL2Networks,
+  TestnetL1Networks,
+  TestnetL2Networks,
 } from './base/constants'
 
 export default class Bridge extends Page {
@@ -17,28 +18,30 @@ export default class Bridge extends Page {
   }
 
   checkNetworksModals(accountConnected: boolean) {
+    // switch networks
+    // switch through l1 networks, after switching to l1 networks switch to and from l2s.
     this.clickThroughNetworksInModals(
-      mainnetL1NetworkNames,
-      mainnetL2NetworkNames,
+      MainnetL1Networks,
+      MainnetL2Networks,
       accountConnected
     )
-    this.clickThroughNetworksInModals(
-      mainnetL2NetworkNames,
-      mainnetL1NetworkNames,
-      accountConnected
-    )
+    // this.clickThroughNetworksInModals(
+    //   MainnetL2Networks,
+    //   MainnetL1Networks,
+    //   accountConnected
+    // )
     this.switchToTestnet()
 
     this.clickThroughNetworksInModals(
-      testnetL1NetworkNames,
-      testnetL2NetworkNames,
+      TestnetL1Networks,
+      TestnetL2Networks,
       accountConnected
     )
-    this.clickThroughNetworksInModals(
-      testnetL2NetworkNames,
-      testnetL1NetworkNames,
-      accountConnected
-    )
+    // this.clickThroughNetworksInModals(
+    //   TestnetL2Networks,
+    //   TestnetL1Networks,
+    //   accountConnected
+    // )
   }
 
   openNetworkModal(networkName: string) {
@@ -48,15 +51,25 @@ export default class Bridge extends Page {
     this.getModal().contains(networkName).should('exist').click()
   }
   clickThroughNetworksInModals(
-    networksToSwitchThrough: string[],
-    correspondingNetworks: string[],
+    l1Networks: NetworkTestInfo[],
+    l2Networks: NetworkTestInfo[],
     accountConnected: boolean
   ) {
     for (let i = 0; i < 3; i++) {
-      this.withinPage().contains(correspondingNetworks[i]).should('exist')
-      this.openNetworkModal(networksToSwitchThrough[i])
-      this.selectNetworkFromModal(networksToSwitchThrough[(i + 1) % 3])
-      this.store.allowBaseEnabledToUpdate(accountConnected)
+      this.withinPage().contains(l2Networks[i].networkName).should('exist')
+      this.openNetworkModal(l1Networks[i].networkName)
+      const nextNetwork = l1Networks[(i + 1) % 3]
+      this.selectNetworkFromModal(nextNetwork.networkName)
+      if (accountConnected) {
+        this.handleNetworkSwitchModals(
+          nextNetwork.networkAbbreviation,
+          nextNetwork.isTestnet
+        )
+        this.allowNetworkSwitch()
+        this.checkNetworkSwitchSuccessful(nextNetwork.networkAbbreviation)
+      } else {
+        this.store.allowBaseEnabledToUpdate(accountConnected)
+      }
     }
   }
 

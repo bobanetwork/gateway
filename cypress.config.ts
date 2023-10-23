@@ -1,7 +1,5 @@
 import { defineConfig } from 'cypress'
 import synpressPlugins from '@synthetixio/synpress/plugins'
-import { cypressWebpackPlugin } from './cypress.webpack'
-import { gatewayPlugins } from './gateway-plugin'
 import * as dotenv from 'dotenv'
 dotenv.config()
 

@@ -40,7 +40,7 @@ export default class Page extends Base {
   }
   requestMetamaskConnect() {
     this.connectWallet()
-    cy.get('#connectMetaMask').should('exist').click()
+    this.getModal().contains('MetaMask').should('exist').click()
   }
 
   setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {
@@ -207,24 +207,26 @@ export default class Page extends Base {
   }
 
   handleNetworkSwitchModals(networkAbbreviation: string, isTestnet: boolean) {
-    cy.get(
-      `button[label="Switch to ${networkAbbreviation} ${
-        isTestnet ? 'Testnet' : ''
-      } network"]`,
-      { timeout: 90000 }
-    )
+    this.getModal()
+      .find(
+        `button[label="Switch to ${networkAbbreviation} ${
+          isTestnet ? 'Testnet' : ''
+        } network"]`,
+        { timeout: 90000 }
+      )
       .should('exist')
       .click()
 
     this.store.verifyReduxStoreSetup('accountEnabled', false)
     this.store.verifyReduxStoreSetup('baseEnabled', false)
 
-    cy.get(
-      `button[label="Connect to the ${networkAbbreviation} ${
-        isTestnet ? 'Testnet' : ''
-      } network"]`,
-      { timeout: 90000 }
-    )
+    this.getModal()
+      .find(
+        `button[label="Connect to the ${networkAbbreviation} ${
+          isTestnet ? 'Testnet' : 'Mainnet'
+        } network"]`,
+        { timeout: 90000 }
+      )
       .should('exist')
       .click()
   }
@@ -352,5 +354,17 @@ export default class Page extends Base {
       return assert(false)
     }
     this.getTitle().contains(slogan)
+  }
+
+  isReady() {
+    this.store.verifyReduxStoreSetup('baseEnabled', true)
+  }
+  accountConnected() {
+    this.store.verifyReduxStoreSetup('accountEnabled', true)
+    this.store
+      .getReduxStore()
+      .its('setup')
+      .its('walletAddress')
+      .should('not.be.empty')
   }
 }

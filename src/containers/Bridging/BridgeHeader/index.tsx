@@ -71,7 +71,7 @@ const BridgeHeader = (props: Props) => {
       </Heading>
       <IconWrapper>
         <GearIcon
-          id={'settings'}
+          id="settings"
           sx={{ color: iconColor }}
           onClick={openSettingModal}
         />
