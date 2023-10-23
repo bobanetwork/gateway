@@ -1,3 +1,21 @@
+import React, { FC } from 'react'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { closeModal } from 'actions/uiAction'
+import {
+  selectActiveNetworkName,
+  selectBridgeType,
+  selectLayer,
+} from 'selectors'
+
+import Modal from 'components/modal/Modal'
+import { Button, Heading, Typography } from 'components/global'
+
+import { LAYER } from 'util/constant'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { ModalInterface } from '../types'
+
 import {
   SuccessContainer,
   SuccessCheck,
@@ -6,58 +24,33 @@ import {
   CircleInner,
   TitleText,
   SuccessContent,
-} from './index.styles'
-import React, { FC } from 'react'
-import { closeModal } from 'actions/uiAction'
-import { Button, Heading, Typography } from 'components/global'
-import Modal from 'components/modal/Modal'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import {
-  selectActiveNetworkName,
-  selectBridgeType,
-  selectDestChainIdTeleportation,
-  selectLayer,
-} from 'selectors'
-import { LAYER } from 'util/constant'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
-import { CHAIN_ID_LIST } from '../../../util/network/network.util'
+} from './styles'
 
-interface Props {
-  open: boolean
-}
-
-const TransactionSuccessModal: FC<Props> = ({ open }) => {
+const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const navigate = useNavigate()
   const layer = useSelector(selectLayer())
   const name = useSelector(selectActiveNetworkName())
   const bridgeType = useSelector(selectBridgeType())
-  const destNetworkLightBridgeChainId = useSelector(
-    selectDestChainIdTeleportation()
-  )
-  let destNetworkLightBridge: string | null = null
-  if (bridgeType === BRIDGE_TYPE.LIGHT && destNetworkLightBridgeChainId) {
-    destNetworkLightBridge = CHAIN_ID_LIST[destNetworkLightBridgeChainId]?.name
-  }
 
   const estimateTime = () => {
-    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
-      if (layer === LAYER.L1) {
-        return '13 ~ 14mins.'
-      } else {
-        return '7 days'
-      }
-    } else if (bridgeType === BRIDGE_TYPE.FAST) {
-      if (layer === LAYER.L1) {
-        return '1 ~ 5min.'
-      } else {
-        return '15min ~ 3hrs.'
-      }
-    } else {
-      // Light bridge, instant
-      return '~1min.'
+    const estimates = {
+      [BRIDGE_TYPE.CLASSIC]: {
+        [LAYER.L1]: '13 ~ 14mins.',
+        default: '7 days',
+      },
+      [BRIDGE_TYPE.FAST]: {
+        [LAYER.L1]: '1 ~ 5min.',
+        default: '15min ~ 3hrs.',
+      },
+      default: '~1min.',
     }
+
+    return (
+      estimates[bridgeType]?.[layer] ||
+      estimates[bridgeType]?.default ||
+      estimates.default
+    )
   }
 
   const handleClose = () => {
@@ -68,9 +61,9 @@ const TransactionSuccessModal: FC<Props> = ({ open }) => {
     <Modal
       open={open}
       onClose={handleClose}
-      minHeight="180px"
       title=""
       transparent={false}
+      testId="transactionSuccess-modal"
     >
       <SuccessContainer>
         <CircleOuter>
@@ -82,9 +75,7 @@ const TransactionSuccessModal: FC<Props> = ({ open }) => {
           <Heading variant="h1">Bridge Successful</Heading>
           <TitleText>
             Your funds will arrive in {estimateTime()} at your wallet on{' '}
-            {destNetworkLightBridge ??
-              (layer === LAYER.L1 ? name['l2'] : name['l1'])}
-            .
+            {layer === LAYER.L1 ? name['l2'] : name['l1']}.
           </TitleText>
           <MutedText>To monitor progress, go to History page.</MutedText>
         </SuccessContent>
