@@ -40,7 +40,6 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   )
 
   let destNetworkLightBridge: string | null = null
-
   if (bridgeType === BRIDGE_TYPE.LIGHT && destNetworkLightBridgeChainId) {
     destNetworkLightBridge = CHAIN_ID_LIST[destNetworkLightBridgeChainId]?.name
   }
