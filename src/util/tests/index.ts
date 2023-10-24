@@ -2,11 +2,16 @@ export const mockedInitialState = {
   ui: {
     theme: 'light',
     networkPicker: false,
+    transactionSuccess: false,
     noMetaMaskModal: false,
     installMetaMaskModal: false,
     settingsModal: false,
   },
   network: {
+    activeNetworkName: {
+      l1: 'ethereum',
+      l2: 'boba',
+    },
     activeNetworkType: 'Mainnet',
   },
   setup: {
@@ -15,5 +20,6 @@ export const mockedInitialState = {
   bridge: {
     bridgeToAddressState: true,
     destChainIdTeleportation: 'ethereum',
+    bridgeType: 'CLASSIC',
   },
 }
