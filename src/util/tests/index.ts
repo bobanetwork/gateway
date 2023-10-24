@@ -4,6 +4,7 @@ export const mockedInitialState = {
     networkPicker: false,
     noMetaMaskModal: false,
     installMetaMaskModal: false,
+    settingsModal: false,
   },
   network: {
     activeNetworkType: 'Mainnet',
@@ -11,7 +12,8 @@ export const mockedInitialState = {
   setup: {
     netLayer: 'L1',
   },
-  birdge: {
+  bridge: {
+    bridgeToAddressState: true,
     destChainIdTeleportation: 'ethereum',
   },
 }
