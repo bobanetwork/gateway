@@ -4,6 +4,7 @@ export const mockedInitialState = {
     networkPicker: false,
     noMetaMaskModal: false,
     installMetaMaskModal: false,
+    walletSelectorModal: false,
   },
   network: {
     activeNetworkType: 'Mainnet',
