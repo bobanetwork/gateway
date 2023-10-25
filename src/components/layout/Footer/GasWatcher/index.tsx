@@ -20,7 +20,7 @@ const GasWatcher: FC = () => {
   }
 
   return (
-    <GasListContainer>
+    <GasListContainer id="gasDetails">
       <GasListItem>
         <GasListItemLabel>{networkName['l1']}</GasListItemLabel>
         <GasListItemValue>{gas?.gasL1} Gwei</GasListItemValue>

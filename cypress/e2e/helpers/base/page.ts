@@ -66,7 +66,23 @@ export default class Page extends Base {
       networkType: 'Mainnet',
     }
 
-    const payload = network === 'BNB' ? bnbConfig : avaxConfig
+    const ethConfig = {
+      network: 'ETHEREUM',
+      name: {
+        l1: 'Mainnet',
+        l2: 'Boba L2',
+      },
+      networkIcon: 'ethereum',
+      chainIds: { L1: '1', L2: '288' },
+      networkType: 'Mainnet',
+    }
+
+    let payload = ethConfig
+    if (network === 'BNB') {
+      payload = bnbConfig
+    } else if (network === 'AVAX') {
+      payload = avaxConfig
+    }
 
     cy.window().its('store').invoke('dispatch', {
       type: 'NETWORK/SET',
@@ -352,5 +368,23 @@ export default class Page extends Base {
       return assert(false)
     }
     this.getTitle().contains(slogan)
+  }
+
+  checkGasWatcherListingInETH() {
+    this.footer
+      .gasDetailsInfo()
+      .should('not.be.empty')
+      .and(($p) => {
+        expect($p).to.have.length(6)
+      })
+  }
+
+  checkGasWatcherListingInBNB() {
+    this.footer
+      .gasDetailsInfo()
+      .should('not.be.empty')
+      .and(($p) => {
+        expect($p).to.have.length(5)
+      })
   }
 }

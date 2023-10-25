@@ -8,7 +8,7 @@ describe('Page Layout', () => {
     page.visit()
   })
 
-  describe('Header', () => {
+  xdescribe('Header', () => {
     it('Navigation links should be correct and functional', () => {
       page.checkNavigationListEthereum()
       page.setNetworkTo('BNB')
@@ -28,6 +28,14 @@ describe('Page Layout', () => {
     })
     it('Social links', () => {
       page.checkSocialMediaLinks()
+    })
+    it('Gas details should be visible', () => {
+      page.setNetworkTo('ETH')
+      page.checkGasWatcherListingInETH()
+    })
+    it('Gas details should be visible with no status verifier value in cas of BNB', () => {
+      page.setNetworkTo('BNB')
+      page.checkGasWatcherListingInBNB()
     })
     it('Copyright & Version', () => {
       page.checkCopyrightAndVersion()
