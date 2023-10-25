@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import networkService from 'services/networkService'
-// console.log(networkService);
+
 let allAddresses = {};
 if (networkService) {
-  allAddresses == networkService.getAllAddresses()
+  allAddresses == networkService.addresses
 }
 
 const initialState = {
