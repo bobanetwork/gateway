@@ -13,7 +13,7 @@ import {
 } from 'selectors'
 import networkService from 'services/networkService'
 import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
-import gasService from 'services/gas.service'
+import { fetchGasDetail } from 'services/gas.service'
 import useInterval from './useInterval'
 import { GAS_POLL_INTERVAL } from 'util/constant'
 
@@ -34,24 +34,23 @@ import { GAS_POLL_INTERVAL } from 'util/constant'
 const useGasWatcher = () => {
   const dispatch = useDispatch<any>()
 
+  const [gas, setGas] = useState<any>()
+  const [savings, setSavings] = useState<number>(1)
+
   const verifierStatus = useSelector(selectVerifierStatus)
   const baseEnabled = useSelector(selectBaseEnabled())
-  const [gas, setGas] = useState<any>()
   const networkName = useSelector(selectActiveNetworkName())
   const activeNetwork = useSelector(selectActiveNetwork())
   const activeNetworkType = useSelector(selectActiveNetworkType())
 
-  const [savings, setSavings] = useState<number>(1)
-
-  const fetchGasDetail = useCallback(() => {
+  const loadGasDetail = useCallback(() => {
     if (baseEnabled) {
       const fetchGas = async () => {
-        const gasDetail = await gasService.getGas()
+        const gasDetail = await fetchGasDetail()
         setGas(gasDetail)
       }
 
       fetchGas()
-
       if (activeNetwork === NETWORK.ETHEREUM) {
         dispatch(fetchVerifierStatus())
       } else {
@@ -61,6 +60,8 @@ const useGasWatcher = () => {
   }, [networkName, baseEnabled, dispatch])
 
   useEffect(() => {
+    loadGasDetail()
+
     const getGasSavings = async () => {
       const l1SecurityFee = await networkService.estimateL1SecurityFee()
       const l2Fee = await networkService.estimateL2Fee()
@@ -81,12 +82,10 @@ const useGasWatcher = () => {
     } else {
       setSavings(1)
     }
-
-    fetchGasDetail()
-  }, [fetchGasDetail, activeNetwork])
+  }, [loadGasDetail, activeNetwork, gas])
 
   useInterval(() => {
-    fetchGasDetail()
+    loadGasDetail()
   }, GAS_POLL_INTERVAL)
 
   return { savings, gas, verifierStatus }
