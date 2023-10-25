@@ -15,13 +15,15 @@ limitations under the License. */
 
 const initialState = {};
 
-function verifierReducer (state = initialState, action) {
+function verifierReducer(state = initialState,action) {
   switch (action.type) {
     case 'VERIFIER/GET/SUCCESS':
       if (action.payload) {
-        return { ...state, ...action.payload };
+        return {...state,...action.payload};
       }
       return state;
+    case 'VERIFIER/RESET':
+      return {};
     default:
       return state;
   }
