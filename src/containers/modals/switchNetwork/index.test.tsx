@@ -64,7 +64,7 @@ describe('SwitchNetworkModal', () => {
     })
   })
 
-  test('Should be not visible', () => {
+  test('Should not be visible', () => {
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
     const store = mockStore(mockedInitialState)
