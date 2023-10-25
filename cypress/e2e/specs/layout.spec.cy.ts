@@ -8,7 +8,7 @@ describe('Page Layout', () => {
     page.visit()
   })
 
-  xdescribe('Header', () => {
+  describe('Header', () => {
     it('Navigation links should be correct and functional', () => {
       page.checkNavigationListEthereum()
       page.setNetworkTo('BNB')
