@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react'
 import { act, renderHook } from '@testing-library/react-hooks'
 import useGasWatcher from './useGasWatcher'
@@ -89,11 +91,8 @@ describe('UseGasWatcher', () => {
     expect(result.current.verifierStatus).toEqual({})
 
     actions = store.getActions()
-
     expect(actions).toEqual([
       { type: 'VERIFIER/GET/REQUEST' },
-      { type: 'VERIFIER/GET/REQUEST' },
-      { type: 'VERIFIER/GET/SUCCESS', payload: 322232 },
       { type: 'VERIFIER/GET/REQUEST' },
       { type: 'VERIFIER/GET/SUCCESS', payload: 322232 },
       { type: 'VERIFIER/GET/SUCCESS', payload: 322232 },
@@ -149,7 +148,6 @@ describe('UseGasWatcher', () => {
 
     actions = store.getActions()
     expect(actions).toEqual([
-      { type: 'VERIFIER/RESET' },
       { type: 'VERIFIER/RESET' },
       { type: 'VERIFIER/RESET' },
     ])

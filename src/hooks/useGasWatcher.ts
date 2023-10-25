@@ -60,8 +60,6 @@ const useGasWatcher = () => {
   }, [networkName, baseEnabled, dispatch])
 
   useEffect(() => {
-    loadGasDetail()
-
     const getGasSavings = async () => {
       const l1SecurityFee = await networkService.estimateL1SecurityFee()
       const l2Fee = await networkService.estimateL2Fee()
@@ -82,7 +80,11 @@ const useGasWatcher = () => {
     } else {
       setSavings(1)
     }
-  }, [loadGasDetail, activeNetwork, gas])
+  }, [gas, activeNetwork])
+
+  useEffect(() => {
+    loadGasDetail()
+  }, [loadGasDetail, activeNetwork])
 
   useInterval(() => {
     loadGasDetail()
