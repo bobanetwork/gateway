@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meta, StoryFn } from '@storybook/react'
-import Arrow from '../../../images/icons/arrowdown.svg'
+import Arrow from '../../../assets/images/icons/arrowdown.svg'
 import { Svg } from './'
 import { SvgTypes } from './types'
 import styled from 'styled-components'
