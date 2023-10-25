@@ -5,6 +5,7 @@ export const mockedInitialState = {
     transactionSuccess: false,
     noMetaMaskModal: false,
     installMetaMaskModal: false,
+    settingsModal: false,
     switchNetworkModal: false,
   },
   network: {
@@ -18,6 +19,7 @@ export const mockedInitialState = {
     netLayer: 'L1',
   },
   bridge: {
+    bridgeToAddressState: true,
     destChainIdTeleportation: 'ethereum',
     bridgeType: 'CLASSIC',
   },
