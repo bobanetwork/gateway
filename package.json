@@ -43,6 +43,7 @@
     "@emotion/styled": "^11.11.0",
     "@eth-optimism/core-utils": "0.8.1",
     "@ethersproject/units": "^5.5.0",
+    "@metamask/providers": "^13.1.0",
     "@mui/base": "5.0.0-alpha.72",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
@@ -50,6 +51,7 @@
     "@sentry/react": "^7.51.0",
     "@sentry/tracing": "^7.51.0",
     "@walletconnect/web3-provider": "^1.8.0",
+    "add": "^2.0.6",
     "assert": "^2.0.0",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
@@ -102,7 +104,8 @@
     "truncate-middle": "^1.0.6",
     "ts-md5": "^1.2.11",
     "typescript": "^5.1.6",
-    "webpack-bundle-analyzer": "^4.9.1"
+    "webpack-bundle-analyzer": "^4.9.1",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.21.5",

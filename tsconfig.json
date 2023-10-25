@@ -30,8 +30,9 @@
   "exclude": [
     "node_modules",
     "types/custom.d.ts",
+    "types/global.d.ts",
   ],
   "include": [
     "src"
-  ]
+, "types.d.ts"  ]
 }

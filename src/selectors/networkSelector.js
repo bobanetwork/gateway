@@ -27,13 +27,13 @@ export function selectNetworkType() {
 
 export function selectActiveNetwork () {
   return function (state) {
-    return state.network['activeNetwork']
+    return state.network?.['activeNetwork']
   }
 }
 
 export function selectActiveNetworkType() {
   return function (state) {
-    return state.network['activeNetworkType']
+    return state.network?.['activeNetworkType']
   }
 }
 
@@ -44,6 +44,6 @@ export function selectActiveNetworkIcon() {
 }
 export function selectActiveNetworkName() {
   return function (state) {
-    return state.network['activeNetworkName']
+    return state.network?.['activeNetworkName']
   }
 }

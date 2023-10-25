@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useWalletConnect } from 'hooks/useWalletConnect'
+import type { MetaMaskInpageProvider } from '@metamask/providers'
 
 import Modal from 'components/modal/Modal'
 
@@ -26,12 +27,6 @@ import {
   IconContainer,
   StyledSvg,
 } from './styles'
-
-declare global {
-  interface Window {
-    ethereum?: any
-  }
-}
 
 const WalletSelectorModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
