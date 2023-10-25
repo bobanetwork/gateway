@@ -108,6 +108,22 @@ Run specific tests by giving a path to the file you want to run:
 $ yarn test ./path-to-file/file.spec.ts
 ```
 
+Watch for test file change with coverage report locally at same time.
+
+```bash
+
+$ yarn test:w <path-to-test-file> --coverage --collectCoverageFrom=<path-to-component/class>
+
+```
+
+eg.
+
+```bash
+
+$ yarn test:w src/components/layout/Footer/GasWatcher/index.test.tsx --coverage --collectCoverageFrom=src/components/layout/Footer/GasWatcher/index.tsx
+
+```
+
 ## Measuring test coverage:
 ```bash
 $ yarn test:coverage
