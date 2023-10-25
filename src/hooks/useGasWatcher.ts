@@ -68,6 +68,7 @@ const useGasWatcher = () => {
         (Number(gas.gasL1) * l2Fee) /
         Number(gas.gasL2) /
         (l2Fee + l1SecurityFee)
+
       setSavings(gasSavings ? gasSavings : 0)
     }
     // Load gas savings only in case of ETHEREUM MAINNET

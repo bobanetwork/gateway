@@ -153,4 +153,36 @@ describe('UseGasWatcher', () => {
     ])
     store.clearActions()
   })
+  test('should work as expected when bansedEnabled is false', async () => {
+    network = {
+      activeNetwork: NETWORK.BNB,
+      activeNetworkType: NETWORK_TYPE.MAINNET,
+      activeNetworkName: {
+        l1: 'Binance',
+        l2: 'Boba BNB',
+      },
+    }
+
+    store = mockStore({
+      ui: {
+        theme: 'dark',
+      },
+      verifier: {},
+      setup: {
+        baseEnabled: false,
+      },
+      network,
+    })
+
+    const { result } = renderHook(() => useGasWatcher(), {
+      wrapper,
+    })
+    // validate initial state
+    expect(result.current.gas).toBeUndefined()
+    expect(result.current.savings).toBe(1)
+    expect(result.current.verifierStatus).toEqual({})
+    let actions = store.getActions()
+    expect(actions).toEqual([])
+    store.clearActions()
+  })
 })
