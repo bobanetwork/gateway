@@ -5,6 +5,7 @@ export const mockedInitialState = {
     transactionSuccess: false,
     noMetaMaskModal: false,
     installMetaMaskModal: false,
+    switchNetworkModal: false,
   },
   network: {
     activeNetworkName: {
