@@ -217,11 +217,11 @@ export const rpcUrls = Object.values(AllNetworkConfigs).reduce(
     networkConfigs[networkConfig.Mainnet.L1.chainId] =
       networkConfig.Mainnet.L1.rpcUrl[0]
     networkConfigs[networkConfig.Mainnet.L2.chainId] =
-      networkConfig.Mainnet.L2.rpcUrl
+      networkConfig.Mainnet.L2.rpcUrl[0]
     networkConfigs[networkConfig.Testnet.L1.chainId] =
       networkConfig.Testnet.L1.rpcUrl[0]
     networkConfigs[networkConfig.Testnet.L2.chainId] =
-      networkConfig.Testnet.L2.rpcUrl
+      networkConfig.Testnet.L2.rpcUrl[0]
     return networkConfigs
   },
   {}
