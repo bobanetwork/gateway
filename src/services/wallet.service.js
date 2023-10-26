@@ -141,15 +141,16 @@ class WalletService {
     } catch (error) {
       if (error.code === 4902 || this.walletType === 'walletconnect') {
         try {
-          await provider.request({
-            method: "wallet_addEthereumChain",
-            params: [chainInfo,this.account],
-          })
           // After adding the chain, we need to call switchEthereumChain again to finish the process for WalletConnect
           if (this.walletType === 'walletconnect') {
             await provider.request({
               method: "wallet_switchEthereumChain",
               params: [{chainId}],
+            })
+          } else {
+            await provider.request({
+              method: "wallet_addEthereumChain",
+              params: [chainInfo,this.account],
             })
           }
           return true
