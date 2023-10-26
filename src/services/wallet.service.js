@@ -78,6 +78,8 @@ class WalletService {
   async connectWalletConnect() {
     try {
 
+      console.log(rpcUrls)
+
       this.walletConnectProvider = await EthereumProvider.init({
         projectId: '6957d14c5c990644812b7cc8ad60d485',
         rpcMap: [rpcUrls[1],rpcUrls[5]],
