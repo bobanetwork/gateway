@@ -23,6 +23,7 @@ import store from 'store'
 import {setActiveNetwork,setNetwork} from 'actions/networkAction'
 import {setBaseState,setEnableAccount} from 'actions/setupAction';
 import {openModal} from 'actions/uiAction';
+import networkService from "./networkService"
 
 class WalletService {
   constructor() {
@@ -77,14 +78,13 @@ class WalletService {
 
   async connectWalletConnect() {
     try {
-
-      console.log(rpcUrls)
+      console.log(networkService.networkConfig)
 
       this.walletConnectProvider = await EthereumProvider.init({
         projectId: '6957d14c5c990644812b7cc8ad60d485',
-        rpcMap: [rpcUrls[1],rpcUrls[5]],
         showQrModal: true,
-        chains: [1,5]
+        chains: [networkService.networkConfig['L1'].chainId],
+        optionalChains: [1,5,56,97] // only ETH, BNB mainnet / testnet
       })
       console.log(`provider recieved`,this.walletConnectProvider);
       await this.walletConnectProvider.connect()
@@ -95,13 +95,6 @@ class WalletService {
       console.log(`signer is ready`,this.account);
       this.walletType = 'walletconnect'
 
-      /* this.walletConnectProvider = new WalletConnectProvider({
-        rpc: rpcUrls
-      })
-      await this.walletConnectProvider.enable()
-      this.provider = new providers.Web3Provider(this.walletConnectProvider,'any')
-      this.account = await this.provider.getSigner().getAddress()
-      this.walletType = 'walletconnect' */
       return true
     } catch (e) {
       console.log(`Error connecting WalletConnect: ${e}`)
