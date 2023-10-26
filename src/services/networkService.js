@@ -1757,7 +1757,6 @@ class NetworkService {
             utils.formatBytes32String(new Date().getTime().toString())
           )
       }
-      console.log('starting block fetching!')
       setFetchDepositTxBlock(true)
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()

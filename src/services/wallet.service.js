@@ -78,21 +78,15 @@ class WalletService {
 
   async connectWalletConnect() {
     try {
-      console.log(networkService.networkConfig)
-
       this.walletConnectProvider = await EthereumProvider.init({
         projectId: '6957d14c5c990644812b7cc8ad60d485',
         showQrModal: true,
         chains: [networkService.networkConfig['L1'].chainId],
         optionalChains: [1,5,56,97] // only ETH, BNB mainnet / testnet
       })
-      console.log(`provider recieved`,this.walletConnectProvider);
       await this.walletConnectProvider.connect()
-      console.log(`connection setup`);
       this.provider = new providers.Web3Provider(this.walletConnectProvider,'any')
-      console.log(`signer getting ready`);
       this.account = await this.provider.getSigner().getAddress()
-      console.log(`signer is ready`,this.account);
       this.walletType = 'walletconnect'
 
       return true
