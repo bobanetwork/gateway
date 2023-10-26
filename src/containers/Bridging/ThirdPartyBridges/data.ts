@@ -26,7 +26,7 @@ export const bobaBridges: IBridges[] = [
     icon: AnyswapLogo,
     type: 'ANYSWAP',
     link: 'https://anyswap.exchange/#/router',
-    tokens: ['MIM', 'AVAX', 'FRAX', 'FTM', 'FXS', 'MATIC'],
+    tokens: ['MIM', 'FRAX', 'FTM', 'FXS', 'MATIC'],
   },
   {
     name: 'Celer',

@@ -61,8 +61,7 @@ const amountToUseConfig = {
   'BOBA': { provider: 'boba-network' },
   'OLO': { provider: 'oolongswap' },
   'OMG': { provider: 'omisego' },
-  'USDC': { provider: 'usd-coin' },
-  'AVAX': { provider: 'avalanche-2' },
+  'USDC': {provider: 'usd-coin'},
   'BNB': { provider: 'binancecoin' },
   'tBNB': { provider: 'binancecoin' }
 }
