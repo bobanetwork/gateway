@@ -14,15 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import {providers,utils} from "ethers"
 import {EthereumProvider} from '@walletconnect/ethereum-provider'
+import {providers,utils} from "ethers"
 
-import WalletConnectProvider from "@walletconnect/web3-provider"
-import {rpcUrls,CHAIN_ID_LIST,NetworkList} from 'util/network/network.util'
+import {setBaseState,setEnableAccount} from 'actions/setupAction'
+import {openModal} from 'actions/uiAction'
 import store from 'store'
-import {setActiveNetwork,setNetwork} from 'actions/networkAction'
-import {setBaseState,setEnableAccount} from 'actions/setupAction';
-import {openModal} from 'actions/uiAction';
+import {CHAIN_ID_LIST} from 'util/network/network.util'
 import networkService from "./networkService"
 
 class WalletService {
@@ -33,8 +31,6 @@ class WalletService {
     this.walletConnectProvider = null
     this.walletType = null
   }
-
-
 
   async connectMetaMask() {
     try {
@@ -82,13 +78,12 @@ class WalletService {
         projectId: '6957d14c5c990644812b7cc8ad60d485',
         showQrModal: true,
         chains: [networkService.networkConfig['L1'].chainId],
-        optionalChains: [1,5,56,97] // only ETH, BNB mainnet / testnet
+        optionalChains: [1,5,56,97] // only ETH, BNB (mainnet/testnet)
       })
       await this.walletConnectProvider.connect()
       this.provider = new providers.Web3Provider(this.walletConnectProvider,'any')
       this.account = await this.provider.getSigner().getAddress()
       this.walletType = 'walletconnect'
-
       return true
     } catch (e) {
       console.log(`Error connecting WalletConnect: ${e}`)
