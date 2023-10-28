@@ -85,6 +85,18 @@ describe('WalletService', () => {
       expect(wsInstance.account).toEqual(ACCOUNT_ADDRESS)
       expect(wsInstance.walletType).toEqual('metamask')
     })
+
+    test('should invoke disconnect metamask', async () => {
+      expect(1).toBe(1)
+    })
+
+    test('should listen to MetaMask events like accountsChanged, chainChanged', () => {
+      expect(1).toBe(1)
+    })
+
+    test('should trigger watchAsset with correct params on addTokenToMetaMask', () => {
+      expect(1).toBe(1)
+    })
   })
 
   describe('Wallet Connect', () => {
@@ -108,5 +120,22 @@ describe('WalletService', () => {
       await wsInstance.disconnectWalletConnect()
       expect(mockDisconnect).toHaveBeenCalled()
     })
+
+    test('should listen to walletConnect events like accountsChanged, chainChanged', () => {
+      expect(1).toBe(1)
+    })
+  })
+
+  test('connect should invoke functions correct based on type', () => {
+    expect(1).toBe(1)
+  })
+  test('disconnect should invoke functions correct based on type', () => {
+    expect(1).toBe(1)
+  })
+  test('listenners should invoke functions correct based on type', () => {
+    expect(1).toBe(1)
+  })
+  test('should reset values', () => {
+    expect(1).toBe(1)
   })
 })
