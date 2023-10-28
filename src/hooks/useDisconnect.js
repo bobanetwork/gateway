@@ -19,7 +19,7 @@ const useDisconnect = () => {
   const chainIdChanged = useSelector(selectChainIdChanged())
 
   const disconnect = async () => {
-    await networkService.walletService.disconnectWallet()
+    await networkService.walletService.disconnect()
     dispatch(setLayer(null))
     dispatch(setConnect(false))
     dispatch(setConnectBOBA(false))
