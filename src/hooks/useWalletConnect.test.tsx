@@ -1,0 +1,3 @@
+describe('UseWalletConnect', () => {
+  return false
+})
