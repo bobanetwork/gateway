@@ -22,6 +22,7 @@ import {openModal} from 'actions/uiAction'
 import store from 'store'
 import {CHAIN_ID_LIST} from 'util/network/network.util'
 import networkService from "./networkService"
+import {WC_PROJECT_ID} from 'util/constant'
 
 class WalletService {
   constructor() {
@@ -75,7 +76,7 @@ class WalletService {
   async connectWalletConnect() {
     try {
       this.walletConnectProvider = await EthereumProvider.init({
-        projectId: '6957d14c5c990644812b7cc8ad60d485',
+        projectId: WC_PROJECT_ID,
         showQrModal: true,
         chains: [networkService.networkConfig['L1'].chainId],
         optionalChains: [1,5,56,97] // only ETH, BNB (mainnet/testnet)
