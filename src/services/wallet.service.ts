@@ -26,19 +26,13 @@ import { WC_PROJECT_ID } from 'util/constant'
 
 class WalletService {
   provider: any
-  account: string | null
   walletConnectProvider: any
-  walletType: 'metamask' | 'walletconnect' | null
+  account: string = ''
+  walletType: 'metamask' | 'walletconnect' | null = null
 
-  constructor() {
-    this.provider = null
-    this.account = null
+  // meta mask functions
 
-    this.walletConnectProvider = null
-    this.walletType = null
-  }
-
-  async connectMetaMask() {
+  async connectToMetaMask() {
     try {
       await window.ethereum.request({ method: 'eth_requestAccounts' })
       this.provider = new providers.Web3Provider(window.ethereum, 'any')
@@ -64,7 +58,7 @@ class WalletService {
     }
   }
 
-  async listenMetaMask() {
+  async listenToMetaMask() {
     window.ethereum.on('accountsChanged', () => {
       //reset connection
       store.dispatch(setBaseState(false))
@@ -83,6 +77,29 @@ class WalletService {
       }
     })
   }
+
+  async addTokenToMetaMask(token) {
+    const { address, symbol, decimals, logoURI, chain } = token
+    return window.ethereum
+      .request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address,
+            symbol,
+            decimals,
+            image: logoURI,
+            chainId: chain,
+          },
+        },
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  // wallet connect functions
 
   async connectWalletConnect() {
     try {
@@ -132,6 +149,7 @@ class WalletService {
     })
   }
 
+  // switching chain
   async switchChain(chainId, chainInfo) {
     const provider =
       this.walletType === 'metamask'
@@ -170,37 +188,19 @@ class WalletService {
     }
   }
 
-  async connectWallet(type) {
+  // trigger connect to MM / WC
+
+  async connect(type: string) {
     if (type === 'metamask') {
-      return this.connectMetaMask()
+      return this.connectToMetaMask()
     }
     if (type === 'walletconnect') {
       return this.connectWalletConnect()
     }
   }
 
-  async addTokenToMetaMask(token) {
-    const { address, symbol, decimals, logoURI, chain } = token
-    return window.ethereum
-      .request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: {
-            address,
-            symbol,
-            decimals,
-            image: logoURI,
-            chainId: chain,
-          },
-        },
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
-
-  async disconnectWallet() {
+  // trigger disconnect from MM / WC
+  async disconnect() {
     let result = false
     if (this.walletType === 'metamask') {
       result = await this.disconnectMetaMask()
@@ -212,19 +212,19 @@ class WalletService {
     return result
   }
 
-  bindProviderListeners() {
+  bindProviderListeners(): void {
     if (this.walletType === 'metamask') {
-      this.listenMetaMask()
+      this.listenToMetaMask()
     }
     if (this.walletType === 'walletconnect') {
       this.listenWalletConnect()
     }
   }
 
-  resetValues() {
+  resetValues(): void {
     this.walletConnectProvider = null
     this.provider = null
-    this.account = null
+    this.account = ''
     this.walletType = null
     store.dispatch({ type: 'SETUP/CHAINIDCHANGED/RESET' })
   }
