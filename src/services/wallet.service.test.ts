@@ -73,6 +73,7 @@ describe('WalletService', () => {
   describe('MetaMask', () => {
     afterAll(() => {
       wsInstance.disconnect()
+      jest.clearAllMocks()
     })
 
     test('should set provider, account, walletType correctly', async () => {
@@ -87,7 +88,11 @@ describe('WalletService', () => {
     })
 
     test('should invoke disconnect metamask', async () => {
-      expect(1).toBe(1)
+      await wsInstance.disconnectMetaMask()
+      expect(window.ethereum.request).toHaveBeenCalledWith({
+        method: 'eth_requestAccounts',
+        params: [{ eth_accounts: {} }],
+      })
     })
 
     test('should listen to MetaMask events like accountsChanged, chainChanged', () => {
