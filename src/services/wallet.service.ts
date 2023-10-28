@@ -14,17 +14,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import {EthereumProvider} from '@walletconnect/ethereum-provider'
-import {providers,utils} from "ethers"
+import { EthereumProvider } from '@walletconnect/ethereum-provider'
+import { providers, utils } from 'ethers'
 
-import {setBaseState,setEnableAccount} from 'actions/setupAction'
-import {openModal} from 'actions/uiAction'
+import { setBaseState, setEnableAccount } from 'actions/setupAction'
+import { openModal } from 'actions/uiAction'
 import store from 'store'
-import {CHAIN_ID_LIST} from 'util/network/network.util'
-import networkService from "./networkService"
-import {WC_PROJECT_ID} from 'util/constant'
+import { CHAIN_ID_LIST } from 'util/network/network.util'
+import networkService from './networkService'
+import { WC_PROJECT_ID } from 'util/constant'
 
 class WalletService {
+  provider: any
+  account: string | null
+  walletConnectProvider: any
+  walletType: 'metamask' | 'walletconnect' | null
+
   constructor() {
     this.provider = null
     this.account = null
@@ -35,8 +40,8 @@ class WalletService {
 
   async connectMetaMask() {
     try {
-      await window.ethereum.request({method: 'eth_requestAccounts'})
-      this.provider = new providers.Web3Provider(window.ethereum,'any')
+      await window.ethereum.request({ method: 'eth_requestAccounts' })
+      this.provider = new providers.Web3Provider(window.ethereum, 'any')
       this.account = await this.provider.getSigner().getAddress()
       this.walletType = 'metamask'
       return true
@@ -48,7 +53,10 @@ class WalletService {
 
   async disconnectMetaMask() {
     try {
-      await window.ethereum.request({method: "eth_requestAccounts",params: [{eth_accounts: {}}]})
+      await window.ethereum.request({
+        method: 'eth_requestAccounts',
+        params: [{ eth_accounts: {} }],
+      })
       return true
     } catch (e) {
       console.log(`Error disconnecting wallet: ${e}`)
@@ -57,16 +65,19 @@ class WalletService {
   }
 
   async listenMetaMask() {
-    window.ethereum.on('accountsChanged',() => {
+    window.ethereum.on('accountsChanged', () => {
       //reset connection
-      store.dispatch(setBaseState(false));
-      store.dispatch(setEnableAccount(false));
+      store.dispatch(setBaseState(false))
+      store.dispatch(setEnableAccount(false))
       window.location.reload()
     })
 
-    window.ethereum.on('chainChanged',(chainId) => {
+    window.ethereum.on('chainChanged', (chainId) => {
       if (CHAIN_ID_LIST[Number(chainId)]) {
-        store.dispatch({type: 'SETUP/CHAINIDCHANGED/SET',payload: Number(chainId)})
+        store.dispatch({
+          type: 'SETUP/CHAINIDCHANGED/SET',
+          payload: Number(chainId),
+        })
       } else {
         store.dispatch(openModal('UnsupportedNetwork'))
       }
@@ -76,13 +87,16 @@ class WalletService {
   async connectWalletConnect() {
     try {
       this.walletConnectProvider = await EthereumProvider.init({
-        projectId: WC_PROJECT_ID,
+        projectId: WC_PROJECT_ID as string,
         showQrModal: true,
         chains: [networkService.networkConfig['L1'].chainId],
-        optionalChains: [1,5,56,97] // only ETH, BNB (mainnet/testnet)
+        optionalChains: [1, 5, 56, 97], // only ETH, BNB (mainnet/testnet)
       })
       await this.walletConnectProvider.connect()
-      this.provider = new providers.Web3Provider(this.walletConnectProvider,'any')
+      this.provider = new providers.Web3Provider(
+        this.walletConnectProvider,
+        'any'
+      )
       this.account = await this.provider.getSigner().getAddress()
       this.walletType = 'walletconnect'
       return true
@@ -103,39 +117,45 @@ class WalletService {
   }
 
   async listenWalletConnect() {
-    this.walletConnectProvider.on("accountsChanged",(accounts) => {
-      if (utils.getAddress(this.account) !== utils.getAddress(accounts[0])) {
+    this.walletConnectProvider.on('accountsChanged', (accounts) => {
+      if (
+        utils.getAddress(this.account as string) !==
+        utils.getAddress(accounts[0])
+      ) {
         window.location.reload()
       }
-    });
+    })
 
-    this.walletConnectProvider.on("chainChanged",(chainId) => {
+    this.walletConnectProvider.on('chainChanged', (chainId) => {
       console.log(`WalletConnect chain changed to: ${chainId}`)
-      store.dispatch({type: 'SETUP/CHAINIDCHANGED/SET',payload: chainId})
-    });
+      store.dispatch({ type: 'SETUP/CHAINIDCHANGED/SET', payload: chainId })
+    })
   }
 
-  async switchChain(chainId,chainInfo) {
-    const provider = this.walletType === 'metamask' ? window.ethereum : this.walletConnectProvider
+  async switchChain(chainId, chainInfo) {
+    const provider =
+      this.walletType === 'metamask'
+        ? window.ethereum
+        : this.walletConnectProvider
     try {
       await provider.request({
-        method: "wallet_switchEthereumChain",
-        params: [{chainId}],
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId }],
       })
       return true
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 4902 || this.walletType === 'walletconnect') {
         try {
           // After adding the chain, we need to call switchEthereumChain again to finish the process for WalletConnect
           if (this.walletType === 'walletconnect') {
             await provider.request({
-              method: "wallet_switchEthereumChain",
-              params: [{chainId}],
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId }],
             })
           } else {
             await provider.request({
-              method: "wallet_addEthereumChain",
-              params: [chainInfo,this.account],
+              method: 'wallet_addEthereumChain',
+              params: [chainInfo, this.account],
             })
           }
           return true
@@ -152,20 +172,20 @@ class WalletService {
 
   async connectWallet(type) {
     if (type === 'metamask') {
-      return await this.connectMetaMask()
+      return this.connectMetaMask()
     }
     if (type === 'walletconnect') {
-      return await this.connectWalletConnect()
+      return this.connectWalletConnect()
     }
   }
 
   async addTokenToMetaMask(token) {
-    const {address,symbol,decimals,logoURI,chain} = token;
+    const { address, symbol, decimals, logoURI, chain } = token
     return window.ethereum
       .request({
-        method: "wallet_watchAsset",
+        method: 'wallet_watchAsset',
         params: {
-          type: "ERC20",
+          type: 'ERC20',
           options: {
             address,
             symbol,
@@ -176,8 +196,8 @@ class WalletService {
         },
       })
       .catch((error) => {
-        console.error(error);
-      });
+        console.error(error)
+      })
   }
 
   async disconnectWallet() {
@@ -206,10 +226,10 @@ class WalletService {
     this.provider = null
     this.account = null
     this.walletType = null
-    store.dispatch({type: 'SETUP/CHAINIDCHANGED/RESET'})
+    store.dispatch({ type: 'SETUP/CHAINIDCHANGED/RESET' })
   }
 }
 
-const walletService = new WalletService();
+const walletService = new WalletService()
 
-export default walletService;
+export default walletService
