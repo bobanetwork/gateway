@@ -24,7 +24,7 @@ import { CHAIN_ID_LIST } from 'util/network/network.util'
 import networkService from './networkService'
 import { WC_PROJECT_ID } from 'util/constant'
 
-class WalletService {
+export class WalletService {
   provider: any
   walletConnectProvider: any
   account: string = ''
@@ -40,7 +40,7 @@ class WalletService {
       this.walletType = 'metamask'
       return true
     } catch (e) {
-      console.log(`Error connecting wallet: ${e}`)
+      console.log(`Error connecting to metamask: ${e}`)
       return false
     }
   }
@@ -190,7 +190,7 @@ class WalletService {
 
   // trigger connect to MM / WC
 
-  async connect(type: string) {
+  async connect(type: 'metamask' | 'walletconnect') {
     if (type === 'metamask') {
       return this.connectToMetaMask()
     }
