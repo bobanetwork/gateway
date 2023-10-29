@@ -78,10 +78,10 @@ export class WalletService {
     })
   }
 
-  async addTokenToMetaMask(token) {
+  async addTokenToMetaMask(token: any) {
     const { address, symbol, decimals, logoURI, chain } = token
-    return window.ethereum
-      .request({
+    try {
+      await window.ethereum.request({
         method: 'wallet_watchAsset',
         params: {
           type: 'ERC20',
@@ -94,9 +94,11 @@ export class WalletService {
           },
         },
       })
-      .catch((error) => {
-        console.error(error)
-      })
+      return true
+    } catch (error) {
+      console.log(`Error adding token to MM: ${error}`)
+      return false
+    }
   }
 
   // wallet connect functions
@@ -128,7 +130,7 @@ export class WalletService {
       await this.walletConnectProvider.disconnect()
       return true
     } catch (e) {
-      console.log(`Error disconnecting WalletConnect: ${e}`)
+      console.log(`Error Disconnect WalletConnect: ${e}`)
       return false
     }
   }
@@ -144,7 +146,6 @@ export class WalletService {
     })
 
     this.walletConnectProvider.on('chainChanged', (chainId) => {
-      console.log(`WalletConnect chain changed to: ${chainId}`)
       store.dispatch({ type: 'SETUP/CHAINIDCHANGED/SET', payload: chainId })
     })
   }
@@ -204,8 +205,7 @@ export class WalletService {
     let result = false
     if (this.walletType === 'metamask') {
       result = await this.disconnectMetaMask()
-    }
-    if (this.walletType === 'walletconnect') {
+    } else if (this.walletType === 'walletconnect') {
       result = await this.disconnectWalletConnect()
     }
     this.resetValues()
