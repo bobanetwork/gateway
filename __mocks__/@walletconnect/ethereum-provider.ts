@@ -1,6 +1,10 @@
-/* Mocking node_modules 
-  As we there is issue while running the jest unit test 
-  crash!
+/* 
+  Since we've installed @walletconnect/ethereum-provider, 
+  it has led to dependency issues during Jest testing. 
+  To resolve this, we need to mock the entire 'node_modules' itself, 
+  as unit testing focuses solely on our code
+
+  sample crash report.
   ```
   
    TypeError: Cannot read properties of undefined (reading 'base16')
