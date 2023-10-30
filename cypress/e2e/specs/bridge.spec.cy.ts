@@ -1,3 +1,4 @@
+import { LAYER } from '../../../src/util/constant'
 import Bridge from '../helpers/bridge'
 const bridge = new Bridge()
 
@@ -12,6 +13,15 @@ describe('Testing Entire Site', () => {
         it('Should have the correct title', () => {
           bridge.checkTitle()
         })
+      })
+    })
+    describe('After wallet is connected', () => {
+      it('Should Connect to L1', () => {
+        bridge.requestMetamaskConnect()
+        bridge.connectMetamask()
+      })
+      it('Should switch to an L2', () => {
+        bridge.switchBridgeDirection(LAYER.L2, true)
       })
     })
   })
