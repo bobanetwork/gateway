@@ -7,6 +7,8 @@ import EthereumIcon from 'components/icons/chain/L1/EthereumIcon'
 import BobaAvaxIcon from 'components/icons/chain/L2/BobaAvaxIcon'
 import BobaBNBIcon from 'components/icons/chain/L2/BobaBNBIcon'
 import BobaIcon from 'components/icons/chain/L2/BobaIcon'
+import OptimismIcon from 'components/icons/chain/L2/OptimismIcon'
+import ArbitrumIcon from 'components/icons/chain/L2/ArbitrumIcon'
 
 type IconType = {
   L1: ElementType
@@ -27,5 +29,13 @@ export const NETWORK_ICONS: NetworkIconsType = {
   avax: {
     L1: AvalancheIcon,
     L2: BobaAvaxIcon,
+  },
+  optimism: {
+    L1: EthereumIcon,
+    L2: OptimismIcon,
+  },
+  arbitrum: {
+    L1: EthereumIcon,
+    L2: ArbitrumIcon,
   },
 }

@@ -26,6 +26,14 @@ const blockExplorerLinks = {
       l1: `https://testnet.snowtrace.io`,
       l2: `https://blockexplorer.testnet.avax.boba.network`,
     },
+    [NETWORK.ARBITRUM]: {
+      l1: `https://goerli.etherscan.io`,
+      l2: `https://goerli.arbiscan.io`,
+    },
+    [NETWORK.OPTIMISM]: {
+      l1: `https://goerli.etherscan.io`,
+      l2: `https://goerli-explorer.optimism.io`,
+    },
   },
   [NETWORK_TYPE.MAINNET]: {
     [NETWORK.ETHEREUM]: {
@@ -39,6 +47,14 @@ const blockExplorerLinks = {
     [NETWORK.AVAX]: {
       l1: `https://snowtrace.io/`,
       l2: `https://blockexplorer.avax.boba.network`,
+    },
+    [NETWORK.ARBITRUM]: {
+      l1: `https://etherscan.io`,
+      l2: `https://arb1.arbitrum.io/rpc`,
+    },
+    [NETWORK.OPTIMISM]: {
+      l1: `https://etherscan.io`,
+      l2: `https://explorer.optimism.io`,
     },
   },
 }

@@ -30,6 +30,8 @@ export enum CHAIN_NAME {
   Boba_Avalanche = 'Boba Avax',
   Avalanche_Testnet = 'Fuji',
   Boba_Avalanche_Testnet = 'Boba Fuji',
+  Optimism_Goerli = 'Optimism Goerli',
+  Arbitrum_Goerli = 'Arbitrum Goerli',
 }
 
 export enum LAYER {

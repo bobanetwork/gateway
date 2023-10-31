@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEqual } from 'util/lodash'
 import { ValidValuesFromArray } from 'util/objectManipulation'
@@ -23,7 +23,12 @@ import { useTheme } from 'styled-components'
 import { Button } from 'components/global'
 
 import transactionService from 'services/transaction.service'
-import { NETWORK_TYPE } from 'util/network/network.util'
+import {
+  NETWORK,
+  NETWORK_TYPE,
+  networkLimitedAvailability,
+  NetworkList,
+} from 'util/network/network.util'
 import {
   ALL_NETWORKS,
   FILTER_OPTIONS,
@@ -35,10 +40,12 @@ import {
 import {
   selectAccountEnabled,
   selectLayer,
+  selectNetwork,
+  selectNetworkType,
   selectTransactions,
 } from 'selectors'
 
-import { fetchTransactions } from 'actions/networkAction'
+import { fetchTransactions, setNetwork } from 'actions/networkAction'
 
 import {
   Table,
@@ -80,6 +87,13 @@ const History = () => {
   const [transactionsFound, setTransactionsFound] = useState(true)
   const [switched, setSwitched] = useState(false)
 
+  const networkType = useSelector(selectNetworkType())
+  const network = useSelector(selectNetwork())
+  const isOnLimitedNetwork: boolean = networkLimitedAvailability(
+    networkType,
+    network
+  )
+
   const theme: any = useTheme()
 
   const dispatch = useDispatch<any>()
@@ -104,8 +118,24 @@ const History = () => {
   const accountEnabled = useSelector(selectAccountEnabled())
 
   const [searchHistory, setSearchHistory] = useState('')
-
   const transactions = useSelector(selectTransactions, isEqual)
+
+  useEffect(() => {
+    if (isOnLimitedNetwork) {
+      const defaultChainDetail = NetworkList[
+        networkType ?? NETWORK_TYPE.TESTNET
+      ].find((n) => n.chain === NETWORK.ETHEREUM)
+      dispatch(
+        setNetwork({
+          network: defaultChainDetail.chain,
+          name: defaultChainDetail.name,
+          networkIcon: defaultChainDetail.icon,
+          chainIds: defaultChainDetail.chainId,
+          networkType,
+        })
+      )
+    }
+  }, [isOnLimitedNetwork, networkType, dispatch])
 
   // TODO: not working as implementation needs be rewrite.
   const getDatePicker = (label: string, range: boolean = false) => {
@@ -151,7 +181,7 @@ const History = () => {
   }, POLL_INTERVAL)
 
   return (
-    <HistoryPageContainer id={'history'}>
+    <HistoryPageContainer>
       {layer && (
         <>
           <TableHeader>

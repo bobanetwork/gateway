@@ -19,7 +19,9 @@ const SocialLinks = (props: Props) => {
     <SocialLinksContainer id="socialLinks">
       <DisclaimerContainer>
         <DisclaimerText>©2023 Enya Labs</DisclaimerText>
-        <DisclaimerText>v{WALLET_VERSION}</DisclaimerText>
+        {WALLET_VERSION ? (
+          <DisclaimerText>v{WALLET_VERSION}</DisclaimerText>
+        ) : null}
       </DisclaimerContainer>
       <StyledSocialLinks>
         <SocialLinkItem

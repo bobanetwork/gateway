@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+// import gasService from 'services/gas.service'
 import networkService from 'services/networkService'
 import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
@@ -21,44 +22,48 @@ export function fetchBalances() {
   return createAction('BALANCE/GET', () => networkService.getBalances())
 }
 
+// export function fetchGas() {
+//   return createAction('GAS/GET', () => gasService.getGas())
+// }
+
 export function addTokenList() {
   return createAction('TOKENLIST/GET', () => networkService.addTokenList())
 }
 
 export function fetchTransactions() {
   return createAction('TRANSACTION/GETALL', () =>
-    transactionService.getTransactions()
+      transactionService.getTransactions()
   )
 }
 
 export function fetchSevens() {
   return createAction('SEVENS/GETALL', () =>
-    transactionService.getSevens()
+      transactionService.getSevens()
   )
 }
 
 export function fetchFastExits() {
   return createAction('FASTEXITS/GETALL', () =>
-    transactionService.getFastExits()
+      transactionService.getFastExits()
   )
 }
 
 export function exitBOBA(token, value) {
   return createAction('EXIT/CREATE', () =>
-    networkService.exitBOBA(token, value)
+      networkService.exitBOBA(token, value)
   )
 }
 
 //SWAP RELATED
 export function depositL1LP(currency, value, decimals) {
   return createAction('DEPOSIT/CREATE', () =>
-    networkService.depositL1LP(currency, value, decimals)
+      networkService.depositL1LP(currency, value, decimals)
   )
 }
 
 export function isTeleportationOfAssetSupported(layer, asset, destChainId) {
   return createAction('DEPOSIT/TELEPORTATION/TOKEN_SUPPORTED', () =>
-    networkService.isTeleportationOfAssetSupported(layer, asset, destChainId)
+      networkService.isTeleportationOfAssetSupported(layer, asset, destChainId)
   )
 }
 
@@ -70,14 +75,14 @@ export function depositWithTeleporter(layer, currency, value, destChainId) {
 
 export function depositL1LPBatch(payload) {
   return createAction('DEPOSIT/CREATE', () =>
-    networkService.depositL1LPBatch(payload)
+      networkService.depositL1LPBatch(payload)
   )
 }
 
 //SWAP RELATED - Depositing into the L2LP triggers the swap-exit
 export function depositL2LP(token, value) {
   return createAction('EXIT/CREATE', () =>
-    networkService.depositL2LP(token, value)
+      networkService.depositL2LP(token, value)
   )
 }
 
@@ -85,22 +90,22 @@ export function depositL2LP(token, value) {
 //that handles Exit All
 export function fastExitAll(token) {
   return createAction('EXIT/CREATE', () =>
-    networkService.fastExitAll(token)
+      networkService.fastExitAll(token)
   )
 }
 
 //CLASSIC DEPOSIT ETH
 export function depositETHL2(payload) {
   return createAction('DEPOSIT/CREATE', () => {
-    return networkService.depositETHL2(payload)
-  }
+        return networkService.depositETHL2(payload)
+      }
   )
 }
 
 //DEPOSIT ERC20
 export function depositErc20(payload) {
   return createAction('DEPOSIT/CREATE', () =>
-    networkService.depositErc20(payload)
+      networkService.depositErc20(payload)
   )
 }
 
@@ -112,132 +117,132 @@ export function depositErc20ToL1(payload) {
 //EARN
 export function earnL1(value_Wei_String, currencyAddress) {
   return createAction('EARN/CREATE', () =>
-    networkService.approveERC20_L1LP(value_Wei_String, currencyAddress)
+      networkService.approveERC20_L1LP(value_Wei_String, currencyAddress)
   )
 }
 export function earnL2(value_Wei_String, currencyAddress) {
   return createAction('EARN/CREATE', () =>
-    networkService.approveERC20_L2LP(value_Wei_String, currencyAddress)
+      networkService.approveERC20_L2LP(value_Wei_String, currencyAddress)
   )
 }
 export function getReward(currencyAddress, value_Wei_String, L1orL2Pool) {
   return createAction('EARN/HARVEST', () =>
-    networkService.getReward(currencyAddress, value_Wei_String, L1orL2Pool)
+      networkService.getReward(currencyAddress, value_Wei_String, L1orL2Pool)
   )
 }
 
 export function withdrawLiquidity(currencyAddress, value_Wei_String, L1orL2Pool) {
 
   return createAction('EARN/WITHDRAW', () =>
-    networkService.withdrawLiquidity(currencyAddress, value_Wei_String, L1orL2Pool)
+      networkService.withdrawLiquidity(currencyAddress, value_Wei_String, L1orL2Pool)
   )
 }
 
 export function approveERC20(
-  value,
-  currency,
-  approveContractAddress,
-  contractABI
+    value,
+    currency,
+    approveContractAddress,
+    contractABI
 ) {
   return createAction('APPROVE/CREATE', () =>
-    networkService.approveERC20(
-      value,
-      currency,
-      approveContractAddress,
-      contractABI
-    )
+      networkService.approveERC20(
+          value,
+          currency,
+          approveContractAddress,
+          contractABI
+      )
   )
 }
 
 export function approveFastDepositBatch(payload) {
   return createAction('APPROVE/CREATE', () =>
-    networkService.approveFastDepositBatch(
-      payload
-    )
+      networkService.approveFastDepositBatch(
+          payload
+      )
   )
 }
 
 export function approveERC20_L2LP(
-  value,
-  currency,
+    value,
+    currency,
 ) {
   return createAction('APPROVE/CREATE', () =>
-    networkService.approveERC20_L2LP(
-      value,
-      currency,
-    )
+      networkService.approveERC20_L2LP(
+          value,
+          currency,
+      )
   )
 }
 
 export function approveERC20_L1LP(
-  value,
-  currency,
+    value,
+    currency,
 ) {
   return createAction('APPROVE/CREATE', () =>
-    networkService.approveERC20_L1LP(
-      value,
-      currency,
-    )
+      networkService.approveERC20_L1LP(
+          value,
+          currency,
+      )
   )
 }
 
 export function transfer(recipient, value, currency) {
   return createAction('TRANSFER/CREATE', () =>
-    networkService.transfer(recipient, value, currency)
+      networkService.transfer(recipient, value, currency)
   )
 }
 
 export function transferEstimate(value_Wei_String, currency) {
   return createAction('TRANSFER_ESTIMATE/CREATE', () =>
-    networkService.transferEstimate(value_Wei_String, currency)
+      networkService.transferEstimate(value_Wei_String, currency)
   )
 }
 
 export function transferNFT(recipient, nft) {
   return createAction('TRANSFER_NFT/CREATE', () =>
-    networkService.transferNFT(recipient, nft)
+      networkService.transferNFT(recipient, nft)
   )
 }
 
 export function settle_v0() {
   return createAction('SETTLE_v0/CREATE', () =>
-    networkService.settle_v0()
+      networkService.settle_v0()
   )
 }
 
 export function settle_v1() {
   return createAction('SETTLE_v1/CREATE', () =>
-    networkService.settle_v1()
+      networkService.settle_v1()
   )
 }
 
 export function settle_v2() {
   return createAction('SETTLE_v2/CREATE', () =>
-    networkService.settle_v2()
+      networkService.settle_v2()
   )
 }
 
 export function settle_v2OLO() {
   return createAction('SETTLE_v2OLO/CREATE', () =>
-    networkService.settle_v2OLO()
+      networkService.settle_v2OLO()
   )
 }
 
 export function settle_v3() {
   return createAction('SETTLE_v3/CREATE', () =>
-    networkService.settle_v3()
+      networkService.settle_v3()
   )
 }
 
 export function settle_v3OLO() {
   return createAction('SETTLE_v3OLO/CREATE', () =>
-    networkService.settle_v3OLO()
+      networkService.settle_v3OLO()
   )
 }
 
 export function fetchLookUpPrice(params) {
   return createAction('PRICE/GET', () =>
-    networkService.fetchLookUpPrice(params))
+      networkService.fetchLookUpPrice(params))
 }
 
 export function clearLookupPrice() {
@@ -260,9 +265,9 @@ export function getAllAddresses() {
 /********************************/
 /**
  * @params
- *  network - ethereum, bnb, avax
+ *  network - ethereum, bnb, avax, arbitrum, optimism
  *  networkType -  MAINNET, TESTNET
-*/
+ */
 export function setNetwork(payload) {
   return function (dispatch) {
     return dispatch({ type: 'NETWORK/SET', payload: payload })

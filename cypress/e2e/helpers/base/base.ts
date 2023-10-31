@@ -11,7 +11,7 @@ export default class Base {
     // Mainnet
     this.addNetwork(Binance)
     this.addNetwork(Avalanche)
-    // Avax
+    // Testnet
     this.addNetwork(BinanceTestnet)
     this.addNetwork(AvalancheTestnet)
   }

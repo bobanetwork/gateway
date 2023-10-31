@@ -7,22 +7,30 @@ import AvalancheIcon from 'components/icons/chain/L1/AvalancheIcon'
 import BobaIcon from 'components/icons/chain/L2/BobaIcon'
 import BobaBNBIcon from 'components/icons/chain/L2/BobaBNBIcon'
 import BobaAvaxIcon from 'components/icons/chain/L2/BobaAvaxIcon'
+import OptimismIcon from 'components/icons/chain/L2/OptimismIcon'
+import ArbitrumIcon from 'components/icons/chain/L2/ArbitrumIcon'
 
 import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
 import { avaxConfig } from './config/avax'
+import { optimismConfig } from './config/optimism'
+import { arbitrumConfig } from './config/arbitrum'
 import { Layer, LAYER } from 'util/constant'
 
 export const L1_ICONS = {
   ethereum: EthereumIcon,
   bnb: BNBIcon,
   avax: AvalancheIcon,
+  optimism: EthereumIcon,
+  arbitrum: EthereumIcon,
 }
 
 export const L2_ICONS = {
   ethereum: BobaIcon,
   bnb: BobaBNBIcon,
   avax: BobaAvaxIcon,
+  optimism: OptimismIcon,
+  arbitrum: ArbitrumIcon,
 }
 
 export const NETWORK_TYPE = {
@@ -34,6 +42,8 @@ export const NETWORK = {
   ETHEREUM: 'ETHEREUM',
   BNB: 'BNB',
   AVAX: 'AVAX',
+  OPTIMISM: 'OPTIMISM',
+  ARBITRUM: 'ARBITRUM',
 }
 
 export const CHAIN_ID_LIST = {
@@ -122,6 +132,22 @@ export const CHAIN_ID_LIST = {
     name: 'Boba Bnb',
     icon: 'bnb',
   },
+  420: {
+    networkType: NETWORK_TYPE.TESTNET,
+    chain: NETWORK.OPTIMISM,
+    layer: LAYER.L2,
+    name: 'Optimism Goerli',
+    icon: 'optimism',
+    limitedAvailability: true,
+  },
+  421613: {
+    networkType: NETWORK_TYPE.TESTNET,
+    chain: NETWORK.ARBITRUM,
+    layer: LAYER.L2,
+    name: 'Arbitrum Goerli',
+    icon: 'arbitrum',
+    limitedAvailability: true,
+  },
 }
 
 export interface INetwork {
@@ -131,6 +157,8 @@ export interface INetwork {
   key: string
   name: { l1: string; l2: string }
   chainId: { [Layer.L1]: BigNumberish; [Layer.L2]: BigNumberish }
+  /// @dev Used for network we only partially support (e.g. OP/ARB for light bridge)
+  limitedAvailability?: boolean
 }
 
 export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
@@ -203,13 +231,48 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
       },
       chainId: { [Layer.L1]: '43113', [Layer.L2]: '4328' },
     },
+    // TODO Make sure they are only shown for light bridge
+    {
+      icon: 'optimism',
+      chain: NETWORK.OPTIMISM,
+      label: 'Ethereum (Goerli) <> Optimism (Goerli)',
+      key: 'optimism',
+      name: {
+        l1: 'Ethereum (Goerli)',
+        l2: 'Optimism (Goerli)',
+      },
+      chainId: { [Layer.L1]: '5', [Layer.L2]: '420' },
+      limitedAvailability: true,
+    },
+    {
+      icon: 'arbitrum',
+      chain: NETWORK.ARBITRUM,
+      label: 'Ethereum (Goerli) <> Arbitrum (Goerli)',
+      key: 'arbitrum',
+      name: {
+        l1: 'Ethereum (Goerli)',
+        l2: 'Arbitrum (Goerli)',
+      },
+      chainId: { [Layer.L1]: '5', [Layer.L2]: '421613' },
+      limitedAvailability: true,
+    },
   ],
+}
+
+export const networkLimitedAvailability = (
+  networkType: keyof typeof NETWORK_TYPE,
+  network: keyof typeof NETWORK
+) => {
+  return !!NetworkList[networkType]?.find((n) => n.chain === network)
+    ?.limitedAvailability
 }
 
 export const AllNetworkConfigs = {
   [NETWORK.ETHEREUM]: ethereumConfig,
   [NETWORK.BNB]: bnbConfig,
   [NETWORK.AVAX]: avaxConfig,
+  [NETWORK.OPTIMISM]: optimismConfig,
+  [NETWORK.ARBITRUM]: arbitrumConfig,
 }
 
 export const rpcUrls = Object.values(AllNetworkConfigs).reduce(
@@ -247,10 +310,6 @@ export const getRpcUrl = ({ network, networkType, layer }): string => {
     randomRpc = rpcs[Math.floor(Math.random() * rpcs.length)]
   }
   return randomRpc
-}
-
-export const getBlockExplorerUrl = ({ network, networkType, layer }) => {
-  return AllNetworkConfigs[network][networkType][layer]?.blockExplorerUrl
 }
 
 export const pingRpcUrl = async (rpcUrl) => {

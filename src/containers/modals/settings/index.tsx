@@ -2,15 +2,6 @@ import Modal from 'components/modal/Modal'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeModal } from 'actions/uiAction'
-
-import { SwitchButton } from 'components/global'
-import { setActiveNetworkType } from 'actions/networkAction'
-import { NETWORK_TYPE } from 'util/network/network.util'
-import { selectActiveNetworkType, selectBridgeToAddressState } from 'selectors'
-import { setBridgeToAddress } from 'actions/bridgeAction'
-import { ModalInterface } from '../types'
-import { SettingRowTypes } from './types'
-
 import {
   SettingSubTitle,
   SettingTitle,
@@ -19,11 +10,26 @@ import {
   SettingsText,
   SettingsWrapper,
 } from './styles'
+import { SwitchButton } from 'components/global'
+import { setActiveNetworkType } from 'actions/networkAction'
+import { NETWORK_TYPE } from 'util/network/network.util'
+import {
+  selectActiveNetworkType,
+  selectBridgeToAddressState,
+  selectBridgeType,
+} from 'selectors'
+import { setBridgeToAddress } from 'actions/bridgeAction'
+import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 
-const SettingsModal: FC<ModalInterface> = ({ open }) => {
+interface SettingsModalProps {
+  open: boolean
+}
+
+const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const bridgeToAddressEnable = useSelector(selectBridgeToAddressState())
+  const bridgeType = useSelector(selectBridgeType())
 
   const handleClose = () => {
     dispatch(closeModal('settingsModal'))
@@ -41,46 +47,47 @@ const SettingsModal: FC<ModalInterface> = ({ open }) => {
     dispatch(setBridgeToAddress(value))
   }
 
-  const SettingRow: React.FC<SettingRowTypes> = ({
-    title,
-    subTitle,
-    isActive,
-    onStateChange,
-  }) => {
-    return (
-      <SettingsItem>
-        <SettingsText>
-          <SettingTitle>{title}</SettingTitle>
-          <SettingSubTitle>{subTitle}</SettingSubTitle>
-        </SettingsText>
-        <SettingsAction>
-          <SwitchButton isActive={isActive} onStateChange={onStateChange} />
-        </SettingsAction>
-      </SettingsItem>
-    )
-  }
-
   return (
     <Modal
       open={open}
       onClose={handleClose}
+      minHeight="180px"
       title="Settings"
       transparent={false}
-      testId="settings-modal"
     >
       <SettingsWrapper>
-        <SettingRow
-          title="Show Testnets"
-          subTitle="Testnets will be available to bridge"
-          isActive={activeNetworkType === NETWORK_TYPE.TESTNET}
-          onStateChange={(v) => onChangeNetworkType(v)}
-        />
-        <SettingRow
-          title="Add Destination Address"
-          subTitle="Allows you to transfer to a different address"
-          isActive={bridgeToAddressEnable}
-          onStateChange={onChangeDestinationAddress}
-        />
+        <SettingsItem>
+          <SettingsText>
+            <SettingTitle>Show Testnets</SettingTitle>
+            <SettingSubTitle>
+              Testnets will be available to bridge
+            </SettingSubTitle>
+          </SettingsText>
+          <SettingsAction>
+            <SwitchButton
+              isActive={activeNetworkType === NETWORK_TYPE.TESTNET}
+              onStateChange={(v: boolean) => onChangeNetworkType(v)}
+            />
+          </SettingsAction>
+        </SettingsItem>
+        {/* Custom destination address seems to be only available for classic bridge */}
+        {bridgeType === BRIDGE_TYPE.CLASSIC ? (
+          <SettingsItem>
+            <SettingsText>
+              <SettingTitle>Add Destination Address</SettingTitle>
+              <SettingSubTitle>
+                Allows you to transfer to a different address
+              </SettingSubTitle>
+            </SettingsText>
+            <SettingsAction>
+              <SwitchButton
+                isActive={bridgeToAddressEnable}
+                onStateChange={onChangeDestinationAddress}
+              />
+            </SettingsAction>
+          </SettingsItem>
+        ) : null}
+        <SettingsItem></SettingsItem>
       </SettingsWrapper>
     </Modal>
   )
