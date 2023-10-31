@@ -13,8 +13,6 @@ describe('Page Layout', () => {
       page.checkNavigationListEthereum()
       page.setNetworkTo('BNB')
       page.checkNaviagtionListBinanace()
-      page.setNetworkTo('AVAX')
-      page.checkNaviagtionListAvalanche()
     })
 
     it('Theme switcher should work', () => {

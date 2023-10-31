@@ -98,7 +98,7 @@ const SUPPORTED_ASSETS = {
           'L2': '0xf56b164efd3cfc02ba739b719b6526a6fa1ca32a'
         }
       },
-      altL1Chains: [ 'BNB', 'Avalanche' ]
+      altL1Chains: ['BNB']
     },
     [ NETWORK.BNB ]: {
       tokenAddresses: {},
@@ -110,7 +110,7 @@ const SUPPORTED_ASSETS = {
     [ NETWORK.ETHEREUM ]: {
       tokenAddresses: {},
       tokens: [ 'BOBA', 'USDC', 'OMG', 'xBOBA' ],
-      altL1Chains: [ 'BNB', 'Avalanche' ]
+      altL1Chains: ['BNB']
     },
     [ NETWORK.BNB ]: {
       tokenAddresses: {},
