@@ -54,7 +54,11 @@ export default class Page extends Base {
   checkWCQROpen() {
     cy.wait(1000)
 
-    cy.get('body').find('wcm-modal').should('exist')
+    cy.get('body')
+      .find('wcm-modal')
+      .should('exist')
+      .shadow()
+      .contains('Connect your wallet')
   }
 
   setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {

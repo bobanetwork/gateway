@@ -22,4 +22,5 @@ export default defineConfig({
   env: {
     target_hash: process.env.CYPRESS_TEST_HASH,
   },
+  includeShadowDom: true,
 })
