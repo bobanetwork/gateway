@@ -15,7 +15,10 @@ describe('Testing Entire Site', () => {
         })
       })
     })
-    describe('After wallet is connected', () => {
+    describe('Connecting Wallet', () => {
+      before(() => {
+        bridge.changeMetamaskNetwork('ethereum')
+      })
       it('Should Connect to L1', () => {
         bridge.requestMetamaskConnect()
         bridge.connectMetamask()
