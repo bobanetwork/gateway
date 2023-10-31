@@ -1,26 +1,39 @@
+import { LAYER } from '../../../src/util/constant'
 import Bridge from '../helpers/bridge'
 const bridge = new Bridge()
 
-describe('Testing Entire Site', () => {
-  describe('Bridge', () => {
-    describe('Before wallet is connected', () => {
-      before(() => {
-        bridge.visit()
-        bridge.store.verifyReduxStoreSetup('baseEnabled', true)
-      })
-      describe('Bridge Layout', () => {
-        it('Should have the correct title', () => {
-          bridge.checkTitle()
-        })
+describe('Bridge', () => {
+  describe('Before wallet is connected', () => {
+    before(() => {
+      bridge.visit()
+      bridge.store.verifyReduxStoreSetup('baseEnabled', true)
+    })
+    describe('Bridge Layout', () => {
+      it('Should have the correct title', () => {
+        bridge.checkTitle()
       })
     })
-    describe('Connect Wallet Via Wallet Connect', () => {
-      before(() => {
-        bridge.changeMetamaskNetwork('ethereum')
-      })
-      it('Should connect via Wallet Connect', () => {
-        bridge.requestWalletConnect()
-      })
+  })
+
+  describe('Connecting Wallet via Metamask', () => {
+    before(() => {
+      bridge.changeMetamaskNetwork('ethereum')
+    })
+    it('Should Connect to L1', () => {
+      bridge.requestMetamaskConnect()
+      bridge.connectMetamask()
+    })
+    it('Should switch to an L2', () => {
+      bridge.switchBridgeDirection(LAYER.L2, true)
+    })
+  })
+
+  describe('Connecting Wallet Via Wallet Connect', () => {
+    before(() => {
+      bridge.changeMetamaskNetwork('ethereum')
+    })
+    it('Should connect via Wallet Connect', () => {
+      bridge.requestWalletConnect()
     })
   })
 })

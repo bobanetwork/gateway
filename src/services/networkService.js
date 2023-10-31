@@ -696,11 +696,11 @@ class NetworkService {
       networkType: this.networkType
     })
     const targetIDHex = networkDetail[targetLayer].chainIdHex
-    const rpcURL = targetLayer === 'L1' ? this.L1Provider.connection.url : networkDetail[targetLayer].rpcUrl
+    const rpcURL = targetLayer === 'L1' ? [this.L1Provider.connection.url] : networkDetail[targetLayer].rpcUrl
     const chainParam = {
       chainId: '0x' + networkDetail[targetLayer].chainId.toString(16),
       chainName: networkDetail[targetLayer].name,
-      rpcUrls: [rpcURL],
+      rpcUrls: [...rpcURL],
       nativeCurrency: {
         name: networkDetail[targetLayer].tokenName,
         symbol: networkDetail[targetLayer].symbol,
