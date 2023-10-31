@@ -2,6 +2,7 @@ import { providers, utils } from 'ethers'
 import walletService from './wallet.service'
 import { EthereumProvider } from '@walletconnect/ethereum-provider'
 import store from 'store'
+import { switchChain } from 'actions/setupAction'
 
 const ACCOUNT_ADDRESS = '0xcF044AB1e5b55203dC258F47756daFb7F8F01760'
 
@@ -49,6 +50,7 @@ jest.mock('ethers', () => {
 const mockOn = jest.fn()
 const mockConnect = jest.fn()
 const mockEnable = jest.fn()
+const mockRequest = jest.fn()
 const mockDisconnect = jest.fn().mockResolvedValue(true)
 
 const mockReload = jest.fn()
@@ -97,6 +99,7 @@ describe('WalletService', () => {
       connect: mockConnect,
       enable: mockEnable,
       disconnect: mockDisconnect,
+      request: mockRequest,
     })
 
     // test
@@ -116,6 +119,39 @@ describe('WalletService', () => {
     expect(window.ethereum.request).toHaveBeenCalledTimes(2)
     expect(mockDisconnect).toHaveBeenCalledTimes(1)
     expect(EthereumProvider.init).toHaveBeenCalledTimes(1)
+  })
+
+  test('should switch chain', async () => {
+    await wsInstance.connect('metamask')
+    const res = await wsInstance.switchChain(5, {})
+    expect(window.ethereum.request).toHaveBeenCalledWith({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: 5 }],
+    })
+    expect(res).toBe(true)
+  })
+
+  test('should add chain in case of error on switching', async () => {
+    ;(window.ethereum.request as any).mockRejectedValue({ code: 4902 })
+    await wsInstance.connect('metamask')
+    await wsInstance.switchChain(5, {})
+    expect(window.ethereum.request).toHaveBeenCalledWith({
+      method: 'eth_requestAccounts',
+    })
+    expect(window.ethereum.request).toHaveBeenCalledWith({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: 5 }],
+    })
+    expect(window.ethereum.request).toHaveBeenCalledWith({
+      method: 'wallet_addEthereumChain',
+      params: [{}, '0xcF044AB1e5b55203dC258F47756daFb7F8F01760'],
+    })
+    await wsInstance.disconnect()
+    // test for random code on error.
+    ;(window.ethereum.request as any).mockRejectedValue({ code: 4901 })
+    await wsInstance.connect('metamask')
+    const res = await wsInstance.switchChain(5, {})
+    expect(res).toBe(false)
   })
 
   test('should reset values', async () => {
@@ -271,7 +307,11 @@ describe('WalletService', () => {
       accountChangeCallback([`${ACCOUNT_ADDRESS}1`])
       expect(window.location.reload).toHaveBeenCalled()
 
-      const chainChanedCallback = mockOn.mock.calls[1][1]
+      const disconnectWalletCallback = mockOn.mock.calls[1][1]
+      disconnectWalletCallback(5)
+      expect(store.dispatch).toHaveBeenCalled()
+
+      const chainChanedCallback = mockOn.mock.calls[2][1]
       chainChanedCallback(5)
       expect(store.dispatch).toHaveBeenCalledWith({
         payload: 5,

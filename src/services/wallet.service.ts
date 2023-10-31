@@ -17,7 +17,11 @@ limitations under the License. */
 import { EthereumProvider } from '@walletconnect/ethereum-provider'
 import { providers, utils } from 'ethers'
 
-import { setBaseState, setEnableAccount } from 'actions/setupAction'
+import {
+  disconnectSetup,
+  setBaseState,
+  setEnableAccount,
+} from 'actions/setupAction'
 import { openModal } from 'actions/uiAction'
 import store from 'store'
 import { CHAIN_ID_LIST } from 'util/network/network.util'
@@ -145,13 +149,18 @@ export class WalletService {
       }
     })
 
+    this.walletConnectProvider.on('disconnect', (res: any) => {
+      store.dispatch(disconnectSetup())
+      this.resetValues()
+    })
+
     this.walletConnectProvider.on('chainChanged', (chainId) => {
       store.dispatch({ type: 'SETUP/CHAINIDCHANGED/SET', payload: chainId })
     })
   }
 
   // switching chain
-  async switchChain(chainId, chainInfo) {
+  async switchChain(chainId: any, chainInfo: any) {
     const provider =
       this.walletType === 'metamask'
         ? window.ethereum
@@ -165,7 +174,6 @@ export class WalletService {
     } catch (error: any) {
       if (error.code === 4902 || this.walletType === 'walletconnect') {
         try {
-          // After adding the chain, we need to call switchEthereumChain again to finish the process for WalletConnect
           if (this.walletType === 'walletconnect') {
             await provider.request({
               method: 'wallet_switchEthereumChain',

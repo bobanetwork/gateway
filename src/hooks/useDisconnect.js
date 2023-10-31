@@ -1,18 +1,13 @@
-import {useDispatch,useSelector} from 'react-redux';
 import {
-  setLayer,
-  setConnect,
-  setConnectBOBA,
-  setConnectETH,
-  setEnableAccount,
-  setWalletConnected
+  disconnectSetup
 } from 'actions/setupAction';
+import {useDispatch,useSelector} from 'react-redux';
 
-import networkService from 'services/networkService';
+import {setActiveNetwork,setActiveNetworkType,setNetwork} from 'actions/networkAction';
 import {useEffect} from 'react';
 import {selectChainIdChanged} from 'selectors';
-import {setActiveNetwork,setActiveNetworkType,setNetwork} from 'actions/networkAction';
-import {CHAIN_ID_LIST,NETWORK_TYPE,NetworkList} from 'util/network/network.util';
+import networkService from 'services/networkService';
+import {CHAIN_ID_LIST,NetworkList} from 'util/network/network.util';
 
 const useDisconnect = () => {
   const dispatch = useDispatch();
@@ -20,12 +15,7 @@ const useDisconnect = () => {
 
   const disconnect = async () => {
     await networkService.walletService.disconnect()
-    dispatch(setLayer(null))
-    dispatch(setConnect(false))
-    dispatch(setConnectBOBA(false))
-    dispatch(setConnectETH(false))
-    dispatch(setWalletConnected(false))
-    dispatch(setEnableAccount(false))
+    dispatch(disconnectSetup())
   }
 
   useEffect(() => {
