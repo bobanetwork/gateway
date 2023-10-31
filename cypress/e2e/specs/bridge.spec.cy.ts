@@ -14,5 +14,13 @@ describe('Testing Entire Site', () => {
         })
       })
     })
+    describe('Connect Wallet Via Wallet Connect', () => {
+      before(() => {
+        bridge.changeMetamaskNetwork('ethereum')
+      })
+      it('Should connect via Wallet Connect', () => {
+        bridge.requestWalletConnect()
+      })
+    })
   })
 })

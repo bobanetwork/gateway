@@ -42,6 +42,10 @@ export default class Page extends Base {
     this.connectWallet()
     cy.get('#connectMetaMask').should('exist').click()
   }
+  requestWalletConnect() {
+    this.connectWallet()
+    this.getModal().contains('WalletConnect').should('exist').click()
+  }
 
   setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {
     const bnbConfig = {
