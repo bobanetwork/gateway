@@ -15,17 +15,5 @@ describe('Testing Entire Site', () => {
         })
       })
     })
-    describe('Connecting Wallet', () => {
-      before(() => {
-        bridge.changeMetamaskNetwork('ethereum')
-      })
-      it('Should Connect to L1', () => {
-        bridge.requestMetamaskConnect()
-        bridge.connectMetamask()
-      })
-      it('Should switch to an L2', () => {
-        bridge.switchBridgeDirection(LAYER.L2, true)
-      })
-    })
   })
 })

@@ -113,6 +113,16 @@ function setupReducer(state = initialState, action) {
         ...state,
         chainIdChanged: null
       }
+    case 'SETUP/DISCONNECT':
+      return {
+        ...state,
+        netLayer: null,
+        connectETH: false,
+        connectBOBA: false,
+        connect: false,
+        walletConnected: false,
+        accountEnabled: false
+      }
     default:
       return state
   }
