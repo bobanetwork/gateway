@@ -57,8 +57,8 @@ export default class Page extends Base {
     cy.get('body')
       .find('wcm-modal')
       .should('exist')
-      .shadow()
       .contains('Connect your wallet')
+      .should('be.visible')
   }
 
   setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {
