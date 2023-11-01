@@ -13,7 +13,6 @@ import {
   selectActiveNetworkType,
   selectModalState,
   selectLayer,
-  selectIsTeleportationOfAssetSupported,
   selectDestChainIdTeleportation,
   selectBridgeType,
 } from 'selectors'
@@ -44,9 +43,10 @@ export const NetworkList: FC<NetworkListProps> = ({
   const activeNetwork = useSelector(selectActiveNetwork())
   const selectionLayer = useSelector(selectModalState('selectionLayer'))
   const layer = useSelector<any>(selectLayer())
+  const bridgeType = useSelector(selectBridgeType())
 
+  const isLightBridge = bridgeType === BRIDGE_TYPE.LIGHT
   // cannot use useIndependentDestNetwork here, since from-network should also contain OP/ARB
-  const isLightBridge = useSelector(selectBridgeType()) === BRIDGE_TYPE.LIGHT
   const currTeleportationDestChainId = useSelector(
     selectDestChainIdTeleportation()
   )
@@ -107,6 +107,7 @@ export const NetworkList: FC<NetworkListProps> = ({
 
     return (
       <NetworkItem
+        id={'networkItem'}
         selected={selected}
         key={`${chainDetail.label}_${layer}_${chainDetail.key}`}
         onClick={() => onChainChange(chainDetail, layer)}

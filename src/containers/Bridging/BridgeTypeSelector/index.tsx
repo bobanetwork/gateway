@@ -27,15 +27,12 @@ const BridgeTypeSelector = () => {
   const networkType = useSelector(selectNetworkType())
   const network = useSelector(selectNetwork())
   const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
-  console.log('isonlimit', isOnLimitedNetwork, networkType, network)
 
   // Only show teleportation on testnet for now
   const isTestnet =
     useSelector(selectActiveNetworkType()) === NETWORK_TYPE.TESTNET
 
   const onTabClick = (payload: any) => {
-    console.log('LLLL', payload !== BRIDGE_TYPE.LIGHT, isOnLimitedNetwork)
-
     if (payload !== BRIDGE_TYPE.LIGHT && isOnLimitedNetwork) {
       // change network back to fully supported network when leaving light bridge
       const defaultChainDetail = NetworkList[networkType].find(

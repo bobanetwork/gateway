@@ -30,7 +30,6 @@ export const Router = () => {
       ...COMMON_ROUTES
     ].filter((r) => !r.disable)
 
-    console.log("SWITCHING PAGE: ", routeList[0], _routes)
     if (isOnLimitedNetwork && (routeList[0].path !== '/' && routeList[0].path !== ROUTES_PATH.BRIDGE)) {
       const defaultChainDetail =
           NetworkList[networkType].find(n => n.chain === NETWORK.ETHEREUM)
