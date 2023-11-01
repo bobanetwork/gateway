@@ -94,9 +94,7 @@ export const useWalletConnect = () => {
           } else {
             // bypass walletSelectorModal
             if (DISABLE_WALLETCONNECT) {
-              if (
-                await networkService.walletService.connectWallet('metamask')
-              ) {
+              if (await networkService.walletService.connect('metamask')) {
                 triggerInit()
               } else {
                 resetConnectChain()

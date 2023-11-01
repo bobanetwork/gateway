@@ -25,9 +25,11 @@ export default class Page extends Base {
   visit() {
     cy.visit(`/${this.id}`)
   }
+
   withinPage() {
     return cy.get(`#${this.id}`)
   }
+
   getTitle() {
     return cy.get(`#title`)
   }
@@ -38,9 +40,21 @@ export default class Page extends Base {
       .should('exist')
       .click()
   }
+
   requestMetamaskConnect() {
     this.connectWallet()
     this.getModal().contains('MetaMask').should('exist').click()
+  }
+
+  requestWCConnect() {
+    this.connectWallet()
+    this.getModal().contains('WalletConnect').should('exist').click()
+  }
+
+  checkWCQROpen() {
+    cy.wait(1000)
+
+    cy.get('body').find('wcm-modal').should('exist')
   }
 
   setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {
