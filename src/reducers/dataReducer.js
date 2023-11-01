@@ -29,13 +29,6 @@ function dataReducer (state = initialState, action) {
           ...keyBy(action.payload, 'blockNumber', 'hash')
         }
       }
-  case 'FASTEXITS/GETALL/SUCCESS':
-    return {
-      ...state,
-      fastExits: {
-        ...keyBy(action.payload, 'blockNumber', 'hash')
-      }
-    }
   default:
       return state
   }

@@ -54,21 +54,6 @@ const BridgeHeader = () => {
     )
   }
 
-  const FastBridgeInfo = () => {
-    return (
-      <>
-        <LabelStyle>Fast Bridge</LabelStyle>
-        <br />
-        <ValueStyle>
-          A swap-based bridge to Boba L2. This option is only available if the
-          pool balance is sufficient.
-        </ValueStyle>
-        <br />
-        <br />
-      </>
-    )
-  }
-
   const LightBridgeInfo = () => {
     if (!isTestnet) {
       return <></>
@@ -95,7 +80,6 @@ const BridgeHeader = () => {
           title={
             <>
               <ClassicBridgeInfo />
-              <FastBridgeInfo />
               <LightBridgeInfo />
             </>
           }

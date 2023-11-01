@@ -37,12 +37,6 @@ export function fetchSevens() {
   )
 }
 
-export function fetchFastExits() {
-  return createAction('FASTEXITS/GETALL', () =>
-    transactionService.getFastExits()
-  )
-}
-
 export function exitBOBA(token, value) {
   return createAction('EXIT/CREATE', () =>
     networkService.exitBOBA(token, value)
@@ -81,13 +75,6 @@ export function depositL2LP(token, value) {
   )
 }
 
-//SWAP RELATED - Depositing into the L2LP triggers the swap-exit - variant of depositL2LP
-//that handles Exit All
-export function fastExitAll(token) {
-  return createAction('EXIT/CREATE', () =>
-    networkService.fastExitAll(token)
-  )
-}
 
 //CLASSIC DEPOSIT ETH
 export function depositETHL2(payload) {
@@ -149,13 +136,6 @@ export function approveERC20(
   )
 }
 
-export function approveFastDepositBatch(payload) {
-  return createAction('APPROVE/CREATE', () =>
-    networkService.approveFastDepositBatch(
-      payload
-    )
-  )
-}
 
 export function approveERC20_L2LP(
   value,

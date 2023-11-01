@@ -52,7 +52,6 @@ function uiReducer (state = initialState, action) {
     case 'UI/MODAL/OPEN':
       return { ...state,
         [action.payload]: true,
-        fast: action.fast,
         token: action.token,
         tokenIndex: action.tokenIndex,
         lock: action.lock, // incase of lock record

@@ -58,27 +58,14 @@ function CDMCompletionModal({ open }) {
     builder.message = 'You can track your transaction in the L2 explorer.'
     builder.buttonText = `Track in L2 Explorer`
 
-  } else if (CDMType === 'L1FastBridge') {
-
-    builder.header = 'Fast Bridge To L2 Successful'
-    builder.title = <>Your <span style={{fontWeight: 700}}>{CDMMessage?.token}</span> has arrived on L2!</>
-    builder.message = <>You are expected to receive <span style={{fontWeight: 700}}>{CDMMessage?.receivedToken}</span> on L2. You can track your transaction in the L2 explorer.</>
-    builder.buttonText = `Track in L2 Explorer`
-
-  } else if (CDMType === 'L2StandardBridge') {
+  }  else if (CDMType === 'L2StandardBridge') {
 
     builder.header = 'Classical Withdrawal Initiated'
     builder.title = <>Your <span style={{fontWeight: 700}}>{CDMMessage?.token}</span> withdrawal has been initiated.</>
     builder.message = <>You will receive <span style={{fontWeight: 700}}>{CDMMessage?.token}</span> on L1 after 7 days</>
     builder.buttonText = `View on L2 Explorer`
 
-  } else if (CDMType === 'L2FastBridge') {
-    builder.header = 'Fast Withdrawal Initiated'
-    builder.title = <>Your <span style={{fontWeight: 700}}>{CDMMessage?.token}</span> withdrawal has been initiated.</>
-    builder.message = <>You are expected to receive <span style={{fontWeight: 700}}>{CDMMessage?.receivedToken}</span> on{" "}
-    L1 in next few hours.</>
-    builder.buttonText = `View on L2 Explorer`
-  }
+  } 
 
   return (
     <Modal

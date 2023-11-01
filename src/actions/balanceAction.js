@@ -50,25 +50,16 @@ export function fetchL2TotalFeeRate() { return createAction('FETCH/L2TOTALFEERAT
 export function fetchL1FeeRateN(tokenAddress) { return createAction('FETCH/L1FEERATE', ()=>{return networkService.getL1UserRewardFeeRate(tokenAddress)}) }
 export function fetchL2FeeRateN(tokenAddress) { return createAction('FETCH/L2FEERATE', ()=>{return networkService.getL2UserRewardFeeRate(tokenAddress)}) }
 
-export function fetchFastExitCost(address) {
-    return createAction('FETCH/FASTEXIT/COST', () => networkService.getFastExitCost(address))
-}
 
 export function fetchClassicExitCost(address) {
     return createAction('FETCH/CLASSICEXIT/COST', () => networkService.getExitCost(address))
 }
 
-export function fetchFastDepositCost(address) {
-    return createAction('FETCH/FASTDEPOSIT/COST', () => networkService.getFastDepositCost(address))
-}
 
 export function fetchAltL1DepositFee() {
     return createAction('FETCH/ALTL1DEPOSIT/COST', () => networkService.getAltL1DepositFee())
 }
 
-export function fetchFastDepositBatchCost(tokenList) {
-  return createAction('FETCH/FASTDEPOSIT/BATCH/COST', () => networkService.getFastDepositBatchCost(tokenList))
-}
 
 export function fetchL1FeeBalance() {
     return createAction('FETCH/L1FEE/BALANCE', () => networkService.getL1FeeBalance())

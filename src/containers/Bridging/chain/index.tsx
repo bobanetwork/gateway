@@ -55,7 +55,6 @@ const Chains = (props: Props) => {
         null,
         null,
         null,
-        null,
         sLayer,
         destNetworkSelection
       )

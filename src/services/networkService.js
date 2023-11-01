@@ -150,8 +150,7 @@ class NetworkService {
 
     // swap data for calculating the l1 security fee
     this.payloadForL1SecurityFee = null
-    // fast deposit in batch
-    this.payloadForFastDepositBatchCost = null
+
 
     // support token
     this.supportedTokens = []
@@ -386,7 +385,6 @@ class NetworkService {
 
       if (NETWORK[network]) {
         this.payloadForL1SecurityFee = networkDetail.payloadForL1SecurityFee
-        this.payloadForFastDepositBatchCost = networkDetail.payloadForFastDepositBatchCost
         this.gasEstimateAccount = networkDetail.gasEstimateAccount
       }
 
@@ -464,7 +462,6 @@ class NetworkService {
       }
 
       if (!(await this.getAddressCached(this.addresses, 'Proxy__L1CrossDomainMessenger', 'L1MessengerAddress'))) return
-      if (!(await this.getAddressCached(this.addresses, 'Proxy__L1CrossDomainMessengerFast', 'L1FastMessengerAddress'))) return
       if (!(await this.getAddressCached(this.addresses, 'Proxy__L1StandardBridge', 'L1StandardBridgeAddress'))) return
       if (!(await this.getAddressCached(this.addresses, 'Proxy__Boba_GasPriceOracle', 'Boba_GasPriceOracle'))) return
 
@@ -565,13 +562,11 @@ class NetworkService {
         l1SignerOrProvider: this.L1Provider,
         l2SignerOrProvider: this.L2Provider,
         l1ChainId: chainId,
-        fastRelayer: false,
       })
       this.fastWatcher = new CrossChainMessenger({
         l1SignerOrProvider: this.L1Provider,
         l2SignerOrProvider: this.L2Provider,
         l1ChainId: chainId,
-        fastRelayer: true,
       })
 
       let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
@@ -1471,47 +1466,6 @@ class NetworkService {
     }
   }
 
-  // Used when people want to fast exit - they have to deposit funds into the L2LP
-  // to start the fast exit
-  async approveERC20_L2LP(
-    value_Wei_String,
-    currencyAddress
-  ) {
-
-    try {
-
-      console.log("approveERC20_L2LP")
-
-      //we could use any L2 ERC contract here - just getting generic parts of the abi
-      //but we know we alaways have the TEST contract, so will use that
-      const L2ERC20Contract = this.L2_TEST_Contract
-        .connect(this.provider.getSigner())
-        .attach(currencyAddress)
-
-      let allowance_BN = await L2ERC20Contract.allowance(
-        this.account,
-        this.addresses.L2LPAddress
-      )
-
-      //let depositAmount_BN = new BN(value_Wei_String)
-      let depositAmount_BN = BigNumber.from(value_Wei_String)
-
-      if (depositAmount_BN.gt(allowance_BN)) {
-        const approveStatus = await L2ERC20Contract.approve(
-          this.addresses.L2LPAddress,
-          value_Wei_String
-        )
-        await approveStatus.wait()
-        return approveStatus
-      }
-
-      return allowance_BN
-    } catch (error) {
-      console.log("NS: approveERC20_L2LP error:", error)
-      return error
-    }
-  }
-
   //used to stake funds in the L1LP
   async approveERC20_L1LP(
     value_Wei_String,
@@ -1663,21 +1617,6 @@ class NetworkService {
     }
   }
 
-  async approveFastDepositBatch(payload) {
-    for (const tokenInput of payload) {
-      if (tokenInput.symbol !== 'ETH') {
-        const res = await this.approveERC20(
-          utils.parseUnits(tokenInput.value, tokenInput.decimals).toString(),
-          tokenInput.currency,
-          this.L1LPContract.address,
-        )
-        if (!res) {
-          return res
-        }
-      }
-    }
-    return true
-  }
 
   //Used to move ERC20 Tokens from L1 to L2 using the classic deposit
   async depositErc20({
@@ -2718,339 +2657,6 @@ class NetworkService {
 
   }
 
-  /* Estimate cost of Fast Exit to L1 */
-  async getFastExitCost(currencyAddress) {
-
-    let approvalCost_BN = BigNumber.from('0')
-
-    const gasPrice = await this.L2Provider.getGasPrice()
-    console.log("Fast exit gas price", gasPrice.toString())
-
-    if (currencyAddress !== this.addresses.L2_ETH_Address) {
-
-      const ERC20Contract = new ethers.Contract(
-        currencyAddress,
-        L2ERC20Json.abi, //any old abi will do...
-        this.provider.getSigner()
-      )
-
-      const tx = await ERC20Contract
-        .populateTransaction
-        .approve(
-          this.addresses.L2LPAddress,
-          utils.parseEther('1.0')
-        )
-
-      const approvalGas_BN = await this.L2Provider.estimateGas({...tx, from: this.gasEstimateAccount})
-      approvalCost_BN = approvalGas_BN.mul(gasPrice)
-      console.log("Approve cost in ETH:", utils.formatEther(approvalCost_BN))
-    }
-
-    const L2BillingContract = new ethers.Contract(
-      this.addresses.Proxy__BobaBillingContract,
-      L2BillingContractJson.abi,
-      this.L2Provider,
-    )
-
-    const approvalAmount = await L2BillingContract.exitFee()
-
-    let value;
-    if (this.networkGateway === NETWORK.ETHEREUM) {
-      value = currencyAddress === this.addresses.L2_ETH_Address ? {value: '1'} : {};
-    } else {
-      value = currencyAddress === this.addresses.L2_ETH_Address ? {value: approvalAmount.add('1')} : {value: approvalAmount};
-    }
-
-    //in some cases zero not allowed
-    const tx2 = await this.L2LPContract
-      .connect(this.provider.getSigner())
-      .populateTransaction
-      .clientDepositL2(
-        currencyAddress === this.addresses.L2_ETH_Address ? '1' : '0', //ETH does not allow zero
-        currencyAddress,
-        value
-      )
-
-    const depositGas_BN = await this.L2Provider.estimateGas({...tx2, from: this.gasEstimateAccount})
-
-    let l1SecurityFee = BigNumber.from('0')
-    if (this.networkType === NETWORK_TYPE.MAINNET) {
-      delete tx2.from
-      l1SecurityFee = await this.gasOracleContract.getL1Fee(
-        utils.serializeTransaction(tx2)
-      )
-      // We can't correctly calculate the final l1 securifty fee,
-      // so we increase it by 1.1X to make sure that users have
-      // enough balance to cover it
-      l1SecurityFee = l1SecurityFee.mul('11').div('10')
-      console.log("l1Security fee (ETH)", l1SecurityFee.toString())
-    }
-
-    const depositCost_BN = depositGas_BN.mul(gasPrice).add(l1SecurityFee)
-    console.log("Fast exit cost (ETH):", utils.formatEther(depositCost_BN))
-
-    //returns total cost in ETH
-    return utils.formatEther(depositCost_BN.add(approvalCost_BN))
-  }
-
-  /* Estimate cost of Fast Deposit to L2 */
-  async getFastDepositCost(currencyAddress) {
-
-    let approvalCost_BN = BigNumber.from('0')
-
-    const gasPrice = await this.L1Provider.getGasPrice()
-    console.log("Fast deposit gas price", gasPrice.toString())
-
-    if (currencyAddress !== this.addresses.L1_ETH_Address) {
-
-      const ERC20Contract = new ethers.Contract(
-        currencyAddress,
-        L2ERC20Json.abi, //any old abi will do...
-        this.provider.getSigner()
-      )
-
-      const tx = await ERC20Contract.populateTransaction.approve(
-        this.addresses.L1LPAddress,
-        utils.parseEther('1.0')
-      )
-
-      const approvalGas_BN = await this.L1Provider.estimateGas(tx)
-      approvalCost_BN = approvalGas_BN.mul(gasPrice)
-      console.log("Approve cost in ETH:", utils.formatEther(approvalCost_BN))
-    }
-
-    //in some cases zero not allowed
-    const tx2 = await this.L1LPContract
-      .connect(this.provider.getSigner()).populateTransaction.clientDepositL1(
-        currencyAddress === this.addresses.L1_ETH_Address ? '1' : '0', //ETH does not allow zero
-        currencyAddress,
-        currencyAddress === this.addresses.L1_ETH_Address ? {value: '1'} : {}
-      )
-
-    const depositGas_BN = await this.L1Provider.estimateGas(tx2)
-    console.log("Fast deposit gas", depositGas_BN.toString())
-
-    const depositCost_BN = depositGas_BN.mul(gasPrice)
-    console.log("Fast deposit cost (ETH):", utils.formatEther(depositCost_BN))
-
-    //returns total cost in ETH
-    return utils.formatEther(depositCost_BN.add(approvalCost_BN))
-  }
-
-  /* Estimate cost of Fast Deposit to L2 */
-  async getFastDepositBatchCost(tokenList) {
-
-    if (tokenList.length === 0) return 0
-
-    let approvalCost_BN = BigNumber.from('0')
-    let payload = [], ETHValue = BigNumber.from('0')
-
-    const gasPrice = await this.L1Provider.getGasPrice()
-    console.log("Fast deposit gas price", gasPrice.toString())
-
-    // We use BOBA as an example
-    const ERC20Contract = new ethers.Contract(
-      this.tokenAddresses['BOBA'].L1,
-      L2ERC20Json.abi, //any old abi will do...
-      this.provider.getSigner()
-    )
-
-    const tx = await ERC20Contract.populateTransaction.approve(
-      this.addresses.L1LPAddress,
-      utils.parseEther('0')
-    )
-
-    for (const tokenName of tokenList) {
-      if (tokenName !== 'ETH') {
-        const approvalGas_BN = await this.L1Provider.estimateGas(tx)
-        approvalCost_BN = approvalCost_BN.add(approvalGas_BN.mul(gasPrice))
-        payload.push({l1TokenAddress: this.tokenAddresses['BOBA'].L1, amount: utils.parseEther('0.0001')})
-      } else {
-        ETHValue = utils.parseEther('0.0001')
-        payload.push({l1TokenAddress: L1_ETH_Address, amount: utils.parseEther('0.0001')})
-      }
-    }
-
-    console.log("Approve cost in ETH:", utils.formatEther(approvalCost_BN))
-
-    const fastDepositBatchTx = await this.L1LPContract
-      .connect(this.L1Provider).populateTransaction.clientDepositL1Batch(
-        payload, {value: ETHValue, from: '0x5E7a06025892d8Eef0b5fa263fA0d4d2E5C3B549'}
-      )
-    const depositGas_BN = await this.L1Provider.estimateGas(fastDepositBatchTx)
-    console.log("Fast batch deposit gas", depositGas_BN.toString())
-
-    const depositCost_BN = depositGas_BN.mul(gasPrice)
-    console.log("Fast batch deposit cost (ETH):", utils.formatEther(depositCost_BN))
-
-    //returns total cost in ETH
-    return utils.formatEther(depositCost_BN.add(approvalCost_BN))
-  }
-
-  /**************************************************************/
-  /***** SWAP OFF from BOBA by depositing funds to the L2LP *****/
-
-  /**************************************************************/
-  async fastExitAll(currencyAddress) {
-
-    updateSignatureStatus_exitLP(false)
-
-    let approvalGas_BN = BigNumber.from('0')
-    let approvalCost_BN = BigNumber.from('0')
-    let balance_BN = BigNumber.from('0')
-
-    let gasPrice = await this.L2Provider.getGasPrice()
-    console.log("Fast exit gas price", gasPrice.toString())
-
-    if (currencyAddress === this.addresses.L2_ETH_Address) {
-      balance_BN = await this.L2Provider.getBalance(this.account)
-    }
-
-    const L2BillingContract = new ethers.Contract(
-      this.addresses.Proxy__BobaBillingContract,
-      L2BillingContractJson.abi,
-      this.L2Provider,
-    )
-    let BobaApprovalAmount = await L2BillingContract.exitFee()
-
-    const BobaAllowance = await this.checkAllowance(
-      this.addresses.TK_L2BOBA,
-      this.addresses.L2LPAddress,
-    )
-
-    try {
-      // Approve BOBA first
-      if (BobaAllowance.lt(BobaApprovalAmount)) {
-        const approveStatus = await this.approveERC20(
-          BobaApprovalAmount,
-          this.addresses.TK_L2BOBA,
-          this.addresses.L2LPAddress
-        )
-        if (!approveStatus) return false
-      }
-
-      // Approve other tokens
-      if (currencyAddress !== this.addresses.L2_ETH_Address &&
-        utils.getAddress(currencyAddress) !== utils.getAddress(this.addresses.TK_L2BOBA)
-      ) {
-        const L2ERC20Contract = new ethers.Contract(
-          currencyAddress,
-          L2ERC20Json.abi,
-          this.provider.getSigner()
-        )
-
-        balance_BN = await L2ERC20Contract.balanceOf(
-          this.account
-        )
-        console.log("Initial Balance:", utils.formatEther(balance_BN))
-
-        let allowance_BN = await L2ERC20Contract.allowance(
-          this.account,
-          this.addresses.L2LPAddress
-        )
-        console.log("Allowance:", utils.formatEther(allowance_BN))
-
-        if (balance_BN.gt(allowance_BN)) {
-
-          //Estimate gas
-          const tx = await L2ERC20Contract.populateTransaction.approve(
-            this.addresses.L2LPAddress,
-            balance_BN
-          )
-
-          approvalGas_BN = await this.L2Provider.estimateGas(tx)
-          approvalCost_BN = approvalGas_BN.mul(gasPrice)
-          console.log("Cost to Approve (ETH):", utils.formatEther(approvalCost_BN))
-
-          const approveStatus = await L2ERC20Contract.approve(
-            this.addresses.L2LPAddress,
-            balance_BN
-          )
-          await approveStatus.wait()
-
-          if (!approveStatus)
-            return false
-
-        } else {
-          console.log("Allowance already suitable:", utils.formatEther(allowance_BN))
-        }
-
-      }
-
-      const tx2 = await this.L2LPContract
-        .connect(this.provider.getSigner()).populateTransaction.clientDepositL2(
-          balance_BN,
-          currencyAddress,
-          currencyAddress === this.addresses.L2_ETH_Address ? {value: '1'} : {}
-        )
-
-      let depositGas_BN = await this.L2Provider.estimateGas(tx2)
-
-      let l1SecurityFee = BigNumber.from('0')
-      if (this.networkGateway === 'mainnet') {
-        delete tx2.from
-        l1SecurityFee = await this.gasOracleContract.getL1Fee(
-          utils.serializeTransaction(tx2)
-        )
-        // We can't correctly calculate the final l1 securifty fee,
-        // so we increase it by 1.1X to make sure that users have
-        // enough balance to cover it
-        l1SecurityFee = l1SecurityFee.mul('11').div('10')
-        console.log("l1Security fee (ETH)", l1SecurityFee.toString())
-      }
-
-      console.log("Deposit gas", depositGas_BN.toString())
-      let depositCost_BN = depositGas_BN.mul(gasPrice).add(l1SecurityFee)
-      console.log("Deposit gas cost (ETH)", utils.formatEther(depositCost_BN))
-
-      if (currencyAddress === this.addresses.L2_ETH_Address) {
-        //if fee token, need to consider cost to exit
-        balance_BN = balance_BN.sub(depositCost_BN)
-      }
-
-      const ccBal = await this.L2Provider.getBalance(this.account)
-
-      console.log("Balance:", utils.formatEther(ccBal))
-      console.log("Cost to exit:", utils.formatEther(depositCost_BN))
-      console.log("Amount to exit:", utils.formatEther(balance_BN))
-      console.log("Should be zero (if exiting ETH):", ccBal.sub(balance_BN.add(depositCost_BN)).toString())
-
-      const time_start = new Date().getTime()
-      console.log("TX start time:", time_start)
-
-      const depositTX = await this.L2LPContract
-        .connect(this.provider.getSigner()).clientDepositL2(
-          balance_BN,
-          currencyAddress,
-          currencyAddress === this.addresses.L2_ETH_Address ? {value: balance_BN.sub(depositCost_BN)} : {}
-        )
-
-      //at this point the tx has been submitted, and we are waiting...
-      await depositTX.wait()
-
-      const block = await this.L2Provider.getTransaction(depositTX.hash)
-      console.log(' block:', block)
-
-      //closes the modal
-      updateSignatureStatus_exitLP(true)
-
-      const opts = {
-        fromBlock: -4000
-      }
-      const receipt = await this.fastWatcher.waitForMessageReceipt(depositTX, opts)
-      const txReceipt = receipt.transactionReceipt;
-
-      console.log(' completed Deposit! L1 tx hash:', txReceipt.transactionHash)
-
-      const time_stop = new Date().getTime()
-      console.log("TX finish time:", time_stop)
-
-      return receipt
-    } catch (error) {
-      console.log("NS: fastExitAll error:", error)
-      return error
-    }
-  }
 
   /**************************************************************/
   /***** SWAP OFF from BOBA by depositing funds to the L2LP *****/

@@ -7,7 +7,6 @@ import { NETWORK_TYPE } from '../../../util/network/network.util'
 
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
-  FAST = 'FAST',
   LIGHT = 'LIGHT',
   THIRD_PARTY = 'THIRD_PARTY',
 }
@@ -38,14 +37,6 @@ const BridgeTypeSelector = () => {
       >
         Classic
       </BridgeTabItem>
-      <BridgeTabItem
-        data-testid="fast-btn"
-        active={bridgeType === BRIDGE_TYPE.FAST}
-        onClick={() => onTabClick(BRIDGE_TYPE.FAST)}
-      >
-        Fast
-      </BridgeTabItem>
-
       {isTestnet ? (
         <BridgeTabItem
           data-testid="light-btn"

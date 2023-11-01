@@ -50,10 +50,6 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
         [LAYER.L1]: '13 ~ 14mins.',
         default: '7 days',
       },
-      [BRIDGE_TYPE.FAST]: {
-        [LAYER.L1]: '1 ~ 5min.',
-        default: '15min ~ 3hrs.',
-      },
       default: '~1min.',
     }
 
