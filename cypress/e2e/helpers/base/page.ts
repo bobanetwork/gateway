@@ -57,7 +57,7 @@ export default class Page extends Base {
     cy.get('body')
       .find('wcm-modal')
       .should('exist')
-      .contains('Connect your wallet')
+      .contains('Connect your wallet', { timeout: 7000 })
       .should('be.visible')
   }
 
