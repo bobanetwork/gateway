@@ -16,12 +16,6 @@ limitations under the License. */
 const initialState = {
   layer1: [],
   layer2: [],
-  l1LpBalanceWeiString:'',
-  l2LpBalanceWeiString:'',
-  l2LpETHBalanceWeiString: '',
-  l1LpPendingWeiString:'',
-  l2LpPendingWeiString:'',
-  l2LpETHPendingWeiString: '',
   l1FeeRate: {},
   l2FeeRate: {},
   l2ETHFeeRateN: {},
@@ -46,36 +40,6 @@ function balanceReducer(state = initialState, action) {
         ...state,
         layer1,
         layer2
-      }
-    case 'FETCH/L1LP/BALANCE/SUCCESS':
-      return {
-        ...state,
-        l1LpBalanceWeiString: action.payload
-      }
-    case 'FETCH/L2LP/BALANCE/SUCCESS':
-      return {
-        ...state,
-        l2LpBalanceWeiString: action.payload
-      }
-    case 'FETCH/L2LP/BALANCE/ETH/SUCCESS':
-      return {
-        ...state,
-        l2LpETHBalanceWeiString: action.payload
-      }
-    case 'FETCH/L1LP/PENDING/SUCCESS':
-      return {
-        ...state,
-        l1LpPendingWeiString: action.payload
-      }
-    case 'FETCH/L2LP/PENDING/SUCCESS':
-      return {
-        ...state,
-        l2LpPendingWeiString: action.payload
-      }
-    case 'FETCH/L2LP/PENDING/ETH/SUCCESS':
-      return {
-        ...state,
-        l2LpETHPendingWeiString: action.payload
       }
     case 'FETCH/L1TOTALFEERATE/SUCCESS':
       return {
@@ -132,21 +96,6 @@ function balanceReducer(state = initialState, action) {
         ...state,
         l2BalanceBOBA: Number(action.payload)
       }
-    case 'FETCH/L1LP/LIQUIDITY/SUCCESS':
-      return {
-        ...state,
-        l1lpLiquidity: action.payload
-      }
-    case 'FETCH/L2LP/LIQUIDITY/SUCCESS':
-      return {
-        ...state,
-        l2lpLiquidity: action.payload
-      }
-    case 'FETCH/L2LP/LIQUIDITY/ETH/SUCCESS':
-      return {
-        ...state,
-        l2lpETHLiquidity: action.payload
-      }
     case 'FETCH/USER/L2LP/BALANCE/BATCH/SUCCESS':
       return {
         ...state,
@@ -160,8 +109,6 @@ function balanceReducer(state = initialState, action) {
     case 'BALANCE/L1/RESET':
       return {
         ...state,
-        l1LpBalanceWeiString: '',
-        l1LpPendingWeiString: '',
         l1FeeRate: '',
         l2FeeBalance: '',
         l1lpLiquidity: '',
@@ -172,8 +119,6 @@ function balanceReducer(state = initialState, action) {
     case 'BALANCE/L2/RESET':
       return {
         ...state,
-        l2LpBalanceWeiString: '',
-        l2LpPendingWeiString: '',
         l2FeeRate: '',
         l1FeeBalance: 0,
         l2lpLiquidity: '',

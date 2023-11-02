@@ -25,22 +25,6 @@ export function selectAccountData (state) {
   return state.balance.accountData
 }
 
-export function selectL1LPBalanceString (state) {
-  return state.balance.l1LpBalanceWeiString
-}
-
-export function selectL2LPBalanceString (state) {
-  return state.balance.l2LpBalanceWeiString
-}
-
-export function selectL1LPPendingString (state) {
-  return state.balance.l1LpPendingWeiString
-}
-
-export function selectL2LPPendingString (state) {
-  return state.balance.l2LpPendingWeiString
-}
-
 export function selectL1LPLiquidity (state) {
   return state.balance.l1lpLiquidity
 }
