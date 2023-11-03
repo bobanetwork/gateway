@@ -29,10 +29,6 @@ export function selectL1LPLiquidity (state) {
   return state.balance.l1lpLiquidity
 }
 
-export function selectL2LPLiquidity (state) {
-  return state.balance.l2lpLiquidity
-}
-
 export function selectL1FeeRate (state) {
   return state.balance.l1FeeRate
 }
@@ -59,10 +55,6 @@ export function selectClassicExitCost (state) {
 
 export function selectAltL1DepositCost(state) {
   return state.balance.altL1DepositCost
-}
-
-export function selectL1FeeBalance (state) {
-  return state.balance.l1FeeBalance
 }
 
 export function selectL2BalanceETH (state) {

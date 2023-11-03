@@ -21,11 +21,9 @@ const initialState = {
   l2ETHFeeRateN: {},
   classicExitCost: '',
   altL1DepositCost: '',
-  l1FeeBalance: 0,
   l2BalanceETH: 0,
   l2BalanceBOBA: 0,
   l1lpLiquidity: '',
-  l2lpLiquidity: '',
   l2lpETHLiquidity: '',
   gas: {},
   userAndL2LPBlanceBatch: {},
@@ -81,11 +79,6 @@ function balanceReducer(state = initialState, action) {
         ...state,
         altL1DepositCost: action.payload
       }
-    case 'FETCH/L1FEE/BALANCE/SUCCESS':
-      return {
-        ...state,
-        l1FeeBalance: Number(action.payload)
-      }
     case 'FETCH/L2ETH/BALANCE/SUCCESS':
       return {
         ...state,
@@ -119,9 +112,7 @@ function balanceReducer(state = initialState, action) {
     case 'BALANCE/L2/RESET':
       return {
         ...state,
-        l2FeeRate: '',
-        l1FeeBalance: 0,
-        l2lpLiquidity: '',
+        l2FeeRate: ''
       }
     default:
       return state

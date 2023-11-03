@@ -4,7 +4,6 @@ import {
   fetchL2LPPending,
   fetchL2TotalFeeRate,
   fetchL2FeeRateN,
-  fetchL1FeeBalance,
   fetchClassicExitCost,
   fetchExitFee,
   fetchL2BalanceBOBA,

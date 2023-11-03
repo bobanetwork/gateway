@@ -60,11 +60,6 @@ export function fetchAltL1DepositFee() {
     return createAction('FETCH/ALTL1DEPOSIT/COST', () => networkService.getAltL1DepositFee())
 }
 
-
-export function fetchL1FeeBalance() {
-    return createAction('FETCH/L1FEE/BALANCE', () => networkService.getL1FeeBalance())
-}
-
 export function fetchL2BalanceETH() {
     return createAction('FETCH/L2ETH/BALANCE', () => networkService.getL2BalanceETH())
 }

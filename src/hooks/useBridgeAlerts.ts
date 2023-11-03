@@ -14,11 +14,9 @@ import {
   selectExitFee,
   selectFastExitCost,
   selectIsTeleportationOfAssetSupported,
-  selectL1FeeBalance,
   selectL1LPLiquidity,
   selectL2BalanceBOBA,
   selectL2BalanceETH,
-  selectL2LPLiquidity,
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
@@ -60,10 +58,6 @@ const useBridgeAlerts = () => {
   const activeNetwork = useSelector(selectActiveNetwork())
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
     useSelector(selectIsTeleportationOfAssetSupported())
-
-  // fast input layer 1
-  const L1LPLiquidity = useSelector(selectL2LPLiquidity)
-  const L1feeBalance = useSelector(selectL1FeeBalance)
 
   // imports needed for layer= 2;
   const feeBalanceETH = useSelector(selectL2BalanceETH)
@@ -275,28 +269,6 @@ const useBridgeAlerts = () => {
     exitFee,
     fastExitCost,
     LPLiquidity,
-  ])
-
-  // alerts for fast deposit L1.
-
-  useEffect(() => {
-    if (!token) {
-      return
-    }
-
-    dispatch(
-      clearBridgeAlert({
-        keys: [ALERT_KEYS.FAST_DEPOSIT_ERROR],
-      })
-    )
-  }, [
-    dispatch,
-    layer,
-    bridgeType,
-    amountToBridge,
-    token,
-    L1LPLiquidity,
-    L1feeBalance,
   ])
 
   useEffect(() => {
