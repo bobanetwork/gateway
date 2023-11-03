@@ -16,7 +16,6 @@ import {
   selectIsTeleportationOfAssetSupported,
   selectL1FeeBalance,
   selectL1LPLiquidity,
-  selectL1LPPendingString,
   selectL2BalanceBOBA,
   selectL2BalanceETH,
   selectL2LPBalanceString,
@@ -77,7 +76,6 @@ const useBridgeAlerts = () => {
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
   const fastExitCost = useSelector(selectFastExitCost)
-  const LPPending = useSelector(selectL1LPPendingString)
   const LPLiquidity = useSelector(selectL1LPLiquidity)
 
   useEffect(() => {
@@ -281,7 +279,6 @@ const useBridgeAlerts = () => {
     exitFee,
     fastExitCost,
     LPLiquidity,
-    LPPending,
   ])
 
   // alerts for fast deposit L1.
