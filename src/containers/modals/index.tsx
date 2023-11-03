@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectModalState } from 'selectors'
-import CDMCompletionModal from './CDMCompletion/CDMCompletionModal'
 import CastVoteModal from './dao/CastVoteModal'
 import DelegateDaoModal from './dao/DelegateDaoModal'
 import NewProposalModal from './dao/NewProposalModal'
@@ -52,9 +51,7 @@ const ModalContainer = () => {
   const walletSelectorModalState = useSelector(
     selectModalState('walletSelectorModal')
   )
-  const CDMCompletionModalState = useSelector(
-    selectModalState('CDMCompletionModal')
-  )
+
   const switchNetworkModalState = useSelector(
     selectModalState('switchNetworkModal')
   )
@@ -151,9 +148,6 @@ const ModalContainer = () => {
       )}
       {!!walletSelectorModalState && (
         <WalletSelectorModal open={walletSelectorModalState} />
-      )}
-      {!!CDMCompletionModalState && (
-        <CDMCompletionModal open={CDMCompletionModalState} />
       )}
       {!!switchNetworkModalState && (
         <SwitchNetworkModal open={switchNetworkModalState} />

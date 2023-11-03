@@ -32,7 +32,6 @@ const initialState = {
   delegateDaoXModal: false,
   newProposalModal: false,
   walletSelectorModal: false,
-  CDMCompletionModal: false,
   switchNetworkModal: false,
   UnsupportedNetwork: false,
 
