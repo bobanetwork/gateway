@@ -28,33 +28,9 @@ export function fetchL2LPBalance(address) {
     return createAction('FETCH/L2LP/BALANCE', () => networkService.L2LPBalance(address))
 }
 
-export function fetchL1LPPending(address) {
-    return createAction('FETCH/L1LP/PENDING', () => networkService.L1LPPending(address))
-}
-
-export function fetchL2LPPending(address) {
-    return createAction('FETCH/L2LP/PENDING', () => networkService.L2LPPending(address))
-}
-
-export function fetchL1LPLiquidity(address) {
-    return createAction('FETCH/L1LP/LIQUIDITY', () => networkService.L1LPLiquidity(address))
-}
-
-export function fetchL2LPLiquidity(address) {
-    return createAction('FETCH/L2LP/LIQUIDITY', () => networkService.L2LPLiquidity(address))
-}
-
-export function fetchL1TotalFeeRate() { return createAction('FETCH/L1TOTALFEERATE', ()=>{return networkService.getL1TotalFeeRate()}) }
-export function fetchL2TotalFeeRate() { return createAction('FETCH/L2TOTALFEERATE', ()=>{return networkService.getL2TotalFeeRate()}) }
-
-export function fetchL1FeeRateN(tokenAddress) { return createAction('FETCH/L1FEERATE', ()=>{return networkService.getL1UserRewardFeeRate(tokenAddress)}) }
-export function fetchL2FeeRateN(tokenAddress) { return createAction('FETCH/L2FEERATE', ()=>{return networkService.getL2UserRewardFeeRate(tokenAddress)}) }
-
-
 export function fetchClassicExitCost(address) {
     return createAction('FETCH/CLASSICEXIT/COST', () => networkService.getExitCost(address))
 }
-
 
 export function fetchAltL1DepositFee() {
     return createAction('FETCH/ALTL1DEPOSIT/COST', () => networkService.getAltL1DepositFee())

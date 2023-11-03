@@ -2614,28 +2614,6 @@ class NetworkService {
   }
 
   /***************************************/
-  /*********** L1LP Liquidity ************/
-
-  /***************************************/
-  async L1LPLiquidity(tokenAddress) {
-
-    const L1LPContractNS = new ethers.Contract(
-      this.addresses.L1LPAddress,
-      L1LPJson.abi,
-      this.L1Provider
-    )
-
-    try {
-      const poolTokenInfo = await L1LPContractNS.poolInfo(tokenAddress)
-      return poolTokenInfo.userDepositAmount.toString()
-    } catch (error) {
-      console.log("NS: L1LPLiquidity error:", error)
-      return error
-    }
-
-  }
-
-  /***************************************/
   /*********** L2LP Liquidity ************/
 
   /***************************************/

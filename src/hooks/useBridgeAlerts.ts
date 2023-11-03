@@ -14,7 +14,6 @@ import {
   selectExitFee,
   selectFastExitCost,
   selectIsTeleportationOfAssetSupported,
-  selectL1LPLiquidity,
   selectL2BalanceBOBA,
   selectL2BalanceETH,
   selectLayer,
@@ -66,7 +65,6 @@ const useBridgeAlerts = () => {
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
   const fastExitCost = useSelector(selectFastExitCost)
-  const LPLiquidity = useSelector(selectL1LPLiquidity)
 
   useEffect(() => {
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
@@ -268,7 +266,6 @@ const useBridgeAlerts = () => {
     feeUseBoba,
     exitFee,
     fastExitCost,
-    LPLiquidity,
   ])
 
   useEffect(() => {

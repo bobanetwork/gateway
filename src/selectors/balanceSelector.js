@@ -25,10 +25,6 @@ export function selectAccountData (state) {
   return state.balance.accountData
 }
 
-export function selectL1LPLiquidity (state) {
-  return state.balance.l1lpLiquidity
-}
-
 export function selectL1FeeRate (state) {
   return state.balance.l1FeeRate
 }

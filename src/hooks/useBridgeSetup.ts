@@ -1,18 +1,8 @@
 import {
-  fetchL2LPBalance,
-  fetchL2LPLiquidity,
-  fetchL2LPPending,
-  fetchL2TotalFeeRate,
-  fetchL2FeeRateN,
   fetchClassicExitCost,
   fetchExitFee,
   fetchL2BalanceBOBA,
   fetchL2BalanceETH,
-  fetchL1FeeRateN,
-  fetchL1LPBalance,
-  fetchL1LPLiquidity,
-  fetchL1LPPending,
-  fetchL1TotalFeeRate,
 } from 'actions/balanceAction'
 import { clearLookupPrice, fetchLookUpPrice } from 'actions/networkAction'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
