@@ -15,14 +15,11 @@ limitations under the License. */
 
 const initialState = {
   theme: 'dark',
-  transferModal: false,
   bridgeTypeSwitch: false,
   tokenPicker: false,
   transferPending: false,
-  mergeModal: false,
   confirmationModal: false,
   wrongNetworkModal: false,
-  ledgerConnectModal: false,
   addNewTokenModal: false,
   EarnDepositModal: false,
   StakeDepositModal: false,
@@ -34,7 +31,6 @@ const initialState = {
   walletSelectorModal: false,
   switchNetworkModal: false,
   UnsupportedNetwork: false,
-
   ledger: false,
   alert: null,
   error: null,

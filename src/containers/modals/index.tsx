@@ -11,7 +11,6 @@ import InstallMetaMaskModal from './noMetaMask/InstallMetaMaskModal/InstallMetaM
 import NoMetaMaskModal from './noMetaMask/NoMetaMaskModal'
 import SwitchNetworkModal from './switchNetwork/SwitchNetworkModal'
 import TokenPickerModal from './tokenPicker/TokenPickerModal'
-import TransferModal from './transfer/TransferModal'
 import WrongNetworkModal from './wrongNetwork/WrongNetworkModal'
 import TransferPendingModal from './transferPending/TransferPending'
 import WalletSelectorModal from './walletSelector/WalletSelectorModal'
@@ -32,11 +31,6 @@ const ModalContainer = () => {
     selectModalState('UnsupportedNetwork')
   )
 
-  const depositBatchModalState = useSelector(
-    selectModalState('depositBatchModal')
-  )
-
-  const transferModalState = useSelector(selectModalState('transferModal'))
   const tokenPickerModalState = useSelector(selectModalState('tokenPicker'))
   const transferPendingModalState = useSelector(
     selectModalState('transferPending')
@@ -105,10 +99,6 @@ const ModalContainer = () => {
     <>
       {!!UnsupportedNetworkModalState && (
         <UnsupportedNetworkModal open={UnsupportedNetworkModalState} />
-      )}
-
-      {!!transferModalState && (
-        <TransferModal open={transferModalState} token={token} />
       )}
       {!!EarnDepositModalState && (
         <EarnDepositModal open={EarnDepositModalState} />
