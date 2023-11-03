@@ -17,7 +17,6 @@ const initialState = {
   theme: 'dark',
   bridgeTypeSwitch: false,
   tokenPicker: false,
-  transferPending: false,
   confirmationModal: false,
   wrongNetworkModal: false,
   addNewTokenModal: false,
