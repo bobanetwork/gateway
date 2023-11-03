@@ -18,9 +18,7 @@ import {
   selectL1LPLiquidity,
   selectL2BalanceBOBA,
   selectL2BalanceETH,
-  selectL2LPBalanceString,
   selectL2LPLiquidity,
-  selectL2LPPendingString,
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
@@ -64,8 +62,6 @@ const useBridgeAlerts = () => {
     useSelector(selectIsTeleportationOfAssetSupported())
 
   // fast input layer 1
-  const L1LPBalance = useSelector(selectL2LPBalanceString)
-  const L1LPPending = useSelector(selectL2LPPendingString)
   const L1LPLiquidity = useSelector(selectL2LPLiquidity)
   const L1feeBalance = useSelector(selectL1FeeBalance)
 
@@ -299,7 +295,6 @@ const useBridgeAlerts = () => {
     bridgeType,
     amountToBridge,
     token,
-    L1LPPending,
     L1LPLiquidity,
     L1feeBalance,
   ])
