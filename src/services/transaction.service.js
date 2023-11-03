@@ -25,22 +25,6 @@ class TransactionService {
 
   }
 
-  async getFastExits(networkConfig = networkService.networkConfig) {
-    const response = await omgxWatcherAxiosInstance(
-      networkConfig
-    ).get('get.l2.pendingexits')
-
-    if (response.status === 201) {
-      const data = response.data
-      const filtered = data.filter(
-        (i) => i.fastRelay === 1 && i.status === 'pending'
-      )
-      return filtered
-    } else {
-      return []
-    }
-  }
-
   // fetch L2 transactions from omgxWatcherAxiosInstance
   async fetchL2Tx(networkConfig = networkService.networkConfig) {
     let L2Txs = []

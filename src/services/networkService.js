@@ -119,7 +119,6 @@ class NetworkService {
 
     // Watcher
     this.watcher = null
-    this.fastWatcher = null
 
     // addresses
     this.AddressManagerAddress = null
@@ -558,11 +557,6 @@ class NetworkService {
       )
 
       this.watcher = new CrossChainMessenger({
-        l1SignerOrProvider: this.L1Provider,
-        l2SignerOrProvider: this.L2Provider,
-        l1ChainId: chainId,
-      })
-      this.fastWatcher = new CrossChainMessenger({
         l1SignerOrProvider: this.L1Provider,
         l2SignerOrProvider: this.L2Provider,
         l1ChainId: chainId,

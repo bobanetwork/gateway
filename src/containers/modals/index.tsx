@@ -51,10 +51,7 @@ const ModalContainer = () => {
   )
   const SettingsModalState = useSelector(selectModalState('settingsModal'))
 
-  const fast = useSelector(selectModalState('fast'))
-  const token = useSelector(selectModalState('token'))
   const tokenIndex = useSelector(selectModalState('tokenIndex'))
-  const lock = useSelector(selectModalState('lock'))
   const proposalId = useSelector(selectModalState('proposalId'))
   const destNetworkSelection = useSelector(
     selectModalState('destNetworkSelection')

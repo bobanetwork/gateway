@@ -30,8 +30,7 @@ enum ALERT_KEYS {
   OMG_INFO = 'OMG_INFO',
   VALUE_TOO_SMALL = 'VALUE_TOO_SMALL',
   VALUE_TOO_LARGE = 'VALUE_TOO_LARGE',
-  FAST_EXIT_ERROR = 'FAST_EXIT_ERROR',
-  FAST_DEPOSIT_ERROR = 'FAST_DEPOSIT_ERROR',
+  EXIT_ERROR = 'EXIT_ERROR',
   DEPRECATION_WARNING = 'DEPRECATION_WARNING',
   TELEPORTATION_ASSET_NOT_SUPPORTED = 'TELEPORTER_ASSET_NOT_SUPPORTED',
   TELEPORTATION_NO_UNCONVENTIONAL_WALLETS = 'TELEPORTATION_NO_UNCONVENTIONAL_WALLETS',
@@ -207,7 +206,7 @@ const useBridgeAlerts = () => {
     }
     dispatch(
       clearBridgeAlert({
-        keys: [ALERT_KEYS.FAST_EXIT_ERROR],
+        keys: [ALERT_KEYS.EXIT_ERROR],
       })
     )
     if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
@@ -247,7 +246,7 @@ const useBridgeAlerts = () => {
       if (warning) {
         dispatch(
           setBridgeAlert({
-            meta: ALERT_KEYS.FAST_EXIT_ERROR,
+            meta: ALERT_KEYS.EXIT_ERROR,
             type: 'error',
             text: warning,
           })

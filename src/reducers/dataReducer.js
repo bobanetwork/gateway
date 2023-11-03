@@ -16,8 +16,7 @@ limitations under the License. */
 import { keyBy } from 'util/lodash';
 
 const initialState = {
-  sevens: {},
-  fastExits: {}
+  sevens: {}
 }
 
 function dataReducer (state = initialState, action) {
