@@ -299,7 +299,6 @@ const useBridgeAlerts = () => {
     bridgeType,
     amountToBridge,
     token,
-    L1LPBalance,
     L1LPPending,
     L1LPLiquidity,
     L1feeBalance,
