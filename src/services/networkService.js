@@ -3370,13 +3370,14 @@ class NetworkService {
   /*************************************************
    **************** Alt L1 Functions ***************
    *************************************************/
-
+  // TODO: remove while cleaning up network service with unit test coverage.
   /**
+   * 
+   * 
    * Get Cross Chain Deposit Fee
    * @getAltL1DepositFee
    *   - as of now we are just supporting BOBA so no need to check for other tokens.
    */
-
 
   async getAltL1DepositFee() {
     if (this.account === null) {

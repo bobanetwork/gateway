@@ -17,7 +17,6 @@ const initialState = {
   layer1: [],
   layer2: [],
   classicExitCost: '',
-  altL1DepositCost: '',
   l2BalanceETH: 0,
   l2BalanceBOBA: 0,
   l2lpETHLiquidity: '',
@@ -38,11 +37,6 @@ function balanceReducer(state = initialState, action) {
       return {
         ...state,
         classicExitCost: action.payload
-      }
-    case 'FETCH/ALTL1DEPOSIT/COST/SUCCESS':
-      return {
-        ...state,
-        altL1DepositCost: action.payload
       }
     case 'FETCH/L2ETH/BALANCE/SUCCESS':
       return {

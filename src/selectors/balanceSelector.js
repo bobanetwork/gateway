@@ -25,10 +25,6 @@ export function selectClassicExitCost (state) {
   return state.balance.classicExitCost
 }
 
-export function selectAltL1DepositCost(state) {
-  return state.balance.altL1DepositCost
-}
-
 export function selectL2BalanceETH (state) {
   return state.balance.l2BalanceETH
 }

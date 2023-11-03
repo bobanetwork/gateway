@@ -1,9 +1,9 @@
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import networkService from './networkService'
-import {AllNetworkConfigs,CHAIN_ID_LIST,NETWORK,NETWORK_TYPE,getRpcUrlByChainId} from 'util/network/network.util'
+import {AllNetworkConfigs,CHAIN_ID_LIST,getRpcUrlByChainId} from 'util/network/network.util'
 import {TRANSACTION_STATUS} from "../containers/history/types";
 import {teleportationGraphQLService} from "./graphql.service";
-import {BigNumber, ethers, providers} from "ethers";
+import {ethers,providers} from "ethers";
 import {isDevBuild} from "../util/constant";
 import {BobaChains} from "../util/chainConfig";
 
@@ -48,25 +48,25 @@ class TransactionService {
       const responseL2 = await omgxWatcherAxiosInstance(
         networkConfig
       )
-        .post('get.l2.transactions', {
+        .post('get.l2.transactions',{
           address: networkService.account,
           fromRange: 0,
           toRange: 1000,
         })
         .catch((error) => {
-          console.log('get l2 tx', error)
+          console.log('get l2 tx',error)
         })
 
       if (responseL2.status === 201) {
         L2Txs = responseL2.data.map((v) => ({
-          ...v, layer: 'L2', chainName: networkConfig.L2.name,
+          ...v,layer: 'L2',chainName: networkConfig.L2.name,
           originChainId: networkConfig.L2.chainId,
           destinationChainId: networkConfig.L1.chainId
         }))
       }
       return L2Txs
     } catch (error) {
-      console.log('TS: fetchL2Tx', error)
+      console.log('TS: fetchL2Tx',error)
       return L2Txs
     }
   }
@@ -77,7 +77,7 @@ class TransactionService {
     try {
       const responseL0 = await omgxWatcherAxiosInstance(
         networkConfig
-      ).post('get.layerzero.transactions', {
+      ).post('get.layerzero.transactions',{
         address: networkService.account,
         fromRange: 0,
         toRange: 1000,
@@ -97,7 +97,7 @@ class TransactionService {
       }
       return L0Txs
     } catch (error) {
-      console.log('TS: fetchL0Tx', error)
+      console.log('TS: fetchL0Tx',error)
       return L0Txs
     }
   }
@@ -108,7 +108,7 @@ class TransactionService {
     try {
       const responseL1pending = await omgxWatcherAxiosInstance(
         networkConfig
-      ).post('get.l1.transactions', {
+      ).post('get.l1.transactions',{
         address: networkService.account,
         fromRange: 0,
         toRange: 1000,
@@ -126,7 +126,7 @@ class TransactionService {
       }
       return txL1pending
     } catch (error) {
-      console.log('TS: fetchL1PendingTx', error)
+      console.log('TS: fetchL1PendingTx',error)
       return txL1pending
     }
   }
@@ -140,16 +140,16 @@ class TransactionService {
     const networksArray = Array.from(Object.values(AllNetworkConfigs))
 
     const networkConfigsArray = networksArray.flatMap((network) => {
-      return [network.Testnet, network.Mainnet]
+      return [network.Testnet,network.Mainnet]
     })
 
     const allNetworksTransactions = await Promise.all(networkConfigsArray.flatMap((config) => {
-        return [this.fetchL2Tx(config),
-          this.fetchL1PendingTx(config),
-          this.fetchTeleportationTransactions(config)]
-      }
+      return [this.fetchL2Tx(config),
+      this.fetchL1PendingTx(config),
+      this.fetchTeleportationTransactions(config)]
+    }
     ))
-    const filteredResults = allNetworksTransactions.reduce((acc, res) => [...acc, ...res], [])
+    const filteredResults = allNetworksTransactions.reduce((acc,res) => [...acc,...res],[])
     return filteredResults?.filter((transaction) => transaction.hash)
   }
 
@@ -159,7 +159,7 @@ class TransactionService {
     const contractL1 = networkService.getTeleportationContract(networkConfig.L1.chainId)
     const contractL2 = networkService.getTeleportationContract(networkConfig.L2.chainId)
 
-    const mapEventToTransaction = async (sendEvent, disburseEvent, contract) => {
+    const mapEventToTransaction = async (sendEvent,disburseEvent,contract) => {
       const txReceipt = await contract.provider.getTransactionReceipt(sendEvent.txHash)
       let crossDomainMessageFinalize
 
@@ -216,11 +216,11 @@ class TransactionService {
       };
     }
 
-    const _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr = (sourceChainTokenAddr, sourceChainId, destChainId) => {
+    const _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr = (sourceChainTokenAddr,sourceChainId,destChainId) => {
       const srcChainTokenSymbol = BobaChains[parseInt(sourceChainId)].supportedAssets[sourceChainTokenAddr?.toLowerCase()]
 
       const supportedAsset = Object.entries(BobaChains[parseInt(destChainId)].supportedAssets).find(
-        ([address, tokenSymbol]) => {
+        ([address,tokenSymbol]) => {
           return tokenSymbol === srcChainTokenSymbol
         }
       )
@@ -233,31 +233,31 @@ class TransactionService {
       return supportedAsset[0] // return only address
     }
 
-    const getEventsForTeleportation = async (contract, sourceChainId) => {
+    const getEventsForTeleportation = async (contract,sourceChainId) => {
       if (contract) {
         let sentEvents = []
         try {
-          sentEvents = await teleportationGraphQLService.queryAssetReceivedEvent(networkService.account, sourceChainId)
+          sentEvents = await teleportationGraphQLService.queryAssetReceivedEvent(networkService.account,sourceChainId)
         } catch (err) {
           console.log(err?.message)
         }
 
         if (!sentEvents || !sentEvents?.length) return []
         return await Promise.all(sentEvents.map(async sentEvent => {
-          let receiveEvent = await teleportationGraphQLService.queryDisbursementSuccessEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(sentEvent.token, sentEvent.sourceChainId, sentEvent.toChainId), sentEvent.amount, sentEvent.depositId)
+          let receiveEvent = await teleportationGraphQLService.queryDisbursementSuccessEvent(networkService.account,sentEvent.sourceChainId,sentEvent.toChainId,_getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(sentEvent.token,sentEvent.sourceChainId,sentEvent.toChainId),sentEvent.amount,sentEvent.depositId)
           if (!receiveEvent && sentEvent.token === ethers.constants.AddressZero) {
             // Native assets can fail and retried
-            receiveEvent = await teleportationGraphQLService.queryDisbursementFailedEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, sentEvent.amount, sentEvent.depositId)
+            receiveEvent = await teleportationGraphQLService.queryDisbursementFailedEvent(networkService.account,sentEvent.sourceChainId,sentEvent.toChainId,sentEvent.amount,sentEvent.depositId)
             if (receiveEvent) {
               // check if successfully retried
-              receiveEvent = await teleportationGraphQLService.queryDisbursementRetrySuccessEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, sentEvent.amount, sentEvent.depositId)
+              receiveEvent = await teleportationGraphQLService.queryDisbursementRetrySuccessEvent(networkService.account,sentEvent.sourceChainId,sentEvent.toChainId,sentEvent.amount,sentEvent.depositId)
             }
             if (receiveEvent) {
               // do in both cases, receiveEvent may still be undefined
               receiveEvent.token = ethers.constants.AddressZero
             }
           }
-          return await mapEventToTransaction(sentEvent, receiveEvent, contract)
+          return await mapEventToTransaction(sentEvent,receiveEvent,contract)
         }))
       } else if (isDevBuild()) {
         console.log("DEV: Teleportation not supported on network")
@@ -265,8 +265,8 @@ class TransactionService {
       return []
     }
 
-    rawTx = rawTx.concat(await getEventsForTeleportation(contractL1, networkConfig.L1.chainId))
-    return rawTx.concat(await getEventsForTeleportation(contractL2, networkConfig.L2.chainId))
+    rawTx = rawTx.concat(await getEventsForTeleportation(contractL1,networkConfig.L1.chainId))
+    return rawTx.concat(await getEventsForTeleportation(contractL2,networkConfig.L2.chainId))
   }
 }
 

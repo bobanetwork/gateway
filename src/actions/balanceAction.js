@@ -32,10 +32,6 @@ export function fetchClassicExitCost(address) {
     return createAction('FETCH/CLASSICEXIT/COST', () => networkService.getExitCost(address))
 }
 
-export function fetchAltL1DepositFee() {
-    return createAction('FETCH/ALTL1DEPOSIT/COST', () => networkService.getAltL1DepositFee())
-}
-
 export function fetchL2BalanceETH() {
     return createAction('FETCH/L2ETH/BALANCE', () => networkService.getL2BalanceETH())
 }
