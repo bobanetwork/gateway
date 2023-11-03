@@ -41,10 +41,6 @@ export function selectL2FeeRateN (state) {
   return state.balance.l2FeeRateN
 }
 
-export function selectFastExitCost (state) {
-  return state.balance.fastExitCost
-}
-
 export function selectClassicExitCost (state) {
   return state.balance.classicExitCost
 }

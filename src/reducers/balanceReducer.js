@@ -42,11 +42,6 @@ function balanceReducer(state = initialState, action) {
         ...state,
         l2ETHFeeRateN: action.payload
       }
-    case 'FETCH/FASTEXIT/COST/SUCCESS':
-      return {
-        ...state,
-        fastExitCost: action.payload
-      }
     case 'FETCH/CLASSICEXIT/COST/SUCCESS':
       return {
         ...state,

@@ -11,8 +11,8 @@ import {
   selectBobaFeeChoice,
   selectBobaPriceRatio,
   selectBridgeType,
+  selectClassicExitCost,
   selectExitFee,
-  selectFastExitCost,
   selectIsTeleportationOfAssetSupported,
   selectL2BalanceBOBA,
   selectL2BalanceETH,
@@ -64,7 +64,7 @@ const useBridgeAlerts = () => {
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
-  const fastExitCost = useSelector(selectFastExitCost)
+  const classExitCost = useSelector(selectClassicExitCost)
 
   useEffect(() => {
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
@@ -214,7 +214,7 @@ const useBridgeAlerts = () => {
       // trigger only when withdrawing funds.
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))
-      const ethCost = Number(fastExitCost) * 1.04 // 1.04 == safety margin on the cost.
+      const ethCost = Number(classExitCost) * 1.04 // 1.04 == safety margin on the cost.
       const bobaCost = ethCost * feePriceRatio
 
       if (exitFee > feeBalanceBOBA) {
@@ -265,7 +265,7 @@ const useBridgeAlerts = () => {
     feePriceRatio,
     feeUseBoba,
     exitFee,
-    fastExitCost,
+    classExitCost,
   ])
 
   useEffect(() => {
