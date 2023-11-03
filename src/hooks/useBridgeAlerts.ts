@@ -15,7 +15,6 @@ import {
   selectFastExitCost,
   selectIsTeleportationOfAssetSupported,
   selectL1FeeBalance,
-  selectL1LPBalanceString,
   selectL1LPLiquidity,
   selectL1LPPendingString,
   selectL2BalanceBOBA,
@@ -78,7 +77,6 @@ const useBridgeAlerts = () => {
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
   const fastExitCost = useSelector(selectFastExitCost)
-  const LPBalance = useSelector(selectL1LPBalanceString)
   const LPPending = useSelector(selectL1LPPendingString)
   const LPLiquidity = useSelector(selectL1LPLiquidity)
 
@@ -283,7 +281,6 @@ const useBridgeAlerts = () => {
     exitFee,
     fastExitCost,
     LPLiquidity,
-    LPBalance,
     LPPending,
   ])
 
