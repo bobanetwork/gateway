@@ -7,8 +7,6 @@ import {
   selectBridgeType,
   selectClassicExitCost,
   selectExitFee,
-  selectL1FeeRateN,
-  selectL2FeeRateN,
   selectLayer,
 } from 'selectors'
 import { useSelector } from 'react-redux'
@@ -23,11 +21,9 @@ interface Props {}
 const Fee = (props: Props) => {
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())
-  const l2FeeRateN = useSelector(selectL2FeeRateN)
   const theme: any = useTheme()
 
   // required on L2 layer
-  const l1FeeRateN = useSelector(selectL1FeeRateN)
   const classicExitCost = useSelector(selectClassicExitCost)
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
@@ -83,15 +79,6 @@ const Fee = (props: Props) => {
           <Label>{exitFee} BOBA</Label>
         </InfoRow>
       ) : null}
-      <InfoRow>
-        <Label>Bridge Fee</Label>
-        <Label>
-          {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
-            ? l2FeeRateN
-            : l1FeeRateN) || 0}
-          %
-        </Label>
-      </InfoRow>
       <InfoRow>
         <Label
           color={`${

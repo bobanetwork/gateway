@@ -21,26 +21,6 @@ export function selectlayer2Balance (state) {
   return state.balance.layer2
 }
 
-export function selectAccountData (state) {
-  return state.balance.accountData
-}
-
-export function selectL1FeeRate (state) {
-  return state.balance.l1FeeRate
-}
-
-export function selectL2FeeRate (state) {
-  return state.balance.l2FeeRate
-}
-
-export function selectL1FeeRateN (state) {
-  return state.balance.l1FeeRateN
-}
-
-export function selectL2FeeRateN (state) {
-  return state.balance.l2FeeRateN
-}
-
 export function selectClassicExitCost (state) {
   return state.balance.classicExitCost
 }

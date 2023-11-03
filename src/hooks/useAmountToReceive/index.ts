@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
   selectAmountToBridge,
   selectBridgeType,
-  selectL1FeeRateN,
-  selectL2FeeRateN,
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
@@ -20,14 +18,10 @@ import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
  */
 
 export const useAmountToReceive = () => {
-  const dispatch = useDispatch<any>()
-
   const bridgeType = useSelector(selectBridgeType())
   const amount = useSelector(selectAmountToBridge())
   const token = useSelector(selectTokenToBridge())
   const layer = useSelector(selectLayer())
-  const l2FeeRateN = useSelector(selectL2FeeRateN)
-  const l1FeeRateN = useSelector(selectL1FeeRateN)
 
   const [amountToReceive, setAmountToReceive] = useState<
     string | null | number
@@ -60,7 +54,7 @@ export const useAmountToReceive = () => {
         setAmountToReceive(amount)
       }
     }
-  }, [dispatch, layer, token, amount, bridgeType, l2FeeRateN, l1FeeRateN])
+  }, [layer, token, amount, bridgeType])
 
   return {
     amount: `${amountToReceive} ${token?.symbol}`,
