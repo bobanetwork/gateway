@@ -59,7 +59,6 @@ import L2BillingContractJson from "@bobanetwork/contracts/artifacts/contracts/L2
 
 //special one-off locations
 import L1ERC20Json from '../deployment/contracts/L1ERC20.json'
-import TuringMonsterJson from "../deployment/contracts/NFTMonsterV2.json"
 import AuthenticatedFaucetJson from "../deployment/contracts/AuthenticatedFaucet.json"
 
 //WAGMI ABIs
@@ -1395,41 +1394,6 @@ class NetworkService {
       return cost_BN.add(safety_margin)
     } catch (error) {
       console.log("NS: transferEstimate error:", error)
-      return error
-    }
-  }
-
-  //Transfer funds from one account to another, on the L2
-  async transferNFT(recipient, token) {
-
-    console.log("Transferring NFT:", token.address)
-    console.log("tokenID:", token.tokenID)
-    console.log("Transferring to:", recipient)
-
-    try {
-
-      const contract = new ethers.Contract(
-        token.address,
-        TuringMonsterJson.abi,
-        this.L2Provider
-      )
-
-      console.log("contract:", contract)
-
-      const tx = await contract
-        .connect(this.provider.getSigner())
-        .transferFrom(
-          this.account,
-          recipient,
-          token.tokenID
-        )
-
-      const receipt = await tx.wait()
-      console.log("NS: NFT transfer TX:", receipt.logs)
-
-      return tx
-    } catch (error) {
-      console.log("NS: NFT transfer error:", error)
       return error
     }
   }

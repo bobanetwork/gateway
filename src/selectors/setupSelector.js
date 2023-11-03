@@ -75,18 +75,6 @@ export function selectBobaPriceRatio () {
   }
 }
 
-export function selectMonster () {
-  return function (state) {
-    return state.nft['monsterNumber']
-  }
-}
-
-export function selectMonsterInfo () {
-  return function (state) {
-    return state.nft['monsterInfo']
-  }
-}
-
 export function selectWalletConnected () {
   return function (state) {
     return state.setup['walletConnected']

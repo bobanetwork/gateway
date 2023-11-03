@@ -21,7 +21,6 @@ import transactionReducer from './transactionReducer'
 import dataReducer from './dataReducer'
 import balanceReducer from './balanceReducer'
 import tokenReducer from './tokenReducer'
-import nftReducer from './nftReducer'
 import uiReducer from './uiReducer'
 import setupReducer from './setupReducer'
 import earnReduer from './earnReducer'
@@ -42,7 +41,6 @@ const rootReducer = combineReducers({
   signature: signatureReducer,
   balance: balanceReducer,
   tokenList: tokenReducer,
-  nft: nftReducer,
   ui: uiReducer,
   setup: setupReducer,
   earn: earnReduer,
