@@ -44,10 +44,6 @@ export function fetchL2BalanceBOBA() {
     return createAction('FETCH/L2BOBA/BALANCE', () => networkService.getL2BalanceBOBA())
 }
 
-export function fetchUserAndL2LPBalanceBatch(tokenList) {
-    return createAction('FETCH/USER/L2LP/BALANCE/BATCH', () => networkService.getL2UserAndLPBalanceBatch(tokenList))
-}
-
 export function fetchExitFee() {
   return createAction('FETCH/EXITFEE', () => networkService.getExitFeeFromBillingContract())
 }

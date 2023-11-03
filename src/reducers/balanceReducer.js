@@ -16,15 +16,12 @@ limitations under the License. */
 const initialState = {
   layer1: [],
   layer2: [],
-  l2FeeRate: {},
-  l2ETHFeeRateN: {},
   classicExitCost: '',
   altL1DepositCost: '',
   l2BalanceETH: 0,
   l2BalanceBOBA: 0,
   l2lpETHLiquidity: '',
   gas: {},
-  userAndL2LPBlanceBatch: {},
   exitFee: '',
 }
 
@@ -36,11 +33,6 @@ function balanceReducer(state = initialState, action) {
         ...state,
         layer1,
         layer2
-      }
-    case 'FETCH/L2FEERATE/ETH/SUCCESS':
-      return {
-        ...state,
-        l2ETHFeeRateN: action.payload
       }
     case 'FETCH/CLASSICEXIT/COST/SUCCESS':
       return {
@@ -62,11 +54,6 @@ function balanceReducer(state = initialState, action) {
         ...state,
         l2BalanceBOBA: Number(action.payload)
       }
-    case 'FETCH/USER/L2LP/BALANCE/BATCH/SUCCESS':
-      return {
-        ...state,
-        userAndL2LPBlanceBatch: action.payload
-      }
     case 'FETCH/EXITFEE/SUCCESS':
       return {
         ...state,
@@ -78,11 +65,6 @@ function balanceReducer(state = initialState, action) {
         l2BalanceETH: 0,
         l2BalanceBOBA: 0,
         exitFee: '',
-      }
-    case 'BALANCE/L2/RESET':
-      return {
-        ...state,
-        l2FeeRate: ''
       }
     default:
       return state

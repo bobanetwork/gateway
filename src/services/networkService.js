@@ -3355,64 +3355,6 @@ class NetworkService {
   }
 
   /***********************************************/
-  /*****          L2 LP BATCH INFO           *****/
-
-  /***********************************************/
-  async getL2UserAndLPBalanceBatch(tokenList) {
-    const getInfo = async (l1TokenAddress, l2TokenAddress) => {
-      const payload = []
-      // get fee info
-      payload.push(this.getL2UserRewardFeeRate(l2TokenAddress))
-      // get LP balance
-      payload.push(this.L2LPBalance(l2TokenAddress))
-      // get LP liquidity
-      payload.push(this.L2LPLiquidity(l2TokenAddress))
-      return await Promise.all(payload)
-    }
-
-    const payload = {}
-    const layer1 = store.getState().balance.layer1
-    for (const tokenName of tokenList) {
-      if (tokenName === 'ETH') {
-        const [l2LPFeeRate, l2LPBalance, l2Liquidity] = await getInfo(L1_ETH_Address, L2_ETH_Address)
-        const filteredBalance = layer1.filter(i => i.symbol === tokenName)[0]
-        payload['ETH'] = {
-          l2LPFeeRate,
-          l2LPBalanceInWei: l2LPBalance,
-          l2LPBalance: utils.formatUnits(BigNumber.from(l2LPBalance), filteredBalance.decimals),
-          balanceInWEI: filteredBalance.balance,
-          balance: utils.formatUnits(BigNumber.from(filteredBalance.balance.toString()), filteredBalance.decimals),
-          decimals: filteredBalance.decimals,
-          address: filteredBalance.address,
-          LPRatio:
-            Number(utils.formatUnits(BigNumber.from(l2LPBalance), filteredBalance.decimals)) > 0 ?
-              (Number(utils.formatUnits(BigNumber.from(l2LPBalance), filteredBalance.decimals)) /
-                Number(utils.formatUnits(BigNumber.from(l2Liquidity), filteredBalance.decimals))).toFixed(3) : 0
-        }
-      } else if (tokenName) {
-        const l1TokenAddress = this.tokenAddresses[tokenName].L1
-        const l2TokenAddress = this.tokenAddresses[tokenName].L2
-        const [l2LPFeeRate, l2LPBalance, l2Liquidity] = await getInfo(l1TokenAddress, l2TokenAddress)
-        const filteredBalance = layer1.filter(i => i.symbol === tokenName)[0]
-        payload[tokenName] = {
-          l2LPFeeRate,
-          l2LPBalanceInWei: l2LPBalance,
-          l2LPBalance: utils.formatUnits(BigNumber.from(l2LPBalance), filteredBalance.decimals),
-          balanceInWEI: filteredBalance.balance,
-          balance: utils.formatUnits(BigNumber.from(filteredBalance.balance.toString()), filteredBalance.decimals),
-          decimals: filteredBalance.decimals,
-          address: filteredBalance.address,
-          LPRatio:
-            Number(utils.formatUnits(BigNumber.from(l2LPBalance), filteredBalance.decimals)) > 0 ?
-              (Number(utils.formatUnits(BigNumber.from(l2LPBalance), filteredBalance.decimals)) /
-                Number(utils.formatUnits(BigNumber.from(l2Liquidity), filteredBalance.decimals))).toFixed(3) : 0
-        }
-      }
-    }
-    return payload
-  }
-
-  /***********************************************/
   /*****              Exit fee               *****/
 
   /***********************************************/

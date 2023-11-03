@@ -37,10 +37,6 @@ export function selectL2BalanceBOBA (state) {
   return state.balance.l2BalanceBOBA
 }
 
-export function selectUserAndL2LPBalanceBatch (state) {
-  return state.balance.userAndL2LPBlanceBatch
-}
-
 export function selectExitFee (state) {
   return state.balance.exitFee
 }
