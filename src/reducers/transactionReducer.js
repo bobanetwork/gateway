@@ -51,22 +51,6 @@ function transactionReducer (state = initialState, action) {
       return {
         ...state
       }
-    case 'MONSTER/CREATE/SUCCESS':
-      return {
-        ...state
-      }
-    case 'CDM/COMPLETE/SET':
-      return {
-        ...state,
-        ...action.payload
-      }
-    case 'CDM/COMPLETE/RESET':
-      return {
-        ...state,
-        CDMType: '',
-        CDMMessage: '',
-        CDMTransaction: ''
-      }
     default:
       return state;
   }

@@ -62,12 +62,6 @@ export function depositWithTeleporter(layer, currency, value, destChainId) {
   )
 }
 
-export function depositL1LPBatch(payload) {
-  return createAction('DEPOSIT/CREATE', () =>
-    networkService.depositL1LPBatch(payload)
-  )
-}
-
 //SWAP RELATED - Depositing into the L2LP triggers the swap-exit
 export function depositL2LP(token, value) {
   return createAction('EXIT/CREATE', () =>
