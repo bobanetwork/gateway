@@ -91,11 +91,6 @@ export function depositErc20(payload) {
   )
 }
 
-//DEPOSIT ERC20 to Alt L1 bridge
-export function depositErc20ToL1(payload) {
-  return createAction('DEPOSIT_ALTL1/CREATE', () => networkService.depositErc20ToL1(payload))
-}
-
 //EARN
 export function earnL1(value_Wei_String, currencyAddress) {
   return createAction('EARN/CREATE', () =>
