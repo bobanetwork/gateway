@@ -6,7 +6,7 @@ import { addMonths, Now, addYear, Dayjs } from 'util/dates'
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 
-type EnvType = string | number | null | undefined
+export type EnvType = string | number | null | undefined
 
 export const POLL_INTERVAL: EnvType =
   process.env.REACT_APP_POLL_INTERVAL || 20000

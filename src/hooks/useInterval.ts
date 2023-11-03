@@ -13,23 +13,29 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
+import { EnvType } from 'util/constant'
 
-export default function useInterval (callback, delay) {
-  const savedCallback = useRef();
-
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [ callback ]);
+const userInterval = (callback: () => void, delay?: EnvType) => {
+  const savedCallback = useRef<() => void | null>(callback)
 
   useEffect(() => {
-    function tick () {
-      savedCallback.current();
+    savedCallback.current = callback
+  }, [callback])
+
+  useEffect(() => {
+    const tick = () => {
+      if (savedCallback.current) {
+        savedCallback.current()
+      }
     }
-    if (delay !== null) {
-      tick();
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
+
+    if (delay) {
+      tick()
+      const id = setInterval(tick, delay as number)
+      return () => clearInterval(id)
     }
-  }, [ delay ]);
+  }, [delay])
 }
+
+export default userInterval

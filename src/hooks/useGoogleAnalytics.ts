@@ -13,23 +13,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import analytics from 'util/analytics';
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import analytics from 'util/analytics'
 
 const useGoogleAnalytics = () => {
-  const location = useLocation();
+  const location = useLocation()
 
   useEffect(() => {
     analytics.init()
-  }, []);
-
+  }, [])
 
   useEffect(() => {
     analytics.sendPageView(location.pathname)
-  }, [ location ]);
-
+  }, [location])
 }
 
-
-export default useGoogleAnalytics;
+export default useGoogleAnalytics
