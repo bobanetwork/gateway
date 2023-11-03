@@ -59,7 +59,6 @@ import L2BillingContractJson from "@bobanetwork/contracts/artifacts/contracts/L2
 
 //special one-off locations
 import L1ERC20Json from '../deployment/contracts/L1ERC20.json'
-import AuthenticatedFaucetJson from "../deployment/contracts/AuthenticatedFaucet.json"
 
 // multi chain alt l1s ABI's
 import ETHL1BridgeJson from "../deployment/contracts/crosschain/EthBridge.json"
@@ -694,21 +693,6 @@ class NetworkService {
     }
 
     return await this.walletService.switchChain(targetIDHex, chainParam)
-  }
-
-  async claimAuthenticatedTestnetTokens(tweetId) {
-    // Only Testnet
-    const contract = new ethers.Contract(
-      this.addresses.AuthenticatedFaucet,
-      AuthenticatedFaucetJson.abi,
-      this.L2Provider,
-    ).connect()
-
-    await contract.estimateGas.sendFunds(tweetId)
-    const claim = await contract.sendFunds(
-      tweetId,
-    )
-    await claim.wait()
   }
 
   async addTokenList() {
