@@ -41,6 +41,7 @@ export const bobaBridges: IBridges[] = [
   },
   {
     name: 'Celer',
+    icon: null,
     iconLight: CelerLogoLight,
     iconDark: CelerLogoDark,
     link: 'https://boba.network/project/celer/',
@@ -72,6 +73,7 @@ export const bobaBridges: IBridges[] = [
   },
   {
     name: 'Rubic Exchange',
+    icon: null,
     iconLight: RubicExchangeLogoLight,
     iconDark: RubicExchangeLogoDark,
     link: 'https://boba.network/project/rubic-exchange/',
@@ -83,6 +85,7 @@ export const bobaBridges: IBridges[] = [
   },
   {
     name: 'Via Protocol',
+    icon: null,
     iconLight: ViaProtocolLogoLight,
     iconDark: ViaProtocolLogoDark,
     link: 'https://boba.network/project/via-protocol/',

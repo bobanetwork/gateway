@@ -21,10 +21,14 @@ const ThirdPartyBridges: FC = () => {
 
   const theme: any = useTheme()
 
+  if (networkType !== NETWORK_TYPE.MAINNET) {
+    return <></>
+  }
+
   return (
     <ThirdPartyBridgesContainer>
       <SectionLabel variant="body2">Third party bridges</SectionLabel>
-      {network !== NETWORK.ETHEREUM || networkType !== NETWORK_TYPE.MAINNET ? (
+      {network !== NETWORK.ETHEREUM ? (
         <BridgeList empty>
           <Typography variant="body1">No bridges available</Typography>
         </BridgeList>
@@ -36,6 +40,7 @@ const ThirdPartyBridges: FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               key={bridge.name}
+              data-testid="bridge-item"
             >
               <BridgeIcon>
                 <img
@@ -46,7 +51,9 @@ const ThirdPartyBridges: FC = () => {
                       ? bridge.iconLight
                       : bridge.iconDark
                   }
-                  alt={`${bridge.name} logo`}
+                  alt={`${bridge.name} ${
+                    bridge.icon ? '' : theme.name + '-'
+                  }logo`}
                   width="32px"
                   height="32px"
                 />
