@@ -32,12 +32,14 @@ const BridgeTypeSelector = () => {
   return (
     <BridgeTabs>
       <BridgeTabItem
+        data-testid="classic-btn"
         active={bridgeType === BRIDGE_TYPE.CLASSIC}
         onClick={() => onTabClick(BRIDGE_TYPE.CLASSIC)}
       >
         Classic
       </BridgeTabItem>
       <BridgeTabItem
+        data-testid="fast-btn"
         active={bridgeType === BRIDGE_TYPE.FAST}
         onClick={() => onTabClick(BRIDGE_TYPE.FAST)}
       >
@@ -46,6 +48,7 @@ const BridgeTypeSelector = () => {
 
       {isTestnet ? (
         <BridgeTabItem
+          data-testid="light-btn"
           active={bridgeType === BRIDGE_TYPE.LIGHT}
           onClick={() => onTabClick(BRIDGE_TYPE.LIGHT)}
         >
@@ -53,6 +56,7 @@ const BridgeTypeSelector = () => {
         </BridgeTabItem>
       ) : (
         <BridgeTabItem
+          data-testid="third-party-btn"
           active={bridgeType === BRIDGE_TYPE.THIRD_PARTY}
           onClick={() => onTabClick(BRIDGE_TYPE.THIRD_PARTY)}
         >
