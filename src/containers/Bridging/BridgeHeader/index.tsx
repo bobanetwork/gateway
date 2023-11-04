@@ -1,10 +1,12 @@
 import HelpOutlineOutlined from '@mui/icons-material/HelpOutlineOutlined'
 import { openModal } from 'actions/uiAction'
-import { Heading, Typography } from 'components/global'
+import { Heading } from 'components/global'
 import Tooltip from 'components/tooltip/Tooltip'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectActiveNetworkType } from 'selectors'
 import styled, { useTheme } from 'styled-components'
+import { NETWORK_TYPE } from 'util/network/network.util'
 import { BridgeHeaderWrapper, GearIcon, IconWrapper } from './styles'
 
 type Props = {}
@@ -30,12 +32,60 @@ export const ValueStyle = styled.span`
 const BridgeHeader = (props: Props) => {
   const dispatch = useDispatch<any>()
   const theme: any = useTheme()
+  const isTestnet =
+    useSelector(selectActiveNetworkType()) === NETWORK_TYPE.TESTNET
 
   const iconColor =
     theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[100]
 
   const openSettingModal = () => {
     dispatch(openModal('settingsModal'))
+  }
+
+  const ClassicBridgeInfo = () => {
+    return (
+      <>
+        <LabelStyle>Classic Bridge</LabelStyle> <br />
+        <ValueStyle>
+          Although this option is always available, it takes 7 days to receive
+          your funds when withdrawing from L2 to L1.
+        </ValueStyle>
+        <br />
+        <br />
+      </>
+    )
+  }
+
+  const FastBridgeInfo = () => {
+    return (
+      <>
+        <LabelStyle>Fast Bridge</LabelStyle>
+        <br />
+        <ValueStyle>
+          A swap-based bridge to Boba L2. This option is only available if the
+          pool balance is sufficient.
+        </ValueStyle>
+        <br />
+        <br />
+      </>
+    )
+  }
+
+  const LightBridgeInfo = () => {
+    if (!isTestnet) {
+      return <></>
+    }
+    return (
+      <>
+        {' '}
+        <LabelStyle>Light Bridge</LabelStyle>
+        <br />
+        <ValueStyle>
+          Bridge assets instantaneously and even between L2's. This option is
+          only available for a few selected assets (mostly BOBA).
+        </ValueStyle>
+      </>
+    )
   }
 
   return (
@@ -45,27 +95,9 @@ const BridgeHeader = (props: Props) => {
         <Tooltip
           title={
             <>
-              <LabelStyle>Classic Bridge</LabelStyle> <br />
-              <ValueStyle>
-                Although this option is always available, it takes 7 days to
-                receive your funds when withdrawing from L2 to L1.
-              </ValueStyle>
-              <br />
-              <br />
-              <LabelStyle>Fast Bridge</LabelStyle>
-              <br />
-              <ValueStyle>
-                A swap-based bridge to Boba L2. This option is only available if
-                the pool balance is sufficient.
-              </ValueStyle>
-              <br />
-              <br />
-              <LabelStyle>Light Bridge</LabelStyle>
-              <br />
-              <ValueStyle>
-                Bridge assets instantaneously and even between L2's. This option
-                is only available for a few selected assets (mostly BOBA).
-              </ValueStyle>
+              <ClassicBridgeInfo />
+              <FastBridgeInfo />
+              <LightBridgeInfo />
             </>
           }
         >
