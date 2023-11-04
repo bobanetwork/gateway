@@ -137,7 +137,7 @@ export default class Bridge extends Page {
       })
 
       expect(links.get()).to.deep.eq([
-        'https://boba.network/project/rubic-exchange/',
+        'https://boba.banxa.com/',
         'https://boba.network/project/beamer-bridge/',
         'https://boba.network/project/boringdao/',
         'https://boba.network/project/celer/',

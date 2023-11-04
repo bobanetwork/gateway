@@ -27,7 +27,7 @@ export const bobaBridges: IBridges[] = [
   {
     name: 'Banxa',
     icon: BanxaLogo,
-    link: 'https://boba.network/project/rubic-exchange/',
+    link: 'https://boba.banxa.com/',
   },
   {
     name: 'Beamer Bridge',
