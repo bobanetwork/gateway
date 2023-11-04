@@ -30,6 +30,47 @@ export const bobaBridges: IBridges[] = [
     link: 'https://boba.network/project/rubic-exchange/',
   },
   {
+    name: 'Beamer Bridge',
+    icon: BeamerLogo,
+    link: 'https://boba.network/project/beamer-bridge/',
+  },
+  {
+    name: 'BoringDAO',
+    icon: BoringDaoLogo,
+    link: 'https://boba.network/project/boringdao/',
+  },
+  {
+    name: 'Celer',
+    iconLight: CelerLogoLight,
+    iconDark: CelerLogoDark,
+    link: 'https://boba.network/project/celer/',
+  },
+  {
+    name: 'Chainswap',
+    icon: ChainswapLogo,
+    link: 'https://boba.network/project/chainswap/',
+  },
+  {
+    name: 'Connext',
+    icon: ConnextLogo,
+    link: 'https://boba.network/project/connext/',
+  },
+  {
+    name: 'Layerswap',
+    icon: LayerswapLogo,
+    link: 'https://boba.network/project/layerswap-io/',
+  },
+  {
+    name: 'Multichain',
+    icon: MultichainLogo,
+    link: 'https://boba.network/project/multichain/',
+  },
+  {
+    name: 'Rango Exchange',
+    icon: RangoExchangeLogo,
+    link: 'https://boba.network/project/rango-exchange/',
+  },
+  {
     name: 'Rubic Exchange',
     iconLight: RubicExchangeLogoLight,
     iconDark: RubicExchangeLogoDark,
@@ -45,46 +86,5 @@ export const bobaBridges: IBridges[] = [
     iconLight: ViaProtocolLogoLight,
     iconDark: ViaProtocolLogoDark,
     link: 'https://boba.network/project/via-protocol/',
-  },
-  {
-    name: 'Rango Exchange',
-    icon: RangoExchangeLogo,
-    link: 'https://boba.network/project/rango-exchange/',
-  },
-  {
-    name: 'Multichain',
-    icon: MultichainLogo,
-    link: 'https://boba.network/project/multichain/',
-  },
-  {
-    name: 'Layerswap',
-    icon: LayerswapLogo,
-    link: 'https://boba.network/project/layerswap-io/',
-  },
-  {
-    name: 'Connext',
-    icon: ConnextLogo,
-    link: 'https://boba.network/project/connext/',
-  },
-  {
-    name: 'Chainswap',
-    icon: ChainswapLogo,
-    link: 'https://boba.network/project/chainswap/',
-  },
-  {
-    name: 'Celer',
-    iconLight: CelerLogoLight,
-    iconDark: CelerLogoDark,
-    link: 'https://boba.network/project/celer/',
-  },
-  {
-    name: 'BoringDAO',
-    icon: BoringDaoLogo,
-    link: 'https://boba.network/project/boringdao/',
-  },
-  {
-    name: 'Beamer Bridge',
-    icon: BeamerLogo,
-    link: 'https://boba.network/project/beamer-bridge/',
   },
 ]
