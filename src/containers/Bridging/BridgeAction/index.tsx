@@ -7,7 +7,6 @@ import {
   selectAccountEnabled,
   selectAmountToBridge,
   selectBridgeAlerts,
-  selectBridgeType,
   selectTokenToBridge,
 } from 'selectors'
 import { BridgeActionButton, BridgeActionContainer } from '../styles'
@@ -20,7 +19,6 @@ const BridgeAction = (props: Props) => {
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
   const bridgeAlerts = useSelector(selectBridgeAlerts())
-  const currentBridgeType = useSelector(selectBridgeType())
 
   const isBridgeActionDisabled = () => {
     const hasError = bridgeAlerts.find((alert: any) => alert.type === 'error')
@@ -32,10 +30,9 @@ const BridgeAction = (props: Props) => {
   }
 
   const onBridge = () => {
-    if (isBridgeActionDisabled()) {
-      return
+    if (!isBridgeActionDisabled()) {
+      dispatch(openModal('bridgeConfirmModal'))
     }
-    dispatch(openModal('bridgeConfirmModal'))
   }
 
   return (
@@ -43,12 +40,14 @@ const BridgeAction = (props: Props) => {
       {!accountEnabled ? (
         <BridgeActionButton
           onClick={onConnect}
-          label={<Heading variant="h3"> Connect Wallet</Heading>}
+          data-testid="connect-btn"
+          label={<Heading variant="h3">Connect Wallet</Heading>}
         />
       ) : (
         <BridgeActionButton
           disable={isBridgeActionDisabled()}
           onClick={onBridge}
+          data-testid="bridge-btn"
           label={<Heading variant="h3">Bridge</Heading>}
         />
       )}
