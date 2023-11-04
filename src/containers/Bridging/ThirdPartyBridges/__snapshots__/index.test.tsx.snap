@@ -39,7 +39,7 @@ exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`]
       <a
         class="sc-eeDRCY dndUuq"
         data-testid="bridge-item"
-        href="https://boba.network/project/rubic-exchange/"
+        href="https://boba.banxa.com/"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -335,7 +335,7 @@ exports[`3rd Party Bridges should render icons correctly for light mode 1`] = `
       <a
         class="sc-eeDRCY ezvrQC"
         data-testid="bridge-item"
-        href="https://boba.network/project/rubic-exchange/"
+        href="https://boba.banxa.com/"
         rel="noopener noreferrer"
         target="_blank"
       >
