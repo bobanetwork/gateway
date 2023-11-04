@@ -9,8 +9,6 @@ import styled, { useTheme } from 'styled-components'
 import { NETWORK_TYPE } from 'util/network/network.util'
 import { BridgeHeaderWrapper, GearIcon, IconWrapper } from './styles'
 
-type Props = {}
-
 export const LabelStyle = styled.span`
   color: var(--Gray-50, #eee);
   font-family: Roboto;
@@ -29,7 +27,7 @@ export const ValueStyle = styled.span`
   line-height: 138.3%;
 `
 
-const BridgeHeader = (props: Props) => {
+const BridgeHeader = () => {
   const dispatch = useDispatch<any>()
   const theme: any = useTheme()
   const isTestnet =
@@ -93,6 +91,7 @@ const BridgeHeader = (props: Props) => {
       <Heading variant="h2">
         Bridge
         <Tooltip
+          data-testid="tooltip-btn"
           title={
             <>
               <ClassicBridgeInfo />
@@ -110,7 +109,11 @@ const BridgeHeader = (props: Props) => {
         </Tooltip>
       </Heading>
       <IconWrapper>
-        <GearIcon sx={{ color: iconColor }} onClick={openSettingModal} />
+        <GearIcon
+          sx={{ color: iconColor }}
+          onClick={openSettingModal}
+          data-testid="setting-btn"
+        />
       </IconWrapper>
     </BridgeHeaderWrapper>
   )

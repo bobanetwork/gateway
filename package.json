@@ -167,6 +167,16 @@
       "@walletconnect/ethereum-provider": "<rootDir>/__mocks__/@walletconnect/ethereum-provider.ts"
     },
     "collectCoverageFrom": [
+      "src/components/**/*.tsx",
+      "src/containers/**/*.tsx",
+      "src/layout/**/*.tsx",
+      "src/actions/**/*.ts",
+      "src/api/**/*.ts",
+      "src/selectors/**/*.ts",
+      "src/reducers/**/*.ts",
+      "src/store/**/*.tsx",
+      "src/services/**/*.ts",
+      "src/util/**/*.ts",
       "src/**/*.{ts,tsx}",
       "!src/**/*.stories.{ts,tsx}",
       "!src/**/types.{ts,tsx}",
