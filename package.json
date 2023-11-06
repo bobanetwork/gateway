@@ -120,7 +120,7 @@
     "@storybook/blocks": "^7.5.1",
     "@storybook/react": "^7.0.15",
     "@storybook/react-webpack5": "^7.5.1",
-    "@storybook/testing-library": "^0.0.14-next.2",
+    "@storybook/testing-library": "^0.2.2",
     "@synthetixio/synpress": "^3.7.2-beta.8",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.1.3",
