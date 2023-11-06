@@ -11,9 +11,7 @@ import {
 } from 'selectors'
 import { BridgeActionButton, BridgeActionContainer } from '../styles'
 
-interface Props {}
-
-const BridgeAction = (props: Props) => {
+const BridgeAction = () => {
   const dispatch = useDispatch<any>()
   const accountEnabled = useSelector<any>(selectAccountEnabled())
   const token = useSelector(selectTokenToBridge())
