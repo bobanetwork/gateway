@@ -4,10 +4,11 @@ import * as S from './Tooltip.styles';
 
 
 
-function Tooltip({ title, arrow = true, children }) {
+function Tooltip({title,arrow = true,children,...rest}) {
   if (title) {
     return (
       <MuiTooltip
+        {...rest}
         componentsProps={{
           tooltip: {
             sx: {

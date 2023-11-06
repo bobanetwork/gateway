@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-fPXMVe ktmBcq"
+    id="gasDetails"
+  >
+    <div
+      class="sc-gFqAkR emfUQK"
+    >
+      <p
+        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+      >
+        Ethereum
+      </p>
+      <p
+        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+      >
+        10 Gwei
+      </p>
+    </div>
+    <div
+      class="sc-gFqAkR emfUQK"
+    >
+      <p
+        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+      >
+        Boba ETH
+      </p>
+      <p
+        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+      >
+        20 Gwei
+      </p>
+    </div>
+    <div
+      class="sc-gFqAkR emfUQK"
+    >
+      <p
+        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+      >
+        Savings
+      </p>
+      <p
+        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+      >
+        1x
+      </p>
+    </div>
+    <div
+      class="sc-gFqAkR emfUQK"
+    >
+      <p
+        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+      >
+        L1
+      </p>
+      <p
+        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+      >
+        110000
+      </p>
+    </div>
+    <div
+      class="sc-gFqAkR emfUQK"
+    >
+      <p
+        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+      >
+        L2
+      </p>
+      <p
+        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+      >
+        220000
+      </p>
+    </div>
+    <div
+      class="sc-gFqAkR emfUQK"
+    >
+      <p
+        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+      >
+        Last Verified Block
+      </p>
+      <p
+        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+      >
+        0
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Footer GasWatcher should match snapshot when gas value empty 1`] = `<DocumentFragment />`;

@@ -9,4 +9,5 @@ export interface ModalInterface {
   maxWidth?: any
   minHeight?: any
   newStyle?: boolean | undefined
+  testId?: any
 }

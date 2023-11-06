@@ -65,6 +65,9 @@ const ModalContainer = () => {
   const tokenIndex = useSelector(selectModalState('tokenIndex'))
   const lock = useSelector(selectModalState('lock'))
   const proposalId = useSelector(selectModalState('proposalId'))
+  const destNetworkSelection = useSelector(
+    selectModalState('destNetworkSelection')
+  )
 
   const EarnDepositModalState = useSelector(
     selectModalState('EarnDepositModal')
@@ -157,7 +160,10 @@ const ModalContainer = () => {
       )}
       {!!SettingsModalState && <SettingsModal open={SettingsModalState} />}
       {!!networkPickerModalState && (
-        <NetworkPickerModal open={networkPickerModalState} />
+        <NetworkPickerModal
+          open={networkPickerModalState}
+          destNetworkSelection={destNetworkSelection}
+        />
       )}
 
       {!!bridgeConfirmModalState && (

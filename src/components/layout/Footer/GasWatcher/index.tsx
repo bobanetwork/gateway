@@ -7,18 +7,20 @@ import {
 } from './style'
 import useGasWatcher from 'hooks/useGasWatcher'
 import { useSelector } from 'react-redux'
-import { selectActiveNetworkName } from 'selectors'
+import { selectActiveNetwork, selectActiveNetworkName } from 'selectors'
+import { NETWORK } from 'util/network/network.util'
 
 const GasWatcher: FC = () => {
   const { gas, savings, verifierStatus } = useGasWatcher()
   const networkName = useSelector(selectActiveNetworkName())
+  const activeNetwork = useSelector(selectActiveNetwork())
 
   if (!gas) {
     return null
   }
 
   return (
-    <GasListContainer>
+    <GasListContainer id="gasDetails">
       <GasListItem>
         <GasListItemLabel>{networkName['l1']}</GasListItemLabel>
         <GasListItemValue>{gas?.gasL1} Gwei</GasListItemValue>
@@ -39,12 +41,14 @@ const GasWatcher: FC = () => {
         <GasListItemLabel>L2</GasListItemLabel>
         <GasListItemValue>{gas?.blockL2}</GasListItemValue>
       </GasListItem>
-      <GasListItem>
-        <GasListItemLabel>Last Verified Block</GasListItemLabel>
-        <GasListItemValue>
-          {Number(verifierStatus?.matchedBlock || 0)}
-        </GasListItemValue>
-      </GasListItem>
+      {activeNetwork === NETWORK.ETHEREUM ? (
+        <GasListItem>
+          <GasListItemLabel>Last Verified Block</GasListItemLabel>
+          <GasListItemValue>
+            {Number(verifierStatus?.matchedBlock || 0)}
+          </GasListItemValue>
+        </GasListItem>
+      ) : null}
     </GasListContainer>
   )
 }

@@ -10,6 +10,10 @@ export default {
   component: Background,
 } as Meta
 
-const Template: StoryFn = (args: any) => <Background />
+const Template: StoryFn = (args: any) => (
+  <BrowserRouter>
+    <Background />
+  </BrowserRouter>
+)
 
 export const Default = Template.bind({})

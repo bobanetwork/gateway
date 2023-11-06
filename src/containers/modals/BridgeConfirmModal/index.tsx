@@ -16,6 +16,7 @@ import {
   selectActiveNetworkName,
   selectAmountToBridge,
   selectBridgeType,
+  selectDestChainIdTeleportation,
   selectLayer,
   selectLookupPrice,
   selectTokenToBridge,
@@ -25,6 +26,7 @@ import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import useBridge from 'hooks/useBridge'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK, LAYER } from 'util/constant'
+import { CHAIN_ID_LIST } from '../../../util/network/network.util'
 
 interface Props {
   open: boolean
@@ -68,6 +70,34 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
     dispatch(closeModal('bridgeConfirmModal'))
   }
 
+  let destNetwork =
+    layer === LAYER.L1 ? (
+      <>
+        <L2Icon selected /> {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
+      </>
+    ) : (
+      <>
+        <L1Icon selected /> {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}{' '}
+      </>
+    )
+
+  const teleportationDestChainId = useSelector(selectDestChainIdTeleportation())
+
+  if (bridgeType === BRIDGE_TYPE.LIGHT && !!teleportationDestChainId) {
+    // light bridge/teleportation allows for independent network selection
+    const targetNetwork = CHAIN_ID_LIST[teleportationDestChainId]
+    const NetworkIcon =
+      NETWORK_ICONS[targetNetwork?.chain?.toLowerCase()][
+        targetNetwork?.layer?.toUpperCase()
+      ]
+
+    destNetwork = (
+      <>
+        <NetworkIcon selected /> {targetNetwork.name || DEFAULT_NETWORK.NAME.L2}
+      </>
+    )
+  }
+
   return (
     <Modal
       open={open}
@@ -99,19 +129,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
         </Item>
         <Item>
           <ConfirmLabel>To</ConfirmLabel>
-          <LayerNames>
-            {layer === LAYER.L1 ? (
-              <>
-                <L2Icon selected />{' '}
-                {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
-              </>
-            ) : (
-              <>
-                <L1Icon selected />{' '}
-                {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}{' '}
-              </>
-            )}
-          </LayerNames>
+          <LayerNames>{destNetwork}</LayerNames>
         </Item>
         <Item>
           <ConfirmLabel>Amount to bridge</ConfirmLabel>

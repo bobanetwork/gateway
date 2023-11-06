@@ -16,7 +16,7 @@ export const BridgeTabItem = styled.div<{
   active?: boolean
 }>`
   width: 100%;
-  padding: 8px 50px;
+  padding: 8px;
   text-align: center;
   font-family: Montserrat;
   font-style: normal;
@@ -40,7 +40,7 @@ export const BridgeTabItem = styled.div<{
   &:nth-child(1) {
     border-radius: 8px 0 0 8px;
   }
-  &:nth-child(3) {
+  &:last-child {
     border-radius: 0 8px 8px 0;
   }
 `

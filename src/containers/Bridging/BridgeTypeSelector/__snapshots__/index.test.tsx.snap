@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bridge Type Selector should match snapshot when connect to MAINNET and trigger class bridge as default 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-aXZVg fRVoBl"
+  >
+    <div
+      class="sc-gEvEer hAIush"
+      data-testid="classic-btn"
+    >
+      Classic
+    </div>
+    <div
+      class="sc-gEvEer bGdtCD"
+      data-testid="fast-btn"
+    >
+      Fast
+    </div>
+    <div
+      class="sc-gEvEer bGdtCD"
+      data-testid="third-party-btn"
+    >
+      Third Party
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Bridge Type Selector should match snapshot when connect to TESTNET and update test correctly on click 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-aXZVg fRVoBl"
+  >
+    <div
+      class="sc-gEvEer hAIush"
+      data-testid="classic-btn"
+    >
+      Classic
+    </div>
+    <div
+      class="sc-gEvEer bGdtCD"
+      data-testid="fast-btn"
+    >
+      Fast
+    </div>
+    <div
+      class="sc-gEvEer bGdtCD"
+      data-testid="light-btn"
+    >
+      Light
+    </div>
+  </div>
+</DocumentFragment>
+`;

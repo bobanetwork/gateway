@@ -50,11 +50,6 @@ function balanceReducer(state = initialState, action) {
         layer1,
         layer2
       }
-    case 'GAS/GET/SUCCESS':
-      return {
-        ...state,
-        gas: action.payload
-      }
     case 'FETCH/L1LP/BALANCE/SUCCESS':
       return {
         ...state,

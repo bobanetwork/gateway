@@ -14,8 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import verifierService from 'services/verifier.service'
-import { createAction } from './createAction'
+import {createAction} from './createAction'
 
 export function fetchVerifierStatus() {
-  return createAction('VERIFIER/GET', () => verifierService.getVerifierStatus())
+  return createAction('VERIFIER/GET',() => verifierService.getVerifierStatus())
+}
+
+export function resetVerifierStatus() {
+  return function(dispatch) {
+    return dispatch({type: 'VERIFIER/RESET'});
+  }
 }

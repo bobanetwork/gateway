@@ -15,10 +15,12 @@ limitations under the License. */
 
 
 import {BigNumberish} from "ethers";
+import {selectDestChainIdTeleportation} from "../selectors";
 
 const initialState = {
   tokens: [],
   bridgeType: 'CLASSIC',
+  destChainIdTeleportation: undefined,
   multiBridgeMode: false,
   bridgeToAddressState: false,
   amountToBridge: 0,
@@ -139,6 +141,12 @@ function bridgeReducer(state = initialState, action) {
     case 'BRIDGE/TELEPORTER/TOKEN_SUPPORTED': {
       return { ...state, isTeleportationOfAssetSupported: action.payload }
     }
+
+    case 'BRIDGE/TELEPORTER/DEST_CHAIN_ID':
+      return {
+        ...state,
+        destChainIdTeleportation: action.payload
+      }
 
     default:
       return state;

@@ -17,4 +17,8 @@ export default class PageFooter {
     // @ts-ignore
     return cy.get('#socialLinks').contains(/^v\w+/)
   }
+
+  gasDetailsInfo() {
+    return cy.get('#gasDetails').find('div')
+  }
 }

@@ -1,3 +1,4 @@
+import { LAYER } from '../../../src/util/constant'
 import Bridge from '../helpers/bridge'
 const bridge = new Bridge()
 
@@ -35,6 +36,17 @@ describe.only('Testing Entire Site', () => {
         it('Should have functional network modals', () => {
           const accountConnected = true
           bridge.checkNetworksModals(accountConnected)
+        })
+      })
+
+      describe('3rd party bridges', () => {
+        it('Should have third party bridge tab with correct details', () => {
+          bridge.setNetworkTo('ETH')
+          bridge.checkThirdPartyTabInETH()
+        })
+        it('Should have third party bridge tab with correct details in case of BNB', () => {
+          bridge.setNetworkTo('BNB')
+          bridge.checkThirdPartyTabInBNB()
         })
       })
     })

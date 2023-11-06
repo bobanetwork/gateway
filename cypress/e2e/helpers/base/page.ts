@@ -25,9 +25,11 @@ export default class Page extends Base {
   visit() {
     cy.visit(`/${this.id}`)
   }
+
   withinPage() {
     return cy.get(`#${this.id}`)
   }
+
   getTitle() {
     return cy.get(`#title`)
   }
@@ -38,12 +40,24 @@ export default class Page extends Base {
       .should('exist')
       .click()
   }
+
   requestMetamaskConnect() {
     this.connectWallet()
     this.getModal().contains('MetaMask').should('exist').click()
   }
 
-  setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {
+  requestWCConnect() {
+    this.connectWallet()
+    this.getModal().contains('WalletConnect').should('exist').click()
+  }
+
+  checkWCQROpen() {
+    cy.wait(1000)
+
+    cy.get('body').find('wcm-modal').should('exist')
+  }
+
+  setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH', type = 'Mainnet') {
     const bnbConfig = {
       network: 'BNB',
       name: {
@@ -52,7 +66,7 @@ export default class Page extends Base {
       },
       networkIcon: 'bnb',
       chainIds: { L1: '56', L2: '56288' },
-      networkType: 'Mainnet',
+      networkType: type,
     }
 
     const avaxConfig = {
@@ -63,10 +77,26 @@ export default class Page extends Base {
       },
       networkIcon: 'avax',
       chainIds: { L1: '43114', L2: '43288' },
-      networkType: 'Mainnet',
+      networkType: type,
     }
 
-    const payload = network === 'BNB' ? bnbConfig : avaxConfig
+    const ethConfig = {
+      network: 'ETHEREUM',
+      name: {
+        l1: 'Mainnet',
+        l2: 'Boba L2',
+      },
+      networkIcon: 'ethereum',
+      chainIds: { L1: '1', L2: '288' },
+      networkType: type,
+    }
+
+    let payload = ethConfig
+    if (network === 'BNB') {
+      payload = bnbConfig
+    } else if (network === 'AVAX') {
+      payload = avaxConfig
+    }
 
     cy.window().its('store').invoke('dispatch', {
       type: 'NETWORK/SET',
@@ -366,5 +396,22 @@ export default class Page extends Base {
       .its('setup')
       .its('walletAddress')
       .should('not.be.empty')
+  }
+  checkGasWatcherListingInETH() {
+    this.footer
+      .gasDetailsInfo()
+      .should('not.be.empty')
+      .and(($p) => {
+        expect($p).to.have.length(6)
+      })
+  }
+
+  checkGasWatcherListingInBNB() {
+    this.footer
+      .gasDetailsInfo()
+      .should('not.be.empty')
+      .and(($p) => {
+        expect($p).to.have.length(5)
+      })
   }
 }

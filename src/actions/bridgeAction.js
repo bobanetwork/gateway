@@ -99,6 +99,12 @@ export function setTeleportationOfAssetSupported(payload) {
   }
 }
 
+export function setTeleportationDestChainId(payload) {
+  return function (dispatch) {
+    return dispatch({ type: 'BRIDGE/TELEPORTER/DEST_CHAIN_ID', payload})
+  }
+}
+
 export function setFetchDepositTxBlock(payload) {
   store.dispatch({ type: 'BRIDGE/DEPOSIT_TX/BLOCK', payload})
 }

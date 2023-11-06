@@ -21,7 +21,7 @@ jobs:
         run: git fetch
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16.x'
 
@@ -62,7 +62,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fetch history
         run: git fetch
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: '16.x'
 

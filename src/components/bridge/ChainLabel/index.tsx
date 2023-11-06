@@ -5,11 +5,14 @@ import {
   selectActiveNetworkName,
   selectActiveNetworkIcon,
   selectLayer,
+  selectDestChainIdTeleportation,
+  selectBridgeType,
 } from 'selectors'
 import { DEFAULT_NETWORK, LAYER } from 'util/constant'
-import { L1_ICONS, L2_ICONS } from 'util/network/network.util'
+import { CHAIN_ID_LIST, L1_ICONS, L2_ICONS } from 'util/network/network.util'
 import { ChainLabelContainer } from './styles'
 import { IconType, ChainLabelInterface, DirectionType } from './types'
+import { BRIDGE_TYPE } from '../../../containers/Bridging/BridgeTypeSelector'
 
 export const ChainLabel = ({ direction }: ChainLabelInterface) => {
   const [toL2, setToL2] = useState(true)
@@ -17,6 +20,9 @@ export const ChainLabel = ({ direction }: ChainLabelInterface) => {
   const layer = useSelector(selectLayer())
   const networkName = useSelector(selectActiveNetworkName())
   const icon: keyof IconType = useSelector(selectActiveNetworkIcon())
+
+  const bridgeType = useSelector(selectBridgeType())
+  const teleportationDestChainId = useSelector(selectDestChainIdTeleportation())
 
   const isL1 = layer === LAYER.L1
 
@@ -44,9 +50,29 @@ export const ChainLabel = ({ direction }: ChainLabelInterface) => {
       </ChainLabelContainer>
     )
   }
+
+  const TeleportationDestChainLabel = () => {
+    const network = CHAIN_ID_LIST[teleportationDestChainId]
+    return (
+      <ChainLabelContainer variant="body2">
+        {network?.layer === LAYER.L1 ? (
+          <L1Icon selected />
+        ) : (
+          <L2Icon selected />
+        )}
+        {network?.name || DEFAULT_NETWORK.NAME.L2}
+      </ChainLabelContainer>
+    )
+  }
+
+  let toChainLabel = toL2 ? <L2ChainLabel /> : <L1ChainLabel />
+  if (bridgeType === BRIDGE_TYPE.LIGHT && !!teleportationDestChainId) {
+    toChainLabel = <TeleportationDestChainLabel />
+  }
+
   const config: DirectionType = {
     from: toL2 ? <L1ChainLabel /> : <L2ChainLabel />,
-    to: toL2 ? <L2ChainLabel /> : <L1ChainLabel />,
+    to: toChainLabel,
   }
 
   const selectedDirection = config[direction as keyof DirectionType]
