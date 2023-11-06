@@ -13,12 +13,6 @@ exports[`Bridge Type Selector should match snapshot when connect to MAINNET and 
     </div>
     <div
       class="sc-gEvEer bGdtCD"
-      data-testid="fast-btn"
-    >
-      Fast
-    </div>
-    <div
-      class="sc-gEvEer bGdtCD"
       data-testid="third-party-btn"
     >
       Third Party
@@ -37,12 +31,6 @@ exports[`Bridge Type Selector should match snapshot when connect to TESTNET and 
       data-testid="classic-btn"
     >
       Classic
-    </div>
-    <div
-      class="sc-gEvEer bGdtCD"
-      data-testid="fast-btn"
-    >
-      Fast
     </div>
     <div
       class="sc-gEvEer bGdtCD"
