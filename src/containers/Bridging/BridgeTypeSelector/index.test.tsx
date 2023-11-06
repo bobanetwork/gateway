@@ -4,9 +4,9 @@ import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
 import CustomThemeProvider from 'themes'
-import BridgeTypeSelector from '.'
+import BridgeTypeSelector, { BRIDGE_TYPE } from '.'
 import thunk from 'redux-thunk'
-import { BRIDGE_TYPE } from 'util/constant'
+import { mockedInitialState } from 'util/tests'
 
 const mockStore = configureStore([thunk])
 
@@ -25,16 +25,7 @@ describe('Bridge Type Selector', () => {
 
   beforeEach(() => {
     store = mockStore({
-      ui: {
-        theme: 'dark',
-      },
-      bridge: {
-        bridgeType: BRIDGE_TYPE.CLASSIC_BRIDGE,
-      },
-      network: {
-        activeNetwork: NETWORK.ETHEREUM,
-        activeNetworkType: NETWORK_TYPE.MAINNET,
-      },
+      ...mockedInitialState,
     })
   })
 
@@ -49,12 +40,7 @@ describe('Bridge Type Selector', () => {
 
   test('should match snapshot when connect to TESTNET and update test correctly on click', () => {
     store = mockStore({
-      ui: {
-        theme: 'dark',
-      },
-      bridge: {
-        bridgeType: BRIDGE_TYPE.CLASSIC_BRIDGE,
-      },
+      ...mockedInitialState,
       network: {
         activeNetwork: NETWORK.ETHEREUM,
         activeNetworkType: NETWORK_TYPE.TESTNET,

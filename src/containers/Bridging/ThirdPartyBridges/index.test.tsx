@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
 import CustomThemeProvider from 'themes'
 import ThirdPartyBridges from '.'
+import { mockedInitialState } from 'util/tests'
 
 const mockStore = configureStore()
 
@@ -12,13 +13,7 @@ const renderThirdPartyBridges = ({ options = {} }: any) => {
   return render(
     <Provider
       store={mockStore({
-        ui: {
-          theme: 'dark',
-        },
-        network: {
-          activeNetwork: NETWORK.ETHEREUM,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
-        },
+        ...mockedInitialState,
         ...options,
       })}
     >
