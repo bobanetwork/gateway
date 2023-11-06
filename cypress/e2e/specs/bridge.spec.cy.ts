@@ -14,6 +14,17 @@ describe('Testing Entire Site', () => {
           bridge.checkTitle()
         })
       })
+
+      describe('3rd party bridges', () => {
+        it('Should have third party bridge tab with correct details', () => {
+          bridge.setNetworkTo('ETH')
+          bridge.checkThirdPartyTabInETH()
+        })
+        it('Should have third party bridge tab with correct details in case of BNB', () => {
+          bridge.setNetworkTo('BNB')
+          bridge.checkThirdPartyTabInBNB()
+        })
+      })
     })
   })
 })

@@ -121,4 +121,60 @@ export default class Bridge extends Page {
       .should('have.length', 1)
       .click()
   }
+
+  checkThirdPartyTabInETH() {
+    cy.get('[data-testid="third-party-btn"]').should('be.visible').click()
+
+    cy.contains('Third party bridges').should('be.visible')
+
+    const bridgelist = cy.get('a[data-testid="bridge-item"]')
+    bridgelist.should('not.be.empty').and((bridgeItems) => {
+      // should have 12 elements.
+      expect(bridgeItems).to.have.length(12)
+
+      const links = bridgeItems.map((i, el) => {
+        return Cypress.$(el).attr('href')
+      })
+
+      expect(links.get()).to.deep.eq([
+        'https://boba.banxa.com/',
+        'https://boba.network/project/beamer-bridge/',
+        'https://boba.network/project/boringdao/',
+        'https://boba.network/project/celer/',
+        'https://boba.network/project/chainswap/',
+        'https://boba.network/project/connext/',
+        'https://boba.network/project/layerswap-io/',
+        'https://boba.network/project/multichain/',
+        'https://boba.network/project/rango-exchange/',
+        'https://boba.network/project/rubic-exchange/',
+        'https://boba.network/project/synapse/',
+        'https://boba.network/project/via-protocol/',
+      ])
+
+      const labels = bridgeItems.map((i, el) => {
+        return Cypress.$(el).text()
+      })
+
+      expect(labels.get()).to.deep.eq([
+        'Banxa',
+        'Beamer Bridge',
+        'BoringDAO',
+        'Celer',
+        'Chainswap',
+        'Connext',
+        'Layerswap',
+        'Multichain',
+        'Rango Exchange',
+        'Rubic Exchange',
+        'Synapse',
+        'Via Protocol',
+      ])
+    })
+  }
+
+  checkThirdPartyTabInBNB() {
+    cy.get('[data-testid="third-party-btn"]').should('be.visible').click()
+    cy.contains('Third party bridges').should('be.visible')
+    cy.contains('No bridges available').should('be.visible')
+  }
 }

@@ -57,7 +57,7 @@ export default class Page extends Base {
     cy.get('body').find('wcm-modal').should('exist')
   }
 
-  setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {
+  setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH', type = 'Mainnet') {
     const bnbConfig = {
       network: 'BNB',
       name: {
@@ -66,7 +66,7 @@ export default class Page extends Base {
       },
       networkIcon: 'bnb',
       chainIds: { L1: '56', L2: '56288' },
-      networkType: 'Mainnet',
+      networkType: type,
     }
 
     const avaxConfig = {
@@ -77,7 +77,7 @@ export default class Page extends Base {
       },
       networkIcon: 'avax',
       chainIds: { L1: '43114', L2: '43288' },
-      networkType: 'Mainnet',
+      networkType: type,
     }
 
     const ethConfig = {
@@ -88,7 +88,7 @@ export default class Page extends Base {
       },
       networkIcon: 'ethereum',
       chainIds: { L1: '1', L2: '288' },
-      networkType: 'Mainnet',
+      networkType: type,
     }
 
     let payload = ethConfig
