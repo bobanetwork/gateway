@@ -6,6 +6,7 @@ import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
 import CustomThemeProvider from 'themes'
 import BridgeAction from '.'
 import thunk from 'redux-thunk'
+import { mockedInitialState } from 'util/tests'
 
 const mockStore = configureStore([thunk])
 
@@ -29,19 +30,13 @@ describe('BridgeAction', () => {
     ]
     beforeEach(() => {
       store = mockStore({
-        ui: {
-          theme: 'dark',
-        },
-        network: {
-          activeNetwork: NETWORK.ETHEREUM,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
-        },
+        ...mockedInitialState,
         bridge: {
-          tokens: [{ symbol: 'ETH' }],
-          amountToBridge: '1.255',
+          ...mockedInitialState.bridge,
           alerts,
         },
         setup: {
+          ...mockedInitialState.bridge,
           accountEnabled: true,
         },
       })
@@ -77,19 +72,13 @@ describe('BridgeAction', () => {
     test('should not invoke bridgeConfirmModal on click of bridge when bridge action disabled', () => {
       alerts = [{ type: 'error', text: 'wrong' }]
       store = mockStore({
-        ui: {
-          theme: 'dark',
-        },
-        network: {
-          activeNetwork: NETWORK.ETHEREUM,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
-        },
+        ...mockedInitialState,
         bridge: {
-          tokens: [],
-          amountToBridge: null,
+          ...mockedInitialState.bridge,
           alerts,
         },
         setup: {
+          ...mockedInitialState.bridge,
           accountEnabled: true,
         },
       })
@@ -104,19 +93,12 @@ describe('BridgeAction', () => {
   describe('AccountEnabled is false', () => {
     beforeEach(() => {
       store = mockStore({
-        ui: {
-          theme: 'dark',
-        },
-        network: {
-          activeNetwork: NETWORK.ETHEREUM,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
-        },
+        ...mockedInitialState,
         bridge: {
-          tokens: [{ symbol: 'ETH' }],
-          amountToBridge: '1.255',
-          alerts: ['alert1', 'alert2'],
+          ...mockedInitialState.bridge,
         },
         setup: {
+          ...mockedInitialState.bridge,
           accountEnabled: false,
         },
       })
