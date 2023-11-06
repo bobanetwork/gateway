@@ -708,8 +708,7 @@ class NetworkService {
       },
       blockExplorerUrls: [networkDetail[targetLayer]?.blockExplorerUrl?.slice(0, -1)]
     }
-
-    this.walletService.userTriggeredSwitchChain = true
+    
     return await this.walletService.switchChain(targetIDHex, chainParam)
   }
 

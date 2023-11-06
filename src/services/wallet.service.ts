@@ -177,6 +177,7 @@ export class WalletService {
 
   // switching chain
   async switchChain(chainId: any, chainInfo: any) {
+    this.userTriggeredSwitchChain = true
     const provider =
       this.walletType === 'metamask'
         ? window.ethereum
