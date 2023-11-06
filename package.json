@@ -41,7 +41,7 @@
     "@bobanetwork/turing-hybrid-compute": "^0.2.0",
     "@cfx-kit/wallet-avatar": "^0.0.5",
     "@emotion/styled": "^11.11.0",
-    "@eth-optimism/core-utils": "0.8.1",
+    "@eth-optimism/core-utils": "0.13.1",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/units": "^5.5.0",
     "@mui/base": "5.0.0-alpha.72",
