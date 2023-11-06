@@ -135,7 +135,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
               <p
                 class="sc-dAlyuH cZLdsH sc-bypJrT cTFYQM"
               >
-                Ethereum
+                ethereum
               </p>
               <div
                 class="sc-ddjGPC hbwbmB"
@@ -238,7 +238,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
               <p
                 class="sc-dAlyuH cZLdsH sc-bypJrT cTFYQM"
               >
-                Boba ETH
+                boba
               </p>
               <div
                 class="sc-ddjGPC hbwbmB"
