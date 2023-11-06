@@ -37,7 +37,6 @@ export default class Bridge extends Page {
     } else {
       this.allowNetworkSwitch()
     }
-    this.requestMetamaskConnect()
     this.store.verifyReduxStoreSetup('netLayer', newOriginLayer)
   }
 

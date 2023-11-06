@@ -33,6 +33,8 @@ export class WalletService {
   walletConnectProvider: any
   account: string = ''
   walletType: 'metamask' | 'walletconnect' | null = null
+  userTriggeredSwitchChain: boolean = false
+  networkId: number = 1
 
   // meta mask functions
 
@@ -42,6 +44,8 @@ export class WalletService {
       this.provider = new providers.Web3Provider(window.ethereum, 'any')
       this.account = await this.provider.getSigner().getAddress()
       this.walletType = 'metamask'
+      const network = await this.provider.getNetwork()
+      this.networkId = network.chainId
       return true
     } catch (e) {
       console.log(`Error connecting to metamask: ${e}`)
@@ -71,11 +75,23 @@ export class WalletService {
     })
 
     window.ethereum.on('chainChanged', (chainId) => {
+      if (this.networkId === chainId) {
+        return
+      }
       if (CHAIN_ID_LIST[Number(chainId)]) {
-        store.dispatch({
-          type: 'SETUP/CHAINIDCHANGED/SET',
-          payload: Number(chainId),
-        })
+        if (!this.userTriggeredSwitchChain) {
+          store.dispatch({
+            type: 'SETUP/CHAINIDCHANGED/SET',
+            payload: Number(chainId),
+          })
+        } else {
+          store.dispatch({
+            type: 'SETUP/USER_TRIGGERED_CHAIN_SWITCH/SET',
+            payload: true,
+          })
+        }
+        this.userTriggeredSwitchChain = false
+        this.networkId = chainId
       } else {
         store.dispatch(openModal('UnsupportedNetwork'))
       }
