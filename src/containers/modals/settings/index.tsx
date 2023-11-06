@@ -53,6 +53,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
       onClose={handleClose}
       minHeight="180px"
       title="Settings"
+      testId="settings-modal"
       transparent={false}
     >
       <SettingsWrapper>
