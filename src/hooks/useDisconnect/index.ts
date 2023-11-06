@@ -1,24 +1,16 @@
-import { disconnectSetup } from 'actions/setupAction'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { disconnectSetup } from 'actions/setupAction'
 import {
   setActiveNetwork,
   setActiveNetworkType,
   setNetwork,
 } from 'actions/networkAction'
-import { useEffect } from 'react'
 import { selectChainIdChanged } from 'selectors'
 import networkService from 'services/networkService'
 import { CHAIN_ID_LIST, NetworkList } from 'util/network/network.util'
-
-interface NetworkType {
-  networkType: string
-  network: string
-  networkIcon: string
-  name: string
-  chain: string
-  icon: string
-}
+import { NetworkType } from './types'
 
 const useDisconnect = () => {
   const dispatch = useDispatch<any>()
@@ -53,8 +45,6 @@ const useDisconnect = () => {
     }
 
     const disconnectAndSwitch = async () => {
-      // on changing network from metamask disconnect wallet,
-      // restart connect flow again with the new network by updating state.
       if (chainIdChanged) {
         await disconnect()
         switchChain()
