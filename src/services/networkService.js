@@ -708,7 +708,7 @@ class NetworkService {
       },
       blockExplorerUrls: [networkDetail[targetLayer]?.blockExplorerUrl?.slice(0, -1)]
     }
-    
+
     return await this.walletService.switchChain(targetIDHex, chainParam)
   }
 
