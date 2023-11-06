@@ -2,10 +2,11 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { NETWORK_TYPE } from 'util/network/network.util'
 import CustomThemeProvider from 'themes'
 import BridgeHeader from '.'
 import thunk from 'redux-thunk'
+import { mockedInitialState } from 'util/tests'
 
 const mockStore = configureStore([thunk])
 
@@ -23,15 +24,7 @@ describe('BridgeHeader', () => {
   let store
 
   beforeEach(() => {
-    store = mockStore({
-      ui: {
-        theme: 'dark',
-      },
-      network: {
-        activeNetwork: NETWORK.ETHEREUM,
-        activeNetworkType: NETWORK_TYPE.MAINNET,
-      },
-    })
+    store = mockStore(mockedInitialState)
   })
 
   test('should match snapshot when connected to Mainnet', () => {
@@ -69,11 +62,9 @@ describe('BridgeHeader', () => {
 
   test('should match snapshot when connected to TESTNET', async () => {
     store = mockStore({
-      ui: {
-        theme: 'light',
-      },
+      ...mockedInitialState,
       network: {
-        activeNetwork: NETWORK.ETHEREUM,
+        ...mockedInitialState.network,
         activeNetworkType: NETWORK_TYPE.TESTNET,
       },
     })

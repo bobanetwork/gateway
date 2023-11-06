@@ -1,6 +1,6 @@
 export const mockedInitialState = {
   ui: {
-    theme: 'light',
+    theme: 'dark',
     networkPicker: false,
     transactionSuccess: false,
     noMetaMaskModal: false,
@@ -13,6 +13,7 @@ export const mockedInitialState = {
       l1: 'ethereum',
       l2: 'boba',
     },
+    activeNetwork: 'ETHEREUM',
     activeNetworkType: 'Mainnet',
   },
   setup: {

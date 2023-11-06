@@ -57,14 +57,14 @@ exports[`BridgeHeader should match snapshot when connected to TESTNET 1`] = `
     >
       Bridge
       <div
-        class="sc-gFqAkR kgkXgh"
+        class="sc-gFqAkR dEURVQ"
         data-mui-internal-clone-element="true"
         data-testid="tooltip-btn"
         style="margin-left: 5px;"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1nqrogb-MuiSvgIcon-root"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1t96nry-MuiSvgIcon-root"
           data-testid="HelpOutlineOutlinedIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -76,11 +76,11 @@ exports[`BridgeHeader should match snapshot when connected to TESTNET 1`] = `
       </div>
     </h2>
     <div
-      class="sc-gFqAkR hNDSiR"
+      class="sc-gFqAkR fZrgbo"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-ikkxIA lkyGHt css-1dntfwb-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-ikkxIA lkyGHt css-1g4na4e-MuiSvgIcon-root"
         data-testid="setting-btn"
         focusable="false"
         viewBox="0 0 24 24"
