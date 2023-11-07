@@ -134,5 +134,3 @@ export const MM_EXTENTION_URL: string =
   'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en'
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
-
-export const BANXA_URL: string = 'https://boba.banxa.com/?'
