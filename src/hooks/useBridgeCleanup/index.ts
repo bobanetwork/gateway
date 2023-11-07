@@ -23,7 +23,6 @@ export const useBridgeCleanup = () => {
   const bridgeType = useSelector(selectBridgeType())
 
   useEffect(() => {
-    // listen to all change and cleanup bridge token & bridge alert
     dispatch(resetToken())
     dispatch(purgeBridgeAlert())
     dispatch(resetBridgeAmount())
