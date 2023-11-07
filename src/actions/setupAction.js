@@ -88,12 +88,6 @@ export function setChainIdChanged(state) {
   }
 }
 
-export function setUserTriggeredChainSwitch(state) {
-  return function (dispatch) {
-    return dispatch({type: 'SETUP/USER_TRIGGERED_CHAIN_SWITCH/SET', payload: state})
-  }
-}
-
 export function resetChainIdChanged() {
   return function (dispatch) {
     return dispatch({ type: 'SETUP/CHAINIDCHANGED/RESET' })
