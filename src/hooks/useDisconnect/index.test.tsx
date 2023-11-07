@@ -4,7 +4,9 @@ import useDisconnect from '.'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
+import { AnyAction } from 'redux'
 import { Provider } from 'react-redux'
+import { setChainIdChanged } from 'actions/setupAction'
 
 describe('useDisconnect', () => {
   const middlewares = [thunk]
@@ -23,6 +25,28 @@ describe('useDisconnect', () => {
     })
 
     const actions = store.getActions()
+    expect(actions).toContainEqual({
+      type: 'SETUP/DISCONNECT',
+    })
+  })
+
+  test('Should switch chain and Disconnect', async () => {
+    const { result } = renderHook(() => useDisconnect(), {
+      wrapper,
+    })
+
+    store.dispatch(setChainIdChanged(2) as any)
+
+    await act(async () => {
+      await result.current.disconnect()
+    })
+
+    const actions: AnyAction[] = store.getActions()
+    expect(actions).toContainEqual({
+      type: 'SETUP/CHAINIDCHANGED/SET',
+      payload: 2,
+    })
+
     expect(actions).toContainEqual({
       type: 'SETUP/DISCONNECT',
     })
