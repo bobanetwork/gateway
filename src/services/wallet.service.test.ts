@@ -2,7 +2,6 @@ import { providers, utils } from 'ethers'
 import walletService from './wallet.service'
 import { EthereumProvider } from '@walletconnect/ethereum-provider'
 import store from 'store'
-import { switchChain } from 'actions/setupAction'
 
 const ACCOUNT_ADDRESS = '0xcF044AB1e5b55203dC258F47756daFb7F8F01760'
 
@@ -85,6 +84,7 @@ describe('WalletService', () => {
     // @ts-ignore
     providers.Web3Provider.mockImplementation(() => {
       return {
+        getNetwork: jest.fn().mockResolvedValue({ chainId: '56' }),
         getSigner: jest.fn(() => ({
           getAddress: jest.fn().mockResolvedValue(ACCOUNT_ADDRESS), // Replace with your desired address
         })),
@@ -107,6 +107,7 @@ describe('WalletService', () => {
     expect(window.ethereum.request).toHaveBeenCalledWith({
       method: 'eth_requestAccounts',
     })
+
     await wsInstance.disconnect()
     expect(window.ethereum.request).toHaveBeenCalledWith({
       method: 'eth_requestAccounts',
@@ -186,6 +187,8 @@ describe('WalletService', () => {
       ;(global as any).window.ethereum = null
       const connectRes = await wsInstance.connectToMetaMask()
       expect(connectRes).toBe(false)
+      expect(wsInstance.networkId).toEqual('56')
+
       const disconnectRes = await wsInstance.disconnectMetaMask()
       expect(disconnectRes).toBe(false)
     })
