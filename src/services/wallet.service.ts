@@ -79,15 +79,15 @@ export class WalletService {
         return
       }
       if (CHAIN_ID_LIST[Number(chainId)]) {
-        if (!this.userTriggeredSwitchChain) {
-          store.dispatch({
-            type: 'SETUP/CHAINIDCHANGED/SET',
-            payload: Number(chainId),
-          })
-        } else {
+        if (this.userTriggeredSwitchChain) {
           store.dispatch({
             type: 'SETUP/USER_TRIGGERED_CHAIN_SWITCH/SET',
             payload: true,
+          })
+        } else {
+          store.dispatch({
+            type: 'SETUP/CHAINIDCHANGED/SET',
+            payload: Number(chainId),
           })
         }
         this.userTriggeredSwitchChain = false
