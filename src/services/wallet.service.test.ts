@@ -216,13 +216,13 @@ describe('WalletService', () => {
       expect(mockReload).toHaveBeenCalled()
       expect(store.dispatch).toHaveBeenCalledTimes(2)
       // trigger second event listner
-      const chainChanedCallback = window.ethereum.on.mock.calls[1][1]
-      chainChanedCallback('1') // valid chain id
+      const chainChangedCallback = window.ethereum.on.mock.calls[1][1]
+      chainChangedCallback('1') // valid chain id
       expect(store.dispatch).toHaveBeenCalledWith({
-        payload: 1,
-        type: 'SETUP/CHAINIDCHANGED/SET',
+        payload: true,
+        type: 'SETUP/USER_TRIGGERED_CHAIN_SWITCH/SET',
       })
-      chainChanedCallback('10') // invalid chain id
+      chainChangedCallback('10') // invalid chain id
       expect(store.dispatch).toHaveBeenCalledWith(expect.any(Function))
     })
 
