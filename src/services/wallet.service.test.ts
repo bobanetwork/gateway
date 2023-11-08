@@ -2,7 +2,6 @@ import { providers, utils } from 'ethers'
 import walletService from './wallet.service'
 import { EthereumProvider } from '@walletconnect/ethereum-provider'
 import store from 'store'
-import { switchChain } from 'actions/setupAction'
 
 const ACCOUNT_ADDRESS = '0xcF044AB1e5b55203dC258F47756daFb7F8F01760'
 
@@ -85,6 +84,7 @@ describe('WalletService', () => {
     // @ts-ignore
     providers.Web3Provider.mockImplementation(() => {
       return {
+        getNetwork: jest.fn().mockResolvedValue({ chainId: '56' }),
         getSigner: jest.fn(() => ({
           getAddress: jest.fn().mockResolvedValue(ACCOUNT_ADDRESS), // Replace with your desired address
         })),
@@ -107,6 +107,7 @@ describe('WalletService', () => {
     expect(window.ethereum.request).toHaveBeenCalledWith({
       method: 'eth_requestAccounts',
     })
+
     await wsInstance.disconnect()
     expect(window.ethereum.request).toHaveBeenCalledWith({
       method: 'eth_requestAccounts',
@@ -186,6 +187,8 @@ describe('WalletService', () => {
       ;(global as any).window.ethereum = null
       const connectRes = await wsInstance.connectToMetaMask()
       expect(connectRes).toBe(false)
+      expect(wsInstance.networkId).toEqual('56')
+
       const disconnectRes = await wsInstance.disconnectMetaMask()
       expect(disconnectRes).toBe(false)
     })
@@ -210,19 +213,37 @@ describe('WalletService', () => {
         expect.any(Function)
       )
       // trigger the event listner
+      // the function binded to 'accountsChanged' listener
       const accountChangedCallback = window.ethereum.on.mock.calls[0][1]
       accountChangedCallback()
 
       expect(mockReload).toHaveBeenCalled()
       expect(store.dispatch).toHaveBeenCalledTimes(2)
       // trigger second event listner
-      const chainChanedCallback = window.ethereum.on.mock.calls[1][1]
-      chainChanedCallback('1') // valid chain id
+      // the function binded to 'chainChanged' listener
+      const chainChangedCallback = window.ethereum.on.mock.calls[1][1]
+      chainChangedCallback('1') // valid chain id
       expect(store.dispatch).toHaveBeenCalledWith({
-        payload: 1,
+        payload: true,
+        type: 'SETUP/USER_TRIGGERED_CHAIN_SWITCH/SET',
+      })
+
+      expect(wsInstance.userTriggeredSwitchChain).not.toBeTruthy()
+
+      // simulates change in network by metamask
+      chainChangedCallback('56') // valid chain id
+      expect(store.dispatch).toHaveBeenCalledWith({
+        payload: 56,
         type: 'SETUP/CHAINIDCHANGED/SET',
       })
-      chainChanedCallback('10') // invalid chain id
+      const dispatchCalls = store.dispatch.calls
+
+      // this should not trigger another dispatch call
+      chainChangedCallback('56')
+      expect(dispatchCalls).toEqual(store.dispatch.calls)
+
+      expect(wsInstance.userTriggeredSwitchChain).toEqual(false)
+      chainChangedCallback('10') // invalid chain id
       expect(store.dispatch).toHaveBeenCalledWith(expect.any(Function))
     })
 
@@ -311,8 +332,8 @@ describe('WalletService', () => {
       disconnectWalletCallback(5)
       expect(store.dispatch).toHaveBeenCalled()
 
-      const chainChanedCallback = mockOn.mock.calls[2][1]
-      chainChanedCallback(5)
+      const chainChangedCallback = mockOn.mock.calls[2][1]
+      chainChangedCallback(5)
       expect(store.dispatch).toHaveBeenCalledWith({
         payload: 5,
         type: 'SETUP/CHAINIDCHANGED/SET',
