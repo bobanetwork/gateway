@@ -207,7 +207,6 @@ export default class Bridge extends Page {
         } else {
           this.allowNetworkToBeAddedAndSwitchedTo()
         }
-        this.requestMetamaskConnect()
         this.checkNetworkSwitchSuccessful(nextNetwork.networkAbbreviation)
       } else {
         this.store.allowBaseEnabledToUpdate(accountConnected)
@@ -239,7 +238,6 @@ export default class Bridge extends Page {
     } else {
       this.allowNetworkToBeAddedAndSwitchedTo()
     }
-    this.requestMetamaskConnect()
 
     this.store.verifyReduxStoreSetup('accountEnabled', true)
     this.store.verifyReduxStoreSetup('baseEnabled', true)
