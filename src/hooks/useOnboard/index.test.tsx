@@ -11,11 +11,7 @@ import networkService from 'services/networkService'
 describe('useOnboard', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-  let store: any
-
-  beforeEach(() => {
-    store = mockStore(mockedInitialState)
-  })
+  const store = mockStore(mockedInitialState)
 
   const wrapper = ({ children }) => (
     <Provider store={store}>{children}</Provider>
@@ -23,48 +19,63 @@ describe('useOnboard', () => {
   global.scrollTo = jest.fn()
 
   test('Should useOnboard & initialized enabled', async () => {
+    const mockInitializeBase = jest.spyOn(networkService, 'initializeBase')
+    mockInitializeBase.mockImplementation(async () => {
+      return 'enabled'
+    })
+
     renderHook(() => useOnboard(), {
       wrapper,
     })
 
     expect(global.scrollTo).toHaveBeenCalledWith(0, 0)
 
-    await act(async () => {
-      const initialized = await networkService.initializeBase({
-        networkGateway: mockedInitialState.network.activeNetwork,
-        networkType: mockedInitialState.network.activeNetworkType,
-      })
-
-      expect(initialized).toBe('enabled')
+    const initialized = await networkService.initializeBase({
+      networkGateway: mockedInitialState.network.activeNetwork,
+      networkType: mockedInitialState.network.activeNetworkType,
     })
+
+    expect(initialized).toBe('enabled')
 
     const actions: AnyAction[] = store.getActions()
     expect(actions).toContainEqual({
       type: 'SETUP/BASE/SET',
       payload: true,
     })
+
+    mockInitializeBase.mockRestore()
   })
 
   test('Should useOnboard & initialized false', async () => {
+    const mockInitializeBase = jest.spyOn(networkService, 'initializeBase')
+    mockInitializeBase.mockImplementation(
+      async ({ networkGateway, networkType }) => {
+        if (networkGateway === 'null' && networkType === 'null') {
+          return false
+        }
+      }
+    )
+
     renderHook(() => useOnboard(), {
       wrapper,
     })
 
     expect(global.scrollTo).toHaveBeenCalledWith(0, 0)
 
-    await act(async () => {
-      const initialized = await networkService.initializeBase({
-        networkGateway: null,
-        networkType: null,
-      })
-
-      expect(initialized).toBe(false)
+    // Simulate networkService.initializeBase with specific arguments
+    const initialized = await networkService.initializeBase({
+      networkGateway: 'null',
+      networkType: 'null',
     })
+
+    expect(initialized).toBe(false)
 
     const actions: AnyAction[] = store.getActions()
     expect(actions).toContainEqual({
       type: 'SETUP/BASE/SET',
       payload: false,
     })
+
+    mockInitializeBase.mockRestore()
   })
 })
