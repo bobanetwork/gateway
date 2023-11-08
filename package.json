@@ -178,6 +178,7 @@
       "src/services/**/*.ts",
       "src/util/**/*.ts",
       "src/**/*.{ts,tsx}",
+      "!src/containers/Home/**/*.tsx",
       "!src/**/*.stories.{ts,tsx}",
       "!src/**/types.{ts,tsx}",
       "!src/**/style.{ts,tsx}"
