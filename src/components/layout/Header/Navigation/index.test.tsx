@@ -22,7 +22,7 @@ const renderHeaderMenu = () => {
 describe('Layout', () => {
   describe('Header', () => {
     describe('Navigation', () => {
-      test('should have menu length of 5 with expected labels & paths', () => {
+      test('should have menu length of 4 with expected labels & paths', () => {
         renderHeaderMenu()
         const links = screen.getAllByRole('link')
         expect(links.length).toBe(4)
