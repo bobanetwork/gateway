@@ -2,11 +2,631 @@
 
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
-  <div
-    class="sc-hYmls jWAsvW"
+  .c12 {
+  font-style: normal;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-width: 290px;
+  -webkit-appearance: none;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 0px;
+  outline: none;
+  background: #AEDB01;
+  padding: 16px 25px;
+  font-weight: 700;
+  font-size: 18px;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  min-width: auto;
+  font-size: 14px;
+  border-radius: 33px;
+}
+
+.c6:hover {
+  background: #90B406;
+}
+
+.c1 {
+  height: 73px;
+  margin: 0px;
+  padding: 0px 32px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-backdrop-filter: blur(7.5px);
+  backdrop-filter: blur(7.5px);
+  z-index: 9999;
+  background: rgba(0,0,0,0.05);
+}
+
+.c2 {
+  width: 30px;
+  height: 32px;
+  margin-right: 32px;
+  background: url(boba-logo.png) no-repeat;
+  background-position: 100%;
+  background-size: contain;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.c7 {
+  display: none;
+}
+
+.c8 {
+  stroke: #fff;
+  fill: #fff;
+}
+
+.c9 {
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.c9:hover {
+  background: #545454;
+}
+
+.c9 div {
+  padding: 4px;
+  height: 32px;
+  width: 32px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 24px;
+}
+
+.c4 {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #A8A8A8;
+}
+
+.c4:hover,
+.c4.active {
+  color: #AEDB01;
+}
+
+.c25 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 8px 24px;
+  border-radius: 33px;
+  cursor: pointer;
+  gap: 10px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  color: #EEEEEE;
+  border-radius: 28px;
+  background: #393939;
+  color: #5F5F5F;
+  border: 2px solid #5F5F5F;
+  background: transparent;
+}
+
+.c25:hover {
+  color: #A8A8A8;
+  border: 2px solid #AEDB01;
+}
+
+.c18 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 32px;
+}
+
+.c26 {
+  border-color: #5F5F5F;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.c19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c28 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 32px;
+}
+
+.c29 {
+  color: #5F5F5F;
+  font-weight: 500;
+}
+
+.c27 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 32px;
+}
+
+.c31 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-align: center;
+  overflow: visible;
+}
+
+.c31 svg#docs path {
+  fill: none;
+  stroke: #5F5F5F;
+}
+
+.c31 path {
+  fill: #5F5F5F;
+}
+
+.c31:hover svg#docs path {
+  fill: none;
+  stroke: #A8A8A8;
+}
+
+.c31:hover path {
+  fill: #A8A8A8;
+}
+
+.c21 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.c24 {
+  margin: 10px 0px;
+}
+
+.c20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0;
+  gap: 32px;
+}
+
+.c22 {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #5F5F5F;
+}
+
+.c22:hover,
+.c22.active {
+  color: #A8A8A8;
+}
+
+.c23 {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #5F5F5F;
+}
+
+.c23:hover,
+.c23.active {
+  color: #A8A8A8;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: space-between;
+  -webkit-box-align: space-between;
+  -ms-flex-align: space-between;
+  align-items: space-between;
+  width: 100%;
+}
+
+.c17 {
+  min-height: calc(100vh - 73px);
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100vw;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+.c11 {
+  position: relative;
+  -webkit-transition: max-height 0.4s;
+  transition: max-height 0.4s;
+  padding: 5px 10px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: #AEDB01;
+  color: #000000;
+}
+
+.c11.open {
+  max-height: 60px;
+}
+
+.c14 {
+  cursor: pointer;
+}
+
+.c15 {
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.c15:hover {
+  background: #CEE967;
+}
+
+.c15 div {
+  padding: 1px;
+  height: 24px;
+  width: 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.c13 {
+  text-align: center;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+.c13 a {
+  color: #000;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.65;
+  text-transform: capitalize;
+}
+
+.c16 {
+  height: 12px;
+  width: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c16 div {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c16 svg {
+  max-width: 24px;
+  min-width: 10px;
+  height: auto;
+  stroke: #000;
+}
+
+@media (max-width:767px) {
+  .c1 {
+    padding: 0px 16px;
+  }
+}
+
+@media (max-width:767px) {
+  .c2 {
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
+  }
+}
+
+@media (max-width:767px) {
+  .c5 {
+    gap: 8px;
+  }
+}
+
+@media (max-width:767px) {
+  .c7 {
+    display: block;
+  }
+}
+
+@media (max-width:767px) {
+  .c8 {
+    display: block;
+    height: 34px;
+    width: 32px;
+  }
+
+  .c8 div {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+}
+
+@media (max-width:767px) {
+  .c9 {
+    display: none;
+  }
+}
+
+@media (max-width:767px) {
+  .c3 {
+    display: none;
+  }
+}
+
+@media (max-width:767px) {
+  .c26 {
+    display: none;
+  }
+}
+
+@media (max-width:767px) {
+  .c27 {
+    -webkit-flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
+    gap: 24px;
+  }
+}
+
+@media (max-width:767px) {
+  .c20 {
+    width: 100%;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 24px;
+  }
+}
+
+@media (max-width :980px) {
+  .c11 {
+    padding: 0 10px;
+  }
+
+  .c11.open.expand {
+    max-height: 120px;
+  }
+}
+
+@media (max-width :767px) {
+  .c13 {
+    padding: 5px 10px;
+  }
+}
+
+<div
+    class="c0"
   >
     <div
-      class="sc-dAbbOL gDALCu"
+      class="c1"
       id="header"
     >
       <a
@@ -14,14 +634,14 @@ exports[`Home  should match snapshot 1`] = `
         href="/bridge"
       >
         <div
-          class="sc-feUZmu fSeDui"
+          class="c2"
         />
       </a>
       <div
-        class="sc-bXCLTC boTjHi"
+        class="c3"
       >
         <a
-          class="sc-jsJBEP bfYmzz ({
+          class="c4 ({
           isActive
         }) => isActive ? 'active' : ''"
           href="/bridge"
@@ -29,7 +649,7 @@ exports[`Home  should match snapshot 1`] = `
           Bridge
         </a>
         <a
-          class="sc-jsJBEP bfYmzz ({
+          class="c4 ({
           isActive
         }) => isActive ? 'active' : ''"
           href="/history"
@@ -37,7 +657,7 @@ exports[`Home  should match snapshot 1`] = `
           History
         </a>
         <a
-          class="sc-jsJBEP bfYmzz ({
+          class="c4 ({
           isActive
         }) => isActive ? 'active' : ''"
           href="/stake"
@@ -45,7 +665,7 @@ exports[`Home  should match snapshot 1`] = `
           Stake
         </a>
         <a
-          class="sc-jsJBEP bfYmzz ({
+          class="c4 ({
           isActive
         }) => isActive ? 'active' : ''"
           href="/dao"
@@ -54,10 +674,10 @@ exports[`Home  should match snapshot 1`] = `
         </a>
       </div>
       <div
-        class="sc-fUnMCh eKQSKo"
+        class="c5"
       >
         <button
-          class="sc-eDPEul gOWxXJ"
+          class="c6"
           label="Connect Wallet"
           style="white-space: nowrap;"
           type="button"
@@ -65,10 +685,10 @@ exports[`Home  should match snapshot 1`] = `
            Connect Wallet
         </button>
         <div
-          class="sc-hzhJZQ kWAykk"
+          class="c7"
         >
           <div
-            class="sc-fHjqPf klorHB"
+            class="c8"
           >
             <div>
               <div
@@ -79,7 +699,7 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-hmdomO kdEZGt"
+          class="c9"
           title="light-icon"
         >
           <div>
@@ -94,17 +714,17 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fFlnrN fUTMYr"
+      class="c10"
     >
       <div
-        class="sc-kbdlSk eglyUk warning"
+        class="c11 warning"
         data-testid="banner-item"
       >
         <div
-          class="sc-camqpD"
+          class=""
         >
           <p
-            class="sc-gEvEer hiDcmV sc-jdUcAg djNbDz"
+            class="c12 c13"
           >
              Boba Light bridge has been released and earn is sunset, to withdraw funds from liquidity 
             <a
@@ -116,14 +736,14 @@ exports[`Home  should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="sc-gweoQa ktcLMm"
+          class="c14"
         >
           <div
-            class="sc-eIcdZJ fgaAhE"
+            class="c15"
             data-testid="close-icon-earn-banner-deprecation"
           >
             <div
-              class="sc-bddgXz gnBwiV"
+              class="c16"
             >
               <div>
                 <div
@@ -137,50 +757,50 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-bOQTJJ cQjYa-D"
+      class="c17"
     />
     <div
-      class="sc-bBeLUv flYuOA"
+      class="c18"
     >
       <div
-        class="sc-jMakVo eAaovF"
+        class="c19"
       >
         <div
-          class="sc-fiCwlc eUmPFu"
+          class="c20"
         >
           <div
-            class="sc-ktJbId hAGVwL"
+            class="c21"
             id="footerLinks"
           >
             <a
-              class="sc-jIGnZt YontW"
+              class="c22"
               href="https://docs.boba.network/faq"
               target="_blank"
             >
               FAQs
             </a>
             <a
-              class="sc-jIGnZt YontW"
+              class="c22"
               href="https://docs.boba.network/for-developers"
               target="_blank"
             >
               Dev Tools
             </a>
             <a
-              class="sc-fBdRDi bLwRUF"
+              class="c23"
               href="/bobascope"
             >
               Bobascope
             </a>
             <a
-              class="sc-jIGnZt YontW"
+              class="c22"
               href="https://boba.network"
               target="_blank"
             >
               Boba Network Website
             </a>
             <a
-              class="sc-jIGnZt YontW"
+              class="c22"
               href="https://boba.network/terms-of-use/"
               target="_blank"
             >
@@ -188,10 +808,10 @@ exports[`Home  should match snapshot 1`] = `
             </a>
           </div>
           <div
-            class="sc-gmgFlS gQNdFy"
+            class="c24"
           >
             <div
-              class="sc-eeDRCY euNIYm"
+              class="c25"
             >
               Block explorers
             </div>
@@ -199,32 +819,32 @@ exports[`Home  should match snapshot 1`] = `
         </div>
       </div>
       <hr
-        class="sc-ihgnxF dpWcxp"
+        class="c26"
       />
       <div
-        class="sc-guJBdh kvGPtC"
+        class="c27"
         id="socialLinks"
       >
         <div
-          class="sc-ibQAlb gCwibX"
+          class="c28"
         >
           <p
-            class="sc-gEvEer hiDcmV sc-jGKxIK fZWFnP"
+            class="c12 c29"
           >
             ©2023 Enya Labs
           </p>
           <p
-            class="sc-gEvEer hiDcmV sc-jGKxIK fZWFnP"
+            class="c12 c29"
           >
             v
           </p>
         </div>
         <div
-          class="sc-hZDyAQ blPXLG"
+          class="c30"
         >
           <a
             aria-label="bobadocs"
-            class="sc-fTFjTM kxRanK"
+            class="c31"
             href="https://docs.boba.network"
             target="_blank"
           >
@@ -270,7 +890,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="twitter"
-            class="sc-fTFjTM kxRanK"
+            class="c31"
             href="https://boba.eco/twitter"
             target="_blank"
           >
@@ -287,7 +907,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="discord"
-            class="sc-fTFjTM kxRanK"
+            class="c31"
             href="https://boba.eco/discord"
             target="_blank"
           >
@@ -306,7 +926,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="telegram"
-            class="sc-fTFjTM kxRanK"
+            class="c31"
             href="https://boba.eco/telegram"
             target="_blank"
           >
