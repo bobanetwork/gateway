@@ -114,12 +114,7 @@ const NavDrawer: FC<Props> = ({ onClose, open }) => {
         <NavList>
           {MENU_LIST.map((menu) => {
             return (
-              <NavLinkItem
-                key={menu.label}
-                to={menu.path}
-                className={({ isActive }) => (isActive ? 'active' : '')}
-                onClick={onClose}
-              >
+              <NavLinkItem key={menu.label} to={menu.path} onClick={onClose}>
                 {menu.label}
               </NavLinkItem>
             )

@@ -7,7 +7,6 @@ import thunk from 'redux-thunk'
 import CustomThemeProvider from 'themes'
 import { mockedInitialState } from 'util/tests'
 import Home from '.'
-import 'jest-styled-components'
 
 const mockStore = configureStore([thunk])
 
