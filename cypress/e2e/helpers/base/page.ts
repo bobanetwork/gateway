@@ -109,8 +109,8 @@ export default class Page extends Base {
       .getNavigationLinks()
       .should('not.be.empty')
       .and(($p) => {
-        // should have found 4 elements for Binanace
-        expect($p).to.have.length(4)
+        // should have found 3 elements for Binanace
+        expect($p).to.have.length(3)
 
         // // use jquery's map to grab all of their classes
         // // jquery's map returns a new jquery object
@@ -118,19 +118,14 @@ export default class Page extends Base {
           return Cypress.$(el).attr('href')
         })
         // call classes.get() to make this a plain array
-        expect(links.get()).to.deep.eq([
-          '/bridge',
-          '/bridge',
-          '/history',
-          '/earn',
-        ])
+        expect(links.get()).to.deep.eq(['/bridge', '/bridge', '/history'])
 
         // get labels and verify
         const labels = $p.map((i, el) => {
           return Cypress.$(el).text()
         })
 
-        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History', 'Earn'])
+        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History'])
       })
   }
 
@@ -139,8 +134,8 @@ export default class Page extends Base {
       .getNavigationLinks()
       .should('not.be.empty')
       .and(($p) => {
-        // should have found 4 elements for Avalanche
-        expect($p).to.have.length(4)
+        // should have found 3 elements for Avalanche
+        expect($p).to.have.length(3)
 
         // // use jquery's map to grab all of their classes
         // // jquery's map returns a new jquery object
@@ -148,19 +143,14 @@ export default class Page extends Base {
           return Cypress.$(el).attr('href')
         })
         // call classes.get() to make this a plain array
-        expect(links.get()).to.deep.eq([
-          '/bridge',
-          '/bridge',
-          '/history',
-          '/earn',
-        ])
+        expect(links.get()).to.deep.eq(['/bridge', '/bridge', '/history'])
 
         // get labels and verify
         const labels = $p.map((i, el) => {
           return Cypress.$(el).text()
         })
 
-        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History', 'Earn'])
+        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History'])
       })
   }
 
@@ -169,8 +159,8 @@ export default class Page extends Base {
       .getNavigationLinks()
       .should('not.be.empty')
       .and(($p) => {
-        // should have found 6 elements for Ethereum
-        expect($p).to.have.length(6)
+        // should have found 5 elements for Ethereum
+        expect($p).to.have.length(5)
 
         // // use jquery's map to grab all of their classes
         // // jquery's map returns a new jquery object
@@ -182,7 +172,6 @@ export default class Page extends Base {
           '/bridge',
           '/bridge',
           '/history',
-          '/earn',
           '/stake',
           '/dao',
         ])
@@ -196,7 +185,6 @@ export default class Page extends Base {
           '',
           'Bridge',
           'History',
-          'Earn',
           'Stake',
           'Dao',
         ])
