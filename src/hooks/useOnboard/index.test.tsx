@@ -5,50 +5,66 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
 import { Provider } from 'react-redux'
-import networkService from 'services/networkService'
 import { AnyAction } from 'redux'
+import networkService from 'services/networkService'
 
 describe('useOnboard', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-  const store = mockStore(mockedInitialState)
+  let store: any
+
+  beforeEach(() => {
+    store = mockStore(mockedInitialState)
+  })
 
   const wrapper = ({ children }) => (
     <Provider store={store}>{children}</Provider>
   )
   global.scrollTo = jest.fn()
-  networkService.initializeBase = jest.fn()
 
-  test('Should useOnboard & initialized base ', async () => {
+  test('Should useOnboard & initialized enabled', async () => {
     renderHook(() => useOnboard(), {
       wrapper,
     })
 
     expect(global.scrollTo).toHaveBeenCalledWith(0, 0)
 
-    const initialized = await networkService.initializeBase({
-      networkGateway: mockedInitialState.network.activeNetwork,
-      networkType: mockedInitialState.network.activeNetworkType,
+    await act(async () => {
+      const initialized = await networkService.initializeBase({
+        networkGateway: mockedInitialState.network.activeNetwork,
+        networkType: mockedInitialState.network.activeNetworkType,
+      })
+
+      expect(initialized).toBe('enabled')
     })
 
-    expect(networkService.initializeBase).toHaveBeenCalledWith({
-      networkGateway: mockedInitialState.network.activeNetwork,
-      networkType: mockedInitialState.network.activeNetworkType,
+    const actions: AnyAction[] = store.getActions()
+    expect(actions).toContainEqual({
+      type: 'SETUP/BASE/SET',
+      payload: true,
+    })
+  })
+
+  test('Should useOnboard & initialized false', async () => {
+    renderHook(() => useOnboard(), {
+      wrapper,
     })
 
-    if (!initialized) {
-      const actions: AnyAction[] = store.getActions()
-      expect(actions).toContainEqual({
-        type: 'SETUP/BASE/SET',
-        payload: false,
+    expect(global.scrollTo).toHaveBeenCalledWith(0, 0)
+
+    await act(async () => {
+      const initialized = await networkService.initializeBase({
+        networkGateway: null,
+        networkType: null,
       })
-    }
-    if (initialized === 'enabled') {
-      const actions: AnyAction[] = store.getActions()
-      expect(actions).toContainEqual({
-        type: 'SETUP/BASE/SET',
-        payload: true,
-      })
-    }
+
+      expect(initialized).toBe(false)
+    })
+
+    const actions: AnyAction[] = store.getActions()
+    expect(actions).toContainEqual({
+      type: 'SETUP/BASE/SET',
+      payload: false,
+    })
   })
 })
