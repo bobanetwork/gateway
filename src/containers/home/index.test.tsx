@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import CustomThemeProvider from 'themes'
 import { mockedInitialState } from 'util/tests'
-import Home from './home'
+import Home from '.'
 
 const mockStore = configureStore([thunk])
 

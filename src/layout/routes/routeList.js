@@ -8,7 +8,7 @@ const BobaScope = React.lazy(() => import('containers/bobaScope/BobaScope'));
 const OldDao = React.lazy(() => import('containers/dao/OldDao'));
 const DevTools = React.lazy(() => import('containers/devtools/DevTools'));
 const EarnWrapper = React.lazy(() => import('containers/earn/EarnWrapper'));
-const Home = React.lazy(() => import('containers/Home/home'));
+const Home = React.lazy(() => import('containers/home'));
 const SaveWrapper = React.lazy(() => import('containers/save/SaveWrapper'));
 const History = React.lazy(() => import('containers/history/History'));
 
