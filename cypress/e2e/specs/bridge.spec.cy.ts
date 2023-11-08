@@ -9,6 +9,7 @@ describe('Testing Entire Site', () => {
         bridge.visit()
         bridge.store.verifyReduxStoreSetup('baseEnabled', true)
       })
+
       describe('Bridge Layout', () => {
         it('Should have the correct title', () => {
           bridge.checkTitle()

@@ -1,6 +1,8 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
 import { Layer } from '../../../src/util/constant'
+import { NetworkTestInfo } from './base/types'
+import { EthereumGoerliInfo } from './base/constants'
 
 export default class Bridge extends Page {
   constructor() {
@@ -176,5 +178,71 @@ export default class Bridge extends Page {
     cy.get('[data-testid="third-party-btn"]').should('be.visible').click()
     cy.contains('Third party bridges').should('be.visible')
     cy.contains('No bridges available').should('be.visible')
+  }
+
+  openNetworkModal(networkName: string) {
+    this.withinPage().contains(networkName).should('exist').click()
+  }
+  selectNetworkFromModal(networkName: string) {
+    this.getModal().contains(networkName).should('exist').click()
+  }
+
+  clickThroughNetworksInModals(
+    l1Networks: NetworkTestInfo[],
+    l2Networks: NetworkTestInfo[],
+    accountConnected: boolean
+  ) {
+    for (let i = 0; i < 3; i++) {
+      this.withinPage().contains(l2Networks[i].networkName).should('exist')
+
+      this.openNetworkModal(l1Networks[i].networkName)
+      const nextNetwork = l1Networks[(i + 1) % 3]
+      this.selectNetworkFromModal(nextNetwork.networkName)
+      if (accountConnected) {
+        this.handleNetworkSwitchModals(
+          nextNetwork.networkAbbreviation,
+          nextNetwork.isTestnet
+        )
+        if (nextNetwork.networkName === l1Networks[0].networkName) {
+          this.allowNetworkSwitch()
+        } else {
+          this.allowNetworkToBeAddedAndSwitchedTo()
+        }
+        this.requestMetamaskConnect()
+        this.checkNetworkSwitchSuccessful(nextNetwork.networkAbbreviation)
+      } else {
+        this.store.allowBaseEnabledToUpdate(accountConnected)
+      }
+    }
+  }
+  switchToTestnet(
+    networkAbbreviation: string = EthereumGoerliInfo.networkAbbreviation,
+    newNetwork: boolean = false
+  ) {
+    this.withinPage()
+      .find('[data-testid="setting-btn"]')
+      .should('exist')
+      .click()
+    this.getModal()
+      .find('[data-testid="switch-label"]')
+      .should('have.length', 2)
+      .first()
+      .click()
+
+    this.store.verifyReduxStoreNetwork('activeNetworkType', 'Testnet')
+
+    this.handleNetworkSwitchModals(networkAbbreviation, true)
+    if (
+      networkAbbreviation === EthereumGoerliInfo.networkAbbreviation ||
+      !newNetwork
+    ) {
+      this.allowNetworkSwitch()
+    } else {
+      this.allowNetworkToBeAddedAndSwitchedTo()
+    }
+    this.requestMetamaskConnect()
+
+    this.store.verifyReduxStoreSetup('accountEnabled', true)
+    this.store.verifyReduxStoreSetup('baseEnabled', true)
   }
 }
