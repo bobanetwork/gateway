@@ -29,10 +29,10 @@ import { useOnboard } from 'hooks/useOnboard'
 import { useWalletConnect } from 'hooks/useWalletConnect'
 import useWalletSwitch from 'hooks/useWalletSwitch'
 import { HomeContainer, HomeContent } from './styles'
-import {ApplicationBanner} from 'components'
+import { ApplicationBanner } from 'components'
 
 const Home = () => {
-  useGoogleAnalytics(); // Invoking GA analysis page view hooks
+  useGoogleAnalytics() // Invoking GA analysis page view hooks
   useOnboard()
   useNetwork()
   useWalletSwitch()
@@ -56,4 +56,4 @@ const Home = () => {
   )
 }
 
-export default memo(Home);
+export default memo(Home)
