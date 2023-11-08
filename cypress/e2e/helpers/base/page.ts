@@ -129,6 +129,18 @@ export default class Page extends Base {
       })
   }
 
+  validateApplicationBanner() {
+    cy.get('[data-testid="banner-item"]')
+      .should('not.be.empty')
+      .should('be.visible')
+      .and(($p) => {
+        expect($p).to.have.length(1)
+      })
+
+    cy.get('[data-testid^="close-icon"]').should('be.visible').click()
+    cy.get('[data-testid="banner-item"]').should('not.exist')
+  }
+
   checkNaviagtionListAvalanche() {
     this.header
       .getNavigationLinks()
