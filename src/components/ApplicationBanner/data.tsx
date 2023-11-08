@@ -1,6 +1,6 @@
 import React from 'react'
 import { BannerText } from './styles'
-import { IAppAlert } from '.'
+import { IAppAlert } from './types'
 
 export const bannerAlerts = (): IAppAlert[] => [
   {

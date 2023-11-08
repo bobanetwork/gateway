@@ -9,15 +9,7 @@ import {
   CloseIconWrapper,
 } from './styles'
 import { bannerAlerts } from './data'
-
-export interface IAppAlert {
-  type: 'success' | 'warning' | 'info'
-  key: string
-  message?: string
-  canClose?: boolean
-  isHidden?: boolean
-  Component?: React.ElementType<{ className?: string }>
-}
+import { IAppAlert } from './types'
 
 const ApplicationBanner = () => {
   const [alerts, setAlerts] = useState<IAppAlert[]>([])
