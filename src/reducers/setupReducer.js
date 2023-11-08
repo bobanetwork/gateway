@@ -33,6 +33,7 @@ const initialState = {
   walletConnected: false,
   chainIdChanged: null,
   networkChanged: false,
+  userTriggeredChainSwitch: false
 }
 
 function setupReducer(state = initialState, action) {
@@ -112,6 +113,11 @@ function setupReducer(state = initialState, action) {
       return {
         ...state,
         chainIdChanged: null
+      }
+    case 'SETUP/USER_TRIGGERED_CHAIN_SWITCH/SET':
+      return {
+        ...state,
+        userTriggeredChainSwitch: action.payload
       }
     case 'SETUP/DISCONNECT':
       return {
