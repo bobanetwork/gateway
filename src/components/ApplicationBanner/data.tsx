@@ -6,12 +6,11 @@ export const bannerAlerts = (): IAppAlert[] => [
   {
     key: 'earn-banner-deprecation',
     type: 'warning',
-    canClose: true,
+    canClose: false,
     Component: () => (
       <BannerText>
-        {' '}
-        Boba Light bridge has been released and earn is sunset, to withdraw
-        funds from liquidity <a href="/earn">CLICK HERE</a>{' '}
+        In preparation for the release of Boba Light Bridge, the Earn program is
+        being sunset. To withdraw funds, <a href="/earn">CLICK HERE</a>
       </BannerText>
     ),
   },

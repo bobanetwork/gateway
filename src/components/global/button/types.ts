@@ -12,6 +12,7 @@ type ButtonType = {
 export interface ButtonTypes extends ButtonType {
   label: ReactNode | string
   style?: Record<string, string>
+  tooltipTitle?: string | null
   className?: string
   onClick?: () => void
 }

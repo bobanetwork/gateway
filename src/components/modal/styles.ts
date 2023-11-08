@@ -1,6 +1,8 @@
 import { Box } from '@mui/material'
 import styled, { css } from 'styled-components'
 import ModalUnstyled from '@mui/base/ModalUnstyled'
+import Close from 'assets/images/close.svg'
+import { Svg } from 'components/global'
 
 export const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -122,4 +124,25 @@ export const BoxCenter = styled(Box)`
   justify-content: space-around;
   align-items: center;
   cursor: pointer;
+`
+
+export const CloseIcon = styled(Svg).attrs({
+  src: Close,
+  fill: '#fff',
+})`
+  height: 12px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  div {
+    display: flex;
+  }
+  svg {
+    max-width: 24px;
+    min-width: 10px;
+    height: auto;
+    stroke: ${({ theme }) => theme.color};
+  }
 `
