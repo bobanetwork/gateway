@@ -21,8 +21,9 @@ describe('Connect flow', () => {
       bridge.requestMetamaskConnect()
       bridge.connectMetamask()
     })
-    it('Should switch to an L2', () => {
+    it('Should switch to Boba L2 and back', () => {
       bridge.switchBridgeDirection(LAYER.L2, true)
+      bridge.switchBridgeDirection(LAYER.L1, false)
     })
   })
 
