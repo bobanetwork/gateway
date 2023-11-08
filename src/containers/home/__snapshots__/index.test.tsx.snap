@@ -98,12 +98,13 @@ exports[`Home  should match snapshot 1`] = `
     >
       <div
         class="sc-kbdlSk eglyUk warning"
+        data-testid="banner-item"
       >
         <div
           class="sc-camqpD"
         >
           <p
-            class="sc-gEvEer hiDcmV sc-eIcdZJ iosvsq"
+            class="sc-gEvEer hiDcmV sc-jdUcAg djNbDz"
           >
              Boba Light bridge has been released and earn is sunset, to withdraw funds from liquidity 
             <a
@@ -118,13 +119,18 @@ exports[`Home  should match snapshot 1`] = `
           class="sc-gweoQa ktcLMm"
         >
           <div
-            class="sc-jdUcAg bxZpBQ"
+            class="sc-eIcdZJ fgaAhE"
+            data-testid="close-icon-earn-banner-deprecation"
           >
-            <div>
-              <div
-                data-src="close.svg"
-                src=""
-              />
+            <div
+              class="sc-bddgXz gnBwiV"
+            >
+              <div>
+                <div
+                  data-src="close.svg"
+                  src=""
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -39,6 +39,24 @@ export const BannerContent = styled('div')``
 export const BannerAction = styled('div')`
   cursor: pointer;
 `
+
+export const CloseIconWrapper = styled('div')`
+  cursor: pointer;
+  border-radius: 50%;
+  &:hover {
+    background: ${({ theme: { name, colors } }) =>
+      name === 'light' ? colors.green[200] : colors.green[100]};
+  }
+  div {
+    padding: 1px;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+`
 export const BannerText = styled(Typography).attrs({
   variant: 'body2',
 })`

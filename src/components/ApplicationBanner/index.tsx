@@ -6,6 +6,7 @@ import {
   BannerContent,
   BannerText,
   CloseIcon,
+  CloseIconWrapper,
 } from './styles'
 import { bannerAlerts } from './data'
 
@@ -23,7 +24,7 @@ const ApplicationBanner = () => {
   const [storageChange, setStorageChange] = useState(false)
 
   useEffect(() => {
-    const appBanners = bannerAlerts.map((alert) => {
+    const appBanners = bannerAlerts().map((alert) => {
       return {
         ...alert,
         isHidden: JSON.parse(
@@ -50,17 +51,20 @@ const ApplicationBanner = () => {
           return <Fragment key={key}></Fragment>
         }
         return (
-          <BannerContainer className={type} key={key}>
+          <BannerContainer className={type} key={key} data-testid="banner-item">
             <BannerContent>
               {Component ? <Component /> : <BannerText>{message}</BannerText>}
             </BannerContent>
             {canClose && (
               <BannerAction>
-                <CloseIcon
+                <CloseIconWrapper
+                  data-testid={`close-icon-${key}`}
                   onClick={() => {
                     onClose(key)
                   }}
-                />
+                >
+                  <CloseIcon />
+                </CloseIconWrapper>
               </BannerAction>
             )}
           </BannerContainer>

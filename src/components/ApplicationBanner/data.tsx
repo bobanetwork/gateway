@@ -1,8 +1,8 @@
 import React from 'react'
-import { IAppAlert } from '.'
 import { BannerText } from './styles'
+import { IAppAlert } from '.'
 
-export const bannerAlerts: IAppAlert[] = [
+export const bannerAlerts = (): IAppAlert[] => [
   {
     key: 'earn-banner-deprecation',
     type: 'warning',
@@ -16,3 +16,5 @@ export const bannerAlerts: IAppAlert[] = [
     ),
   },
 ]
+
+export default bannerAlerts
