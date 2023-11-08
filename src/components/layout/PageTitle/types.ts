@@ -1,4 +1,4 @@
 export interface PageTitleTypes {
-  title: string
-  slug: string
+  title?: string
+  slug?: string
 }

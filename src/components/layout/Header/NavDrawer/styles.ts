@@ -6,7 +6,9 @@ import styled from 'styled-components'
 export const CloseIcon = styled(Svg).attrs({
   src: Close,
   fill: '#fff',
-})``
+})`
+  stroke: #fff;
+`
 
 export const StyleDrawer = styled.div`
   height: 100%;

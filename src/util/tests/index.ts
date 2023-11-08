@@ -32,3 +32,35 @@ export const mockedInitialState = {
     alerts: [],
   },
 }
+
+export const mockLocalStorage = (() => {
+  let store = {}
+
+  return {
+    getItem: (key) => {
+      if (Object.keys(store).length > 0) {
+        if (store[key] === undefined) {
+          return false
+        }
+        return store[key]
+      }
+      return false
+    },
+
+    setItem: (key, value) => {
+      store[key] = value
+    },
+
+    clear: () => {
+      store = {}
+    },
+
+    removeItem: (key) => {
+      delete store[key]
+    },
+
+    getAll: () => {
+      return store
+    },
+  }
+})()
