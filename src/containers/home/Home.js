@@ -29,6 +29,7 @@ import { useOnboard } from 'hooks/useOnboard'
 import { useWalletConnect } from 'hooks/useWalletConnect'
 import useWalletSwitch from 'hooks/useWalletSwitch'
 import { HomeContainer, HomeContent } from './styles'
+import {ApplicationBanner} from 'components'
 
 const Home = () => {
   useGoogleAnalytics(); // Invoking GA analysis page view hooks
@@ -44,6 +45,7 @@ const Home = () => {
       <NotificationBanner />
       <HomeContainer>
         <Header />
+        <ApplicationBanner />
         <HomeContent>
           <PageTitle />
           <Outlet />
