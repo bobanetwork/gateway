@@ -24,4 +24,11 @@ export class ReduxStore {
       .should('exist')
       .should('equal', expectedValue)
   }
+  verifyReduxBridgeState(attribute: string, expectedValue: boolean | string) {
+    this.getReduxStore()
+      .its('bridge')
+      .its(attribute)
+      .should('exist')
+      .should('equal', expectedValue)
+  }
 }

@@ -66,8 +66,35 @@ export default class Bridge extends Page {
       .and('have.prop', 'naturalWidth')
       .should('be.greaterThan', 0)
   }
-
-  bridgeToken(tokenSymbol: string, amount: string, destinationLayer: Layer) {
+  allowToDestinationAddress() {
+    this.withinPage().find('#settings').should('exist').click()
+    this.getModal()
+      .find('[data-testid="switch-label"]')
+      .should('have.length', 2)
+      .first()
+      .next()
+      .click()
+    // verify through store.
+    this.store.verifyReduxBridgeState('bridgeDestinationAddressAvailable', true)
+    this.getModal() // filter can be used to accomplish this
+      .find('svg')
+      .filter((_, e) => {
+        const srcRegEx = RegExp('[^\\]*close.[a-zA-Z0-9]*.(svg)')
+        const data_src = Cypress.$(e).attr('data-src')
+        if (data_src) {
+          return srcRegEx.test(data_src)
+        }
+        return false
+      })
+      .should('have.length', 1)
+      .click()
+  }
+  bridgeToken(
+    tokenSymbol: string,
+    amount: string,
+    destinationLayer: Layer,
+    destinationAddress: string = ''
+  ) {
     this.selectToken(tokenSymbol)
     if (destinationLayer === Layer.L1) {
       this.store
@@ -88,7 +115,13 @@ export default class Bridge extends Page {
         .its('classicExitCost')
         .should('equal', 0)
     }
-
+    if (destinationAddress) {
+      this.allowToDestinationAddress()
+      cy.get('[placeholder="Enter destination address"]')
+        .should('exist')
+        .focus()
+        .type(destinationAddress)
+    }
     cy.get(`input[placeholder="Amount to bridge to ${destinationLayer}"]`)
       .should('exist')
       .focus()
