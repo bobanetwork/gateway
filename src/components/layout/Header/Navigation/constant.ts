@@ -11,10 +11,6 @@ export const MENU_LIST: Array<IMenuItem> = [
     path: ROUTES_PATH.HISTORY,
   },
   {
-    label: 'Earn',
-    path: ROUTES_PATH.EARN,
-  },
-  {
     label: 'Stake',
     path: ROUTES_PATH.STAKE,
   },

@@ -213,7 +213,7 @@ export const AllNetworkConfigs = {
 }
 
 export const getNetworkDetail = ({ network, networkType }) => {
-  return AllNetworkConfigs[network][networkType]
+  return AllNetworkConfigs?.[network]?.[networkType]
 }
 
 export const getRpcUrlByChainId = (chainId): string => {
@@ -235,7 +235,7 @@ export const getRpcUrl = ({ network, networkType, layer }): string => {
 }
 
 export const getBlockExplorerUrl = ({ network, networkType, layer }) => {
-  return AllNetworkConfigs[network][networkType][layer]?.blockExplorerUrl
+  return AllNetworkConfigs?.[network]?.[networkType]?.[layer]?.blockExplorerUrl
 }
 
 export const pingRpcUrl = async (rpcUrl) => {
