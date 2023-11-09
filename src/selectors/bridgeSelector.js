@@ -43,7 +43,13 @@ export function selectMultiBridgeMode() {
   }
 }
 
-export function selectBridgeToAddressState() {
+export function selectBridgeDestinationAddress() {
+  return function (state) {
+    return state.bridge.bridgeDestinationAddress
+  }
+}
+
+export function selectBridgeDestinationAddressAvailable() {
   return function (state) {
     return state.bridge.bridgeToAddressState
   }
