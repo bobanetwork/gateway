@@ -50,9 +50,9 @@ export function exitBOBA(token, value) {
 }
 
 //SWAP RELATED
-export function depositL1LP(currency, value, decimals) {
+export function depositL1LP(currency,value) {
   return createAction('DEPOSIT/CREATE', () =>
-    networkService.depositL1LP(currency, value, decimals)
+    networkService.depositL1LP(currency,value)
   )
 }
 
