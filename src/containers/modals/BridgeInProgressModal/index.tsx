@@ -1,6 +1,7 @@
 import {
   purgeBridgeAlert,
   resetBridgeAmount,
+  resetBridgeDestinationAddress,
   resetToken,
 } from 'actions/bridgeAction'
 import { closeModal } from 'actions/uiAction'
@@ -8,7 +9,11 @@ import { Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectBridgeType, selectLayer } from 'selectors'
+import {
+  selectBridgeDestinationAddressAvailable,
+  selectBridgeType,
+  selectLayer,
+} from 'selectors'
 import { LAYER } from 'util/constant'
 import BlockConfirmation from './BlockConfirmation'
 import { InprogressContainer, MutedText, ProgressLoader } from './index.styles'
@@ -22,6 +27,9 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const layer = useSelector(selectLayer())
   const bridgeType = useSelector(selectBridgeType())
+  const bridgeToAddressEnable = useSelector(
+    selectBridgeDestinationAddressAvailable()
+  )
 
   const handleClose = () => {
     dispatch(closeModal('bridgeInProgress'))
@@ -29,6 +37,10 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
     dispatch(resetToken())
     dispatch(purgeBridgeAlert())
     dispatch(resetBridgeAmount())
+
+    if (bridgeToAddressEnable) {
+      dispatch(resetBridgeDestinationAddress())
+    }
   }
 
   return (

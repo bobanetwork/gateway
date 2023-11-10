@@ -63,6 +63,12 @@ export function setBridgeDestinationAddress(payload) {
   }
 }
 
+export function resetBridgeDestinationAddress() {
+  return function(dispatch) {
+    return dispatch({type: 'BRIDGE/DESTINATION_ADDRESS/RESET'});
+  }
+}
+
 // updates value indicating wether the 'to address' field should be available
 export function setBridgeDestinationAddressAvailable(payload) {
   return function (dispatch) {

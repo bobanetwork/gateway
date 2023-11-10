@@ -22,7 +22,7 @@ const initialState = {
   bridgeType: 'CLASSIC',
   destChainIdTeleportation: undefined,
   multiBridgeMode: false,
-  bridgeDestinationAddressAvailable: false,
+  bridgeToAddressState: false,
   bridgeDestinationAddress: '',
   amountToBridge: 0,
   destChainIdBridge: 0,
@@ -94,6 +94,12 @@ function bridgeReducer(state = initialState, action) {
         bridgeDestinationAddress: action.payload
       }
     
+    case 'BRIDGE/DESTINATION_ADDRESS/RESET':
+      return {
+        ...state,
+        bridgeDestinationAddress: ''
+      }
+
     case 'BRIDGE/DESTINATION_ADDRESS_AVAILABLE/SET':
       return {
         ...state,
