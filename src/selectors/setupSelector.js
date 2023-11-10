@@ -99,4 +99,10 @@ export function selectChainIdChanged () {
   }
 }
 
+export function selectUserTriggeredChainSwitch() {
+  return function (state) {
+    return state.setup['userTriggeredChainSwitch']
+  }
+}
+
 export const selectSetup = () => (state) => state.setup

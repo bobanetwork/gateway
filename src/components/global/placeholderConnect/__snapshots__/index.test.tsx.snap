@@ -3,11 +3,11 @@
 exports[`PlaceholderConnect PlaceholderConnect is loading 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fqkvVR fqfTpR"
+    class="sc-dcJsrY aAZry"
   >
     loading
     <div
-      class="sc-iGgWBj bSZpIE"
+      class="sc-gsFSXq dsRZYW"
     >
       <div>
         <div
@@ -17,7 +17,7 @@ exports[`PlaceholderConnect PlaceholderConnect is loading 1`] = `
       </div>
     </div>
     <p
-      class="sc-eqUAAy bPnpZv sc-dcJsrY dltCnb"
+      class="sc-fqkvVR foGdaN sc-iGgWBj gNabdA"
     >
       No 
     </p>
@@ -35,10 +35,10 @@ exports[`PlaceholderConnect PlaceholderConnect is loading 1`] = `
 exports[`PlaceholderConnect PlaceholderConnect is not loading 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fqkvVR fqfTpR"
+    class="sc-dcJsrY aAZry"
   >
     <div
-      class="sc-iGgWBj bSZpIE"
+      class="sc-gsFSXq dsRZYW"
     >
       <div>
         <div
@@ -48,7 +48,7 @@ exports[`PlaceholderConnect PlaceholderConnect is not loading 1`] = `
       </div>
     </div>
     <p
-      class="sc-eqUAAy bPnpZv sc-dcJsrY dltCnb"
+      class="sc-fqkvVR foGdaN sc-iGgWBj gNabdA"
     >
       No 
     </p>

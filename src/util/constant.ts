@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 
-type EnvType = string | number | null | undefined
+export type EnvType = string | number | null | undefined
 
 export const POLL_INTERVAL: EnvType =
   process.env.REACT_APP_POLL_INTERVAL || 20000
@@ -100,5 +100,3 @@ export const MM_EXTENTION_URL: string =
   'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en'
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
-
-export const BANXA_URL: string = 'https://boba.banxa.com/?'

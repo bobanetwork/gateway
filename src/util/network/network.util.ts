@@ -276,7 +276,7 @@ export const AllNetworkConfigs = {
 }
 
 export const getNetworkDetail = ({ network, networkType }) => {
-  return AllNetworkConfigs[network][networkType]
+  return AllNetworkConfigs?.[network]?.[networkType]
 }
 
 export const getRpcUrlByChainId = (chainId): string => {

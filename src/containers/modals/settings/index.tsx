@@ -2,6 +2,18 @@ import Modal from 'components/modal/Modal'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeModal } from 'actions/uiAction'
+
+import { SwitchButton } from 'components/global'
+import { setActiveNetworkType } from 'actions/networkAction'
+import { NETWORK_TYPE } from 'util/network/network.util'
+import {
+  selectActiveNetworkType,
+  selectBridgeDestinationAddressAvailable,
+  selectBridgeType,
+} from 'selectors'
+import { setBridgeDestinationAddressAvailable } from 'actions/bridgeAction'
+import { SettingRowTypes } from './types'
+
 import {
   SettingSubTitle,
   SettingTitle,
@@ -10,15 +22,6 @@ import {
   SettingsText,
   SettingsWrapper,
 } from './styles'
-import { SwitchButton } from 'components/global'
-import { setActiveNetworkType } from 'actions/networkAction'
-import { NETWORK_TYPE } from 'util/network/network.util'
-import {
-  selectActiveNetworkType,
-  selectBridgeToAddressState,
-  selectBridgeType,
-} from 'selectors'
-import { setBridgeToAddress } from 'actions/bridgeAction'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 
 interface SettingsModalProps {
@@ -28,7 +31,9 @@ interface SettingsModalProps {
 const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const activeNetworkType = useSelector(selectActiveNetworkType())
-  const bridgeToAddressEnable = useSelector(selectBridgeToAddressState())
+  const bridgeToAddressEnable = useSelector(
+    selectBridgeDestinationAddressAvailable()
+  )
   const bridgeType = useSelector(selectBridgeType())
 
   const handleClose = () => {
@@ -42,9 +47,8 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
       })
     )
   }
-
-  const onChangeDestinationAddress = (value: boolean) => {
-    dispatch(setBridgeToAddress(value))
+  const onChangeDestinationAddressAvailable = (value: boolean) => {
+    dispatch(setBridgeDestinationAddressAvailable(value))
   }
 
   return (
@@ -83,7 +87,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
             <SettingsAction>
               <SwitchButton
                 isActive={bridgeToAddressEnable}
-                onStateChange={onChangeDestinationAddress}
+                onStateChange={onChangeDestinationAddressAvailable}
               />
             </SettingsAction>
           </SettingsItem>
