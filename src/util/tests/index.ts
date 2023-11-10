@@ -24,10 +24,17 @@ export const mockedInitialState = {
     netLayer: 'L1',
   },
   bridge: {
-    bridgeToAddressState: true,
+    bridgeToAddressState: false,
+    bridgeDestinationAddress: '',
     destChainIdTeleportation: 'ethereum',
     bridgeType: 'CLASSIC',
-    tokens: [{ symbol: 'ETH' }],
+    tokens: [
+      {
+        symbol: 'ETH',
+        decimals: 18,
+        address: '0x0000000000000000000000000000000000000000',
+      },
+    ],
     amountToBridge: '1.255',
     alerts: [],
   },
