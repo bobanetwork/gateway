@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BridgeToAddress Snapshot should match in case of L1 & Classic Bridge  1`] = `
+exports[`BridgeToAddress should match Snapshot in case of L1 & Classic Bridge  1`] = `
 <DocumentFragment>
   <div
     class="sc-feUZmu cmXDyP"
@@ -31,4 +31,4 @@ exports[`BridgeToAddress Snapshot should match in case of L1 & Classic Bridge  1
 </DocumentFragment>
 `;
 
-exports[`BridgeToAddress Snapshot should match in case of L2 & Fast Bridge  1`] = `<DocumentFragment />`;
+exports[`BridgeToAddress should match Snapshot in case of L2 & Fast Bridge  1`] = `<DocumentFragment />`;
