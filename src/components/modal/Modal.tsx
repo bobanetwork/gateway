@@ -15,12 +15,10 @@ limitations under the License. */
 
 import React from 'react'
 
-import { Fade, Container, Box } from '@mui/material'
+import { Box, Container, Fade } from '@mui/material'
 
 import { Heading } from 'components/global'
 import * as S from './styles'
-import CloseIcon from 'assets/images/close.svg'
-import { Svg } from 'components/global/svg'
 import { ModalInterface } from './types'
 
 const _Modal = ({
@@ -55,7 +53,7 @@ const _Modal = ({
                     onClick={onClose}
                     data-testid={`close-modal-${testId}`}
                   >
-                    <Svg src={CloseIcon} fill="#fff" />
+                    <S.CloseIcon />
                   </S.IconButtonTag>
                 </S.TitleContainer>
               </S.ModalHead>
