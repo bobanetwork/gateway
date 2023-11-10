@@ -47,6 +47,7 @@ jobs:
         env:
           FORCE_COLOR: 1
           SKIP_PREFLIGHT_CHECK: true
+          REACT_APP_WALLET_VERSION: 0.9.1
 
       - uses: codecov/codecov-action@v3
         with:

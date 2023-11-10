@@ -26,7 +26,7 @@ export const SwitchButton: React.FC<SwitchButtonTypes> = ({
   }
 
   return (
-    <Switch>
+    <Switch data-testid="switch-label">
       <Input
         type="checkbox"
         checked={isChecked}

@@ -57,9 +57,22 @@ export function setMultiBridgeMode(mode) {
   }
 }
 
-export function setBridgeToAddress(payload) {
+export function setBridgeDestinationAddress(payload) {
   return function (dispatch) {
-    return dispatch({ type: 'BRIDGE/TOADDRESS/SET', payload });
+    return dispatch({type: 'BRIDGE/DESTINATION_ADDRESS/SET', payload })
+  }
+}
+
+export function resetBridgeDestinationAddress() {
+  return function(dispatch) {
+    return dispatch({type: 'BRIDGE/DESTINATION_ADDRESS/RESET'});
+  }
+}
+
+// updates value indicating wether the 'to address' field should be available
+export function setBridgeDestinationAddressAvailable(payload) {
+  return function (dispatch) {
+    return dispatch({ type: 'BRIDGE/DESTINATION_ADDRESS_AVAILABLE/SET', payload });
   }
 }
 

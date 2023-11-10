@@ -24,11 +24,50 @@ export const mockedInitialState = {
     netLayer: 'L1',
   },
   bridge: {
-    bridgeToAddressState: true,
+    bridgeToAddressState: false,
+    bridgeDestinationAddress: '',
     destChainIdTeleportation: 'ethereum',
     bridgeType: 'CLASSIC',
-    tokens: [{ symbol: 'ETH' }],
+    tokens: [
+      {
+        symbol: 'ETH',
+        decimals: 18,
+        address: '0x0000000000000000000000000000000000000000',
+      },
+    ],
     amountToBridge: '1.255',
     alerts: [],
   },
 }
+
+export const mockLocalStorage = (() => {
+  let store = {}
+
+  return {
+    getItem: (key) => {
+      if (Object.keys(store).length > 0) {
+        if (store[key] === undefined) {
+          return false
+        }
+        return store[key]
+      }
+      return false
+    },
+
+    setItem: (key, value) => {
+      store[key] = value
+    },
+
+    clear: () => {
+      store = {}
+    },
+
+    removeItem: (key) => {
+      delete store[key]
+    },
+
+    getAll: () => {
+      return store
+    },
+  }
+})()
