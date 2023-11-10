@@ -15,7 +15,7 @@ import {
   selectActiveNetwork,
   selectActiveNetworkType,
   selectAmountToBridge,
-  selectBridgeToAddressState,
+  selectBridgeDestinationAddress,
   selectBridgeType,
   selectDestChainIdTeleportation,
   selectLayer,
@@ -29,13 +29,13 @@ import {
   resetBridgeAmount,
   resetToken,
 } from 'actions/bridgeAction'
-import { INetwork, NetworkList } from '../util/network/network.util'
+import { INetwork, NetworkList } from '../../util/network/network.util'
 
 export const useBridge = () => {
   const dispatch = useDispatch<any>()
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())
-  const toL2Account = useSelector(selectBridgeToAddressState())
+  const toL2Account = useSelector(selectBridgeDestinationAddress())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
 

@@ -6,8 +6,11 @@ import { closeModal } from 'actions/uiAction'
 import { SwitchButton } from 'components/global'
 import { setActiveNetworkType } from 'actions/networkAction'
 import { NETWORK_TYPE } from 'util/network/network.util'
-import { selectActiveNetworkType, selectBridgeToAddressState } from 'selectors'
-import { setBridgeToAddress } from 'actions/bridgeAction'
+import {
+  selectActiveNetworkType,
+  selectBridgeDestinationAddressAvailable,
+} from 'selectors'
+import { setBridgeDestinationAddressAvailable } from 'actions/bridgeAction'
 import { ModalInterface } from '../types'
 import { SettingRowTypes } from './types'
 
@@ -23,7 +26,9 @@ import {
 const SettingsModal: FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const activeNetworkType = useSelector(selectActiveNetworkType())
-  const bridgeToAddressEnable = useSelector(selectBridgeToAddressState())
+  const bridgeToAddressEnable = useSelector(
+    selectBridgeDestinationAddressAvailable()
+  )
 
   const handleClose = () => {
     dispatch(closeModal('settingsModal'))
@@ -36,9 +41,8 @@ const SettingsModal: FC<ModalInterface> = ({ open }) => {
       })
     )
   }
-
-  const onChangeDestinationAddress = (value: boolean) => {
-    dispatch(setBridgeToAddress(value))
+  const onChangeDestinationAddressAvailable = (value: boolean) => {
+    dispatch(setBridgeDestinationAddressAvailable(value))
   }
 
   const SettingRow: React.FC<SettingRowTypes> = ({
@@ -79,7 +83,7 @@ const SettingsModal: FC<ModalInterface> = ({ open }) => {
           title="Add Destination Address"
           subTitle="Allows you to transfer to a different address"
           isActive={bridgeToAddressEnable}
-          onStateChange={onChangeDestinationAddress}
+          onStateChange={onChangeDestinationAddressAvailable}
         />
       </SettingsWrapper>
     </Modal>

@@ -24,4 +24,11 @@ export class ReduxStore {
       .should('exist')
       .should('equal', expectedValue)
   }
+
+  allowBaseEnabledToUpdate(accountConnected: boolean) {
+    if (!accountConnected) {
+      this.verifyReduxStoreSetup('baseEnabled', false)
+      this.verifyReduxStoreSetup('baseEnabled', true)
+    }
+  }
 }
