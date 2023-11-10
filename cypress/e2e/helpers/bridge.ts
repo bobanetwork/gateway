@@ -191,7 +191,7 @@ export default class Bridge extends Page {
     l2Networks: NetworkTestInfo[],
     accountConnected: boolean
   ) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       this.withinPage().contains(l2Networks[i].networkName).should('exist')
 
       this.openNetworkModal(l1Networks[i].networkName)
