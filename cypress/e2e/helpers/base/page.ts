@@ -26,6 +26,10 @@ export default class Page extends Base {
     cy.visit(`/${this.id}`)
   }
 
+  isReady() {
+    this.store.verifyReduxStoreSetup('baseEnabled', true)
+  }
+
   withinPage() {
     return cy.get(`#${this.id}`)
   }
@@ -102,6 +106,15 @@ export default class Page extends Base {
       type: 'NETWORK/SET',
       payload,
     })
+  }
+
+  accountConnected() {
+    this.store.verifyReduxStoreSetup('accountEnabled', true)
+    this.store
+      .getReduxStore()
+      .its('setup')
+      .its('walletAddress')
+      .should('not.be.empty')
   }
 
   checkNaviagtionListBinanace() {
@@ -237,24 +250,27 @@ export default class Page extends Base {
   }
 
   handleNetworkSwitchModals(networkAbbreviation: string, isTestnet: boolean) {
-    cy.get(
-      `button[label="Switch to ${networkAbbreviation} ${
-        isTestnet ? 'Testnet' : ''
-      } network"]`,
-      { timeout: 90000 }
-    )
+    this.getModal()
+      .find(
+        `button[label="Switch to ${networkAbbreviation} ${
+          isTestnet ? 'Testnet' : ''
+        } network"]`,
+        { timeout: 90000 }
+      )
       .should('exist')
       .click()
 
     this.store.verifyReduxStoreSetup('accountEnabled', false)
     this.store.verifyReduxStoreSetup('baseEnabled', false)
+    this.store.verifyReduxStoreSetup('baseEnabled', true)
 
-    cy.get(
-      `button[label="Connect to the ${networkAbbreviation} ${
-        isTestnet ? 'Testnet' : ''
-      } network"]`,
-      { timeout: 90000 }
-    )
+    this.getModal()
+      .find(
+        `button[label="Connect to the ${networkAbbreviation} ${
+          isTestnet ? 'Testnet' : 'Mainnet'
+        } network"]`,
+        { timeout: 90000 }
+      )
       .should('exist')
       .click()
   }
