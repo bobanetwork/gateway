@@ -93,3 +93,10 @@ export function resetChainIdChanged() {
     return dispatch({ type: 'SETUP/CHAINIDCHANGED/RESET' })
   }
 }
+
+
+export function disconnectSetup() {
+  return function(dispatch) {
+    return dispatch({type: 'SETUP/DISCONNECT'})
+  }
+}

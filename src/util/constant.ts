@@ -6,7 +6,7 @@ import { addMonths, Now, addYear, Dayjs } from 'util/dates'
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 
-type EnvType = string | number | null | undefined
+export type EnvType = string | number | null | undefined
 
 export const POLL_INTERVAL: EnvType =
   process.env.REACT_APP_POLL_INTERVAL || 20000
@@ -16,10 +16,11 @@ export const GA4_MEASUREMENT_ID: EnvType =
   process.env.REACT_APP_GA4_MEASUREMENT_ID || null
 export const APP_ENV: EnvType = process.env.REACT_APP_ENV || 'dev'
 export const isDevBuild = () => APP_ENV === 'dev'
-export const SENTRY_DSN: EnvType = process.env.REACT_APP_SENTRY_DSN || null
+export const SENTRY_DSN: EnvType = process.env.REACT_APP_SENTRY_DSN as string
 export const MAX_HEALTH_BLOCK_LAG: EnvType =
   process.env.REACT_APP_MAX_HEALTH_BLOCK_LAG
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
+export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 // WalletConnect FLAG
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
@@ -84,7 +85,7 @@ export const ROUTES_PATH: RoutesPathType = {
   HELP: '/help',
   BOBASCOPE: '/bobascope',
   VOTE_DAO: '/votedao',
-  DAO: '/DAO',
+  DAO: '/dao',
   DEV_TOOLS: '/devtools',
 }
 
@@ -133,5 +134,3 @@ export const MM_EXTENTION_URL: string =
   'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en'
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
-
-export const BANXA_URL: string = 'https://boba.banxa.com/?'

@@ -1,0 +1,614 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`3rd Party Bridges should match snapshot when network is BNB Mainnet 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-iHGNWf jDvRrm"
+  >
+    <p
+      class="sc-dAlyuH eGlSty sc-jsJBEP hgyjkx"
+    >
+      Third party bridges
+    </p>
+    <div
+      class="sc-dtBdUo lasFkC"
+    >
+      <p
+        class="sc-dAlyuH cZLdsH"
+      >
+        No bridges available
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-iHGNWf jDvRrm"
+  >
+    <p
+      class="sc-dAlyuH eGlSty sc-jsJBEP hgyjkx"
+    >
+      Third party bridges
+    </p>
+    <div
+      class="sc-dtBdUo csjtne"
+    >
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.banxa.com/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Banxa logo"
+            height="32px"
+            src="banxa.svg"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Banxa
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/beamer-bridge/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Beamer Bridge logo"
+            height="32px"
+            src="beamer.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Beamer Bridge
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/boringdao/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="BoringDAO logo"
+            height="32px"
+            src="Boringdao.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          BoringDAO
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/celer/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Celer dark-logo"
+            height="32px"
+            src="dark_celer.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Celer
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/chainswap/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Chainswap logo"
+            height="32px"
+            src="chainswap.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Chainswap
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/connext/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Connext logo"
+            height="32px"
+            src="connext.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Connext
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/layerswap-io/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Layerswap logo"
+            height="32px"
+            src="layerswap.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Layerswap
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/multichain/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Multichain logo"
+            height="32px"
+            src="multichain.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Multichain
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/rango-exchange/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Rango Exchange logo"
+            height="32px"
+            src="rango_exchange.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Rango Exchange
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/rubic-exchange/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Rubic Exchange dark-logo"
+            height="32px"
+            src="dark_rubic_exchange.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Rubic Exchange
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/synapse/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Synapse logo"
+            height="32px"
+            src="synapse.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Synapse
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY dndUuq"
+        data-testid="bridge-item"
+        href="https://boba.network/project/via-protocol/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Via Protocol dark-logo"
+            height="32px"
+            src="dark_via_protocol.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Via Protocol
+        </p>
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`3rd Party Bridges should match snapshot when network is TESTNET 1`] = `<DocumentFragment />`;
+
+exports[`3rd Party Bridges should render icons correctly for light mode 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-iHGNWf jDvRrm"
+  >
+    <p
+      class="sc-dAlyuH eGlSty sc-jsJBEP jnmkdr"
+    >
+      Third party bridges
+    </p>
+    <div
+      class="sc-dtBdUo csjtne"
+    >
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.banxa.com/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Banxa logo"
+            height="32px"
+            src="banxa.svg"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Banxa
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/beamer-bridge/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Beamer Bridge logo"
+            height="32px"
+            src="beamer.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Beamer Bridge
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/boringdao/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="BoringDAO logo"
+            height="32px"
+            src="Boringdao.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          BoringDAO
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/celer/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Celer light-logo"
+            height="32px"
+            src="light_celer.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Celer
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/chainswap/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Chainswap logo"
+            height="32px"
+            src="chainswap.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Chainswap
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/connext/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Connext logo"
+            height="32px"
+            src="connext.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Connext
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/layerswap-io/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Layerswap logo"
+            height="32px"
+            src="layerswap.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Layerswap
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/multichain/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Multichain logo"
+            height="32px"
+            src="multichain.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Multichain
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/rango-exchange/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Rango Exchange logo"
+            height="32px"
+            src="rango_exchange.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Rango Exchange
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/rubic-exchange/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Rubic Exchange light-logo"
+            height="32px"
+            src="light_rubic_exchange.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Rubic Exchange
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/synapse/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Synapse logo"
+            height="32px"
+            src="synapse.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Synapse
+        </p>
+      </a>
+      <a
+        class="sc-eeDRCY ezvrQC"
+        data-testid="bridge-item"
+        href="https://boba.network/project/via-protocol/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div
+          class="sc-koXPp fZGqGt"
+        >
+          <img
+            alt="Via Protocol light-logo"
+            height="32px"
+            src="light_via_protocol.png"
+            width="32px"
+          />
+        </div>
+        <p
+          class="sc-dAlyuH hQXXHy sc-bmzYkS jfckxU"
+        >
+          Via Protocol
+        </p>
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;

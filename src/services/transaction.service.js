@@ -1,6 +1,6 @@
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import networkService from './networkService'
-import {AllNetworkConfigs, CHAIN_ID_LIST, getRpcUrlByChainId} from 'util/network/network.util'
+import {AllNetworkConfigs,CHAIN_ID_LIST,NETWORK,NETWORK_TYPE,getRpcUrlByChainId} from 'util/network/network.util'
 import {TRANSACTION_STATUS} from "../containers/history/types";
 import {teleportationGraphQLService} from "./graphql.service";
 import {BigNumber, ethers, providers} from "ethers";

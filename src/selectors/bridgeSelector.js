@@ -31,13 +31,25 @@ export function selectBridgeType() {
   }
 }
 
+export function selectDestChainIdTeleportation() {
+  return function (state) {
+    return state.bridge?.destChainIdTeleportation;
+  }
+}
+
 export function selectMultiBridgeMode() {
   return function (state) {
     return state.bridge.multiBridgeMode
   }
 }
 
-export function selectBridgeToAddressState() {
+export function selectBridgeDestinationAddress() {
+  return function (state) {
+    return state.bridge.bridgeDestinationAddress
+  }
+}
+
+export function selectBridgeDestinationAddressAvailable() {
   return function (state) {
     return state.bridge.bridgeToAddressState
   }

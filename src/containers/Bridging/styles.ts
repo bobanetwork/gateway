@@ -45,7 +45,7 @@ export const BridgeContent = styled.div`
 
 export const BridgeReceiveWrapper = styled.div``
 export const BridgeInfo = styled.div``
-export const BridgeAction = styled.div`
+export const BridgeActionContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: around;
@@ -70,32 +70,4 @@ export const Label = styled(Typography).attrs({
       : theme.name === 'light'
       ? theme.colors.gray[700]
       : theme.colors.gray[100]};
-`
-
-export const BridgeItem = styled.a`
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  border-radius: 12px;
-  border: 1px solid ${({ theme }) => theme.colors.gray[300]};
-  color: ${(props) => props.theme.color};
-  text-decoration: none;
-  &:hover {
-    background: ${(props) => props.theme.colors.gray[400]};
-  }
-`
-export const BridgeIcon = styled.div`
-  height: 32px;
-  width: 32px;
-  border-radius: 200px;
-  background: #fff;
-`
-export const BridgeLabel = styled(Typography).attrs({
-  variant: 'title',
-})`
-  flex: 1;
-  line-height: normal;
-  text-transform: capitalize;
 `

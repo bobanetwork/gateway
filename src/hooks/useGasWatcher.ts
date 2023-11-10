@@ -1,4 +1,7 @@
-import { fetchVerifierStatus } from 'actions/verifierAction'
+import {
+  fetchVerifierStatus,
+  resetVerifierStatus,
+} from 'actions/verifierAction'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -10,7 +13,7 @@ import {
 } from 'selectors'
 import networkService from 'services/networkService'
 import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
-import gasService from 'services/gas.service'
+import { fetchGasDetail } from 'services/gas.service'
 import useInterval from './useInterval'
 import { GAS_POLL_INTERVAL } from 'util/constant'
 
@@ -31,26 +34,27 @@ import { GAS_POLL_INTERVAL } from 'util/constant'
 const useGasWatcher = () => {
   const dispatch = useDispatch<any>()
 
+  const [gas, setGas] = useState<any>()
+  const [savings, setSavings] = useState<number>(1)
+
   const verifierStatus = useSelector(selectVerifierStatus)
   const baseEnabled = useSelector(selectBaseEnabled())
-  const [gas, setGas] = useState<any>()
   const networkName = useSelector(selectActiveNetworkName())
   const activeNetwork = useSelector(selectActiveNetwork())
   const activeNetworkType = useSelector(selectActiveNetworkType())
 
-  const [savings, setSavings] = useState<number>(1)
-
-  const fetchGasDetail = useCallback(() => {
+  const loadGasDetail = useCallback(() => {
     if (baseEnabled) {
       const fetchGas = async () => {
-        const gasDetail = await gasService.getGas()
+        const gasDetail = await fetchGasDetail()
         setGas(gasDetail)
       }
 
       fetchGas()
-
       if (activeNetwork === NETWORK.ETHEREUM) {
         dispatch(fetchVerifierStatus())
+      } else {
+        dispatch(resetVerifierStatus())
       }
     }
   }, [networkName, baseEnabled, dispatch])
@@ -64,6 +68,7 @@ const useGasWatcher = () => {
         (Number(gas.gasL1) * l2Fee) /
         Number(gas.gasL2) /
         (l2Fee + l1SecurityFee)
+
       setSavings(gasSavings ? gasSavings : 0)
     }
     // Load gas savings only in case of ETHEREUM MAINNET
@@ -73,13 +78,17 @@ const useGasWatcher = () => {
       gas
     ) {
       getGasSavings()
+    } else {
+      setSavings(1)
     }
+  }, [gas, activeNetwork])
 
-    fetchGasDetail()
-  }, [fetchGasDetail, activeNetwork])
+  useEffect(() => {
+    loadGasDetail()
+  }, [loadGasDetail, activeNetwork])
 
   useInterval(() => {
-    fetchGasDetail()
+    loadGasDetail()
   }, GAS_POLL_INTERVAL)
 
   return { savings, gas, verifierStatus }

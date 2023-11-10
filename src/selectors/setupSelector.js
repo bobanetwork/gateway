@@ -16,7 +16,7 @@ limitations under the License. */
 // are we connected to an account - e.g. metamask?
 export function selectAccountEnabled () {
   return function (state) {
-    return state.setup['accountEnabled']
+    return state.setup?.['accountEnabled']
   }
 }
 
@@ -29,13 +29,13 @@ export function selectWalletAddress () {
 // do we have basic providers?
 export function selectBaseEnabled () {
   return function (state) {
-    return state.setup['baseEnabled']
+    return state.setup?.['baseEnabled']
   }
 }
 
 export function selectLayer () {
   return function (state) {
-    return state.setup['netLayer']
+    return state.setup?.['netLayer']
   }
 }
 
@@ -65,7 +65,7 @@ export function selectJustSwitchedChain () {
 
 export function selectBobaFeeChoice () {
   return function (state) {
-    return state.setup['bobaFeeChoice']
+    return state.setup?.['bobaFeeChoice']
   }
 }
 
@@ -96,6 +96,12 @@ export function selectWalletConnected () {
 export function selectChainIdChanged () {
   return function (state) {
     return state.setup['chainIdChanged']
+  }
+}
+
+export function selectUserTriggeredChainSwitch() {
+  return function (state) {
+    return state.setup['userTriggeredChainSwitch']
   }
 }
 

@@ -3,6 +3,7 @@ import Base from './base'
 import PageHeader from './page.header'
 import PageFooter from './page.footer'
 import { ReduxStore } from './store'
+import { pageTitleWhiteList } from '../../../../src/components/layout/PageTitle/constants'
 
 export default class Page extends Base {
   header: PageHeader
@@ -10,6 +11,7 @@ export default class Page extends Base {
   store: ReduxStore
   walletConnectButtonText: string
   id: string
+  title: string
   constructor() {
     super()
     this.store = new ReduxStore()
@@ -17,13 +19,23 @@ export default class Page extends Base {
     this.footer = new PageFooter()
     this.id = 'header'
     this.walletConnectButtonText = 'Connect Wallet'
+    this.title = 'Bridge'
   }
 
   visit() {
     cy.visit(`/${this.id}`)
   }
+
+  isReady() {
+    this.store.verifyReduxStoreSetup('baseEnabled', true)
+  }
+
   withinPage() {
     return cy.get(`#${this.id}`)
+  }
+
+  getTitle() {
+    return cy.get(`#title`)
   }
 
   connectWallet() {
@@ -32,12 +44,24 @@ export default class Page extends Base {
       .should('exist')
       .click()
   }
+
   requestMetamaskConnect() {
     this.connectWallet()
-    cy.get('#connectMetaMask').should('exist').click()
+    this.getModal().contains('MetaMask').should('exist').click()
   }
 
-  setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH') {
+  requestWCConnect() {
+    this.connectWallet()
+    this.getModal().contains('WalletConnect').should('exist').click()
+  }
+
+  checkWCQROpen() {
+    cy.wait(1000)
+
+    cy.get('body').find('wcm-modal').should('exist')
+  }
+
+  setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH', type = 'Mainnet') {
     const bnbConfig = {
       network: 'BNB',
       name: {
@@ -46,7 +70,7 @@ export default class Page extends Base {
       },
       networkIcon: 'bnb',
       chainIds: { L1: '56', L2: '56288' },
-      networkType: 'Mainnet',
+      networkType: type,
     }
 
     const avaxConfig = {
@@ -57,10 +81,26 @@ export default class Page extends Base {
       },
       networkIcon: 'avax',
       chainIds: { L1: '43114', L2: '43288' },
-      networkType: 'Mainnet',
+      networkType: type,
     }
 
-    const payload = network === 'BNB' ? bnbConfig : avaxConfig
+    const ethConfig = {
+      network: 'ETHEREUM',
+      name: {
+        l1: 'Mainnet',
+        l2: 'Boba L2',
+      },
+      networkIcon: 'ethereum',
+      chainIds: { L1: '1', L2: '288' },
+      networkType: type,
+    }
+
+    let payload = ethConfig
+    if (network === 'BNB') {
+      payload = bnbConfig
+    } else if (network === 'AVAX') {
+      payload = avaxConfig
+    }
 
     cy.window().its('store').invoke('dispatch', {
       type: 'NETWORK/SET',
@@ -68,13 +108,22 @@ export default class Page extends Base {
     })
   }
 
+  accountConnected() {
+    this.store.verifyReduxStoreSetup('accountEnabled', true)
+    this.store
+      .getReduxStore()
+      .its('setup')
+      .its('walletAddress')
+      .should('not.be.empty')
+  }
+
   checkNaviagtionListBinanace() {
     this.header
       .getNavigationLinks()
       .should('not.be.empty')
       .and(($p) => {
-        // should have found 4 elements for Binanace
-        expect($p).to.have.length(4)
+        // should have found 3 elements for Binanace
+        expect($p).to.have.length(3)
 
         // // use jquery's map to grab all of their classes
         // // jquery's map returns a new jquery object
@@ -82,19 +131,23 @@ export default class Page extends Base {
           return Cypress.$(el).attr('href')
         })
         // call classes.get() to make this a plain array
-        expect(links.get()).to.deep.eq([
-          '/bridge',
-          '/bridge',
-          '/history',
-          '/earn',
-        ])
+        expect(links.get()).to.deep.eq(['/bridge', '/bridge', '/history'])
 
         // get labels and verify
         const labels = $p.map((i, el) => {
           return Cypress.$(el).text()
         })
 
-        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History', 'Earn'])
+        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History'])
+      })
+  }
+
+  validateApplicationBanner() {
+    cy.get('[data-testid="banner-item"]')
+      .should('not.be.empty')
+      .should('be.visible')
+      .and(($p) => {
+        expect($p).to.have.length(1)
       })
   }
 
@@ -103,8 +156,8 @@ export default class Page extends Base {
       .getNavigationLinks()
       .should('not.be.empty')
       .and(($p) => {
-        // should have found 4 elements for Avalanche
-        expect($p).to.have.length(4)
+        // should have found 3 elements for Avalanche
+        expect($p).to.have.length(3)
 
         // // use jquery's map to grab all of their classes
         // // jquery's map returns a new jquery object
@@ -112,19 +165,14 @@ export default class Page extends Base {
           return Cypress.$(el).attr('href')
         })
         // call classes.get() to make this a plain array
-        expect(links.get()).to.deep.eq([
-          '/bridge',
-          '/bridge',
-          '/history',
-          '/earn',
-        ])
+        expect(links.get()).to.deep.eq(['/bridge', '/bridge', '/history'])
 
         // get labels and verify
         const labels = $p.map((i, el) => {
           return Cypress.$(el).text()
         })
 
-        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History', 'Earn'])
+        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History'])
       })
   }
 
@@ -133,8 +181,8 @@ export default class Page extends Base {
       .getNavigationLinks()
       .should('not.be.empty')
       .and(($p) => {
-        // should have found 6 elements for Ethereum
-        expect($p).to.have.length(6)
+        // should have found 5 elements for Ethereum
+        expect($p).to.have.length(5)
 
         // // use jquery's map to grab all of their classes
         // // jquery's map returns a new jquery object
@@ -146,9 +194,8 @@ export default class Page extends Base {
           '/bridge',
           '/bridge',
           '/history',
-          '/earn',
           '/stake',
-          '/DAO',
+          '/dao',
         ])
 
         // get labels and verify
@@ -160,7 +207,6 @@ export default class Page extends Base {
           '',
           'Bridge',
           'History',
-          'Earn',
           'Stake',
           'Dao',
         ])
@@ -201,24 +247,27 @@ export default class Page extends Base {
   }
 
   handleNetworkSwitchModals(networkAbbreviation: string, isTestnet: boolean) {
-    cy.get(
-      `button[label="Switch to ${networkAbbreviation} ${
-        isTestnet ? 'Testnet' : ''
-      } network"]`,
-      { timeout: 90000 }
-    )
+    this.getModal()
+      .find(
+        `button[label="Switch to ${networkAbbreviation} ${
+          isTestnet ? 'Testnet' : ''
+        } network"]`,
+        { timeout: 90000 }
+      )
       .should('exist')
       .click()
 
     this.store.verifyReduxStoreSetup('accountEnabled', false)
     this.store.verifyReduxStoreSetup('baseEnabled', false)
+    this.store.verifyReduxStoreSetup('baseEnabled', true)
 
-    cy.get(
-      `button[label="Connect to the ${networkAbbreviation} ${
-        isTestnet ? 'Testnet' : ''
-      } network"]`,
-      { timeout: 90000 }
-    )
+    this.getModal()
+      .find(
+        `button[label="Connect to the ${networkAbbreviation} ${
+          isTestnet ? 'Testnet' : 'Mainnet'
+        } network"]`,
+        { timeout: 90000 }
+      )
       .should('exist')
       .click()
   }
@@ -329,5 +378,40 @@ export default class Page extends Base {
   checkCopyrightAndVersion() {
     this.footer.getCompanyInfo().should('be.visible')
     this.footer.getVersionInfo().should('be.visible')
+  }
+  checkTitle() {
+    if (this.id === 'bridge') {
+      this.withinPage().contains(this.title).should('exist')
+    } else {
+      this.getTitle().contains(this.title).should('exist')
+    }
+  }
+  checkDescription() {
+    const webPage = pageTitleWhiteList.find(
+      (whiteListedPage) => whiteListedPage.path === '/' + this.id.toLowerCase()
+    )
+    const slogan = webPage ? webPage.slug : ''
+    if (!slogan) {
+      return assert(false)
+    }
+    this.getTitle().contains(slogan)
+  }
+
+  checkGasWatcherListingInETH() {
+    this.footer
+      .gasDetailsInfo()
+      .should('not.be.empty')
+      .and(($p) => {
+        expect($p).to.have.length(6)
+      })
+  }
+
+  checkGasWatcherListingInBNB() {
+    this.footer
+      .gasDetailsInfo()
+      .should('not.be.empty')
+      .and(($p) => {
+        expect($p).to.have.length(5)
+      })
   }
 }

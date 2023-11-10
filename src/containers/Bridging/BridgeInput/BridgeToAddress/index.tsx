@@ -1,10 +1,12 @@
 import React, { FC, memo, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
-  selectBridgeToAddressState,
+  selectBridgeDestinationAddress,
+  selectBridgeDestinationAddressAvailable,
   selectBridgeType,
   selectLayer,
 } from 'selectors'
+import { setBridgeDestinationAddress } from 'actions/bridgeAction'
 import { ReceiveContainer } from '../styles'
 import { Label } from '../../styles'
 import InputWithButton from 'components/global/inputWithButton'
@@ -14,23 +16,27 @@ import { LAYER } from 'util/constant'
 type Props = {}
 
 const BridgeToAddress: FC<Props> = ({}) => {
-  const bridgeToAddressEnable = useSelector(selectBridgeToAddressState())
+  const dispatch = useDispatch<any>()
+  const destinationAddress = useSelector(selectBridgeDestinationAddress())
+  const bridgeToAddressEnable = useSelector(
+    selectBridgeDestinationAddressAvailable()
+  )
+
   const layer = useSelector(selectLayer())
   const bridgeType = useSelector(selectBridgeType())
 
-  const [toAddress, setToAddress] = useState('')
   const [isAvailable, setIsAvailable] = useState(true)
 
   const onAddressChange = (e: any) => {
     const text = e.target.value
-    setToAddress(text)
+    dispatch(setBridgeDestinationAddress(text))
   }
 
   const onPaste = async () => {
     try {
       const text = await navigator.clipboard.readText()
       if (text) {
-        setToAddress(text)
+        dispatch(setBridgeDestinationAddress(text))
       }
     } catch (err) {
       // navigator clipboard api not supported in client browser
@@ -54,7 +60,7 @@ const BridgeToAddress: FC<Props> = ({}) => {
       <Label>Destination Address</Label>
       <InputWithButton
         type="string"
-        value={toAddress}
+        value={destinationAddress}
         placeholder="Enter destination address"
         buttonLabel="Paste"
         name="address"

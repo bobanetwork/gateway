@@ -1,12 +1,14 @@
 import Close from 'assets/images/close.svg'
-import { Typography, Svg, Heading } from 'components/global'
+import { Typography, Svg } from 'components/global'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const CloseIcon = styled(Svg).attrs({
   src: Close,
   fill: '#fff',
-})``
+})`
+  stroke: ${({ theme }) => theme.color};
+`
 
 export const StyleDrawer = styled.div`
   height: 100%;

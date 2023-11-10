@@ -22,12 +22,26 @@ describe('Page Layout', () => {
     })
   })
 
+  describe('Application Banner', () => {
+    it('Should see the earn deprecation banner and remove on close.', () => {
+      page.validateApplicationBanner()
+    })
+  })
+
   describe('Footer', () => {
     it('Navigation links', () => {
       page.checkFooterLinks()
     })
     it('Social links', () => {
       page.checkSocialMediaLinks()
+    })
+    it('Gas details should be visible', () => {
+      page.setNetworkTo('ETH')
+      page.checkGasWatcherListingInETH()
+    })
+    it('Gas details should be visible with no status verifier value in cas of BNB', () => {
+      page.setNetworkTo('BNB')
+      page.checkGasWatcherListingInBNB()
     })
     it('Copyright & Version', () => {
       page.checkCopyrightAndVersion()

@@ -60,7 +60,7 @@ export const avaxConfig = {
       rpcUrl: [ `https://avax.boba.network`, ],
       blockExplorer: `https://blockexplorer.avax.boba.network/`,
       transaction: `https://blockexplorer.avax.boba.network/tx/`,
-      blockExplorerUrl: `https://blockexplorer.avax.boba.network`,
+      blockExplorerUrl: `https://blockexplorer.avax.boba.network/`,
       symbol: "BOBA",
       tokenName: "Boba Token",
     },

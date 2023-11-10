@@ -19,6 +19,7 @@ import {
   selectConnectETH,
   selectConnectBOBA,
   selectConnect,
+  selectUserTriggeredChainSwitch,
 } from 'selectors'
 import networkService from 'services/networkService'
 import { DISABLE_WALLETCONNECT, LAYER } from 'util/constant'
@@ -35,6 +36,7 @@ export const useWalletConnect = () => {
   const connectETHRequest = useSelector(selectConnectETH())
   const connectBOBARequest = useSelector(selectConnectBOBA())
   const connectRequest = useSelector(selectConnect())
+  const userTriggeredChainSwitch = useSelector(selectUserTriggeredChainSwitch())
 
   /**
    * @triggerInit
@@ -65,10 +67,17 @@ export const useWalletConnect = () => {
       }
     }
 
-    if (!accountEnabled && baseEnabled) {
+    if ((!accountEnabled || userTriggeredChainSwitch) && baseEnabled) {
       initAccount()
     }
-  }, [dispatch, accountEnabled, network, networkType, baseEnabled])
+  }, [
+    dispatch,
+    accountEnabled,
+    network,
+    networkType,
+    baseEnabled,
+    userTriggeredChainSwitch,
+  ])
 
   // do connect layer.
   const doConnectToLayer = useCallback(
@@ -94,9 +103,7 @@ export const useWalletConnect = () => {
           } else {
             // bypass walletSelectorModal
             if (DISABLE_WALLETCONNECT) {
-              if (
-                await networkService.walletService.connectWallet('metamask')
-              ) {
+              if (await networkService.walletService.connect('metamask')) {
                 triggerInit()
               } else {
                 resetConnectChain()

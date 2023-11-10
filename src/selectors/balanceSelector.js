@@ -21,10 +21,6 @@ export function selectlayer2Balance (state) {
   return state.balance.layer2
 }
 
-export function selectGas (state) {
-  return state.balance.gas
-}
-
 export function selectAccountData (state) {
   return state.balance.accountData
 }

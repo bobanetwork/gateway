@@ -39,7 +39,7 @@ const useBridgeSetup = () => {
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   useEffect(() => {
-    if (bridgeType === BRIDGE_TYPE.TELEPORTATION) {
+    if (bridgeType === BRIDGE_TYPE.LIGHT) {
       // Teleportation
       // TODO: Load required info
     }

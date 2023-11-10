@@ -42,24 +42,28 @@ export const CHAIN_ID_LIST = {
     chain: NETWORK.ETHEREUM,
     layer: LAYER.L1,
     name: 'Goerli',
+    icon: 'ethereum',
   },
   2888: {
     networkType: NETWORK_TYPE.TESTNET,
     chain: NETWORK.ETHEREUM,
     layer: LAYER.L2,
     name: 'Boba Goerli',
+    icon: 'ethereum',
   },
   1: {
     networkType: NETWORK_TYPE.MAINNET,
     chain: NETWORK.ETHEREUM,
     layer: LAYER.L1,
     name: 'Ethereum',
+    icon: 'ethereum',
   },
   288: {
     networkType: NETWORK_TYPE.MAINNET,
     chain: NETWORK.ETHEREUM,
     layer: LAYER.L2,
     name: 'Boba Eth',
+    icon: 'ethereum',
   },
   // TODO: Remove Avax once down
   43113: {
@@ -67,48 +71,56 @@ export const CHAIN_ID_LIST = {
     chain: NETWORK.AVAX,
     layer: LAYER.L1,
     name: 'Fuji',
+    icon: 'avax',
   },
   4328: {
     networkType: NETWORK_TYPE.TESTNET,
     chain: NETWORK.AVAX,
     layer: LAYER.L2,
     name: 'Boba Fuji',
+    icon: 'avax',
   },
   43114: {
     networkType: NETWORK_TYPE.MAINNET,
     chain: NETWORK.AVAX,
     layer: LAYER.L1,
     name: 'Avax',
+    icon: 'avax',
   },
   43288: {
     networkType: NETWORK_TYPE.MAINNET,
     chain: NETWORK.AVAX,
     layer: LAYER.L2,
     name: 'Boba Avax',
+    icon: 'avax',
   },
   97: {
     networkType: NETWORK_TYPE.TESTNET,
     chain: NETWORK.BNB,
     layer: LAYER.L1,
     name: 'Bnb Testnet',
+    icon: 'bnb',
   },
   9728: {
     networkType: NETWORK_TYPE.TESTNET,
     chain: NETWORK.BNB,
     layer: LAYER.L2,
     name: 'Boba Bnb Testnet',
+    icon: 'bnb',
   },
   56: {
     networkType: NETWORK_TYPE.MAINNET,
     chain: NETWORK.BNB,
     layer: LAYER.L1,
     name: 'Bnb',
+    icon: 'bnb',
   },
   56288: {
     networkType: NETWORK_TYPE.MAINNET,
     chain: NETWORK.BNB,
     layer: LAYER.L2,
     name: 'Boba Bnb',
+    icon: 'bnb',
   },
 }
 
@@ -200,23 +212,8 @@ export const AllNetworkConfigs = {
   [NETWORK.AVAX]: avaxConfig,
 }
 
-export const rpcUrls = Object.values(AllNetworkConfigs).reduce(
-  (networkConfigs, networkConfig) => {
-    networkConfigs[networkConfig.Mainnet.L1.chainId] =
-      networkConfig.Mainnet.L1.rpcUrl[0]
-    networkConfigs[networkConfig.Mainnet.L2.chainId] =
-      networkConfig.Mainnet.L2.rpcUrl
-    networkConfigs[networkConfig.Testnet.L1.chainId] =
-      networkConfig.Testnet.L1.rpcUrl[0]
-    networkConfigs[networkConfig.Testnet.L2.chainId] =
-      networkConfig.Testnet.L2.rpcUrl
-    return networkConfigs
-  },
-  {}
-)
-
 export const getNetworkDetail = ({ network, networkType }) => {
-  return AllNetworkConfigs[network][networkType]
+  return AllNetworkConfigs?.[network]?.[networkType]
 }
 
 export const getRpcUrlByChainId = (chainId): string => {
@@ -238,7 +235,7 @@ export const getRpcUrl = ({ network, networkType, layer }): string => {
 }
 
 export const getBlockExplorerUrl = ({ network, networkType, layer }) => {
-  return AllNetworkConfigs[network][networkType][layer]?.blockExplorerUrl
+  return AllNetworkConfigs?.[network]?.[networkType]?.[layer]?.blockExplorerUrl
 }
 
 export const pingRpcUrl = async (rpcUrl) => {
