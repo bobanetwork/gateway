@@ -262,6 +262,7 @@ export default class Page extends Base {
 
     this.store.verifyReduxStoreSetup('accountEnabled', false)
     this.store.verifyReduxStoreSetup('baseEnabled', false)
+    this.store.verifyReduxStoreSetup('baseEnabled', true)
 
     this.getModal()
       .find(
