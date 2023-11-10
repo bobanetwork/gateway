@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BridgeToAddress Snapshot should match in case of L1 & Classic Bridge  1`] = `
+<DocumentFragment>
+  <div
+    class="sc-feUZmu cmXDyP"
+  >
+    <p
+      class="sc-dAlyuH jxulBe sc-eBMEME iCdTIX"
+    >
+      Destination Address
+    </p>
+    <div
+      class="sc-dCFHLb ivHJha"
+    >
+      <input
+        class="sc-fhzFiK bZjraN"
+        id="address"
+        name="address"
+        placeholder="Enter destination address"
+        type="string"
+        value=""
+      />
+      <button
+        class="sc-jxOSlx igrhoj"
+      >
+        Paste
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`BridgeToAddress Snapshot should match in case of L2 & Fast Bridge  1`] = `<DocumentFragment />`;
