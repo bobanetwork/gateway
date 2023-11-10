@@ -7,13 +7,21 @@ exports[`Testing BridgeTypeSelector Test BridgeTypeSelector renders 1`] = `
   >
     <div
       class="sc-gEvEer bGdtCD"
+      data-testid="classic-btn"
     >
       Classic
     </div>
     <div
       class="sc-gEvEer bGdtCD"
+      data-testid="fast-btn"
     >
       Fast
+    </div>
+    <div
+      class="sc-gEvEer bGdtCD"
+      data-testid="third-party-btn"
+    >
+      Third Party
     </div>
   </div>
 </DocumentFragment>

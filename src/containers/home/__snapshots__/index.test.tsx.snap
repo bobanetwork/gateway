@@ -185,11 +185,6 @@ exports[`Home  should match snapshot 1`] = `
           >
             ©2023 Enya Labs
           </p>
-          <p
-            class="sc-gEvEer hiDcmV sc-jGKxIK fZWFnP"
-          >
-            v0.9.1
-          </p>
         </div>
         <div
           class="sc-hZDyAQ blPXLG"

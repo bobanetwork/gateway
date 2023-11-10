@@ -4,10 +4,11 @@ import CustomThemeProvider from 'themes'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import BridgeTypeSelector from '../BridgeTypeSelector'
+import thunk from 'redux-thunk'
 
-const mockStore = configureStore()
+const mockStore = configureStore([thunk])
 
-const renderBrdigeTypeSelector = ({ options = null }: any) => {
+const renderBridgeTypeSelector = ({ options = null }: any) => {
   return render(
     <Provider
       store={mockStore({
@@ -45,7 +46,7 @@ describe('Testing BridgeTypeSelector', () => {
   })
 
   test('Test BridgeTypeSelector renders', () => {
-    const { asFragment } = renderBrdigeTypeSelector({})
+    const { asFragment } = renderBridgeTypeSelector({})
     expect(asFragment()).toMatchSnapshot()
   })
 })
