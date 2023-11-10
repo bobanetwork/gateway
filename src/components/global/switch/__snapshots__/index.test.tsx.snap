@@ -4,6 +4,7 @@ exports[`SwitchButton SwitchButton Default State 1`] = `
 <DocumentFragment>
   <label
     class="sc-eqUAAy kFMUIf"
+    data-testid="switch-label"
   >
     <input
       class="sc-gEvEer ezKwCG"
@@ -20,6 +21,7 @@ exports[`SwitchButton SwitchButton is Active 1`] = `
 <DocumentFragment>
   <label
     class="sc-eqUAAy kFMUIf"
+    data-testid="switch-label"
   >
     <input
       checked=""
@@ -37,6 +39,7 @@ exports[`SwitchButton SwitchButton is Disable & Active 1`] = `
 <DocumentFragment>
   <label
     class="sc-eqUAAy kFMUIf"
+    data-testid="switch-label"
   >
     <input
       checked=""
@@ -55,6 +58,7 @@ exports[`SwitchButton SwitchButton is Disable 1`] = `
 <DocumentFragment>
   <label
     class="sc-eqUAAy kFMUIf"
+    data-testid="switch-label"
   >
     <input
       class="sc-gEvEer ezKwCG"

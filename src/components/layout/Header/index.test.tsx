@@ -25,10 +25,10 @@ describe('Layout', () => {
       expect(screen.getByText('Connect Wallet')).toBeVisible()
     })
 
-    test('should have nav item of length 6 with first element to bridge page.', () => {
+    test('should have nav item of length 5 with first element to bridge page.', () => {
       renderHeader()
       const links = screen.getAllByRole('link')
-      expect(links.length).toBe(6)
+      expect(links.length).toBe(5)
       expect(links[0]).toHaveAttribute('href', '/bridge')
     })
   })

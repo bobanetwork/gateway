@@ -1,4 +1,4 @@
-import { MetamaskNetwork } from './types'
+import { MetamaskNetwork, NetworkTestInfo } from './types'
 
 export const Binance: MetamaskNetwork = {
   networkName: 'Binance Mainnet',
@@ -35,5 +35,81 @@ export const AvalancheTestnet: MetamaskNetwork = {
   blockExplorer: 'https://testnet.snowtrace.io/',
   isTestnet: true,
 }
+export const EthereumInfo: NetworkTestInfo = {
+  networkName: 'Ethereum',
+  networkAbbreviation: 'ETHEREUM',
+  isTestnet: false,
+}
+export const BinanceInfo: NetworkTestInfo = {
+  networkName: 'Binance Smart Chain',
+  networkAbbreviation: 'BNB',
+  isTestnet: false,
+}
 
-// Update the configs for boba networks TESTNET / MAINNET
+export const AvalancheInfo: NetworkTestInfo = {
+  networkName: 'Avalanche Mainnet C-Chain',
+  networkAbbreviation: 'AVAX',
+  isTestnet: false,
+}
+
+export const MainnetL1Networks: NetworkTestInfo[] = [
+  EthereumInfo,
+  BinanceInfo,
+  AvalancheInfo,
+]
+
+export const MainnetL2Networks: NetworkTestInfo[] = [
+  {
+    networkName: 'Boba ETH',
+    networkAbbreviation: 'Boba Eth',
+    isTestnet: false,
+  },
+  {
+    networkName: 'Boba BNB',
+    networkAbbreviation: 'Boba BNB',
+    isTestnet: false,
+  },
+  {
+    networkName: 'Boba Avalanche',
+    networkAbbreviation: 'Boba Avalanche',
+    isTestnet: false,
+  },
+]
+
+export const EthereumGoerliInfo: NetworkTestInfo = {
+  networkName: 'Ethereum (Goerli)',
+  networkAbbreviation: 'ETHEREUM',
+  isTestnet: true,
+}
+
+export const TestnetL1Networks: NetworkTestInfo[] = [
+  EthereumGoerliInfo,
+  {
+    networkName: 'BNB Testnet',
+    networkAbbreviation: 'BNB',
+    isTestnet: true,
+  },
+  {
+    networkName: 'Fuji Testnet',
+    networkAbbreviation: 'AVAX',
+    isTestnet: true,
+  },
+]
+
+export const TestnetL2Networks: NetworkTestInfo[] = [
+  {
+    networkName: 'Boba (Goerli)',
+    networkAbbreviation: 'Boba (Goerli)',
+    isTestnet: true,
+  },
+  {
+    networkName: 'Boba BNB Testnet',
+    networkAbbreviation: 'Boba BNB',
+    isTestnet: true,
+  },
+  {
+    networkName: 'Boba Fuji Testnet',
+    networkAbbreviation: 'Boba Fuji',
+    isTestnet: true,
+  },
+]

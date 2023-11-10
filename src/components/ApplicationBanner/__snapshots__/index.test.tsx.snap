@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-fPXMVe bmgsTt"
+  >
+    <div
+      class="sc-gFqAkR hXrRXV warning"
+      data-testid="banner-item"
+    >
+      <div
+        class="sc-ikkxIA"
+      >
+        <p>
+          Message update 1 
+          <a
+            href="/update"
+          >
+            CLICK HERE
+          </a>
+        </p>
+      </div>
+      <div
+        class="sc-dAbbOL bqUnLe"
+      >
+        <div
+          class="sc-feUZmu kDoDsn"
+          data-testid="close-icon-message-1"
+        >
+          <div
+            class="sc-hzhJZQ cpjsed"
+          >
+            <div>
+              <div
+                data-src="close.svg"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-gFqAkR hXrRXV warning"
+      data-testid="banner-item"
+    >
+      <div
+        class="sc-ikkxIA"
+      >
+        <p
+          class="sc-dAlyuH eGlSty sc-fUnMCh iwiHIW"
+        >
+          message two goes here
+        </p>
+      </div>
+      <div
+        class="sc-dAbbOL bqUnLe"
+      >
+        <div
+          class="sc-feUZmu kDoDsn"
+          data-testid="close-icon-message-2"
+        >
+          <div
+            class="sc-hzhJZQ cpjsed"
+          >
+            <div>
+              <div
+                data-src="close.svg"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ApplicationBanner should match snapshot when empty alerts 1`] = `<DocumentFragment />`;

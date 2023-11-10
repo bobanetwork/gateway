@@ -16,7 +16,7 @@ limitations under the License. */
 import { useEffect, useRef } from 'react'
 import { EnvType } from 'util/constant'
 
-const userInterval = (callback: () => void, delay?: EnvType) => {
+const useInterval = (callback: () => void, delay?: EnvType) => {
   const savedCallback = useRef<() => void | null>(callback)
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const userInterval = (callback: () => void, delay?: EnvType) => {
   }, [delay])
 }
 
-export default userInterval
+export default useInterval

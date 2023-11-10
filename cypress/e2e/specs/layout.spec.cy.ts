@@ -22,6 +22,12 @@ describe('Page Layout', () => {
     })
   })
 
+  describe('Application Banner', () => {
+    it('Should see the earn deprecation banner and remove on close.', () => {
+      page.validateApplicationBanner()
+    })
+  })
+
   describe('Footer', () => {
     it('Navigation links', () => {
       page.checkFooterLinks()
