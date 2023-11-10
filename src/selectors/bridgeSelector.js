@@ -21,7 +21,7 @@ export function selectBridgeTokens() {
 
 export function selectTokenToBridge() {
   return function (state) {
-    return state.bridge.tokens[ 0 ]
+    return state.bridge.tokens?.[ 0 ]
   }
 }
 
