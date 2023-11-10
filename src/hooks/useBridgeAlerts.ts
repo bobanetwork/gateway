@@ -461,10 +461,23 @@ const useBridgeAlerts = () => {
     }
   }, [activeNetwork, layer])
 
-  // on changing bridgeType only cleanup alerts
+  // on changing bridgeType and active network cleanup alerts
   useEffect(() => {
     dispatch(purgeBridgeAlert())
-  }, [dispatch, bridgeType])
+
+    if (
+      activeNetwork !== NETWORK.ETHEREUM &&
+      bridgeType === BRIDGE_TYPE.THIRD_PARTY
+    ) {
+      dispatch(
+        setBridgeAlert({
+          meta: 'THIRD_PARTY_BRIDGE_ALERT',
+          type: 'info',
+          text: `There are no third party bridges available for ${activeNetwork} at the moment. To view third party bridges for other networks, select another network in the Classic Tab.`,
+        })
+      )
+    }
+  }, [dispatch, bridgeType, activeNetwork])
 }
 
 export default useBridgeAlerts

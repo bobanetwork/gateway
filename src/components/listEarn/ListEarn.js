@@ -239,11 +239,10 @@ class ListEarn extends React.Component {
             <S.DropdownContent>
               <S.DropdownWrapper>
                 <Button
-                  disabled={disabled}
-                  onClick={() => {
-                    !disabled && this.handleStakeToken()
-                  }}
+                  disabled={true}
                   label="Stake"
+                  onClick={() => {}}
+                  tooltipTitle="In preparation for the release of Boba Light Bridge, the Earn program is being sunset. Stake has been disabled. Please Unstake your funds."
                 />
                 <Button
                   disabled={

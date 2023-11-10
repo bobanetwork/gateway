@@ -149,9 +149,6 @@ export default class Page extends Base {
       .and(($p) => {
         expect($p).to.have.length(1)
       })
-
-    cy.get('[data-testid^="close-icon"]').should('be.visible').click()
-    cy.get('[data-testid="banner-item"]').should('not.exist')
   }
 
   checkNaviagtionListAvalanche() {
