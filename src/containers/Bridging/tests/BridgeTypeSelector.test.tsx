@@ -5,31 +5,13 @@ import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import BridgeTypeSelector from '../BridgeTypeSelector'
 import thunk from 'redux-thunk'
+import { mockedInitialState } from '../../../util/tests'
 
 const mockStore = configureStore([thunk])
 
 const renderBridgeTypeSelector = ({ options = null }: any) => {
   return render(
-    <Provider
-      store={mockStore({
-        ui: {
-          theme: 'dark',
-        },
-        network: {
-          networkType: 'Mainnet',
-        },
-        bridge: {
-          bridgeType: 'LIGHT',
-        },
-        setup: {
-          accountEnabled: false,
-          netLayer: true,
-          baseEnabled: false,
-          walletAddress: '0x1e2855A0EA33d5f293E5Ba2018874FAB9a7F05B3',
-        },
-        ...options,
-      })}
-    >
+    <Provider store={mockStore(mockedInitialState)}>
       <CustomThemeProvider>
         <BridgeTypeSelector></BridgeTypeSelector>
       </CustomThemeProvider>

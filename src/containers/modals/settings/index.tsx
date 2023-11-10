@@ -51,6 +51,25 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
     dispatch(setBridgeDestinationAddressAvailable(value))
   }
 
+  const SettingRow: React.FC<SettingRowTypes> = ({
+    title,
+    subTitle,
+    isActive,
+    onStateChange,
+  }) => {
+    return (
+      <SettingsItem>
+        <SettingsText>
+          <SettingTitle>{title}</SettingTitle>
+          <SettingSubTitle>{subTitle}</SettingSubTitle>
+        </SettingsText>
+        <SettingsAction>
+          <SwitchButton isActive={isActive} onStateChange={onStateChange} />
+        </SettingsAction>
+      </SettingsItem>
+    )
+  }
+
   return (
     <Modal
       open={open}
@@ -61,36 +80,20 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
       transparent={false}
     >
       <SettingsWrapper>
-        <SettingsItem>
-          <SettingsText>
-            <SettingTitle>Show Testnets</SettingTitle>
-            <SettingSubTitle>
-              Testnets will be available to bridge
-            </SettingSubTitle>
-          </SettingsText>
-          <SettingsAction>
-            <SwitchButton
-              isActive={activeNetworkType === NETWORK_TYPE.TESTNET}
-              onStateChange={(v: boolean) => onChangeNetworkType(v)}
-            />
-          </SettingsAction>
-        </SettingsItem>
+        <SettingRow
+          title="Show Testnets"
+          subTitle="Testnets will be available to bridge"
+          isActive={activeNetworkType === NETWORK_TYPE.TESTNET}
+          onStateChange={(v) => onChangeNetworkType(v)}
+        />
         {/* Custom destination address seems to be only available for classic bridge */}
         {bridgeType === BRIDGE_TYPE.CLASSIC ? (
-          <SettingsItem>
-            <SettingsText>
-              <SettingTitle>Add Destination Address</SettingTitle>
-              <SettingSubTitle>
-                Allows you to transfer to a different address
-              </SettingSubTitle>
-            </SettingsText>
-            <SettingsAction>
-              <SwitchButton
-                isActive={bridgeToAddressEnable}
-                onStateChange={onChangeDestinationAddressAvailable}
-              />
-            </SettingsAction>
-          </SettingsItem>
+          <SettingRow
+            title="Add Destination Address"
+            subTitle="Allows you to transfer to a different address"
+            isActive={bridgeToAddressEnable}
+            onStateChange={onChangeDestinationAddressAvailable}
+          />
         ) : null}
       </SettingsWrapper>
     </Modal>
