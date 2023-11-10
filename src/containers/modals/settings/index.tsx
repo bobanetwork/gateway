@@ -88,7 +88,6 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
             </SettingsAction>
           </SettingsItem>
         ) : null}
-        <SettingsItem></SettingsItem>
       </SettingsWrapper>
     </Modal>
   )

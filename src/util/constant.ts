@@ -49,7 +49,7 @@ export const ROUTES_PATH: RoutesPathType = {
   HELP: '/help',
   BOBASCOPE: '/bobascope',
   VOTE_DAO: '/votedao',
-  DAO: '/DAO',
+  DAO: '/dao',
   DEV_TOOLS: '/devtools',
 }
 
