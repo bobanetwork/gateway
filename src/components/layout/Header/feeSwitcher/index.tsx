@@ -13,8 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { FC } from 'react'
-import { useSelector } from 'react-redux'
+import React, { FC, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import {
   selectAccountEnabled,
@@ -39,7 +39,7 @@ import {
 } from './styles'
 
 import BobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
-import Menu from 'components/global/menu'
+import { fetchBalances } from 'actions/networkAction'
 
 const OptionBoba = () => ({
   value: 'BOBA',
@@ -54,12 +54,17 @@ const OptionNativeToken = () => ({
 })
 
 const FeeSwitcher: FC = () => {
+  const dispatch = useDispatch<any>()
   const accountEnabled = useSelector(selectAccountEnabled())
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const networkName = useSelector(selectActiveNetworkName())
   const layer = useSelector(selectLayer())
 
   const { switchFeeUse } = useFeeSwitcher()
+
+  useEffect(() => {
+    dispatch(fetchBalances())
+  }, [dispatch])
 
   if (!accountEnabled && layer !== 'L2') {
     return (
