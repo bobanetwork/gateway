@@ -1,4 +1,9 @@
-import { LAYER } from '../../../../src/util/constant'
+import {
+  MainnetL1Networks,
+  MainnetL2Networks,
+  TestnetL1Networks,
+  TestnetL2Networks,
+} from '../../helpers/base/constants'
 import Bridge from '../../helpers/bridge'
 
 const bridge = new Bridge()
@@ -9,7 +14,7 @@ describe('Connect flow', () => {
     bridge.store.verifyReduxStoreSetup('baseEnabled', true)
   })
 
-  describe('- Metamask', () => {
+  describe('Metamask', () => {
     before(() => {
       bridge.changeMetamaskNetwork('ethereum')
     })
@@ -21,9 +26,22 @@ describe('Connect flow', () => {
       bridge.requestMetamaskConnect()
       bridge.connectMetamask()
     })
-    it('Should switch to Boba L2 and back', () => {
-      bridge.switchBridgeDirection(LAYER.L2, true)
-      bridge.switchBridgeDirection(LAYER.L1, false)
+    it('Should switch through Mainnet networks using Network Picker Modal', () => {
+      bridge.clickThroughNetworksInModals(
+        MainnetL1Networks,
+        MainnetL2Networks,
+        true
+      )
+    })
+    it('Switch to testnet', () => {
+      bridge.switchToTestnet()
+    })
+    it('Should switch through Testnet networks using Network Modal', () => {
+      bridge.clickThroughNetworksInModals(
+        TestnetL1Networks,
+        TestnetL2Networks,
+        true
+      )
     })
   })
 
