@@ -2,8 +2,6 @@ import {
   approveERC20,
   depositErc20,
   depositETHL2,
-  depositL1LP,
-  depositL2LP,
   depositWithTeleporter,
   exitBOBA,
 } from 'actions/networkAction'
@@ -83,30 +81,6 @@ export const useBridge = () => {
     return receipt
   }
 
-  const triggerFastDeposit = async (amountWei: any) => {
-    if (token.symbol !== networkService.L1NativeTokenSymbol) {
-      // ERC20 token fast bridging.
-      // step -1  approve token
-      // step -2  deposit to L1LP.
-      const allAddresses = networkService.getAllAddresses()
-      const approvalReciept = await dispatch(
-        approveERC20(
-          amountWei,
-          token.address,
-          (allAddresses as any)['L1LPAddress']
-        )
-      )
-
-      if (approvalReciept === false) {
-        dispatch(
-          openError('Failed to approve amount or user rejected signature')
-        )
-        return
-      }
-    }
-    return dispatch(depositL1LP(token.address, amountWei))
-  }
-
   const triggerTeleportAsset = async (
     amountWei: BigNumberish,
     destChainId: BigNumberish
@@ -137,10 +111,6 @@ export const useBridge = () => {
     return dispatch(exitBOBA(token.address, amountWei))
   }
 
-  const triggerFastExit = async (amountWei: any) => {
-    return dispatch(depositL2LP(token.address, amountWei))
-  }
-
   const triggerSubmit = async () => {
     const amountWei = toWei_String(amountToBridge, token.decimals)
     let receipt
@@ -148,16 +118,12 @@ export const useBridge = () => {
     if (layer === LAYER.L1) {
       if (bridgeType === BRIDGE_TYPE.CLASSIC) {
         receipt = await triggerDeposit(amountWei)
-      } else if (bridgeType === BRIDGE_TYPE.FAST) {
-        receipt = await triggerFastDeposit(amountWei)
       } else if (bridgeType === BRIDGE_TYPE.LIGHT) {
         receipt = await triggerTeleportAsset(amountWei, destChainIdBridge!)
       }
     } else {
       if (bridgeType === BRIDGE_TYPE.CLASSIC) {
         receipt = await triggerExit(amountWei)
-      } else if (bridgeType === BRIDGE_TYPE.FAST) {
-        receipt = await triggerFastExit(amountWei)
       } else if (bridgeType === BRIDGE_TYPE.LIGHT) {
         receipt = await triggerTeleportAsset(amountWei, destChainIdBridge!)
       }

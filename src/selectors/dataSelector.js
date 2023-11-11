@@ -14,6 +14,3 @@ export function selectSevens (state) {
   return Object.values(state.data.sevens)
 }
 
-export function selectFastExits (state) {
-  return Object.values(state.data.fastExits)
-}

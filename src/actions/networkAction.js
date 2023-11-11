@@ -37,12 +37,6 @@ export function fetchSevens() {
   )
 }
 
-export function fetchFastExits() {
-  return createAction('FASTEXITS/GETALL', () =>
-    transactionService.getFastExits()
-  )
-}
-
 export function exitBOBA(token, value) {
   return createAction('EXIT/CREATE', () =>
     networkService.exitBOBA(token, value)
@@ -68,12 +62,6 @@ export function depositWithTeleporter(layer, currency, value, destChainId) {
   )
 }
 
-export function depositL1LPBatch(payload) {
-  return createAction('DEPOSIT/CREATE', () =>
-    networkService.depositL1LPBatch(payload)
-  )
-}
-
 //SWAP RELATED - Depositing into the L2LP triggers the swap-exit
 export function depositL2LP(token, value) {
   return createAction('EXIT/CREATE', () =>
@@ -81,13 +69,6 @@ export function depositL2LP(token, value) {
   )
 }
 
-//SWAP RELATED - Depositing into the L2LP triggers the swap-exit - variant of depositL2LP
-//that handles Exit All
-export function fastExitAll(token) {
-  return createAction('EXIT/CREATE', () =>
-    networkService.fastExitAll(token)
-  )
-}
 
 //CLASSIC DEPOSIT ETH
 export function depositETHL2(payload) {
@@ -102,11 +83,6 @@ export function depositErc20(payload) {
   return createAction('DEPOSIT/CREATE', () =>
     networkService.depositErc20(payload)
   )
-}
-
-//DEPOSIT ERC20 to Alt L1 bridge
-export function depositErc20ToL1(payload) {
-  return createAction('DEPOSIT_ALTL1/CREATE', () => networkService.depositErc20ToL1(payload))
 }
 
 //EARN
@@ -149,13 +125,6 @@ export function approveERC20(
   )
 }
 
-export function approveFastDepositBatch(payload) {
-  return createAction('APPROVE/CREATE', () =>
-    networkService.approveFastDepositBatch(
-      payload
-    )
-  )
-}
 
 export function approveERC20_L2LP(
   value,
@@ -190,48 +159,6 @@ export function transfer(recipient, value, currency) {
 export function transferEstimate(value_Wei_String, currency) {
   return createAction('TRANSFER_ESTIMATE/CREATE', () =>
     networkService.transferEstimate(value_Wei_String, currency)
-  )
-}
-
-export function transferNFT(recipient, nft) {
-  return createAction('TRANSFER_NFT/CREATE', () =>
-    networkService.transferNFT(recipient, nft)
-  )
-}
-
-export function settle_v0() {
-  return createAction('SETTLE_v0/CREATE', () =>
-    networkService.settle_v0()
-  )
-}
-
-export function settle_v1() {
-  return createAction('SETTLE_v1/CREATE', () =>
-    networkService.settle_v1()
-  )
-}
-
-export function settle_v2() {
-  return createAction('SETTLE_v2/CREATE', () =>
-    networkService.settle_v2()
-  )
-}
-
-export function settle_v2OLO() {
-  return createAction('SETTLE_v2OLO/CREATE', () =>
-    networkService.settle_v2OLO()
-  )
-}
-
-export function settle_v3() {
-  return createAction('SETTLE_v3/CREATE', () =>
-    networkService.settle_v3()
-  )
-}
-
-export function settle_v3OLO() {
-  return createAction('SETTLE_v3OLO/CREATE', () =>
-    networkService.settle_v3OLO()
   )
 }
 

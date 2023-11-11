@@ -35,8 +35,7 @@ export const bnbConfig = {
       symbol: "BOBA",
       tokenName: "Boba Token",
     },
-    gasEstimateAccount: `0xdb5a187FED81c735ddB1F6E47F28f2A5F74639b2`,
-    twitterFaucetPromotionText: `https://twitter.com/intent/tweet?text=I%27m%20developing%20on%20Boba%20BNB%20Testnet%20for%20BNB%20`
+    gasEstimateAccount: `0xdb5a187FED81c735ddB1F6E47F28f2A5F74639b2`
   },
   Mainnet: {
     OMGX_WATCHER_URL: `https://api-watcher.bnb.boba.network/`,
@@ -71,7 +70,6 @@ export const bnbConfig = {
       symbol: "BOBA",
       tokenName: "Boba Token",
     },
-    gasEstimateAccount: `0xdb5a187FED81c735ddB1F6E47F28f2A5F74639b2`,
-    twitterFaucetPromotionText: `https://twitter.com/intent/tweet?text=I%27m%20developing%20on%20Boba%20BNB%20Testnet%20for%20BNB%20`
+    gasEstimateAccount: `0xdb5a187FED81c735ddB1F6E47F28f2A5F74639b2`
   }
 }

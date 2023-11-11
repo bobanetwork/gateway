@@ -7,10 +7,6 @@ import {
   selectBridgeType,
   selectClassicExitCost,
   selectExitFee,
-  selectFastDepositCost,
-  selectFastExitCost,
-  selectL1FeeRateN,
-  selectL2FeeRateN,
   selectLayer,
 } from 'selectors'
 import { useSelector } from 'react-redux'
@@ -25,14 +21,10 @@ interface Props {}
 const Fee = (props: Props) => {
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())
-  const l2FeeRateN = useSelector(selectL2FeeRateN)
   const theme: any = useTheme()
-  const depositFee = useSelector(selectFastDepositCost)
 
   // required on L2 layer
-  const l1FeeRateN = useSelector(selectL1FeeRateN)
   const classicExitCost = useSelector(selectClassicExitCost)
-  const fastExitCost = useSelector(selectFastExitCost)
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
@@ -48,12 +40,6 @@ const Fee = (props: Props) => {
       } else {
         return '7 days'
       }
-    } else if (bridgeType === BRIDGE_TYPE.FAST) {
-      if (layer === LAYER.L1) {
-        return '1 ~ 5min.'
-      } else {
-        return '15min ~ 3hrs.'
-      }
     } else {
       // Teleportation, instant
       return '~1min.'
@@ -62,18 +48,10 @@ const Fee = (props: Props) => {
 
   useEffect(() => {
     if (layer === LAYER.L1) {
-      if (bridgeType === BRIDGE_TYPE.FAST) {
-        setGasFee(`${Number(depositFee)?.toFixed(4)}ETH`)
-      } else {
-        setGasFee(`0 ETH`)
-      }
+      setGasFee(`0 ETH`)
     } else {
       //TODO: add check for safecost to avoid issues. debug why gas estimation wrong
-      let cost = classicExitCost || 0
-      if (bridgeType === BRIDGE_TYPE.FAST) {
-        cost = fastExitCost || 0
-      }
-
+      const cost = classicExitCost || 0
       const safeCost = Number(cost) * 1.04 // 1.04 == safety margin on cost
       if (feeUseBoba) {
         setGasFee(`${Number(safeCost * feePriceRatio).toFixed(4)} BOBA`)
@@ -83,15 +61,7 @@ const Fee = (props: Props) => {
         )
       }
     }
-  }, [
-    layer,
-    bridgeType,
-    depositFee,
-    classicExitCost,
-    fastExitCost,
-    feeUseBoba,
-    feePriceRatio,
-  ])
+  }, [layer, bridgeType, classicExitCost, feeUseBoba, feePriceRatio])
 
   return (
     <BridgeInfoContainer>
@@ -109,15 +79,6 @@ const Fee = (props: Props) => {
           <Label>{exitFee} BOBA</Label>
         </InfoRow>
       ) : null}
-      <InfoRow>
-        <Label>Bridge Fee</Label>
-        <Label>
-          {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
-            ? l2FeeRateN
-            : l1FeeRateN) || 0}
-          %
-        </Label>
-      </InfoRow>
       <InfoRow>
         <Label
           color={`${

@@ -15,14 +15,10 @@ limitations under the License. */
 
 const initialState = {
   theme: 'dark',
-  transferModal: false,
   bridgeTypeSwitch: false,
   tokenPicker: false,
-  transferPending: false,
-  mergeModal: false,
   confirmationModal: false,
   wrongNetworkModal: false,
-  ledgerConnectModal: false,
   addNewTokenModal: false,
   EarnDepositModal: false,
   StakeDepositModal: false,
@@ -32,10 +28,8 @@ const initialState = {
   delegateDaoXModal: false,
   newProposalModal: false,
   walletSelectorModal: false,
-  CDMCompletionModal: false,
   switchNetworkModal: false,
   UnsupportedNetwork: false,
-
   ledger: false,
   alert: null,
   error: null,
@@ -52,7 +46,6 @@ function uiReducer (state = initialState, action) {
     case 'UI/MODAL/OPEN':
       return { ...state,
         [action.payload]: true,
-        fast: action.fast,
         token: action.token,
         tokenIndex: action.tokenIndex,
         lock: action.lock, // incase of lock record
