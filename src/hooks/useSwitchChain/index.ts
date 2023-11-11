@@ -15,14 +15,10 @@ import {
   selectLayer,
 } from 'selectors'
 import { Layer, LAYER } from 'util/constant'
-import { BRIDGE_TYPE } from '../containers/Bridging/BridgeTypeSelector'
-import { setNetwork } from '../actions/networkAction'
-import {
-  CHAIN_ID_LIST,
-  INetwork,
-  NetworkList,
-} from '../util/network/network.util'
-import { setTeleportationDestChainId } from '../actions/bridgeAction'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { setNetwork } from 'actions/networkAction'
+import { CHAIN_ID_LIST, INetwork, NetworkList } from 'util/network/network.util'
+import { setTeleportationDestChainId } from 'actions/bridgeAction'
 
 const useSwitchChain = () => {
   const dispatch = useDispatch<any>()
