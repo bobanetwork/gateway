@@ -195,7 +195,7 @@ export default class Bridge extends Page {
       this.withinPage().contains(l2Networks[i].networkName).should('exist')
 
       this.openNetworkModal(l1Networks[i].networkName)
-      const nextNetwork = l1Networks[(i + 1) % 3]
+      const nextNetwork = l1Networks[(i + 1) % 2]
       this.selectNetworkFromModal(nextNetwork.networkName)
       if (accountConnected) {
         this.handleNetworkSwitchModals(
