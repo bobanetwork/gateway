@@ -90,7 +90,7 @@ describe('useAmountToReceive', () => {
     expect(result.current.amount).toBe('0.980 ETH')
   })
 
-  test('Should calculate the amount to receive correctly for L1 MultiBridge Bridge', async () => {
+  test('Should calculate the amount to receive correctly for L1 Light Bridge', async () => {
     const initialState = {
       ...mockedInitialState,
       balance: {
@@ -105,7 +105,7 @@ describe('useAmountToReceive', () => {
       bridge: {
         ...mockedInitialState.bridge,
         amountToBridge: 1,
-        bridgeType: BRIDGE_TYPE.MULTI_BRIDGE,
+        bridgeType: BRIDGE_TYPE.LIGHT,
       },
     }
     const store = mockStore(initialState)
@@ -180,7 +180,7 @@ describe('useAmountToReceive', () => {
     expect(result.current.amount).toBe('0.990 ETH')
   })
 
-  test('Should calculate the amount to receive correctly for L2 MultiBridge Bridge', async () => {
+  test('Should calculate the amount to receive correctly for L2 LIGHT Bridge', async () => {
     const initialState = {
       ...mockedInitialState,
       balance: {
@@ -195,7 +195,7 @@ describe('useAmountToReceive', () => {
       bridge: {
         ...mockedInitialState.bridge,
         amountToBridge: 1,
-        bridgeType: BRIDGE_TYPE.MULTI_BRIDGE,
+        bridgeType: BRIDGE_TYPE.LIGHT,
       },
     }
     const store = mockStore(initialState)
