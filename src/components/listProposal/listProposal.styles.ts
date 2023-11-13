@@ -1,13 +1,12 @@
-import  styled, {css}  from 'styled-components'
+import styled, { css } from 'styled-components'
 import { mobile } from 'themes/screens'
 
 export const Wrapper = styled.div`
-  border: 1px solid ${(props)=> props.theme.colors.box.border};
+  border: 1px solid ${(props) => props.theme.colors.box.border};
   border-radius: 12px;
-  background: ${(props)=> props.theme.colors.box.background};
+  background: ${(props) => props.theme.colors.box.background};
 
   padding: 20px 10px;
-
 `
 
 export const GridContainer = styled.div`
@@ -41,19 +40,18 @@ export const DropdownWrapper = styled.div`
   width: 100%;
   padding: 6px;
   margin-top: 10px;
-  background-color: ${props => props.theme.palette.background.secondary};
+  background-color: ${(props) => props.theme.palette.background.secondary};
   border-radius: 4px;
   text-align: center;
-`;
+`
 
 export const DropdownContent = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
   ${mobile(css`
-    padding:15px;
+    padding: 15px;
   `)}
-
 `
 
 export const ItemHeaderContainer = styled.div`

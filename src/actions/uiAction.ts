@@ -26,7 +26,7 @@ export const openModal =
     proposalId?,
     selectionLayer?,
     destNetworkSelection?
-  ) =>
+  ): any =>
   (dispatch) =>
     dispatch({
       type: 'UI/MODAL/OPEN',
@@ -40,17 +40,23 @@ export const openModal =
       destNetworkSelection,
     })
 
-export const closeModal = (modal) => (dispatch) =>
-  dispatch({ type: 'UI/MODAL/CLOSE', payload: modal })
+export const closeModal =
+  (modal): any =>
+  (dispatch) =>
+    dispatch({ type: 'UI/MODAL/CLOSE', payload: modal })
 
-export const openAlert = (message) => (dispatch) =>
-  dispatch({ type: 'UI/ALERT/UPDATE', payload: message })
+export const openAlert =
+  (message): any =>
+  (dispatch) =>
+    dispatch({ type: 'UI/ALERT/UPDATE', payload: message })
 
-export const closeAlert = () => (dispatch) =>
+export const closeAlert = (): any => (dispatch) =>
   dispatch({ type: 'UI/ALERT/UPDATE', payload: null })
 
-export const openError = (message) => (dispatch) =>
-  dispatch({ type: 'UI/ERROR/UPDATE', payload: message })
+export const openError =
+  (message): any =>
+  (dispatch) =>
+    dispatch({ type: 'UI/ERROR/UPDATE', payload: message })
 
-export const closeError = () => (dispatch) =>
+export const closeError = (): any => (dispatch) =>
   dispatch({ type: 'UI/ERROR/UPDATE', payload: null })

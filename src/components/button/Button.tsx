@@ -18,18 +18,18 @@ import { CircularProgress, Button as ButtonMUI } from '@mui/material'
 import Tooltip from '../tooltip/Tooltip'
 
 interface IButtonProps {
-  children
-  style
-  onClick
-  color
-  variant
-  fullWidth
-  disabled: boolean
-  loading: boolean
-  sx
-  tooltip: string
-  size
-  triggerTime: Date
+  children?
+  style?
+  onClick?
+  color?
+  variant?
+  fullWidth?
+  disabled?: boolean
+  loading?: boolean
+  sx?
+  tooltip?: string
+  size?
+  triggerTime?: Date
 }
 
 const Button = ({
