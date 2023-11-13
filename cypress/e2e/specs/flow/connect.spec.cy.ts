@@ -11,7 +11,7 @@ const bridge = new Bridge()
 describe('Connect flow', () => {
   before(() => {
     bridge.visit()
-    bridge.store.verifyReduxStoreSetup('baseEnabled', true)
+    bridge.isReady()
   })
 
   describe('Metamask', () => {
