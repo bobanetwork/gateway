@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import { renderHook } from '@testing-library/react-hooks'
 import thunk from 'redux-thunk'
-import { useBridgeCleanup } from './'
+import { useBridgeCleanUp } from './'
 import { mockedInitialState } from 'util/tests'
 import { AnyAction } from 'redux'
 
@@ -16,7 +16,7 @@ describe('useBridgeCleanUp', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    renderHook(() => useBridgeCleanup(), {
+    renderHook(() => useBridgeCleanUp(), {
       wrapper,
     })
 
