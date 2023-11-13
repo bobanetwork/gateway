@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export default function metaTransactionAxiosInstance(networkConfig) {
+export default (networkConfig: any) => {
   const url = networkConfig['META_TRANSACTION']
 
-  let axiosInstance = axios.create({
+  const axiosInstance = axios.create({
     baseURL: url,
   })
 
