@@ -13,16 +13,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import store from 'store';
-
-export async function updateSignatureStatus_exitLP ( sigStatus ) {
-  store.dispatch({type: 'EXIT/LP/SIGNED',payload: sigStatus})
-}
-
-export async function updateSignatureStatus_exitTRAD ( sigStatus ) {
-  store.dispatch({type: 'EXIT/TRAD/SIGNED',payload: sigStatus})
-}
-
-export async function updateSignatureStatus_depositLP ( sigStatus ) {
-  store.dispatch({type: 'DEPOSIT/LP/SIGNED',payload: sigStatus})
-}
+export const resetCDMCompletion = () => (dispatch) =>
+  dispatch({ type: 'CDM/COMPLETE/RESET' })

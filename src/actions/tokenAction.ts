@@ -30,9 +30,10 @@ EVERYTHING IS INDEXED BY L1 TOKEN ADDRESS
 const ETHL1 = '0x0000000000000000000000000000000000000000'
 const ETHL2 = '0x4200000000000000000000000000000000000006'
 
-export async function getToken ( tokenContractAddressL1 ) {
-
-  if( tokenContractAddressL1 === null) return
+export const getToken = async (tokenContractAddressL1: string) => {
+  if (tokenContractAddressL1 === null) {
+    return
+  }
 
   //this *might* be coming from a person, and or copy-paste from Etherscan
   //so need toLowerCase()
@@ -54,9 +55,10 @@ export async function getToken ( tokenContractAddressL1 ) {
 /*
 Get the token info from networkService.web3.eth.Contract
 */
-export async function addToken ( tokenContractAddressL1 ) {
-
-  if( tokenContractAddressL1 === null ) return
+export const addToken = async (tokenContractAddressL1: string) => {
+  if (tokenContractAddressL1 === null) {
+    return
+  }
 
   const state = store.getState()
 
@@ -68,93 +70,86 @@ export async function addToken ( tokenContractAddressL1 ) {
 
   //if we already have looked it up, no need to look up again.
   if (state.tokenList[_tokenContractAddressL1]) {
-    console.log("token already in list:",_tokenContractAddressL1)
-    return state.tokenList[_tokenContractAddressL1];
+    console.log('token already in list:', _tokenContractAddressL1)
+    return state.tokenList[_tokenContractAddressL1]
   }
 
   try {
-
-    let tA = networkService.tokenAddresses
+    const tA: any = networkService.tokenAddresses
     let tokenContract
-    let _tokenContractAddressL2 = null
+    let _tokenContractAddressL2: string
 
     /********* DO WE HAVE L2 DATA?? *************/
     // Let's go see
     // console.log("Addresses for lookup:", networkService.tokenAddresses)
 
-    if(_tokenContractAddressL1 === 'xboba') {
-      if(tA['xBOBA'].L2 !== null) _tokenContractAddressL2 = tA['xBOBA'].L2.toLowerCase()
+    if (_tokenContractAddressL1 === 'xboba') {
+      _tokenContractAddressL2 = tA['xBOBA']?.L2?.toLowerCase()
       tokenContract = new ethers.Contract(
         _tokenContractAddressL2,
         erc20abi,
-        networkService.L2Provider,
+        networkService.L2Provider!
       )
     } else if (_tokenContractAddressL1 === 'wagmiv0') {
-      if(tA['WAGMIv0'].L2 !== null) _tokenContractAddressL2 = tA['WAGMIv0'].L2.toLowerCase()
+      _tokenContractAddressL2 = tA['WAGMIv0']?.L2?.toLowerCase()
       tokenContract = new ethers.Contract(
         _tokenContractAddressL2,
         erc20abi,
-        networkService.L2Provider,
+        networkService.L2Provider!
       )
     } else if (_tokenContractAddressL1 === 'wagmiv1') {
-      if(tA['WAGMIv1'].L2 !== null) _tokenContractAddressL2 = tA['WAGMIv1'].L2.toLowerCase()
+      _tokenContractAddressL2 = tA['WAGMIv1']?.L2?.toLowerCase()
       tokenContract = new ethers.Contract(
         _tokenContractAddressL2,
         erc20abi,
-        networkService.L2Provider,
+        networkService.L2Provider!
       )
-    }
-    else if (_tokenContractAddressL1 === 'wagmiv2') {
-      if(tA['WAGMIv2'].L2 !== null) _tokenContractAddressL2 = tA['WAGMIv2'].L2.toLowerCase()
+    } else if (_tokenContractAddressL1 === 'wagmiv2') {
+      _tokenContractAddressL2 = tA['WAGMIv2']?.L2?.toLowerCase()
       tokenContract = new ethers.Contract(
         _tokenContractAddressL2,
         erc20abi,
-        networkService.L2Provider,
+        networkService.L2Provider!
       )
-    }
-    else if (_tokenContractAddressL1 === 'wagmiv2-oolong') {
-      if(tA['WAGMIv2-Oolong'].L2 !== null) _tokenContractAddressL2 = tA['WAGMIv2-Oolong'].L2.toLowerCase()
+    } else if (_tokenContractAddressL1 === 'wagmiv2-oolong') {
+      _tokenContractAddressL2 = tA['WAGMIv2-Oolong']?.L2?.toLowerCase()
       tokenContract = new ethers.Contract(
         _tokenContractAddressL2,
         erc20abi,
-        networkService.L2Provider,
+        networkService.L2Provider!
       )
-    }
-    else if (_tokenContractAddressL1 === 'wagmiv3') {
-      if(tA['WAGMIv3'].L2 !== null) _tokenContractAddressL2 = tA['WAGMIv3'].L2.toLowerCase()
+    } else if (_tokenContractAddressL1 === 'wagmiv3') {
+      _tokenContractAddressL2 = tA['WAGMIv3']?.L2?.toLowerCase()
       tokenContract = new ethers.Contract(
         _tokenContractAddressL2,
         erc20abi,
-        networkService.L2Provider,
+        networkService.L2Provider!
       )
-    }
-    else if (_tokenContractAddressL1 === 'wagmiv3-oolong') {
-      if(tA['WAGMIv3-Oolong'].L2 !== null) _tokenContractAddressL2 = tA['WAGMIv3-Oolong'].L2.toLowerCase()
+    } else if (_tokenContractAddressL1 === 'wagmiv3-oolong') {
+      _tokenContractAddressL2 = tA['WAGMIv3-Oolong']?.L2?.toLowerCase()
       tokenContract = new ethers.Contract(
         _tokenContractAddressL2,
         erc20abi,
-        networkService.L2Provider,
+        networkService.L2Provider!
       )
-    }
-    else if (_tokenContractAddressL1 === 'olo') {
-      if(tA['OLO'].L2 !== null) _tokenContractAddressL2 = tA['OLO'].L2.toLowerCase()
+    } else if (_tokenContractAddressL1 === 'olo') {
+      _tokenContractAddressL2 = tA['OLO']?.L2?.toLowerCase()
       tokenContract = new ethers.Contract(
         _tokenContractAddressL2,
         erc20abi,
-        networkService.L2Provider,
+        networkService.L2Provider!
       )
     } else {
       Object.keys(tA).forEach((token, i) => {
         //let's see if we know about this Token
-        if(_tokenContractAddressL1 === tA[token].L1.toLowerCase()) {
-          if( tA[token].L2 !== null)
-            _tokenContractAddressL2 = tA[token].L2.toLowerCase()
+        if (_tokenContractAddressL1 === tA[token].L1.toLowerCase()) {
+          _tokenContractAddressL2 = tA[token]?.L2?.toLowerCase()
         }
       })
       tokenContract = new ethers.Contract(
         _tokenContractAddressL1,
         erc20abi,
-        networkService.L1Provider, //Everything is defined by the L1 address - will deal with the L2 address later
+        networkService.L1Provider! //Everything is defined by the L1 address - will deal with the L2 address later
       )
     }
 
@@ -163,71 +158,84 @@ export async function addToken ( tokenContractAddressL1 ) {
     let _name
 
     if (ethers.utils.isAddress(_tokenContractAddressL1)) {
-      const tokenInfo = networkService.tokenInfo.L1[ethers.utils.getAddress(_tokenContractAddressL1)]
-      if (tokenInfo) {
-        _symbolL1 = tokenInfo.symbol
-        _decimals = tokenInfo.decimals
-        _name = tokenInfo.name
+      const tmpTokenInfo =
+        networkService.tokenInfo.L1[
+          ethers.utils.getAddress(_tokenContractAddressL1)
+        ]
+      if (tmpTokenInfo) {
+        _symbolL1 = tmpTokenInfo.symbol
+        _decimals = tmpTokenInfo.decimals
+        _name = tmpTokenInfo.name
       }
     }
 
     if (!_symbolL1 || !_decimals || !_name) {
-      [ _symbolL1, _decimals, _name ] = await Promise.all([
+      ;[_symbolL1, _decimals, _name] = await Promise.all([
         tokenContract.symbol(),
         tokenContract.decimals(),
-        tokenContract.name()
-      ]).catch(e => [ null, null, null ])
+        tokenContract.name(),
+      ]).catch((e) => [null, null, null])
     }
 
-    const decimals = _decimals ? Number(_decimals.toString()) : 'NOT ON ETHEREUM'
+    const decimals = _decimals
+      ? Number(_decimals.toString())
+      : 'NOT ON ETHEREUM'
     const symbolL1 = _symbolL1 || 'NOT ON ETHEREUM'
     const symbolL2 = _symbolL1 || 'NOT ON ETHEREUM'
     const name = _name || 'NOT ON ETHEREUM'
 
     //ETH is special as always
-    if(_tokenContractAddressL1 === ETHL1 ) {
+    if (_tokenContractAddressL1 === ETHL1) {
       _tokenContractAddressL2 = ETHL2
     }
 
     const tokenInfo = {
-      currency: (
-        _symbolL1 === 'xBOBA'   ||
+      currency:
+        _symbolL1 === 'xBOBA' ||
         _symbolL1 === 'WAGMIv0' ||
         _symbolL1 === 'WAGMIv1' ||
         _symbolL1 === 'WAGMIv2' ||
         _symbolL1 === 'WAGMIv2-Oolong' ||
         _symbolL1 === 'WAGMIv3' ||
         _symbolL1 === 'WAGMIv3-Oolong'
-        ) ? _tokenContractAddressL2 : _tokenContractAddressL1,
+          ? _tokenContractAddressL2!
+          : _tokenContractAddressL1,
       addressL1: _tokenContractAddressL1,
-      addressL2: _tokenContractAddressL2,
+      addressL2: _tokenContractAddressL2!,
       symbolL1,
       symbolL2,
       decimals,
       name,
-      redalert: _decimals ? false : true
+      redalert: !_decimals,
     }
 
     store.dispatch({
       type: 'TOKEN/GET/SUCCESS',
-      payload: tokenInfo
-    });
-
-    return tokenInfo
-
-  } catch (error) {
-
-    store.dispatch({
-      type: 'TOKEN/GET/FAILURE',
-      payload: {currency: _tokenContractAddressL1, L1address: _tokenContractAddressL1, L2address: '', symbol: 'Not found', error: 'Not found'},
+      payload: tokenInfo,
     })
 
-    return {currency: _tokenContractAddressL1, L1address: _tokenContractAddressL1, L2address: '', symbol: 'Not found', error: 'Not found'};
+    return tokenInfo
+  } catch (error) {
+    store.dispatch({
+      type: 'TOKEN/GET/FAILURE',
+      payload: {
+        currency: _tokenContractAddressL1,
+        L1address: _tokenContractAddressL1,
+        L2address: '',
+        symbol: 'Not found',
+        error: 'Not found',
+      },
+    })
+
+    return {
+      currency: _tokenContractAddressL1,
+      L1address: _tokenContractAddressL1,
+      L2address: '',
+      symbol: 'Not found',
+      error: 'Not found',
+    }
   }
 }
 
-export function restTokenList () {
-  return function (dispatch) {
-    return dispatch({ type: 'TOKEN/GET/RESET' });
-  }
-}
+export const restTokenList = () => (dispatch) =>
+  dispatch({ type: 'TOKEN/GET/RESET' })

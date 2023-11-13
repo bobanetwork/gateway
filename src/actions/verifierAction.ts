@@ -13,14 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-export function setCDMCompletion (payload) {
-  return function (dispatch) {
-    return dispatch({ type: 'CDM/COMPLETE/SET', payload });
-  }
-}
+import verifierService from 'services/verifier.service'
+import { createAction } from './createAction'
 
-export function resetCDMCompletion () {
-  return function (dispatch) {
-    return dispatch({ type: 'CDM/COMPLETE/RESET' });
-  }
-}
+export const fetchVerifierStatus = () =>
+  createAction('VERIFIER/GET', () => verifierService.getVerifierStatus())
+
+export const resetVerifierStatus = () => (dispatch) =>
+  dispatch({ type: 'VERIFIER/RESET' })
