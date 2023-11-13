@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import BridgeTypeSelector from '../BridgeTypeSelector'
 import thunk from 'redux-thunk'
-import { mockedInitialState } from '../../../util/tests'
+import { mockedInitialState } from 'util/tests'
 
 const mockStore = configureStore([thunk])
 
