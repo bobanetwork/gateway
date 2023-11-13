@@ -43,6 +43,9 @@ describe('Connect flow', () => {
         true
       )
     })
+    it('Should switch to Mainnet', () => {
+      bridge.switchToMainnet()
+    })
   })
 
   describe('- WalletConnect', () => {

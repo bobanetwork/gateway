@@ -50,6 +50,7 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
       minHeight="180px"
       title=""
       transparent={false}
+      testId="bridge-in-progress"
     >
       <InprogressContainer>
         <ProgressLoader />
