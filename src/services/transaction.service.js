@@ -1,9 +1,9 @@
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import networkService from './networkService'
-import {AllNetworkConfigs,CHAIN_ID_LIST,NETWORK,NETWORK_TYPE,getRpcUrlByChainId} from 'util/network/network.util'
+import {AllNetworkConfigs,CHAIN_ID_LIST,getRpcUrlByChainId} from 'util/network/network.util'
 import {TRANSACTION_STATUS} from "../containers/history/types";
-import {teleportationGraphQLService} from "./graphql.service";
-import {BigNumber, ethers, providers} from "ethers";
+import {lightBridgeGraphQLService} from "./graphql.service";
+import {ethers, providers} from "ethers";
 import {isDevBuild} from "../util/constant";
 import {BobaChains} from "../util/chainConfig";
 
@@ -237,20 +237,20 @@ class TransactionService {
       if (contract) {
         let sentEvents = []
         try {
-          sentEvents = await teleportationGraphQLService.queryAssetReceivedEvent(networkService.account, sourceChainId)
+          sentEvents = await lightBridgeGraphQLService.queryAssetReceivedEvent(networkService.account, sourceChainId)
         } catch (err) {
           console.log(err?.message)
         }
 
         if (!sentEvents || !sentEvents?.length) return []
         return await Promise.all(sentEvents.map(async sentEvent => {
-          let receiveEvent = await teleportationGraphQLService.queryDisbursementSuccessEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(sentEvent.token, sentEvent.sourceChainId, sentEvent.toChainId), sentEvent.amount, sentEvent.depositId)
+          let receiveEvent = await lightBridgeGraphQLService.queryDisbursementSuccessEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(sentEvent.token, sentEvent.sourceChainId, sentEvent.toChainId), sentEvent.amount, sentEvent.depositId)
           if (!receiveEvent && sentEvent.token === ethers.constants.AddressZero) {
             // Native assets can fail and retried
-            receiveEvent = await teleportationGraphQLService.queryDisbursementFailedEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, sentEvent.amount, sentEvent.depositId)
+            receiveEvent = await lightBridgeGraphQLService.queryDisbursementFailedEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, sentEvent.amount, sentEvent.depositId)
             if (receiveEvent) {
               // check if successfully retried
-              receiveEvent = await teleportationGraphQLService.queryDisbursementRetrySuccessEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, sentEvent.amount, sentEvent.depositId)
+              receiveEvent = await lightBridgeGraphQLService.queryDisbursementRetrySuccessEvent(networkService.account, sentEvent.sourceChainId, sentEvent.toChainId, sentEvent.amount, sentEvent.depositId)
             }
             if (receiveEvent) {
               // do in both cases, receiveEvent may still be undefined
