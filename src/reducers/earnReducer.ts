@@ -16,7 +16,7 @@ limitations under the License. */
 import networkService from 'services/networkService'
 
 let allAddresses: any = {}
-if (networkService) {
+if (networkService?.addresses) {
   allAddresses = networkService.addresses
 }
 
