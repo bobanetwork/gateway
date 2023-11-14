@@ -9,6 +9,59 @@ import { NETWORK_TYPE } from 'util/network/network.util'
 import networkService from './networkService'
 import { BigNumberish } from 'ethers'
 
+//#region types
+export type LightBridgeDisbursementEvents =
+  | LightBridgeDisbursementSuccessEvent
+  | LightBridgeDisbursementFailedEvent
+  | LightBridgeDisbursementRetrySuccessEvent
+export type LightBridgeAssetReceivedEvent = {
+  __typename: 'TeleportationAssetReceivedEvent'
+  token: string
+  sourceChainId: string
+  toChainId: string
+  depositId: string
+  emitter: string
+  amount: BigNumberish
+  txHash: string
+  blockNumber: string
+  blockTimestamp: string
+}
+
+export type LightBridgeDisbursementSuccessEvent = {
+  __typename: 'TeleportationDisbursementSuccessEvent'
+  depositId: string
+  to: string
+  token: string
+  amount: BigNumberish
+  sourceChainId: string
+  txHash: string
+  blockNumber: string
+  blockTimestamp: string
+}
+
+export type LightBridgeDisbursementFailedEvent = {
+  __typename: 'TeleportationDisbursementFailedEvent'
+  depositId: string
+  to: string
+  amount: BigNumberish
+  sourceChainId: string
+  txHash: string
+  blockNumber: string
+  blockTimestamp: string
+}
+
+export type LightBridgeDisbursementRetrySuccessEvent = {
+  __typename: 'TeleportationDisbursementRetrySuccessEvent'
+  depositId: string
+  to: string
+  amount: BigNumberish
+  sourceChainId: string
+  txHash: string
+  blockNumber: string
+  blockTimestamp: string
+}
+//#endregion
+
 class GraphQLService {
   GRAPHQL_ENDPOINTS = {
     // Boba ETH
@@ -107,7 +160,7 @@ class TeleportationGraphQLService extends GraphQLService {
   async queryAssetReceivedEvent(
     walletAddress: string,
     sourceChainId: BigNumberish
-  ) {
+  ): Promise<LightBridgeAssetReceivedEvent[]> {
     const query =
       gql(`query Teleportation($wallet: Bytes!, $sourceChainId: String!) {
   teleportationAssetReceivedEvents(
@@ -141,7 +194,7 @@ class TeleportationGraphQLService extends GraphQLService {
     token: string,
     amount: BigNumberish,
     depositId: BigNumberish
-  ) {
+  ): Promise<LightBridgeDisbursementSuccessEvent | undefined> {
     if (!token) {
       return undefined
     }
