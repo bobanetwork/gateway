@@ -11,10 +11,10 @@ import Chains from './chain'
 import { BridgeContent, BridgeWrapper, BridginContainer } from './styles'
 
 import useBridgeAlerts from 'hooks/useBridgeAlerts'
-import useBridgeCleanup from 'hooks/useBridgeCleanup'
+import useBridgeCleanUp from 'hooks/useBridgeCleanUp'
 
 const Bridging = () => {
-  useBridgeCleanup()
+  useBridgeCleanUp()
   useBridgeAlerts()
 
   const currentBridgeType = useSelector(selectBridgeType())
