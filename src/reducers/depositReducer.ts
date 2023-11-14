@@ -13,50 +13,50 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { keyBy } from 'util/lodash';
+import { keyBy } from 'util/lodash'
 
 const initialState = {
   eth: {},
-  erc20: {}
-};
+  erc20: {},
+}
 
-function depositReducer (state = initialState, action) {
+const depositReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'DEPOSIT/CREATE/SUCCESS':
-      const isEth = action.payload.isEth;
+      const isEth = action.payload.isEth
       if (isEth) {
         return {
           ...state,
           eth: {
             ...state.eth,
-            [action.payload.transactionHash]: action.payload
-          }
-        };
+            [action.payload.transactionHash]: action.payload,
+          },
+        }
       }
       return {
         ...state,
         erc20: {
           ...state.erc20,
-          [action.payload.transactionHash]: action.payload
-        }
+          [action.payload.transactionHash]: action.payload,
+        },
       }
     case 'DEPOSIT/CHECKALL/SUCCESS':
     case 'DEPOSIT/GETALL/SUCCESS':
-      const { eth, erc20 } = action.payload;
+      const { eth, erc20 } = action.payload
       return {
         ...state,
         eth: {
           ...state.eth,
-          ...keyBy(eth, 'transactionHash')
+          ...keyBy(eth, 'transactionHash'),
         },
         erc20: {
           ...state.erc20,
-          ...keyBy(erc20, 'transactionHash')
-        }
-      };
+          ...keyBy(erc20, 'transactionHash'),
+        },
+      }
     default:
-      return state;
+      return state
   }
 }
 
-export default depositReducer;
+export default depositReducer

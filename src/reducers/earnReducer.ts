@@ -15,23 +15,19 @@ limitations under the License. */
 
 import networkService from 'services/networkService'
 
-let allAddresses = {};
+let allAddresses: any = {}
 if (networkService) {
-  allAddresses == networkService.addresses
+  allAddresses = networkService.addresses
 }
 
 const initialState = {
-  // totalL1FeeRate: 0,
-  // totalL2FeeRate: 0,
-  // userL1RewardFeeRate: 0,
-  // userL2RewardFeeRate: 0,
   poolInfo: {
     L1LP: {
       [allAddresses.L1_ETH_Address]: {},
     },
     L2LP: {
       [allAddresses.L2_ETH_Address]: {},
-    }
+    },
   },
   userInfo: {
     L1LP: {
@@ -39,29 +35,29 @@ const initialState = {
     },
     L2LP: {
       [allAddresses.L2_ETH_Address]: {},
-    }
+    },
   },
   stakeToken: {
-    symbol: "ETH",
+    symbol: 'ETH',
     currency: allAddresses.L1_ETH_Address,
     LPAddress: allAddresses.L1LPAddress,
-    L1orL2Pool: 'L1LP'
+    L1orL2Pool: 'L1LP',
   },
   withdrawToken: {
-    symbol: "ETH",
+    symbol: 'ETH',
     currency: allAddresses.L1_ETH_Address,
     LPAddress: allAddresses.L1LPAddress,
-    L1orL2Pool: 'L1LP'
+    L1orL2Pool: 'L1LP',
   },
   approvedAllowance: '',
   lpBalanceWeiString: '',
   allAddresses: {},
-};
+}
 
-function earnReducer (state = initialState, action) {
+const earnReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_EARNINFO':
-      return state;
+      return state
     case 'GET_EARNINFO_SUCCESS':
       return {
         ...state,
@@ -72,24 +68,8 @@ function earnReducer (state = initialState, action) {
         userInfo: {
           L1LP: action.payload.L1UserInfo,
           L2LP: action.payload.L2UserInfo,
-        }
+        },
       }
-    // case 'GET_L1FEE':
-    //   return state;
-    // case 'GET_L2FEE':
-    //   return state;
-    // case 'GET_L1FEE_SUCCESS':
-    //   return {
-    //     ...state,
-    //     userL1RewardFeeRate: action.payload.userRewardFeeRate,
-    //     totalL1FeeRate: action.payload.totalFeeRate,
-    //   }
-    // case 'GET_L2FEE_SUCCESS':
-    //   return {
-    //     ...state,
-    //     userL2RewardFeeRate: action.payload.userRewardFeeRate,
-    //     totalL2FeeRate: action.payload.totalFeeRate,
-    //   }
     case 'UPDATE_STAKE_TOKEN':
       return {
         ...state,
@@ -138,8 +118,8 @@ function earnReducer (state = initialState, action) {
         lpBalanceWeiString: '',
       }
     default:
-      return state;
+      return state
   }
 }
 
-export default earnReducer;
+export default earnReducer
