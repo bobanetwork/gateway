@@ -89,6 +89,11 @@ export const CHAIN_ID_LIST = {
   },
 }
 
+export interface INetworkClass {
+  network: typeof NETWORK
+  networkType: typeof NETWORK_TYPE
+}
+
 export interface INetwork {
   icon: string
   chain: string

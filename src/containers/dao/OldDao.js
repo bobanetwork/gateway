@@ -184,13 +184,13 @@ const OldDao = () => {
                 onClick={() => {
                   dispatch(openModal('delegateDaoModal'))
                 }}
-                disable={!accountEnabled}
+                disabled={!accountEnabled}
               label="Delegate Vote"
               />
             }
             {accountEnabled &&
               <Button
-                disable={!accountEnabled}
+                disabled={!accountEnabled}
                 onClick={() => handleNewProposal()}
                 label="Create proposal"
                 outline

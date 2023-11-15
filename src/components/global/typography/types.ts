@@ -18,6 +18,7 @@ export interface TypographyProps {
   children?: ReactNode
   className?: string
   component?: ComponentType
+  style?: any
 }
 
 export interface TypographyStyleProps {
