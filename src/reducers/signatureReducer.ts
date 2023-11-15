@@ -13,32 +13,41 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialState = {
-  exitLPsigned: false,
-  exitTRADsigned: false,
-  depositLPsigned: false
+interface ISignatureReducerState {
+  exitLPsigned: boolean
+  exitTRADsigned: boolean
+  depositLPsigned: boolean
 }
 
-function signatureReducer (state = initialState, action) {
+const initialState: ISignatureReducerState = {
+  exitLPsigned: false,
+  exitTRADsigned: false,
+  depositLPsigned: false,
+}
+
+const signatureReducer = (
+  state: ISignatureReducerState = initialState,
+  action
+) => {
   switch (action.type) {
     case 'EXIT/LP/SIGNED':
       return {
         ...state,
-        exitLPsigned: action.payload
+        exitLPsigned: action.payload,
       }
-      case 'EXIT/TRAD/SIGNED':
+    case 'EXIT/TRAD/SIGNED':
       return {
         ...state,
-        exitTRADsigned: action.payload
+        exitTRADsigned: action.payload,
       }
-      case 'DEPOSIT/LP/SIGNED':
+    case 'DEPOSIT/LP/SIGNED':
       return {
         ...state,
-        depositLPsigned: action.payload
+        depositLPsigned: action.payload,
       }
     default:
-      return state;
+      return state
   }
 }
 
-export default signatureReducer;
+export default signatureReducer

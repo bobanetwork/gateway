@@ -13,7 +13,39 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialState = {
+interface IUiReducerState {
+  theme: string
+  transferModal: boolean
+  bridgeTypeSwitch: boolean
+  tokenPicker: boolean
+  transferPending: boolean
+  mergeModal: boolean
+  confirmationModal: boolean
+  wrongNetworkModal: boolean
+  ledgerConnectModal: boolean
+  addNewTokenModal: boolean
+  EarnDepositModal: boolean
+  StakeDepositModal: boolean
+  EarnWithdrawModal: boolean
+  transferDaoModal: boolean
+  delegateDaoModal: boolean
+  delegateDaoXModal: boolean
+  newProposalModal: boolean
+  walletSelectorModal: boolean
+  CDMCompletionModal: boolean
+  switchNetworkModal: boolean
+  UnsupportedNetwork: boolean
+
+  ledger: boolean
+  alert?: string
+  error?: string
+  lock?: string
+  proposalId?: string
+  activeHistoryTab: string
+  activeDataTab: string
+}
+
+const initialState: IUiReducerState = {
   theme: 'dark',
   transferModal: false,
   bridgeTypeSwitch: false,
@@ -37,20 +69,21 @@ const initialState = {
   UnsupportedNetwork: false,
 
   ledger: false,
-  alert: null,
-  error: null,
-  lock: null,
-  proposalId: null,
+  alert: undefined,
+  error: undefined,
+  lock: undefined,
+  proposalId: undefined,
   activeHistoryTab: 'All',
   activeDataTab: 'Seven Day Queue',
-};
+}
 
-function uiReducer (state = initialState, action) {
+const uiReducer = (state: IUiReducerState = initialState, action) => {
   switch (action.type) {
     case 'UI/THEME/UPDATE':
       return { ...state, theme: action.payload }
     case 'UI/MODAL/OPEN':
-      return { ...state,
+      return {
+        ...state,
         [action.payload]: true,
         fast: action.fast,
         token: action.token,
@@ -73,15 +106,13 @@ function uiReducer (state = initialState, action) {
     case 'UI/DATATAB/UPDATE':
       return { ...state, activeDataTab: action.payload }
     case 'UI/MODAL/DATA':
-      let dataType = 'generic';
-      if(action.payload.modal === 'confirmationModal') {
-        dataType = 'cMD';
+      let dataType = 'generic'
+      if (action.payload.modal === 'confirmationModal') {
+        dataType = 'cMD'
       }
-      return { ...state,
-        [dataType]: action.payload.data,
-      }
+      return { ...state, [dataType]: action.payload.data }
     default:
-      return state;
+      return state
   }
 }
 

@@ -13,23 +13,36 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+interface ITokenReducerState {
+  [tokenAddr: string]: {
+    currency: string
+    addressL1: string
+    addressL2: string
+    symbolL1: string
+    symbolL2: string
+    decimals: number
+    name: string
+    redalert: boolean
+  }
+}
+
 const L1ETH = '0x0000000000000000000000000000000000000000'
 const L2ETH = '0x4200000000000000000000000000000000000006'
 
-const initialState = {
+const initialState: ITokenReducerState = {
   [L1ETH]: {
-    currency:  L1ETH,
+    currency: L1ETH,
     addressL1: L1ETH,
     addressL2: L2ETH,
-    symbolL1:  'ETH',
-    symbolL2:  'ETH',
-    decimals:     18,
+    symbolL1: 'ETH',
+    symbolL2: 'ETH',
+    decimals: 18,
     name: 'Ethereum',
-    redalert:  false,
+    redalert: false,
   },
 }
 
-function tokenReducer(state = initialState, action) {
+const tokenReducer = (state: ITokenReducerState = initialState, action) => {
   switch (action.type) {
     case 'TOKEN/GET/RESET':
       state = initialState

@@ -13,20 +13,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialState = {};
+interface IVerifierReducerState {}
 
-function verifierReducer(state = initialState,action) {
+const initialState: IVerifierReducerState = {}
+
+const verifierReducer = (
+  state: IVerifierReducerState = initialState,
+  action
+) => {
   switch (action.type) {
     case 'VERIFIER/GET/SUCCESS':
       if (action.payload) {
-        return {...state,...action.payload};
+        return { ...state, ...action.payload }
       }
-      return state;
+      return state
     case 'VERIFIER/RESET':
-      return {};
+      return {}
     default:
-      return state;
+      return state
   }
 }
 
-export default verifierReducer;
+export default verifierReducer
