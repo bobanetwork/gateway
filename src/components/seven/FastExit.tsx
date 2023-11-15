@@ -23,8 +23,8 @@ import networkService from 'services/networkService'
 
 const FastExit = ({ blockNumber, oriHash, unixTime }) => {
   const chainLink = ({ hash }) => {
-    if (networkService.networkConfig['L2']) {
-      return `${networkService.networkConfig['L2'].transaction}${hash}`
+    if (networkService.networkConfig!['L2']) {
+      return `${networkService.networkConfig!['L2'].transaction}${hash}`
     }
     return ''
   }

@@ -128,7 +128,7 @@ export class WalletService {
       this.walletConnectProvider = await EthereumProvider.init({
         projectId: WC_PROJECT_ID as string,
         showQrModal: true,
-        chains: [networkService.networkConfig['L1'].chainId],
+        chains: [networkService.networkConfig!['L1'].chainId],
         optionalChains: [1, 5, 56, 97], // only ETH, BNB (mainnet/testnet)
       })
       await this.walletConnectProvider.connect()
