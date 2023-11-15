@@ -24,7 +24,7 @@ class VerifierService {
     if (response.status === 200) {
       return response.data.result
     } else {
-      console.log('VS: Bad verifier response')
+      console.warn('VS: Bad verifier response')
       return false
     }
   }
