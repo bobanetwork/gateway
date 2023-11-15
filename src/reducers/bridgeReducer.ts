@@ -13,11 +13,40 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+import { BigNumberish } from 'ethers'
+import { IBridgeAltert } from '../actions/bridgeAction'
 
-import {BigNumberish} from "ethers";
-import {selectDestChainIdTeleportation} from "../selectors";
+type Token = {
+  symbol: string
+  decimals: number
+  address: string
+  addressL2: string
+  amount?: BigNumberish
+  toWei_String?: BigNumberish
+}
 
-const initialState = {
+interface IBridgeReducerState {
+  tokens: Token[]
+  bridgeType: string
+  destChainIdTeleportation?: number
+  multiBridgeMode: boolean
+  bridgeToAddressState: boolean
+  bridgeDestinationAddress: string
+  amountToBridge: number
+  destChainIdBridge: number
+  isFetchTxBlockNumber: boolean
+  isTeleportationOfAssetSupported: {
+    supported: boolean
+    minDepositAmount: number
+    maxDepositAmount: number
+    maxTransferAmountPerDay: number
+    transferTimestampCheckPoint: number
+    transferredAmount: number
+  }
+  alerts: IBridgeAltert[]
+}
+
+const initialState: IBridgeReducerState = {
   tokens: [],
   bridgeType: 'CLASSIC',
   destChainIdTeleportation: undefined,
@@ -35,22 +64,22 @@ const initialState = {
     transferTimestampCheckPoint: 0,
     transferredAmount: 0,
   },
-  alerts: []
-};
+  alerts: [],
+}
 
-function bridgeReducer(state = initialState, action) {
+const bridgeReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'BRIDGE/TYPE/SELECT':
       return {
         ...state,
-        bridgeType: action.payload
+        bridgeType: action.payload,
       }
 
     case 'BRIDGE/TOKEN/RESET':
       return {
         ...state,
         tokens: [],
-        multiBridgeMode: false
+        multiBridgeMode: false,
       }
 
     case 'BRIDGE/TOKEN/SELECT':
@@ -62,27 +91,27 @@ function bridgeReducer(state = initialState, action) {
             ...action.payload,
             amount: 0,
             toWei_String: 0,
-          }
+          },
         ],
       }
 
     case 'BRIDGE/TOKEN/UPDATE': {
-      let newTokens = [ ...state.tokens ];
-      const { token, tokenIndex } = action.payload;
-      newTokens[ tokenIndex ] = {
+      const newTokens = [...state.tokens]
+      const { token, tokenIndex } = action.payload
+      newTokens[tokenIndex] = {
         ...token,
         amount: 0,
         toWei_String: 0,
-      };
+      }
 
       return { ...state, tokens: newTokens }
     }
 
     case 'BRIDGE/TOKEN/REMOVE': {
-      let tokens = [ ...state.tokens ];
+      const tokens = [...state.tokens]
       tokens.splice(action.payload, 1)
 
-      return { ...state, tokens: tokens }
+      return { ...state, tokens }
     }
 
     case 'BRIDGE/MODE/CHANGE':
@@ -91,50 +120,50 @@ function bridgeReducer(state = initialState, action) {
     case 'BRIDGE/DESTINATION_ADDRESS/SET':
       return {
         ...state,
-        bridgeDestinationAddress: action.payload
+        bridgeDestinationAddress: action.payload,
       }
-    
+
     case 'BRIDGE/DESTINATION_ADDRESS/RESET':
       return {
         ...state,
-        bridgeDestinationAddress: ''
+        bridgeDestinationAddress: '',
       }
 
     case 'BRIDGE/DESTINATION_ADDRESS_AVAILABLE/SET':
       return {
         ...state,
-        bridgeToAddressState: action.payload
+        bridgeToAddressState: action.payload,
       }
 
     case 'BRIDGE/TOKEN/AMOUNT/CHANGE': {
-      let newTokens = [ ...state.tokens ];
-      let { index, amount, toWei_String } = action.payload;
-      newTokens[ index ] = {
-        ...newTokens[ index ],
+      const newTokens = [...state.tokens]
+      const { index, amount, toWei_String } = action.payload
+      newTokens[index] = {
+        ...newTokens[index],
         amount,
-        toWei_String
-      };
+        toWei_String,
+      }
       return { ...state, tokens: newTokens }
     }
 
     case 'BRIDGE/ALERT/SET': {
-      const isFound = state.alerts.find((alert) => alert.meta === action.payload.meta)
+      const isFound = state.alerts.find(
+        (alert) => alert.meta === action.payload.meta
+      )
       if (state.alerts.length && isFound) {
-        return {...state}
+        return { ...state }
       }
 
       return {
         ...state,
-        alerts: [
-          ...state.alerts,
-          action.payload
-        ]
+        alerts: [...state.alerts, action.payload],
       }
     }
 
     case 'BRIDGE/ALERT/CLEAR': {
-      const filterAlerts = state.alerts.filter((alert) =>
-        !action.payload.keys.includes(alert.meta))
+      const filterAlerts = state.alerts.filter(
+        (alert) => !action.payload.keys.includes(alert.meta)
+      )
       return { ...state, alerts: filterAlerts }
     }
 
@@ -146,7 +175,7 @@ function bridgeReducer(state = initialState, action) {
       return { ...state, amountToBridge: action.payload }
     }
     case 'BRIDGE/AMOUNT/RESET': {
-      return {...state, amountToBridge: 0}
+      return { ...state, amountToBridge: 0 }
     }
     case 'BRIDGE/DEPOSIT_TX/BLOCK': {
       return { ...state, isFetchTxBlockNumber: action.payload }
@@ -158,11 +187,11 @@ function bridgeReducer(state = initialState, action) {
     case 'BRIDGE/TELEPORTER/DEST_CHAIN_ID':
       return {
         ...state,
-        destChainIdTeleportation: action.payload
+        destChainIdTeleportation: action.payload,
       }
 
     default:
-      return state;
+      return state
   }
 }
 
