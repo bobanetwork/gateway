@@ -14,19 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 // we use BigNumber here for decimal support
-import BigNumber from 'bignumber.js';
+import BigNumber from 'bignumber.js'
 
-export function logAmount(amount, power, truncate = 0) {
+export const logAmount = (amount: string, power: string, truncate = 0) => {
   // toString as some methods seem to supply BigNumber
-  const x = new BigNumber(amount?.toString());
-  const exp = new BigNumber(10).pow(power);
+  const x = new BigNumber(amount?.toString())
+  const exp = new BigNumber(10).pow(power)
 
-  const calculated = x.div(exp);
+  const calculated = x.div(exp)
 
-  if (truncate > 0)
-    return calculated.toFixed(truncate);
-  else
-    return calculated.toFixed();
+  if (truncate > 0) {
+    return calculated.toFixed(truncate)
+  } else {
+    return calculated.toFixed()
+  }
 }
 
 /*Takes a value such as 3.92 and converts it into
@@ -37,8 +38,7 @@ Duplicates
 ethers.utils.parseUnits( valueString , decimalsOrUnitName )   =>   BigNumber
 */
 
-export function powAmount(amount, decimals) {
-
+export const powAmount = (amount: string, decimals: string) => {
   const x = new BigNumber(amount)
   const exp = new BigNumber(10).pow(decimals)
 
@@ -47,8 +47,7 @@ export function powAmount(amount, decimals) {
 }
 
 /* more clearly named version of this */
-export function toWei_String(amount, decimals) {
-
+export const toWei_String = (amount: string, decimals: string) => {
   const x = new BigNumber(amount)
   const exp = new BigNumber(10).pow(decimals)
 
@@ -57,32 +56,31 @@ export function toWei_String(amount, decimals) {
 }
 
 const amountToUseConfig = {
-  'ETH': { provider: 'ethereum' },
-  'BOBA': { provider: 'boba-network' },
-  'OLO': { provider: 'oolongswap' },
-  'OMG': { provider: 'omisego' },
-  'USDC': { provider: 'usd-coin' },
-  'BNB': { provider: 'binancecoin' },
-  'tBNB': { provider: 'binancecoin' }
+  ETH: { provider: 'ethereum' },
+  BOBA: { provider: 'boba-network' },
+  OLO: { provider: 'oolongswap' },
+  OMG: { provider: 'omisego' },
+  USDC: { provider: 'usd-coin' },
+  BNB: { provider: 'binancecoin' },
+  tBNB: { provider: 'binancecoin' },
 }
 
-export function amountToUsd(amount, lookupPrice, token) {
-  const { symbol } = token;
-  const currencyInfo = amountToUseConfig[symbol];
+export const amountToUsd = (amount: number, lookupPrice, token) => {
+  const { symbol } = token
+  const currencyInfo = amountToUseConfig[symbol]
   if (!!currencyInfo && !!lookupPrice[currencyInfo.provider]) {
-    return amount * lookupPrice[currencyInfo.provider].usd;
+    return amount * lookupPrice[currencyInfo.provider].usd
   } else if (!!lookupPrice[symbol.toLowerCase()]) {
-    return amount * lookupPrice[symbol.toLowerCase()].usd;
+    return amount * lookupPrice[symbol.toLowerCase()].usd
   } else {
-    return 0;
+    return 0
   }
 }
 
-
-export const formatLargeNumber = (num) => {
-  const exp = Math.floor(Math.log10(Math.abs(num)) / 3);
-  const scaledNum = Math.abs(num) / Math.pow(10, exp * 3);
-  const formattedNumber = scaledNum.toFixed(2);
-  const exponent = ['', 'k', 'M', 'B', 'T'][exp] || '';
-  return isNaN(formattedNumber) ? '0' : formattedNumber + exponent;
+export const formatLargeNumber = (num: number) => {
+  const exp = Math.floor(Math.log10(Math.abs(num)) / 3)
+  const scaledNum = Math.abs(num) / Math.pow(10, exp * 3)
+  const formattedNumber = scaledNum.toFixed(2)
+  const exponent = ['', 'k', 'M', 'B', 'T'][exp] || ''
+  return isNaN(Number(formattedNumber)) ? '0' : formattedNumber + exponent
 }
