@@ -38,26 +38,6 @@ export const BRIDGE_TYPE: BridgeType = {
   MULTI_CHAIN_BRIDGE: 'MULTI_CHAIN_BRIDGE',
 }
 
-type ExpiryOptionType = {
-  value: string | Dayjs
-  label: string
-}
-
-export const EXPIRY_OPTIONS: ExpiryOptionType[] = [
-  {
-    value: addMonths(Now(), 3, 'YYYY-MM-DD'),
-    label: '3 Months',
-  },
-  {
-    value: addMonths(Now(), 7, 'YYYY-MM-DD'),
-    label: '6 Months',
-  },
-  {
-    value: addYear(1, 'YYYY-MM-DD'),
-    label: '1 Year',
-  },
-]
-
 /*********************
  * Routes Constants **
  *********************/
