@@ -70,7 +70,7 @@ describe('BridgeToAddress', () => {
     const actions = store.getActions()
     renderBridgeToAddress({ store })
     const pasteBtn = screen.getByText('Paste')
-    fireEvent.click(pasteBtn)
+    await fireEvent.click(pasteBtn)
     expect(navigator.clipboard.readText).toHaveBeenCalled()
     expect(actions).toEqual([
       {
