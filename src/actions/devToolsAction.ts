@@ -1,6 +1,6 @@
 /*
   Varna - A Privacy-Preserving Marketplace
-  Varna uses Fully Homomorphic Encryption to make markets fair. 
+  Varna uses Fully Homomorphic Encryption to make markets fair.
   Copyright (C) 2021 Enya Inc. Palo Alto, CA
 
   This program is free software: you can redistribute it and/or modify
@@ -19,19 +19,17 @@
 
 import networkService from 'services/networkService'
 import { createAction } from './createAction'
+import { Contract } from 'ethers'
 
-export function addFS_Savings(weiString) {
-  return createAction('ADD/FS_SAVINGS', () => networkService.addFS_Savings(weiString))
-}
+export const submitTxBuilder = (
+  contract: Contract,
+  methodIndex: number,
+  methodName: string,
+  inputs: any
+) =>
+  createAction('TX_BUILDER', () =>
+    networkService.submitTxBuilder(contract, methodIndex, methodName, inputs)
+  )
 
-export function withdrawFS_Savings(stakeID) {
-  return createAction('WITHDRAW/FS_SAVINGS', () => networkService.withdrawFS_Savings(stakeID))
-}
-
-export function getFS_Saves(currency) {
-  return createAction('GET/FS_SAVES', () => networkService.getFS_Saves())
-}
-
-export function getFS_Info(currency) {
-  return createAction('GET/FS_INFO', () => networkService.getFS_Info())
-}
+export const resetTxBuilder = () => (dispatch) =>
+  dispatch({ type: 'TX_BUILDER/REST' })

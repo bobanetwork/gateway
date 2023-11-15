@@ -13,15 +13,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import verifierService from 'services/verifier.service'
-import {createAction} from './createAction'
+import store from 'store'
 
-export function fetchVerifierStatus() {
-  return createAction('VERIFIER/GET',() => verifierService.getVerifierStatus())
+export const updateSignatureStatus_exitLP = async (sigStatus: boolean) => {
+  store.dispatch({ type: 'EXIT/LP/SIGNED', payload: sigStatus })
 }
 
-export function resetVerifierStatus() {
-  return function(dispatch) {
-    return dispatch({type: 'VERIFIER/RESET'});
-  }
+export const updateSignatureStatus_exitTRAD = async (sigStatus: boolean) => {
+  store.dispatch({ type: 'EXIT/TRAD/SIGNED', payload: sigStatus })
+}
+
+export const updateSignatureStatus_depositLP = async (sigStatus: boolean) => {
+  store.dispatch({ type: 'DEPOSIT/LP/SIGNED', payload: sigStatus })
 }
