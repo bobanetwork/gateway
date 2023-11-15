@@ -13,28 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-export function selectModalState (modal) {
-  return function (state) {
-    return state.ui[modal]
-  }
-}
+export const selectModalState = (modal) => (state) => state.ui[modal]
 
-export function selectAlert (state) {
-  return state.ui.alert
-}
+export const selectAlert = (state) => state.ui.alert
 
-export function selectError (state) {
-  return state.ui.error
-}
+export const selectError = (state) => state.ui.error
 
-export function selectActiveHistoryTab (state) {
-  return state.ui.activeHistoryTab
-}
-
-export function selectActiveDataTab (state) {
-  return state.ui.activeDataTab
-}
-
-export function selectTheme (state) {
-  return state.ui.theme
-}
+export const selectTheme = (state) => state.ui.theme
