@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
 
 import loadingReducer from './loadingReducer'
 import depositReducer from './depositReducer'
@@ -29,10 +29,10 @@ import lookupReducer from './lookupReducer'
 import signatureReducer from './signatureReducer'
 import daoReducer from './daoReducer'
 import fixedReducer from './fixedReducer'
-import verifierReducer from './verifierReducer';
-import bridgeReducer from './bridgeReducer';
-import devToolsReducer from './devToolsReducer';
-import networkReducer from './networkReducer';
+import verifierReducer from './verifierReducer'
+import bridgeReducer from './bridgeReducer'
+import devToolsReducer from './devToolsReducer'
+import networkReducer from './networkReducer'
 
 const rootReducer = combineReducers({
   loading: loadingReducer,
@@ -52,7 +52,7 @@ const rootReducer = combineReducers({
   verifier: verifierReducer,
   bridge: bridgeReducer,
   devTools: devToolsReducer,
-  network: networkReducer
+  network: networkReducer,
 })
 
 export default rootReducer

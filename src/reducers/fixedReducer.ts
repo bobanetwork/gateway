@@ -13,17 +13,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialState = {
+interface IFixedReducerState {
+  stakeCount: number
+  stakeInfo: any
+}
+
+const initialState: IFixedReducerState = {
   stakeCount: 0,
   stakeInfo: {},
 }
 
-function fixedReducer (state = initialState, action) {
+const fixedReducer = (state: IFixedReducerState = initialState, action) => {
   switch (action.type) {
     case 'GET/FS_SAVES/SUCCESS':
-      return {...state, ...action.payload}
+      return { ...state, ...action.payload }
     case 'GET/FS_INFO/SUCCESS':
-      return {...state, ...action.payload}
+      return { ...state, ...action.payload }
     default:
       return state
   }
