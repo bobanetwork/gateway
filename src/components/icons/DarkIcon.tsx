@@ -1,10 +1,10 @@
-import * as React from "react";
-import { useTheme } from "@mui/material/styles";
+import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
 
-function DarkIcon() {
-  const theme = useTheme();
-  const isLight = theme.palette.mode === 'light';
-  const color = theme.palette.common[isLight ? 'black' : 'white'];
+const DarkIcon = () => {
+  const theme = useTheme()
+  const isLight = theme.palette.mode === 'light'
+  const color = theme.palette.common[isLight ? 'black' : 'white']
   return (
     <svg
       width={32}
@@ -29,4 +29,4 @@ function DarkIcon() {
   )
 }
 
-export default DarkIcon;
+export default DarkIcon

@@ -14,11 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import React from 'react'
-import { CircularProgress } from '@mui/material'
-import { Button as ButtonMUI } from '@mui/material'
+import { CircularProgress, Button as ButtonMUI } from '@mui/material'
 import Tooltip from '../tooltip/Tooltip'
 
-function Button({
+interface IButtonProps {
+  children
+  style
+  onClick
+  color
+  variant
+  fullWidth
+  disabled: boolean
+  loading: boolean
+  sx
+  tooltip: string
+  size
+  triggerTime: Date
+}
+
+const Button = ({
   children,
   style,
   onClick,
@@ -28,14 +42,10 @@ function Button({
   disabled,
   loading,
   sx,
-  pulsate,
   tooltip = '',
   size,
-  className,
-  triggerTime
-}) {
-  if (disabled || loading) pulsate = false
-
+  triggerTime,
+}: IButtonProps) => {
   let timeDefined = false
   if (typeof triggerTime !== 'undefined') {
     timeDefined = true
@@ -55,8 +65,11 @@ function Button({
     }
   }, [loading])
 
+  // @ts-ignore
   let waitTime = (now - triggerTime) / 1000
-  if (waitTime < 0) waitTime = 0
+  if (waitTime < 0) {
+    waitTime = 0
+  }
   waitTime = Math.round(waitTime)
 
   const muiProps = {
