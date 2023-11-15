@@ -16,7 +16,6 @@ export const GA4_MEASUREMENT_ID: EnvType =
   process.env.REACT_APP_GA4_MEASUREMENT_ID || null
 export const APP_ENV: EnvType = process.env.REACT_APP_ENV || 'dev'
 export const isDevBuild = () => APP_ENV === 'dev'
-export const SENTRY_DSN: EnvType = process.env.REACT_APP_SENTRY_DSN as string
 export const MAX_HEALTH_BLOCK_LAG: EnvType =
   process.env.REACT_APP_MAX_HEALTH_BLOCK_LAG
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
@@ -88,8 +87,6 @@ export const ROUTES_PATH: RoutesPathType = {
   DAO: '/dao',
   DEV_TOOLS: '/devtools',
 }
-
-export const PER_PAGE: number = 8
 
 type Network = 'ethereum' | 'bnb' //we move this to global network type once we define this
 type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO' | 'Monster'
