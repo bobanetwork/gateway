@@ -447,20 +447,6 @@ const useBridgeAlerts = () => {
     fastDepositCost,
   ])
 
-  useEffect(() => {
-    if (activeNetwork === Network.AVAX && layer === LAYER.L1) {
-      dispatch(
-        setBridgeAlert({
-          meta: ALERT_KEYS.DEPRECATION_WARNING,
-          text: `For users of BobaAvax (Fuji) or BobaAvax (Fuji) applications
-          you will need to transfer all your funds to Avalanche mainnet before October 31st
-          or risk permanently losing access to any assets on BobaAvax (Fuji)`,
-          type: 'warning',
-        })
-      )
-    }
-  }, [activeNetwork, layer])
-
   // on changing bridgeType and active network cleanup alerts
   useEffect(() => {
     dispatch(purgeBridgeAlert())

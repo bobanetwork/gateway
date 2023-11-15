@@ -13,7 +13,35 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialState = {
+interface IBalanceReducerState {
+  layer1: []
+  layer2: []
+  l1LpBalanceWeiString: string
+  l2LpBalanceWeiString: string
+  l2LpETHBalanceWeiString: string
+  l1LpPendingWeiString: string
+  l2LpPendingWeiString: string
+  l2LpETHPendingWeiString: string
+  l1FeeRate: {}
+  l2FeeRate: {}
+  l2ETHFeeRateN: {}
+  fastExitCost: string
+  classicExitCost: string
+  fastDepositCost: number
+  altL1DepositCost: string
+  fastDepositBatchCost: string
+  l1FeeBalance: number
+  l2BalanceETH: number
+  l2BalanceBOBA: number
+  l1lpLiquidity: string
+  l2lpLiquidity: string
+  l2lpETHLiquidity: string
+  gas: {}
+  userAndL2LPBlanceBatch: {}
+  exitFee: string
+}
+
+const initialState: IBalanceReducerState = {
   layer1: [],
   layer2: [],
   l1LpBalanceWeiString: '',
@@ -41,7 +69,7 @@ const initialState = {
   exitFee: '',
 }
 
-const balanceReducer = (state = initialState, action) => {
+const balanceReducer = (state: IBalanceReducerState = initialState, action) => {
   switch (action.type) {
     case 'BALANCE/GET/SUCCESS':
       const { layer1, layer2 } = action.payload

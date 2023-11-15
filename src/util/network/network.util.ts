@@ -2,27 +2,22 @@ import { BigNumberish, providers } from 'ethers'
 
 import EthereumIcon from 'components/icons/chain/L1/EthereumIcon'
 import BNBIcon from 'components/icons/chain/L1/BNBIcon'
-import AvalancheIcon from 'components/icons/chain/L1/AvalancheIcon'
 
 import BobaIcon from 'components/icons/chain/L2/BobaIcon'
 import BobaBNBIcon from 'components/icons/chain/L2/BobaBNBIcon'
-import BobaAvaxIcon from 'components/icons/chain/L2/BobaAvaxIcon'
 
 import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
-import { avaxConfig } from './config/avax'
 import { Layer, LAYER } from 'util/constant'
 
 export const L1_ICONS = {
   ethereum: EthereumIcon,
   bnb: BNBIcon,
-  avax: AvalancheIcon,
 }
 
 export const L2_ICONS = {
   ethereum: BobaIcon,
   bnb: BobaBNBIcon,
-  avax: BobaAvaxIcon,
 }
 
 export enum NetworkType {
@@ -30,10 +25,9 @@ export enum NetworkType {
   TESTNET = 'Testnet',
 }
 
-export enum Network {
-  ETHEREUM = 'ETHEREUM',
-  BNB = 'BNB',
-  AVAX = 'AVAX',
+export enum Network = {
+  ETHEREUM: 'ETHEREUM',
+  BNB: 'BNB',
 }
 
 export const CHAIN_ID_LIST = {
@@ -64,35 +58,6 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Boba Eth',
     icon: 'ethereum',
-  },
-  // TODO: Remove Avax once down
-  43113: {
-    networkType: NetworkType.TESTNET,
-    chain: Network.AVAX,
-    layer: LAYER.L1,
-    name: 'Fuji',
-    icon: 'avax',
-  },
-  4328: {
-    networkType: NetworkType.TESTNET,
-    chain: Network.AVAX,
-    layer: LAYER.L2,
-    name: 'Boba Fuji',
-    icon: 'avax',
-  },
-  43114: {
-    networkType: NetworkType.MAINNET,
-    chain: Network.AVAX,
-    layer: LAYER.L1,
-    name: 'Avax',
-    icon: 'avax',
-  },
-  43288: {
-    networkType: NetworkType.MAINNET,
-    chain: Network.AVAX,
-    layer: LAYER.L2,
-    name: 'Boba Avax',
-    icon: 'avax',
   },
   97: {
     networkType: NetworkType.TESTNET,
@@ -162,17 +127,6 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
       },
       chainId: { [Layer.L1]: '56', [Layer.L2]: '56288' },
     },
-    {
-      icon: 'avax',
-      chain: Network.AVAX,
-      label: 'Avalanche <> Boba',
-      key: 'avax',
-      name: {
-        l1: 'Avalanche Mainnet C-Chain',
-        l2: 'Boba Avalanche',
-      },
-      chainId: { [Layer.L1]: '43114', [Layer.L2]: '43288' },
-    },
   ],
   Testnet: [
     {
@@ -197,24 +151,12 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
       },
       chainId: { [Layer.L1]: '97', [Layer.L2]: '9728' },
     },
-    {
-      icon: 'avax',
-      chain: Network.AVAX,
-      label: 'Fuji (Testnet) <> Boba',
-      key: 'avax',
-      name: {
-        l1: 'Fuji Testnet',
-        l2: 'Boba Fuji Testnet',
-      },
-      chainId: { [Layer.L1]: '43113', [Layer.L2]: '4328' },
-    },
   ],
 }
 
 export const AllNetworkConfigs = {
-  [Network.ETHEREUM]: ethereumConfig,
-  [Network.BNB]: bnbConfig,
-  [Network.AVAX]: avaxConfig,
+  [NETWORK.ETHEREUM]: ethereumConfig,
+  [NETWORK.BNB]: bnbConfig,
 }
 
 export const getNetworkDetail = ({
