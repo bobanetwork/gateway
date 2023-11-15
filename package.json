@@ -119,7 +119,7 @@
     "@storybook/api": "^7.0.17",
     "@storybook/blocks": "^7.5.1",
     "@storybook/react": "^7.5.2",
-    "@storybook/react-webpack5": "^7.5.1",
+    "@storybook/react-webpack5": "^7.5.3",
     "@storybook/testing-library": "^0.2.2",
     "@synthetixio/synpress": "^3.7.2-beta.8",
     "@testing-library/cypress": "^10.0.1",
