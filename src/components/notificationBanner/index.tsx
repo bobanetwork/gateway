@@ -5,10 +5,6 @@ import { selectActiveNetwork } from 'selectors'
 import { useSelector } from 'react-redux'
 import { Typography } from 'components/global'
 
-/*  
-// TODO: Depracate this once avax launch.
-*/
-
 // @style
 const NotificationBannerContainer = styled('div')`
   max-height: 0;

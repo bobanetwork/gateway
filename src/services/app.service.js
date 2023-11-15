@@ -2,12 +2,10 @@ import {NETWORK, NETWORK_TYPE} from "../util/network/network.util";
 
 // testnet addresss
 import addresses_Goerli from "@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148"
-import addresses_BobaFuji from "@bobanetwork/register/addresses/addressBobaFuji_0xcE78de95b85212BC348452e91e0e74c17cf37c79"
 import addresses_BobaBnbTestnet from "@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa"
 
 // mainnet address
 import addresses_Mainnet from "@bobanetwork/register/addresses/addressesMainnet_0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089"
-import addresses_BobaAvax from "@bobanetwork/register/addresses/addressBobaAvax_0x00220f8ce1c4be8436574e575fE38558d85e2E6b"
 import addresses_BobaBnb from "@bobanetwork/register/addresses/addressBobaBnb_0xeb989B25597259cfa51Bd396cE1d4B085EC4c753"
 
 // layerzero addresses.
@@ -33,12 +31,6 @@ const ADDRESS_CONFIG = {
       ...layerZeroMainnet.Layer_Zero_Protocol.Mainnet,
       layerZeroTargetChainID: layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
-    [ NETWORK.AVAX ]: {
-      ...addresses_BobaAvax,
-      ...layerZeroMainnet.BOBA_Bridges.Avalanche,
-      ...layerZeroMainnet.Layer_Zero_Protocol.Avalanche,
-      layerZeroTargetChainID: layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
-    },
     [ NETWORK.BNB ]: {
       ...addresses_BobaBnb,
       ...layerZeroMainnet.BOBA_Bridges.BNB,
@@ -52,12 +44,6 @@ const ADDRESS_CONFIG = {
       ...layerZeroTestnet.BOBA_Bridges.Testnet,
       ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
       layerZeroTargetChainID: layerZeroTestnet.Layer_Zero_Protocol.Testnet.Layer_Zero_ChainId,
-    },
-    [ NETWORK.AVAX ]: {
-      ...addresses_BobaFuji,
-      ...layerZeroTestnet.BOBA_Bridges.Avalanche,
-      ...layerZeroTestnet.Layer_Zero_Protocol.Avalanche,
-      layerZeroTargetChainID: layerZeroTestnet.Layer_Zero_Protocol.Avalanche.Layer_Zero_ChainId,
     },
     [ NETWORK.BNB ]: {
       ...addresses_BobaBnbTestnet,
@@ -114,13 +100,6 @@ const SUPPORTED_ASSETS = {
       },
       altL1Chains: [ 'BNB', 'Avalanche' ]
     },
-    [ NETWORK.AVAX ]: {
-      tokenAddresses: {
-        'EVO': { 'L1': '0x42006Ab57701251B580bDFc24778C43c9ff589A1', 'L2': '0xc8849f32138de93F6097199C5721a9EfD91ceE01' }
-      },
-      tokens: [ 'BOBA', 'AVAX', 'EVO', 'USDT.e', 'USDt', 'USDC.e', 'BUSD.e', 'BUSD', 'DAI.e' ],
-      altL1Chains: [ 'Avalanche' ]
-    },
     [ NETWORK.BNB ]: {
       tokenAddresses: {},
       tokens: [ 'BOBA', 'BNB', 'BUSD', 'USDC', 'USDT', 'SUSHI' ],
@@ -132,11 +111,6 @@ const SUPPORTED_ASSETS = {
       tokenAddresses: {},
       tokens: [ 'BOBA', 'USDC', 'OMG', 'xBOBA' ],
       altL1Chains: [ 'BNB', 'Avalanche' ]
-    },
-    [ NETWORK.AVAX ]: {
-      tokenAddresses: {},
-      tokens: [ 'BOBA', 'AVAX' ],
-      altL1Chains: [ 'Avalanche' ]
     },
     [ NETWORK.BNB ]: {
       tokenAddresses: {},
