@@ -47,7 +47,7 @@ export const powAmount = (amount: string, decimals: string) => {
 }
 
 /* more clearly named version of this */
-export const toWei_String = (amount: string, decimals: string) => {
+export const toWei_String = (amount: number, decimals: number) => {
   const x = new BigNumber(amount)
   const exp = new BigNumber(10).pow(decimals)
 
