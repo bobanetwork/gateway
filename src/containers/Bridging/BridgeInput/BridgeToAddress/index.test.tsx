@@ -70,7 +70,7 @@ describe('BridgeToAddress', () => {
     const actions = store.getActions()
     renderBridgeToAddress({ store })
     const pasteBtn = screen.getByText('Paste')
-    await fireEvent.click(pasteBtn)
+    fireEvent.click(pasteBtn)
     expect(navigator.clipboard.readText).toHaveBeenCalled()
     expect(actions).toEqual([
       {
@@ -81,7 +81,7 @@ describe('BridgeToAddress', () => {
     ;(navigator.clipboard.readText as jest.Mock).mockReturnValue(0)
     store.clearActions()
     const newActions = store.getActions()
-    await fireEvent.click(pasteBtn)
+    fireEvent.click(pasteBtn)
     expect(navigator.clipboard.readText).toHaveBeenCalled()
     expect(newActions).toEqual([])
   })

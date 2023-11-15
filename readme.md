@@ -1,6 +1,6 @@
 <h1 align="center">Boba Gateway</h1>
 
-</br>
+<br />
 
 <p align="center">
   <a href="https://gateway.boba.network/">
@@ -8,11 +8,11 @@
   </a>
 </p>
 
-</br>
+<br />
 
 <p align="center">The Boba Gateway helps users to bridge cryptos tokens from L1 to L2 and vice versa. </p>
 
-</br>
+<br />
 
 
 # Contributing

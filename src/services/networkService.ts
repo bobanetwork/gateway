@@ -545,7 +545,7 @@ class NetworkService {
       }
 
       // not critical
-      this.getAddressCached(
+      await this.getAddressCached(
         this.addresses,
         'DiscretionaryExitFee',
         'DiscretionaryExitFee'
@@ -1487,7 +1487,7 @@ class NetworkService {
       }
       const receipt = await this.watcher!.waitForMessageReceipt(depositTX, opts)
       const txReceipt = receipt.transactionReceipt
-      this.getBalances()
+      await this.getBalances()
       return txReceipt
     } catch (error) {
       console.log('NS: depositErc20 error:', error)
@@ -1497,7 +1497,7 @@ class NetworkService {
 
   //Standard 7 day exit from BOBA
   async exitBOBA(currencyAddress, value_Wei_String) {
-    updateSignatureStatus_exitTRAD(false)
+    await updateSignatureStatus_exitTRAD(false)
 
     try {
       const L2BillingContract = new ethers.Contract(
@@ -1587,7 +1587,7 @@ class NetworkService {
       await tx.wait()
 
       //can close window now
-      updateSignatureStatus_exitTRAD(true)
+      await updateSignatureStatus_exitTRAD(true)
 
       return tx
     } catch (error) {
@@ -2187,7 +2187,7 @@ class NetworkService {
   /***********************************************************/
   async depositL1LP(currency, value_Wei_String) {
     try {
-      updateSignatureStatus_depositLP(false)
+      await updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
 
       const depositTX = await this.L1LPContract!.connect(
@@ -2204,7 +2204,7 @@ class NetworkService {
 
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()
-      updateSignatureStatus_depositLP(true)
+      await updateSignatureStatus_depositLP(true)
 
       const opts = {
         fromBlock: -4000,
@@ -2289,7 +2289,7 @@ class NetworkService {
 
   async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
     try {
-      updateSignatureStatus_depositLP(false)
+      await updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
 
       const teleportationAddr =
@@ -2336,7 +2336,7 @@ class NetworkService {
 
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()
-      updateSignatureStatus_depositLP(true)
+      await updateSignatureStatus_depositLP(true)
 
       const opts = {
         fromBlock: -4000,
@@ -2602,7 +2602,7 @@ class NetworkService {
 
   /**************************************************************/
   async depositL2LP(currencyAddress: string, value_Wei_String: BigNumberish) {
-    updateSignatureStatus_exitLP(false)
+    await updateSignatureStatus_exitLP(false)
 
     console.log('depositL2LP currencyAddress', currencyAddress)
 
@@ -2699,7 +2699,7 @@ class NetworkService {
       console.log(' block:', block)
 
       //closes the modal
-      updateSignatureStatus_exitLP(true)
+      await updateSignatureStatus_exitLP(true)
 
       return depositTX
     } catch (error) {

@@ -129,7 +129,7 @@ const DelegateDaoModal = ({ open }) => {
                 </>
                 <ButtonContainer>
                   <Button
-                    onClick={()=>{submitMe()}}
+                    onClick={async ()=> await submitMe()}
                     loading={loading}
                     /*
                       tooltip={loading ? "Your delegation is still pending. Please wait for confirmation." : "Click here to delegate BOBA voting power to yourself"}
@@ -170,9 +170,7 @@ const DelegateDaoModal = ({ open }) => {
                 </>
                 <ButtonContainer>
                     <Button
-                      onClick={() => {
-                        submit()
-                      }}
+                      onClick={async () => await submit()}
                       /*tooltip={loading ? "Your delegation is still pending. Please wait for confirmation." : "Click here to delegate BOBA voting power from one L2 address to another L2 address"}*/
                       loading={loading}
                       disabled={disabled}

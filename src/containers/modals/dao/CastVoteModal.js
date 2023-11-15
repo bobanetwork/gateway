@@ -84,7 +84,7 @@ const CastVoteModal = ({ open, proposalId }) => {
         </Box>
       </Box>
       <Button
-        onClick={() => { submit() }}
+        onClick={async () => await submit()}
         loading={loading}
         disabled={!selectedVoteType}
         label="Submit"

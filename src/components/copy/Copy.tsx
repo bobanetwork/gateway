@@ -24,8 +24,8 @@ type CopyType = {
 const Copy = ({ value = '' }: CopyType): JSX.Element => {
   const [open, setOpen] = useState(false)
 
-  const handdleCopy = (text: string) => {
-    navigator.clipboard.writeText(text)
+  const handleCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text)
     setOpen(true)
   }
 
@@ -38,7 +38,7 @@ const Copy = ({ value = '' }: CopyType): JSX.Element => {
   }, [open, setOpen])
 
   return (
-    <div onClick={() => handdleCopy(value)}>
+    <div onClick={() => handleCopy(value)}>
       <Tooltip open={open} title="Copied to clipboard!">
         <IconButton size="medium">
           <ContentCopyOutlined sx={{ fontSize: 16 }} />

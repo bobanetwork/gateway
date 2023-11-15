@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-    display: flex; 
-    flex-direction: column;
-    gap: 10px
-    line-height:1em;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  line-height: 1em;
 `
 
 export const ButtonContainer = styled.div`
