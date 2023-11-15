@@ -15,8 +15,13 @@ limitations under the License. */
 
 // we use BigNumber here for decimal support
 import BigNumber from 'bignumber.js'
+import { BigNumberish } from 'ethers'
 
-export const logAmount = (amount: string, power: string, truncate = 0) => {
+export const logAmount = (
+  amount: BigNumberish,
+  power: number,
+  truncate = 0
+) => {
   // toString as some methods seem to supply BigNumber
   const x = new BigNumber(amount?.toString())
   const exp = new BigNumber(10).pow(power)
@@ -38,7 +43,7 @@ Duplicates
 ethers.utils.parseUnits( valueString , decimalsOrUnitName )   =>   BigNumber
 */
 
-export const powAmount = (amount: string, decimals: string) => {
+export const powAmount = (amount: number, decimals: number) => {
   const x = new BigNumber(amount)
   const exp = new BigNumber(10).pow(decimals)
 

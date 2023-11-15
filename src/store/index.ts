@@ -30,7 +30,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, RootReducer)
 
-export const store = createStore(
+export const store: any = createStore(
   persistedReducer,
   initialState,
   applyMiddleware(reduxThunk)
