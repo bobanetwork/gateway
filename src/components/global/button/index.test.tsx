@@ -40,7 +40,7 @@ describe('Button', () => {
   })
   test('Disable Button', () => {
     const { asFragment } = renderButton({
-      disable: true,
+      disabled: true,
       label: 'Test Button',
     })
     expect(asFragment()).toMatchSnapshot()

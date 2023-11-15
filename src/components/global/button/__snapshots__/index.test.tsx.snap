@@ -16,6 +16,7 @@ exports[`Button Disable Button 1`] = `
 <DocumentFragment>
   <button
     class="sc-aXZVg gpVnru"
+    disabled=""
     label="Test Button"
     type="button"
   >

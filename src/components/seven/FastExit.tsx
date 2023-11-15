@@ -21,22 +21,16 @@ import { ExitWrapper, Hash, HashContainer } from './styles'
 
 import networkService from 'services/networkService'
 
-function FastExit({
-  blockNumber,
-  oriHash,
-  unixTime
-}) {
-
-
+const FastExit = ({ blockNumber, oriHash, unixTime }) => {
   const chainLink = ({ hash }) => {
-    if (networkService.networkConfig[ 'L2' ]) {
-      return `${networkService.networkConfig[ 'L2' ].transaction}${hash}`
+    if (networkService.networkConfig['L2']) {
+      return `${networkService.networkConfig['L2'].transaction}${hash}`
     }
     return ''
   }
 
   const secondsAgo = Math.round(Date.now() / 1000) - unixTime
-  let timeLabel = `Fast Exit was started ${secondsAgo} seconds ago`
+  const timeLabel = `Fast Exit was started ${secondsAgo} seconds ago`
 
   return (
     <ExitWrapper>
@@ -46,7 +40,7 @@ function FastExit({
         <Hash
           href={chainLink({ hash: oriHash })}
           target={'_blank'}
-          rel='noopener noreferrer'
+          rel="noopener noreferrer"
         >
           {oriHash}
         </Hash>
@@ -56,7 +50,6 @@ function FastExit({
       </Typography>
     </ExitWrapper>
   )
-
 }
 
 export default FastExit

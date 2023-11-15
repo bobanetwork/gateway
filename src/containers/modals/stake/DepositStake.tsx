@@ -202,7 +202,7 @@ const DepositStake = (props: any) => {
               handleConfirm()
             }}
             loading={props.loading}
-            disable={!accountEnabled}
+            disabled={!accountEnabled}
             label="Stake"
           />
         )}

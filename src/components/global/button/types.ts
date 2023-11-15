@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
 type ButtonType = {
-  disable?: boolean
+  disabled?: boolean
   loading?: boolean
   small?: boolean
   outline?: boolean
