@@ -13,30 +13,32 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { keyBy } from 'util/lodash';
+import { keyBy } from 'util/lodash'
 
 const initialState = {
   sevens: {},
-  fastExits: {}
+  fastExits: {},
 }
 
-function dataReducer (state = initialState, action) {
+const dataReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SEVENS/GETALL/SUCCESS':
       return {
         ...state,
         sevens: {
-          ...keyBy(action.payload, 'blockNumber', 'hash')
-        }
+          ...keyBy(action.payload, 'blockNumber'),
+          ...keyBy(action.payload, 'hash'),
+        },
       }
-  case 'FASTEXITS/GETALL/SUCCESS':
-    return {
-      ...state,
-      fastExits: {
-        ...keyBy(action.payload, 'blockNumber', 'hash')
+    case 'FASTEXITS/GETALL/SUCCESS':
+      return {
+        ...state,
+        fastExits: {
+          ...keyBy(action.payload, 'blockNumber'),
+          ...keyBy(action.payload, 'hash'),
+        },
       }
-    }
-  default:
+    default:
       return state
   }
 }

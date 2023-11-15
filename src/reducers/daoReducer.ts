@@ -13,7 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialState = {
+interface IDaoReducerState {
+  balance: number
+  votes: number
+  balanceX: number
+  votesX: number
+  proposalThreshold: number
+  proposalList: any[]
+  hasLiveProposal: boolean
+}
+
+const initialState: IDaoReducerState = {
   balance: 0,
   votes: 0,
   balanceX: 0,
@@ -23,7 +33,7 @@ const initialState = {
   hasLiveProposal: false,
 }
 
-function daoReducer(state = initialState, action) {
+const daoReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'BALANCE/DAO/GET/SUCCESS':
       return { ...state, ...action.payload }
