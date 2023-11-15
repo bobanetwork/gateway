@@ -5,7 +5,7 @@ import { closeModal } from 'actions/uiAction'
 
 import { SwitchButton } from 'components/global'
 import { setActiveNetworkType } from 'actions/networkAction'
-import { NETWORK_TYPE } from 'util/network/network.util'
+import { NetworkType } from 'util/network/network.util'
 import {
   selectActiveNetworkType,
   selectBridgeDestinationAddressAvailable,
@@ -37,7 +37,7 @@ const SettingsModal: FC<ModalInterface> = ({ open }) => {
   const onChangeNetworkType = (value: boolean) => {
     dispatch(
       setActiveNetworkType({
-        networkType: value ? NETWORK_TYPE.TESTNET : NETWORK_TYPE.MAINNET,
+        networkType: value ? NetworkType.TESTNET : NetworkType.MAINNET,
       })
     )
   }
@@ -76,7 +76,7 @@ const SettingsModal: FC<ModalInterface> = ({ open }) => {
         <SettingRow
           title="Show Testnets"
           subTitle="Testnets will be available to bridge"
-          isActive={activeNetworkType === NETWORK_TYPE.TESTNET}
+          isActive={activeNetworkType === NetworkType.TESTNET}
           onStateChange={(v) => onChangeNetworkType(v)}
         />
         <SettingRow

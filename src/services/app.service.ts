@@ -1,4 +1,9 @@
-import { NETWORK, NETWORK_TYPE } from '../util/network/network.util'
+import {
+  INetwork,
+  INetworkCategory,
+  Network,
+  NetworkType,
+} from '../util/network/network.util'
 
 // testnet addresss
 import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
@@ -27,22 +32,22 @@ const L2_SECONDARYFEETOKEN_ADDRESS =
   '0x4200000000000000000000000000000000000023'
 
 const ADDRESS_CONFIG = {
-  [NETWORK_TYPE.MAINNET]: {
-    [NETWORK.ETHEREUM]: {
+  [NetworkType.MAINNET]: {
+    [Network.ETHEREUM]: {
       ...addresses_Mainnet,
       ...layerZeroMainnet.BOBA_Bridges.Mainnet,
       ...layerZeroMainnet.Layer_Zero_Protocol.Mainnet,
       layerZeroTargetChainID:
         layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
-    [NETWORK.AVAX]: {
+    [Network.AVAX]: {
       ...addresses_BobaAvax,
       ...layerZeroMainnet.BOBA_Bridges.Avalanche,
       ...layerZeroMainnet.Layer_Zero_Protocol.Avalanche,
       layerZeroTargetChainID:
         layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       ...addresses_BobaBnb,
       ...layerZeroMainnet.BOBA_Bridges.BNB,
       ...layerZeroMainnet.Layer_Zero_Protocol.BNB,
@@ -50,22 +55,22 @@ const ADDRESS_CONFIG = {
         layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
   },
-  [NETWORK_TYPE.TESTNET]: {
-    [NETWORK.ETHEREUM]: {
+  [NetworkType.TESTNET]: {
+    [Network.ETHEREUM]: {
       ...addresses_Goerli,
       ...layerZeroTestnet.BOBA_Bridges.Testnet,
       ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
       layerZeroTargetChainID:
         layerZeroTestnet.Layer_Zero_Protocol.Testnet.Layer_Zero_ChainId,
     },
-    [NETWORK.AVAX]: {
+    [Network.AVAX]: {
       ...addresses_BobaFuji,
       ...layerZeroTestnet.BOBA_Bridges.Avalanche,
       ...layerZeroTestnet.Layer_Zero_Protocol.Avalanche,
       layerZeroTargetChainID:
         layerZeroTestnet.Layer_Zero_Protocol.Avalanche.Layer_Zero_ChainId,
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       ...addresses_BobaBnbTestnet,
       ...layerZeroTestnet.BOBA_Bridges.BNB,
       ...layerZeroTestnet.Layer_Zero_Protocol.BNB,
@@ -75,9 +80,22 @@ const ADDRESS_CONFIG = {
   },
 }
 
-const SUPPORTED_ASSETS = {
-  [NETWORK_TYPE.MAINNET]: {
-    [NETWORK.ETHEREUM]: {
+type NetworkTypeConfig = {
+  [network in Network]: {
+    tokenAddresses: Record<string, { L1: string; L2: string }>
+    tokens: string[]
+    altL1Chains: string[]
+  }
+}
+
+type NetworkTypeConfigs = {
+  [NetworkType.TESTNET]: NetworkTypeConfig
+  [NetworkType.MAINNET]: NetworkTypeConfig
+}
+
+const SUPPORTED_ASSETS: NetworkTypeConfigs = {
+  [NetworkType.MAINNET]: {
+    [Network.ETHEREUM]: {
       tokens: [
         'USDT',
         'DAI',
@@ -147,7 +165,7 @@ const SUPPORTED_ASSETS = {
       },
       altL1Chains: ['BNB', 'Avalanche'],
     },
-    [NETWORK.AVAX]: {
+    [Network.AVAX]: {
       tokenAddresses: {
         EVO: {
           L1: '0x42006Ab57701251B580bDFc24778C43c9ff589A1',
@@ -167,24 +185,24 @@ const SUPPORTED_ASSETS = {
       ],
       altL1Chains: ['Avalanche'],
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       tokenAddresses: {},
       tokens: ['BOBA', 'BNB', 'BUSD', 'USDC', 'USDT', 'SUSHI'],
       altL1Chains: ['BNB'],
     },
   },
-  [NETWORK_TYPE.TESTNET]: {
-    [NETWORK.ETHEREUM]: {
+  [NetworkType.TESTNET]: {
+    [Network.ETHEREUM]: {
       tokenAddresses: {},
       tokens: ['BOBA', 'USDC', 'OMG', 'xBOBA'],
       altL1Chains: ['BNB', 'Avalanche'],
     },
-    [NETWORK.AVAX]: {
+    [Network.AVAX]: {
       tokenAddresses: {},
       tokens: ['BOBA', 'AVAX'],
       altL1Chains: ['Avalanche'],
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       tokenAddresses: {},
       tokens: ['BOBA', 'BNB', 'MMT'],
       altL1Chains: ['BNB'],
@@ -230,7 +248,7 @@ class AppService {
    *
    */
 
-  fetchSupportedAssets({ networkType, network }) {
+  fetchSupportedAssets({ networkType, network }: INetworkCategory) {
     return SUPPORTED_ASSETS[networkType][network] || {}
   }
 

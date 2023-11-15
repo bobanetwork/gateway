@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { NETWORK, NETWORK_TYPE } from "util/network/network.util"
+import { Network, NetworkType } from "util/network/network.util"
 
 /**
  * network : ethereum, bnb, avax
@@ -28,13 +28,13 @@ import { NETWORK, NETWORK_TYPE } from "util/network/network.util"
  */
 
 const initialState = {
-  network: NETWORK.ETHEREUM,
+  network: Network.ETHEREUM,
   networkIcon: 'ethereum',
-  networkType: NETWORK_TYPE.MAINNET,
+  networkType: NetworkType.MAINNET,
   name: {},
   activeNetworkIcon: 'ethereum',
-  activeNetwork: NETWORK.ETHEREUM,
-  activeNetworkType: NETWORK_TYPE.MAINNET,
+  activeNetwork: Network.ETHEREUM,
+  activeNetworkType: NetworkType.MAINNET,
   activeNetworkName: {}
 }
 

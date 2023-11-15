@@ -16,7 +16,7 @@ import { WrapperActionsModal } from 'components/modal/styles'
 import { earnL1, earnL2 } from 'actions/networkAction'
 import networkService from 'services/networkService'
 import { BigNumber, utils } from 'ethers'
-import { NETWORK } from 'util/network/network.util'
+import { Network } from 'util/network/network.util'
 
 import { MaxInput } from 'components/global/InputMax'
 import { Button } from 'components/global/button'
@@ -48,7 +48,7 @@ class EarnDepositModal extends React.Component {
       loading: false,
       bobaFeeChoice,
       netLayer,
-      netLayerNativeToken: networkService.networkGateway === NETWORK.ETHEREUM ? 'ETH' : netLayer === 'L1' ? networkService.L1NativeTokenSymbol : 'BOBA',
+      netLayerNativeToken: networkService.networkGateway === Network.ETHEREUM ? 'ETH' : netLayer === 'L1' ? networkService.L1NativeTokenSymbol : 'BOBA',
       bobaFeePriceRatio,
       max_Wei_String: '0',
       max_Float_String: '0.0',
@@ -150,7 +150,7 @@ class EarnDepositModal extends React.Component {
         // do not adjust max_BN
       }
 
-      if (bobaFeeChoice && networkService.networkGateway === NETWORK.ETHEREUM) {
+      if (bobaFeeChoice && networkService.networkGateway === Network.ETHEREUM) {
         fee = utils.formatUnits(cost_BN.mul(BigNumber.from(bobaFeePriceRatio)), stakeToken.decimals)
       }
       else {

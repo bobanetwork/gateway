@@ -4,7 +4,7 @@ import { MENU_LIST } from './constant'
 import { MenuProps } from './types'
 import { useSelector } from 'react-redux'
 import { selectActiveNetwork } from 'selectors'
-import { NETWORK } from 'util/network/network.util'
+import { Network } from 'util/network/network.util'
 
 /**
  *
@@ -33,7 +33,7 @@ const Navigation: FC<MenuProps> = ({ isOpen }) => {
     <StyledNav>
       {MENU_LIST.map((menu) => {
         if (
-          activeNetwork !== NETWORK.ETHEREUM &&
+          activeNetwork !== Network.ETHEREUM &&
           ['Stake', 'Dao'].includes(menu.label)
         ) {
           return null

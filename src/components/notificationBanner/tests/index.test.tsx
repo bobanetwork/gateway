@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import CustomThemeProvider from 'themes'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import { BannerConfig } from '../bannerConfig'
 
 jest.mock('../bannerConfig', () => ({
@@ -16,7 +16,7 @@ jest.mock('../bannerConfig', () => ({
   },
 }))
 
-const data = BannerConfig[NETWORK.AVAX]
+const data = BannerConfig[Network.AVAX]
 
 const mockStore = configureStore()
 
@@ -28,8 +28,8 @@ const renderBanner = (props: any) => {
           theme: 'dark',
         },
         network: {
-          activeNetwork: NETWORK.AVAX,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
+          activeNetwork: Network.AVAX,
+          activeNetworkType: NetworkType.MAINNET,
         },
       })}
     >

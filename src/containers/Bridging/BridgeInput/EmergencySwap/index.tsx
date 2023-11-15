@@ -14,7 +14,7 @@ import BN from 'bignumber.js'
 import { isEqual } from 'util/lodash'
 import { logAmount } from 'util/amountConvert'
 import { LAYER } from 'util/constant'
-import { NETWORK } from 'util/network/network.util'
+import { Network } from 'util/network/network.util'
 import { SwapAction, SwapAlert, SwapContainer } from './styles'
 
 interface Props {}
@@ -35,7 +35,7 @@ const EmergencySwap: FC<Props> = (props) => {
 
       if (l2BalanceSec && l2BalanceSec.balance) {
         // FOR ETH MIN BALANCE 0.003ETH for other secondary tokens 1
-        const minBalance = network === NETWORK.ETHEREUM ? 0.003 : 1
+        const minBalance = network === Network.ETHEREUM ? 0.003 : 1
         setTooSmallSec(
           new BN(logAmount(l2BalanceSec.balance, 18)).lt(new BN(minBalance))
         )
@@ -54,7 +54,7 @@ const EmergencySwap: FC<Props> = (props) => {
   }
 
   const alertContent = () => {
-    if (NETWORK.ETHEREUM === network) {
+    if (Network.ETHEREUM === network) {
       return `Using BOBA requires a minimum ETH balance (of 0.002 ETH) regardless of your fee setting,
       otherwise MetaMask may incorrectly reject transactions. If you ran out of ETH, use EMERGENCY SWAP to swap BOBA
       for 0.005 ETH at market rates.`

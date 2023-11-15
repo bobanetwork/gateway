@@ -25,108 +25,108 @@ export const L2_ICONS = {
   avax: BobaAvaxIcon,
 }
 
-export const NETWORK_TYPE = {
-  MAINNET: 'Mainnet',
-  TESTNET: 'Testnet',
+export enum NetworkType {
+  MAINNET = 'Mainnet',
+  TESTNET = 'Testnet',
 }
 
-export const NETWORK = {
-  ETHEREUM: 'ETHEREUM',
-  BNB: 'BNB',
-  AVAX: 'AVAX',
+export enum Network {
+  ETHEREUM = 'ETHEREUM',
+  BNB = 'BNB',
+  AVAX = 'AVAX',
 }
 
 export const CHAIN_ID_LIST = {
   5: {
-    networkType: NETWORK_TYPE.TESTNET,
-    chain: NETWORK.ETHEREUM,
+    networkType: NetworkType.TESTNET,
+    chain: Network.ETHEREUM,
     layer: LAYER.L1,
     name: 'Goerli',
     icon: 'ethereum',
   },
   2888: {
-    networkType: NETWORK_TYPE.TESTNET,
-    chain: NETWORK.ETHEREUM,
+    networkType: NetworkType.TESTNET,
+    chain: Network.ETHEREUM,
     layer: LAYER.L2,
     name: 'Boba Goerli',
     icon: 'ethereum',
   },
   1: {
-    networkType: NETWORK_TYPE.MAINNET,
-    chain: NETWORK.ETHEREUM,
+    networkType: NetworkType.MAINNET,
+    chain: Network.ETHEREUM,
     layer: LAYER.L1,
     name: 'Ethereum',
     icon: 'ethereum',
   },
   288: {
-    networkType: NETWORK_TYPE.MAINNET,
-    chain: NETWORK.ETHEREUM,
+    networkType: NetworkType.MAINNET,
+    chain: Network.ETHEREUM,
     layer: LAYER.L2,
     name: 'Boba Eth',
     icon: 'ethereum',
   },
   // TODO: Remove Avax once down
   43113: {
-    networkType: NETWORK_TYPE.TESTNET,
-    chain: NETWORK.AVAX,
+    networkType: NetworkType.TESTNET,
+    chain: Network.AVAX,
     layer: LAYER.L1,
     name: 'Fuji',
     icon: 'avax',
   },
   4328: {
-    networkType: NETWORK_TYPE.TESTNET,
-    chain: NETWORK.AVAX,
+    networkType: NetworkType.TESTNET,
+    chain: Network.AVAX,
     layer: LAYER.L2,
     name: 'Boba Fuji',
     icon: 'avax',
   },
   43114: {
-    networkType: NETWORK_TYPE.MAINNET,
-    chain: NETWORK.AVAX,
+    networkType: NetworkType.MAINNET,
+    chain: Network.AVAX,
     layer: LAYER.L1,
     name: 'Avax',
     icon: 'avax',
   },
   43288: {
-    networkType: NETWORK_TYPE.MAINNET,
-    chain: NETWORK.AVAX,
+    networkType: NetworkType.MAINNET,
+    chain: Network.AVAX,
     layer: LAYER.L2,
     name: 'Boba Avax',
     icon: 'avax',
   },
   97: {
-    networkType: NETWORK_TYPE.TESTNET,
-    chain: NETWORK.BNB,
+    networkType: NetworkType.TESTNET,
+    chain: Network.BNB,
     layer: LAYER.L1,
     name: 'Bnb Testnet',
     icon: 'bnb',
   },
   9728: {
-    networkType: NETWORK_TYPE.TESTNET,
-    chain: NETWORK.BNB,
+    networkType: NetworkType.TESTNET,
+    chain: Network.BNB,
     layer: LAYER.L2,
     name: 'Boba Bnb Testnet',
     icon: 'bnb',
   },
   56: {
-    networkType: NETWORK_TYPE.MAINNET,
-    chain: NETWORK.BNB,
+    networkType: NetworkType.MAINNET,
+    chain: Network.BNB,
     layer: LAYER.L1,
     name: 'Bnb',
     icon: 'bnb',
   },
   56288: {
-    networkType: NETWORK_TYPE.MAINNET,
-    chain: NETWORK.BNB,
+    networkType: NetworkType.MAINNET,
+    chain: Network.BNB,
     layer: LAYER.L2,
     name: 'Boba Bnb',
     icon: 'bnb',
   },
 }
 
-export interface INetworkClass {
-  network: typeof NETWORK
-  networkType: typeof NETWORK_TYPE
+export interface INetworkCategory {
+  network: Network
+  networkType: NetworkType
 }
 
 export interface INetwork {
@@ -142,7 +142,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
   Mainnet: [
     {
       icon: 'ethereum',
-      chain: NETWORK.ETHEREUM,
+      chain: Network.ETHEREUM,
       label: 'Ethereum <> Boba ETH',
       key: 'ethereum',
       name: {
@@ -153,7 +153,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
     },
     {
       icon: 'bnb',
-      chain: NETWORK.BNB,
+      chain: Network.BNB,
       label: 'BNB <> Boba',
       key: 'bnb',
       name: {
@@ -164,7 +164,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
     },
     {
       icon: 'avax',
-      chain: NETWORK.AVAX,
+      chain: Network.AVAX,
       label: 'Avalanche <> Boba',
       key: 'avax',
       name: {
@@ -177,7 +177,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
   Testnet: [
     {
       icon: 'ethereum',
-      chain: NETWORK.ETHEREUM,
+      chain: Network.ETHEREUM,
       label: 'Ethereum (Goerli) <> Boba (Goerli)',
       key: 'ethereum',
       name: {
@@ -188,7 +188,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
     },
     {
       icon: 'bnb',
-      chain: NETWORK.BNB,
+      chain: Network.BNB,
       label: 'BNB (Testnet) <> Boba',
       key: 'bnb',
       name: {
@@ -199,7 +199,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
     },
     {
       icon: 'avax',
-      chain: NETWORK.AVAX,
+      chain: Network.AVAX,
       label: 'Fuji (Testnet) <> Boba',
       key: 'avax',
       name: {
@@ -212,12 +212,15 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
 }
 
 export const AllNetworkConfigs = {
-  [NETWORK.ETHEREUM]: ethereumConfig,
-  [NETWORK.BNB]: bnbConfig,
-  [NETWORK.AVAX]: avaxConfig,
+  [Network.ETHEREUM]: ethereumConfig,
+  [Network.BNB]: bnbConfig,
+  [Network.AVAX]: avaxConfig,
 }
 
-export const getNetworkDetail = ({ network, networkType }) => {
+export const getNetworkDetail = ({
+  network,
+  networkType,
+}: INetworkCategory) => {
   return AllNetworkConfigs?.[network]?.[networkType]
 }
 

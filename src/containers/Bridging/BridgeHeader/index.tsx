@@ -6,7 +6,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectActiveNetworkType } from 'selectors'
 import styled, { useTheme } from 'styled-components'
-import { NETWORK_TYPE } from 'util/network/network.util'
+import { NetworkType } from 'util/network/network.util'
 import { BridgeHeaderWrapper, GearIcon, IconWrapper } from './styles'
 
 export const LabelStyle = styled.span`
@@ -31,7 +31,7 @@ const BridgeHeader = () => {
   const dispatch = useDispatch<any>()
   const theme: any = useTheme()
   const isTestnet =
-    useSelector(selectActiveNetworkType()) === NETWORK_TYPE.TESTNET
+    useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
 
   const iconColor =
     theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[100]
