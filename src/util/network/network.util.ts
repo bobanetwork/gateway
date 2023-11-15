@@ -25,9 +25,9 @@ export enum NetworkType {
   TESTNET = 'Testnet',
 }
 
-export enum Network = {
-  ETHEREUM: 'ETHEREUM',
-  BNB: 'BNB',
+export enum Network {
+  ETHEREUM = 'ETHEREUM',
+  BNB = 'BNB',
 }
 
 export const CHAIN_ID_LIST = {
@@ -155,8 +155,8 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
 }
 
 export const AllNetworkConfigs = {
-  [NETWORK.ETHEREUM]: ethereumConfig,
-  [NETWORK.BNB]: bnbConfig,
+  [Network.ETHEREUM]: ethereumConfig,
+  [Network.BNB]: bnbConfig,
 }
 
 export const getNetworkDetail = ({

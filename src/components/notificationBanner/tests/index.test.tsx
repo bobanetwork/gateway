@@ -16,7 +16,7 @@ jest.mock('../bannerConfig', () => ({
   },
 }))
 
-const data = BannerConfig[NETWORK.ETHEREUM]
+const data = BannerConfig[Network.ETHEREUM]
 
 const mockStore = configureStore()
 
@@ -28,8 +28,8 @@ const renderBanner = (props: any) => {
           theme: 'dark',
         },
         network: {
-          activeNetwork: NETWORK.ETHEREUM,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
+          activeNetwork: Network.ETHEREUM,
+          activeNetworkType: NetworkType.MAINNET,
         },
       })}
     >

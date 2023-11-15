@@ -1,5 +1,4 @@
 import {
-  INetwork,
   INetworkCategory,
   Network,
   NetworkType,
@@ -39,7 +38,7 @@ const ADDRESS_CONFIG = {
       layerZeroTargetChainID:
         layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       ...addresses_BobaBnb,
       ...layerZeroMainnet.BOBA_Bridges.BNB,
       ...layerZeroMainnet.Layer_Zero_Protocol.BNB,
@@ -55,7 +54,7 @@ const ADDRESS_CONFIG = {
       layerZeroTargetChainID:
         layerZeroTestnet.Layer_Zero_Protocol.Testnet.Layer_Zero_ChainId,
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       ...addresses_BobaBnbTestnet,
       ...layerZeroTestnet.BOBA_Bridges.BNB,
       ...layerZeroTestnet.Layer_Zero_Protocol.BNB,
