@@ -4,4 +4,4 @@ import orderBy from 'lodash.orderby'
 import keyBy from 'lodash.keyby'
 import flatten from 'lodash.flatten'
 
-export { isEqual, intersection, orderBy, keyBy, flatten };
+export { isEqual, intersection, orderBy, keyBy, flatten }

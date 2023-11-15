@@ -168,7 +168,7 @@ $ yarn test:integration
 │    ├── src/themes            # Application theme
 │    ├── src/types             # Custom typings for js modules if corresponding types are not found
 │    ├── src/util              # Util files
-│    └── index.ts              # Production entry that exports all components
+│    └── index.tsx              # Production entry that exports all components
 ├── .babelrc.json              # babel configuration
 ├── .env.example               # Sample env file
 ├── .eslintignore              # Excluded files for ignoring Eslint
