@@ -105,7 +105,7 @@ const History = () => {
 
   const [searchHistory, setSearchHistory] = useState('')
 
-  const transactions = useSelector(selectTransactions, isEqual)
+  const transactions: any = useSelector(selectTransactions, isEqual)
 
   // TODO: not working as implementation needs be rewrite.
   const getDatePicker = (label: string, range: boolean = false) => {
