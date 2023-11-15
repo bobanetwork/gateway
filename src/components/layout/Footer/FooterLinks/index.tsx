@@ -22,10 +22,6 @@ const blockExplorerLinks = {
       l1: `https://testnet.bscscan.com`,
       l2: `https://testnet.bobascan.com`,
     },
-    [NETWORK.AVAX]: {
-      l1: `https://testnet.snowtrace.io`,
-      l2: `https://blockexplorer.testnet.avax.boba.network`,
-    },
   },
   [NETWORK_TYPE.MAINNET]: {
     [NETWORK.ETHEREUM]: {
@@ -35,10 +31,6 @@ const blockExplorerLinks = {
     [NETWORK.BNB]: {
       l1: `https://bscscan.com`,
       l2: `https://bobascan.com`,
-    },
-    [NETWORK.AVAX]: {
-      l1: `https://snowtrace.io/`,
-      l2: `https://blockexplorer.avax.boba.network`,
     },
   },
 }
@@ -98,14 +90,6 @@ const FooterLinks = () => {
             {
               label: 'BNB Block Explorer L2',
               onClick: () => onLinkClick(NETWORK.BNB, 'l2'),
-            },
-            {
-              label: 'AVAX Block Explorer L1',
-              onClick: () => onLinkClick(NETWORK.AVAX, 'l1'),
-            },
-            {
-              label: 'AVAX Block Explorer L2',
-              onClick: () => onLinkClick(NETWORK.AVAX, 'l2'),
             },
           ]}
           label="Block explorers"

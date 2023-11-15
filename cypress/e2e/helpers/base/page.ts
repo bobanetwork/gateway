@@ -61,7 +61,7 @@ export default class Page extends Base {
     cy.get('body').find('wcm-modal').should('exist')
   }
 
-  setNetworkTo(network: 'BNB' | 'AVAX' | 'ETH', type = 'Mainnet') {
+  setNetworkTo(network: 'BNB' | 'ETH', type = 'Mainnet') {
     const bnbConfig = {
       network: 'BNB',
       name: {
@@ -70,17 +70,6 @@ export default class Page extends Base {
       },
       networkIcon: 'bnb',
       chainIds: { L1: '56', L2: '56288' },
-      networkType: type,
-    }
-
-    const avaxConfig = {
-      network: 'AVAX',
-      name: {
-        l1: 'Avalanche Mainnet C-Chain',
-        l2: 'Boba Avalanche',
-      },
-      networkIcon: 'avax',
-      chainIds: { L1: '43114', L2: '43288' },
       networkType: type,
     }
 
@@ -98,8 +87,6 @@ export default class Page extends Base {
     let payload = ethConfig
     if (network === 'BNB') {
       payload = bnbConfig
-    } else if (network === 'AVAX') {
-      payload = avaxConfig
     }
 
     cy.window().its('store').invoke('dispatch', {
@@ -148,31 +135,6 @@ export default class Page extends Base {
       .should('be.visible')
       .and(($p) => {
         expect($p).to.have.length(1)
-      })
-  }
-
-  checkNaviagtionListAvalanche() {
-    this.header
-      .getNavigationLinks()
-      .should('not.be.empty')
-      .and(($p) => {
-        // should have found 3 elements for Avalanche
-        expect($p).to.have.length(3)
-
-        // // use jquery's map to grab all of their classes
-        // // jquery's map returns a new jquery object
-        const links = $p.map((i, el) => {
-          return Cypress.$(el).attr('href')
-        })
-        // call classes.get() to make this a plain array
-        expect(links.get()).to.deep.eq(['/bridge', '/bridge', '/history'])
-
-        // get labels and verify
-        const labels = $p.map((i, el) => {
-          return Cypress.$(el).text()
-        })
-
-        expect(labels.get()).to.deep.eq(['', 'Bridge', 'History'])
       })
   }
 
@@ -235,7 +197,6 @@ export default class Page extends Base {
       .click()
       .should('have.text', 'Ethereum (Goerli)')
       .should('have.text', 'BNB Testnet')
-      .should('have.text', 'Fuji Testnet')
   }
 
   // check theme switching functionality
@@ -278,12 +239,6 @@ export default class Page extends Base {
     this.handleNetworkSwitchModals('BNB', false)
     this.allowNetworkSwitch()
     this.checkNetworkSwitchSuccessful('BNB')
-
-    // switch to AVAX
-    this.header.switchNetwork('Avalanche Mainnet')
-    this.handleNetworkSwitchModals('AVAX', false)
-    this.allowNetworkSwitch()
-    this.checkNetworkSwitchSuccessful('AVAX')
 
     // switch to Ethereum
     this.header.switchNetwork('Ethereum')
