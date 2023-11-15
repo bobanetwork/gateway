@@ -184,11 +184,6 @@ export default class Page extends Base {
       .contains('Binance Smart Chain')
       .should('exist')
 
-    this.header
-      .getNetworkSwitcher()
-      .contains('Avalanche Mainnet C-Chain')
-      .should('exist')
-
     this.header.getNetworkSwitcher().click()
   }
   checkNetworkSwitcherTestnet() {

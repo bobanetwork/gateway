@@ -62,7 +62,6 @@ const amountToUseConfig = {
   'OLO': { provider: 'oolongswap' },
   'OMG': { provider: 'omisego' },
   'USDC': { provider: 'usd-coin' },
-  'AVAX': { provider: 'avalanche-2' },
   'BNB': { provider: 'binancecoin' },
   'tBNB': { provider: 'binancecoin' }
 }
