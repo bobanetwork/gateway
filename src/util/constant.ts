@@ -91,14 +91,13 @@ export const ROUTES_PATH: RoutesPathType = {
 
 export const PER_PAGE: number = 8
 
-type Network = 'ethereum' | 'bnb' | 'avax' //we move this to global network type once we define this
+type Network = 'ethereum' | 'bnb' //we move this to global network type once we define this
 type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO' | 'Monster'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
   ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
   bnb: ['Bridge', 'Earn', 'History'],
-  avax: ['Bridge', 'Earn', 'History'],
 }
 
 export enum Layer {

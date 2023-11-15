@@ -6,7 +6,8 @@ import { closeModal } from 'actions/uiAction'
 import {
   setConnectBOBA,
   setConnectETH,
-} from 'actions/setupAction.js'
+  setConnect
+} from 'actions/setupAction'
 
 import Modal from 'components/modal/Modal'
 import { Typography } from 'components/global/typography'
@@ -19,7 +20,6 @@ import ArrowIcon from 'assets/images/icons/arrowright.svg'
 import { Wallets, Wallet, Icon, ArrowContainer, IconContainer } from './styles'
 
 import { useWalletConnect } from 'hooks/useWalletConnect'
-import { setConnect } from 'actions/setupAction'
 import styled from 'styled-components'
 
 const StyledSvg = styled(Svg)`
