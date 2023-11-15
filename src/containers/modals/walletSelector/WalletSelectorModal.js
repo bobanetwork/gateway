@@ -25,7 +25,7 @@ import styled from 'styled-components'
 const StyledSvg = styled(Svg)`
   display: flex;
   svg {
-    fill: ${({ theme }) => theme.name === 'light' ? theme.colors.gray[ 600 ] : theme.colors.gray[ 100 ]}
+    fill: ${({ theme }) => theme.name == 'light' ? theme.colors.gray[ 600 ] : theme.colors.gray[ 100 ]}
   }
 `
 
