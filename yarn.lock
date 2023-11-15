@@ -5232,10 +5232,10 @@
   resolved "https://registry.yarnpkg.com/@swc/types/-/types-0.1.5.tgz#043b731d4f56a79b4897a3de1af35e75d56bc63a"
   integrity sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==
 
-"@synthetixio/synpress@^3.7.2-beta.8":
-  version "3.7.2-beta.8"
-  resolved "https://registry.yarnpkg.com/@synthetixio/synpress/-/synpress-3.7.2-beta.8.tgz#6ea9370891858aa340eb8939cac837a790973602"
-  integrity sha512-pxfee++qDDcK+3uKP5aeuoDGydXOE5bFIkdubODwnVoMxguLndwHkdlYG1wLWrxjuTES8XyvUQ5O0zl/7WWEpg==
+"@synthetixio/synpress@^3.7.2-beta.9":
+  version "3.7.2-beta.9"
+  resolved "https://registry.yarnpkg.com/@synthetixio/synpress/-/synpress-3.7.2-beta.9.tgz#32c3d9b24a4fc25613184f5ee80f695f535a2b5b"
+  integrity sha512-1fnr3jzQA2op6YnXxx6ERZ4babB+Ib1Xc5URGTcndH891Oa5uVlIaP0zRm5udTJuNdENOTLgkAdjv4WTGurBVA==
   dependencies:
     "@cypress/code-coverage" "^3.11.0"
     "@cypress/webpack-dev-server" "^3.5.2"
