@@ -9,7 +9,7 @@ exports[`NotificationBanner  should match snapshot and check show banner when op
       class="sc-dAlyuH eGlSty sc-gFqAkR guazbW"
       data-testid="message"
     >
-      BobaAvax (Fuji) is being wound down & will no longer be available, starting October 31st
+      Banner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
       <span
         class="sc-ikkxIA izVdUp"
         role="readMore"
@@ -30,7 +30,7 @@ exports[`NotificationBanner  should match snapshot without message 1`] = `
       class="sc-dAlyuH eGlSty sc-gFqAkR guazbW"
       data-testid="message"
     >
-      BobaAvax (Fuji) is being wound down & will no longer be available, starting October 31st
+      Banner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
       <span
         class="sc-ikkxIA izVdUp"
         role="readMore"
