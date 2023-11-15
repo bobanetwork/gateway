@@ -20,9 +20,4 @@ interface BannerContent {
  *
  */
 
-export const BannerConfig: Record<string, BannerContent> = {
-  [Network.AVAX]: {
-    message: `BobaAvax (Fuji) is being wound down & will no longer be available, starting October 31st`,
-    content: `BobaAvax (Fuji) is being wound down & will no longer be available starting October 31st. For users of BobaAvax or BobaAvax applications you will need to transfer all your funds to Avalanche mainnet before October 31st or risk permanently losing access to any assets on BobaAvax.`,
-  },
-}
+export const BannerConfig: Record<string, BannerContent> = {}

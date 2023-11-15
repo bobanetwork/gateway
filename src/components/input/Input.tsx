@@ -25,6 +25,43 @@ import Button from 'components/button/Button'
 import { useTheme, Box, Typography } from '@mui/material'
 
 import { getCoinImage } from 'util/coinImage'
+import {
+  ActionMeta,
+  OnChangeValue,
+} from 'react-select/dist/declarations/src/types'
+
+export interface IInputProps {
+  placeholder: string
+  label: string
+  type: string
+  disabled: boolean
+  unit: string
+  value: string
+  onChange: (
+    newValue: OnChangeValue<any, any>,
+    actionMeta?: ActionMeta<any>
+  ) => void
+  onSelect: (
+    newValue: OnChangeValue<any, any>,
+    actionMeta?: ActionMeta<any>
+  ) => void
+  sx
+  paste: boolean
+  maxValue: BN.Value
+  fullWidth: number
+  size: number
+  variant: string
+  newStyle: boolean
+  allowUseAll: boolean
+  onUseMax: () => void
+  selectOptions: string[]
+  selectValue: string
+  style
+  isBridge: boolean
+  openTokenPicker: () => void
+  textarea: boolean
+  maxRows: number
+}
 
 export const Input = ({
   placeholder,
@@ -51,7 +88,7 @@ export const Input = ({
   openTokenPicker,
   textarea = false,
   maxRows = 10,
-}) => {
+}: IInputProps) => {
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText()
@@ -71,7 +108,7 @@ export const Input = ({
   const overMax = new BN(value).gt(new BN(maxValue))
   const theme = useTheme()
 
-  const tokenImageElement = (unit) => {
+  const tokenImageElement = (unit: string) => {
     return (
       <>
         <Typography variant="body2" component="div">
@@ -83,7 +120,7 @@ export const Input = ({
   }
 
   const options = selectOptions
-    ? selectOptions.reduce((acc, cur) => {
+    ? selectOptions.reduce((acc: any, cur) => {
         acc.push({ value: cur, label: tokenImageElement(cur) })
         return acc
       }, [])

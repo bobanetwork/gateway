@@ -16,7 +16,7 @@ limitations under the License. */
 import { Network, NetworkType } from "util/network/network.util"
 
 /**
- * network : ethereum, bnb, avax
+ * network : ethereum, bnb
  * networkType : mainnet, testnet.
  **/
 
