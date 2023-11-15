@@ -1,10 +1,9 @@
-import { styled } from '@mui/material/styles';
-import {Box} from '@mui/material';
-
+import { styled } from '@mui/material/styles'
+import { Box } from '@mui/material'
 
 export const Field = styled(Box)(({ theme }) => ({
   position: 'relative',
-  border: `1px solid ${theme.palette.background.secondaryLight}`,
+  border: `1px solid ${(theme.palette.background as any).secondaryLight}`,
   transition: 'all 200ms ease -in -out',
   display: 'flex',
   flexDirection: 'row',
@@ -12,13 +11,6 @@ export const Field = styled(Box)(({ theme }) => ({
   borderRadius: '12px',
 }))
 
-
-export const SelectOptionContainer = styled(Box)(({ theme }) => ({
-  background: theme.palette.background.secondary,
-  border: '1px solid rgba(255, 255, 255, 0.15)',
-  display: 'flex',
-  alignItems: 'center'
-}));
 export const SelectedContainer = styled(Box)(({ theme }) => ({
   flex: 1,
   display: 'flex',
@@ -27,6 +19,5 @@ export const SelectedContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'space-around',
   height: '40px',
   borderRadius: '10px',
-  background: theme.palette.background.secondary,
-}));
-
+  background: (theme.palette.background as any).secondary,
+}))

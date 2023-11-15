@@ -50,12 +50,12 @@ export const getEarnInfo = () => async (dispatch) => {
   )
 }
 
-export const updateStakeToken = (stakeToken: string) => ({
+export const updateStakeToken = (stakeToken: any) => ({
   type: 'UPDATE_STAKE_TOKEN',
   payload: stakeToken,
 })
 
-export const updateWithdrawToken = (withdrawToken: string) => ({
+export const updateWithdrawToken = (withdrawToken: any) => ({
   type: 'UPDATE_WITHDRAW_TOKEN',
   payload: withdrawToken,
 })

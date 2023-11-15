@@ -362,7 +362,7 @@ class EarnDepositModal extends React.Component {
                   width: '100%'
                 }}
                   loading={loading}
-                  disable={!stakeValueValid}
+                  disabled={!stakeValueValid}
                 />
                 <Button
                   onClick={() => { this.handleClose() }}
@@ -394,7 +394,7 @@ class EarnDepositModal extends React.Component {
                   width: '100%'
                 }}
                   loading={loading}
-                  disable={false}
+                  disabled={false}
                   label="Stake"
                 />
                 <Button
