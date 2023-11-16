@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Circle } from '@mui/icons-material'
 import { Box, Link, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { executeProposal, queueProposal } from 'actions/daoAction'
@@ -25,7 +24,7 @@ import * as S from './listProposal.styles'
 import { formatDate } from 'util/dates'
 import { Label } from 'components/dao/label'
 import { Svg } from 'components/global/svg'
-import Arrow from 'assets/images/icons/arrowdown.svg';
+import Arrow from 'assets/images/icons/arrowdown.svg'
 
 import { LinearProgress } from 'components/dao/LinearProgress'
 
@@ -36,13 +35,12 @@ const useStyles = makeStyles({
   barColorPrimary: {
     backgroundColor: '#83BF6E',
   },
-});
+})
 
 const ListProposal = ({ proposal }) => {
   const dispatch = useDispatch()
-  const classes = useStyles()
-  const [isOpen, setIsOpen] = useState(false);
-  const [votePercent, setVotePercent] = useState(0)
+  const [isOpen, setIsOpen] = useState(false)
+  const [_, setVotePercent] = useState(0)
   useEffect(() => {
     const init = async () => {
       if (proposal.totalVotes > 0) {
@@ -52,7 +50,7 @@ const ListProposal = ({ proposal }) => {
       } else {
         setVotePercent(0)
       }
-    };
+    }
     init()
   }, [proposal])
 
@@ -74,22 +72,22 @@ const ListProposal = ({ proposal }) => {
     }
   }
   const getDescription = ({ description }) => {
-    const hasLink = !!description?.includes('@@');
-    const text = hasLink ? description?.split('@@')[0] : description;
-    return text;
+    const hasLink = !!description?.includes('@@')
+    const text = hasLink ? description?.split('@@')[0] : description
+    return text
   }
 
   const getLink = ({ description }) => {
-    const hasLink = !!description?.includes('@@');
-    const link = hasLink ? description?.split('@@')[1] : null;
-    return link;
-  };
+    const hasLink = !!description?.includes('@@')
+    const link = hasLink ? description?.split('@@')[1] : null
+    return link
+  }
 
   const FormatDescription = ({ description }) => {
     return (
       <Typography variant="body2">{getDescription({ description })}</Typography>
     )
-  };
+  }
 
   const startTime = formatDate(proposal.startTimestamp, 'lll')
   const endTime = formatDate(proposal.endTimestamp, 'lll')
@@ -99,23 +97,23 @@ const ListProposal = ({ proposal }) => {
   const buttonConfig = {
     Active: {
       label: 'Vote',
-      onClick: () => onVote(proposal.id)
+      onClick: () => onVote(proposal.id),
     },
     Queued: {
       label: 'EXECUTE',
-      onClick: doExecuteProposal
+      onClick: doExecuteProposal,
     },
     Succeeded: {
       label: 'QUEUE',
-      onClick: doQueueProposal
-    }
-  };
+      onClick: doQueueProposal,
+    },
+  }
 
-  const proposalState = proposal.state;
-  const config = buttonConfig[proposalState];
+  const proposalState = proposal.state
+  const config = buttonConfig[proposalState]
 
   return (
-    <S.Wrapper onClick={()=> setIsOpen(!isOpen)}>
+    <S.Wrapper onClick={() => setIsOpen(!isOpen)}>
       <S.GridContainer
         container
         spacing={1}
@@ -144,7 +142,7 @@ const ListProposal = ({ proposal }) => {
                 transform: `rotate(${isOpen ? '180deg' : '0deg'})`,
               }}
             >
-              <Svg src={Arrow} fill="#fff"/>
+              <Svg src={Arrow} fill="#fff" />
             </Box>
           </S.ItemHeaderContainer>
         </S.GridItemTag>
@@ -152,7 +150,7 @@ const ListProposal = ({ proposal }) => {
           sx={{
             width: '100%',
             alignItems: 'flex-start',
-            flexDirection:'column',
+            flexDirection: 'column',
             my: '10px',
             display: isOpen ? 'flex' : 'none',
           }}
@@ -161,10 +159,10 @@ const ListProposal = ({ proposal }) => {
             <Box display="flex" alignItems="center">
               <Typography variant="body4" sx={{ opacity: 0.65, ml: '8px' }}>
                 {`${startTime} - ${endTime}`}
-              </Typography >
+              </Typography>
             </Box>
           </Box>
-          {proposal.totalVotes > 0 &&
+          {proposal.totalVotes > 0 && (
             <S.GridItemTagR sx={{ width: '100%', padding: '15px 0px' }}>
               <Box
                 sx={{
@@ -172,7 +170,8 @@ const ListProposal = ({ proposal }) => {
                   width: '100%',
                   display: 'flex',
                   justifyContent: 'space-between',
-              }}>
+                }}
+              >
                 <Typography variant="body4">
                   Total: {proposal.totalVotes}
                 </Typography>
@@ -180,7 +179,7 @@ const ListProposal = ({ proposal }) => {
               <Box sx={{ width: '100%', margin: '8px 0px' }}>
                 <LinearProgress
                   style={{
-                    width: '100%'
+                    width: '100%',
                   }}
                   A={proposal.forVotes}
                   B={proposal.againstVotes}
@@ -188,7 +187,7 @@ const ListProposal = ({ proposal }) => {
                 />
               </Box>
             </S.GridItemTagR>
-          }
+          )}
           <S.GridItemTag item xs={12} md={12}>
             {config && (!hasVoted || proposalState !== 'Active') && (
               <Box
@@ -216,18 +215,16 @@ const ListProposal = ({ proposal }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={getLink({ description: proposal.description })}
-                ml='8px'
+                ml="8px"
               >
                 More details
               </Link>
             )}
           </S.GridItemTag>
         </Box>
-
       </S.GridContainer>
     </S.Wrapper>
-    )
+  )
 }
-
 
 export default React.memo(ListProposal)

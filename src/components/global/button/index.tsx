@@ -4,7 +4,7 @@ import { ButtonTypes } from './types'
 import Tooltip from 'components/tooltip/Tooltip'
 
 export const Button: FC<ButtonTypes> = ({
-  disable = false,
+  disabled = false,
   loading = false,
   small = false,
   outline = false,
@@ -22,13 +22,13 @@ export const Button: FC<ButtonTypes> = ({
       <ButtonContainer
         style={style}
         type="button"
-        disable={disable}
+        disabled={disabled}
         loading={loading}
         tiny={tiny}
         transparent={transparent}
         small={small}
         outline={outline}
-        onClick={!disable ? onClick : () => {}}
+        onClick={!disabled ? onClick : () => {}}
         className={className}
         label={label}
         {...rest}

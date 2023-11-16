@@ -252,7 +252,7 @@ class EarnWithdrawModal extends React.Component {
                 onClick={()=>{this.handleConfirm()}}
                 label="Unstake"
                 loading={loading}
-                disable={!!disableSubmit}
+                disabled={!!disableSubmit}
                 style={{
                   width: '100%'
                 }}

@@ -9,7 +9,7 @@ import TxBuilder from './TxBuilder'
 
 import * as S from './DevTools.styles'
 
-const DevTools = ({projectType}) => {
+const DevTools = () => {
 
   const networkLayer = useSelector(selectLayer())
   const accountEnabled = useSelector(selectAccountEnabled())
