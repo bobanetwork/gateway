@@ -14,34 +14,34 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 const initialState = {
-  TxBuilder: {}
+  TxBuilder: {},
 }
 
-function devToolsReducer (state = initialState, action) {
+const devToolsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TX_BUILDER/SUCCESS':
       return {
         ...state,
         TxBuilder: {
           ...state.TxBuilder,
-          [action.payload.methodIndex]: action.payload.result
-        }
+          [action.payload.methodIndex]: action.payload.result,
+        },
       }
     case 'TX_BUILDER/ERROR':
       return {
         ...state,
         TxBuilder: {
           ...state.TxBuilder,
-          [action.payload.methodIndex]: action.payload.result
-        }
+          [action.payload.methodIndex]: action.payload.result,
+        },
       }
     case 'TX_BUILDER/REST':
       return {
         ...state,
-        TxBuilder: {}
+        TxBuilder: {},
       }
     default:
-      return state;
+      return state
   }
 }
 
