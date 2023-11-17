@@ -13,6 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-export function selectLookupPrice (state) {
-  return state.lookup;
-}
+export const selectNetwork = () => (state) => state.network['network']
+
+export const selectNetworkType = () => (state) => state.network['networkType']
+
+export const selectActiveNetwork = () => (state) =>
+  state.network?.['activeNetwork']
+
+export const selectActiveNetworkType = () => (state) =>
+  state.network?.['activeNetworkType']
+
+export const selectActiveNetworkIcon = () => (state) =>
+  state.network['activeNetworkIcon']
+export const selectActiveNetworkName = () => (state) =>
+  state.network?.['activeNetworkName']
