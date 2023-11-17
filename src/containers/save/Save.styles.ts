@@ -30,7 +30,7 @@ export const StakeEarnContainer = styled.div`
 `
 
 export const StakeInputContainer = styled.div`
-  background: ${(props) => props.theme.colors.box.background},
+  background: ${(props) => props.theme.colors.box.background};
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 32px 24px;
