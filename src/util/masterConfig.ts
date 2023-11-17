@@ -10,10 +10,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import {
-  MAX_HEALTH_BLOCK_LAG,
-} from './constant'
-
 const BaseServices = {
   WALLET_SERVICE: `https://api-service.boba.network/`,
   //Coing gecko url
@@ -26,10 +22,4 @@ const BaseServices = {
   GOERLI_META_TRANSACTION: `https://api-meta-transaction.goerli.boba.network/`,
 }
 
-export function getBaseServices() {
-  return BaseServices
-}
-
-export function getMaxHealthBlockLag() {
-  return MAX_HEALTH_BLOCK_LAG || 100
-}
+export const getBaseServices = () => BaseServices

@@ -36,6 +36,6 @@ ReactDOM.render(
 )
 
 // Exposes store to window when running Cypress test only.
-if (window.Cypress) {
+if ((window as any).Cypress) {
   window['store'] = store
 }
