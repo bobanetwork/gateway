@@ -23,7 +23,7 @@ import { useTheme } from 'styled-components'
 import { Button } from 'components/global'
 
 import transactionService from 'services/transaction.service'
-import { NETWORK_TYPE } from 'util/network/network.util'
+import { NetworkType } from 'util/network/network.util'
 import {
   ALL_NETWORKS,
   FILTER_OPTIONS,
@@ -198,7 +198,7 @@ const History = () => {
                     defaultItem={fromNetwork}
                     onItemSelected={(option) => setFromNetwork(option)}
                     error={false}
-                    headers={[NETWORK_TYPE.MAINNET, NETWORK_TYPE.TESTNET]}
+                    headers={[NetworkType.MAINNET, NetworkType.TESTNET]}
                   />
                   <SwitchChainIcon
                     onClick={() => {
@@ -213,7 +213,7 @@ const History = () => {
                     defaultItem={toNetwork}
                     onItemSelected={(option) => setToNetwork(option)}
                     error={false}
-                    headers={[NETWORK_TYPE.MAINNET, NETWORK_TYPE.TESTNET]}
+                    headers={[NetworkType.MAINNET, NetworkType.TESTNET]}
                   />
                 </NetworkDropdowns>
                 <FilterDropDown

@@ -1,4 +1,8 @@
-import { NETWORK, NETWORK_TYPE } from '../util/network/network.util'
+import {
+  INetworkCategory,
+  Network,
+  NetworkType,
+} from '../util/network/network.util'
 
 // testnet addresss
 import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
@@ -26,15 +30,15 @@ const L2_SECONDARYFEETOKEN_ADDRESS =
   '0x4200000000000000000000000000000000000023'
 
 const ADDRESS_CONFIG = {
-  [NETWORK_TYPE.MAINNET]: {
-    [NETWORK.ETHEREUM]: {
+  [NetworkType.MAINNET]: {
+    [Network.ETHEREUM]: {
       ...addresses_Mainnet,
       ...layerZeroMainnet.BOBA_Bridges.Mainnet,
       ...layerZeroMainnet.Layer_Zero_Protocol.Mainnet,
       layerZeroTargetChainID:
         layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       ...addresses_BobaBnb,
       ...layerZeroMainnet.BOBA_Bridges.BNB,
       ...layerZeroMainnet.Layer_Zero_Protocol.BNB,
@@ -42,15 +46,15 @@ const ADDRESS_CONFIG = {
         layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
   },
-  [NETWORK_TYPE.TESTNET]: {
-    [NETWORK.ETHEREUM]: {
+  [NetworkType.TESTNET]: {
+    [Network.ETHEREUM]: {
       ...addresses_Goerli,
       ...layerZeroTestnet.BOBA_Bridges.Testnet,
       ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
       layerZeroTargetChainID:
         layerZeroTestnet.Layer_Zero_Protocol.Testnet.Layer_Zero_ChainId,
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       ...addresses_BobaBnbTestnet,
       ...layerZeroTestnet.BOBA_Bridges.BNB,
       ...layerZeroTestnet.Layer_Zero_Protocol.BNB,
@@ -60,9 +64,22 @@ const ADDRESS_CONFIG = {
   },
 }
 
-const SUPPORTED_ASSETS = {
-  [NETWORK_TYPE.MAINNET]: {
-    [NETWORK.ETHEREUM]: {
+type NetworkTypeConfig = {
+  [network in Network]: {
+    tokenAddresses: Record<string, { L1: string; L2: string }>
+    tokens: string[]
+    altL1Chains: string[]
+  }
+}
+
+type NetworkTypeConfigs = {
+  [NetworkType.TESTNET]: NetworkTypeConfig
+  [NetworkType.MAINNET]: NetworkTypeConfig
+}
+
+const SUPPORTED_ASSETS: NetworkTypeConfigs = {
+  [NetworkType.MAINNET]: {
+    [Network.ETHEREUM]: {
       tokens: [
         'USDT',
         'DAI',
@@ -132,19 +149,19 @@ const SUPPORTED_ASSETS = {
       },
       altL1Chains: ['BNB'],
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       tokenAddresses: {},
       tokens: ['BOBA', 'BNB', 'BUSD', 'USDC', 'USDT', 'SUSHI'],
       altL1Chains: ['BNB'],
     },
   },
-  [NETWORK_TYPE.TESTNET]: {
-    [NETWORK.ETHEREUM]: {
+  [NetworkType.TESTNET]: {
+    [Network.ETHEREUM]: {
       tokenAddresses: {},
       tokens: ['BOBA', 'USDC', 'OMG', 'xBOBA'],
       altL1Chains: ['BNB'],
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       tokenAddresses: {},
       tokens: ['BOBA', 'BNB', 'MMT'],
       altL1Chains: ['BNB'],
@@ -190,7 +207,7 @@ class AppService {
    *
    */
 
-  fetchSupportedAssets({ networkType, network }) {
+  fetchSupportedAssets({ networkType, network }: INetworkCategory) {
     return SUPPORTED_ASSETS[networkType][network] || {}
   }
 

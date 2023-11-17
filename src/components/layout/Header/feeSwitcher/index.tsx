@@ -26,7 +26,7 @@ import {
 import Select from 'components/select/Select'
 import Tooltip from 'components/tooltip/Tooltip'
 
-import networkService from 'services/networkService.js'
+import networkService from 'services/networkService'
 
 import useFeeSwitcher from 'hooks/useFeeSwitcher'
 import { getCoinImage } from 'util/coinImage'

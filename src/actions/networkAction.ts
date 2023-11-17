@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import networkService from 'services/networkService'
+import networkService, { EPoolLayer } from 'services/networkService'
 import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
@@ -93,7 +93,7 @@ export const earnL2 = (
 export const getReward = (
   currencyAddress: string,
   value_Wei_String: BigNumberish,
-  L1orL2Pool: string
+  L1orL2Pool: EPoolLayer
 ) =>
   createAction('EARN/HARVEST', () =>
     networkService.getReward(currencyAddress, value_Wei_String, L1orL2Pool)
@@ -102,7 +102,7 @@ export const getReward = (
 export const withdrawLiquidity = (
   currencyAddress: string,
   value_Wei_String: string,
-  L1orL2Pool: string
+  L1orL2Pool: EPoolLayer
 ) =>
   createAction('EARN/WITHDRAW', () =>
     networkService.withdrawLiquidity(

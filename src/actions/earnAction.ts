@@ -17,7 +17,7 @@
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import networkService from 'services/networkService'
+import networkService, { EPoolLayer } from 'services/networkService'
 import { createAction } from './createAction'
 
 const getEarnInfoBegin = () => ({
@@ -68,7 +68,7 @@ export const fetchAllowance = (currency: string, lpAddress: string) =>
 export const addLiquidity = (
   currency: string,
   weiString: string,
-  L1orL2Pool: string
+  L1orL2Pool: EPoolLayer
 ) =>
   createAction('ADD/LIQUIDITY', () =>
     networkService.addLiquidity(currency, weiString, L1orL2Pool)

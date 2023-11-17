@@ -31,7 +31,7 @@ import { logAmount } from 'util/amountConvert'
 import { LAYER } from 'util/constant'
 import BN from 'bignumber.js'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
-import { NETWORK } from 'util/network/network.util'
+import { Network } from 'util/network/network.util'
 import { BigNumberish, ethers } from 'ethers'
 
 enum ALERT_KEYS {
@@ -452,7 +452,7 @@ const useBridgeAlerts = () => {
     dispatch(purgeBridgeAlert())
 
     if (
-      activeNetwork !== NETWORK.ETHEREUM &&
+      activeNetwork !== Network.ETHEREUM &&
       bridgeType === BRIDGE_TYPE.THIRD_PARTY
     ) {
       dispatch(

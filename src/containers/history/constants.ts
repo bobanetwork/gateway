@@ -3,7 +3,7 @@ import { IDropdownItem } from 'components/global/dropdown'
 import { IFilterDropdownItem } from 'components/filter'
 import { TableHeaderOptionType } from 'components/global/table'
 import { getCoinImage } from 'util/coinImage'
-import { NETWORK_TYPE } from 'util/network/network.util'
+import { NetworkType } from 'util/network/network.util'
 import { CHAIN_NAME, ChainMap } from './types'
 
 import bobaEth from 'assets/bobaEth.svg'
@@ -81,19 +81,19 @@ export const NETWORK_L1_OPTIONS: IDropdownItem[] = [
     value: '1',
     label: 'Ethereum',
     imgSrc: ethIcon,
-    headerName: NETWORK_TYPE.MAINNET,
+    headerName: NetworkType.MAINNET,
   },
   {
     value: '56',
     label: 'BNB',
     imgSrc: getCoinImage('BNB'),
-    headerName: NETWORK_TYPE.MAINNET,
+    headerName: NetworkType.MAINNET,
   },
   {
     value: '5',
     label: 'Goerli',
     imgSrc: ethIcon,
-    headerName: NETWORK_TYPE.TESTNET,
+    headerName: NetworkType.TESTNET,
   },
 ]
 
@@ -103,25 +103,25 @@ export const NETWORK_L2_OPTIONS = [
     value: '288',
     label: 'Boba Ethereum',
     imgSrc: bobaEth,
-    headerName: NETWORK_TYPE.MAINNET,
+    headerName: NetworkType.MAINNET,
   },
   {
     value: '56288',
     label: 'Boba BNB',
     imgSrc: bobaBnb,
-    headerName: NETWORK_TYPE.MAINNET,
+    headerName: NetworkType.MAINNET,
   },
   {
     value: '2888',
     label: 'Boba Goerli',
     imgSrc: bobaEth,
-    headerName: NETWORK_TYPE.TESTNET,
+    headerName: NetworkType.TESTNET,
   },
   {
     value: '9728',
     label: 'Boba tBNB',
     imgSrc: bobaBnb,
-    headerName: NETWORK_TYPE.TESTNET,
+    headerName: NetworkType.TESTNET,
   },
 ]
 

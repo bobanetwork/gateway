@@ -293,7 +293,7 @@ class TransactionService {
         let sentEvents: LightBridgeAssetReceivedEvent[] = []
         try {
           sentEvents = await lightBridgeGraphQLService.queryAssetReceivedEvent(
-            networkService.account,
+            networkService.account!,
             sourceChainId
           )
         } catch (err: any) {
@@ -307,7 +307,7 @@ class TransactionService {
           sentEvents.map(async (sendEvent) => {
             let receiveEvent =
               await lightBridgeGraphQLService.queryDisbursementSuccessEvent(
-                networkService.account,
+                networkService.account!,
                 sendEvent.sourceChainId,
                 sendEvent.toChainId,
                 _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(
@@ -325,7 +325,7 @@ class TransactionService {
               // Native assets can fail and retried
               receiveEvent =
                 await lightBridgeGraphQLService.queryDisbursementFailedEvent(
-                  networkService.account,
+                  networkService.account!,
                   sendEvent.sourceChainId,
                   sendEvent.toChainId,
                   sendEvent.amount,
@@ -335,7 +335,7 @@ class TransactionService {
                 // check if successfully retried
                 receiveEvent =
                   await lightBridgeGraphQLService.queryDisbursementRetrySuccessEvent(
-                    networkService.account,
+                    networkService.account!,
                     sendEvent.sourceChainId,
                     sendEvent.toChainId,
                     sendEvent.amount,

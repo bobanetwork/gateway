@@ -44,7 +44,7 @@ import * as S from './OldDao.styles'
 import Connect from 'containers/connect'
 import { TabHeader } from 'components/global/tabHeader'
 import useInterval from 'hooks/useInterval';
-import { NETWORK } from 'util/network/network.util';
+import { Network } from 'util/network/network.util';
 import { POLL_INTERVAL } from 'util/constant';
 import {
   fetchDaoBalance,
@@ -90,7 +90,7 @@ const OldDao = () => {
   const [ selectedState, setSelectedState ] = useState(PROPOSAL_STATES[ 0 ])
 
   useEffect(() => {
-    if (basedEnable && activeNetwork === NETWORK.ETHEREUM) {
+    if (basedEnable && activeNetwork === Network.ETHEREUM) {
       dispatch(getProposalThreshold());
       dispatch(fetchDaoProposals());
     }
@@ -98,14 +98,14 @@ const OldDao = () => {
 
 
   useInterval(() => {
-    if (accountEnabled && activeNetwork === NETWORK.ETHEREUM) {
+    if (accountEnabled && activeNetwork === Network.ETHEREUM) {
       dispatch(fetchDaoBalance())      // account specific
       dispatch(fetchDaoVotes())        // account specific
       dispatch(fetchDaoBalanceX())     // account specific
       dispatch(fetchDaoVotesX())       // account specific
     }
 
-    if (basedEnable && activeNetwork === NETWORK.ETHEREUM) {
+    if (basedEnable && activeNetwork === Network.ETHEREUM) {
       dispatch(fetchDaoProposals());
     }
   }, POLL_INTERVAL)

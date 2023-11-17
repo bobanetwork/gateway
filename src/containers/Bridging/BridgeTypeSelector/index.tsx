@@ -3,7 +3,7 @@ import { BridgeTabs, BridgeTabItem } from './style'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectActiveNetworkType, selectBridgeType } from 'selectors'
 import { setBridgeType } from 'actions/bridgeAction'
-import { NETWORK_TYPE } from '../../../util/network/network.util'
+import { NetworkType } from '../../../util/network/network.util'
 
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
@@ -19,7 +19,7 @@ const BridgeTypeSelector = () => {
 
   // Only show teleportation on testnet for now
   const isTestnet =
-    useSelector(selectActiveNetworkType()) === NETWORK_TYPE.TESTNET
+    useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
 
   const onTabClick = (payload: any) => {
     dispatch(setBridgeType(payload))
