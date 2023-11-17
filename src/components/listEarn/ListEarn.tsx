@@ -6,11 +6,7 @@ import { logAmount, powAmount, formatLargeNumber } from 'util/amountConvert'
 import { BigNumber, BigNumberish } from 'ethers'
 
 import { openAlert, openModal } from 'actions/uiAction'
-import {
-  getEarnInfo,
-  updateStakeToken,
-  updateWithdrawToken,
-} from 'actions/earnAction'
+import { getEarnInfo, updateWithdrawToken } from 'actions/earnAction'
 import networkService, { EPoolLayer } from 'services/networkService'
 import { Box, Fade, CircularProgress } from '@mui/material'
 import * as S from './styles'
@@ -24,7 +20,6 @@ import { Button } from 'components/global/button'
 import ActionIcon from 'assets/images/icons/actions.svg'
 import { SvgContianer } from './styles'
 import { Svg } from 'components/global/svg'
-import { AnyAction } from 'redux'
 
 interface IListEarnProps {
   poolInfo?
