@@ -53,12 +53,6 @@ import L2BillingContractJson from '@bobanetwork/contracts/artifacts/contracts/L2
 //special one-off locations
 import L1ERC20Json from '../deployment/contracts/L1ERC20.json'
 
-//WAGMI ABIs
-// multi chain alt l1s ABI's
-import ETHL1BridgeJson from '../deployment/contracts/crosschain/EthBridge.json'
-import L2StandardERC20Json from '../deployment/contracts/crosschain/L2StandardERC20.json'
-import LZEndpointMockJson from '../deployment/contracts/crosschain/LZEndpointMock.json'
-
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
