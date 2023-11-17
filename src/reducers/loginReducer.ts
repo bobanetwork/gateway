@@ -17,17 +17,27 @@
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-const initialState = {
-  FHEseed: null,
-  AESKey: null,
+interface ILoginReducerState {
+  FHEseed?: string
+  AESKey?: string
+  loggedIn: boolean
+  isBeginner: boolean
+  invitationCodeGood: boolean
+  invitationCodeVerifyLoad: boolean
+  invitationCodeVerifyError?: string
+}
+
+const initialState: ILoginReducerState = {
+  FHEseed: undefined,
+  AESKey: undefined,
   loggedIn: false,
   isBeginner: true,
   invitationCodeGood: false,
   invitationCodeVerifyLoad: false,
-  invitationCodeVerifyError: null,
+  invitationCodeVerifyError: undefined,
 }
 
-function loginReducer (state = initialState, action) {
+const loginReducer = (state: ILoginReducerState = initialState, action) => {
   switch (action.type) {
     case 'PROVIDE_PASSWORD':
       return {
@@ -67,8 +77,8 @@ function loginReducer (state = initialState, action) {
         invitationCodeVerifyError: action.payload,
       }
     default:
-      return state;
+      return state
   }
 }
 
-export default loginReducer;
+export default loginReducer

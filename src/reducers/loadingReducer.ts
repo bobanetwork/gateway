@@ -13,10 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialLoadingState = {}
+interface ILoadingReducerState {}
 
-function loadingReducer (state = initialLoadingState, action) {
+const initialLoadingState: ILoadingReducerState = {}
 
+const loadingReducer = (
+  state: ILoadingReducerState = initialLoadingState,
+  action
+) => {
   const segments = action.type.split('/')
   const requestName = `${segments[0]}/${segments[1]}`
   const requestState = segments[2]
@@ -31,7 +35,7 @@ function loadingReducer (state = initialLoadingState, action) {
 
   return {
     ...state,
-    [requestName]: requestState === 'REQUEST'
+    [requestName]: requestState === 'REQUEST',
   }
 }
 
