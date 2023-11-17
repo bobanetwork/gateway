@@ -47,7 +47,7 @@
     "@mui/base": "5.0.0-alpha.72",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
-    "@mui/styles": "^5.3.0",
+    "@mui/styles": "^5.14.18",
     "@sentry/react": "^7.51.0",
     "@sentry/tracing": "^7.76.0",
     "@walletconnect/ethereum-provider": "^2.10.4",
