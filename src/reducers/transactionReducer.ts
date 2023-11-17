@@ -13,62 +13,66 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialState = {
-}
+interface ITransactionReducerState {}
 
-function transactionReducer (state = initialState, action) {
+const initialState: ITransactionReducerState = {}
+
+const transactionReducer = (
+  state: ITransactionReducerState = initialState,
+  action
+) => {
   switch (action.type) {
     case 'TRANSACTION/GETALL/SUCCESS':
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case 'TRANSFER/CREATE/SUCCESS':
       return {
-        ...state
+        ...state,
       }
     case 'SETTLE_v0/CREATE/SUCCESS':
       return {
-        ...state
+        ...state,
       }
     case 'SETTLE_v1/CREATE/SUCCESS':
       return {
-        ...state
+        ...state,
       }
     case 'SETTLE_v2/CREATE/SUCCESS':
       return {
-        ...state
+        ...state,
       }
     case 'SETTLE_v2OLO/CREATE/SUCCESS':
       return {
-        ...state
+        ...state,
       }
     case 'SETTLE_v3/CREATE/SUCCESS':
       return {
-        ...state
+        ...state,
       }
     case 'SETTLE_v3OLO/CREATE/SUCCESS':
       return {
-        ...state
+        ...state,
       }
     case 'MONSTER/CREATE/SUCCESS':
       return {
-        ...state
+        ...state,
       }
     case 'CDM/COMPLETE/SET':
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case 'CDM/COMPLETE/RESET':
       return {
         ...state,
         CDMType: '',
         CDMMessage: '',
-        CDMTransaction: ''
+        CDMTransaction: '',
       }
     default:
-      return state;
+      return state
   }
 }
 
