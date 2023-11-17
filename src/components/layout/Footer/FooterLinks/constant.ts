@@ -29,5 +29,3 @@ export const FOOTERLINKS: Array<LinkProps> = [
     path: 'https://boba.network/terms-of-use/',
   },
 ]
-
-export const FOOTERLINKS_RIGHT: Array<LinkProps> = []

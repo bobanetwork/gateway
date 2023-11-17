@@ -158,7 +158,6 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   })
 
   const process_transaction = (transaction: ITransaction) => {
-    let amountString = ''
     const chain = transaction.layer === 'L1pending' ? 'L1' : transaction.layer
 
     // TODO: have a unknown token to use
@@ -180,7 +179,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
 
     const symbol = token.symbol
 
-    amountString = logAmount(transaction.action.amount, token.decimals, 4)
+    const amountString = logAmount(transaction.action.amount, token.decimals, 4)
     const fromHash = transaction.hash ?? transaction.crossDomainMessage.fromHash
     let toHash = transaction.crossDomainMessage.toHash ?? ''
     if (

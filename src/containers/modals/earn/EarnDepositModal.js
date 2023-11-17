@@ -124,7 +124,7 @@ class EarnDepositModal extends React.Component {
           stakeToken.currency
         )
 
-      let fee = '0'
+      let fee
 
       // both ETH and BOBA have 18 decimals so this is safe
       if (stakeToken.symbol === netLayerNativeToken) {

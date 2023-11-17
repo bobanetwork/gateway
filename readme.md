@@ -61,19 +61,19 @@ $ yarn prepare # to setup husky on your local.
 Copy `.env.example` file and name by excluding `.example` and populate the variables listed below
 
 
-| Environment Vars             | Required | Default Valu | Description                                                     |
-| ---------------------------- | -------- | ------------ | --------------------------------------------------------------- |
-| REACT_APP_POLL_INTERVAL      | Yes      | 20000        | Interval to poll the fetch api about the records                |
-| REACT_APP_WALLET_VERSION     | Yes      | N/A          | This will be useful while prepare the build.                    |
-| REACT_APP_ENV                | Yes      | dev          | This will be used in case of sentry configuration.              |
-| REACT_APP_GA4_MEASUREMENT_ID | Yes      | N/A          | Google analytics api key                                        |
-| REACT_APP_SENTRY_DSN         | Yes      | N/A          | Sentry DSN url to catch the error on frontend                   |
-| REACT_APP_GAS_POLL_INTERVAL  | Yes      | 30000        | Poll interval to fetch the gas price and verifier status        |
-| REACT_APP_WC_PROJECT_ID=     | Yes      | N/A          | Wallet Connect project ID                                       |
-| CYPRESS_REMOTE_DEBUGGING_PORT| Yes      | 9222         | Debugging port for Cypress                                      |
-| NETWORK_NAME                 | Yes      | goerli       | Starting network for wallet                                     |
-| SECRET_WORDS                 | Yes      | N/A          | Secret phrase for wallet to be used by Cypress e2e test         |
-| CYPRESS_TEST_HASH            | Yes      | N/A          | Txn hash that has occured on the wallet in the last 6 months    |
+| Environment Vars              | Required | Default Valu | Description                                                  |
+|-------------------------------|----------|--------------|--------------------------------------------------------------|
+| REACT_APP_POLL_INTERVAL       | Yes      | 20000        | Interval to poll the fetch api about the records             |
+| REACT_APP_WALLET_VERSION      | Yes      | N/A          | This will be useful while prepare the build.                 |
+| REACT_APP_ENV                 | Yes      | dev          | This will be used in case of sentry configuration.           |
+| REACT_APP_GA4_MEASUREMENT_ID  | Yes      | N/A          | Google analytics api key                                     |
+| REACT_APP_SENTRY_DSN          | Yes      | N/A          | Sentry DSN url to catch the error on frontend                |
+| REACT_APP_GAS_POLL_INTERVAL   | Yes      | 30000        | Poll interval to fetch the gas price and verifier status     |
+| REACT_APP_WC_PROJECT_ID=      | Yes      | N/A          | Wallet Connect project ID                                    |
+| CYPRESS_REMOTE_DEBUGGING_PORT | Yes      | 9222         | Debugging port for Cypress                                   |
+| NETWORK_NAME                  | Yes      | goerli       | Starting network for wallet                                  |
+| SECRET_WORDS                  | Yes      | N/A          | Secret phrase for wallet to be used by Cypress e2e test      |
+| CYPRESS_TEST_HASH             | Yes      | N/A          | Txn hash that has occured on the wallet in the last 6 months |
 
 ### To start local dev-server
 
