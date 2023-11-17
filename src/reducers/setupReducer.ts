@@ -13,17 +13,34 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-let justSwitchedChain = localStorage.getItem("justSwitchedChain")
+interface ISetupReducerState {
+  accountEnabled?: boolean
+  baseEnabled?: boolean
+  netLayer: any
+  walletAddress?: string
+  justSwitchedChain: boolean | string
+  bobaFeePriceRatio: null
+  bobaFeeChoice: any
+  connectETH: boolean
+  connectBOBA: boolean
+  connect: boolean
+  walletConnected: boolean
+  chainIdChanged?: number
+  networkChanged: boolean
+  userTriggeredChainSwitch: boolean
+}
+
+let justSwitchedChain = localStorage.getItem('justSwitchedChain')
 
 if (justSwitchedChain) {
   justSwitchedChain = JSON.parse(justSwitchedChain)
 }
 
-const initialState = {
-  accountEnabled: null,
-  baseEnabled: null,
+const initialState: ISetupReducerState = {
+  accountEnabled: undefined,
+  baseEnabled: undefined,
   netLayer: null,
-  walletAddress: null,
+  walletAddress: undefined,
   justSwitchedChain: justSwitchedChain ? justSwitchedChain : false,
   bobaFeePriceRatio: null,
   bobaFeeChoice: null,
@@ -31,19 +48,19 @@ const initialState = {
   connectBOBA: false,
   connect: false,
   walletConnected: false,
-  chainIdChanged: null,
+  chainIdChanged: undefined,
   networkChanged: false,
-  userTriggeredChainSwitch: false
+  userTriggeredChainSwitch: false,
 }
 
-function setupReducer(state = initialState, action) {
+const setupReducer = (state: ISetupReducerState = initialState, action) => {
   switch (action.type) {
     case 'SETUP/ACCOUNT/SET':
-      localStorage.setItem("justSwitchedChain", JSON.stringify(false))
+      localStorage.setItem('justSwitchedChain', JSON.stringify(false))
       return {
         ...state,
         accountEnabled: action.payload,
-        justSwitchedChain: false
+        justSwitchedChain: false,
       }
     case 'SETUP/WALLETADDRESS/SET':
       return {
@@ -58,66 +75,66 @@ function setupReducer(state = initialState, action) {
     case 'SETUP/LAYER/SET':
       return {
         ...state,
-        netLayer: action.payload
+        netLayer: action.payload,
       }
     case 'SETUP/CONNECT_ETH':
       return {
         ...state,
-        connectETH: action.payload
+        connectETH: action.payload,
       }
     case 'SETUP/CONNECT_BOBA':
       return {
         ...state,
-        connectBOBA: action.payload
+        connectBOBA: action.payload,
       }
     case 'SETUP/CONNECT':
       return {
         ...state,
-        connect: action.payload
+        connect: action.payload,
       }
     case 'SETUP/WALLET_CONNECTED':
       return {
         ...state,
-        walletConnected: action.payload
+        walletConnected: action.payload,
       }
     case 'SETUP/SWITCH/REQUEST':
-      localStorage.setItem("justSwitchedChain", JSON.stringify(true))
+      localStorage.setItem('justSwitchedChain', JSON.stringify(true))
       return {
         ...state,
-        justSwitchedChain: true
+        justSwitchedChain: true,
       }
     case 'SETUP/SWITCH/SUCCESS':
-      localStorage.setItem("justSwitchedChain", JSON.stringify(true))
+      localStorage.setItem('justSwitchedChain', JSON.stringify(true))
       return {
         ...state,
-        justSwitchedChain: true
+        justSwitchedChain: true,
       }
     case 'BOBAFEE/ADD/SUCCESS':
       return {
         ...state,
         bobaFeePriceRatio: action.payload.priceRatio,
-        bobaFeeChoice: action.payload.feeChoice
+        bobaFeeChoice: action.payload.feeChoice,
       }
     case 'SETUP/APPCHAIN/SET':
       return {
         ...state,
         appChain: action.payload,
-        network: action.payload
+        network: action.payload,
       }
     case 'SETUP/CHAINIDCHANGED/SET':
       return {
         ...state,
-        chainIdChanged: action.payload
+        chainIdChanged: action.payload,
       }
     case 'SETUP/CHAINIDCHANGED/RESET':
       return {
         ...state,
-        chainIdChanged: null
+        chainIdChanged: null,
       }
     case 'SETUP/USER_TRIGGERED_CHAIN_SWITCH/SET':
       return {
         ...state,
-        userTriggeredChainSwitch: action.payload
+        userTriggeredChainSwitch: action.payload,
       }
     case 'SETUP/DISCONNECT':
       return {
@@ -127,7 +144,7 @@ function setupReducer(state = initialState, action) {
         connectBOBA: false,
         connect: false,
         walletConnected: false,
-        accountEnabled: false
+        accountEnabled: false,
       }
     default:
       return state

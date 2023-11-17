@@ -17,29 +17,33 @@ limitations under the License. */
 //with cache - ToDo
 //need to keep track of wgich account the cache is for, otherwise incorrect NFTs will be shown
 
-//localStorage.removeItem("nftList")
-
-let nftList = localStorage.getItem("nftList")
-
-if (nftList) {
-  nftList = JSON.parse(nftList)
-  console.log("NFT List Cache:",nftList)
-}
-
-const initialState = {
-  list: nftList ? nftList : {},
-  monsterNumber: 0,
+interface INftReducerState {
+  list: {}
+  monsterNumber: number
   monsterInfo: {}
 }
 
-function nftReducer (state = initialState, action) {
+let nftList = localStorage.getItem('nftList')
+
+if (nftList) {
+  nftList = JSON.parse(nftList)
+  console.log('NFT List Cache:', nftList)
+}
+
+const initialState: INftReducerState = {
+  list: nftList ? nftList : {},
+  monsterNumber: 0,
+  monsterInfo: {},
+}
+
+const nftReducer = (state: INftReducerState = initialState, action) => {
   switch (action.type) {
-
     case 'NFT/ADD/SUCCESS':
-
-      localStorage.setItem("nftList", JSON.stringify({
+      localStorage.setItem(
+        'nftList',
+        JSON.stringify({
           ...state.list,
-          [action.payload.UUID]: action.payload
+          [action.payload.UUID]: action.payload,
         })
       )
 
@@ -47,32 +51,31 @@ function nftReducer (state = initialState, action) {
         ...state,
         list: {
           ...state.list,
-          [action.payload.UUID]: action.payload
-        }
+          [action.payload.UUID]: action.payload,
+        },
       }
 
     case 'MONSTER/INFO/SUCCESS':
       return {
         ...state,
-        monsterInfo: action.payload
+        monsterInfo: action.payload,
       }
 
     case 'MONSTER/NUMBER/SUCCESS':
       return {
         ...state,
-        monsterNumber: action.payload
+        monsterNumber: action.payload,
       }
 
     case 'NFT/REMOVE/SUCCESS':
-
-      let listN = state.list
+      const listN = state.list
       delete listN[action.payload]
 
-      localStorage.setItem("nftList", JSON.stringify(listN))
+      localStorage.setItem('nftList', JSON.stringify(listN))
 
       return {
         ...state,
-        list: listN
+        list: listN,
       }
 
     default:

@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { Network, NetworkType } from "util/network/network.util"
+import { Network, NetworkType } from 'util/network/network.util'
 
 /**
  * network : ethereum, bnb
@@ -27,7 +27,18 @@ import { Network, NetworkType } from "util/network/network.util"
  * 5. on switch click dispatch event. and reload.
  */
 
-const initialState = {
+interface INetworkReducerState {
+  network: Network
+  networkIcon: string
+  networkType: NetworkType
+  name: {}
+  activeNetworkIcon: string
+  activeNetwork: Network
+  activeNetworkType: NetworkType
+  activeNetworkName: {}
+}
+
+const initialState: INetworkReducerState = {
   network: Network.ETHEREUM,
   networkIcon: 'ethereum',
   networkType: NetworkType.MAINNET,
@@ -35,26 +46,21 @@ const initialState = {
   activeNetworkIcon: 'ethereum',
   activeNetwork: Network.ETHEREUM,
   activeNetworkType: NetworkType.MAINNET,
-  activeNetworkName: {}
+  activeNetworkName: {},
 }
 
-function networkReducer(state = initialState, action) {
+const networkReducer = (state: INetworkReducerState = initialState, action) => {
   switch (action.type) {
     case 'NETWORK/SET': {
-      const {
-        network,
-        networkType,
-        networkIcon,
-        chainIds,
-        name
-      } = action.payload;
+      const { network, networkType, networkIcon, chainIds, name } =
+        action.payload
       return {
         ...state,
         network,
         chainIds,
         networkIcon,
         networkType,
-        name
+        name,
       }
     }
     case 'NETWORK/SET_TYPE/ACTIVE': {
@@ -62,7 +68,7 @@ function networkReducer(state = initialState, action) {
       return {
         ...state,
         networkType,
-        activeNetworkType: networkType
+        activeNetworkType: networkType,
       }
     }
     case 'NETWORK/SET/ACTIVE': {
@@ -70,14 +76,14 @@ function networkReducer(state = initialState, action) {
         network: activeNetwork,
         // networkType: activeNetworkType,
         networkIcon: activeNetworkIcon,
-        name: activeNetworkName
-      } = state;
+        name: activeNetworkName,
+      } = state
       return {
         ...state,
         activeNetwork,
         // activeNetworkType,
         activeNetworkIcon,
-        activeNetworkName
+        activeNetworkName,
       }
     }
     default:

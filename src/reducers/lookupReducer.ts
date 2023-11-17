@@ -13,16 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-const initialState = {}
+interface ILookupReducerState {}
 
-function lookupReducer(state = initialState, action) {
+const initialState: ILookupReducerState = {}
+
+const lookupReducer = (state: ILookupReducerState = initialState, action) => {
   switch (action.type) {
     case 'PRICE/GET/SUCCESS':
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload }
     case 'LOOKUP/PRICE/CLEAR':
-      return {};
+      return {}
     default:
-      return state;
+      return state
   }
 }
 
