@@ -35,7 +35,7 @@ describe('VerifierService', () => {
 
   test('fetch verifier status when watcher instance defined', async () => {
     // prep
-    networkService.networkConfig.VERIFIER_WATCHER_URL =
+    networkService.networkConfig!.VERIFIER_WATCHER_URL =
       'https://api-verifier.mainnet.boba.network/'
 
     // test

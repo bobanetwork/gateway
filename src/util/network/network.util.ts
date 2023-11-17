@@ -9,6 +9,10 @@ import BobaBNBIcon from 'components/icons/chain/L2/BobaBNBIcon'
 import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
 import { Layer, LAYER } from 'util/constant'
+import {
+  NetworkDetail,
+  NetworkDetailChainConfig,
+} from './config/network-details.types'
 
 export const L1_ICONS = {
   ethereum: EthereumIcon,
@@ -154,7 +158,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
   ],
 }
 
-export const AllNetworkConfigs = {
+export const AllNetworkConfigs: { [network in Network]: NetworkDetail } = {
   [Network.ETHEREUM]: ethereumConfig,
   [Network.BNB]: bnbConfig,
 }
@@ -162,7 +166,7 @@ export const AllNetworkConfigs = {
 export const getNetworkDetail = ({
   network,
   networkType,
-}: INetworkCategory) => {
+}: INetworkCategory): NetworkDetailChainConfig => {
   return AllNetworkConfigs?.[network]?.[networkType]
 }
 

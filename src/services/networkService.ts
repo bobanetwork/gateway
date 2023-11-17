@@ -79,11 +79,12 @@ import L1StandardBridgeABI from './abi/L1StandardBridge.abi'
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
 import { LAYER } from '../containers/history/types'
 import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
-import { TxPayload } from '../util/network/config/network-details.types'
+import {
+  NetworkDetailChainConfig,
+  TxPayload,
+} from '../util/network/config/network-details.types'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
-const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
-const L2_ETH_Address = '0x4200000000000000000000000000000000000006'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
 const L2_SECONDARYFEETOKEN_ADDRESS =
   '0x4200000000000000000000000000000000000023'
@@ -159,7 +160,7 @@ class NetworkService {
   tokenInfo?: TokenInfoForNetwork
   addresses
   network?: Network
-  networkConfig // TODO: Type and also type network detail configs themselves, see network-details.types.ts (next PR)
+  networkConfig?: NetworkDetailChainConfig
   walletService: WalletService
 
   L1NativeTokenSymbol
@@ -3287,7 +3288,7 @@ class NetworkService {
 
       /// @notice An event emitted when a new proposal is created
       // event ProposalCreated(uint id, address proposer, address[] targets, uint[] values, string[] signatures, bytes[] calldatas, uint startTimestamp, uint endTimestamp, string description);
-      const L2ChainId = this.networkConfig.L2.chainId
+      const L2ChainId = this.networkConfig!.L2.chainId
       const descriptionList = await graphQLService.queryBridgeProposalCreated({
         sourceChainId: L2ChainId,
       })
