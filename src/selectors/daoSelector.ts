@@ -13,27 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+export const selectDaoBalance = (state) => state.dao.balance
 
-export function selectDaoBalance(state) {
-    return state.dao.balance
-}
+export const selectDaoVotes = (state) => state.dao.votes
 
-export function selectDaoVotes(state) {
-    return state.dao.votes
-}
+export const selectDaoBalanceX = (state) => state.dao.balanceX
 
-export function selectDaoBalanceX(state) {
-    return state.dao.balanceX
-}
+export const selectDaoVotesX = (state) => state.dao.votesX
 
-export function selectDaoVotesX(state) {
-    return state.dao.votesX
-}
+export const selectProposals = (state) => state.dao.proposalList
 
-export function selectProposals(state) {
-    return state.dao.proposalList
-}
-
-export function selectProposalThreshold(state) {
-    return state.dao.proposalThreshold
-}
+export const selectProposalThreshold = (state) => state.dao.proposalThreshold
