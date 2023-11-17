@@ -1,0 +1,22 @@
+const BobaFixedSavingsABI = [
+  'function FLAT_INTEREST_PER_PERIOD() view returns (uint256)',
+  'function LOCK_TIME() view returns (uint256)',
+  'function UNSTAKE_TIME() view returns (uint256)',
+  'function initialize(address l2BobaAddress, address xBobaAddress) nonpayable',
+  'function l2Boba() view returns (address)',
+  'function owner() view returns (address)',
+  'function pause() nonpayable',
+  'function paused() view returns (bool)',
+  'function personalStakeCount(address ) view returns (uint256)',
+  'function personalStakePos(address , uint256 ) view returns (uint256)',
+  'function stake(uint256 _amount) nonpayable',
+  'function stakeDataMap(uint256 ) view returns (uint256, address, uint256, uint256, bool)',
+  'function stakingCloseTimestamp() view returns (uint256)',
+  'function stopStakingContract() nonpayable',
+  'function totalStakeCount() view returns (uint256)',
+  'function transferOwnership(address _newOwner) nonpayable',
+  'function unpause() nonpayable',
+  'function unstake(uint256 stakeId) nonpayable',
+  'function xBoba() view returns (address)',
+]
+export default BobaFixedSavingsABI
