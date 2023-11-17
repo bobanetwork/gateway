@@ -10,4 +10,4 @@ const BobaGasPriceOracleABI = [
   'function useSecondaryFeeTokenAsFeeToken() public',
 ]
 
-export default BobaGasPriceOracleABI;
+export default BobaGasPriceOracleABI
