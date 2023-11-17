@@ -38,8 +38,8 @@ import {
 } from './styles'
 import { formatTokenAmount } from 'util/common'
 import {
-  NETWORK,
-  NETWORK_TYPE,
+  Network,
+  NetworkType,
   NetworkList,
 } from '../../../util/network/network.util'
 import Tooltip from 'components/tooltip/Tooltip'

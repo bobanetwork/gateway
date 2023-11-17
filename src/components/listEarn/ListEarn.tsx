@@ -6,12 +6,8 @@ import { logAmount, powAmount, formatLargeNumber } from 'util/amountConvert'
 import { BigNumber, BigNumberish } from 'ethers'
 
 import { openAlert, openModal } from 'actions/uiAction'
-import {
-  getEarnInfo,
-  updateStakeToken,
-  updateWithdrawToken,
-} from 'actions/earnAction'
-import networkService from 'services/networkService'
+import { getEarnInfo, updateWithdrawToken } from 'actions/earnAction'
+import networkService, { EPoolLayer } from 'services/networkService'
 import { Box, Fade, CircularProgress } from '@mui/material'
 import * as S from './styles'
 import { getAllAddresses, getReward } from 'actions/networkAction'
@@ -24,12 +20,11 @@ import { Button } from 'components/global/button'
 import ActionIcon from 'assets/images/icons/actions.svg'
 import { SvgContianer } from './styles'
 import { Svg } from 'components/global/svg'
-import { AnyAction } from 'redux'
 
 interface IListEarnProps {
   poolInfo?
   userInfo?
-  L1orL2Pool: string
+  L1orL2Pool: EPoolLayer
   balance?: string
   showAll?: boolean
   showStakesOnly?: boolean
@@ -41,7 +36,7 @@ interface IListEarnProps {
 
 interface IListEarnState {
   balance?: string
-  L1orL2Pool: string
+  L1orL2Pool: EPoolLayer
   chainId?: BigNumberish
   // data
   poolInfo?
@@ -123,31 +118,6 @@ class ListEarn extends React.Component<IListEarnProps, IListEarnState> {
     })
   }
 
-  async handleStakeToken() {
-    const { poolInfo, L1orL2Pool, balance } = this.state
-
-    const { allAddresses } = this.props.earn
-
-    this.props.dispatch(
-      updateStakeToken({
-        symbol: poolInfo.symbol,
-        currency:
-          L1orL2Pool === 'L1LP'
-            ? poolInfo.l1TokenAddress
-            : poolInfo.l2TokenAddress,
-        LPAddress:
-          L1orL2Pool === 'L1LP'
-            ? allAddresses.L1LPAddress
-            : allAddresses.L2LPAddress,
-        L1orL2Pool,
-        balance,
-        decimals: poolInfo.decimals,
-      })
-    )
-
-    this.props.dispatch(openModal('EarnDepositModal'))
-  }
-
   async handleWithdrawToken() {
     const { poolInfo, L1orL2Pool, balance } = this.state
 
@@ -157,11 +127,11 @@ class ListEarn extends React.Component<IListEarnProps, IListEarnState> {
       updateWithdrawToken({
         symbol: poolInfo.symbol,
         currency:
-          L1orL2Pool === 'L1LP'
+          L1orL2Pool === EPoolLayer.L1LP
             ? poolInfo.l1TokenAddress
             : poolInfo.l2TokenAddress,
         LPAddress:
-          L1orL2Pool === 'L1LP'
+          L1orL2Pool === EPoolLayer.L1LP
             ? allAddresses.L1LPAddress
             : allAddresses.L2LPAddress,
         L1orL2Pool,
@@ -189,7 +159,7 @@ class ListEarn extends React.Component<IListEarnProps, IListEarnState> {
 
     const getRewardTX = await this.props.dispatch(
       getReward(
-        L1orL2Pool === 'L1LP'
+        L1orL2Pool === EPoolLayer.L1LP
           ? poolInfo.l1TokenAddress
           : poolInfo.l2TokenAddress,
         userReward,

@@ -65,14 +65,14 @@ const NewProposalModal = ({ open }) => {
   const submit = async () => {
     switch (action) {
       case 'change-threshold':
-        handleCreateDaoProposal(action, [votingThreshold]);
+        await handleCreateDaoProposal(action, [votingThreshold]);
         break;
       case 'text-proposal':
-        handleCreateDaoProposal(action, [], `${proposeText}@@${proposalUri}`);
+        await handleCreateDaoProposal(action, [], `${proposeText}@@${proposalUri}`);
         break;
       case 'change-lp1-fee':
       case 'change-lp2-fee':
-        handleCreateDaoProposal(action, [
+        await handleCreateDaoProposal(action, [
           Math.round(Number(LPfeeMin) * 10),
           Math.round(Number(LPfeeMax) * 10),
           Math.round(Number(LPfeeOwn) * 10)

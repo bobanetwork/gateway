@@ -12,7 +12,7 @@ import {
   selectVerifierStatus,
 } from 'selectors'
 import networkService from 'services/networkService'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import { fetchGasDetail } from 'services/gas.service'
 import useInterval from './useInterval'
 import { GAS_POLL_INTERVAL } from 'util/constant'
@@ -51,7 +51,7 @@ const useGasWatcher = () => {
       }
 
       fetchGas()
-      if (activeNetwork === NETWORK.ETHEREUM) {
+      if (activeNetwork === Network.ETHEREUM) {
         dispatch(fetchVerifierStatus())
       } else {
         dispatch(resetVerifierStatus())
@@ -73,8 +73,8 @@ const useGasWatcher = () => {
     }
     // Load gas savings only in case of ETHEREUM MAINNET
     if (
-      activeNetwork === NETWORK.ETHEREUM &&
-      activeNetworkType === NETWORK_TYPE.MAINNET &&
+      activeNetwork === Network.ETHEREUM &&
+      activeNetworkType === NetworkType.MAINNET &&
       gas
     ) {
       getGasSavings()

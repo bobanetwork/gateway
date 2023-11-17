@@ -5,7 +5,7 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client'
-import { NETWORK_TYPE } from 'util/network/network.util'
+import { NetworkType } from 'util/network/network.util'
 import networkService from './networkService'
 import { BigNumberish } from 'ethers'
 
@@ -143,7 +143,7 @@ class GraphQLService {
 
     */
 
-    if (NETWORK_TYPE.TESTNET === networkService.networkType) {
+    if (NetworkType.TESTNET === networkService.networkType) {
       // As there is no subgraph node for goerli L2 disable it.
       return {
         data: { governorProposalCreateds: [] },

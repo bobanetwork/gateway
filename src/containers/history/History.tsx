@@ -23,7 +23,7 @@ import { useTheme } from 'styled-components'
 import { Button } from 'components/global'
 
 import transactionService from 'services/transaction.service'
-import { NETWORK_TYPE } from 'util/network/network.util'
+import { NetworkType } from 'util/network/network.util'
 import {
   ALL_NETWORKS,
   FILTER_OPTIONS,
@@ -105,7 +105,7 @@ const History = () => {
 
   const [searchHistory, setSearchHistory] = useState('')
 
-  const transactions = useSelector(selectTransactions, isEqual)
+  const transactions: any = useSelector(selectTransactions, isEqual)
 
   // TODO: not working as implementation needs be rewrite.
   const getDatePicker = (label: string, range: boolean = false) => {
@@ -198,7 +198,7 @@ const History = () => {
                     defaultItem={fromNetwork}
                     onItemSelected={(option) => setFromNetwork(option)}
                     error={false}
-                    headers={[NETWORK_TYPE.MAINNET, NETWORK_TYPE.TESTNET]}
+                    headers={[NetworkType.MAINNET, NetworkType.TESTNET]}
                   />
                   <SwitchChainIcon
                     onClick={() => {
@@ -213,7 +213,7 @@ const History = () => {
                     defaultItem={toNetwork}
                     onItemSelected={(option) => setToNetwork(option)}
                     error={false}
-                    headers={[NETWORK_TYPE.MAINNET, NETWORK_TYPE.TESTNET]}
+                    headers={[NetworkType.MAINNET, NetworkType.TESTNET]}
                   />
                 </NetworkDropdowns>
                 <FilterDropDown

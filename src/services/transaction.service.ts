@@ -70,9 +70,9 @@ class TransactionService {
         L2Txs = responseL2!.data.map((v: any) => ({
           ...v,
           layer: 'L2',
-          chainName: networkConfig.L2.name,
-          originChainId: networkConfig.L2.chainId,
-          destinationChainId: networkConfig.L1.chainId,
+          chainName: networkConfig!.L2.name,
+          originChainId: networkConfig!.L2.chainId,
+          destinationChainId: networkConfig!.L1.chainId,
         }))
       }
       return L2Txs
@@ -102,8 +102,8 @@ class TransactionService {
           blockNumber: parseInt(v.block_number, 10),
           timeStamp: parseInt(v.timestamp, 10), //fix bug - sometimes this is string, sometimes an integer
           layer: 'L0',
-          chainName: networkConfig.L1.name,
-          originChainId: networkConfig.L1.chainId,
+          chainName: networkConfig!.L1.name,
+          originChainId: networkConfig!.L1.chainId,
           altL1: true,
         }))
       }
@@ -131,9 +131,9 @@ class TransactionService {
         txL1pending = responseL1pending.data.map((v) => ({
           ...v,
           layer: 'L1pending',
-          chainName: networkConfig.L1.name,
-          originChainId: networkConfig.L1.chainId,
-          destinationChainId: networkConfig.L2.chainId,
+          chainName: networkConfig!.L1.name,
+          originChainId: networkConfig!.L1.chainId,
+          destinationChainId: networkConfig!.L2.chainId,
         }))
       }
       return txL1pending
@@ -177,10 +177,10 @@ class TransactionService {
     let rawTx = []
 
     const contractL1 = networkService.getTeleportationContract(
-      networkConfig.L1.chainId
+      networkConfig!.L1.chainId
     )
     const contractL2 = networkService.getTeleportationContract(
-      networkConfig.L2.chainId
+      networkConfig!.L2.chainId
     )
 
     const mapEventToTransaction = async (
@@ -293,7 +293,7 @@ class TransactionService {
         let sentEvents: LightBridgeAssetReceivedEvent[] = []
         try {
           sentEvents = await lightBridgeGraphQLService.queryAssetReceivedEvent(
-            networkService.account,
+            networkService.account!,
             sourceChainId
           )
         } catch (err: any) {
@@ -307,7 +307,7 @@ class TransactionService {
           sentEvents.map(async (sendEvent) => {
             let receiveEvent =
               await lightBridgeGraphQLService.queryDisbursementSuccessEvent(
-                networkService.account,
+                networkService.account!,
                 sendEvent.sourceChainId,
                 sendEvent.toChainId,
                 _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(
@@ -325,7 +325,7 @@ class TransactionService {
               // Native assets can fail and retried
               receiveEvent =
                 await lightBridgeGraphQLService.queryDisbursementFailedEvent(
-                  networkService.account,
+                  networkService.account!,
                   sendEvent.sourceChainId,
                   sendEvent.toChainId,
                   sendEvent.amount,
@@ -335,7 +335,7 @@ class TransactionService {
                 // check if successfully retried
                 receiveEvent =
                   await lightBridgeGraphQLService.queryDisbursementRetrySuccessEvent(
-                    networkService.account,
+                    networkService.account!,
                     sendEvent.sourceChainId,
                     sendEvent.toChainId,
                     sendEvent.amount,
@@ -357,10 +357,10 @@ class TransactionService {
     }
 
     rawTx = rawTx.concat(
-      await getEventsForTeleportation(contractL1, networkConfig.L1.chainId)
+      await getEventsForTeleportation(contractL1, networkConfig!.L1.chainId)
     )
     return rawTx.concat(
-      await getEventsForTeleportation(contractL2, networkConfig.L2.chainId)
+      await getEventsForTeleportation(contractL2, networkConfig!.L2.chainId)
     )
   }
 }
