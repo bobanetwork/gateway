@@ -61,7 +61,6 @@ import BobaFixedSavingsABI from './abi/BobaFixedSavings.abi'
 import BobaGasPriceOracleABI from './abi/BobaGasPriceOracle.abi'
 import DiscretionaryExitFeeABI from './abi/DiscretionaryExitFee.abi'
 import GovernorBravoDelegateABI from './abi/GovernorBravoDelegate.abi'
-import GovernorBravoDelegatorABI from './abi/GovernorBravoDelegator.abi'
 import L1ERC20ABI from './abi/L1ERC20.abi'
 import L1LiquidityPoolABI from './abi/L1LiquidityPool.abi'
 import L1StandardBridgeABI from './abi/L1StandardBridge.abi'
@@ -692,13 +691,13 @@ class NetworkService {
 
         this.delegatorContract = new ethers.Contract(
           this.addresses.GovernorBravoDelegator,
-          GovernorBravoDelegatorABI,
+          GovernorBravoDelegateABI,
           this.L2Provider
         )
 
         this.delegatorContractV2 = new ethers.Contract(
           this.addresses.GovernorBravoDelegatorV2,
-          GovernorBravoDelegatorABI,
+          GovernorBravoDelegateABI,
           this.L2Provider
         )
       }
