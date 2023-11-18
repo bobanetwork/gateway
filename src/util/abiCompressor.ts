@@ -24,12 +24,26 @@ const smart_contract_abi_paths = [
   './src/deployment/contracts/crosschain/LZEndpointMock.json',
 ]
 
+const networkServicesStr = fs.readFileSync(
+  './src/services/networkService.ts',
+  'utf8'
+)
+
 const compress = () => {
   for (const path of smart_contract_abi_paths) {
     const rawData = fs.readFileSync(path, 'utf8')
     const abiObject = JSON.parse(rawData)
     const name = abiObject.contractName
-    const abiInterface = new ethers.utils.Interface(abiObject.abi)
+    let abi = abiObject.abi
+    abi = abi.filter((component) => {
+      if (component['type'] === 'function' && component['name']) {
+        if (networkServicesStr.includes(component['name'])) {
+          return true
+        }
+        return false
+      }
+    })
+    const abiInterface = new ethers.utils.Interface(abi)
     const humanReadableABI = abiInterface.format(ethers.utils.FormatTypes.full)
     const stringifiedHumanReadableABI = JSON.stringify(humanReadableABI)
     const result = `const ${name}ABI = ${stringifiedHumanReadableABI}\n export default ${name}ABI`
