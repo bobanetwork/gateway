@@ -35,7 +35,7 @@ export const ButtonContainer = styled.button.withConfig({
   `}
 
   ${(props) =>
-    props.disable &&
+    props.disabled &&
     `
     background:${props.theme.colors.green[500]};
     cursor:default;
@@ -49,7 +49,7 @@ export const ButtonContainer = styled.button.withConfig({
   `}
 
   ${(props) =>
-    !props.disable &&
+    !props.disabled &&
     `
     &:hover {
       background: ${props.theme.colors.green[400]};

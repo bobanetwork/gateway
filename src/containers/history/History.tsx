@@ -24,8 +24,8 @@ import { Button } from 'components/global'
 
 import transactionService from 'services/transaction.service'
 import {
-  NETWORK,
-  NETWORK_TYPE,
+  Network,
+  NetworkType,
   networkLimitedAvailability,
   NetworkList,
 } from 'util/network/network.util'
@@ -118,7 +118,8 @@ const History = () => {
   const accountEnabled = useSelector(selectAccountEnabled())
 
   const [searchHistory, setSearchHistory] = useState('')
-  const transactions = useSelector(selectTransactions, isEqual)
+
+  const transactions: any = useSelector(selectTransactions, isEqual)
 
   useEffect(() => {
     if (isOnLimitedNetwork) {
@@ -228,7 +229,7 @@ const History = () => {
                     defaultItem={fromNetwork}
                     onItemSelected={(option) => setFromNetwork(option)}
                     error={false}
-                    headers={[NETWORK_TYPE.MAINNET, NETWORK_TYPE.TESTNET]}
+                    headers={[NetworkType.MAINNET, NetworkType.TESTNET]}
                   />
                   <SwitchChainIcon
                     onClick={() => {
@@ -243,7 +244,7 @@ const History = () => {
                     defaultItem={toNetwork}
                     onItemSelected={(option) => setToNetwork(option)}
                     error={false}
-                    headers={[NETWORK_TYPE.MAINNET, NETWORK_TYPE.TESTNET]}
+                    headers={[NetworkType.MAINNET, NetworkType.TESTNET]}
                   />
                 </NetworkDropdowns>
                 <FilterDropDown

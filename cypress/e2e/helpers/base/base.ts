@@ -1,19 +1,12 @@
-import {
-  Avalanche,
-  AvalancheTestnet,
-  Binance,
-  BinanceTestnet,
-} from './constants'
+import { Binance, BinanceTestnet } from './constants'
 import { MetamaskNetwork } from './types'
 
 export default class Base {
   addSupportedNetwork() {
     // Mainnet
     this.addNetwork(Binance)
-    this.addNetwork(Avalanche)
     // Testnet
     this.addNetwork(BinanceTestnet)
-    this.addNetwork(AvalancheTestnet)
   }
 
   visit() {

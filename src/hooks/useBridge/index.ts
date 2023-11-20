@@ -4,7 +4,7 @@ import {
   depositETHL2,
   depositL1LP,
   depositL2LP,
-  depositWithTeleporter,
+  depositWithLightBridge,
   exitBOBA,
 } from 'actions/networkAction'
 import { closeModal, openError, openModal } from 'actions/uiAction'
@@ -133,7 +133,7 @@ export const useBridge = () => {
       }
     }
     return dispatch(
-      depositWithTeleporter(layer, token.address, amountWei, destChainId)
+      depositWithLightBridge(layer, token.address, amountWei, destChainId)
     )
   }
 

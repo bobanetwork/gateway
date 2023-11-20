@@ -91,7 +91,7 @@ const TransactionList = ({ stakeInfo }: TransactionListInterface) => {
       <div>
         <Button
           tiny={true}
-          disable={locked}
+          disabled={locked}
           label="Unstake"
           onClick={handleUnstake}
         />

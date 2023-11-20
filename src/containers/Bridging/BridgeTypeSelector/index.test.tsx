@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import CustomThemeProvider from 'themes'
 import BridgeTypeSelector, { BRIDGE_TYPE } from '.'
 import thunk from 'redux-thunk'
@@ -42,8 +42,8 @@ describe('Bridge Type Selector', () => {
     store = mockStore({
       ...mockedInitialState,
       network: {
-        activeNetwork: NETWORK.ETHEREUM,
-        activeNetworkType: NETWORK_TYPE.TESTNET,
+        activeNetwork: Network.ETHEREUM,
+        activeNetworkType: NetworkType.TESTNET,
       },
     })
 

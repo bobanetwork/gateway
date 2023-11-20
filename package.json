@@ -1,6 +1,6 @@
 {
   "name": "@bobanetwork/gateway",
-  "version": "0.10.0",
+  "version": "0.11.1",
   "private": true,
   "scripts": {
     "audit-check": "audit-ci --moderate",
@@ -47,7 +47,7 @@
     "@mui/base": "5.0.0-alpha.72",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
-    "@mui/styles": "^5.3.0",
+    "@mui/styles": "^5.14.18",
     "@sentry/react": "^7.51.0",
     "@sentry/tracing": "^7.76.0",
     "@walletconnect/ethereum-provider": "^2.10.4",
@@ -117,7 +117,7 @@
     "@storybook/addon-styling": "^1.0.8",
     "@storybook/addon-toolbars": "^7.0.17",
     "@storybook/api": "^7.0.17",
-    "@storybook/blocks": "^7.5.1",
+    "@storybook/blocks": "^7.5.3",
     "@storybook/react": "^7.5.2",
     "@storybook/react-webpack5": "^7.5.1",
     "@storybook/testing-library": "^0.2.2",

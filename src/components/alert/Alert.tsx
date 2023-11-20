@@ -37,7 +37,7 @@ const Toast = ({
   type = 'success',
   duration = 9000,
 }: ToastProps) => {
-  let autohide = 0
+  let autohide
   if (type === 'success') {
     autohide = 3000 // autohide all the green alerts
   } else {

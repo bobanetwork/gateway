@@ -5,7 +5,6 @@ export interface ChainLabelInterface {
 export type IconType = {
   ethereum: ({ selected }: { selected?: boolean | undefined }) => Element
   bnb: ({ selected }: { selected?: boolean | undefined }) => Element
-  avax: ({ selected }: { selected?: boolean | undefined }) => Element
   optimism: ({ selected }: { selected?: boolean | undefined }) => Element
   arbitrum: ({ selected }: { selected?: boolean | undefined }) => Element
 }

@@ -31,7 +31,7 @@ import { logAmount } from 'util/amountConvert'
 import { LAYER } from 'util/constant'
 import BN from 'bignumber.js'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
-import { NETWORK } from 'util/network/network.util'
+import { Network } from 'util/network/network.util'
 import { BigNumberish, ethers } from 'ethers'
 
 enum ALERT_KEYS {
@@ -447,26 +447,12 @@ const useBridgeAlerts = () => {
     fastDepositCost,
   ])
 
-  useEffect(() => {
-    if (activeNetwork === NETWORK.AVAX && layer === LAYER.L1) {
-      dispatch(
-        setBridgeAlert({
-          meta: ALERT_KEYS.DEPRECATION_WARNING,
-          text: `For users of BobaAvax (Fuji) or BobaAvax (Fuji) applications
-          you will need to transfer all your funds to Avalanche mainnet before October 31st
-          or risk permanently losing access to any assets on BobaAvax (Fuji)`,
-          type: 'warning',
-        })
-      )
-    }
-  }, [activeNetwork, layer])
-
   // on changing bridgeType and active network cleanup alerts
   useEffect(() => {
     dispatch(purgeBridgeAlert())
 
     if (
-      activeNetwork !== NETWORK.ETHEREUM &&
+      activeNetwork !== Network.ETHEREUM &&
       bridgeType === BRIDGE_TYPE.THIRD_PARTY
     ) {
       dispatch(

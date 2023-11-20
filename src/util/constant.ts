@@ -14,14 +14,25 @@ export const GA4_MEASUREMENT_ID: EnvType =
   process.env.REACT_APP_GA4_MEASUREMENT_ID || null
 export const APP_ENV: EnvType = process.env.REACT_APP_ENV || 'dev'
 export const isDevBuild = () => APP_ENV === 'dev'
-export const SENTRY_DSN: EnvType = process.env.REACT_APP_SENTRY_DSN || null
-export const MAX_HEALTH_BLOCK_LAG: EnvType =
-  process.env.REACT_APP_MAX_HEALTH_BLOCK_LAG
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
 export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 // WalletConnect FLAG
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
+
+type BridgeType = {
+  FAST_BRIDGE: string
+  CLASSIC_BRIDGE: string
+  MULTI_BRIDGE: string
+  MULTI_CHAIN_BRIDGE: string
+}
+
+export const BRIDGE_TYPE: BridgeType = {
+  FAST_BRIDGE: 'FAST_BRIDGE',
+  CLASSIC_BRIDGE: 'CLASSIC_BRIDGE',
+  MULTI_BRIDGE: 'MULTI_BRIDGE', //fix me remove me
+  MULTI_CHAIN_BRIDGE: 'MULTI_CHAIN_BRIDGE',
+}
 
 /*********************
  * Routes Constants **
@@ -53,16 +64,13 @@ export const ROUTES_PATH: RoutesPathType = {
   DEV_TOOLS: '/devtools',
 }
 
-export const PER_PAGE: number = 8
-
-type Network = 'ethereum' | 'bnb' | 'avax' | 'optimism' | 'arbitrum' //we move this to global network type once we define this
+type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum' //we move this to global network type once we define this
 type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO' | 'Monster'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
   ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
   bnb: ['Bridge', 'Earn', 'History'],
-  avax: ['Bridge', 'Earn', 'History'],
   optimism: ['Bridge', 'History'],
   arbitrum: ['Bridge', 'History'],
 }

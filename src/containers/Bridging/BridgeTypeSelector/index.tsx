@@ -9,8 +9,8 @@ import {
 } from 'selectors'
 import { setBridgeType } from 'actions/bridgeAction'
 import {
-  NETWORK,
-  NETWORK_TYPE,
+  Network,
+  NetworkType,
   networkLimitedAvailability,
   NetworkList,
 } from '../../../util/network/network.util'
@@ -33,7 +33,7 @@ const BridgeTypeSelector = () => {
 
   // Only show teleportation on testnet for now
   const isTestnet =
-    useSelector(selectActiveNetworkType()) === NETWORK_TYPE.TESTNET
+    useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
 
   const onTabClick = (payload: any) => {
     if (payload !== BRIDGE_TYPE.LIGHT && isOnLimitedNetwork) {

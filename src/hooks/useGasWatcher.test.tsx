@@ -4,7 +4,7 @@ import React from 'react'
 import { act, renderHook } from '@testing-library/react-hooks'
 import useGasWatcher from './useGasWatcher'
 import configureStore from 'redux-mock-store'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { fetchGasDetail } from 'services/gas.service'
@@ -24,8 +24,8 @@ jest.mock('services/networkService', () => {
 })
 
 let network = {
-  activeNetwork: NETWORK.ETHEREUM,
-  activeNetworkType: NETWORK_TYPE.MAINNET,
+  activeNetwork: Network.ETHEREUM,
+  activeNetworkType: NetworkType.MAINNET,
   activeNetworkName: {
     l1: 'Ethereum',
     l2: 'Boba ETH',
@@ -102,8 +102,8 @@ describe('UseGasWatcher', () => {
 
   test('should work as expected incase of BNB network', async () => {
     network = {
-      activeNetwork: NETWORK.BNB,
-      activeNetworkType: NETWORK_TYPE.MAINNET,
+      activeNetwork: Network.BNB,
+      activeNetworkType: NetworkType.MAINNET,
       activeNetworkName: {
         l1: 'Binance',
         l2: 'Boba BNB',
@@ -155,8 +155,8 @@ describe('UseGasWatcher', () => {
   })
   test('should work as expected when bansedEnabled is false', async () => {
     network = {
-      activeNetwork: NETWORK.BNB,
-      activeNetworkType: NETWORK_TYPE.MAINNET,
+      activeNetwork: Network.BNB,
+      activeNetworkType: NetworkType.MAINNET,
       activeNetworkName: {
         l1: 'Binance',
         l2: 'Boba BNB',
