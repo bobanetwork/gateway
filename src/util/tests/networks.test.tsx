@@ -4,8 +4,8 @@ import {
   CHAIN_ID_LIST,
   L1_ICONS,
   L2_ICONS,
-  NETWORK,
-  NETWORK_TYPE,
+  Network,
+  NetworkType,
   NetworkList,
 } from '../network/network.util'
 import { arbitrumConfig } from '../network/config/arbitrum'
@@ -38,22 +38,22 @@ describe('OP/ARB network configuration', () => {
 
   it('should list op/arb inside all network configurations', () => {
     const allNetworkConfigs = AllNetworkConfigs
-    expect(allNetworkConfigs[NETWORK.OPTIMISM]).toBeDefined()
-    expect(allNetworkConfigs[NETWORK.OPTIMISM]).toEqual(optimismConfig)
-    expect(allNetworkConfigs[NETWORK.ARBITRUM]).toBeDefined()
-    expect(allNetworkConfigs[NETWORK.ARBITRUM]).toEqual(arbitrumConfig)
+    expect(allNetworkConfigs[Network.OPTIMISM]).toBeDefined()
+    expect(allNetworkConfigs[Network.OPTIMISM]).toEqual(optimismConfig)
+    expect(allNetworkConfigs[Network.ARBITRUM]).toBeDefined()
+    expect(allNetworkConfigs[Network.ARBITRUM]).toEqual(arbitrumConfig)
   })
 
   it('should contain op/arb inside NetworkList', () => {
     const networkList = NetworkList
     const OP = networkList.Testnet.find(
-      (chain) => chain.chain === NETWORK.OPTIMISM
+      (chain) => chain.chain === Network.OPTIMISM
     )
     expect(OP).toBeDefined()
     expect(OP?.chainId.L1).toEqual('5')
     expect(OP?.chainId.L2).toEqual('420')
     const AR = networkList.Testnet.find(
-      (chain) => chain.chain === NETWORK.ARBITRUM
+      (chain) => chain.chain === Network.ARBITRUM
     )
     expect(AR).toBeDefined()
     expect(AR?.chainId.L1).toEqual('5')
@@ -61,10 +61,10 @@ describe('OP/ARB network configuration', () => {
   })
 
   it('should contain op/arb inside CHAIN_ID_LIST', () => {
-    expect(CHAIN_ID_LIST[420].chain).toEqual(NETWORK.OPTIMISM)
-    expect(CHAIN_ID_LIST[420].networkType).toEqual(NETWORK_TYPE.TESTNET)
-    expect(CHAIN_ID_LIST[421613].chain).toEqual(NETWORK.ARBITRUM)
-    expect(CHAIN_ID_LIST[421613].networkType).toEqual(NETWORK_TYPE.TESTNET)
+    expect(CHAIN_ID_LIST[420].chain).toEqual(Network.OPTIMISM)
+    expect(CHAIN_ID_LIST[420].networkType).toEqual(NetworkType.TESTNET)
+    expect(CHAIN_ID_LIST[421613].chain).toEqual(Network.ARBITRUM)
+    expect(CHAIN_ID_LIST[421613].networkType).toEqual(NetworkType.TESTNET)
   })
 
   it('should list op/arb inside L1/L2 Icons', () => {

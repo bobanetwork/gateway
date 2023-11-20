@@ -39,7 +39,7 @@ const BridgeTypeSelector = () => {
     if (payload !== BRIDGE_TYPE.LIGHT && isOnLimitedNetwork) {
       // change network back to fully supported network when leaving light bridge
       const defaultChainDetail = NetworkList[networkType].find(
-        (n) => n.chain === NETWORK.ETHEREUM
+        (n) => n.chain === Network.ETHEREUM
       )
 
       dispatch(

@@ -1,12 +1,14 @@
-export const arbitrumConfig = {
+import { NetworkDetail } from './network-details.types'
+
+export const optimismConfig: NetworkDetail = {
   Testnet: {
     OMGX_WATCHER_URL: `https://api-watcher.goerli.boba.network/`,
     VERIFIER_WATCHER_URL: `https://api-verifier.goerli.boba.network/`,
     META_TRANSACTION: `https://api-meta-transaction.goerli.boba.network/`,
+    MM_Label: `optimismTestnet`,
     addressManager: `0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148`,
-    MM_Label: `Goerli`,
     L1: {
-      name: "Goerli",
+      name: 'Goerli',
       chainId: 5,
       chainIdHex: '0x5',
       rpcUrl: [
@@ -19,13 +21,13 @@ export const arbitrumConfig = {
       tokenName: 'ETH',
     },
     L2: {
-      name: "Arbitrum Goerli",
-      chainId: 421613,
-      chainIdHex: '0x66EED',
-      rpcUrl: [ `https://goerli-rollup.arbitrum.io/rpc` ],
-      blockExplorer: `https://goerli.arbiscan.io/`,
-      transaction: `https://goerli.arbiscan.io/tx/`,
-      blockExplorerUrl: `https://goerli.arbiscan.io/`,
+      name: 'Optimism Goerli',
+      chainId: 420,
+      chainIdHex: '0x1A4',
+      rpcUrl: [`https://goerli.optimism.io`],
+      blockExplorer: `https://goerli-explorer.optimism.io/`,
+      transaction: `https://goerli-explorer.optimism.io/tx/`,
+      blockExplorerUrl: `https://goerli-explorer.optimism.io/`,
       symbol: 'ETH',
       tokenName: 'ETH',
     },
@@ -35,15 +37,15 @@ export const arbitrumConfig = {
     VERIFIER_WATCHER_URL: `https://api-verifier.mainnet.boba.network/`,
     META_TRANSACTION: `https://api-meta-transaction.mainnet.boba.network/`,
     addressManager: `0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089`,
-    MM_Label: `Mainnet`,
+    MM_Label: `optimismMainnet`,
     L1: {
-      name: "Mainnet",
+      name: 'Mainnet',
       chainId: 1,
       chainIdHex: '0x1',
       rpcUrl: [
         'https://mainnet.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI',
         `https://rpc.ankr.com/eth`,
-        `https://cloudflare-eth.com`
+        `https://cloudflare-eth.com`,
       ],
       transaction: ` https://etherscan.io/tx/`,
       blockExplorerUrl: `https://etherscan.io/`,
@@ -51,17 +53,15 @@ export const arbitrumConfig = {
       tokenName: 'ETH',
     },
     L2: {
-      name: "Arbitrum Mainnet",
-      chainId: 42161,
-      chainIdHex: '0xA4B1',
-      rpcUrl: [
-        `https://arb1.arbitrum.io/rpc`,
-      ],
-      blockExplorer: `https://arbiscan.io/`,
-      transaction: `https://arbiscan.io/tx/`,
-      blockExplorerUrl: `https://arbiscan.io/`,
+      name: 'Optimism Mainnet',
+      chainId: 10,
+      chainIdHex: '0xA',
+      rpcUrl: [`https://mainnet.optimism.io`],
+      blockExplorer: `https://explorer.optimism.io/`,
+      transaction: `https://explorer.optimism.io/tx/`,
+      blockExplorerUrl: `https://explorer.optimism.io/`,
       symbol: 'ETH',
       tokenName: 'ETH',
     },
-  }
+  },
 }

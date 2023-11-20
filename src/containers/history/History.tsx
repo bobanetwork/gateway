@@ -124,8 +124,8 @@ const History = () => {
   useEffect(() => {
     if (isOnLimitedNetwork) {
       const defaultChainDetail = NetworkList[
-        networkType ?? NETWORK_TYPE.TESTNET
-      ].find((n) => n.chain === NETWORK.ETHEREUM)
+        networkType ?? NetworkType.TESTNET
+      ].find((n) => n.chain === Network.ETHEREUM)
       dispatch(
         setNetwork({
           network: defaultChainDetail.chain,

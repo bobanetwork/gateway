@@ -186,7 +186,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
     // TODO Make sure they are only shown for light bridge
     {
       icon: 'optimism',
-      chain: NETWORK.OPTIMISM,
+      chain: Network.OPTIMISM,
       label: 'Ethereum (Goerli) <> Optimism (Goerli)',
       key: 'optimism',
       name: {
@@ -198,7 +198,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
     },
     {
       icon: 'arbitrum',
-      chain: NETWORK.ARBITRUM,
+      chain: Network.ARBITRUM,
       label: 'Ethereum (Goerli) <> Arbitrum (Goerli)',
       key: 'arbitrum',
       name: {
@@ -212,8 +212,8 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
 }
 
 export const networkLimitedAvailability = (
-  networkType: keyof typeof NETWORK_TYPE,
-  network: keyof typeof NETWORK
+  networkType: keyof typeof NetworkType,
+  network: keyof typeof Network
 ) => {
   return !!NetworkList[networkType]?.find((n) => n.chain === network)
     ?.limitedAvailability
@@ -222,8 +222,8 @@ export const networkLimitedAvailability = (
 export const AllNetworkConfigs: { [network in Network]: NetworkDetail } = {
   [Network.ETHEREUM]: ethereumConfig,
   [Network.BNB]: bnbConfig,
-  [NETWORK.OPTIMISM]: optimismConfig,
-  [NETWORK.ARBITRUM]: arbitrumConfig,
+  [Network.OPTIMISM]: optimismConfig,
+  [Network.ARBITRUM]: arbitrumConfig,
 }
 
 export const getNetworkDetail = ({
