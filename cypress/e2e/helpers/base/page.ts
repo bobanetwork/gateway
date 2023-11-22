@@ -12,6 +12,7 @@ export default class Page extends Base {
   walletConnectButtonText: string
   id: string
   title: string
+  onTestnet: boolean
   constructor() {
     super()
     this.store = new ReduxStore()
@@ -20,6 +21,7 @@ export default class Page extends Base {
     this.id = 'header'
     this.walletConnectButtonText = 'Connect Wallet'
     this.title = 'Bridge'
+    this.onTestnet = false
   }
 
   visit() {
