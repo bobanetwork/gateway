@@ -67,6 +67,7 @@ const useSwitchChain = () => {
             networkIcon: prevDestChainNetwork.icon,
             chainIds: teleportationDestChainId,
             networkType: prevDestChainNetwork.networkType,
+            limitedAvailability: prevDestChainNetwork.limitedAvailability,
           })
         )
         dispatch(setTeleportationDestChainId(currChainId))
