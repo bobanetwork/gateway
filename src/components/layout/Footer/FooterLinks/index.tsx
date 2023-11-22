@@ -2,7 +2,7 @@ import Menu from 'components/global/menu'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectActiveNetworkType } from 'selectors'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import { FOOTERLINKS } from './constant'
 import {
   LinkContainer,
@@ -13,32 +13,24 @@ import {
 } from './style'
 
 const blockExplorerLinks = {
-  [NETWORK_TYPE.TESTNET]: {
-    [NETWORK.ETHEREUM]: {
+  [NetworkType.TESTNET]: {
+    [Network.ETHEREUM]: {
       l1: `https://goerli.etherscan.io`,
       l2: `https://testnet.bobascan.com`,
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       l1: `https://testnet.bscscan.com`,
       l2: `https://testnet.bobascan.com`,
     },
-    [NETWORK.AVAX]: {
-      l1: `https://testnet.snowtrace.io`,
-      l2: `https://blockexplorer.testnet.avax.boba.network`,
-    },
   },
-  [NETWORK_TYPE.MAINNET]: {
-    [NETWORK.ETHEREUM]: {
+  [NetworkType.MAINNET]: {
+    [Network.ETHEREUM]: {
       l1: `https://etherscan.io`,
       l2: `https://bobascan.com`,
     },
-    [NETWORK.BNB]: {
+    [Network.BNB]: {
       l1: `https://bscscan.com`,
       l2: `https://bobascan.com`,
-    },
-    [NETWORK.AVAX]: {
-      l1: `https://snowtrace.io/`,
-      l2: `https://blockexplorer.avax.boba.network`,
     },
   },
 }
@@ -85,27 +77,19 @@ const FooterLinks = () => {
           options={[
             {
               label: 'Etherscan',
-              onClick: () => onLinkClick(NETWORK.ETHEREUM, 'l1'),
+              onClick: () => onLinkClick(Network.ETHEREUM, 'l1'),
             },
             {
               label: 'Bobascan',
-              onClick: () => onLinkClick(NETWORK.ETHEREUM, 'l2'),
+              onClick: () => onLinkClick(Network.ETHEREUM, 'l2'),
             },
             {
               label: 'BNB Block Explorer L1',
-              onClick: () => onLinkClick(NETWORK.BNB, 'l1'),
+              onClick: () => onLinkClick(Network.BNB, 'l1'),
             },
             {
               label: 'BNB Block Explorer L2',
-              onClick: () => onLinkClick(NETWORK.BNB, 'l2'),
-            },
-            {
-              label: 'AVAX Block Explorer L1',
-              onClick: () => onLinkClick(NETWORK.AVAX, 'l1'),
-            },
-            {
-              label: 'AVAX Block Explorer L2',
-              onClick: () => onLinkClick(NETWORK.AVAX, 'l2'),
+              onClick: () => onLinkClick(Network.BNB, 'l2'),
             },
           ]}
           label="Block explorers"

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import * as Sentry from '@sentry/react'
 import { APP_ENV } from 'util/constant'
 import { useSelector } from 'react-redux'
@@ -8,6 +8,10 @@ import styled, { css } from 'styled-components'
 import BobaLogoImage from 'assets/images/boba-logo.png'
 import CustomThemeProvider from 'themes'
 import { mobile } from 'themes/screens'
+
+interface ISentryWrapperProps {
+  children: React.ReactNode
+}
 
 export const BobaLogo = styled.div`
   width: 50px;
@@ -58,11 +62,12 @@ const SentryFallback = () => {
 /**
  * It's function which wraps compnent and add sentry integration on top of it.
  *
- * @param {*} children
+ * @param {*} props (children)
  * @returns wrapp component
  */
 
-const SentryWrapper: FC = ({ children }: any) => {
+const SentryWrapper = (props: ISentryWrapperProps) => {
+  const { children } = props
   const network = useSelector(selectActiveNetwork())
   const networkType = useSelector(selectActiveNetworkType())
 
@@ -101,12 +106,10 @@ const SentryWrapper: FC = ({ children }: any) => {
             return null
           }
 
-          const filterEvent = {
+          return {
             ...event,
             breadcrumbs: event?.breadcrumbs?.filter((b) => b.type !== 'http'), /// filter the http stack as it can contain sensity keys
           }
-
-          return filterEvent
         },
       })
     }

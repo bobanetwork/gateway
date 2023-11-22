@@ -23,13 +23,16 @@ export const TokenSearchInput = styled.input`
   gap: 8px;
   border-radius: 12px;
   color: ${(props) => props.theme.color};
-  border: 1px solid ${({ theme: { colors, name } }) =>
-    name === 'light' ? colors.gray[600] : colors.gray[300]};
+  border: 1px solid
+    ${({ theme: { colors, name } }) =>
+      name === 'light' ? colors.gray[600] : colors.gray[300]};
   background: ${({ theme: { colors, name } }) =>
     name === 'light' ? colors.gray[100] : colors.gray[500]};
 
   /* Green Hilight */
-  &: focus, &: hover , &: focus-visible{
+  &:focus,
+  &:hover,
+  &:focus-visible {
     border: 1px solid ${({ theme }) => theme.colors.green[300]};
   }
 `
@@ -123,7 +126,7 @@ export const ActionLabel = styled.div<{ selected?: boolean }>`
       color: ${name === 'light' ? colors.gray[800] : '#fff'};
     `}
 
-  &: hover {
+  &:hover {
     border: 2px solid
       ${({ theme: { colors, name } }) =>
         name === 'light' ? colors.gray[800] : colors.green[300]};

@@ -51,7 +51,6 @@ export const SocialLinkItem = styled.a`
             : theme.colors['gray'][200]};
           };
       }
-    }
     path {
       fill: ${({ theme }) =>
         theme.name === 'light'
@@ -69,7 +68,6 @@ export const SocialLinkItem = styled.a`
             theme.name === 'light'
               ? theme.colors['gray'][700]
               : theme.colors['gray'][100]}};
-        }
       }
       path {
         fill: ${({ theme }) =>
@@ -78,5 +76,4 @@ export const SocialLinkItem = styled.a`
             : theme.colors['gray'][100]}};
       }
     }
-  }
 `

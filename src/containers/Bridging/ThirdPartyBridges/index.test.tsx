@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import CustomThemeProvider from 'themes'
 import ThirdPartyBridges from '.'
 import { mockedInitialState } from 'util/tests'
@@ -34,8 +34,8 @@ describe('3rd Party Bridges', () => {
     const { asFragment } = renderThirdPartyBridges({
       options: {
         network: {
-          activeNetwork: NETWORK.BNB,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
+          activeNetwork: Network.BNB,
+          activeNetworkType: NetworkType.MAINNET,
         },
       },
     })
@@ -46,8 +46,8 @@ describe('3rd Party Bridges', () => {
     const { asFragment } = renderThirdPartyBridges({
       options: {
         network: {
-          activeNetwork: NETWORK.ETHEREUM,
-          activeNetworkType: NETWORK_TYPE.TESTNET,
+          activeNetwork: Network.ETHEREUM,
+          activeNetworkType: NetworkType.TESTNET,
         },
       },
     })

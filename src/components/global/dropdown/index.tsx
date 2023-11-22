@@ -51,13 +51,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   style,
 }) => {
   if (headers) {
-    let allItems: IDropdownItem[] = []
+    let allItems: IDropdownItem[]
     const noHeaders = items.filter((item) => {
-      if (!item.header && !item.headerName) {
-        return true
-      } else {
-        return false
-      }
+      return !item.header && !item.headerName
     })
     allItems = [...noHeaders]
     for (const header of headers) {

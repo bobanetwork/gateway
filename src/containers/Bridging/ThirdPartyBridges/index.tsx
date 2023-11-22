@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { selectActiveNetwork, selectActiveNetworkType } from 'selectors'
 
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import { SectionLabel } from '../chain/styles'
 import { IBridges, bobaBridges } from './data'
 import {
@@ -21,14 +21,14 @@ const ThirdPartyBridges: FC = () => {
 
   const theme: any = useTheme()
 
-  if (networkType !== NETWORK_TYPE.MAINNET) {
+  if (networkType !== NetworkType.MAINNET) {
     return <></>
   }
 
   return (
     <ThirdPartyBridgesContainer>
       <SectionLabel variant="body2">Third party bridges</SectionLabel>
-      {network !== NETWORK.ETHEREUM ? (
+      {network !== Network.ETHEREUM ? (
         <BridgeList empty>
           <Typography variant="body1">No bridges available</Typography>
         </BridgeList>

@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import CustomThemeProvider from 'themes'
 import configureStore from 'redux-mock-store'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import useGasWatcher from 'hooks/useGasWatcher'
 
 const mockStore = configureStore()
@@ -25,8 +25,8 @@ const renderGasWatcher = ({ options = {} }: any) => {
             theme: 'dark',
           },
           network: {
-            activeNetwork: NETWORK.ETHEREUM,
-            activeNetworkType: NETWORK_TYPE.MAINNET,
+            activeNetwork: Network.ETHEREUM,
+            activeNetworkType: NetworkType.MAINNET,
             activeNetworkName: {
               l1: 'Ethereum',
               l2: 'Boba ETH',
@@ -98,8 +98,8 @@ describe('Footer GasWatcher', () => {
     renderGasWatcher({
       options: {
         network: {
-          activeNetwork: NETWORK.BNB,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
+          activeNetwork: Network.BNB,
+          activeNetworkType: NetworkType.MAINNET,
           activeNetworkName: {
             l1: 'Binance',
             l2: 'Boba BNB',

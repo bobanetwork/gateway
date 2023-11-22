@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
-import { NETWORK_TYPE } from 'util/network/network.util'
+import { NetworkType } from 'util/network/network.util'
 import CustomThemeProvider from 'themes'
 import BridgeHeader from '.'
 import thunk from 'redux-thunk'
@@ -65,7 +65,7 @@ describe('BridgeHeader', () => {
       ...mockedInitialState,
       network: {
         ...mockedInitialState.network,
-        activeNetworkType: NETWORK_TYPE.TESTNET,
+        activeNetworkType: NetworkType.TESTNET,
       },
     })
     const { asFragment } = renderBridgeHeader({ store })

@@ -16,9 +16,6 @@ export const GA4_MEASUREMENT_ID: EnvType =
   process.env.REACT_APP_GA4_MEASUREMENT_ID || null
 export const APP_ENV: EnvType = process.env.REACT_APP_ENV || 'dev'
 export const isDevBuild = () => APP_ENV === 'dev'
-export const SENTRY_DSN: EnvType = process.env.REACT_APP_SENTRY_DSN as string
-export const MAX_HEALTH_BLOCK_LAG: EnvType =
-  process.env.REACT_APP_MAX_HEALTH_BLOCK_LAG
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
 export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 // WalletConnect FLAG
@@ -38,26 +35,6 @@ export const BRIDGE_TYPE: BridgeType = {
   MULTI_BRIDGE: 'MULTI_BRIDGE', //fix me remove me
   MULTI_CHAIN_BRIDGE: 'MULTI_CHAIN_BRIDGE',
 }
-
-type ExpiryOptionType = {
-  value: string | Dayjs
-  label: string
-}
-
-export const EXPIRY_OPTIONS: ExpiryOptionType[] = [
-  {
-    value: addMonths(Now(), 3, 'YYYY-MM-DD'),
-    label: '3 Months',
-  },
-  {
-    value: addMonths(Now(), 7, 'YYYY-MM-DD'),
-    label: '6 Months',
-  },
-  {
-    value: addYear(1, 'YYYY-MM-DD'),
-    label: '1 Year',
-  },
-]
 
 /*********************
  * Routes Constants **
@@ -89,16 +66,13 @@ export const ROUTES_PATH: RoutesPathType = {
   DEV_TOOLS: '/devtools',
 }
 
-export const PER_PAGE: number = 8
-
-type Network = 'ethereum' | 'bnb' | 'avax' //we move this to global network type once we define this
+type Network = 'ethereum' | 'bnb' //we move this to global network type once we define this
 type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO' | 'Monster'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
   ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
   bnb: ['Bridge', 'Earn', 'History'],
-  avax: ['Bridge', 'Earn', 'History'],
 }
 
 export enum Layer {

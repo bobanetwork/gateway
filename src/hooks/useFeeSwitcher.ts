@@ -27,11 +27,11 @@ const useFeeSwitcher = () => {
 
   const switchFeeUse = useCallback(
     async (targetFee) => {
-      let tooSmallL1NativeToken = false
+      let tooSmallL1NativeToken: boolean
       // mini balance required for token to use as bridge fee
       const minL1NativeBalance =
         await networkService.estimateMinL1NativeTokenForFee() //0.002
-      let tooSmallBOBA = false
+      let tooSmallBOBA: boolean
 
       if (typeof balanceBOBA === 'undefined') {
         tooSmallBOBA = true

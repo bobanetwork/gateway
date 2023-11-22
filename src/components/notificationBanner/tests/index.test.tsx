@@ -4,19 +4,19 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import CustomThemeProvider from 'themes'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
-import { NETWORK, NETWORK_TYPE } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import { BannerConfig } from '../bannerConfig'
 
 jest.mock('../bannerConfig', () => ({
   BannerConfig: {
-    AVAX: {
-      message: `BobaAvax (Fuji) is being wound down & will no longer be available, starting October 31st`,
-      content: `BobaAvax (Fuji) is being wound down & will no longer be available starting October 31st. For users of BobaAvax or BobaAvax applications you will need to transfer all your funds to Avalanche mainnet before October 31st or risk permanently losing access to any assets on BobaAvax.`,
+    ETHEREUM: {
+      message: `Banner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum`,
+      content: `Banner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumBanner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumBanner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumBanner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumBanner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum`,
     },
   },
 }))
 
-const data = BannerConfig[NETWORK.AVAX]
+const data = BannerConfig[Network.ETHEREUM]
 
 const mockStore = configureStore()
 
@@ -28,8 +28,8 @@ const renderBanner = (props: any) => {
           theme: 'dark',
         },
         network: {
-          activeNetwork: NETWORK.AVAX,
-          activeNetworkType: NETWORK_TYPE.MAINNET,
+          activeNetwork: Network.ETHEREUM,
+          activeNetworkType: NetworkType.MAINNET,
         },
       })}
     >

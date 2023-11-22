@@ -58,7 +58,7 @@ export const WalletAddress = ({}: Props) => {
       <>
         <ProfileIndicator src={profile} />
         <Heading variant="h5">
-          {truncate(networkService.account, 6, 4, '...')}
+          {truncate(networkService.account!, 6, 4, '...')}
         </Heading>
       </>
     </Menu>

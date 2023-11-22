@@ -196,7 +196,7 @@ exports[`Home  should match snapshot 1`] = `
         >
           <a
             aria-label="bobadocs"
-            class="sc-fTFjTM kxRanK"
+            class="sc-fTFjTM gaLWXR"
             href="https://docs.boba.network"
             target="_blank"
           >
@@ -242,7 +242,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="twitter"
-            class="sc-fTFjTM kxRanK"
+            class="sc-fTFjTM gaLWXR"
             href="https://boba.eco/twitter"
             target="_blank"
           >
@@ -259,7 +259,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="discord"
-            class="sc-fTFjTM kxRanK"
+            class="sc-fTFjTM gaLWXR"
             href="https://boba.eco/discord"
             target="_blank"
           >
@@ -278,7 +278,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="telegram"
-            class="sc-fTFjTM kxRanK"
+            class="sc-fTFjTM gaLWXR"
             href="https://boba.eco/telegram"
             target="_blank"
           >

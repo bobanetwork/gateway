@@ -76,7 +76,9 @@ const NavDrawer: FC<Props> = ({ onClose, open }) => {
             <ActionIcon />
             <ActionLabel>Account</ActionLabel>
             <ActionValue onClick={() => setUserDrawer(true)}>
-              {truncateMiddle(networkService.account as string, 5, 5, '...')}
+              {networkService?.account
+                ? truncateMiddle(networkService.account, 5, 5, '...')
+                : null}
             </ActionValue>
           </ActionItem>
           {!!accountEnabled && layer === 'L2' ? (

@@ -81,7 +81,7 @@ describe('BridgeToAddress', () => {
     ;(navigator.clipboard.readText as jest.Mock).mockReturnValue(0)
     store.clearActions()
     const newActions = store.getActions()
-    await fireEvent.click(pasteBtn)
+    fireEvent.click(pasteBtn)
     expect(navigator.clipboard.readText).toHaveBeenCalled()
     expect(newActions).toEqual([])
   })

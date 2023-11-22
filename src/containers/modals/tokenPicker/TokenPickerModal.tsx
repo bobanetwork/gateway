@@ -38,8 +38,8 @@ import {
 } from './styles'
 import { formatTokenAmount } from 'util/common'
 import {
-  NETWORK,
-  NETWORK_TYPE,
+  Network,
+  NetworkType,
   NetworkList,
 } from '../../../util/network/network.util'
 import Tooltip from 'components/tooltip/Tooltip'
@@ -137,7 +137,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
           </ActionLabel>
         </TokenPickerAction>
         <ListLabel> Token Names </ListLabel>
-        <TokenPickerList>
+        <TokenPickerList title="tokenList">
           {balances.length > 0
             ? balances
                 .filter((token: any, index: number) => {
