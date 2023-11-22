@@ -36,8 +36,8 @@ export type NetworkDetailChainConfig = {
   }
   payloadForL1SecurityFee?: TxPayload
   payloadForFastDepositBatchCost?: TxPayload
-  gasEstimateAccount: string
-  twitterFaucetPromotionText: string
+  gasEstimateAccount?: string
+  twitterFaucetPromotionText?: string
 }
 
 export type NetworkDetail = {

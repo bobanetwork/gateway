@@ -90,8 +90,8 @@ export const useWalletConnect = () => {
       const doConnect = async () => {
         try {
           if (networkService.walletService.provider) {
-            if (await networkService.switchChain(targetLayer)) {
-              if (targetLayer === 'L2') {
+            if (await networkService.switchChain(targetLayer.toUpperCase())) {
+              if (targetLayer.toUpperCase() === 'L2') {
                 dispatch(setConnectBOBA(false))
               } else {
                 dispatch(setConnectETH(false))

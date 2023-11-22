@@ -99,7 +99,9 @@ const useBridgeSetup = () => {
     }
     // TODO: refactor and make sure to triggered this once all the tokens are
     // // only run once all the tokens have been added to the tokenList
-    if (Object.keys(tokenList).length < networkService.supportedTokens.length) {
+    if (
+      Object.keys(tokenList)?.length < networkService.supportedTokens?.length
+    ) {
       return
     }
     const symbolList = Object.values(tokenList).map((i: any) => {

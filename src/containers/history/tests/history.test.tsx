@@ -23,6 +23,9 @@ const renderHistory = ({ options = null }: any) => {
           theme: 'dark',
         },
         transaction: sampleTransactions,
+        network: {
+          networkType: 'Mainnet',
+        },
         setup: {
           accountEnabled: false,
           netLayer: true,

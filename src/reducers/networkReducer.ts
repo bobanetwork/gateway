@@ -16,7 +16,7 @@ limitations under the License. */
 import { Network, NetworkType } from 'util/network/network.util'
 
 /**
- * network : ethereum, bnb
+ * network : ethereum, bnb, optimism, arbitrum
  * networkType : mainnet, testnet.
  **/
 
@@ -52,8 +52,14 @@ const initialState: INetworkReducerState = {
 const networkReducer = (state: INetworkReducerState = initialState, action) => {
   switch (action.type) {
     case 'NETWORK/SET': {
-      const { network, networkType, networkIcon, chainIds, name } =
-        action.payload
+      const {
+        network,
+        networkType,
+        networkIcon,
+        chainIds,
+        name,
+        limitedAvailability,
+      } = action.payload
       return {
         ...state,
         network,
@@ -61,6 +67,7 @@ const networkReducer = (state: INetworkReducerState = initialState, action) => {
         networkIcon,
         networkType,
         name,
+        limitedAvailability,
       }
     }
     case 'NETWORK/SET_TYPE/ACTIVE': {
