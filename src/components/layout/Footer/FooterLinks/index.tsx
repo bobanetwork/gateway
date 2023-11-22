@@ -22,6 +22,14 @@ const blockExplorerLinks = {
       l1: `https://testnet.bscscan.com`,
       l2: `https://testnet.bobascan.com`,
     },
+    [Network.ARBITRUM]: {
+      l1: `https://goerli.etherscan.io`,
+      l2: `https://goerli.arbiscan.io`,
+    },
+    [Network.OPTIMISM]: {
+      l1: `https://goerli.etherscan.io`,
+      l2: `https://goerli-explorer.optimism.io`,
+    },
   },
   [NetworkType.MAINNET]: {
     [Network.ETHEREUM]: {
@@ -31,6 +39,14 @@ const blockExplorerLinks = {
     [Network.BNB]: {
       l1: `https://bscscan.com`,
       l2: `https://bobascan.com`,
+    },
+    [Network.ARBITRUM]: {
+      l1: `https://etherscan.io`,
+      l2: `https://arb1.arbitrum.io/rpc`,
+    },
+    [Network.OPTIMISM]: {
+      l1: `https://etherscan.io`,
+      l2: `https://explorer.optimism.io`,
     },
   },
 }
