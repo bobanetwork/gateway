@@ -17,12 +17,23 @@ export class ReduxStore {
       .should('equal', expectedValue)
   }
 
+  verifyReduxStoreBalance(attribute: string, expectedValue: Number) {
+    this.getReduxStore()
+      .its('balance')
+      .its(attribute)
+      .should('equal', expectedValue)
+  }
+
   verifyReduxUiState(attribute: string, expectedValue: boolean | string) {
     this.getReduxStore()
       .its('ui')
       .its(attribute)
       .should('exist')
       .should('equal', expectedValue)
+  }
+
+  verifyReduxStateNotEmpty(type, name) {
+    this.getReduxStore().its(type).its(name).should('not.be.empty')
   }
 
   allowBaseEnabledToUpdate(accountConnected: boolean) {
