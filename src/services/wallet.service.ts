@@ -189,6 +189,7 @@ export class WalletService {
       })
       return true
     } catch (error: any) {
+      console.log('error code = ', error)
       if (error.code === 4902 || this.walletType === 'walletconnect') {
         try {
           if (this.walletType === 'walletconnect') {

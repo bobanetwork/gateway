@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Modal from 'components/modal/Modal'
 
-import { setConnect, setConnectETH } from 'actions/setupAction'
+import { setConnect, setConnectBOBA, setConnectETH } from 'actions/setupAction'
 import { restTokenList } from 'actions/tokenAction'
 import { closeModal } from 'actions/uiAction'
 
 import { Button } from 'components/global'
-import { selectActiveNetworkType, selectNetwork } from 'selectors'
+import { selectActiveNetworkType, selectLayer, selectNetwork } from 'selectors'
 
 interface Props {
   open: boolean
@@ -18,6 +18,7 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const network = useSelector(selectNetwork())
   const networkType = useSelector(selectActiveNetworkType())
+  const layer = useSelector(selectLayer())
 
   useEffect(() => {
     if (open) {
@@ -41,7 +42,11 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
       <Button
         label={`Connect to the ${network} ${networkType} network`}
         onClick={() => {
-          dispatch(setConnectETH(true))
+          if (layer === 'L2') {
+            dispatch(setConnectBOBA(true))
+          } else {
+            dispatch(setConnectETH(true))
+          }
           dispatch(closeModal('settingsModal'))
         }}
       />

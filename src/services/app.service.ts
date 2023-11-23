@@ -154,6 +154,16 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
       tokens: ['BOBA', 'BNB', 'BUSD', 'USDC', 'USDT', 'SUSHI'],
       altL1Chains: ['BNB'],
     },
+    [Network.OPTIMISM]: {
+      tokenAddresses: {},
+      tokens: ['ETH'],
+      altL1Chains: [],
+    },
+    [Network.ARBITRUM]: {
+      tokenAddresses: {},
+      tokens: ['ETH'],
+      altL1Chains: [],
+    },
   },
   [NetworkType.TESTNET]: {
     [Network.ETHEREUM]: {
@@ -165,6 +175,16 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
       tokenAddresses: {},
       tokens: ['BOBA', 'BNB', 'MMT'],
       altL1Chains: ['BNB'],
+    },
+    [Network.OPTIMISM]: {
+      tokenAddresses: {},
+      tokens: ['ETH'],
+      altL1Chains: [],
+    },
+    [Network.ARBITRUM]: {
+      tokenAddresses: {},
+      tokens: ['ETH'],
+      altL1Chains: [],
     },
   },
 }
