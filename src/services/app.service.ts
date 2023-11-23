@@ -173,7 +173,7 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
     },
     [Network.BNB]: {
       tokenAddresses: {},
-      tokens: ['BOBA', 'BNB', 'MMT'],
+      tokens: ['BOBA', 'tBNB', 'MTT'],
       altL1Chains: ['BNB'],
     },
     [Network.OPTIMISM]: {
