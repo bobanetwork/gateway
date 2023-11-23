@@ -60,7 +60,7 @@ const useBridgeAlerts = () => {
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-
+  console.log(token)
   // network
   const activeNetwork = useSelector(selectActiveNetwork())
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
@@ -229,6 +229,7 @@ const useBridgeAlerts = () => {
       })
     )
     if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
+      console.log('here')
       // trigger only when withdrawing funds.
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))
