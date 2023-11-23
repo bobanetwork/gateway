@@ -50,7 +50,7 @@
     "@mui/styles": "^5.14.18",
     "@sentry/react": "^7.51.0",
     "@sentry/tracing": "^7.76.0",
-    "@walletconnect/ethereum-provider": "^2.10.4",
+    "@walletconnect/ethereum-provider": "^2.10.5",
     "@walletconnect/modal": "^2.6.2",
     "assert": "^2.0.0",
     "axios": "^0.21.1",
