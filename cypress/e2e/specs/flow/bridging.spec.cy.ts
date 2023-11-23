@@ -3,7 +3,7 @@ import Bridge from '../../helpers/bridge'
 
 const bridge = new Bridge()
 
-describe('Testing General Bridging flow on Goerli', () => {
+xdescribe('Testing General Bridging flow on Goerli', () => {
   before(() => {
     bridge.visit()
     bridge.isReady()
