@@ -1,4 +1,4 @@
-const GovernorBravoDelegateABI = [
+export const GovernorBravoDelegateABI = [
   'function _setProposalThreshold(uint256 newProposalThreshold)',
   'function boba() view returns (address)',
   'function castVote(uint256 proposalId, uint8 support)',
@@ -13,4 +13,3 @@ const GovernorBravoDelegateABI = [
   'function queue(uint256 proposalId)',
   'function state(uint256 proposalId) view returns (uint8)',
 ]
-export default GovernorBravoDelegateABI

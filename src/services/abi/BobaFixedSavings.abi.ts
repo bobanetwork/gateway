@@ -1,4 +1,4 @@
-const BobaFixedSavingsABI = [
+export const BobaFixedSavingsABI = [
   'function initialize(address l2BobaAddress, address xBobaAddress)',
   'function l2Boba() view returns (address)',
   'function owner() view returns (address)',
@@ -9,4 +9,3 @@ const BobaFixedSavingsABI = [
   'function unstake(uint256 stakeId)',
   'function xBoba() view returns (address)',
 ]
-export default BobaFixedSavingsABI

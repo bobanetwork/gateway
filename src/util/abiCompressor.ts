@@ -1,3 +1,15 @@
+/**
+ * Script to prepare the human readable abi from the json.
+ * based on the functions used out of the abi in network service.
+ *
+ * to prepare abi execute like
+ * ```sh
+ *  node ./util/abiCompressor.ts
+ * ```
+ *
+ *
+ */
+
 import { ethers } from 'ethers'
 import * as fs from 'fs'
 

@@ -56,20 +56,22 @@ import {
 import appService from './app.service'
 import walletService, { WalletService } from './wallet.service'
 
-import BOBAABI from './abi/BOBA.abi'
-import BobaFixedSavingsABI from './abi/BobaFixedSavings.abi'
-import BobaGasPriceOracleABI from './abi/BobaGasPriceOracle.abi'
-import DiscretionaryExitFeeABI from './abi/DiscretionaryExitFee.abi'
-import GovernorBravoDelegateABI from './abi/GovernorBravoDelegate.abi'
-import L1ERC20ABI from './abi/L1ERC20.abi'
-import L1LiquidityPoolABI from './abi/L1LiquidityPool.abi'
-import L1StandardBridgeABI from './abi/L1StandardBridge.abi'
-import L2BillingContractABI from './abi/L2BillingContract.abi'
-import L2LiquidityPoolABI from './abi/L2LiquidityPool.abi'
-import L2StandardBridgeABI from './abi/L2StandardBridge.abi'
-import L2StandardERC20ABI from './abi/L2StandardERC20.abi'
-import OVM_GasPriceOracleABI from './abi/OVM_GasPriceOracle.abi'
-import TeleportationABI from './abi/Teleportation.abi'
+import {
+  BOBAABI,
+  BobaFixedSavingsABI,
+  BobaGasPriceOracleABI,
+  DiscretionaryExitFeeABI,
+  GovernorBravoDelegateABI,
+  L1ERC20ABI,
+  L1LiquidityPoolABI,
+  L1StandardBridgeABI,
+  L2BillingContractABI,
+  L2LiquidityPoolABI,
+  L2StandardBridgeABI,
+  L2StandardERC20ABI,
+  OVM_GasPriceOracleABI,
+  TeleportationABI,
+} from './abi'
 
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
 import { LAYER } from '../containers/history/types'
@@ -381,7 +383,6 @@ class NetworkService {
     this.network = network //// refer this in other services and clean up iteratively.
     this.networkGateway = network // e.g. mainnet | goerli | ...
     this.networkType = networkType // e.g. mainnet | goerli | ...
-
     // defines the set of possible networks along with chainId for L1 and L2
     const networkDetail = getNetworkDetail({
       network,
@@ -583,6 +584,7 @@ class NetworkService {
 
         this.tokenAddresses = tokenList
         allTokens = tokenList
+      }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {
         this.L2StandardBridgeContract = new ethers.Contract(
@@ -621,7 +623,7 @@ class NetworkService {
         )
       }
 
-        // Liquidity pools
+      // Liquidity pools
 
       this.L1LPContract = new ethers.Contract(
         this.addresses.L1LPAddress,
@@ -634,18 +636,18 @@ class NetworkService {
         this.L2Provider
       )
 
-        this.watcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: false,
-        })
-        this.fastWatcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: true,
-        })
+      this.watcher = new CrossChainMessenger({
+        l1SignerOrProvider: this.L1Provider,
+        l2SignerOrProvider: this.L2Provider,
+        l1ChainId: chainId,
+        fastRelayer: false,
+      })
+      this.fastWatcher = new CrossChainMessenger({
+        l1SignerOrProvider: this.L1Provider,
+        l2SignerOrProvider: this.L2Provider,
+        l1ChainId: chainId,
+        fastRelayer: true,
+      })
 
       let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
       if (Network.ETHEREUM === network && chainId === 1) {
@@ -664,24 +666,24 @@ class NetworkService {
           this.L2Provider
         )
 
-          if (
-            !(await this.getAddressCached(
-              this.addresses,
-              'GovernorBravoDelegate',
-              'GovernorBravoDelegate'
-            ))
-          ) {
-            return
-          }
-          if (
-            !(await this.getAddressCached(
-              this.addresses,
-              'GovernorBravoDelegator',
-              'GovernorBravoDelegator'
-            ))
-          ) {
-            return
-          }
+        if (
+          !(await this.getAddressCached(
+            this.addresses,
+            'GovernorBravoDelegate',
+            'GovernorBravoDelegate'
+          ))
+        ) {
+          return
+        }
+        if (
+          !(await this.getAddressCached(
+            this.addresses,
+            'GovernorBravoDelegator',
+            'GovernorBravoDelegator'
+          ))
+        ) {
+          return
+        }
 
         this.delegateContract = new ethers.Contract(
           this.addresses.GovernorBravoDelegate,

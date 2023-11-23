@@ -1,4 +1,4 @@
-const L1LiquidityPoolABI = [
+export const L1LiquidityPoolABI = [
   'function L1StandardBridgeAddress() view returns (address)',
   'function addLiquidity(uint256 _amount, address _tokenAddress) payable',
   'function clientDepositL1(uint256 _amount, address _tokenAddress) payable',
@@ -14,4 +14,3 @@ const L1LiquidityPoolABI = [
   'function withdrawLiquidity(uint256 _amount, address _tokenAddress, address _to)',
   'function withdrawReward(uint256 _amount, address _tokenAddress, address _to)',
 ]
-export default L1LiquidityPoolABI

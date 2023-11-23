@@ -1,4 +1,4 @@
-const BobaGasPriceOracleABI = [
+export const BobaGasPriceOracleABI = [
   'function secondaryFeeTokenMinimum() public view returns (uint256)',
   'function priceRatio() public view returns (uint256)',
   'function bobaFeeTokenUsers(address) public view returns (bool user)',
@@ -9,5 +9,3 @@ const BobaGasPriceOracleABI = [
   'function useETHAsFeeToken() public',
   'function useSecondaryFeeTokenAsFeeToken() public',
 ]
-
-export default BobaGasPriceOracleABI

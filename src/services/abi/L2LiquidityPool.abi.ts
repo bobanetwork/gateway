@@ -1,4 +1,4 @@
-const L2LiquidityPoolABI = [
+export const L2LiquidityPoolABI = [
   'function DAO() view returns (address)',
   'function addLiquidity(uint256 _amount, address _tokenAddress) payable',
   'function clientDepositL2(uint256 _amount, address _tokenAddress) payable',
@@ -15,4 +15,3 @@ const L2LiquidityPoolABI = [
   'function withdrawLiquidity(uint256 _amount, address _tokenAddress, address _to)',
   'function withdrawReward(uint256 _amount, address _tokenAddress, address _to)',
 ]
-export default L2LiquidityPoolABI
