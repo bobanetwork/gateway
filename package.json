@@ -34,8 +34,6 @@
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@bobanetwork/contracts": "^0.0.2",
-    "@bobanetwork/core_contracts": "0.5.13",
     "@bobanetwork/register": "^0.0.2",
     "@bobanetwork/sdk": "1.0.7",
     "@bobanetwork/turing-hybrid-compute": "^0.2.0",

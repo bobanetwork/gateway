@@ -34,25 +34,6 @@ import {
   updateSignatureStatus_exitTRAD,
 } from 'actions/signAction'
 
-// Base contracts
-import L2StandardBridgeJson from '@bobanetwork/core_contracts/artifacts/contracts/L2/messaging/L2StandardBridge.sol/L2StandardBridge.json'
-import L2ERC20Json from '@bobanetwork/core_contracts/artifacts/contracts/standards/L2StandardERC20.sol/L2StandardERC20.json'
-import OVM_GasPriceOracleJson from '@bobanetwork/core_contracts/artifacts/contracts/L2/predeploys/OVM_GasPriceOracle.sol/OVM_GasPriceOracle.json'
-
-// Boba contracts
-import DiscretionaryExitFeeJson from '@bobanetwork/contracts/artifacts/contracts/DiscretionaryExitFee.sol/DiscretionaryExitFee.json'
-import L1LPJson from '@bobanetwork/contracts/artifacts/contracts/LP/L1LiquidityPool.sol/L1LiquidityPool.json'
-import TeleportationJson from '@bobanetwork/contracts/artifacts/contracts/Teleportation.sol/Teleportation.json'
-import L2LPJson from '@bobanetwork/contracts/artifacts/contracts/LP/L2LiquidityPool.sol/L2LiquidityPool.json'
-import L2SaveJson from '@bobanetwork/contracts/artifacts/contracts/BobaFixedSavings.sol/BobaFixedSavings.json'
-import Boba from '@bobanetwork/contracts/artifacts/contracts/DAO/governance-token/BOBA.sol/BOBA.json'
-import GovernorBravoDelegate from '@bobanetwork/contracts/artifacts/contracts/DAO/governance/GovernorBravoDelegate.sol/GovernorBravoDelegate.json'
-import GovernorBravoDelegator from '@bobanetwork/contracts/artifacts/contracts/DAO/governance/GovernorBravoDelegator.sol/GovernorBravoDelegator.json'
-import L2BillingContractJson from '@bobanetwork/contracts/artifacts/contracts/L2BillingContract.sol/L2BillingContract.json'
-
-//special one-off locations
-import L1ERC20Json from '../deployment/contracts/L1ERC20.json'
-
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
@@ -75,8 +56,23 @@ import {
 import appService from './app.service'
 import walletService, { WalletService } from './wallet.service'
 
-import BobaGasPriceOracleABI from './abi/BobaGasPriceOracle.abi'
-import L1StandardBridgeABI from './abi/L1StandardBridge.abi'
+import {
+  BOBAABI,
+  BobaFixedSavingsABI,
+  BobaGasPriceOracleABI,
+  DiscretionaryExitFeeABI,
+  GovernorBravoDelegateABI,
+  L1ERC20ABI,
+  L1LiquidityPoolABI,
+  L1StandardBridgeABI,
+  L2BillingContractABI,
+  L2LiquidityPoolABI,
+  L2StandardBridgeABI,
+  L2StandardERC20ABI,
+  OVM_GasPriceOracleABI,
+  TeleportationABI,
+} from './abi'
+
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
 import { LAYER } from '../containers/history/types'
 import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
@@ -387,7 +383,6 @@ class NetworkService {
     this.network = network //// refer this in other services and clean up iteratively.
     this.networkGateway = network // e.g. mainnet | goerli | ...
     this.networkType = networkType // e.g. mainnet | goerli | ...
-
     // defines the set of possible networks along with chainId for L1 and L2
     const networkDetail = getNetworkDetail({
       network,
@@ -589,131 +584,131 @@ class NetworkService {
 
         this.tokenAddresses = tokenList
         allTokens = tokenList
+      }
 
-        if (this.addresses.L2StandardBridgeAddress !== null) {
-          this.L2StandardBridgeContract = new ethers.Contract(
-            this.addresses.L2StandardBridgeAddress,
-            L2StandardBridgeJson.abi,
-            this.L2Provider
-          )
-        }
-
-        this.L2_ETH_Contract = new ethers.Contract(
-          this.addresses.L2_ETH_Address,
-          L2ERC20Json.abi,
-          this.L2Provider
-        )
-
-        /*The test token*/
-        this.L1_TEST_Contract = new ethers.Contract(
-          allTokens.BOBA.L1, //this will get changed anyway when the contract is used
-          L1ERC20Json.abi,
-          this.L1Provider
-        )
-
-        this.L2_TEST_Contract = new ethers.Contract(
-          allTokens.BOBA.L2, //this will get changed anyway when the contract is used
-          L2ERC20Json.abi,
-          this.L2Provider
-        )
-
-        // Teleportation
-        if (this.addresses.Proxy__L1Teleportation) {
-          // not deployed on mainnets yet
-          this.Teleportation = new ethers.Contract(
-            // correct one is used accordingly
-            this.addresses.Proxy__L1Teleportation,
-            TeleportationJson.abi
-          )
-        }
-
-        // Liquidity pools
-
-        this.L1LPContract = new ethers.Contract(
-          this.addresses.L1LPAddress,
-          L1LPJson.abi,
-          this.L1Provider
-        )
-        this.L2LPContract = new ethers.Contract(
-          this.addresses.L2LPAddress,
-          L2LPJson.abi,
-          this.L2Provider
-        )
-
-        this.watcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: false,
-        })
-        this.fastWatcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: true,
-        })
-
-        let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
-        if (Network.ETHEREUM === network && chainId === 1) {
-          l2SecondaryFeeTokenAddress = allTokens.BOBA.L2
-        }
-        this.BobaContract = new ethers.Contract(
-          l2SecondaryFeeTokenAddress,
-          Boba.abi,
-          this.L2Provider
-        )
-
-        if (Network.ETHEREUM === network) {
-          this.xBobaContract = new ethers.Contract(
-            allTokens.xBOBA.L2,
-            Boba.abi,
-            this.L2Provider
-          )
-
-          if (
-            !(await this.getAddressCached(
-              this.addresses,
-              'GovernorBravoDelegate',
-              'GovernorBravoDelegate'
-            ))
-          ) {
-            return
-          }
-          if (
-            !(await this.getAddressCached(
-              this.addresses,
-              'GovernorBravoDelegator',
-              'GovernorBravoDelegator'
-            ))
-          ) {
-            return
-          }
-
-          this.delegateContract = new ethers.Contract(
-            this.addresses.GovernorBravoDelegate,
-            GovernorBravoDelegate.abi,
-            this.L2Provider
-          )
-
-          this.delegatorContract = new ethers.Contract(
-            this.addresses.GovernorBravoDelegator,
-            GovernorBravoDelegator.abi,
-            this.L2Provider
-          )
-
-          this.delegatorContractV2 = new ethers.Contract(
-            this.addresses.GovernorBravoDelegatorV2,
-            GovernorBravoDelegator.abi,
-            this.L2Provider
-          )
-        }
-
-        this.gasOracleContract = new ethers.Contract(
-          L2GasOracle,
-          OVM_GasPriceOracleJson.abi,
+      if (this.addresses.L2StandardBridgeAddress !== null) {
+        this.L2StandardBridgeContract = new ethers.Contract(
+          this.addresses.L2StandardBridgeAddress,
+          L2StandardBridgeABI,
           this.L2Provider
         )
       }
+
+      this.L2_ETH_Contract = new ethers.Contract(
+        this.addresses.L2_ETH_Address,
+        L2StandardERC20ABI,
+        this.L2Provider
+      )
+
+      /*The test token*/
+      this.L1_TEST_Contract = new ethers.Contract(
+        allTokens.BOBA.L1, //this will get changed anyway when the contract is used
+        L1ERC20ABI,
+        this.L1Provider
+      )
+
+      this.L2_TEST_Contract = new ethers.Contract(
+        allTokens.BOBA.L2, //this will get changed anyway when the contract is used
+        L2StandardERC20ABI,
+        this.L2Provider
+      )
+
+      // Teleportation
+      if (this.addresses.Proxy__L1Teleportation) {
+        // not deployed on mainnets yet
+        this.Teleportation = new ethers.Contract(
+          // correct one is used accordingly
+          this.addresses.Proxy__L1Teleportation,
+          TeleportationABI
+        )
+      }
+
+      // Liquidity pools
+
+      this.L1LPContract = new ethers.Contract(
+        this.addresses.L1LPAddress,
+        L1LiquidityPoolABI,
+        this.L1Provider
+      )
+      this.L2LPContract = new ethers.Contract(
+        this.addresses.L2LPAddress,
+        L2LiquidityPoolABI,
+        this.L2Provider
+      )
+
+      this.watcher = new CrossChainMessenger({
+        l1SignerOrProvider: this.L1Provider,
+        l2SignerOrProvider: this.L2Provider,
+        l1ChainId: chainId,
+        fastRelayer: false,
+      })
+      this.fastWatcher = new CrossChainMessenger({
+        l1SignerOrProvider: this.L1Provider,
+        l2SignerOrProvider: this.L2Provider,
+        l1ChainId: chainId,
+        fastRelayer: true,
+      })
+
+      let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
+      if (Network.ETHEREUM === network && chainId === 1) {
+        l2SecondaryFeeTokenAddress = allTokens.BOBA.L2
+      }
+      this.BobaContract = new ethers.Contract(
+        l2SecondaryFeeTokenAddress,
+        BOBAABI,
+        this.L2Provider
+      )
+
+      if (Network.ETHEREUM === network) {
+        this.xBobaContract = new ethers.Contract(
+          allTokens.xBOBA.L2,
+          BOBAABI,
+          this.L2Provider
+        )
+
+        if (
+          !(await this.getAddressCached(
+            this.addresses,
+            'GovernorBravoDelegate',
+            'GovernorBravoDelegate'
+          ))
+        ) {
+          return
+        }
+        if (
+          !(await this.getAddressCached(
+            this.addresses,
+            'GovernorBravoDelegator',
+            'GovernorBravoDelegator'
+          ))
+        ) {
+          return
+        }
+
+        this.delegateContract = new ethers.Contract(
+          this.addresses.GovernorBravoDelegate,
+          GovernorBravoDelegateABI,
+          this.L2Provider
+        )
+
+        this.delegatorContract = new ethers.Contract(
+          this.addresses.GovernorBravoDelegator,
+          GovernorBravoDelegateABI,
+          this.L2Provider
+        )
+
+        this.delegatorContractV2 = new ethers.Contract(
+          this.addresses.GovernorBravoDelegatorV2,
+          GovernorBravoDelegateABI,
+          this.L2Provider
+        )
+      }
+
+      this.gasOracleContract = new ethers.Contract(
+        L2GasOracle,
+        OVM_GasPriceOracleABI,
+        this.L2Provider
+      )
 
       return 'enabled'
     } catch (error) {
@@ -851,7 +846,7 @@ class NetworkService {
     try {
       const ERC20Contract = new ethers.Contract(
         this.tokenAddresses!['BOBA'].L2,
-        L2ERC20Json.abi, //any old abi will do...
+        L2StandardERC20ABI, //any old abi will do...
         this.provider!.getSigner()
       )
       const balance = await ERC20Contract.balanceOf(this.account)
@@ -927,7 +922,7 @@ class NetworkService {
 
       const tokenC = new ethers.Contract(
         this.addresses.L1_ETH_Address,
-        L1ERC20Json.abi,
+        L1ERC20ABI,
         this.L1Provider
       )
 
@@ -1179,7 +1174,7 @@ class NetworkService {
       } else {
         const ERC20Contract = new ethers.Contract(
           currency,
-          L2ERC20Json.abi, // any old abi will do...
+          L2StandardERC20ABI, // any old abi will do...
           this.provider!.getSigner()
         )
 
@@ -1210,7 +1205,7 @@ class NetworkService {
     try {
       const ERC20Contract = new ethers.Contract(
         currencyAddress,
-        L1ERC20Json.abi, //could use any abi - just something with .allowance
+        L1ERC20ABI, //could use any abi - just something with .allowance
         this.provider!.getSigner()
       )
       return await ERC20Contract.allowance(this.account, targetContract)
@@ -1266,7 +1261,7 @@ class NetworkService {
     try {
       const ERC20Contract = new ethers.Contract(
         currency,
-        L1ERC20Json.abi,
+        L1ERC20ABI,
         this.provider!.getSigner()
       )
 
@@ -1333,7 +1328,7 @@ class NetworkService {
     value_Wei_String: BigNumberish,
     currency: string,
     approveContractAddress: string = this.addresses.L1StandardBridgeAddress,
-    contractABI = L1ERC20Json.abi
+    contractABI = L1ERC20ABI
   ) {
     try {
       const ERC20Contract = new ethers.Contract(
@@ -1505,7 +1500,7 @@ class NetworkService {
     try {
       const L2BillingContract = new ethers.Contract(
         this.addresses.Proxy__BobaBillingContract,
-        L2BillingContractJson.abi,
+        L2BillingContractABI,
         this.L2Provider
       )
       let BobaApprovalAmount = await L2BillingContract.exitFee()
@@ -1574,7 +1569,7 @@ class NetworkService {
 
       const DiscretionaryExitFeeContract = new ethers.Contract(
         this.addresses.DiscretionaryExitFee,
-        DiscretionaryExitFeeJson.abi,
+        DiscretionaryExitFeeABI,
         this.provider!.getSigner()
       )
 
@@ -1610,7 +1605,7 @@ class NetworkService {
       if (currencyAddress !== this.addresses.L2_ETH_Address) {
         const ERC20Contract = new ethers.Contract(
           currencyAddress,
-          L2ERC20Json.abi, //any old abi will do...
+          L2StandardERC20ABI, //any old abi will do...
           this.provider!.getSigner()
         )
 
@@ -1629,13 +1624,13 @@ class NetworkService {
 
       const DiscretionaryExitFeeContract = new ethers.Contract(
         this.addresses.DiscretionaryExitFee,
-        DiscretionaryExitFeeJson.abi,
+        DiscretionaryExitFeeABI,
         this.provider!.getSigner()
       )
 
       const L2BillingContract = new ethers.Contract(
         this.addresses.Proxy__BobaBillingContract,
-        L2BillingContractJson.abi,
+        L2BillingContractABI,
         this.L2Provider
       )
       const exitFee = await L2BillingContract.exitFee()
@@ -1683,7 +1678,7 @@ class NetworkService {
     try {
       const L1LPContract = new ethers.Contract(
         this.addresses.L1LPAddress,
-        L1LPJson.abi,
+        L1LiquidityPoolABI,
         this.L1Provider
       )
       const [operatorFeeRate, userMinFeeRate, userMaxFeeRate] =
@@ -1710,7 +1705,7 @@ class NetworkService {
     try {
       const L2LPContract = new ethers.Contract(
         this.addresses.L2LPAddress,
-        L2LPJson.abi,
+        L2LiquidityPoolABI,
         this.L2Provider
       )
       const [operatorFeeRate, userMinFeeRate, userMaxFeeRate] =
@@ -1737,7 +1732,7 @@ class NetworkService {
     try {
       const L1LPContract = new ethers.Contract(
         this.addresses.L1LPAddress,
-        L1LPJson.abi,
+        L1LiquidityPoolABI,
         this.L1Provider
       )
       const feeRate = await L1LPContract.getUserRewardFeeRate(tokenAddress)
@@ -1753,7 +1748,7 @@ class NetworkService {
     try {
       const L2LPContract = new ethers.Contract(
         this.addresses.L2LPAddress,
-        L2LPJson.abi,
+        L2LiquidityPoolABI,
         this.L2Provider
       )
       const feeRate = await L2LPContract.getUserRewardFeeRate(tokenAddress)
@@ -1794,7 +1789,7 @@ class NetworkService {
 
     const L1LPContract = new ethers.Contract(
       this.addresses.L1LPAddress,
-      L1LPJson.abi,
+      L1LiquidityPoolABI,
       this.L1Provider
     )
 
@@ -1931,7 +1926,7 @@ class NetworkService {
 
     const L2LPContract = new ethers.Contract(
       this.addresses.L2LPAddress,
-      L2LPJson.abi,
+      L2LiquidityPoolABI,
       this.L2Provider
     )
 
@@ -2434,7 +2429,7 @@ class NetworkService {
   async L1LPLiquidity(tokenAddress) {
     const L1LPContractNS = new ethers.Contract(
       this.addresses.L1LPAddress,
-      L1LPJson.abi,
+      L1LiquidityPoolABI,
       this.L1Provider
     )
 
@@ -2454,7 +2449,7 @@ class NetworkService {
   async L2LPLiquidity(tokenAddress) {
     const L2LPContractNS = new ethers.Contract(
       this.addresses.L2LPAddress,
-      L2LPJson.abi,
+      L2LiquidityPoolABI,
       this.L2Provider
     )
 
@@ -2477,7 +2472,7 @@ class NetworkService {
     if (currencyAddress !== this.addresses.L2_ETH_Address) {
       const ERC20Contract = new ethers.Contract(
         currencyAddress,
-        L2ERC20Json.abi, //any old abi will do...
+        L2StandardERC20ABI, //any old abi will do...
         this.provider!.getSigner()
       )
 
@@ -2496,7 +2491,7 @@ class NetworkService {
 
     const L2BillingContract = new ethers.Contract(
       this.addresses.Proxy__BobaBillingContract,
-      L2BillingContractJson.abi,
+      L2BillingContractABI,
       this.L2Provider
     )
 
@@ -2557,7 +2552,7 @@ class NetworkService {
     if (currencyAddress !== this.addresses.L1_ETH_Address) {
       const ERC20Contract = new ethers.Contract(
         currencyAddress,
-        L2ERC20Json.abi, //any old abi will do...
+        L1ERC20ABI, //any old abi will do...
         this.provider!.getSigner()
       )
 
@@ -2601,7 +2596,7 @@ class NetworkService {
 
     const L2BillingContract = new ethers.Contract(
       this.addresses.Proxy__BobaBillingContract,
-      L2BillingContractJson.abi,
+      L2BillingContractABI,
       this.L2Provider
     )
     let BobaApprovalAmount = await L2BillingContract.exitFee()
@@ -2642,7 +2637,7 @@ class NetworkService {
       ) {
         const L2ERC20Contract = new ethers.Contract(
           currencyAddress,
-          L2ERC20Json.abi,
+          L2StandardERC20ABI,
           this.provider!.getSigner()
         )
 
@@ -3042,7 +3037,7 @@ class NetworkService {
     try {
       const FixedSavings = new ethers.Contract(
         this.addresses.BobaFixedSavings,
-        L2SaveJson.abi,
+        BobaFixedSavingsABI,
         this.provider!.getSigner()
       )
 
@@ -3120,7 +3115,7 @@ class NetworkService {
       // third, we need the stake cost
       const FixedSavings = new ethers.Contract(
         this.addresses.BobaFixedSavings,
-        L2SaveJson.abi,
+        BobaFixedSavingsABI,
         this.provider
       )
 
@@ -3150,7 +3145,7 @@ class NetworkService {
     try {
       const FixedSavings = new ethers.Contract(
         this.addresses.BobaFixedSavings,
-        L2SaveJson.abi,
+        BobaFixedSavingsABI,
         this.provider!.getSigner()
       )
       const TX = await FixedSavings.unstake(stakeID)
@@ -3170,7 +3165,7 @@ class NetworkService {
     try {
       const FixedSavings = new ethers.Contract(
         this.addresses.BobaFixedSavings,
-        L2SaveJson.abi,
+        BobaFixedSavingsABI,
         this.L2Provider
       )
       await FixedSavings.l2Boba()
@@ -3191,7 +3186,7 @@ class NetworkService {
     try {
       const FixedSavings = new ethers.Contract(
         this.addresses.BobaFixedSavings,
-        L2SaveJson.abi,
+        BobaFixedSavingsABI,
         this.L2Provider
       )
 
@@ -3227,7 +3222,7 @@ class NetworkService {
     // Gas oracle
     this.gasOracleContract = new ethers.Contract(
       L2GasOracle,
-      OVM_GasPriceOracleJson.abi,
+      OVM_GasPriceOracleABI,
       this.L2Provider
     )
     const l1SecurityFee = await this.gasOracleContract!.getL1Fee(
@@ -3257,7 +3252,7 @@ class NetworkService {
   async getExitFeeFromBillingContract() {
     const L2BillingContract = new ethers.Contract(
       this.addresses.Proxy__BobaBillingContract,
-      L2BillingContractJson.abi,
+      L2BillingContractABI,
       this.L2Provider
     )
     return ethers.utils.formatEther(await L2BillingContract.exitFee())
