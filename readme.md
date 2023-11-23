@@ -201,3 +201,18 @@ example
 ```shell
 add/14-includes-readme
 ```
+
+## Abi to Human readable abi.
+
+Install boba network contracts and core contracts node packages.
+
+```shell
+
+yarn add @bobanetwork/core_contracts bobanetwork/contracts
+
+```
+
+```shell
+
+node ./bin/abiCompressor.ts
+```

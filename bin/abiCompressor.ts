@@ -26,14 +26,14 @@ const smart_contract_abi_paths = [
   './node_modules/@bobanetwork/contracts/artifacts/contracts/DAO/governance/GovernorBravoDelegate.sol/GovernorBravoDelegate.json',
   './node_modules/@bobanetwork/contracts/artifacts/contracts/DAO/governance/GovernorBravoDelegator.sol/GovernorBravoDelegator.json',
   './node_modules/@bobanetwork/contracts/artifacts/contracts/L2BillingContract.sol/L2BillingContract.json',
-  './src/deployment/contracts/L1ERC20.json',
-  './src/deployment/contracts/NFTMonsterV2.json',
-  './src/deployment/contracts/AuthenticatedFaucet.json',
-  './src/deployment/contracts/WAGMIv0.json',
-  './src/deployment/contracts/WAGMIv1.json',
-  './src/deployment/contracts/crosschain/EthBridge.json',
-  './src/deployment/contracts/crosschain/L2StandardERC20.json',
-  './src/deployment/contracts/crosschain/LZEndpointMock.json',
+  './deployment/contracts/L1ERC20.json',
+  './deployment/contracts/NFTMonsterV2.json',
+  './deployment/contracts/AuthenticatedFaucet.json',
+  './deployment/contracts/WAGMIv0.json',
+  './deployment/contracts/WAGMIv1.json',
+  './deployment/contracts/crosschain/EthBridge.json',
+  './deployment/contracts/crosschain/L2StandardERC20.json',
+  './deployment/contracts/crosschain/LZEndpointMock.json',
 ]
 
 const networkServicesStr = fs.readFileSync(
