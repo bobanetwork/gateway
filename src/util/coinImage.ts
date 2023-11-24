@@ -1,5 +1,5 @@
 import TESTLogo from 'assets/images/test.svg'
-import mttLogo from 'assets/images/mtt.png'
+import mttLogo from 'assets/images/mtt.svg'
 
 export const getCoinImage = (symbol: string): string => {
   const logoURIbase =
@@ -9,7 +9,7 @@ export const getCoinImage = (symbol: string): string => {
   if (symbol === 'test') {
     url = TESTLogo
   }
-  if (symbol === 'mtt') {
+  if (['mtt', 'MTT'].includes(symbol)) {
     url = mttLogo
   }
   return url
