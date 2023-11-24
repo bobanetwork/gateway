@@ -288,7 +288,7 @@ describe('useBridgeAlerts', () => {
     expect(result.current).toBeUndefined()
   })
 
-  test('L1 and Token and Token Symbol is OMG should clear omg_info', async () => {
+  test('L1 and Token and Token Symbol is OMG should set OMG_INFO', async () => {
     const initialState = {
       ...mockedInitialState,
       setup: {
@@ -337,6 +337,146 @@ describe('useBridgeAlerts', () => {
         new wallet, it starts out with a 0 approval, and therefore, only two interactions with
         MetaMask will be needed.`,
         type: 'info',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('L1 and Token and Token Symbol is not OMG should clear OMG_INFO', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L1',
+      },
+      bridge: {
+        tokens: [
+          {
+            address: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000006',
+            currency: '0x0000000000000000000000000000000000000000',
+            symbol: 'ETH',
+            decimals: 18,
+            balance: '56d0cb871570',
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      type: 'BRIDGE/ALERT/CLEAR',
+      payload: { keys: ['OMG_INFO'] },
+    })
+  })
+
+  test('L1 and Token and Token Symbol is not OMG and overMax bridge', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L1',
+      },
+      bridge: {
+        amountToBridge: 1,
+        tokens: [
+          {
+            address: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000006',
+            currency: '0x0000000000000000000000000000000000000000',
+            symbol: 'ETH',
+            decimals: 18,
+            balance: 0,
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'VALUE_TOO_LARGE',
+        text: 'Value too large: the value must be smaller than 0.00000',
+        type: 'error',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('L1 and Token and Token Symbol is not OMG and tooLow bridge', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L1',
+      },
+      bridge: {
+        amountToBridge: 0.0,
+        isTeleportationOfAssetSupported: {
+          supported: false,
+          minDepositAmount: 1,
+          maxDepositAmount: 0,
+          maxTransferAmountPerDay: 0,
+          transferredAmount: 0,
+        },
+        tokens: [
+          {
+            address: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000006',
+            currency: '0x0000000000000000000000000000000000000000',
+            symbol: 'ETH',
+            decimals: 18,
+            balance: '0.0',
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'VALUE_TOO_LARGE',
+        text: 'Value too large: the value must be smaller than 0.00000',
+        type: 'error',
       },
       type: 'BRIDGE/ALERT/SET',
     })

@@ -60,7 +60,6 @@ const useBridgeAlerts = () => {
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-  console.log(token)
   // network
   const activeNetwork = useSelector(selectActiveNetwork())
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
@@ -129,6 +128,7 @@ const useBridgeAlerts = () => {
         } else if (
           amountToBridge > tokenForTeleportationSupported.maxDepositAmount
         ) {
+          console.log('inside else if')
           dispatch(
             setBridgeAlert({
               meta: ALERT_KEYS.VALUE_TOO_LARGE,
@@ -172,6 +172,7 @@ const useBridgeAlerts = () => {
     if (!token) {
       return
     }
+
     const maxValue = logAmount(token.balance, token.decimals)
     const underZero = new BN(amountToBridge).lt(new BN(0.0))
     const overMax = new BN(amountToBridge).gt(new BN(maxValue))
@@ -183,6 +184,7 @@ const useBridgeAlerts = () => {
     )
 
     if ((underZero || amountToBridge <= 0) && amountToBridge) {
+      console.log('inside underZero')
       dispatch(
         setBridgeAlert({
           meta: ALERT_KEYS.VALUE_TOO_SMALL,
@@ -229,7 +231,6 @@ const useBridgeAlerts = () => {
       })
     )
     if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
-      console.log('here')
       // trigger only when withdrawing funds.
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))
