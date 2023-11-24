@@ -1,9 +1,20 @@
 import React, { useEffect } from 'react'
 import { BridgeTabs, BridgeTabItem } from './style'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectActiveNetworkType, selectBridgeType } from 'selectors'
+import {
+  selectActiveNetworkType,
+  selectBridgeType,
+  selectNetwork,
+  selectNetworkType,
+} from 'selectors'
 import { setBridgeType } from 'actions/bridgeAction'
-import { NetworkType } from '../../../util/network/network.util'
+import {
+  Network,
+  NetworkType,
+  networkLimitedAvailability,
+  NetworkList,
+} from '../../../util/network/network.util'
+import { setNetwork } from '../../../actions/networkAction'
 
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
@@ -15,6 +26,9 @@ export enum BRIDGE_TYPE {
 const BridgeTypeSelector = () => {
   const dispatch = useDispatch<any>()
   const bridgeType = useSelector(selectBridgeType())
+  const networkType = useSelector(selectNetworkType())
+  const network = useSelector(selectNetwork())
+  const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
   const activeNetworkType = useSelector(selectActiveNetworkType())
 
   // Only show teleportation on testnet for now
@@ -22,6 +36,22 @@ const BridgeTypeSelector = () => {
     useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
 
   const onTabClick = (payload: any) => {
+    if (payload !== BRIDGE_TYPE.LIGHT && isOnLimitedNetwork) {
+      // change network back to fully supported network when leaving light bridge
+      const defaultChainDetail = NetworkList[networkType].find(
+        (n) => n.chain === Network.ETHEREUM
+      )
+
+      dispatch(
+        setNetwork({
+          network: defaultChainDetail.chain,
+          name: defaultChainDetail.name,
+          networkIcon: defaultChainDetail.icon,
+          chainIds: defaultChainDetail.chainId,
+          networkType,
+        })
+      )
+    }
     dispatch(setBridgeType(payload))
   }
 

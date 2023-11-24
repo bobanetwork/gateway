@@ -33,5 +33,7 @@
   ],
   "include": [
     "src"
-  ]
+,
+"bin/abiCompressor.ts"
+]
 }

@@ -8,6 +8,8 @@ import { CHAIN_NAME, ChainMap } from './types'
 
 import bobaEth from 'assets/bobaEth.svg'
 import bobaBnb from 'assets/bobaBNB.svg'
+import optimism from 'assets/optimism.svg'
+import arbitrum from 'assets/arbitrum.svg'
 
 import ethIcon from 'assets/ethereum.svg'
 
@@ -66,6 +68,18 @@ export const Chains: ChainMap = {
     symbol: 'BOBA',
     imgSrc: bobaEth,
   },
+  '420': {
+    name: CHAIN_NAME.Optimism_Goerli,
+    transactionUrlPrefix: 'https://goerli-optimism.etherscan.io/tx/',
+    symbol: 'ETH',
+    imgSrc: optimism,
+  },
+  '421613': {
+    name: CHAIN_NAME.Arbitrum_Goerli,
+    transactionUrlPrefix: 'https://goerli.arbiscan.io/tx/',
+    symbol: 'ETH',
+    imgSrc: arbitrum,
+  },
 }
 
 export const ALL_NETWORKS: IDropdownItem = {
@@ -121,6 +135,18 @@ export const NETWORK_L2_OPTIONS = [
     value: '9728',
     label: 'Boba tBNB',
     imgSrc: bobaBnb,
+    headerName: NetworkType.TESTNET,
+  },
+  {
+    value: '420',
+    label: 'Optimism Goerli',
+    imgSrc: optimism,
+    headerName: NetworkType.TESTNET,
+  },
+  {
+    value: '421613',
+    label: 'Arbitrum Goerli',
+    imgSrc: arbitrum,
     headerName: NetworkType.TESTNET,
   },
 ]
