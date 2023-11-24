@@ -229,8 +229,6 @@ const useBridgeAlerts = () => {
       })
     )
     if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
-      console.log('is Layer2')
-
       // trigger only when withdrawing funds.
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))
@@ -246,12 +244,6 @@ const useBridgeAlerts = () => {
           warning = `ETH balance too low to cover gas`
         }
       } else if (feeUseBoba) {
-        console.log('inside when i want')
-        console.log(
-          Number(amountToBridge) + bobaCost + exitFee,
-          balance,
-          token.symbol
-        )
         if (
           token.symbol === 'BOBA' &&
           Number(amountToBridge) + bobaCost + exitFee > balance

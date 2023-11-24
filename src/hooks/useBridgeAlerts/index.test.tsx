@@ -697,40 +697,32 @@ describe('useBridgeAlerts', () => {
     })
   })
 
-  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba and token is BOBA should error', async () => {
+  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is not using feeUseBoba and token is ETH and freeBlanace is bigger than total value should error', async () => {
     const initialState = {
       ...mockedInitialState,
       setup: {
         ...mockedInitialState.setup,
         accountEnabled: true,
         netLayer: 'L2',
-        bobaFeeChoice: true,
-        bobaFeePriceRatio: 0.1,
+        bobaFeeChoice: false,
       },
       balance: {
         ...mockedInitialState.balance,
-        exitFee: 0.5,
-        fastExitCost: 1,
-        l2BalanceETH: 2,
-        l2BalanceBOBA: 1,
+        fastExitCost: 0.1,
+        l2BalanceETH: 5,
+        l2BalanceBOBA: 0.1,
       },
       bridge: {
-        amountToBridge: 1,
+        amountToBridge: 2,
         bridgeType: BRIDGE_TYPE.CLASSIC,
         tokens: [
           {
-            currency: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
-            addressL1: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
-            addressL2: '0xa18bf3994c0cc6e3b63ac420308e5383f53120d7',
-            symbolL1: 'BOBA',
-            symbolL2: 'BOBA',
+            address: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000006',
+            currency: '0x0000000000000000000000000000000000000000',
+            symbol: 'ETH',
             decimals: 18,
-            name: 'Boba Token',
-            redalert: false,
-            balance: '10000',
-            layer: 'L1',
-            address: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
-            symbol: 'BOBA',
+            balance: 1e18,
             amount: 0,
             toWei_String: 0,
           },
@@ -752,8 +744,102 @@ describe('useBridgeAlerts', () => {
     expect(actions).toContainEqual({
       payload: {
         meta: 'FAST_EXIT_ERROR',
-        text: 'Insufficient BOBA balance to conver Boba Amount, Exit Fee and Relay fee.',
+        text: 'Insufficient ETH balance to cover ETH Amount and Exit fee.',
         type: 'error',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba and token is ETH and freeBlanace is bigger than total value should error', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L2',
+        bobaFeeChoice: true,
+      },
+      balance: {
+        ...mockedInitialState.balance,
+        exitFee: 0.2,
+        fastExitCost: 1,
+        l2BalanceETH: 1,
+        l2BalanceBOBA: 2,
+      },
+      bridge: {
+        amountToBridge: 2,
+        bridgeType: BRIDGE_TYPE.CLASSIC,
+        tokens: [
+          {
+            address: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000006',
+            currency: '0x0000000000000000000000000000000000000000',
+            symbol: 'ETH',
+            decimals: 18,
+            balance: 1e18,
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'FAST_EXIT_ERROR',
+        text: 'ETH balance too low. Even if you pay in BOBA, you still need to maintain a minimum ETH balance in your wallet',
+        type: 'error',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('If active network is not ethereum and bridgeType is Third Party show error', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L2',
+        bobaFeeChoice: true,
+      },
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
+      bridge: {
+        bridgeType: BRIDGE_TYPE.THIRD_PARTY,
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'THIRD_PARTY_BRIDGE_ALERT',
+        text: 'There are no third party bridges available for BNB at the moment. To view third party bridges for other networks, select another network in the Classic Tab.',
+        type: 'info',
       },
       type: 'BRIDGE/ALERT/SET',
     })
