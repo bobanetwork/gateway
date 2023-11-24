@@ -128,7 +128,6 @@ const useBridgeAlerts = () => {
         } else if (
           amountToBridge > tokenForTeleportationSupported.maxDepositAmount
         ) {
-          console.log('inside else if')
           dispatch(
             setBridgeAlert({
               meta: ALERT_KEYS.VALUE_TOO_LARGE,
@@ -182,9 +181,7 @@ const useBridgeAlerts = () => {
         keys: [ALERT_KEYS.VALUE_TOO_LARGE, ALERT_KEYS.VALUE_TOO_SMALL],
       })
     )
-
     if ((underZero || amountToBridge <= 0) && amountToBridge) {
-      console.log('inside underZero')
       dispatch(
         setBridgeAlert({
           meta: ALERT_KEYS.VALUE_TOO_SMALL,
@@ -225,12 +222,15 @@ const useBridgeAlerts = () => {
     if (!token) {
       return
     }
+
     dispatch(
       clearBridgeAlert({
         keys: [ALERT_KEYS.FAST_EXIT_ERROR],
       })
     )
     if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
+      console.log('is Layer2')
+
       // trigger only when withdrawing funds.
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))
@@ -246,6 +246,12 @@ const useBridgeAlerts = () => {
           warning = `ETH balance too low to cover gas`
         }
       } else if (feeUseBoba) {
+        console.log('inside when i want')
+        console.log(
+          Number(amountToBridge) + bobaCost + exitFee,
+          balance,
+          token.symbol
+        )
         if (
           token.symbol === 'BOBA' &&
           Number(amountToBridge) + bobaCost + exitFee > balance

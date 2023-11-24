@@ -438,14 +438,7 @@ describe('useBridgeAlerts', () => {
         netLayer: 'L1',
       },
       bridge: {
-        amountToBridge: 0.0,
-        isTeleportationOfAssetSupported: {
-          supported: false,
-          minDepositAmount: 1,
-          maxDepositAmount: 0,
-          maxTransferAmountPerDay: 0,
-          transferredAmount: 0,
-        },
+        amountToBridge: -1.0,
         tokens: [
           {
             address: '0x0000000000000000000000000000000000000000',
@@ -474,8 +467,292 @@ describe('useBridgeAlerts', () => {
 
     expect(actions).toContainEqual({
       payload: {
-        meta: 'VALUE_TOO_LARGE',
-        text: 'Value too large: the value must be smaller than 0.00000',
+        meta: 'VALUE_TOO_SMALL',
+        text: `Value too small: the value must be greater than 0`,
+        type: 'error',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('L2 and BridgeType is not Light & exitFee is bigger than Boba Balance should error', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L2',
+      },
+      balance: {
+        ...mockedInitialState.balance,
+        exitFee: 0.1,
+        l2BalanceBOBA: 0.01,
+      },
+      bridge: {
+        amountToBridge: 1,
+        bridgeType: BRIDGE_TYPE.CLASSIC,
+        tokens: [
+          {
+            address: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000006',
+            currency: '0x0000000000000000000000000000000000000000',
+            symbol: 'ETH',
+            decimals: 18,
+            balance: '0.0',
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'FAST_EXIT_ERROR',
+        text: 'Insufficient BOBA balance to cover xChain message relay. You need at least 0.1 BOBA',
+        type: 'error',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is not using feeUseBoba should error', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L2',
+        bobaFeeChoice: false,
+      },
+      balance: {
+        ...mockedInitialState.balance,
+        fastExitCost: 0.1,
+        l2BalanceETH: 0.1,
+        l2BalanceBOBA: 0.1,
+      },
+      bridge: {
+        amountToBridge: 1,
+        bridgeType: BRIDGE_TYPE.CLASSIC,
+        tokens: [
+          {
+            address: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000006',
+            currency: '0x0000000000000000000000000000000000000000',
+            symbol: 'ETH',
+            decimals: 18,
+            balance: '0.0',
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'FAST_EXIT_ERROR',
+        text: 'ETH balance too low to cover gas',
+        type: 'error',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba should error', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L2',
+        bobaFeeChoice: true,
+      },
+      balance: {
+        ...mockedInitialState.balance,
+        fastExitCost: 0.1,
+        l2BalanceETH: 0.1,
+        l2BalanceBOBA: 0.1,
+      },
+      bridge: {
+        amountToBridge: 1,
+        bridgeType: BRIDGE_TYPE.CLASSIC,
+        tokens: [
+          {
+            address: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000006',
+            currency: '0x0000000000000000000000000000000000000000',
+            symbol: 'ETH',
+            decimals: 18,
+            balance: '0.0',
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'FAST_EXIT_ERROR',
+        text: 'ETH balance too low. Even if you pay in BOBA, you still need to maintain a minimum ETH balance in your wallet',
+        type: 'error',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba and token is BOBA should error', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L2',
+        bobaFeeChoice: true,
+        bobaFeePriceRatio: 0.1,
+      },
+      balance: {
+        ...mockedInitialState.balance,
+        exitFee: 0.5,
+        fastExitCost: 1,
+        l2BalanceETH: 2,
+        l2BalanceBOBA: 1,
+      },
+      bridge: {
+        amountToBridge: 1,
+        bridgeType: BRIDGE_TYPE.CLASSIC,
+        tokens: [
+          {
+            currency: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
+            addressL1: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
+            addressL2: '0xa18bf3994c0cc6e3b63ac420308e5383f53120d7',
+            symbolL1: 'BOBA',
+            symbolL2: 'BOBA',
+            decimals: 18,
+            name: 'Boba Token',
+            redalert: false,
+            balance: '00',
+            layer: 'L1',
+            address: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
+            symbol: 'BOBA',
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'FAST_EXIT_ERROR',
+        text: 'Insufficient BOBA balance to conver Boba Amount, Exit Fee and Relay fee.',
+        type: 'error',
+      },
+      type: 'BRIDGE/ALERT/SET',
+    })
+  })
+
+  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba and token is BOBA should error', async () => {
+    const initialState = {
+      ...mockedInitialState,
+      setup: {
+        ...mockedInitialState.setup,
+        accountEnabled: true,
+        netLayer: 'L2',
+        bobaFeeChoice: true,
+        bobaFeePriceRatio: 0.1,
+      },
+      balance: {
+        ...mockedInitialState.balance,
+        exitFee: 0.5,
+        fastExitCost: 1,
+        l2BalanceETH: 2,
+        l2BalanceBOBA: 1,
+      },
+      bridge: {
+        amountToBridge: 1,
+        bridgeType: BRIDGE_TYPE.CLASSIC,
+        tokens: [
+          {
+            currency: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
+            addressL1: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
+            addressL2: '0xa18bf3994c0cc6e3b63ac420308e5383f53120d7',
+            symbolL1: 'BOBA',
+            symbolL2: 'BOBA',
+            decimals: 18,
+            name: 'Boba Token',
+            redalert: false,
+            balance: '10000',
+            layer: 'L1',
+            address: '0x42bbfa2e77757c645eeaad1655e0911a7553efbc',
+            symbol: 'BOBA',
+            amount: 0,
+            toWei_String: 0,
+          },
+        ],
+      },
+    }
+
+    const store = mockStore(initialState)
+
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useBridgeAlerts(), {
+      wrapper,
+    })
+
+    const actions = store.getActions()
+
+    expect(actions).toContainEqual({
+      payload: {
+        meta: 'FAST_EXIT_ERROR',
+        text: 'Insufficient BOBA balance to conver Boba Amount, Exit Fee and Relay fee.',
         type: 'error',
       },
       type: 'BRIDGE/ALERT/SET',
