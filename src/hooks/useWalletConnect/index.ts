@@ -133,8 +133,6 @@ export const useWalletConnect = () => {
   // listening for l1 connection request
   useEffect(() => {
     if (connectETHRequest) {
-      console.log('insideConnectEthRequest')
-
       doConnectToLayer('L1')
     }
   }, [connectETHRequest, doConnectToLayer])
@@ -142,15 +140,12 @@ export const useWalletConnect = () => {
   // listening for l2 connection request
   useEffect(() => {
     if (connectBOBARequest) {
-      console.log('inside connect boba request')
       doConnectToLayer('L2')
     }
   }, [connectBOBARequest, doConnectToLayer])
 
   useEffect(() => {
     if (connectRequest && !networkService.walletService.provider) {
-      console.log('DISABLE_WALLETCONNECT', DISABLE_WALLETCONNECT)
-      console.log('inside connectRequest')
       // bypass walletSelectorModal
       if (DISABLE_WALLETCONNECT) {
         triggerInit()

@@ -71,7 +71,3 @@ export const mockLocalStorage = (() => {
     },
   }
 })()
-
-export type EnvType = string | number | null | undefined
-
-export const DISABLE_WALLETCONNECT: EnvType = 'true'
