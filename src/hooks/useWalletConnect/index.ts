@@ -114,6 +114,7 @@ export const useWalletConnect = () => {
             }
           }
         } catch (err) {
+          console.log('reset connection chain')
           resetConnectChain()
         }
       }
@@ -154,5 +155,5 @@ export const useWalletConnect = () => {
     }
   }, [dispatch, connectRequest, triggerInit])
 
-  return { triggerInit }
+  return { triggerInit, doConnectToLayer }
 }
