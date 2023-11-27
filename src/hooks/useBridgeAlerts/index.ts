@@ -60,7 +60,6 @@ const useBridgeAlerts = () => {
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-
   // network
   const activeNetwork = useSelector(selectActiveNetwork())
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
@@ -172,6 +171,7 @@ const useBridgeAlerts = () => {
     if (!token) {
       return
     }
+
     const maxValue = logAmount(token.balance, token.decimals)
     const underZero = new BN(amountToBridge).lt(new BN(0.0))
     const overMax = new BN(amountToBridge).gt(new BN(maxValue))
@@ -181,7 +181,6 @@ const useBridgeAlerts = () => {
         keys: [ALERT_KEYS.VALUE_TOO_LARGE, ALERT_KEYS.VALUE_TOO_SMALL],
       })
     )
-
     if ((underZero || amountToBridge <= 0) && amountToBridge) {
       dispatch(
         setBridgeAlert({
@@ -223,6 +222,7 @@ const useBridgeAlerts = () => {
     if (!token) {
       return
     }
+
     dispatch(
       clearBridgeAlert({
         keys: [ALERT_KEYS.FAST_EXIT_ERROR],
