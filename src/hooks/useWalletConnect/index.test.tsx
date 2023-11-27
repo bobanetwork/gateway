@@ -14,6 +14,7 @@ jest.mock('services/networkService', () => ({
   initializeAccount: jest.fn(),
   walletService: jest.fn(),
   switchChain: jest.fn(),
+  addTokenList: jest.fn(),
 }))
 
 describe('useWalletConnect', () => {
@@ -267,7 +268,7 @@ describe('useWalletConnect', () => {
 
     jest
       .spyOn(networkService, 'initializeAccount')
-      .mockResolvedValueOnce('other')
+      .mockResolvedValueOnce(undefined)
 
     const store = mockStore(initialState)
     const wrapper = ({ children }) => (
