@@ -5848,10 +5848,10 @@
   dependencies:
     "@types/lodash" "*"
 
-"@types/lodash.keyby@^4.6.7":
-  version "4.6.7"
-  resolved "https://registry.yarnpkg.com/@types/lodash.keyby/-/lodash.keyby-4.6.7.tgz#e5ae589c73886fa23f08a40debf07098cacc9f30"
-  integrity sha512-3qSHbbxLfXlARIKsaijZPb/5ZHDajv1vRg7OlAOuBNwN29PESS3sEOPfG1s2kzSuZnKtxtXZd1lvGj5JasN91w==
+"@types/lodash.keyby@^4.6.9":
+  version "4.6.9"
+  resolved "https://registry.yarnpkg.com/@types/lodash.keyby/-/lodash.keyby-4.6.9.tgz#92efda042493000f7ca9adad7c6a79e02e73cf4d"
+  integrity sha512-N8xfQdZ2ADNPDL72TaLozIL4K1xFCMG1C1T9GN4dOFI+sn1cjl8d4U+POp8PRCAnNxDCMkYAZVD/rOBIWYPT5g==
   dependencies:
     "@types/lodash" "*"
 
@@ -10658,10 +10658,10 @@ eslint-plugin-testing-library@^5.0.1:
   dependencies:
     "@typescript-eslint/utils" "^5.58.0"
 
-eslint-plugin-testing-library@^6.0.0:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-6.0.2.tgz#a0884f603d8744695919413e7cf2adfb42223e2c"
-  integrity sha512-3BV6FWtLbpKFb4Y1obSdt8PC9xSqz6T+7EHB/6pSCXqVjKPoS67ck903feKMKQphd5VhrX+N51yHuVaPa7elsw==
+eslint-plugin-testing-library@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-6.2.0.tgz#af3340b783c881eb19ec5ac6b3a4bfe8ab4a1f74"
+  integrity sha512-+LCYJU81WF2yQ+Xu4A135CgK8IszcFcyMF4sWkbiu6Oj+Nel0TrkZq/HvDw0/1WuO3dhDQsZA/OpEMGd0NfcUw==
   dependencies:
     "@typescript-eslint/utils" "^5.58.0"
 
