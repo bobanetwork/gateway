@@ -13,7 +13,7 @@ import {
   selectLayer,
 } from 'selectors'
 
-export const useBridgeCleanup = () => {
+export const useBridgeCleanUp = () => {
   const dispatch = useDispatch<any>()
 
   const activeNetwork = useSelector(selectActiveNetwork())
@@ -37,4 +37,4 @@ export const useBridgeCleanup = () => {
   ])
 }
 
-export default useBridgeCleanup
+export default useBridgeCleanUp
