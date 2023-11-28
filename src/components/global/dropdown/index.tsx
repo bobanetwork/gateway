@@ -39,6 +39,7 @@ export interface IDropdownProps {
   className?: string
   headers?: string[]
   style?: CSSProperties
+  setSelectedOnClick?: boolean
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
@@ -49,6 +50,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   className,
   headers = [],
   style,
+  setSelectedOnClick = true,
 }) => {
   if (headers) {
     let allItems: IDropdownItem[]
@@ -81,7 +83,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
 
   const selectItem = useCallback((item: IDropdownItem) => {
     onItemSelected && onItemSelected(item)
-    setSelectedItem(item)
+    if (setSelectedOnClick) {
+      setSelectedItem(item)
+    }
     setIsOpen(false)
   }, [])
 

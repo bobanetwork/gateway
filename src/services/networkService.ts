@@ -1029,6 +1029,8 @@ class NetworkService {
         }
       })
 
+      // console.log('network service', layer1Balances, layer1Balances)
+
       return {
         layer1: orderBy(layer1Balances, (i) => i.currency),
         layer2: orderBy(layer2Balances, (i) => i.currency),

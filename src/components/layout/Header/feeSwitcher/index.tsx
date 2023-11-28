@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -23,7 +23,8 @@ import {
   selectLayer,
 } from 'selectors'
 
-import Select from 'components/select/Select'
+import { Dropdown } from 'components/global/dropdown'
+
 import Tooltip from 'components/tooltip/Tooltip'
 
 import networkService from 'services/networkService'
@@ -43,14 +44,16 @@ import { fetchBalances } from 'actions/networkAction'
 
 const OptionBoba = () => ({
   value: 'BOBA',
-  title: 'BOBA',
+  label: 'BOBA',
+  imgSrc: BobaLogo,
   icon: BobaLogo,
 })
 
 const OptionNativeToken = () => ({
   value: networkService.L1NativeTokenSymbol,
-  title: networkService.L1NativeTokenName,
-  icon: getCoinImage(networkService.L1NativeTokenSymbol),
+  label: networkService.L1NativeTokenName,
+  imgSrc: getCoinImage(networkService.L1NativeTokenSymbol),
+  icon: BobaLogo,
 })
 
 const FeeSwitcher: FC = () => {
@@ -78,7 +81,6 @@ const FeeSwitcher: FC = () => {
       </FeeSwitcherWrapper>
     )
   }
-
   return (
     <FeeSwitcherWrapper>
       <FeeSwitcherLabelWrapper>
@@ -89,17 +91,12 @@ const FeeSwitcher: FC = () => {
           <FeeSwitcherIcon fontSize="small" />
         </Tooltip>
       </FeeSwitcherLabelWrapper>
-      <Select
-        isMulti={false}
-        loading={false}
-        newSelect={true}
-        label=""
-        className=""
-        onSelect={(e: any) => {
-          switchFeeUse(e.value)
-        }}
-        value={feeUseBoba ? OptionBoba() : OptionNativeToken()}
-        options={[OptionBoba(), OptionNativeToken()]}
+      <Dropdown
+        items={[OptionBoba(), OptionNativeToken()]}
+        defaultItem={feeUseBoba ? OptionBoba() : OptionNativeToken()}
+        onItemSelected={(option: any) => switchFeeUse(option.value)}
+        setSelectedOnClick={false}
+        error={true}
       />
     </FeeSwitcherWrapper>
   )
