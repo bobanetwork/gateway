@@ -141,8 +141,6 @@ class NetworkService {
   Teleportation?: Contract
   L1LPContract?: Contract
   L2LPContract?: Contract
-  delegatorContract?: Contract
-  delegatorContractV2?: Contract
   //#endregion
 
   tokenAddresses?: TokenAddresses
@@ -687,18 +685,6 @@ class NetworkService {
 
         this.delegateContract = new ethers.Contract(
           this.addresses.GovernorBravoDelegate,
-          GovernorBravoDelegateABI,
-          this.L2Provider
-        )
-
-        this.delegatorContract = new ethers.Contract(
-          this.addresses.GovernorBravoDelegator,
-          GovernorBravoDelegateABI,
-          this.L2Provider
-        )
-
-        this.delegatorContractV2 = new ethers.Contract(
-          this.addresses.GovernorBravoDelegatorV2,
           GovernorBravoDelegateABI,
           this.L2Provider
         )
@@ -2591,32 +2577,6 @@ class NetworkService {
       return { votesX: formatEther(votes) }
     } catch (error) {
       console.log('NS: getDaoVotesX error:', error)
-      return error
-    }
-  }
-
-  //Transfer DAO Funds
-  async transferDao({ recipient, amount }) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-    if (!this.BobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: transferDao() error - called but account === null')
-      return
-    }
-
-    try {
-      const tx = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).transfer(recipient, parseEther(amount.toString()))
-      await tx.wait()
-      return tx
-    } catch (error) {
-      console.log('NS: transferDao error:', error)
       return error
     }
   }
