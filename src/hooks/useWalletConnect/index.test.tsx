@@ -5,7 +5,6 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
 import { Provider } from 'react-redux'
-import { AnyAction } from 'redux'
 import networkService from 'services/networkService'
 import { LAYER } from 'util/constant'
 
@@ -54,7 +53,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(1)
     expect(actions[0]).toEqual({
       type: 'UI/MODAL/OPEN',
@@ -91,7 +90,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(1)
     expect(actions[0]).toEqual({
       type: 'UI/MODAL/OPEN',
@@ -128,7 +127,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(1)
     expect(actions[0]).toEqual({
       type: 'UI/MODAL/OPEN',
@@ -165,7 +164,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(1)
     expect(actions[0]).toEqual({
       type: 'UI/MODAL/OPEN',
@@ -200,7 +199,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(1)
     expect(actions[0]).toEqual({
       type: 'SETUP/ACCOUNT/SET',
@@ -237,7 +236,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(5)
     const expectedActions = [
       { payload: 'wrongNetworkModal', type: 'UI/MODAL/CLOSE' },
@@ -278,7 +277,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(0)
   })
 
@@ -304,7 +303,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(3)
     const expectedActions = [
       { payload: false, type: 'SETUP/CONNECT' },
@@ -335,7 +334,7 @@ describe('useWalletConnect', () => {
       })
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toHaveLength(3)
     const expectedActions = [
       { payload: false, type: 'SETUP/CONNECT' },

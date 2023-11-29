@@ -13,9 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { createStore, applyMiddleware } from 'redux'
 import RootReducer from 'reducers'
-import reduxThunk from 'redux-thunk'
+import { configureStore } from '@reduxjs/toolkit'
 import persistReducer from 'redux-persist/lib/persistReducer'
 import storage from 'redux-persist/lib/storage'
 import persistStore from 'redux-persist/lib/persistStore'
@@ -30,11 +29,14 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, RootReducer)
 
-export const store: any = createStore(
-  persistedReducer,
-  initialState,
-  applyMiddleware(reduxThunk)
-)
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+      thunk: true,
+    }),
+})
 
 export default store
 
