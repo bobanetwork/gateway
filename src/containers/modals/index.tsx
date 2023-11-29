@@ -6,7 +6,6 @@ import CastVoteModal from './dao/CastVoteModal'
 import DelegateDaoModal from './dao/DelegateDaoModal'
 import NewProposalModal from './dao/NewProposalModal'
 
-import EarnDepositModal from './earn/EarnDepositModal'
 import EarnWithdrawModal from './earn/EarnWithdrawModal'
 import InstallMetaMaskModal from './noMetaMask/InstallMetaMaskModal/InstallMetaMaskModal'
 import NoMetaMaskModal from './noMetaMask/NoMetaMaskModal'
@@ -69,10 +68,6 @@ const ModalContainer = () => {
     selectModalState('destNetworkSelection')
   )
 
-  const EarnDepositModalState = useSelector(
-    selectModalState('EarnDepositModal')
-  )
-
   const StakeDepositModalState = useSelector(
     selectModalState('StakeDepositModal')
   )
@@ -112,9 +107,6 @@ const ModalContainer = () => {
 
       {!!transferModalState && (
         <TransferModal open={transferModalState} token={token} />
-      )}
-      {!!EarnDepositModalState && (
-        <EarnDepositModal open={EarnDepositModalState} />
       )}
       {!!EarnWithdrawModalState && (
         <EarnWithdrawModal open={EarnWithdrawModalState} />

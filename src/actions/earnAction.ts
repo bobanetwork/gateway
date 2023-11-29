@@ -55,20 +55,6 @@ export const updateWithdrawToken = (withdrawToken: any) => ({
   payload: withdrawToken,
 })
 
-export const fetchAllowance = (currency: string, lpAddress: string) =>
-  createAction('FETCH/ALLOWANCE', () =>
-    networkService.checkAllowance(currency, lpAddress)
-  )
-
-export const addLiquidity = (
-  currency: string,
-  weiString: string,
-  L1orL2Pool: EPoolLayer
-) =>
-  createAction('ADD/LIQUIDITY', () =>
-    networkService.addLiquidity(currency, weiString, L1orL2Pool)
-  )
-
 export const fetchL1LPBalance = (currency: string) =>
   createAction('FETCH/L1LPBALANCE', () => networkService.L1LPBalance(currency))
 

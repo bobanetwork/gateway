@@ -49,7 +49,6 @@ const initialState = {
     LPAddress: allAddresses.L1LPAddress,
     L1orL2Pool: 'L1LP',
   },
-  approvedAllowance: '',
   lpBalanceWeiString: '',
   allAddresses: {},
 }
@@ -79,21 +78,6 @@ const earnReducer = (state = initialState, action) => {
       return {
         ...state,
         withdrawToken: action.payload,
-      }
-    case 'FETCH/ALLOWANCE/SUCCESS':
-      return {
-        ...state,
-        approvedAllowance: action.payload.toString(),
-      }
-    case 'FETCH/ALLOWANCE/RESET':
-      return {
-        ...state,
-        approvedAllowance: action.payload,
-      }
-    case 'FETCH/ALLOWANCE/ERROR':
-      return {
-        ...state,
-        approvedAllowance: '',
       }
     case 'FETCH/L1LPBALANCE/SUCCESS':
     case 'FETCH/L2LPBALANCE/SUCCESS':

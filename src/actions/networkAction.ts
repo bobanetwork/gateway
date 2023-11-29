@@ -75,21 +75,6 @@ export const depositETHL2 = (payload) =>
 export const depositErc20 = (payload) =>
   createAction('DEPOSIT/CREATE', () => networkService.depositErc20(payload))
 
-//EARN
-export const earnL1 = (
-  value_Wei_String: BigNumberish,
-  currencyAddress: string
-) =>
-  createAction('EARN/CREATE', () =>
-    networkService.approveERC20_L1LP(value_Wei_String, currencyAddress)
-  )
-export const earnL2 = (
-  value_Wei_String: BigNumberish,
-  currencyAddress: string
-) =>
-  createAction('EARN/CREATE', () =>
-    networkService.approveERC20_L2LP(value_Wei_String, currencyAddress)
-  )
 export const getReward = (
   currencyAddress: string,
   value_Wei_String: BigNumberish,

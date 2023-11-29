@@ -25,7 +25,6 @@ import {
   EarnInputContainer,
   EarnContent,
   Flex,
-  EarnDetails,
   ContainerMessage,
 } from './styles'
 
