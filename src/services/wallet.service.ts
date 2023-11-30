@@ -249,7 +249,7 @@ export class WalletService {
 
   resetValues(): void {
     this.walletConnectProvider = null
-    this.provider = null
+    this.provider = undefined
     this.account = ''
     this.walletType = null
     store.dispatch({ type: 'SETUP/CHAINIDCHANGED/RESET' })

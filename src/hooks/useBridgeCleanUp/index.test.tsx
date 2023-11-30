@@ -5,7 +5,6 @@ import { renderHook } from '@testing-library/react-hooks'
 import thunk from 'redux-thunk'
 import { useBridgeCleanUp } from './'
 import { mockedInitialState } from 'util/tests'
-import { AnyAction } from 'redux'
 
 describe('useBridgeCleanUp', () => {
   const middlewares = [thunk]
@@ -20,7 +19,7 @@ describe('useBridgeCleanUp', () => {
       wrapper,
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toContainEqual({
       type: 'BRIDGE/TOKEN/RESET',
     })

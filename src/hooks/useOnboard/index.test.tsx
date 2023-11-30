@@ -5,7 +5,6 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
 import { Provider } from 'react-redux'
-import { AnyAction } from 'redux'
 import networkService from 'services/networkService'
 
 describe('useOnboard', () => {
@@ -37,7 +36,7 @@ describe('useOnboard', () => {
 
     expect(initialized).toBe('enabled')
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toContainEqual({
       type: 'SETUP/BASE/SET',
       payload: true,
@@ -70,7 +69,7 @@ describe('useOnboard', () => {
 
     expect(initialized).toBe(false)
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toContainEqual({
       type: 'SETUP/BASE/SET',
       payload: false,

@@ -13,11 +13,11 @@ limitations under the License. */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { store, persistor } from 'store'
-import { PersistGate } from 'redux-persist/integration/react'
+import { persistor, store } from 'store'
 import App from 'layout'
 import './index.scss'
 import SentryWrapper from 'components/SentryWrapper/SentryWrapper'
+import { PersistGate } from 'redux-persist/integration/react'
 
 // https://docs.metamask.io/guide/ethereum-provider.html#ethereum-autorefreshonnetworkchange
 if (window.ethereum) {

@@ -614,14 +614,14 @@ class NetworkService {
       )
 
       // Teleportation
-      if (this.addresses.Proxy__L1Teleportation) {
-        // not deployed on mainnets yet
-        this.Teleportation = new ethers.Contract(
-          // correct one is used accordingly
-          this.addresses.Proxy__L1Teleportation,
-          TeleportationABI
-        )
-      }
+      // not deployed on mainnets yet
+      this.Teleportation = new ethers.Contract(
+        // correct one is used accordingly, thus as last resort we use a wrong/dummy address to have this constant defined
+        this.addresses.Proxy__L1Teleportation ??
+          this.addresses.Proxy__L2Teleportation ??
+          this.addresses.L1LPAddress,
+        TeleportationABI
+      )
 
       // Liquidity pools
 
@@ -2269,6 +2269,9 @@ class NetworkService {
       layer === Layer.L1
         ? this.addresses.Proxy__L1Teleportation
         : this.addresses.Proxy__L2Teleportation
+    if (!teleportationAddr) {
+      return { supported: false }
+    }
     const contract = this.Teleportation!.attach(teleportationAddr).connect(
       this.provider!.getSigner()
     )
@@ -2342,7 +2345,7 @@ class NetworkService {
   /***************************************/
   /************ L1LP Pool size ***********/
 
-  async L1LPPending(tokenAddress) {
+  async L1LPPending(tokenAddress): Promise<string> {
     const L1pending = await omgxWatcherAxiosInstance(this.networkConfig).get(
       'get.l2.pendingexits',
       {}
@@ -2377,10 +2380,8 @@ class NetworkService {
   /************ L1LP Pool size ***********/
 
   /***************************************/
-  async L1LPBalance(tokenAddress) {
-    //console.log("L1LPBalance(tokenAddress)")
-
-    let balance
+  async L1LPBalance(tokenAddress): Promise<string> {
+    let balance: BigNumberish
     const tokenAddressLC = tokenAddress.toLowerCase()
 
     if (
@@ -2401,8 +2402,8 @@ class NetworkService {
   /************ L2LP Pool size ***********/
 
   /***************************************/
-  async L2LPBalance(tokenAddress) {
-    let balance
+  async L2LPBalance(tokenAddress): Promise<string> {
+    let balance: BigNumberish
     const tokenAddressLC = tokenAddress.toLowerCase()
 
     if (
