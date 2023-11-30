@@ -66,7 +66,7 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
         </svg>
       </div>
       <p
-        class="sc-dAlyuH cZLdsH sc-feUZmu cuGbHm"
+        class="sc-jXbUNg gzUJEq sc-feUZmu cuGbHm"
       >
         Boba (Goerli)
       </p>
@@ -112,7 +112,7 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
         </svg>
       </div>
       <p
-        class="sc-dAlyuH cZLdsH sc-feUZmu cuGbHm"
+        class="sc-jXbUNg gzUJEq sc-feUZmu cuGbHm"
       >
         Boba BNB Testnet
       </p>

@@ -3,7 +3,7 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-bOQTJJ hjqOxt"
+    class="sc-hYmls jWAsvW"
   >
     <div
       class="sc-dAbbOL gDALCu"
@@ -86,17 +86,17 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-kbdlSk cdNaeo"
+      class="sc-fFlnrN fUTMYr"
     >
       <div
-        class="sc-camqpD bmcXLD warning"
+        class="sc-kbdlSk eglyUk warning"
         data-testid="banner-item"
       >
         <div
-          class="sc-gweoQa"
+          class="sc-camqpD"
         >
           <p
-            class="sc-gEvEer hiDcmV sc-bddgXz hxVAhi"
+            class="sc-gEvEer hiDcmV sc-jdUcAg djNbDz"
           >
             In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
             <a
@@ -109,7 +109,7 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-eXsaLi gdYYhZ"
+      class="sc-bOQTJJ cQjYa-D"
     />
     <div
       class="sc-bBeLUv flYuOA"
