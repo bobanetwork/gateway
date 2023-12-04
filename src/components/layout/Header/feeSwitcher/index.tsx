@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { FC, useEffect, useCallback } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -22,8 +22,6 @@ import {
   selectBobaFeeChoice,
   selectLayer,
 } from 'selectors'
-
-import { Dropdown } from 'components/global/dropdown'
 
 import Tooltip from 'components/tooltip/Tooltip'
 
@@ -37,6 +35,7 @@ import {
   FeeSwitcherLabel,
   FeeSwitcherLabelWrapper,
   FeeSwitcherWrapper,
+  FeeSwitchterDropdown,
 } from './styles'
 
 import BobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
@@ -46,14 +45,12 @@ const OptionBoba = () => ({
   value: 'BOBA',
   label: 'BOBA',
   imgSrc: BobaLogo,
-  icon: BobaLogo,
 })
 
 const OptionNativeToken = () => ({
   value: networkService.L1NativeTokenSymbol,
   label: networkService.L1NativeTokenName,
   imgSrc: getCoinImage(networkService.L1NativeTokenSymbol),
-  icon: BobaLogo,
 })
 
 const FeeSwitcher: FC = () => {
@@ -91,7 +88,7 @@ const FeeSwitcher: FC = () => {
           <FeeSwitcherIcon fontSize="small" />
         </Tooltip>
       </FeeSwitcherLabelWrapper>
-      <Dropdown
+      <FeeSwitchterDropdown
         items={[OptionBoba(), OptionNativeToken()]}
         defaultItem={feeUseBoba ? OptionBoba() : OptionNativeToken()}
         onItemSelected={(option: any) => switchFeeUse(option.value)}

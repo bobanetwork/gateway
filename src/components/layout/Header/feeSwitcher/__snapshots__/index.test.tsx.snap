@@ -3,19 +3,19 @@
 exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
 <DocumentFragment>
   <div
-    class="sc-feUZmu tsrjL"
+    class="sc-eeDRCY bCYpHf"
   >
     <div
-      class="sc-hmdomO hQHTSl"
+      class="sc-iHGNWf hMJwVs"
     >
       <p
-        class="sc-cPiKLX eQIDlq sc-bXCLTC fHhPdD"
+        class="sc-dAlyuH eGlSty sc-dtBdUo zuBuN"
       >
         Fee
       </p>
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-hzhJZQ dVjvFu css-ptiqhd-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-bmzYkS lbmjGV css-ptiqhd-MuiSvgIcon-root"
         data-mui-internal-clone-element="true"
         data-testid="HelpOutlineIcon"
         focusable="false"
@@ -27,78 +27,34 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
       </svg>
     </div>
     <div
-      class="Select  MuiBox-root css-0"
+      class="sc-fPXMVe ceppIJ dropdown sc-kOHTFB kkoNVA"
     >
       <div
-        class=" css-b62m3t-container"
+        class="sc-gFqAkR bIEbk dropdown sc-kOHTFB kkoNVA"
       >
-        <span
-          class="css-1f43avz-a11yText-A11yText"
-          id="react-select-2-live-region"
-        />
-        <span
-          aria-atomic="false"
-          aria-live="polite"
-          aria-relevant="additions text"
-          class="css-1f43avz-a11yText-A11yText"
-        />
         <div
-          class=" css-oqng99-control"
+          class="sc-feUZmu hAnnvI"
         >
           <div
-            class=" css-fkshoj-ValueContainer"
+            class="sc-ikkxIA cMogLc"
           >
-            <div
-              class=" css-bp3d3u-singleValue"
-            >
-              <div
-                class="sc-gEvEer dFlUqc"
-              >
-                <div
-                  class="sc-aXZVg cgDXHb"
-                >
-                  <img
-                    src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/undefined.svg"
-                    width="100%"
-                  />
-                </div>
-              </div>
-            </div>
-            <input
-              aria-autocomplete="list"
-              aria-expanded="false"
-              aria-haspopup="true"
-              aria-readonly="true"
-              class="css-mohuvp-dummyInput-DummyInput"
-              id="react-select-2-input"
-              inputmode="none"
-              role="combobox"
-              tabindex="0"
-              value=""
+            <img
+              alt="token"
+              src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/undefined.svg"
+              width="20px"
             />
           </div>
+          <p
+            class="sc-dAlyuH eGlSty"
+          />
           <div
-            class=" css-t0fyzh-IndicatorsContainer"
+            class="sc-bXCLTC cVmHtU dropdown sc-kOHTFB kkoNVA"
           >
-            <span
-              class=" css-erc1v6-indicatorSeparator"
-            />
-            <div
-              aria-hidden="true"
-              class=" css-1o46kgt-indicatorContainer"
-            >
-              <svg
-                aria-hidden="true"
-                class="css-tj5bde-Svg"
-                focusable="false"
-                height="20"
-                viewBox="0 0 20 20"
-                width="20"
-              >
-                <path
-                  d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                />
-              </svg>
+            <div>
+              <div
+                data-src="arrowdown.svg"
+                src=""
+              />
             </div>
           </div>
         </div>
@@ -111,11 +67,11 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
 exports[`FeeSwitcher should match snapshot when account is not enabled  1`] = `
 <DocumentFragment>
   <div
-    class="sc-feUZmu tsrjL"
+    class="sc-eeDRCY bCYpHf"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-hzhJZQ dVjvFu css-ptiqhd-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-bmzYkS lbmjGV css-ptiqhd-MuiSvgIcon-root"
       data-mui-internal-clone-element="true"
       data-testid="HelpOutlineIcon"
       focusable="false"
@@ -126,7 +82,7 @@ exports[`FeeSwitcher should match snapshot when account is not enabled  1`] = `
       />
     </svg>
     <h5
-      class="sc-dAbbOL jylYbh sc-fUnMCh nbcgP"
+      class="sc-eldPxv jsmXlI sc-koXPp bYAwUU"
     >
       Fee
     </h5>
