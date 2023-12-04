@@ -43,7 +43,7 @@
     "@ethersproject/units": "^5.5.0",
     "@mui/base": "5.0.0-alpha.72",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.12.2",
+    "@mui/material": "^5.14.19",
     "@mui/styles": "^5.14.18",
     "@reduxjs/toolkit": "^1.9.7",
     "@sentry/react": "^7.51.0",
