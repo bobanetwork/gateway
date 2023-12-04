@@ -3,7 +3,7 @@ import Bridge from '../../helpers/bridge'
 
 const bridge = new Bridge()
 
-xdescribe('Testing General Bridging flow on Goerli', () => {
+describe('Testing General Bridging flow on Goerli', () => {
   before(() => {
     bridge.visit()
     bridge.isReady()
@@ -33,5 +33,8 @@ xdescribe('Testing General Bridging flow on Goerli', () => {
   })
   it('Should bridge back to L1', () => {
     bridge.bridgeToken('ETH', '0.0001', Layer.L1)
+  })
+  it('Should switch to L1', () => {
+    bridge.switchBridgeDirection(Layer.L1, false)
   })
 })

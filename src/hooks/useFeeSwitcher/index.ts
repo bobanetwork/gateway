@@ -21,6 +21,7 @@ const useFeeSwitcher = () => {
   const l2BalanceNativeToken = l2Balances.filter(
     (i: any) => i.symbol === networkService.L1NativeTokenSymbol
   )
+
   const balanceETH = l2BalanceNativeToken[0]
   const l2BalanceBOBA = l2Balances.filter((i: any) => i.symbol === 'BOBA')
   const balanceBOBA = l2BalanceBOBA[0]
@@ -32,7 +33,6 @@ const useFeeSwitcher = () => {
       const minL1NativeBalance =
         await networkService.estimateMinL1NativeTokenForFee() //0.002
       let tooSmallBOBA: boolean
-
       if (typeof balanceBOBA === 'undefined') {
         tooSmallBOBA = true
       } else {
@@ -69,8 +69,9 @@ const useFeeSwitcher = () => {
         // change to BOBA
         if (tooSmallBOBA) {
           dispatch(
-            openError(`You cannot change the fee token to BOBA since your BOBA balance is below 1 BOBA.
-          If you change fee token now, you might get stuck. Please swap some ETH for BOBA first.`)
+            openError(
+              `You cannot change the fee token to BOBA since your BOBA balance is below 1 BOBA. If you change fee token now, you might get stuck. Please swap some ETH for BOBA first.`
+            )
           )
         } else {
           res = await dispatch(switchFee(targetFee))
@@ -82,8 +83,9 @@ const useFeeSwitcher = () => {
         // change to L1Native Token
         if (tooSmallL1NativeToken) {
           dispatch(
-            openError(`You cannot change the fee token to ${networkService.L1NativeTokenSymbol} since your ${networkService.L1NativeTokenSymbol} balance is below ${minL1NativeBalance}.
-          If you change fee token now, you might get stuck. Please obtain some ${networkService.L1NativeTokenSymbol} first.`)
+            openError(
+              `You cannot change the fee token to ${networkService.L1NativeTokenSymbol} since your ${networkService.L1NativeTokenSymbol} balance is below ${minL1NativeBalance}. If you change fee token now, you might get stuck. Please obtain some ${networkService.L1NativeTokenSymbol} first.`
+            )
           )
         } else {
           res = await dispatch(switchFee(targetFee))

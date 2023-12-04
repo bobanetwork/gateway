@@ -395,7 +395,7 @@ const App = () => {
         ],
       },
     },
-  })
+  } as any)
 
   MUItheme = responsiveFontSizes(MUItheme)
 

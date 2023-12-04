@@ -20,20 +20,6 @@ export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
 
-type BridgeType = {
-  FAST_BRIDGE: string
-  CLASSIC_BRIDGE: string
-  MULTI_BRIDGE: string
-  MULTI_CHAIN_BRIDGE: string
-}
-
-export const BRIDGE_TYPE: BridgeType = {
-  FAST_BRIDGE: 'FAST_BRIDGE',
-  CLASSIC_BRIDGE: 'CLASSIC_BRIDGE',
-  MULTI_BRIDGE: 'MULTI_BRIDGE', //fix me remove me
-  MULTI_CHAIN_BRIDGE: 'MULTI_CHAIN_BRIDGE',
-}
-
 /*********************
  * Routes Constants **
  *********************/
