@@ -41,6 +41,7 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
           aria-live="polite"
           aria-relevant="additions text"
           class="css-1f43avz-a11yText-A11yText"
+          role="log"
         />
         <div
           class=" css-oqng99-control"
@@ -65,6 +66,7 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
               </div>
             </div>
             <input
+              aria-activedescendant=""
               aria-autocomplete="list"
               aria-expanded="false"
               aria-haspopup="true"
