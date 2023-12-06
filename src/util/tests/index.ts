@@ -38,6 +38,16 @@ export const mockedInitialState = {
     amountToBridge: '1.255',
     alerts: [],
   },
+  earn: {
+    poolInfo: {
+      L1LP: {},
+      L2LP: {},
+    },
+    userInfo: {
+      L1LP: {},
+      L2LP: {},
+    },
+  },
 }
 
 export const mockLocalStorage = (() => {
