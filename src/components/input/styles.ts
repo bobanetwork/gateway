@@ -1,7 +1,8 @@
-import { styled } from '@mui/material/styles'
+import styled from 'styled-components'
 import { Box, TextField, TextareaAutosize } from '@mui/material'
 
 interface WrapperProps {
+  newstyle?: boolean
   props?: any
 }
 
@@ -10,7 +11,7 @@ export const Wrapper = styled('div')<WrapperProps>`
   align-items: center;
   justify-content: space-between;
   background-color: ${(props) =>
-    props.newstyle ? props.theme.palette.background.input : 'transparent'};
+    props.newstyle ? props.theme.colors.input : 'transparent'};
   border-radius: 20px;
   padding: ${(props) => (props.newstyle ? '10px 20px' : '0')};
   border: ${(props) =>
@@ -69,7 +70,7 @@ export const ActionsWrapper = styled(Box)`
   margin-left: 10px;
 `
 
-export const TextareaAutosizeWrapper = styled(TextareaAutosize)(
+export const TextareaAutosizeWrapper = styled(TextareaAutosize)<any>(
   ({ theme }) => ({
     width: '100%',
     backgroundColor: 'transparent',

@@ -24,7 +24,7 @@ import {
 import { ModalTypography } from 'components/global/modalTypography'
 import { Typography } from '../typography'
 export interface IDropdownItem {
-  value?: string
+  value?: string | number
   label: string | ReactNode
   imgSrc?: string
   header?: boolean

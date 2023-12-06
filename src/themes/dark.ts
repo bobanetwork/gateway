@@ -75,6 +75,7 @@ const dark = {
       500: '#1E2E57',
       600: '#0F172C',
     },
+    input: 'rgba(255, 255, 255, 0.04)',
   },
   boxShadow: 'none',
   ...defaultTypography,

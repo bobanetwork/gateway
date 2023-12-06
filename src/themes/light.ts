@@ -73,6 +73,7 @@ const light = {
       500: '#1E2E57',
       600: '#0F172C',
     },
+    input: 'rgba(3, 19, 19, 0.04)',
   },
   boxShadow: '2px 2px 30px rgba(0, 0, 0, 0.15)',
   ...defaultTypography,

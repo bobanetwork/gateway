@@ -18,7 +18,7 @@ import { Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeModal, openAlert } from 'actions/uiAction'
 import Modal from 'components/modal/Modal'
-import Button from 'components/button/Button'
+import { Button } from 'components/global/button'
 import Input from 'components/input/Input'
 import { createDaoProposal } from 'actions/daoAction'
 import { selectProposalThreshold } from 'selectors'
@@ -289,20 +289,10 @@ const NewProposalModal: FC<NewProposalModalProps> = ({ open }) => {
           onClick={() => {
             submit()
           }}
-          color="primary"
-          variant="outlined"
-          tooltip={
-            loading
-              ? 'Your transaction is still pending. Please wait for confirmation.'
-              : 'Click here to submit a new proposal'
-          }
           loading={loading}
-          disabled={disabled() || !!errorText}
-          fullWidth={true}
-          size="large"
-        >
-          Submit
-        </Button>
+          disable={disabled() || !!errorText}
+          label="Submit"
+        ></Button>
       </Box>
     </Modal>
   )

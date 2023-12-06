@@ -20,7 +20,7 @@ import * as S from './styles'
 
 import { selectCustomStyles } from './Select.styles'
 
-import Button from 'components/button/Button'
+import { Button } from 'components/global/button'
 
 import { useTheme, Box, Typography } from '@mui/material'
 
@@ -103,7 +103,7 @@ export const Input = ({
   if (textarea) {
     return (
       <div style={{ width: '100%' }}>
-        <S.Wrapper newstyle={newStyle ? 1 : 0} style={style}>
+        <S.Wrapper newstyle={newStyle} style={style}>
           <S.TextareaAutosizeWrapper
             maxRows={maxRows}
             placeholder={placeholder}
@@ -134,7 +134,7 @@ export const Input = ({
 
   return (
     <div style={{ width: '100%' }}>
-      <S.Wrapper newstyle={newStyle ? 1 : 0} style={style}>
+      <S.Wrapper newstyle={newStyle} style={style}>
         {!unit && (
           <S.InputWrapperFull>
             {label && (
@@ -157,7 +157,7 @@ export const Input = ({
               variant={variant}
               error={underZero || overMax}
               sx={sx}
-              newstyle={newStyle ? 1 : 0}
+              newstyle={newStyle}
             />
           </S.InputWrapperFull>
         )}
@@ -169,7 +169,7 @@ export const Input = ({
                 options={options || []}
                 styles={selectCustomStyles(newStyle, theme)}
                 isSearchable={false}
-                onChange={onSelect}
+                onChange={() => onSelect}
                 value={
                   selectValue
                     ? {
@@ -216,7 +216,7 @@ export const Input = ({
                 variant={variant}
                 error={underZero || overMax}
                 sx={sx}
-                newstyle={newStyle ? 1 : 0}
+                newstyle={newStyle}
               />
             </S.InputWrapper>
           </>
@@ -235,14 +235,7 @@ export const Input = ({
             </Typography>
             {allowUseAll && (
               <Box>
-                <Button
-                  onClick={handleClickMax}
-                  color="primary"
-                  variant="contained"
-                  size="small"
-                >
-                  Use All
-                </Button>
+                <Button onClick={handleClickMax} label="Use All" />
               </Box>
             )}
           </S.ActionsWrapper>
