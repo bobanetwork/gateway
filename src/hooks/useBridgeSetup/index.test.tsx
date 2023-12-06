@@ -8,47 +8,65 @@ import { Provider } from 'react-redux'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { LAYER } from 'util/constant'
 
+jest.mock('services/networkService', () => {
+  return {
+    L1LPBalance: jest.fn(),
+    L2LPBalance: jest.fn(),
+    L1LPPending: jest.fn(),
+    L2LPPending: jest.fn(),
+    L1LPLiquidity: jest.fn(),
+    L2LPLiquidity: jest.fn(),
+    fetchLookUpPrice: jest.fn(),
+    getL1TotalFeeRate: jest.fn(),
+    getL2TotalFeeRate: jest.fn(),
+    getL1UserRewardFeeRate: jest.fn(),
+    getL2UserRewardFeeRate: jest.fn(),
+    getFastExitCost: jest.fn(),
+    getExitCost: jest.fn(),
+    getFastDepositCost: jest.fn(),
+    getL1FeeBalance: jest.fn(),
+    getL2BalanceETH: jest.fn(),
+    getL2BalanceBOBA: jest.fn(),
+    getExitFeeFromBillingContract: jest.fn(),
+    supportedTokens: [
+      'USDT',
+      'DAI',
+      'USDC',
+      'WBTC',
+      'REP',
+      'BAT',
+      'ZRX',
+      'SUSHI',
+      'LINK',
+      'UNI',
+      'BOBA',
+      'xBOBA',
+      'OMG',
+      'FRAX',
+      'FXS',
+      'DODO',
+      'UST',
+      'BUSD',
+      'BNB',
+      'FTM',
+      'MATIC',
+      'UMA',
+      'DOM',
+      'OLO',
+      'WAGMIv0',
+      'WAGMIv1',
+      'WAGMIv2',
+      'WAGMIv2-Oolong',
+      'WAGMIv3',
+      'WAGMIv3-Oolong',
+      'CGT',
+    ],
+  }
+})
+
 describe('useBridgeSetup', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-
-  jest.mock('services/networkService', () => {
-    return {
-      supportedTokens: [
-        'USDT',
-        'DAI',
-        'USDC',
-        'WBTC',
-        'REP',
-        'BAT',
-        'ZRX',
-        'SUSHI',
-        'LINK',
-        'UNI',
-        'BOBA',
-        'xBOBA',
-        'OMG',
-        'FRAX',
-        'FXS',
-        'DODO',
-        'UST',
-        'BUSD',
-        'BNB',
-        'FTM',
-        'MATIC',
-        'UMA',
-        'DOM',
-        'OLO',
-        'WAGMIv0',
-        'WAGMIv1',
-        'WAGMIv2',
-        'WAGMIv2-Oolong',
-        'WAGMIv3',
-        'WAGMIv3-Oolong',
-        'CGT',
-      ],
-    }
-  })
 
   test('Bridge Setup network is L1, but the funds will be paid out to L2. we request required info for fast briding', async () => {
     const initialState = {
