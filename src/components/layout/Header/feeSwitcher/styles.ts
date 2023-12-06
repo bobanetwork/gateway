@@ -143,6 +143,7 @@ export const FeeSwitchterDropdown = styled(Dropdown)`
       padding: 8px;
       box-sizing: border-box;
       border: 1px solid rgba(0, 0, 0, 0);
+      gap: 8px;
       &:hover {
         background: ${(props) => props.theme.colors.gray[400]};
       }
