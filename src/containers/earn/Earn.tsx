@@ -37,8 +37,6 @@ import AlertIcon from 'components/icons/AlertIcon'
 import Tooltip from 'components/tooltip/Tooltip'
 import EarnList from './earnList'
 
-import networkService from 'services/networkService'
-
 import { fetchBalances, getAllAddresses } from 'actions/networkAction'
 
 import { CheckboxWithLabel } from 'components/global/checkbox'
@@ -58,32 +56,37 @@ import {
   TabSwitcherContainer,
 } from './styles'
 
+import { LiquidityPoolLayer } from 'types/earn.types'
 import { BridgeTooltip } from './tooltips'
 
 const Earn = () => {
   const dispatch = useDispatch<any>()
 
-  const activeNetworkName = useSelector(selectActiveNetworkName())
   const layer = useSelector(selectLayer())
   const baseEnabled = useSelector(selectBaseEnabled())
   const accountEnabled = useSelector(selectAccountEnabled())
   const networkName = useSelector(selectActiveNetworkName())
+  const activeNetworkName = useSelector(selectActiveNetworkName())
+
   const [showMyStakeOnly, setShowMyStakeOnly] = useState(false)
-  const [lpChoice, setLpChoice] = useState<'L1LP' | 'L2LP'>(
-    networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP'
+  const [lpChoice, setLpChoice] = useState<LiquidityPoolLayer>(
+    LiquidityPoolLayer.L1LP
+  )
+  const [poolTab, setPoolTab] = useState(
+    activeNetworkName[layer?.toLowerCase()]
   )
 
   const isLp1 = lpChoice === 'L1LP'
   const isLp2 = lpChoice === 'L2LP'
 
-  const [poolTab, setPoolTab] = useState(
-    activeNetworkName[layer?.toLowerCase()]
-  )
-
   useEffect(() => {
-    setLpChoice(networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP')
+    if (layer === 'L1') {
+      setLpChoice(LiquidityPoolLayer.L1LP)
+    } else {
+      setLpChoice(LiquidityPoolLayer.L2LP)
+    }
     setPoolTab(activeNetworkName[layer?.toLowerCase()])
-  }, [layer, networkService, activeNetworkName])
+  }, [layer, activeNetworkName])
 
   useEffect(() => {
     if (baseEnabled) {
@@ -95,10 +98,6 @@ const Earn = () => {
       dispatch(fetchBalances())
     }
   }, [dispatch, baseEnabled, accountEnabled, activeNetworkName])
-
-  useEffect(() => {
-    setLpChoice(networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP')
-  }, [networkService.L1orL2])
 
   return (
     <EarnPageContainer>
@@ -148,7 +147,7 @@ const Earn = () => {
             <Tab
               active={poolTab === activeNetworkName['l1']}
               onClick={() => {
-                setLpChoice('L1LP')
+                setLpChoice(LiquidityPoolLayer.L1LP)
                 setPoolTab(activeNetworkName['l1'])
               }}
             >
@@ -159,7 +158,7 @@ const Earn = () => {
             <Tab
               active={poolTab === activeNetworkName['l2']}
               onClick={() => {
-                setLpChoice('L2LP')
+                setLpChoice(LiquidityPoolLayer.L2LP)
                 setPoolTab(activeNetworkName['l2'])
               }}
             >

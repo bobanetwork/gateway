@@ -2,12 +2,13 @@ import { TableHeader } from 'components/global/table'
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import { selectPoolInfo, selectUserInfo } from 'selectors'
+import { LiquidityPoolLayer } from 'types/earn.types'
 import { tableHeaderOptions } from '../table.header'
 import EarnListItem from './earnListItem'
 import { EarnListContainer } from './styles'
 
 interface EarnListProps {
-  lpChoice: 'L1LP' | 'L2LP'
+  lpChoice: LiquidityPoolLayer
   showMyStakeOnly: boolean
 }
 

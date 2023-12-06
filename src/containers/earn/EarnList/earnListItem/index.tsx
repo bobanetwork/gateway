@@ -1,30 +1,31 @@
-import React from 'react'
+import { getEarnInfo, updateWithdrawToken } from 'actions/earnAction'
+import { getReward } from 'actions/networkAction'
+import { openAlert, openModal } from 'actions/uiAction'
 import { IconLabel, TableContent, Typography } from 'components/global'
+import {
+  StyledLabel,
+  StyledMenu,
+  StyledMenuItem,
+} from 'components/global/menu/styles'
 import { BigNumber, BigNumberish } from 'ethers'
-import { formatLargeNumber, logAmount, powAmount } from 'util/amountConvert'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectAccountEnabled,
   selectlayer1Balance,
   selectlayer2Balance,
 } from 'selectors'
+import networkService from 'services/networkService'
+import { LiquidityPoolLayer } from 'types/earn.types'
+import { formatLargeNumber, logAmount, powAmount } from 'util/amountConvert'
 import { EarnListItemContainer, IconWrapper, MoreActionIcon } from './styles'
-import {
-  StyledLabel,
-  StyledMenu,
-  StyledMenuItem,
-} from 'components/global/menu/styles'
-import networkService, { EPoolLayer } from 'services/networkService'
-import { getEarnInfo, updateWithdrawToken } from 'actions/earnAction'
-import { openAlert, openModal } from 'actions/uiAction'
-import { getReward } from 'actions/networkAction'
 
 interface EarnListItemProps {
   userInfo: any
   poolInfo: any
   chainId?: any
   tokenAddress: string
-  lpChoice: 'L1LP' | 'L2LP'
+  lpChoice: LiquidityPoolLayer
   showMyStakeOnly: boolean
 }
 
@@ -36,30 +37,31 @@ const EarnListItem = ({
   lpChoice,
   showMyStakeOnly = false,
 }: EarnListItemProps) => {
-  // for menu items
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
-  const accountEnabled = useSelector(selectAccountEnabled())
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  //
   const dispatch = useDispatch<any>()
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+
+  const accountEnabled = useSelector(selectAccountEnabled())
   const layer1Balance = useSelector(selectlayer1Balance)
   const layer2Balance = useSelector(selectlayer2Balance)
 
+  const open = Boolean(anchorEl)
   const symbol = poolInfo.symbol
   const name = poolInfo.name
   const decimals = poolInfo.decimals
-  const address =
-    lpChoice === 'L1LP' ? poolInfo.l1TokenAddress : poolInfo.l2TokenAddress
-
   const disabled = !lpChoice.includes(networkService.L1orL2!)
+  const address =
+    lpChoice === LiquidityPoolLayer.L1LP
+      ? poolInfo.l1TokenAddress
+      : poolInfo.l2TokenAddress
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   const formatNumber = (value: BigNumberish, limit?: any) => {
     const limits = limit || 2
@@ -99,7 +101,7 @@ const EarnListItem = ({
   const handleHarvest = async () => {
     const rewardTx = await dispatch(
       getReward(
-        lpChoice === EPoolLayer.L1LP
+        lpChoice === LiquidityPoolLayer.L1LP
           ? poolInfo.l1TokenAddress
           : poolInfo.l2TokenAddress,
         userReward,
@@ -122,7 +124,7 @@ const EarnListItem = ({
   const handleUnstakeToken = () => {
     let currency = poolInfo.l1TokenAddress
     let LPAddress = poolInfo.L1LPAddress
-    if (lpChoice === EPoolLayer.L2LP) {
+    if (lpChoice === LiquidityPoolLayer.L2LP) {
       currency = poolInfo.l2TokenAddress
       LPAddress = poolInfo.L2LPAddress
     }
