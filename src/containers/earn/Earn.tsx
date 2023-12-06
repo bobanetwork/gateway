@@ -26,10 +26,6 @@ import {
   selectActiveNetworkName,
   selectBaseEnabled,
   selectLayer,
-  selectPoolInfo,
-  selectUserInfo,
-  selectlayer1Balance,
-  selectlayer2Balance,
 } from 'selectors'
 
 import { getEarnInfo } from 'actions/earnAction'
@@ -38,9 +34,8 @@ import Connect from 'containers/connect'
 
 import Button from 'components/button/Button'
 import AlertIcon from 'components/icons/AlertIcon'
-import ListEarn from 'components/listEarn/ListEarn'
-import EarnList from './earnList'
 import Tooltip from 'components/tooltip/Tooltip'
+import EarnList from './earnList'
 
 import networkService from 'services/networkService'
 
@@ -48,8 +43,6 @@ import { fetchBalances, getAllAddresses } from 'actions/networkAction'
 
 import { CheckboxWithLabel } from 'components/global/checkbox'
 import { Typography } from 'components/global/typography'
-import { TableHeader } from 'components/global/table'
-import { tableHeaderOptions } from './table.header'
 import { toLayer } from './types'
 
 import { setConnectBOBA, setConnectETH } from 'actions/setupAction'
@@ -58,7 +51,6 @@ import {
   AlertText,
   EarnAction,
   EarnActionContainer,
-  EarnListContainer,
   EarnPageContainer,
   Help,
   LayerAlert,

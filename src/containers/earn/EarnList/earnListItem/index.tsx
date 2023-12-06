@@ -19,7 +19,7 @@ import { getEarnInfo, updateWithdrawToken } from 'actions/earnAction'
 import { openAlert, openModal } from 'actions/uiAction'
 import { getReward } from 'actions/networkAction'
 
-interface EarnListItem {
+interface EarnListItemProps {
   userInfo: any
   poolInfo: any
   chainId?: any
@@ -35,7 +35,7 @@ const EarnListItem = ({
   tokenAddress,
   lpChoice,
   showMyStakeOnly = false,
-}: EarnListItem) => {
+}: EarnListItemProps) => {
   // for menu items
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
