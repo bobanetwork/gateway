@@ -15,18 +15,9 @@ import {
   selectlayer2Balance,
 } from 'selectors'
 import networkService from 'services/networkService'
-import { LiquidityPoolLayer } from 'types/earn.types'
+import { EarnListItemProps, LiquidityPoolLayer } from 'types/earn.types'
 import { formatLargeNumber, logAmount, powAmount } from 'util/amountConvert'
 import { EarnListItemContainer, IconWrapper, MoreActionIcon } from './styles'
-
-export interface EarnListItemProps {
-  userInfo: any
-  poolInfo: any
-  chainId?: any
-  tokenAddress: string
-  lpChoice: LiquidityPoolLayer
-  showMyStakeOnly: boolean
-}
 
 const EarnListItem = ({
   poolInfo,

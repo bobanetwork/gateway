@@ -2,16 +2,11 @@ import { TableHeader } from 'components/global/table'
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import { selectPoolInfo, selectUserInfo } from 'selectors'
-import { LiquidityPoolLayer } from 'types/earn.types'
+import { EarnListProps } from 'types/earn.types'
 import { tableHeaderOptions } from '../table.header'
 import EarnListItem from './earnListItem'
 import { EarnListContainer, EearnListLoadingContainer } from './styles'
 import { CircularProgress } from '@mui/material'
-
-export interface EarnListProps {
-  lpChoice: LiquidityPoolLayer
-  showMyStakeOnly: boolean
-}
 
 const EarnList = ({ lpChoice, showMyStakeOnly }: EarnListProps) => {
   const userInfo = useSelector(selectUserInfo())

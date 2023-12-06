@@ -137,3 +137,622 @@ exports[`EarnList  should match snapshot in case no data 1`] = `
   </div>
 </DocumentFragment>
 `;
+
+exports[`EarnList  should match snapshot with data 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-fqkvVR fuyRCw sc-iGgWBj cCxFlv"
+  >
+    <div
+      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      style="max-width: 225px;"
+    >
+      <p
+        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+      >
+        Token
+      </p>
+    </div>
+    <div
+      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      style="max-width: 145px;"
+    >
+      <p
+        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+      >
+        Available Balance
+      </p>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="HelpOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div
+      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      style="max-width: 115px;"
+    >
+      <p
+        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+      >
+        Total Staked
+      </p>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="HelpOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div
+      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      style="max-width: 85px;"
+    >
+      <p
+        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+      >
+        APR
+      </p>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="HelpOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div
+      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      style="max-width: 90px;"
+    >
+      <p
+        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+      >
+        Your Stake
+      </p>
+    </div>
+    <div
+      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      style="max-width: 110px;"
+    >
+      <p
+        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+      >
+        Earned
+      </p>
+    </div>
+    <div
+      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      style="max-width: 75px;"
+    >
+      <p
+        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+      >
+        Actions
+      </p>
+    </div>
+  </div>
+  <div
+    class="sc-fHjqPf kmRDXa"
+  >
+    <div
+      class="sc-feUZmu kfaySa"
+      data-testid="earn-list-item"
+    >
+      <div
+        class="sc-fqkvVR fuyRCw sc-gsFSXq djGaQM"
+      >
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 225px;"
+        >
+          <div
+            class="sc-fqkvVR fuyRCw sc-dAlyuH gnDYfH"
+          >
+            <div
+              class="sc-dcJsrY jqXhqy"
+            >
+              <div
+                class="sc-fqkvVR fuyRCw"
+              >
+                <div>
+                  <img
+                    alt="logo"
+                    class="sc-kpDqfm hRpVeV"
+                    src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/boba.svg"
+                  />
+                </div>
+                <div>
+                  <p
+                    class="sc-jXbUNg ciFwzW"
+                  >
+                    BOBA
+                  </p>
+                  <p
+                    class="sc-dhKdcB cSXxCM"
+                  >
+                    Boba Token
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="sc-imWYAI bGMCaW metamask"
+            >
+              <img
+                alt="add To Metamask"
+                height="20px"
+                src="metamask.svg"
+                width="20px"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            99.95k
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            100.00k
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0.00
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 75px;"
+        >
+          <div
+            class="sc-fUnMCh dYyQJH"
+            data-testid="action-btn"
+          >
+            <div
+              class="sc-hzhJZQ edzwjq"
+            >
+              <div>
+                <div
+                  data-src="actions.svg"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-feUZmu kfaySa"
+      data-testid="earn-list-item"
+    >
+      <div
+        class="sc-fqkvVR fuyRCw sc-gsFSXq djGaQM"
+      >
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 225px;"
+        >
+          <div
+            class="sc-fqkvVR fuyRCw sc-dAlyuH gnDYfH"
+          >
+            <div
+              class="sc-dcJsrY jqXhqy"
+            >
+              <div
+                class="sc-fqkvVR fuyRCw"
+              >
+                <div>
+                  <img
+                    alt="logo"
+                    class="sc-kpDqfm hRpVeV"
+                    src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/eth.svg"
+                  />
+                </div>
+                <div>
+                  <p
+                    class="sc-jXbUNg ciFwzW"
+                  >
+                    ETH
+                  </p>
+                  <p
+                    class="sc-dhKdcB cSXxCM"
+                  >
+                    ETH
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="sc-imWYAI bGMCaW metamask"
+            >
+              <img
+                alt="add To Metamask"
+                height="20px"
+                src="metamask.svg"
+                width="20px"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            850.00
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            610.00
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0.10
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 75px;"
+        >
+          <div
+            class="sc-fUnMCh dYyQJH"
+            data-testid="action-btn"
+          >
+            <div
+              class="sc-hzhJZQ edzwjq"
+            >
+              <div>
+                <div
+                  data-src="actions.svg"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-feUZmu kfaySa"
+      data-testid="earn-list-item"
+    >
+      <div
+        class="sc-fqkvVR fuyRCw sc-gsFSXq djGaQM"
+      >
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 225px;"
+        >
+          <div
+            class="sc-fqkvVR fuyRCw sc-dAlyuH gnDYfH"
+          >
+            <div
+              class="sc-dcJsrY jqXhqy"
+            >
+              <div
+                class="sc-fqkvVR fuyRCw"
+              >
+                <div>
+                  <img
+                    alt="logo"
+                    class="sc-kpDqfm hRpVeV"
+                    src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/omg.svg"
+                  />
+                </div>
+                <div>
+                  <p
+                    class="sc-jXbUNg ciFwzW"
+                  >
+                    OMG
+                  </p>
+                  <p
+                    class="sc-dhKdcB cSXxCM"
+                  >
+                    OMG Token
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="sc-imWYAI bGMCaW metamask"
+            >
+              <img
+                alt="add To Metamask"
+                height="20px"
+                src="metamask.svg"
+                width="20px"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0.00
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 75px;"
+        >
+          <div
+            class="sc-fUnMCh dYyQJH"
+            data-testid="action-btn"
+          >
+            <div
+              class="sc-hzhJZQ edzwjq"
+            >
+              <div>
+                <div
+                  data-src="actions.svg"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-feUZmu kfaySa"
+      data-testid="earn-list-item"
+    >
+      <div
+        class="sc-fqkvVR fuyRCw sc-gsFSXq djGaQM"
+      >
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 225px;"
+        >
+          <div
+            class="sc-fqkvVR fuyRCw sc-dAlyuH gnDYfH"
+          >
+            <div
+              class="sc-dcJsrY jqXhqy"
+            >
+              <div
+                class="sc-fqkvVR fuyRCw"
+              >
+                <div>
+                  <img
+                    alt="logo"
+                    class="sc-kpDqfm hRpVeV"
+                    src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/usdc.svg"
+                  />
+                </div>
+                <div>
+                  <p
+                    class="sc-jXbUNg ciFwzW"
+                  >
+                    USDC
+                  </p>
+                  <p
+                    class="sc-dhKdcB cSXxCM"
+                  >
+                    USD Coin
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="sc-imWYAI bGMCaW metamask"
+            >
+              <img
+                alt="add To Metamask"
+                height="20px"
+                src="metamask.svg"
+                width="20px"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0.00
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-gEvEer hiDcmV"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          style="max-width: 75px;"
+        >
+          <div
+            class="sc-fUnMCh dYyQJH"
+            data-testid="action-btn"
+          >
+            <div
+              class="sc-hzhJZQ edzwjq"
+            >
+              <div>
+                <div
+                  data-src="actions.svg"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

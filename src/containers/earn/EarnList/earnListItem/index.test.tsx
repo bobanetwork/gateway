@@ -11,9 +11,9 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import networkService from 'services/networkService'
 import CustomThemeProvider from 'themes'
-import { LiquidityPoolLayer } from 'types/earn.types'
+import { EarnListItemProps, LiquidityPoolLayer } from 'types/earn.types'
 import { mockedInitialState } from 'util/tests'
-import EarnListItem, { EarnListItemProps } from '.'
+import EarnListItem from '.'
 
 const mockStore = configureStore([thunk])
 

@@ -6,17 +6,31 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import CustomThemeProvider from 'themes'
 import { mockedInitialState } from 'util/tests'
-import EarnList, { EarnListProps } from '.'
-import { LiquidityPoolLayer } from 'types/earn.types'
+import EarnList from '.'
+import { LiquidityPoolLayer, EarnListProps } from 'types/earn.types'
+import { mockDataEarn } from './mockdata'
 
 const mockStore = configureStore([thunk])
+
+interface TestEarnListProps extends EarnListProps {
+  earnMockData?: any
+}
 
 const renderEarnListComponent = ({
   lpChoice,
   showMyStakeOnly,
-}: EarnListProps) => {
+  earnMockData,
+}: TestEarnListProps) => {
   return render(
-    <Provider store={mockStore(mockedInitialState)}>
+    <Provider
+      store={mockStore({
+        ...mockedInitialState,
+        earn: {
+          ...mockedInitialState.earn,
+          ...earnMockData,
+        },
+      })}
+    >
       <BrowserRouter>
         <CustomThemeProvider>
           <EarnList lpChoice={lpChoice} showMyStakeOnly={showMyStakeOnly} />
@@ -35,11 +49,11 @@ describe('EarnList ', () => {
     expect(asFragment).toBeTruthy()
     expect(asFragment()).toMatchSnapshot()
   })
-  xtest('should match snapshot with data', () => {
-    // TODO: updated the initial state with static data to feed to earn list.
+  test('should match snapshot with data', () => {
     const { asFragment } = renderEarnListComponent({
       lpChoice: LiquidityPoolLayer.L1LP,
       showMyStakeOnly: false,
+      earnMockData: mockDataEarn,
     })
     expect(asFragment).toBeTruthy()
     expect(asFragment()).toMatchSnapshot()
