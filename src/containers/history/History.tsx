@@ -94,8 +94,6 @@ const History = () => {
     network
   )
 
-  const theme: any = useTheme()
-
   const dispatch = useDispatch<any>()
 
   const now = new Date()

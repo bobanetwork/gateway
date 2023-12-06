@@ -69,8 +69,8 @@ export interface ICrossDomainMessage {
   l2From?: string
   l2Hash?: string
   // from/toHash will replace l2Hash/l1Hash once we remove the L1<>L2 coupling
-  fromHash?: string
-  toHash?: string
+  originChainHash?: string
+  destinationChainHash?: string
   l2To?: string
   l1BlockHash?: string
   l1BlockNumber?: number
@@ -102,8 +102,8 @@ export interface ITransaction {
 export interface IProcessedTransaction {
   timeStamp: number
   from: string
-  fromHash: string
-  toHash: string
+  originChainHash: string
+  destinationChainHash: string
   to: string
   tokenSymbol: string
   amount: string

@@ -15,7 +15,9 @@ limitations under the License. */
 
 interface ITransactionReducerState {}
 
-const initialState: ITransactionReducerState = {}
+const initialState: ITransactionReducerState = {
+  transactions: [],
+}
 
 const transactionReducer = (
   state: ITransactionReducerState = initialState,
@@ -25,7 +27,7 @@ const transactionReducer = (
     case 'TRANSACTION/GETALL/SUCCESS':
       return {
         ...state,
-        ...action.payload,
+        transactions: action.payload,
       }
     case 'TRANSFER/CREATE/SUCCESS':
       return {

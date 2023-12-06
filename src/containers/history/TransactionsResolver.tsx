@@ -47,7 +47,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   >([])
 
   useEffect(() => {
-    setCurrentTransactions(transactions)
+    setCurrentTransactions([...transactions])
   }, [transactions])
 
   const orderedTransactions = orderBy(
@@ -140,8 +140,10 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   const hashFilter = (transaction: IProcessedTransaction) => {
     if (transactionsFilter.targetHash) {
       if (
-        !transaction.fromHash.includes(transactionsFilter.targetHash) &&
-        !transaction.toHash.includes(transactionsFilter.targetHash)
+        !transaction.originChainHash.includes(transactionsFilter.targetHash) &&
+        !transaction.destinationChainHash.includes(
+          transactionsFilter.targetHash
+        )
       ) {
         return false
       }
@@ -180,27 +182,29 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     const symbol = token.symbol
 
     const amountString = logAmount(transaction.action.amount, token.decimals, 4)
-    const fromHash = transaction.hash ?? transaction.crossDomainMessage.fromHash
-    let toHash = transaction.crossDomainMessage.toHash ?? ''
+    const originChainHash =
+      transaction.hash ?? transaction.crossDomainMessage.originChainHash
+    let destinationChainHash =
+      transaction.crossDomainMessage.destinationChainHash ?? ''
     if (
-      !toHash &&
+      !destinationChainHash &&
       chain === LAYER.L2 &&
       transaction.crossDomainMessage.l1Hash
     ) {
-      toHash = transaction.crossDomainMessage.l1Hash
+      destinationChainHash = transaction.crossDomainMessage.l1Hash
     } else if (
-      !toHash &&
+      !destinationChainHash &&
       chain === LAYER.L1 &&
       transaction.crossDomainMessage.l2Hash
     ) {
-      toHash = transaction.crossDomainMessage.l2Hash
+      destinationChainHash = transaction.crossDomainMessage.l2Hash
     }
 
     const processedTransaction: IProcessedTransaction = {
       timeStamp: transaction.timeStamp,
       from: transaction.from,
-      fromHash,
-      toHash,
+      originChainHash,
+      destinationChainHash,
       to: transaction.to,
       tokenSymbol: symbol,
       amount: amountString,
@@ -307,7 +311,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                     {
                       content: getTransactionChain(
                         transaction.originChainId.toString(),
-                        transaction.fromHash,
+                        transaction.originChainHash,
                         transaction.status
                       ),
                       width: 142,
@@ -315,7 +319,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                     {
                       content: getTransactionChain(
                         transaction.destinationChainId.toString(),
-                        transaction.toHash,
+                        transaction.destinationChainHash,
                         transaction.status
                       ),
                       width: 142,

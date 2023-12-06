@@ -152,7 +152,12 @@ class TransactionService {
     const networksArray = Array.from(Object.values(AllNetworkConfigs))
 
     const networkConfigsArray = networksArray.flatMap((network) => {
-      return [network.Testnet, network.Mainnet]
+      if (
+        network.Mainnet.L2.chainId !== 42161 &&
+        network.Mainnet.L2.chainId !== 10
+      ) {
+        return [network.Testnet, network.Mainnet]
+      }
     })
 
     const allNetworksTransactions = await Promise.all(
@@ -160,7 +165,7 @@ class TransactionService {
         return [
           this.fetchL2Tx(config),
           this.fetchL1PendingTx(config),
-          this.fetchTeleportationTransactions(config),
+          // this.fetchTeleportationTransactions(config),
         ]
       })
     )
@@ -168,7 +173,13 @@ class TransactionService {
       (acc, res) => [...acc, ...res],
       []
     )
-    return filteredResults?.filter((transaction) => transaction.hash)
+    const finalResults = filteredResults?.filter(
+      (transaction) => transaction.hash
+    )
+    console.log(finalResults)
+    const finalResultsAsSet = new Set(finalResults)
+    console.log('set size', finalResultsAsSet.size)
+    return finalResults
   }
 
   async fetchTeleportationTransactions(
