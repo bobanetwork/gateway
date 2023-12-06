@@ -98,13 +98,16 @@ export const FeeSwitchterDropdown = styled(Dropdown)`
   }
   ${DropdownBody} {
     border-radius: 8px;
+    padding: unset;
+    height: auto;
+    width: auto;
+    left: 1px;
     ${(props) =>
       props.theme.name === 'light' &&
       css`
         background: ${props.theme.colors.gray[50]};
-        border: 1px solid ${props.theme.colors.gray[400]};
+        border: unset;
         color: ${props.theme.colors.gray[800]};
-        /* filter: drop-shadow(#000 2px 2px 25px); */
         box-shadow: 2px 2px 25px 0px rgba(0, 0, 0, 0.25);
       `}
     ${(props) =>
@@ -119,16 +122,18 @@ export const FeeSwitchterDropdown = styled(Dropdown)`
       height: 24px;
       margin-right: unset;
     }
-    opacity: 1;
-  }
-  ${DropdownBody} {
-    height: auto;
-    width: auto;
-    padding: 8px;
   }
   ${DropdownContent} {
-    padding: 0px;
+    border-radius: inherit;
+    padding: 8px;
+    gap: 8px;
     min-height: unset;
+    ${(props) =>
+      props.theme.name === 'light' &&
+      css`
+        backdrop-filter: blur(15px);
+        border: 1px solid ${props.theme.colors.gray[400]};
+      `}
     & > ${Option} {
       width: 87px;
       height: 32px;
@@ -138,7 +143,6 @@ export const FeeSwitchterDropdown = styled(Dropdown)`
       padding: 8px;
       box-sizing: border-box;
       border: 1px solid rgba(0, 0, 0, 0);
-      gap: 8px;
       &:hover {
         background: ${(props) => props.theme.colors.gray[400]};
       }
