@@ -16,3 +16,5 @@ limitations under the License. */
 export const selectPoolInfo = () => (state) => state.earn.poolInfo
 
 export const selectUserInfo = () => (state) => state.earn.userInfo
+
+export const selectWithdrawToken = () => (state) => state.earn.withdrawToken
