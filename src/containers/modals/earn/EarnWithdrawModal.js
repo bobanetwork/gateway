@@ -15,7 +15,7 @@ import { logAmount, toWei_String } from 'util/amountConvert'
 import { WrapperActionsModal } from 'components/modal/styles'
 
 import BN from 'bignumber.js'
-import { withdrawLiquidity } from 'actions/networkAction'
+import {withdrawLiquidity} from 'actions/earnAction'
 
 import { MaxInput } from 'components/global/InputMax'
 import { Button } from 'components/global/button'

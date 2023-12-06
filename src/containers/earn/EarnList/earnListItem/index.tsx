@@ -1,5 +1,4 @@
-import { getEarnInfo, updateWithdrawToken } from 'actions/earnAction'
-import { getReward } from 'actions/networkAction'
+import { getEarnInfo, updateWithdrawToken, getReward } from 'actions/earnAction'
 import { openAlert, openModal } from 'actions/uiAction'
 import { IconLabel, TableContent, Typography } from 'components/global'
 import {

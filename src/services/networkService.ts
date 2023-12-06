@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { formatEther, parseEther } from '@ethersproject/units'
+import { formatEther } from '@ethersproject/units'
 import { CrossChainMessenger } from '@bobanetwork/sdk'
 
 import { BigNumber, BigNumberish, Contract, ethers, utils } from 'ethers'
@@ -80,6 +80,7 @@ import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
+import { LiquidityPoolLayer } from 'types/earn.types'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -103,17 +104,7 @@ type TokenInfoForNetwork = {
   L2: Record<string, TokenList>
 }
 
-type TokenInfo = {
-  [chainId: number]: TokenInfoForNetwork
-}
-
 type TokenAddresses = Record<string, { L1: string; L2: string }>
-
-export enum EPoolLayer {
-  L1LP = 'L1LP',
-  L2LP = 'L2LP',
-}
-//#endregion
 
 class NetworkService {
   account?: string
@@ -1919,9 +1910,13 @@ class NetworkService {
   /***********************************************/
   /*****           Get Reward                *****/
   /***********************************************/
-  async getReward(currencyAddress, value_Wei_String, L1orL2Pool: EPoolLayer) {
+  async getReward(
+    currencyAddress,
+    value_Wei_String,
+    L1orL2Pool: LiquidityPoolLayer
+  ) {
     try {
-      const TX = await (L1orL2Pool === EPoolLayer.L1LP
+      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
         ? this.L1LPContract!
         : this.L2LPContract!
       )
@@ -1939,9 +1934,13 @@ class NetworkService {
   /*****          Withdraw Liquidity         *****/
 
   /***********************************************/
-  async withdrawLiquidity(currency, value_Wei_String, L1orL2Pool: EPoolLayer) {
+  async withdrawLiquidity(
+    currency,
+    value_Wei_String,
+    L1orL2Pool: LiquidityPoolLayer
+  ) {
     try {
-      const estimateGas = await (L1orL2Pool === EPoolLayer.L1LP
+      const estimateGas = await (L1orL2Pool === LiquidityPoolLayer.L1LP
         ? this.L1LPContract!
         : this.L2LPContract!
       ).estimateGas.withdrawLiquidity(
@@ -1951,7 +1950,7 @@ class NetworkService {
         { from: this.account }
       )
       const blockGasLimit = (await this.provider!.getBlock('latest')).gasLimit
-      const TX = await (L1orL2Pool === EPoolLayer.L1LP
+      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
         ? this.L1LPContract!
         : this.L2LPContract!
       )
