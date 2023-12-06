@@ -23,10 +23,10 @@ if (networkService?.addresses) {
 const initialState = {
   poolInfo: {
     L1LP: {
-      [allAddresses.L1_ETH_Address]: {},
+      // [allAddresses.L1_ETH_Address]: {},
     },
     L2LP: {
-      [allAddresses.L2_ETH_Address]: {},
+      // [allAddresses.L2_ETH_Address]: {},
     },
   },
   userInfo: {

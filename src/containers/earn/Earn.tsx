@@ -39,15 +39,16 @@ import Connect from 'containers/connect'
 import Button from 'components/button/Button'
 import AlertIcon from 'components/icons/AlertIcon'
 import ListEarn from 'components/listEarn/ListEarn'
+import EarnList from './earnList'
 import Tooltip from 'components/tooltip/Tooltip'
 
 import networkService from 'services/networkService'
 
-import { fetchBalances } from 'actions/networkAction'
+import { fetchBalances, getAllAddresses } from 'actions/networkAction'
 
 import { CheckboxWithLabel } from 'components/global/checkbox'
-import { TableHeader } from 'components/global/table'
 import { Typography } from 'components/global/typography'
+import { TableHeader } from 'components/global/table'
 import { tableHeaderOptions } from './table.header'
 import { toLayer } from './types'
 
@@ -83,7 +84,7 @@ const Earn = () => {
   const accountEnabled = useSelector(selectAccountEnabled())
   const networkName = useSelector(selectActiveNetworkName())
   const [showMSO, setShowMSO] = useState(false)
-  const [lpChoice, setLpChoice] = useState(
+  const [lpChoice, setLpChoice] = useState<'L1LP' | 'L2LP'>(
     networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP'
   )
 
@@ -102,6 +103,7 @@ const Earn = () => {
   useEffect(() => {
     if (baseEnabled) {
       dispatch(getEarnInfo())
+      dispatch(getAllAddresses())
     }
 
     if (accountEnabled) {
@@ -127,6 +129,9 @@ const Earn = () => {
   useEffect(() => {
     setLpChoice(networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP')
   }, [networkService.L1orL2])
+
+  console.log(poolInfo)
+  console.log(selectedPoolInfo)
 
   return (
     <EarnPageContainer>
@@ -204,30 +209,7 @@ const Earn = () => {
             />
           </EarnAction>
         </EarnActionContainer>
-        <TableHeader options={tableHeaderOptions} />
-        <EarnListContainer>
-          {Object.keys(selectedPoolInfo).map((tokenAddress, i) => {
-            const [balance, decimals] = getBalance(
-              tokenAddress,
-              lpChoice === 'L1LP' ? 'L1' : 'L2'
-            )
-            return <>{i}</>
-            // return (
-            //   <ListEarn
-            //     key={i}
-            //     poolInfo={selectedPoolInfo[tokenAddress]}
-            //     userInfo={
-            //       lpChoice === 'L1LP' ? userInfo.L1LP[tokenAddress] : userInfo.L2LP[tokenAddress]
-            //     }
-            //     L1orL2Pool={lpChoice}
-            //     balance={balance}
-            //     decimals={decimals}
-            //     showStakesOnly={showMSO}
-            //     accountEnabled={accountEnabled}
-            //   />
-            // );
-          })}
-        </EarnListContainer>
+        <EarnList lpChoice={lpChoice} />
       </div>
     </EarnPageContainer>
   )
