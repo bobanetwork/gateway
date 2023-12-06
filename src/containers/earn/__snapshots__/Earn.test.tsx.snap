@@ -3,10 +3,10 @@
 exports[`Earn  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-dtBdUo iOIctv"
+    class="sc-kOHTFB dJklDn"
   >
     <div
-      class="sc-dtInlm scBYX"
+      class="sc-kOPcWz dCdfcT"
     >
       <p
         class="sc-kpDqfm cBaeVm"
@@ -66,13 +66,13 @@ exports[`Earn  should match snapshot 1`] = `
     </div>
     <div>
       <div
-        class="sc-dCFHLb ehwxST"
+        class="sc-fhzFiK kIRwNU"
       >
         <div
-          class="sc-jxOSlx hDUlCC"
+          class="sc-lcIPJg daEXEv"
         >
           <div
-            class="sc-lcIPJg wTpox"
+            class="sc-kdBSHD hmvvHY"
           >
             <p
               class="sc-kpDqfm ighqH"
@@ -81,7 +81,7 @@ exports[`Earn  should match snapshot 1`] = `
             </p>
           </div>
           <div
-            class="sc-lcIPJg qZZek"
+            class="sc-kdBSHD iXgKrp"
           >
             <p
               class="sc-kpDqfm ighqH"
@@ -91,17 +91,17 @@ exports[`Earn  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-eBMEME edLRhm"
+          class="sc-dCFHLb dZBTFm"
         >
           <div>
             <label
-              class="sc-koXPp lisxhg"
+              class="sc-bmzYkS iMHFUI"
             >
               <div
-                class="sc-bmzYkS iBbtzj"
+                class="sc-iHGNWf kjCKde"
               >
                 <input
-                  class="sc-iHGNWf jKttvr"
+                  class="sc-dtBdUo jgEwTm"
                   type="checkbox"
                 />
                 <div>
@@ -122,7 +122,139 @@ exports[`Earn  should match snapshot 1`] = `
           </div>
         </div>
       </div>
-      Loading content for pool
+      <div
+        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+      >
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 225px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Token
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Available Balance
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Total Staked
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            APR
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Your Stake
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Earned
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 75px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Actions
+          </p>
+        </div>
+      </div>
+      <div
+        class="sc-koXPp WyMlC"
+      >
+        <span
+          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
+          role="progressbar"
+          style="width: 40px; height: 40px;"
+        >
+          <svg
+            class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+              cx="44"
+              cy="44"
+              fill="none"
+              r="20.2"
+              stroke-width="3.6"
+            />
+          </svg>
+        </span>
+      </div>
     </div>
   </div>
 </DocumentFragment>

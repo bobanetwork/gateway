@@ -5,7 +5,8 @@ import { selectPoolInfo, selectUserInfo } from 'selectors'
 import { LiquidityPoolLayer } from 'types/earn.types'
 import { tableHeaderOptions } from '../table.header'
 import EarnListItem from './earnListItem'
-import { EarnListContainer } from './styles'
+import { EarnListContainer, EearnListLoadingContainer } from './styles'
+import { CircularProgress } from '@mui/material'
 
 interface EarnListProps {
   lpChoice: LiquidityPoolLayer
@@ -18,11 +19,13 @@ const EarnList = ({ lpChoice, showMyStakeOnly }: EarnListProps) => {
 
   return (
     <>
+      <TableHeader options={tableHeaderOptions} />
       {Object.keys(poolInfo[lpChoice]).filter(Boolean).length === 0 ? (
-        <>Loading content for pool</>
+        <EearnListLoadingContainer>
+          <CircularProgress color="secondary" />
+        </EearnListLoadingContainer>
       ) : (
         <>
-          <TableHeader options={tableHeaderOptions} />
           <EarnListContainer>
             {Object.keys(poolInfo[lpChoice]).map((tokenAddress, i) => {
               return (
