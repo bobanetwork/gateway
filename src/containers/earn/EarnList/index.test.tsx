@@ -11,7 +11,10 @@ import { LiquidityPoolLayer } from 'types/earn.types'
 
 const mockStore = configureStore([thunk])
 
-const renderEarnComponent = ({ lpChoice, showMyStakeOnly }: EarnListProps) => {
+const renderEarnListComponent = ({
+  lpChoice,
+  showMyStakeOnly,
+}: EarnListProps) => {
   return render(
     <Provider store={mockStore(mockedInitialState)}>
       <BrowserRouter>
@@ -25,7 +28,7 @@ const renderEarnComponent = ({ lpChoice, showMyStakeOnly }: EarnListProps) => {
 
 describe('EarnList ', () => {
   test('should match snapshot in case no data', () => {
-    const { asFragment } = renderEarnComponent({
+    const { asFragment } = renderEarnListComponent({
       lpChoice: LiquidityPoolLayer.L1LP,
       showMyStakeOnly: false,
     })
@@ -34,7 +37,7 @@ describe('EarnList ', () => {
   })
   xtest('should match snapshot with data', () => {
     // TODO: updated the initial state with static data to feed to earn list.
-    const { asFragment } = renderEarnComponent({
+    const { asFragment } = renderEarnListComponent({
       lpChoice: LiquidityPoolLayer.L1LP,
       showMyStakeOnly: false,
     })

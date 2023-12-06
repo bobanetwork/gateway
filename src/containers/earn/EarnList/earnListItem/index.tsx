@@ -159,7 +159,6 @@ const EarnListItem = ({
       disabled:
         disabled || logAmount(userReward, decimals) === '0' || !enableReward,
       onClick: () => {
-        console.log(`harvest token`)
         handleHarvest()
       },
     },
@@ -217,7 +216,7 @@ const EarnListItem = ({
     {
       content: (
         <>
-          <IconWrapper onClick={handleClick}>
+          <IconWrapper onClick={handleClick} data-testid="action-btn">
             <MoreActionIcon />
           </IconWrapper>
           <StyledMenu
@@ -241,6 +240,7 @@ const EarnListItem = ({
                   key={index}
                   disabled={opt.disabled}
                   onClick={opt.onClick}
+                  data-testid={opt.label}
                 >
                   <StyledLabel>{opt.label}</StyledLabel>
                 </StyledMenuItem>
@@ -260,7 +260,7 @@ const EarnListItem = ({
   }
 
   return (
-    <EarnListItemContainer>
+    <EarnListItemContainer data-testid="earn-list-item">
       <TableContent options={tableOptions} />
     </EarnListItemContainer>
   )

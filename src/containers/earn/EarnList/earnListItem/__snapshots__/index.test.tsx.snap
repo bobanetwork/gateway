@@ -1,0 +1,779 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-feUZmu kfaySa"
+    data-testid="earn-list-item"
+  >
+    <div
+      class="sc-gEvEer gHvMIw sc-dAlyuH gjZlkt"
+    >
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 225px;"
+      >
+        <div
+          class="sc-gEvEer gHvMIw sc-gsFSXq eUsTZu"
+        >
+          <div
+            class="sc-eqUAAy lgeZkT"
+          >
+            <div
+              class="sc-gEvEer gHvMIw"
+            >
+              <div>
+                <img
+                  alt="logo"
+                  class="sc-iGgWBj kluuzi"
+                  src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/usdc.svg"
+                />
+              </div>
+              <div>
+                <p
+                  class="sc-fqkvVR dlragU"
+                >
+                  USDC
+                </p>
+                <p
+                  class="sc-dcJsrY faQCvn"
+                >
+                  USD Coin
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="sc-aXZVg kUtRKG metamask"
+          >
+            <img
+              alt="add To Metamask"
+              height="20px"
+              src="metamask.svg"
+              width="20px"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 145px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 115px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 85px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 90px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 110px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 75px;"
+      >
+        <div
+          class="sc-fUnMCh dYyQJH"
+          data-testid="action-btn"
+        >
+          <div
+            class="sc-hzhJZQ edzwjq"
+          >
+            <div>
+              <div
+                data-src="actions.svg"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-feUZmu kfaySa"
+    data-testid="earn-list-item"
+  >
+    <div
+      class="sc-gEvEer gHvMIw sc-dAlyuH gjZlkt"
+    >
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 225px;"
+      >
+        <div
+          class="sc-gEvEer gHvMIw sc-gsFSXq eUsTZu"
+        >
+          <div
+            class="sc-eqUAAy lgeZkT"
+          >
+            <div
+              class="sc-gEvEer gHvMIw"
+            >
+              <div>
+                <img
+                  alt="logo"
+                  class="sc-iGgWBj kluuzi"
+                  src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/usdc.svg"
+                />
+              </div>
+              <div>
+                <p
+                  class="sc-fqkvVR dlragU"
+                >
+                  USDC
+                </p>
+                <p
+                  class="sc-dcJsrY faQCvn"
+                >
+                  USD Coin
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="sc-aXZVg kUtRKG metamask"
+          >
+            <img
+              alt="add To Metamask"
+              height="20px"
+              src="metamask.svg"
+              width="20px"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 145px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 115px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 85px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 90px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 110px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 75px;"
+      >
+        <div
+          class="sc-fUnMCh dYyQJH"
+          data-testid="action-btn"
+        >
+          <div
+            class="sc-hzhJZQ edzwjq"
+          >
+            <div>
+              <div
+                data-src="actions.svg"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-feUZmu kfaySa"
+    data-testid="earn-list-item"
+  >
+    <div
+      class="sc-gEvEer gHvMIw sc-dAlyuH gjZlkt"
+    >
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 225px;"
+      >
+        <div
+          class="sc-gEvEer gHvMIw sc-gsFSXq eUsTZu"
+        >
+          <div
+            class="sc-eqUAAy lgeZkT"
+          >
+            <div
+              class="sc-gEvEer gHvMIw"
+            >
+              <div>
+                <img
+                  alt="logo"
+                  class="sc-iGgWBj kluuzi"
+                  src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/usdc.svg"
+                />
+              </div>
+              <div>
+                <p
+                  class="sc-fqkvVR dlragU"
+                >
+                  USDC
+                </p>
+                <p
+                  class="sc-dcJsrY faQCvn"
+                >
+                  USD Coin
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="sc-aXZVg kUtRKG metamask"
+          >
+            <img
+              alt="add To Metamask"
+              height="20px"
+              src="metamask.svg"
+              width="20px"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 145px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 115px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 85px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 90px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 110px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 75px;"
+      >
+        <div
+          class="sc-fUnMCh dYyQJH"
+          data-testid="action-btn"
+        >
+          <div
+            class="sc-hzhJZQ edzwjq"
+          >
+            <div>
+              <div
+                data-src="actions.svg"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-feUZmu kfaySa"
+    data-testid="earn-list-item"
+  >
+    <div
+      class="sc-gEvEer gHvMIw sc-dAlyuH gjZlkt"
+    >
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 225px;"
+      >
+        <div
+          class="sc-gEvEer gHvMIw sc-gsFSXq eUsTZu"
+        >
+          <div
+            class="sc-eqUAAy lgeZkT"
+          >
+            <div
+              class="sc-gEvEer gHvMIw"
+            >
+              <div>
+                <img
+                  alt="logo"
+                  class="sc-iGgWBj kluuzi"
+                  src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/usdc.svg"
+                />
+              </div>
+              <div>
+                <p
+                  class="sc-fqkvVR dlragU"
+                >
+                  USDC
+                </p>
+                <p
+                  class="sc-dcJsrY faQCvn"
+                >
+                  USD Coin
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="sc-aXZVg kUtRKG metamask"
+          >
+            <img
+              alt="add To Metamask"
+              height="20px"
+              src="metamask.svg"
+              width="20px"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 145px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 115px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 85px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 90px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 110px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 75px;"
+      >
+        <div
+          class="sc-fUnMCh dYyQJH"
+          data-testid="action-btn"
+        >
+          <div
+            class="sc-hzhJZQ edzwjq"
+          >
+            <div>
+              <div
+                data-src="actions.svg"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`EarnList  should match snapshot when showMystake is enable 1`] = `<DocumentFragment />`;
+
+exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-feUZmu kfaySa"
+    data-testid="earn-list-item"
+  >
+    <div
+      class="sc-gEvEer gHvMIw sc-dAlyuH gjZlkt"
+    >
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 225px;"
+      >
+        <div
+          class="sc-gEvEer gHvMIw sc-gsFSXq eUsTZu"
+        >
+          <div
+            class="sc-eqUAAy lgeZkT"
+          >
+            <div
+              class="sc-gEvEer gHvMIw"
+            >
+              <div>
+                <img
+                  alt="logo"
+                  class="sc-iGgWBj kluuzi"
+                  src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/undefined.svg"
+                />
+              </div>
+              <div>
+                <p
+                  class="sc-fqkvVR dlragU"
+                />
+                <p
+                  class="sc-dcJsrY faQCvn"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="sc-aXZVg kUtRKG metamask"
+          >
+            <img
+              alt="add To Metamask"
+              height="20px"
+              src="metamask.svg"
+              width="20px"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 145px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 115px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 85px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          NaN
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 90px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 110px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 75px;"
+      >
+        <div
+          class="sc-fUnMCh dYyQJH"
+          data-testid="action-btn"
+        >
+          <div
+            class="sc-hzhJZQ edzwjq"
+          >
+            <div>
+              <div
+                data-src="actions.svg"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`EarnList  should match snapshot when userreward is available 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-feUZmu kfaySa"
+    data-testid="earn-list-item"
+  >
+    <div
+      class="sc-gEvEer gHvMIw sc-dAlyuH gjZlkt"
+    >
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 225px;"
+      >
+        <div
+          class="sc-gEvEer gHvMIw sc-gsFSXq eUsTZu"
+        >
+          <div
+            class="sc-eqUAAy lgeZkT"
+          >
+            <div
+              class="sc-gEvEer gHvMIw"
+            >
+              <div>
+                <img
+                  alt="logo"
+                  class="sc-iGgWBj kluuzi"
+                  src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/boba.svg"
+                />
+              </div>
+              <div>
+                <p
+                  class="sc-fqkvVR dlragU"
+                >
+                  BOBA
+                </p>
+                <p
+                  class="sc-dcJsrY faQCvn"
+                >
+                  Boba Token
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="sc-aXZVg kUtRKG metamask"
+          >
+            <img
+              alt="add To Metamask"
+              height="20px"
+              src="metamask.svg"
+              width="20px"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 145px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          614.83
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 115px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          565.30
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 85px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 90px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          43.01
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 110px;"
+      >
+        <p
+          class="sc-jXbUNg jCIOIT"
+        >
+          0.00126
+        </p>
+      </div>
+      <div
+        class="sc-gEvEer gHvMIw sc-jlZhew cpFoki"
+        style="max-width: 75px;"
+      >
+        <div
+          class="sc-fUnMCh dYyQJH"
+          data-testid="action-btn"
+        >
+          <div
+            class="sc-hzhJZQ edzwjq"
+          >
+            <div>
+              <div
+                data-src="actions.svg"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
