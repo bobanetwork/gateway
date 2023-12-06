@@ -1915,6 +1915,7 @@ class NetworkService {
     return { poolInfo, userInfo }
   }
 
+  // FIXME: move this to separate service of earn.
   /***********************************************/
   /*****           Get Reward                *****/
   /***********************************************/

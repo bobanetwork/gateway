@@ -75,6 +75,7 @@ export const depositETHL2 = (payload) =>
 export const depositErc20 = (payload) =>
   createAction('DEPOSIT/CREATE', () => networkService.depositErc20(payload))
 
+// FIXME: move this earn related actions.
 export const getReward = (
   currencyAddress: string,
   value_Wei_String: BigNumberish,

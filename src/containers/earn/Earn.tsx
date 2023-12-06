@@ -73,17 +73,10 @@ const Earn = () => {
 
   const activeNetworkName = useSelector(selectActiveNetworkName())
   const layer = useSelector(selectLayer())
-
-  const userInfo = useSelector(selectUserInfo())
-  const poolInfo = useSelector(selectPoolInfo())
-
-  const layer1Balance = useSelector(selectlayer1Balance)
-  const layer2Balance = useSelector(selectlayer2Balance)
-
   const baseEnabled = useSelector(selectBaseEnabled())
   const accountEnabled = useSelector(selectAccountEnabled())
   const networkName = useSelector(selectActiveNetworkName())
-  const [showMSO, setShowMSO] = useState(false)
+  const [showMyStakeOnly, setShowMyStakeOnly] = useState(false)
   const [lpChoice, setLpChoice] = useState<'L1LP' | 'L2LP'>(
     networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP'
   )
@@ -111,27 +104,9 @@ const Earn = () => {
     }
   }, [dispatch, baseEnabled, accountEnabled, activeNetworkName])
 
-  const getBalance = (address: string, chain: 'L1' | 'L2') => {
-    let tokens = []
-    if (chain === 'L1') {
-      tokens = Object.values(layer1Balance)
-    } else if (chain === 'L2') {
-      tokens = Object.values(layer2Balance)
-    }
-    const token: any = tokens.find(
-      (t: any) => t.address.toLowerCase() === address.toLowerCase()
-    )
-    return token ? [token.balance, token.decimals] : [0, 0]
-  }
-
-  const selectedPoolInfo = lpChoice === 'L1LP' ? poolInfo.L1LP : poolInfo.L2LP
-
   useEffect(() => {
     setLpChoice(networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP')
   }, [networkService.L1orL2])
-
-  console.log(poolInfo)
-  console.log(selectedPoolInfo)
 
   return (
     <EarnPageContainer>
@@ -204,12 +179,12 @@ const Earn = () => {
           <EarnAction>
             <CheckboxWithLabel
               label="My Stakes Only"
-              checked={showMSO}
-              onChange={(status) => setShowMSO(status)}
+              checked={showMyStakeOnly}
+              onChange={(status) => setShowMyStakeOnly(status)}
             />
           </EarnAction>
         </EarnActionContainer>
-        <EarnList lpChoice={lpChoice} />
+        <EarnList showMyStakeOnly={showMyStakeOnly} lpChoice={lpChoice} />
       </div>
     </EarnPageContainer>
   )

@@ -1,25 +1,19 @@
-import React, { Fragment } from 'react'
 import { TableHeader } from 'components/global/table'
-import { tableHeaderOptions } from '../table.header'
-import { EarnListContainer } from './styles'
-import {
-  selectPoolInfo,
-  selectUserInfo,
-  selectlayer1Balance,
-  selectlayer2Balance,
-} from 'selectors'
+import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
+import { selectPoolInfo, selectUserInfo } from 'selectors'
+import { tableHeaderOptions } from '../table.header'
 import EarnListItem from './earnListItem'
+import { EarnListContainer } from './styles'
 
 interface EarnListProps {
   lpChoice: 'L1LP' | 'L2LP'
+  showMyStakeOnly: boolean
 }
 
-const EarnList = ({ lpChoice }: EarnListProps) => {
+const EarnList = ({ lpChoice, showMyStakeOnly }: EarnListProps) => {
   const userInfo = useSelector(selectUserInfo())
   const poolInfo = useSelector(selectPoolInfo())
-
-  console.log(poolInfo[lpChoice])
 
   return (
     <>
@@ -30,14 +24,14 @@ const EarnList = ({ lpChoice }: EarnListProps) => {
           <TableHeader options={tableHeaderOptions} />
           <EarnListContainer>
             {Object.keys(poolInfo[lpChoice]).map((tokenAddress, i) => {
-              console.log(`tokenAddress = ${tokenAddress}`)
-
               return (
                 <Fragment key={i}>
                   <EarnListItem
+                    showMyStakeOnly={showMyStakeOnly}
                     poolInfo={poolInfo[lpChoice][tokenAddress]}
                     userInfo={userInfo[lpChoice][tokenAddress]}
                     lpChoice={lpChoice}
+                    tokenAddress={tokenAddress}
                   />
                 </Fragment>
               )
