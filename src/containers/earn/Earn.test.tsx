@@ -24,7 +24,6 @@ const renderEarnComponent = () => {
 
 describe('Earn ', () => {
   test('should match snapshot', () => {
-    window.scrollTo = jest.fn()
     const { asFragment } = renderEarnComponent()
     expect(asFragment).toBeTruthy()
     expect(asFragment()).toMatchSnapshot()

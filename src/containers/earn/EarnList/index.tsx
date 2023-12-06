@@ -8,7 +8,7 @@ import EarnListItem from './earnListItem'
 import { EarnListContainer, EearnListLoadingContainer } from './styles'
 import { CircularProgress } from '@mui/material'
 
-interface EarnListProps {
+export interface EarnListProps {
   lpChoice: LiquidityPoolLayer
   showMyStakeOnly: boolean
 }

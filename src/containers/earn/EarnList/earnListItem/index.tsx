@@ -19,7 +19,7 @@ import { LiquidityPoolLayer } from 'types/earn.types'
 import { formatLargeNumber, logAmount, powAmount } from 'util/amountConvert'
 import { EarnListItemContainer, IconWrapper, MoreActionIcon } from './styles'
 
-interface EarnListItemProps {
+export interface EarnListItemProps {
   userInfo: any
   poolInfo: any
   chainId?: any
