@@ -1028,7 +1028,7 @@ class NetworkService {
           layer2Balances.push(token)
         }
       })
-         
+
       return {
         layer1: orderBy(layer1Balances, (i) => i.currency),
         layer2: orderBy(layer2Balances, (i) => i.currency),
