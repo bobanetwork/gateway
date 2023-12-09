@@ -38,6 +38,7 @@ const useBridgeSetup = () => {
   const layer = useSelector(selectLayer())
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
+
   useEffect(() => {
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
       // Teleportation
@@ -130,6 +131,8 @@ const useBridgeSetup = () => {
       dispatch(clearLookupPrice())
     }
   }, [getLookupPrice, isAccountEnabled])
+
+  return { getLookupPrice }
 }
 
 export default useBridgeSetup
