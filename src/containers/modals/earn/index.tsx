@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { closeModal, openAlert, openModal } from 'actions/uiAction'
 import {
   fetchL1LPBalance,
   fetchL2LPBalance,
-  getEarnInfo,
   updateWithdrawPayload,
-  withdrawLiquidity,
 } from 'actions/earnAction'
+import { closeModal, openModal } from 'actions/uiAction'
 
 import Modal from 'components/modal/Modal'
 import { logAmount, toWei_String } from 'util/amountConvert'
@@ -19,19 +17,19 @@ import { MaxInput } from 'components/global/InputMax'
 import { Button } from 'components/global/button'
 import { ModalTypography } from 'components/global/modalTypography'
 
-import {
-  EarnInputContainer,
-  EarnContent,
-  Flex,
-  ContainerMessage,
-} from './styles'
+import { BigNumber } from 'ethers'
 import {
   selectLpBalanceWei,
   selectUserInfo,
   selectWithdrawToken,
 } from 'selectors'
 import { LiquidityPoolLayer } from 'types/earn.types'
-import { BigNumber } from 'ethers'
+import {
+  ContainerMessage,
+  EarnContent,
+  EarnInputContainer,
+  Flex,
+} from './styles'
 
 interface EarnWithdrwaModalProps {
   open: boolean
