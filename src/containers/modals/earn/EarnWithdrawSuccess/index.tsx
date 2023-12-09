@@ -49,6 +49,7 @@ const EarnWithdrawModalSuccessModal = ({
           </TitleText>
         </SuccessContent>
         <Button
+          data-testid="close-btn"
           onClick={() => {
             handleClose()
           }}
