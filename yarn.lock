@@ -5995,10 +5995,10 @@
   dependencies:
     "@testing-library/jest-dom" "*"
 
-"@types/truncate-middle@^1.0.1":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@types/truncate-middle/-/truncate-middle-1.0.2.tgz#1063957ead68b51a1eb4ce8dcf2ae9e41f951f45"
-  integrity sha512-cLTYt9AXsJkPVdoKEznPvlnMiI0HxnzFkzV72XKCnvWjF4Zr6Pz9hPqvz8oI2PGnIAhgdWqubMW1HPVOLNDenQ==
+"@types/truncate-middle@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@types/truncate-middle/-/truncate-middle-1.0.4.tgz#9e5c725eb56dfe7afb817684c81db80ba771b534"
+  integrity sha512-WfcGVioLOcG6GVDcfeAkmXnXLmz3T0LoxvoGBA4j+3sDES1qnr7aQS2pLN6dMHCchebp9obaQ8xw1HzsWKK85g==
 
 "@types/trusted-types@^2.0.2":
   version "2.0.4"
