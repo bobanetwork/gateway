@@ -68,6 +68,7 @@ const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
       onClose={handleClose}
       maxWidth="md"
       title={`Withdraw Confirmation`}
+      testId="earnwithdrawconfirmmodal-modal"
     >
       <WithdrawConfirmContainer>
         <Item>
@@ -101,6 +102,7 @@ const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
         </Item>
         <WrapperActionsModal style={{ width: '100%' }}>
           <Button
+            data-testid="confirm-btn"
             onClick={handleConfirm}
             disabled={loading}
             label="Confirm"

@@ -9,6 +9,26 @@ import EarnWithdrawModalSuccessModal from './'
 import { mockedInitialState } from 'util/tests'
 import { BrowserRouter } from 'react-router-dom'
 
+const renderModal = ({
+  initialState,
+  store,
+}: {
+  initialState: any
+  store: any
+}) => {
+  return render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <CustomThemeProvider>
+          <EarnWithdrawModalSuccessModal
+            open={initialState.ui.EarnWithdrawModalSuccess}
+          />
+        </CustomThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  )
+}
+
 describe('EarnWithdrawModalSuccessModal', () => {
   test('Should be visible', () => {
     const initialState = {
@@ -22,17 +42,7 @@ describe('EarnWithdrawModalSuccessModal', () => {
     const mockStore = configureMockStore(middlewares)
     const store = mockStore(initialState)
 
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <CustomThemeProvider>
-            <EarnWithdrawModalSuccessModal
-              open={initialState.ui.EarnWithdrawModalSuccess}
-            />
-          </CustomThemeProvider>
-        </BrowserRouter>
-      </Provider>
-    )
+    const { queryByTestId, getByTestId } = renderModal({ initialState, store })
 
     expect(queryByTestId('earnwithdrawmodalsuccess-modal')).toBeInTheDocument()
     fireEvent.click(getByTestId('close-btn'))
@@ -57,17 +67,7 @@ describe('EarnWithdrawModalSuccessModal', () => {
     const mockStore = configureMockStore(middlewares)
     const store = mockStore(initialState)
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <CustomThemeProvider>
-            <EarnWithdrawModalSuccessModal
-              open={initialState.ui.EarnWithdrawModalSuccess}
-            />
-          </CustomThemeProvider>
-        </BrowserRouter>
-      </Provider>
-    )
+    const { getByTestId } = renderModal({ initialState, store })
 
     expect(getByTestId('earnwithdrawmodalsuccess-modal')).toBeInTheDocument()
 
@@ -85,17 +85,10 @@ describe('EarnWithdrawModalSuccessModal', () => {
     const mockStore = configureMockStore(middlewares)
     const store = mockStore(mockedInitialState)
 
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <CustomThemeProvider>
-            <EarnWithdrawModalSuccessModal
-              open={mockedInitialState.ui.EarnWithdrawModalSuccess}
-            />
-          </CustomThemeProvider>
-        </BrowserRouter>
-      </Provider>
-    )
+    const { queryByTestId } = renderModal({
+      initialState: mockedInitialState,
+      store,
+    })
 
     expect(
       queryByTestId('earnwithdrawmodalsuccess-modal')

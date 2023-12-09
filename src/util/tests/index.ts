@@ -8,6 +8,7 @@ export const mockedInitialState = {
     settingsModal: false,
     switchNetworkModal: false,
     EarnWithdrawModalSuccess: false,
+    EarnWithdrawConfirmModal: false,
   },
   network: {
     activeNetworkName: {
@@ -167,6 +168,7 @@ export const mockedInitialState = {
       L1LP: {},
       L2LP: {},
     },
+    withdrawPayload: {},
   },
 }
 
