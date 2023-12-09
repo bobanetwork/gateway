@@ -9,6 +9,7 @@ import NewProposalModal from './dao/NewProposalModal'
 // import EarnWithdrawModal from './earn/EarnWithdrawModal'
 import EarnWithdrawModal from './earn'
 import EarnWithdrawConfirmModal from './earn/EarnWithdrawConfirmModal'
+import EarnWithdrawModalSuccessModal from './earn/EarnWithdrawSuccess'
 import InstallMetaMaskModal from './noMetaMask/InstallMetaMaskModal/InstallMetaMaskModal'
 import NoMetaMaskModal from './noMetaMask/NoMetaMaskModal'
 import SwitchNetworkModal from './switchNetwork/SwitchNetworkModal'
@@ -34,8 +35,8 @@ const ModalContainer = () => {
     selectModalState('UnsupportedNetwork')
   )
 
-  const depositBatchModalState = useSelector(
-    selectModalState('depositBatchModal')
+  const earnWithdrawModalSuccessModalState = useSelector(
+    selectModalState('EarnWithdrawModalSuccess')
   )
 
   const earnWithdrawConfirmModalState = useSelector(
@@ -119,6 +120,11 @@ const ModalContainer = () => {
       )}
       {!!earnWithdrawConfirmModalState && (
         <EarnWithdrawConfirmModal open={earnWithdrawConfirmModalState} />
+      )}
+      {!!earnWithdrawModalSuccessModalState && (
+        <EarnWithdrawModalSuccessModal
+          open={earnWithdrawModalSuccessModalState}
+        />
       )}
       {!!StakeDepositModalState && (
         <DepositStake open={StakeDepositModalState} />
