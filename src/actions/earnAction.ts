@@ -57,6 +57,11 @@ export const updateWithdrawToken = (withdrawToken: any) => ({
   payload: withdrawToken,
 })
 
+export const updateWithdrawPayload = (withdrawToken: any) => ({
+  type: 'UPDATE_WITHDRAW_PAYLOAD',
+  payload: withdrawToken,
+})
+
 export const fetchL1LPBalance = (currency: string) =>
   createAction('FETCH/L1LPBALANCE', () => networkService.L1LPBalance(currency))
 

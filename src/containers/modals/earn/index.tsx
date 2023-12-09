@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { isEqual } from 'util/lodash'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { closeModal, openAlert } from 'actions/uiAction'
-import { fetchL1LPBalance, fetchL2LPBalance } from 'actions/earnAction'
+import { closeModal, openAlert, openModal } from 'actions/uiAction'
+import {
+  fetchL1LPBalance,
+  fetchL2LPBalance,
+  getEarnInfo,
+  updateWithdrawPayload,
+  withdrawLiquidity,
+} from 'actions/earnAction'
 
 import Modal from 'components/modal/Modal'
 import { logAmount, toWei_String } from 'util/amountConvert'
@@ -20,23 +25,34 @@ import {
   Flex,
   ContainerMessage,
 } from './styles'
-import { selectUserInfo, selectWithdrawToken } from 'selectors'
+import {
+  selectLpBalanceWei,
+  selectUserInfo,
+  selectWithdrawToken,
+} from 'selectors'
 import { LiquidityPoolLayer } from 'types/earn.types'
+import { BigNumber } from 'ethers'
 
-const EarnWithdrawModal = () => {
+interface EarnWithdrwaModalProps {
+  open: boolean
+}
+
+const EarnWithdrawModal = ({ open }: EarnWithdrwaModalProps) => {
   const dispatch = useDispatch<any>()
 
   const userInfo = useSelector(selectUserInfo())
   const withdrawToken = useSelector(selectWithdrawToken())
+  const LPBalanceWei = useSelector(selectLpBalanceWei())
 
+  const [value, setValue] = useState(0)
+  const [value_Wei_String, setValue_Wei_String] = useState('')
+  const [isValidValue, setisValidValue] = useState(false)
   const [maxValue, setMaxValue] = useState(0)
   const [maxValue_Wei_String, setMaxValue_Wei_String] = useState('')
+
   const [LPBalance, setLPBalance] = useState(
     logAmount('', withdrawToken.decimals)
   )
-  const [LPBalance_Wei_String, setLPBalance_Wei_String] = useState('')
-  const [value, setValue] = useState(0)
-  const [value_Wei_String, setValue_Wei_String] = useState('')
 
   useEffect(() => {
     if (withdrawToken.L1orL2Pool === LiquidityPoolLayer.L1LP) {
@@ -46,16 +62,77 @@ const EarnWithdrawModal = () => {
     }
   }, [withdrawToken])
 
+  // calculate max value
+  useEffect(() => {
+    // set LPBalance
+    setLPBalance(logAmount(LPBalanceWei, withdrawToken.decimals))
+
+    // calculate maxValue and set.
+    let balance_Wei_String = ''
+
+    if (
+      typeof userInfo[withdrawToken.L1orL2Pool][withdrawToken.currency] !==
+      'undefined'
+    ) {
+      balance_Wei_String =
+        userInfo[withdrawToken.L1orL2Pool][withdrawToken.currency].amount
+    }
+
+    //BUT, if the current balance is lower than what you staked, can only withdraw the balance
+    const poolTooSmall = BigNumber.from(LPBalanceWei).lt(
+      BigNumber.from(balance_Wei_String)
+    )
+
+    if (poolTooSmall) {
+      setMaxValue(Number(logAmount(LPBalanceWei, withdrawToken.decimals)))
+      setMaxValue_Wei_String(LPBalanceWei)
+    } else {
+      //pool big enough to cover entire withdrawal
+      setMaxValue(Number(logAmount(balance_Wei_String, withdrawToken.decimals)))
+      setMaxValue_Wei_String(balance_Wei_String)
+    }
+  }, [userInfo, withdrawToken, LPBalanceWei])
+
   const handleClose = () => {
     dispatch(closeModal('EarnWithdrawModal'))
   }
 
-  const handleConfirm = () => {
+  const onUnstake = async () => {
+    dispatch(
+      updateWithdrawPayload({
+        ...withdrawToken,
+        amountToWithdraw: value,
+        amountToWithdrawWei: value_Wei_String,
+      })
+    )
+
     dispatch(closeModal('EarnWithdrawModal'))
+    dispatch(openModal('EarnWithdrawConfirmModal'))
+  }
+
+  const setAmount = (userEnteredValue: any, userEnteredValueInWei: string) => {
+    const valueInBn = BigNumber.from(userEnteredValueInWei)
+    const tooSmall = valueInBn.lte(BigNumber.from(0.0))
+    const tooBig = valueInBn.gt(BigNumber.from(maxValue_Wei_String))
+
+    if (tooSmall || tooBig) {
+      setValue(0)
+      setValue_Wei_String('')
+      setisValidValue(true)
+    } else {
+      setValue(userEnteredValue)
+      setValue_Wei_String(userEnteredValueInWei)
+      setisValidValue(false)
+    }
   }
 
   return (
-    <Modal open={open} onClose={handleClose} maxWidth="md" title={`Unstake`}>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      maxWidth="md"
+      title={`Withdraw ${withdrawToken.symbol}`}
+    >
       <EarnInputContainer>
         <EarnContent>
           <Flex>
@@ -70,7 +147,7 @@ const EarnWithdrawModal = () => {
           </Flex>
           <MaxInput
             initialValue={value}
-            max={maxValue_Wei_String}
+            max={Number(maxValue)}
             onValueChange={(val) =>
               setAmount(val, toWei_String(val, withdrawToken.decimals))
             }
@@ -89,12 +166,9 @@ const EarnWithdrawModal = () => {
 
           <WrapperActionsModal>
             <Button
-              onClick={() => {
-                handleConfirm()
-              }}
+              onClick={onUnstake}
               label="Unstake"
-              loading={loading}
-              disabled={!!disableSubmit}
+              disabled={!!isValidValue}
               style={{
                 width: '100%',
               }}
