@@ -10,6 +10,7 @@ export const CheckboxWithLabel: React.FC<CheckboxWithLabelProps> = ({
   label,
   checked = false,
   onChange,
+  testId,
 }) => {
   const [isChecked, setIsChecked] = useState(checked)
 
@@ -28,6 +29,7 @@ export const CheckboxWithLabel: React.FC<CheckboxWithLabelProps> = ({
       <Label>
         <CheckContainer checked={isChecked}>
           <Checkbox
+            data-testid={testId}
             type="checkbox"
             checked={isChecked}
             onChange={handleChange}

@@ -129,6 +129,7 @@ const Earn = () => {
           </AlertInfo>
           <Button
             variant="contained"
+            testId="connect-btn"
             size="md"
             onClick={() =>
               layer === 'L1'
@@ -145,6 +146,7 @@ const Earn = () => {
         <EarnActionContainer>
           <TabSwitcherContainer>
             <Tab
+              data-testid="tab-l1"
               active={poolTab === activeNetworkName['l1']}
               onClick={() => {
                 setLpChoice(LiquidityPoolLayer.L1LP)
@@ -156,6 +158,7 @@ const Earn = () => {
               </Typography>
             </Tab>
             <Tab
+              data-testid="tab-l2"
               active={poolTab === activeNetworkName['l2']}
               onClick={() => {
                 setLpChoice(LiquidityPoolLayer.L2LP)
@@ -169,6 +172,7 @@ const Earn = () => {
           </TabSwitcherContainer>
           <EarnAction>
             <CheckboxWithLabel
+              testId="my-stake-checkbox"
               label="My Stakes Only"
               checked={showMyStakeOnly}
               onChange={(status) => setShowMyStakeOnly(status)}
