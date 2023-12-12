@@ -41,7 +41,7 @@ describe('VerifierService', () => {
     // test
     const status = await vsInstance.getVerifierStatus()
     expect(status?.isOK).toBeTruthy()
-    expect(status?.matchedBlock).toBeDefined(0)
+    expect(status?.matchedBlock).toBeDefined()
     expect(status?.matchedRoot).toBeDefined()
     expect(status?.timestamp).toBeGreaterThan(0)
   })
