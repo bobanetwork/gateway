@@ -3,7 +3,7 @@ import { closeModal, openError, openModal } from 'actions/uiAction'
 import { Button } from 'components/global'
 import Modal from 'components/modal/Modal'
 import { WrapperActionsModal } from 'components/modal/styles'
-import { ModalInterface } from 'components/modal/types'
+import { ModalInterface } from 'containers/modals/types'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -97,7 +97,7 @@ const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
           <ConfirmLabel>Time</ConfirmLabel>
           <ConfirmValue>1-5 minutes</ConfirmValue>
         </Item>
-        <WrapperActionsModal>
+        <WrapperActionsModal $fullWidth>
           <Button
             data-testid="confirm-btn"
             onClick={handleConfirm}

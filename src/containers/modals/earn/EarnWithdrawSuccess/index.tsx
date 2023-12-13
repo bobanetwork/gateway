@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { Button, Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
 
-import { ModalInterface } from 'components/modal/types'
+import { ModalInterface } from 'containers/modals/types'
 import {
   CircleInner,
   CircleOuter,
