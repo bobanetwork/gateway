@@ -17,8 +17,10 @@
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import networkService, { EPoolLayer } from 'services/networkService'
+import networkService from 'services/networkService'
 import { createAction } from './createAction'
+import { BigNumberish } from 'ethers'
+import { LiquidityPoolLayer } from 'types/earn.types'
 
 const getEarnInfoBegin = () => ({
   type: 'GET_EARNINFO',
@@ -55,8 +57,35 @@ export const updateWithdrawToken = (withdrawToken: any) => ({
   payload: withdrawToken,
 })
 
+export const updateWithdrawPayload = (withdrawToken: any) => ({
+  type: 'UPDATE_WITHDRAW_PAYLOAD',
+  payload: withdrawToken,
+})
+
 export const fetchL1LPBalance = (currency: string) =>
   createAction('FETCH/L1LPBALANCE', () => networkService.L1LPBalance(currency))
 
 export const fetchL2LPBalance = (currency: string) =>
   createAction('FETCH/L2LPBALANCE', () => networkService.L2LPBalance(currency))
+
+export const getReward = (
+  currencyAddress: string,
+  value_Wei_String: BigNumberish,
+  L1orL2Pool: LiquidityPoolLayer
+) =>
+  createAction('EARN/HARVEST', () =>
+    networkService.getReward(currencyAddress, value_Wei_String, L1orL2Pool)
+  )
+
+export const withdrawLiquidity = (
+  currencyAddress: string,
+  value_Wei_String: string,
+  L1orL2Pool: LiquidityPoolLayer
+) =>
+  createAction('EARN/WITHDRAW', () =>
+    networkService.withdrawLiquidity(
+      currencyAddress,
+      value_Wei_String,
+      L1orL2Pool
+    )
+  )

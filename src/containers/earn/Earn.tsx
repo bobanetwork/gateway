@@ -26,10 +26,6 @@ import {
   selectActiveNetworkName,
   selectBaseEnabled,
   selectLayer,
-  selectPoolInfo,
-  selectUserInfo,
-  selectlayer1Balance,
-  selectlayer2Balance,
 } from 'selectors'
 
 import { getEarnInfo } from 'actions/earnAction'
@@ -38,17 +34,13 @@ import Connect from 'containers/connect'
 
 import Button from 'components/button/Button'
 import AlertIcon from 'components/icons/AlertIcon'
-import ListEarn from 'components/listEarn/ListEarn'
 import Tooltip from 'components/tooltip/Tooltip'
+import EarnList from './earnList'
 
-import networkService from 'services/networkService'
-
-import { fetchBalances } from 'actions/networkAction'
+import { fetchBalances, getAllAddresses } from 'actions/networkAction'
 
 import { CheckboxWithLabel } from 'components/global/checkbox'
-import { TableHeader } from 'components/global/table'
 import { Typography } from 'components/global/typography'
-import { tableHeaderOptions } from './table.header'
 import { toLayer } from './types'
 
 import { setConnectBOBA, setConnectETH } from 'actions/setupAction'
@@ -57,7 +49,6 @@ import {
   AlertText,
   EarnAction,
   EarnActionContainer,
-  EarnListContainer,
   EarnPageContainer,
   Help,
   LayerAlert,
@@ -65,68 +56,48 @@ import {
   TabSwitcherContainer,
 } from './styles'
 
+import { LiquidityPoolLayer } from 'types/earn.types'
 import { BridgeTooltip } from './tooltips'
 
 const Earn = () => {
   const dispatch = useDispatch<any>()
 
-  const activeNetworkName = useSelector(selectActiveNetworkName())
   const layer = useSelector(selectLayer())
-
-  const userInfo = useSelector(selectUserInfo())
-  const poolInfo = useSelector(selectPoolInfo())
-
-  const layer1Balance = useSelector(selectlayer1Balance)
-  const layer2Balance = useSelector(selectlayer2Balance)
-
   const baseEnabled = useSelector(selectBaseEnabled())
   const accountEnabled = useSelector(selectAccountEnabled())
   const networkName = useSelector(selectActiveNetworkName())
-  const [showMSO, setShowMSO] = useState(false)
-  const [lpChoice, setLpChoice] = useState(
-    networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP'
+  const activeNetworkName = useSelector(selectActiveNetworkName())
+
+  const [showMyStakeOnly, setShowMyStakeOnly] = useState(false)
+  const [lpChoice, setLpChoice] = useState<LiquidityPoolLayer>(
+    LiquidityPoolLayer.L1LP
+  )
+  const [poolTab, setPoolTab] = useState(
+    activeNetworkName[layer?.toLowerCase()]
   )
 
   const isLp1 = lpChoice === 'L1LP'
   const isLp2 = lpChoice === 'L2LP'
 
-  const [poolTab, setPoolTab] = useState(
-    activeNetworkName[layer?.toLowerCase()]
-  )
-
   useEffect(() => {
-    setLpChoice(networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP')
+    if (layer === 'L1') {
+      setLpChoice(LiquidityPoolLayer.L1LP)
+    } else {
+      setLpChoice(LiquidityPoolLayer.L2LP)
+    }
     setPoolTab(activeNetworkName[layer?.toLowerCase()])
-  }, [layer, networkService, activeNetworkName])
+  }, [layer, activeNetworkName])
 
   useEffect(() => {
     if (baseEnabled) {
       dispatch(getEarnInfo())
+      dispatch(getAllAddresses())
     }
 
     if (accountEnabled) {
       dispatch(fetchBalances())
     }
   }, [dispatch, baseEnabled, accountEnabled, activeNetworkName])
-
-  const getBalance = (address: string, chain: 'L1' | 'L2') => {
-    let tokens = []
-    if (chain === 'L1') {
-      tokens = Object.values(layer1Balance)
-    } else if (chain === 'L2') {
-      tokens = Object.values(layer2Balance)
-    }
-    const token: any = tokens.find(
-      (t: any) => t.address.toLowerCase() === address.toLowerCase()
-    )
-    return token ? [token.balance, token.decimals] : [0, 0]
-  }
-
-  const selectedPoolInfo = lpChoice === 'L1LP' ? poolInfo.L1LP : poolInfo.L2LP
-
-  useEffect(() => {
-    setLpChoice(networkService.L1orL2 === 'L1' ? 'L1LP' : 'L2LP')
-  }, [networkService.L1orL2])
 
   return (
     <EarnPageContainer>
@@ -158,6 +129,7 @@ const Earn = () => {
           </AlertInfo>
           <Button
             variant="contained"
+            testId="connect-btn"
             size="md"
             onClick={() =>
               layer === 'L1'
@@ -174,9 +146,10 @@ const Earn = () => {
         <EarnActionContainer>
           <TabSwitcherContainer>
             <Tab
+              data-testid="tab-l1"
               active={poolTab === activeNetworkName['l1']}
               onClick={() => {
-                setLpChoice('L1LP')
+                setLpChoice(LiquidityPoolLayer.L1LP)
                 setPoolTab(activeNetworkName['l1'])
               }}
             >
@@ -185,9 +158,10 @@ const Earn = () => {
               </Typography>
             </Tab>
             <Tab
+              data-testid="tab-l2"
               active={poolTab === activeNetworkName['l2']}
               onClick={() => {
-                setLpChoice('L2LP')
+                setLpChoice(LiquidityPoolLayer.L2LP)
                 setPoolTab(activeNetworkName['l2'])
               }}
             >
@@ -198,36 +172,14 @@ const Earn = () => {
           </TabSwitcherContainer>
           <EarnAction>
             <CheckboxWithLabel
+              testId="my-stake-checkbox"
               label="My Stakes Only"
-              checked={showMSO}
-              onChange={(status) => setShowMSO(status)}
+              checked={showMyStakeOnly}
+              onChange={(status) => setShowMyStakeOnly(status)}
             />
           </EarnAction>
         </EarnActionContainer>
-        <TableHeader options={tableHeaderOptions} />
-        <EarnListContainer>
-          {Object.keys(selectedPoolInfo).map((tokenAddress, i) => {
-            const [balance, decimals] = getBalance(
-              tokenAddress,
-              lpChoice === 'L1LP' ? 'L1' : 'L2'
-            )
-            return <>{i}</>
-            // return (
-            //   <ListEarn
-            //     key={i}
-            //     poolInfo={selectedPoolInfo[tokenAddress]}
-            //     userInfo={
-            //       lpChoice === 'L1LP' ? userInfo.L1LP[tokenAddress] : userInfo.L2LP[tokenAddress]
-            //     }
-            //     L1orL2Pool={lpChoice}
-            //     balance={balance}
-            //     decimals={decimals}
-            //     showStakesOnly={showMSO}
-            //     accountEnabled={accountEnabled}
-            //   />
-            // );
-          })}
-        </EarnListContainer>
+        <EarnList showMyStakeOnly={showMyStakeOnly} lpChoice={lpChoice} />
       </div>
     </EarnPageContainer>
   )

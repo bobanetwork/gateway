@@ -11,6 +11,7 @@ jest.mock('services/networkService', () => ({
   ...jest.requireActual('services/networkService'),
   L1NativeTokenSymbol: 'ETH',
   estimateMinL1NativeTokenForFee: jest.fn(),
+  switchFee: jest.fn(),
 }))
 
 describe('useFeeSwitcher', () => {
@@ -20,6 +21,10 @@ describe('useFeeSwitcher', () => {
     jest
       .spyOn(networkService, 'estimateMinL1NativeTokenForFee')
       .mockResolvedValueOnce(0.002)
+
+    jest.spyOn(console, 'log').mockImplementation(() => {
+      return
+    })
   })
 
   test('if L2 and L1 balance tokens are empty dispatch error for wallet empty', async () => {

@@ -26,6 +26,8 @@ interface IUiReducerState {
   addNewTokenModal: boolean
   StakeDepositModal: boolean
   EarnWithdrawModal: boolean
+  EarnWithdrawConfirmModal: boolean
+  EarnWithdrawModalSuccess: boolean
   delegateDaoModal: boolean
   delegateDaoXModal: boolean
   newProposalModal: boolean
@@ -56,6 +58,8 @@ const initialState: IUiReducerState = {
   addNewTokenModal: false,
   StakeDepositModal: false,
   EarnWithdrawModal: false,
+  EarnWithdrawConfirmModal: false,
+  EarnWithdrawModalSuccess: false,
   delegateDaoModal: false,
   delegateDaoXModal: false,
   newProposalModal: false,

@@ -1,0 +1,1246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Earn  should match snapshot & trigger action when accountEnabled with layer L2  1`] = `
+<DocumentFragment>
+  <div
+    class="sc-kOHTFB dJklDn"
+  >
+    <div
+      class="sc-kOPcWz dCdfcT"
+    >
+      <p
+        class="sc-kpDqfm cBaeVm"
+      >
+        Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
+      </p>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1ij4omo-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="HelpOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div>
+      <div
+        class="sc-fhzFiK kIRwNU"
+      >
+        <div
+          class="sc-lcIPJg daEXEv"
+        >
+          <div
+            class="sc-kdBSHD iXgKrp"
+            data-testid="tab-l1"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              ethereum Pools
+            </p>
+          </div>
+          <div
+            class="sc-kdBSHD hmvvHY"
+            data-testid="tab-l2"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              boba Pools
+            </p>
+          </div>
+        </div>
+        <div
+          class="sc-dCFHLb dZBTFm"
+        >
+          <div>
+            <label
+              class="sc-bmzYkS iMHFUI"
+            >
+              <div
+                class="sc-iHGNWf kjCKde"
+              >
+                <input
+                  class="sc-dtBdUo jgEwTm"
+                  data-testid="my-stake-checkbox"
+                  type="checkbox"
+                />
+                <div>
+                  <div>
+                    <div
+                      data-src="check.svg"
+                      src=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <p
+                class="sc-kpDqfm ighqH"
+              >
+                My Stakes Only
+              </p>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+      >
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 225px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Token
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Available Balance
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Total Staked
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            APR
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Your Stake
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Earned
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 75px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Actions
+          </p>
+        </div>
+      </div>
+      <div
+        class="sc-koXPp WyMlC"
+      >
+        <span
+          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
+          role="progressbar"
+          style="width: 40px; height: 40px;"
+        >
+          <svg
+            class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+              cx="44"
+              cy="44"
+              fill="none"
+              r="20.2"
+              stroke-width="3.6"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-kOHTFB dJklDn"
+  >
+    <div
+      class="sc-kOPcWz dCdfcT"
+    >
+      <p
+        class="sc-kpDqfm cBaeVm"
+      >
+        Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
+      </p>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1ij4omo-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="HelpOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div
+      class="sc-dtInlm bMNaUn"
+    >
+      <div
+        class="sc-eBMEME eSaExz"
+      >
+        <svg
+          fill="none"
+          height="24"
+          viewBox="0 0 26 24"
+          width="26"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M23.3922 17L15.598 3.5C14.4433 1.5 11.5566 1.5 10.4018 3.5L2.60762 17C1.45293 19 2.8963 21.5 5.20571 21.5H20.7942C23.1036 21.5 24.5469 19 23.3922 17ZM17.3301 2.5C15.4056 -0.833337 10.5943 -0.83333 8.6698 2.5L0.875573 16C-1.04893 19.3333 1.35671 23.5 5.20571 23.5H20.7942C24.6432 23.5 27.0488 19.3333 25.1243 16L17.3301 2.5ZM11.8 8.25847C11.8 7.79751 12.1737 7.42382 12.6346 7.42382C13.0956 7.42382 13.4693 7.79751 13.4693 8.25847V13.8969C13.4693 14.3578 13.0956 14.7315 12.6346 14.7315C12.1737 14.7315 11.8 14.3578 11.8 13.8969V8.25847ZM12.6347 16.1914C12.0293 16.1914 11.5385 16.6822 11.5385 17.2876C11.5385 17.8929 12.0293 18.3837 12.6347 18.3837C13.24 18.3837 13.7308 17.8929 13.7308 17.2876C13.7308 16.6822 13.24 16.1914 12.6347 16.1914Z"
+            fill-opacity="0.7"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p
+          class="sc-kpDqfm cBJJYe sc-cWSHoV cxbFzS"
+        >
+          You are on L1. To transact on L2, SWITCH LAYER to L2
+        </p>
+      </div>
+      <span>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd css-vsfgff-MuiButtonBase-root-MuiButton-root"
+          data-testid="connect-btn"
+          style="min-width: 103px; border-radius: 12px;"
+          tabindex="0"
+          type="button"
+        >
+          Connect to boba
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </span>
+    </div>
+    <div>
+      <div
+        class="sc-fhzFiK kIRwNU"
+      >
+        <div
+          class="sc-lcIPJg daEXEv"
+        >
+          <div
+            class="sc-kdBSHD iXgKrp"
+            data-testid="tab-l1"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              ethereum Pools
+            </p>
+          </div>
+          <div
+            class="sc-kdBSHD hmvvHY"
+            data-testid="tab-l2"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              boba Pools
+            </p>
+          </div>
+        </div>
+        <div
+          class="sc-dCFHLb dZBTFm"
+        >
+          <div>
+            <label
+              class="sc-bmzYkS iMHFUI"
+            >
+              <div
+                class="sc-iHGNWf kjCKde"
+              >
+                <input
+                  class="sc-dtBdUo jgEwTm"
+                  data-testid="my-stake-checkbox"
+                  type="checkbox"
+                />
+                <div>
+                  <div>
+                    <div
+                      data-src="check.svg"
+                      src=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <p
+                class="sc-kpDqfm ighqH"
+              >
+                My Stakes Only
+              </p>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+      >
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 225px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Token
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Available Balance
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Total Staked
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            APR
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Your Stake
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Earned
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 75px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Actions
+          </p>
+        </div>
+      </div>
+      <div
+        class="sc-koXPp WyMlC"
+      >
+        <span
+          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
+          role="progressbar"
+          style="width: 40px; height: 40px;"
+        >
+          <svg
+            class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+              cx="44"
+              cy="44"
+              fill="none"
+              r="20.2"
+              stroke-width="3.6"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-kOHTFB dJklDn"
+  >
+    <div
+      class="sc-kOPcWz dCdfcT"
+    >
+      <p
+        class="sc-kpDqfm cBaeVm"
+      >
+        Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
+      </p>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1ij4omo-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="HelpOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div
+      class="sc-dtInlm bMNaUn"
+    >
+      <div
+        class="sc-eBMEME eSaExz"
+      >
+        <svg
+          fill="none"
+          height="24"
+          viewBox="0 0 26 24"
+          width="26"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M23.3922 17L15.598 3.5C14.4433 1.5 11.5566 1.5 10.4018 3.5L2.60762 17C1.45293 19 2.8963 21.5 5.20571 21.5H20.7942C23.1036 21.5 24.5469 19 23.3922 17ZM17.3301 2.5C15.4056 -0.833337 10.5943 -0.83333 8.6698 2.5L0.875573 16C-1.04893 19.3333 1.35671 23.5 5.20571 23.5H20.7942C24.6432 23.5 27.0488 19.3333 25.1243 16L17.3301 2.5ZM11.8 8.25847C11.8 7.79751 12.1737 7.42382 12.6346 7.42382C13.0956 7.42382 13.4693 7.79751 13.4693 8.25847V13.8969C13.4693 14.3578 13.0956 14.7315 12.6346 14.7315C12.1737 14.7315 11.8 14.3578 11.8 13.8969V8.25847ZM12.6347 16.1914C12.0293 16.1914 11.5385 16.6822 11.5385 17.2876C11.5385 17.8929 12.0293 18.3837 12.6347 18.3837C13.24 18.3837 13.7308 17.8929 13.7308 17.2876C13.7308 16.6822 13.24 16.1914 12.6347 16.1914Z"
+            fill-opacity="0.7"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p
+          class="sc-kpDqfm cBJJYe sc-cWSHoV cxbFzS"
+        >
+          You are on L2. To transact on L1, SWITCH LAYER to L1
+        </p>
+      </div>
+      <span>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd css-vsfgff-MuiButtonBase-root-MuiButton-root"
+          data-testid="connect-btn"
+          style="min-width: 103px; border-radius: 12px;"
+          tabindex="0"
+          type="button"
+        >
+          Connect to ethereum
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </span>
+    </div>
+    <div>
+      <div
+        class="sc-fhzFiK kIRwNU"
+      >
+        <div
+          class="sc-lcIPJg daEXEv"
+        >
+          <div
+            class="sc-kdBSHD hmvvHY"
+            data-testid="tab-l1"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              ethereum Pools
+            </p>
+          </div>
+          <div
+            class="sc-kdBSHD iXgKrp"
+            data-testid="tab-l2"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              boba Pools
+            </p>
+          </div>
+        </div>
+        <div
+          class="sc-dCFHLb dZBTFm"
+        >
+          <div>
+            <label
+              class="sc-bmzYkS iMHFUI"
+            >
+              <div
+                class="sc-iHGNWf kjCKde"
+              >
+                <input
+                  class="sc-dtBdUo jgEwTm"
+                  data-testid="my-stake-checkbox"
+                  type="checkbox"
+                />
+                <div>
+                  <div>
+                    <div
+                      data-src="check.svg"
+                      src=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <p
+                class="sc-kpDqfm ighqH"
+              >
+                My Stakes Only
+              </p>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+      >
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 225px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Token
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Available Balance
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Total Staked
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            APR
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Your Stake
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Earned
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 75px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Actions
+          </p>
+        </div>
+      </div>
+      <div
+        class="sc-koXPp WyMlC"
+      >
+        <span
+          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
+          role="progressbar"
+          style="width: 40px; height: 40px;"
+        >
+          <svg
+            class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+              cx="44"
+              cy="44"
+              fill="none"
+              r="20.2"
+              stroke-width="3.6"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Earn  should match snapshot when account is not enabled & layer is L1 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-kOHTFB dJklDn"
+  >
+    <div
+      class="sc-kOPcWz dCdfcT"
+    >
+      <p
+        class="sc-kpDqfm cBaeVm"
+      >
+        Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
+      </p>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1ij4omo-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="HelpOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div
+      class="sc-fPXMVe edlhIL"
+    >
+      <div
+        class="sc-gFqAkR cnmDeA"
+      >
+        <svg
+          fill="none"
+          height="24"
+          viewBox="0 0 26 24"
+          width="26"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M23.3922 17L15.598 3.5C14.4433 1.5 11.5566 1.5 10.4018 3.5L2.60762 17C1.45293 19 2.8963 21.5 5.20571 21.5H20.7942C23.1036 21.5 24.5469 19 23.3922 17ZM17.3301 2.5C15.4056 -0.833337 10.5943 -0.83333 8.6698 2.5L0.875573 16C-1.04893 19.3333 1.35671 23.5 5.20571 23.5H20.7942C24.6432 23.5 27.0488 19.3333 25.1243 16L17.3301 2.5ZM11.8 8.25847C11.8 7.79751 12.1737 7.42382 12.6346 7.42382C13.0956 7.42382 13.4693 7.79751 13.4693 8.25847V13.8969C13.4693 14.3578 13.0956 14.7315 12.6346 14.7315C12.1737 14.7315 11.8 14.3578 11.8 13.8969V8.25847ZM12.6347 16.1914C12.0293 16.1914 11.5385 16.6822 11.5385 17.2876C11.5385 17.8929 12.0293 18.3837 12.6347 18.3837C13.24 18.3837 13.7308 17.8929 13.7308 17.2876C13.7308 16.6822 13.24 16.1914 12.6347 16.1914Z"
+            fill-opacity="0.7"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p
+          class="sc-kpDqfm cBJJYe sc-ikkxIA"
+        >
+          Connect to Wallet to see your balances and contribute to the liquidity pool 
+        </p>
+      </div>
+      <div
+        class="sc-dAbbOL"
+      >
+        <button
+          class="sc-aXZVg eCPrBm"
+          label="Connect to Boba"
+          type="button"
+        >
+           Connect to Boba
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        class="sc-fhzFiK kIRwNU"
+      >
+        <div
+          class="sc-lcIPJg daEXEv"
+        >
+          <div
+            class="sc-kdBSHD hmvvHY"
+            data-testid="tab-l1"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              ethereum Pools
+            </p>
+          </div>
+          <div
+            class="sc-kdBSHD iXgKrp"
+            data-testid="tab-l2"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              boba Pools
+            </p>
+          </div>
+        </div>
+        <div
+          class="sc-dCFHLb dZBTFm"
+        >
+          <div>
+            <label
+              class="sc-bmzYkS iMHFUI"
+            >
+              <div
+                class="sc-iHGNWf kjCKde"
+              >
+                <input
+                  class="sc-dtBdUo jgEwTm"
+                  data-testid="my-stake-checkbox"
+                  type="checkbox"
+                />
+                <div>
+                  <div>
+                    <div
+                      data-src="check.svg"
+                      src=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <p
+                class="sc-kpDqfm ighqH"
+              >
+                My Stakes Only
+              </p>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+      >
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 225px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Token
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Available Balance
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Total Staked
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            APR
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Your Stake
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Earned
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 75px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Actions
+          </p>
+        </div>
+      </div>
+      <div
+        class="sc-koXPp WyMlC"
+      >
+        <span
+          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
+          role="progressbar"
+          style="width: 40px; height: 40px;"
+        >
+          <svg
+            class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+              cx="44"
+              cy="44"
+              fill="none"
+              r="20.2"
+              stroke-width="3.6"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-kOHTFB dJklDn"
+  >
+    <div
+      class="sc-kOPcWz dCdfcT"
+    >
+      <p
+        class="sc-kpDqfm cBaeVm"
+      >
+        Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
+      </p>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1ij4omo-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="HelpOutlineIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div>
+      <div
+        class="sc-fhzFiK kIRwNU"
+      >
+        <div
+          class="sc-lcIPJg daEXEv"
+        >
+          <div
+            class="sc-kdBSHD iXgKrp"
+            data-testid="tab-l1"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              ethereum Pools
+            </p>
+          </div>
+          <div
+            class="sc-kdBSHD hmvvHY"
+            data-testid="tab-l2"
+          >
+            <p
+              class="sc-kpDqfm ighqH"
+            >
+              boba Pools
+            </p>
+          </div>
+        </div>
+        <div
+          class="sc-dCFHLb dZBTFm"
+        >
+          <div>
+            <label
+              class="sc-bmzYkS iMHFUI"
+            >
+              <div
+                class="sc-iHGNWf kjCKde"
+              >
+                <input
+                  class="sc-dtBdUo jgEwTm"
+                  data-testid="my-stake-checkbox"
+                  type="checkbox"
+                />
+                <div>
+                  <div>
+                    <div
+                      data-src="check.svg"
+                      src=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <p
+                class="sc-kpDqfm ighqH"
+              >
+                My Stakes Only
+              </p>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+      >
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 225px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Token
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 145px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Available Balance
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 115px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Total Staked
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 85px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            APR
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-kud2p2-MuiSvgIcon-root"
+            data-mui-internal-clone-element="true"
+            data-testid="HelpOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 90px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Your Stake
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 110px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Earned
+          </p>
+        </div>
+        <div
+          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          style="max-width: 75px;"
+        >
+          <p
+            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+          >
+            Actions
+          </p>
+        </div>
+      </div>
+      <div
+        class="sc-koXPp WyMlC"
+      >
+        <span
+          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
+          role="progressbar"
+          style="width: 40px; height: 40px;"
+        >
+          <svg
+            class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+              cx="44"
+              cy="44"
+              fill="none"
+              r="20.2"
+              stroke-width="3.6"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

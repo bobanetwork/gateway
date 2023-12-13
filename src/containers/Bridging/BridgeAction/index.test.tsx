@@ -1,12 +1,11 @@
-import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import configureStore from 'redux-mock-store'
+import React from 'react'
 import { Provider } from 'react-redux'
-import { Network, NetworkType } from 'util/network/network.util'
-import CustomThemeProvider from 'themes'
-import BridgeAction from '.'
+import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import CustomThemeProvider from 'themes'
 import { mockedInitialState } from 'util/tests'
+import BridgeAction from '.'
 
 const mockStore = configureStore([thunk])
 
