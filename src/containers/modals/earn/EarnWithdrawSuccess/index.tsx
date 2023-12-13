@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { Button, Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
 
+import { ModalInterface } from 'components/modal/types'
 import {
   CircleInner,
   CircleOuter,
@@ -15,9 +16,7 @@ import {
   TitleText,
 } from './styles'
 
-interface EarnWithdrawModalSuccessModalProps {
-  open: boolean
-}
+interface EarnWithdrawModalSuccessModalProps extends ModalInterface {}
 
 const EarnWithdrawModalSuccessModal = ({
   open,

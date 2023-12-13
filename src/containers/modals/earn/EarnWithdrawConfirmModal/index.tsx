@@ -3,6 +3,7 @@ import { closeModal, openError, openModal } from 'actions/uiAction'
 import { Button } from 'components/global'
 import Modal from 'components/modal/Modal'
 import { WrapperActionsModal } from 'components/modal/styles'
+import { ModalInterface } from 'components/modal/types'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,19 +13,17 @@ import {
   selectLayer,
   selectWithdrawPayload,
 } from 'selectors'
+import { getCoinImage } from 'util/coinImage'
 import { LAYER } from 'util/constant'
 import {
   ConfirmLabel,
   ConfirmValue,
-  Item,
   ConfirmValueWithIcon,
+  Item,
   WithdrawConfirmContainer,
 } from './styles'
-import { getCoinImage } from 'util/coinImage'
 
-interface EarnWithdrawConfirmModalProps {
-  open: boolean
-}
+interface EarnWithdrawConfirmModalProps extends ModalInterface {}
 
 const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
   const dispatch = useDispatch<any>()

@@ -17,6 +17,7 @@ import { MaxInput } from 'components/global/InputMax'
 import { Button } from 'components/global/button'
 import { ModalTypography } from 'components/global/modalTypography'
 
+import { ModalInterface } from 'components/modal/types'
 import { BigNumber } from 'ethers'
 import {
   selectLpBalanceWei,
@@ -31,9 +32,7 @@ import {
   Flex,
 } from './styles'
 
-interface EarnWithdrwaModalProps {
-  open: boolean
-}
+interface EarnWithdrwaModalProps extends ModalInterface {}
 
 const EarnWithdrawModal = ({ open }: EarnWithdrwaModalProps) => {
   const dispatch = useDispatch<any>()
