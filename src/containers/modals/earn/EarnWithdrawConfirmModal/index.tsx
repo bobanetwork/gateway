@@ -38,6 +38,8 @@ const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
 
+  const isLayerL1 = layer === LAYER.L1
+
   const handleClose = () => {
     dispatch(closeModal('EarnWithdrawConfirmModal'))
   }
@@ -74,19 +76,15 @@ const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
         <Item>
           <ConfirmLabel>Pool</ConfirmLabel>
           <ConfirmValueWithIcon>
-            {' '}
-            {layer === LAYER.L1 ? (
-              <L1Icon selected />
-            ) : (
-              <L2Icon selected />
-            )}{' '}
+            {isLayerL1 && <L1Icon selected />}
+            {!isLayerL1 && <L2Icon selected />}
             {activeNetworkName[layer.toLowerCase()]}
           </ConfirmValueWithIcon>
         </Item>
         <Item>
           <ConfirmLabel>Token</ConfirmLabel>
           <ConfirmValueWithIcon>
-            <img src={getCoinImage(withdrawPayload.symbol)} alt="symbol logo" />{' '}
+            <img src={getCoinImage(withdrawPayload.symbol)} alt="symbol logo" />
             {withdrawPayload.symbol}
           </ConfirmValueWithIcon>
         </Item>
@@ -100,7 +98,7 @@ const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
           <ConfirmLabel>Time</ConfirmLabel>
           <ConfirmValue>1-5 minutes</ConfirmValue>
         </Item>
-        <WrapperActionsModal style={{ width: '100%' }}>
+        <WrapperActionsModal>
           <Button
             data-testid="confirm-btn"
             onClick={handleConfirm}
