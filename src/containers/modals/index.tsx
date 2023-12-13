@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectModalState } from 'selectors'
-import CastVoteModal from './dao/CastVoteModal'
-import DelegateDaoModal from './dao/DelegateDaoModal'
-import NewProposalModal from './dao/NewProposalModal'
+import CastVoteModal from './DaoModals/CastVoteModal'
+import NewProposalModal from './DaoModals/NewProposalModal'
+import DelegateDaoModal from './DaoModals/DelegateDaoModal'
 
 // import EarnWithdrawModal from './earn/EarnWithdrawModal'
 import EarnWithdrawModal from './earn'

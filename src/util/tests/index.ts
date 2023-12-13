@@ -9,6 +9,9 @@ export const mockedInitialState = {
     switchNetworkModal: false,
     EarnWithdrawModalSuccess: false,
     EarnWithdrawConfirmModal: false,
+    castVoteModal: false,
+    delegateDaoModal: false,
+    newProposalModal: false,
   },
   network: {
     activeNetworkName: {
