@@ -1,4 +1,9 @@
-export const mockDataEarn = {
+import { IPoolInfo, IUserInfo } from 'types/earn.types'
+
+export const mockDataEarn: {
+  poolInfo: IPoolInfo
+  userInfo: IUserInfo
+} = {
   poolInfo: {
     L1LP: {
       '0xeccd355862591cbb4bb7e7dd55072070ee3d0fc1': {

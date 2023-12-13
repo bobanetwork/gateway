@@ -113,17 +113,14 @@ const EarnListItem = ({
 
   const handleUnstakeToken = () => {
     let currency = poolInfo.l1TokenAddress
-    let LPAddress = poolInfo.L1LPAddress
     if (lpChoice === LiquidityPoolLayer.L2LP) {
       currency = poolInfo.l2TokenAddress
-      LPAddress = poolInfo.L2LPAddress
     }
 
     dispatch(
       updateWithdrawToken({
         symbol: poolInfo.symbol,
         currency,
-        LPAddress,
         L1orL2Pool: lpChoice,
         balance: getBalance(tokenAddress)[0],
         decimals: poolInfo.decimals,

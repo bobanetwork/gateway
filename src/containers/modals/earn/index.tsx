@@ -113,8 +113,6 @@ const EarnWithdrawModal = ({ open }: EarnWithdrwaModalProps) => {
     const tooSmall = valueInBn.lte(BigNumber.from(0.0))
     const tooBig = valueInBn.gt(BigNumber.from(maxValue_Wei_String))
 
-    console.log(['userEnteredValue', userEnteredValue])
-
     if (tooSmall || tooBig) {
       setValue(0)
       setValue_Wei_String('')
@@ -125,8 +123,6 @@ const EarnWithdrawModal = ({ open }: EarnWithdrwaModalProps) => {
       setisValidValue(true)
     }
   }
-
-  console.log(['isValidValue', isValidValue, !!isValidValue])
 
   return (
     <Modal

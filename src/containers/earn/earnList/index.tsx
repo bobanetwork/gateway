@@ -11,16 +11,19 @@ import { CircularProgress } from '@mui/material'
 const EarnList = ({ lpChoice, showMyStakeOnly }: EarnListProps) => {
   const userInfo = useSelector(selectUserInfo())
   const poolInfo = useSelector(selectPoolInfo())
-  const poolList = Object.keys(poolInfo[lpChoice])
+  const poolList: string[] = Object.keys(poolInfo[lpChoice])
+
+  const isLoading = poolList.filter(Boolean).length === 0
 
   return (
     <>
       <TableHeader options={tableHeaderOptions} />
-      {poolList.filter(Boolean).length === 0 ? (
+      {isLoading && (
         <EearnListLoadingContainer>
           <CircularProgress color="secondary" />
         </EearnListLoadingContainer>
-      ) : (
+      )}
+      {!isLoading && (
         <>
           <EarnListContainer>
             {poolList.map((tokenAddress, i) => {
