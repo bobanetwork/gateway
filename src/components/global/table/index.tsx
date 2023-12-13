@@ -1,10 +1,9 @@
 import React from 'react'
 
-import { Text } from 'components/global/text'
-import Tooltip from 'components/tooltip/Tooltip'
 import { HelpOutline } from '@mui/icons-material'
-import { TableHeaderContainer, TableRow, TableContentContainer } from './styles'
+import Tooltip from 'components/tooltip/Tooltip'
 import { ModalTypography } from '../modalTypography'
+import { TableContentContainer, TableHeaderContainer, TableRow } from './styles'
 
 export type TableHeaderOptionType = {
   name: string

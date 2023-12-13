@@ -37,7 +37,6 @@ describe('VerifierService', () => {
     // prep
     networkService.networkConfig!.VERIFIER_WATCHER_URL =
       'https://api-verifier.mainnet.boba.network/'
-
     // test
     const status = await vsInstance.getVerifierStatus()
     expect(status?.isOK).toBeTruthy()

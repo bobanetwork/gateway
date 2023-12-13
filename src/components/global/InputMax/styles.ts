@@ -65,7 +65,7 @@ export const Input = styled.input`
     css`
       background: ${props.theme.colors.gray[500]};
       border: 1px solid ${props.theme.colors.gray[300]};
-      color: ${props.theme.colors.gray[200]};
+      color: ${props.theme.colors.gray[100]};
       &:focus {
         border: 1px solid ${props.theme.colors.green[300]};
       }

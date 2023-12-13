@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react'
-import { PAGES_BY_NETWORK, ROUTES_PATH } from 'util/constant'
-import { COMMON_ROUTES, IRoute, ROUTE_LIST } from './routeList'
-import { useSelector, useDispatch } from 'react-redux'
-import {
-  selectActiveNetwork,
-  selectNetwork,
-  selectNetworkType,
-} from 'selectors'
+import { useDispatch, useSelector } from 'react-redux'
 import { RouteObject, useRoutes } from 'react-router-dom'
+import { selectActiveNetwork, selectNetworkType } from 'selectors'
+import { PAGES_BY_NETWORK, ROUTES_PATH } from 'util/constant'
 import { intersection } from 'util/lodash'
+import { setNetwork } from '../../actions/networkAction'
 import {
   Network,
-  networkLimitedAvailability,
   NetworkList,
+  networkLimitedAvailability,
 } from '../../util/network/network.util'
-import { setNetwork } from '../../actions/networkAction'
+import { COMMON_ROUTES, ROUTE_LIST } from './routeList'
 
 export const Router = () => {
   const routeList = ROUTE_LIST

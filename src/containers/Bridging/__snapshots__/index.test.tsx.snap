@@ -83,7 +83,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             class="sc-gmPhUn cIwRtl"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-jnOGJG bDgTzg"
+              class="sc-jXbUNg jCIOIT sc-jnOGJG bDgTzg"
             >
               From
             </p>
@@ -133,7 +133,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
                 </svg>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH sc-bypJrT cTFYQM"
+                class="sc-jXbUNg gzUJEq sc-bypJrT cTFYQM"
               >
                 ethereum
               </p>
@@ -172,7 +172,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             class="sc-gmPhUn cIwRtl"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-jnOGJG bDgTzg"
+              class="sc-jXbUNg jCIOIT sc-jnOGJG bDgTzg"
             >
               To
             </p>
@@ -236,7 +236,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
                 </svg>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH sc-bypJrT cTFYQM"
+                class="sc-jXbUNg gzUJEq sc-bypJrT cTFYQM"
               >
                 boba
               </p>
@@ -361,7 +361,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
           class="sc-brPLxw dMWhfw"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-jnOGJG bDgTzg"
+            class="sc-jXbUNg jCIOIT sc-jnOGJG bDgTzg"
           >
             Third party bridges
           </p>
@@ -386,7 +386,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Banxa
               </p>
@@ -409,7 +409,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Beamer Bridge
               </p>
@@ -432,7 +432,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 BoringDAO
               </p>
@@ -455,7 +455,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Celer
               </p>
@@ -478,7 +478,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Chainswap
               </p>
@@ -501,7 +501,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Connext
               </p>
@@ -524,7 +524,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Layerswap
               </p>
@@ -547,7 +547,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Multichain
               </p>
@@ -570,7 +570,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Rango Exchange
               </p>
@@ -593,7 +593,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Rubic Exchange
               </p>
@@ -616,7 +616,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Synapse
               </p>
@@ -639,7 +639,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 />
               </div>
               <p
-                class="sc-dAlyuH hQXXHy sc-gFVvzn ehFioJ"
+                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Via Protocol
               </p>

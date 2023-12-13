@@ -22,12 +22,8 @@ if (networkService?.addresses) {
 
 const initialState = {
   poolInfo: {
-    L1LP: {
-      [allAddresses.L1_ETH_Address]: {},
-    },
-    L2LP: {
-      [allAddresses.L2_ETH_Address]: {},
-    },
+    L1LP: {},
+    L2LP: {},
   },
   userInfo: {
     L1LP: {
@@ -49,9 +45,9 @@ const initialState = {
     LPAddress: allAddresses.L1LPAddress,
     L1orL2Pool: 'L1LP',
   },
-  approvedAllowance: '',
-  lpBalanceWeiString: '',
+  lpBalanceWeiString: '0',
   allAddresses: {},
+  withdrawPayload: null,
 }
 
 const earnReducer = (state = initialState, action) => {
@@ -80,20 +76,10 @@ const earnReducer = (state = initialState, action) => {
         ...state,
         withdrawToken: action.payload,
       }
-    case 'FETCH/ALLOWANCE/SUCCESS':
+    case 'UPDATE_WITHDRAW_PAYLOAD':
       return {
         ...state,
-        approvedAllowance: action.payload.toString(),
-      }
-    case 'FETCH/ALLOWANCE/RESET':
-      return {
-        ...state,
-        approvedAllowance: action.payload,
-      }
-    case 'FETCH/ALLOWANCE/ERROR':
-      return {
-        ...state,
-        approvedAllowance: '',
+        withdrawPayload: action.payload,
       }
     case 'FETCH/L1LPBALANCE/SUCCESS':
     case 'FETCH/L2LPBALANCE/SUCCESS':
@@ -115,7 +101,7 @@ const earnReducer = (state = initialState, action) => {
     case 'FETCH/L2LPBALANCE/ERROR':
       return {
         ...state,
-        lpBalanceWeiString: '',
+        lpBalanceWeiString: '0',
       }
     default:
       return state
