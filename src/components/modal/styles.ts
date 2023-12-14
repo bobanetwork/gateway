@@ -70,13 +70,14 @@ export const Style = styled.div<StyleProps>`
   `}
 `
 
-export const WrapperActionsModal = styled(Box)`
+export const WrapperActionsModal = styled(Box)<{ $fullWidth?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
   justify-content: flex-end;
   margin-top: 15px;
+  width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
 `
 
 export const ModalHead = styled(Box)`

@@ -9,7 +9,7 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
       class="sc-iHGNWf hMJwVs"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-dtBdUo zuBuN"
+        class="sc-jXbUNg jCIOIT sc-dtBdUo zuBuN"
       >
         Fee
       </p>
@@ -45,7 +45,7 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
             />
           </div>
           <p
-            class="sc-dAlyuH eGlSty"
+            class="sc-jXbUNg jCIOIT"
           />
           <div
             class="sc-bXCLTC cVmHtU dropdown sc-kOHTFB eckowJ"

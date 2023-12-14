@@ -13,6 +13,7 @@ jest.mock('services/networkService', () => ({
   initializeAccount: jest.fn(),
   walletService: jest.fn(),
   switchChain: jest.fn(),
+  addTokenList: jest.fn(),
 }))
 
 describe('useWalletConnect', () => {
@@ -237,13 +238,14 @@ describe('useWalletConnect', () => {
     })
 
     const actions = store.getActions()
-    expect(actions).toHaveLength(5)
+    expect(actions).toHaveLength(6)
     const expectedActions = [
       { payload: 'wrongNetworkModal', type: 'UI/MODAL/CLOSE' },
       { payload: 'L1', type: 'SETUP/LAYER/SET' },
       { payload: true, type: 'SETUP/ACCOUNT/SET' },
       { payload: undefined, type: 'SETUP/WALLETADDRESS/SET' },
       { type: 'TOKENLIST/GET/REQUEST' },
+      { payload: undefined, type: 'TOKENLIST/GET/SUCCESS' },
     ]
     expect(actions).toEqual(expectedActions)
   })
