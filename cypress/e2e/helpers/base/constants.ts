@@ -50,13 +50,15 @@ export const EthereumGoerliInfo: NetworkTestInfo = {
   isTestnet: true,
 }
 
+export const BinanceTestnetInfo: NetworkTestInfo = {
+  networkName: 'BNB Testnet',
+  networkAbbreviation: 'BNB',
+  isTestnet: true,
+}
+
 export const TestnetL1Networks: NetworkTestInfo[] = [
   EthereumGoerliInfo,
-  {
-    networkName: 'BNB Testnet',
-    networkAbbreviation: 'BNB',
-    isTestnet: true,
-  },
+  BinanceTestnetInfo,
 ]
 
 export const TestnetL2Networks: NetworkTestInfo[] = [

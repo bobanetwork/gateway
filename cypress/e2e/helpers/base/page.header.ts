@@ -22,6 +22,10 @@ export default class PageHeader extends Base {
     this.getNetworkSwitcher().contains(networkName).should('exist').click()
   }
 
+  getFeeSwitcher() {
+    return cy.get('div[data-testid="feeSwitcher"]')
+  }
+
   disconnectWallet() {
     cy.get('#header')
       .contains(/^0x[a-fA-F0-9]{4}...[a-fA-F0-9]{4}$/g)
