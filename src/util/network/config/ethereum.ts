@@ -1,6 +1,31 @@
 import { NetworkDetail } from './network-details.types'
 
 export const ethereumConfig: NetworkDetail = {
+  Local: {
+    MM_Label: `Local`,
+    addressManager: `0x5FbDB2315678afecb367f032d93F642f64180aa3`,
+    L1: {
+      name: 'Local L1',
+      chainId: 900,
+      chainIdHex: '0x384',
+      rpcUrl: [`http://localhost:8545`],
+      transaction: `#`,
+      blockExplorerUrl: `#`,
+      symbol: 'ETH',
+      tokenName: 'ETH',
+    },
+    L2: {
+      name: 'BOBA Local L2',
+      chainId: 901,
+      chainIdHex: '0x385',
+      rpcUrl: [`http://localhost:9545`],
+      blockExplorer: `#`,
+      transaction: `#`,
+      blockExplorerUrl: `#`,
+      symbol: 'ETH',
+      tokenName: 'ETH',
+    },
+  },
   Testnet: {
     OMGX_WATCHER_URL: `https://api-watcher.goerli.boba.network/`,
     VERIFIER_WATCHER_URL: `https://api-verifier.goerli.boba.network/`,

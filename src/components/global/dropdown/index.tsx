@@ -39,6 +39,7 @@ export interface IDropdownProps {
   className?: string
   headers?: string[]
   style?: CSSProperties
+  minWidth?: string
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
@@ -49,6 +50,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   className,
   headers = [],
   style,
+  minWidth,
 }) => {
   if (headers) {
     let allItems: IDropdownItem[]
@@ -80,8 +82,8 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   }, [isOpen])
 
   const selectItem = useCallback((item: IDropdownItem) => {
-    onItemSelected && onItemSelected(item)
     setSelectedItem(item)
+    onItemSelected && onItemSelected(item)
     setIsOpen(false)
   }, [])
 
@@ -104,10 +106,6 @@ export const Dropdown: React.FC<IDropdownProps> = ({
     }
   }, [dropdownRef])
 
-  useEffect(() => {
-    setSelectedItem(defaultItem)
-  }, [defaultItem])
-
   return (
     <DropdownContainer
       className={`dropdown ${className}`}
@@ -117,6 +115,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
       <Header
         onClick={handleDropdown}
         error={error}
+        style={{ minWidth: minWidth ?? '290px' }}
         isOpen={isOpen}
         className={`dropdown ${className}`}
       >

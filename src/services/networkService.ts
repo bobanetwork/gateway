@@ -143,6 +143,11 @@ class NetworkService {
   L2LPContract?: Contract
   delegatorContract?: Contract
   delegatorContractV2?: Contract
+
+  //#region Anchorage specific
+  L2ToL1MessagePasserConract?: Contract
+  OptimismPortal?: Contract
+  //#endregion
   //#endregion
 
   tokenAddresses?: TokenAddresses

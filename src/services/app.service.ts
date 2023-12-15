@@ -6,7 +6,6 @@ import {
 
 // testnet addresss
 import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
-import addresses_BobaFuji from '@bobanetwork/register/addresses/addressBobaFuji_0xcE78de95b85212BC348452e91e0e74c17cf37c79.json'
 import addresses_BobaBnbTestnet from '@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa.json'
 
 // mainnet address
@@ -19,13 +18,10 @@ import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.j
 import store from 'store'
 
 // predeployed contracts.
-
-// const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
 const L2_BOBA_Address = '0x4200000000000000000000000000000000000006'
 const L2MessengerAddress = '0x4200000000000000000000000000000000000007'
 const L2StandardBridgeAddress = '0x4200000000000000000000000000000000000010'
-// const L2GasOracle = '0x420000000000000000000000000000000000000F'
 const L2_SECONDARYFEETOKEN_ADDRESS =
   '0x4200000000000000000000000000000000000023'
 
@@ -62,6 +58,13 @@ const ADDRESS_CONFIG = {
         layerZeroTestnet.Layer_Zero_Protocol.BNB.Layer_Zero_ChainId,
     },
   },
+  [NetworkType.LOCAL]: {
+    [Network.ETHEREUM]: {
+      // TODO: Possibly also load from register package if possible
+      L2ToL1MessagePasser: '0x4200000000000000000000000000000000000016',
+      OptimismPortal: '0x..', // TODO
+    },
+  },
 }
 
 type NetworkTypeConfig = {
@@ -75,6 +78,7 @@ type NetworkTypeConfig = {
 type NetworkTypeConfigs = {
   [NetworkType.TESTNET]: NetworkTypeConfig
   [NetworkType.MAINNET]: NetworkTypeConfig
+  [NetworkType.LOCAL]: NetworkTypeConfig
 }
 
 const SUPPORTED_ASSETS: NetworkTypeConfigs = {
@@ -187,6 +191,28 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
       altL1Chains: [],
     },
   },
+  [NetworkType.LOCAL]: {
+    [Network.ETHEREUM]: {
+      tokenAddresses: {},
+      tokens: ['ETH'],
+      altL1Chains: [],
+    },
+    [Network.BNB]: {
+      tokenAddresses: {},
+      tokens: ['BNB'],
+      altL1Chains: [],
+    },
+    [Network.OPTIMISM]: {
+      tokenAddresses: {},
+      tokens: ['ETH'],
+      altL1Chains: [],
+    },
+    [Network.ARBITRUM]: {
+      tokenAddresses: {},
+      tokens: ['ETH'],
+      altL1Chains: [],
+    },
+  },
 }
 
 class AppService {
@@ -216,6 +242,9 @@ class AppService {
       L2_BOBA_Address,
       L1_ETH_Address,
       NETWORK_NATIVE: '0x4200000000000000000000000000000000000006', // always native
+      // TODO Bedrock contract addresses probably not yet available, remove/replace once supplied in address object
+      L2ToL1MessagePasser: '0x4200000000000000000000000000000000000016', // L2
+      OptimismPortal: '0x....', // L1
     }
   }
 

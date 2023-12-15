@@ -7,7 +7,7 @@ import {
   Item,
   LayerNames,
 } from './index.styles'
-import { closeModal } from 'actions/uiAction'
+import { closeModal, openModal } from 'actions/uiAction'
 import Modal from 'components/modal/Modal'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

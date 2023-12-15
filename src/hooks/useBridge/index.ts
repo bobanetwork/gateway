@@ -138,7 +138,9 @@ export const useBridge = () => {
   }
 
   const triggerExit = async (amountWei: any) => {
-    return dispatch(exitBOBA(token.address, amountWei))
+    dispatch(openModal('bridgeMultiStepWithdrawal'))
+    // todo return
+    // todo return dispatch(exitBOBA(token.address, amountWei))
   }
 
   const triggerFastExit = async (amountWei: any) => {
@@ -147,6 +149,7 @@ export const useBridge = () => {
 
   const triggerSubmit = async () => {
     const amountWei = toWei_String(amountToBridge, token.decimals)
+
     let receipt
     dispatch(openModal('bridgeInProgress'))
     if (layer === LAYER.L1) {
@@ -159,6 +162,7 @@ export const useBridge = () => {
       }
     } else {
       if (bridgeType === BRIDGE_TYPE.CLASSIC) {
+        // Anchorage update, other bridges should keep working as before
         receipt = await triggerExit(amountWei)
       } else if (bridgeType === BRIDGE_TYPE.FAST) {
         receipt = await triggerFastExit(amountWei)

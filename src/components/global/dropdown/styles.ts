@@ -26,7 +26,6 @@ export const Header = styled.div<{ error: boolean; isOpen: boolean }>`
   z-index: 2;
   color: inherit;
   border-radius: 12px;
-  min-width: 290px;
   padding: 8px 15px;
   transition: 0.25s all;
   ${(props) =>
