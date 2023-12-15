@@ -60,7 +60,7 @@ describe('TransferPendingModal', () => {
     const actions = store.getActions()
     expect(actions).toContainEqual({
       type: 'UI/MODAL/CLOSE',
-      payload: 'transferPendingModal',
+      payload: 'transferPending',
     })
   })
 
