@@ -40,6 +40,7 @@ export interface IDropdownProps {
   headers?: string[]
   style?: CSSProperties
   minWidth?: string
+  setSelectedOnClick?: boolean
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
@@ -51,6 +52,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   headers = [],
   style,
   minWidth,
+  setSelectedOnClick = true,
 }) => {
   if (headers) {
     let allItems: IDropdownItem[]
@@ -81,11 +83,16 @@ export const Dropdown: React.FC<IDropdownProps> = ({
     setIsOpen(!isOpen)
   }, [isOpen])
 
-  const selectItem = useCallback((item: IDropdownItem) => {
-    setSelectedItem(item)
-    onItemSelected && onItemSelected(item)
-    setIsOpen(false)
-  }, [])
+  const selectItem = useCallback(
+    (item: IDropdownItem) => {
+      onItemSelected && onItemSelected(item)
+      if (setSelectedOnClick) {
+        setSelectedItem(item)
+      }
+      setIsOpen(false)
+    },
+    [onItemSelected]
+  )
 
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -122,14 +129,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
         <Option isSelected={false}>
           {selectedItem.imgSrc && (
             <IconContainer>
-              {selectedItem.imgSrc !== 'default' &&
-                selectedItem.imgSrc.includes('png') && (
-                  <img src={selectedItem.imgSrc} alt="token" width="20px" />
-                )}
-              {selectedItem.imgSrc !== 'default' &&
-                selectedItem.imgSrc.includes('svg') && (
-                  <Icon src={selectedItem.imgSrc} />
-                )}
+              {selectedItem.imgSrc !== 'default' && (
+                <img src={selectedItem.imgSrc} alt="token" width="20px" />
+              )}
               {selectedItem.imgSrc === 'default' && <DefaultIcon />}
             </IconContainer>
           )}
@@ -173,14 +175,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
                     >
                       {item.imgSrc && (
                         <IconContainer>
-                          {item.imgSrc !== 'default' &&
-                            item.imgSrc.includes('png') && (
-                              <img src={item.imgSrc} alt="token" width="20px" />
-                            )}
-                          {item.imgSrc !== 'default' &&
-                            item.imgSrc.includes('svg') && (
-                              <Icon src={item.imgSrc} />
-                            )}
+                          {item.imgSrc !== 'default' && (
+                            <img src={item.imgSrc} alt="token" width="20px" />
+                          )}
                         </IconContainer>
                       )}
                       {item.label}

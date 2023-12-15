@@ -13,6 +13,7 @@ export const MaxInput: React.FC<MaxInputTypes> = ({
     const newValue = e.target.value
     if (newValue === '') {
       setValue('')
+      onValueChange(0)
       return
     }
     const newValueNumber = parseFloat(newValue)

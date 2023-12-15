@@ -10,12 +10,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-gFqAkR emfUQK"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
       >
         Ethereum
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
       >
         10 Gwei
       </p>
@@ -24,12 +24,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-gFqAkR emfUQK"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
       >
         Boba ETH
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
       >
         20 Gwei
       </p>
@@ -38,12 +38,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-gFqAkR emfUQK"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
       >
         Savings
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
       >
         1x
       </p>
@@ -52,12 +52,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-gFqAkR emfUQK"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
       >
         L1
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
       >
         110000
       </p>
@@ -66,12 +66,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-gFqAkR emfUQK"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
       >
         L2
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
       >
         220000
       </p>
@@ -80,12 +80,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-gFqAkR emfUQK"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-ikkxIA bNNvzA"
+        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
       >
         Last Verified Block
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-dAbbOL nalzD"
+        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
       >
         0
       </p>

@@ -24,10 +24,10 @@ interface IUiReducerState {
   wrongNetworkModal: boolean
   ledgerConnectModal: boolean
   addNewTokenModal: boolean
-  EarnDepositModal: boolean
   StakeDepositModal: boolean
   EarnWithdrawModal: boolean
-  transferDaoModal: boolean
+  EarnWithdrawConfirmModal: boolean
+  EarnWithdrawModalSuccess: boolean
   delegateDaoModal: boolean
   delegateDaoXModal: boolean
   newProposalModal: boolean
@@ -56,10 +56,10 @@ const initialState: IUiReducerState = {
   wrongNetworkModal: false,
   ledgerConnectModal: false,
   addNewTokenModal: false,
-  EarnDepositModal: false,
   StakeDepositModal: false,
   EarnWithdrawModal: false,
-  transferDaoModal: false,
+  EarnWithdrawConfirmModal: false,
+  EarnWithdrawModalSuccess: false,
   delegateDaoModal: false,
   delegateDaoXModal: false,
   newProposalModal: false,

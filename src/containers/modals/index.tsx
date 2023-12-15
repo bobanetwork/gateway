@@ -6,8 +6,10 @@ import CastVoteModal from './dao/CastVoteModal'
 import DelegateDaoModal from './dao/DelegateDaoModal'
 import NewProposalModal from './dao/NewProposalModal'
 
-import EarnDepositModal from './earn/EarnDepositModal'
-import EarnWithdrawModal from './earn/EarnWithdrawModal'
+// import EarnWithdrawModal from './earn/EarnWithdrawModal'
+import EarnWithdrawModal from './earn'
+import EarnWithdrawConfirmModal from './earn/EarnWithdrawConfirmModal'
+import EarnWithdrawModalSuccessModal from './earn/EarnWithdrawSuccess'
 import InstallMetaMaskModal from './noMetaMask/InstallMetaMaskModal/InstallMetaMaskModal'
 import NoMetaMaskModal from './noMetaMask/NoMetaMaskModal'
 import SwitchNetworkModal from './switchNetwork/SwitchNetworkModal'
@@ -34,8 +36,12 @@ const ModalContainer = () => {
     selectModalState('UnsupportedNetwork')
   )
 
-  const depositBatchModalState = useSelector(
-    selectModalState('depositBatchModal')
+  const earnWithdrawModalSuccessModalState = useSelector(
+    selectModalState('EarnWithdrawModalSuccess')
+  )
+
+  const earnWithdrawConfirmModalState = useSelector(
+    selectModalState('EarnWithdrawConfirmModal')
   )
 
   const transferModalState = useSelector(selectModalState('transferModal'))
@@ -68,10 +74,6 @@ const ModalContainer = () => {
   const proposalId = useSelector(selectModalState('proposalId'))
   const destNetworkSelection = useSelector(
     selectModalState('destNetworkSelection')
-  )
-
-  const EarnDepositModalState = useSelector(
-    selectModalState('EarnDepositModal')
   )
 
   const StakeDepositModalState = useSelector(
@@ -118,11 +120,16 @@ const ModalContainer = () => {
       {!!transferModalState && (
         <TransferModal open={transferModalState} token={token} />
       )}
-      {!!EarnDepositModalState && (
-        <EarnDepositModal open={EarnDepositModalState} />
-      )}
       {!!EarnWithdrawModalState && (
         <EarnWithdrawModal open={EarnWithdrawModalState} />
+      )}
+      {!!earnWithdrawConfirmModalState && (
+        <EarnWithdrawConfirmModal open={earnWithdrawConfirmModalState} />
+      )}
+      {!!earnWithdrawModalSuccessModalState && (
+        <EarnWithdrawModalSuccessModal
+          open={earnWithdrawModalSuccessModalState}
+        />
       )}
       {!!StakeDepositModalState && (
         <DepositStake open={StakeDepositModalState} />

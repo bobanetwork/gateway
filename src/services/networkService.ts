@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { formatEther, parseEther } from '@ethersproject/units'
+import { formatEther } from '@ethersproject/units'
 import { CrossChainMessenger } from '@bobanetwork/sdk'
 
 import { BigNumber, BigNumberish, Contract, ethers, utils } from 'ethers'
@@ -80,6 +80,7 @@ import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
+import { LiquidityPoolLayer } from 'types/earn.types'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -103,17 +104,7 @@ type TokenInfoForNetwork = {
   L2: Record<string, TokenList>
 }
 
-type TokenInfo = {
-  [chainId: number]: TokenInfoForNetwork
-}
-
 type TokenAddresses = Record<string, { L1: string; L2: string }>
-
-export enum EPoolLayer {
-  L1LP = 'L1LP',
-  L2LP = 'L2LP',
-}
-//#endregion
 
 class NetworkService {
   account?: string
@@ -141,8 +132,6 @@ class NetworkService {
   Teleportation?: Contract
   L1LPContract?: Contract
   L2LPContract?: Contract
-  delegatorContract?: Contract
-  delegatorContractV2?: Contract
 
   //#region Anchorage specific
   L2ToL1MessagePasserConract?: Contract
@@ -695,18 +684,6 @@ class NetworkService {
           GovernorBravoDelegateABI,
           this.L2Provider
         )
-
-        this.delegatorContract = new ethers.Contract(
-          this.addresses.GovernorBravoDelegator,
-          GovernorBravoDelegateABI,
-          this.L2Provider
-        )
-
-        this.delegatorContractV2 = new ethers.Contract(
-          this.addresses.GovernorBravoDelegatorV2,
-          GovernorBravoDelegateABI,
-          this.L2Provider
-        )
       }
 
       this.gasOracleContract = new ethers.Contract(
@@ -1216,115 +1193,6 @@ class NetworkService {
       return await ERC20Contract.allowance(this.account, targetContract)
     } catch (error) {
       console.log('NS: checkAllowance error:', error)
-      return error
-    }
-  }
-
-  // Used when people want to fast exit - they have to deposit funds into the L2LP
-  // to start the fast exit
-  async approveERC20_L2LP(value_Wei_String, currencyAddress) {
-    try {
-      console.log('approveERC20_L2LP')
-
-      //we could use any L2 ERC contract here - just getting generic parts of the abi
-      //but we know we alaways have the TEST contract, so will use that
-      const L2ERC20Contract = this.L2_TEST_Contract!.connect(
-        this.provider!.getSigner()
-      ).attach(currencyAddress)
-
-      const allowance_BN = await L2ERC20Contract.allowance(
-        this.account,
-        this.addresses.L2LPAddress
-      )
-
-      const depositAmount_BN = BigNumber.from(value_Wei_String)
-
-      if (depositAmount_BN.gt(allowance_BN)) {
-        const approveStatus = await L2ERC20Contract.approve(
-          this.addresses.L2LPAddress,
-          value_Wei_String
-        )
-        await approveStatus.wait()
-        return approveStatus
-      }
-
-      return allowance_BN
-    } catch (error) {
-      console.log('NS: approveERC20_L2LP error:', error)
-      return error
-    }
-  }
-
-  //used to stake funds in the L1LP
-  async approveERC20_L1LP(value_Wei_String, currency) {
-    console.log('approveERC20_L1LP')
-    const approveContractAddress = this.addresses.L1LPAddress
-
-    const allowance_BN = BigNumber.from('0')
-    let allowed = false
-
-    try {
-      const ERC20Contract = new ethers.Contract(
-        currency,
-        L1ERC20ABI,
-        this.provider!.getSigner()
-      )
-
-      if (currency !== this.addresses.L1_ETH_Address) {
-        let allowance_BN_L1 = await ERC20Contract.allowance(
-          this.account,
-          approveContractAddress
-        )
-        console.log('Initial allowance:', allowance_BN_L1)
-
-        /*
-        OMG IS A SPECIAL CASE - allowance needs to be set to zero, and then
-        set to actual amount, unless current approval amount is equal to, or
-        bigger than, the current approval value
-        */
-        if (
-          this.networkGateway === Network.ETHEREUM &&
-          allowance_BN_L1.lt(BigNumber.from(value_Wei_String)) &&
-          currency.toLowerCase() === allTokens.OMG.L1.toLowerCase()
-        ) {
-          console.log(
-            "Current OMG Token allowance too small - might need to reset to 0, unless it's already zero"
-          )
-          if (allowance_BN_L1.gt(BigNumber.from('0'))) {
-            const approveOMG = await ERC20Contract.approve(
-              approveContractAddress,
-              ethers.utils.parseEther('0')
-            )
-            await approveOMG.wait()
-            console.log('OMG Token allowance has been set to 0')
-          }
-        }
-
-        //recheck the allowance
-        allowance_BN_L1 = await ERC20Contract.allowance(
-          this.account,
-          approveContractAddress
-        )
-
-        allowed = allowance_BN_L1.gte(BigNumber.from(value_Wei_String))
-      } else {
-        //we are dealing with ETH - go straight to approve
-      }
-
-      if (!allowed) {
-        //and now, the normal allowance transaction
-        const approveStatus = await ERC20Contract.approve(
-          approveContractAddress,
-          value_Wei_String
-        )
-        await approveStatus.wait()
-        console.log('ERC 20 L1 Staking approved:', approveStatus)
-        return approveStatus
-      }
-
-      return allowance_BN
-    } catch (error) {
-      console.log('NS: approveERC20_L1LP error:', error)
       return error
     }
   }
@@ -2043,100 +1911,17 @@ class NetworkService {
     return { poolInfo, userInfo }
   }
 
-  /***********************************************/
-  /*****            Add Liquidity            *****/
-
-  /***********************************************/
-  async addLiquidity(
-    currency: string,
-    value_Wei_String: BigNumberish,
-    L1orL2Pool: EPoolLayer
-  ) {
-    const otherField = {}
-
-    if (
-      currency === this.addresses.L1_ETH_Address ||
-      currency === this.addresses.L2_ETH_Address
-    ) {
-      // add value field for ETH
-      otherField['value'] = value_Wei_String
-    }
-
-    try {
-      const TX = await (L1orL2Pool === EPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
-      )
-        .connect(this.provider!.getSigner())
-        .addLiquidity(value_Wei_String, currency, otherField)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: addLiquidity error:', error)
-      return error
-    }
-  }
-
-  async liquidityEstimate(currency) {
-    let otherField: Partial<TxPayload> = {
-      from: this.gasEstimateAccount!,
-    }
-
-    const gasPrice_BN = await this.provider!.getGasPrice()
-    let approvalCost_BN = BigNumber.from('0')
-    let stakeCost_BN = BigNumber.from('0')
-
-    try {
-      // First, we need the approval cost
-      // not relevant to ETH
-      if (currency !== this.addresses.L2_ETH_Address) {
-        const tx1 = await this.BobaContract!.populateTransaction.approve(
-          this.addresses.L2LPAddress,
-          utils.parseEther('1.0'),
-          otherField
-        )
-
-        const approvalGas_BN = await this.provider!.estimateGas(tx1)
-        approvalCost_BN = approvalGas_BN.mul(gasPrice_BN)
-        console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
-      }
-
-      if (this.networkGateway !== Network.ETHEREUM) {
-        otherField = {
-          ...otherField,
-          value: utils.parseEther('1.0'),
-        }
-      }
-      // Second, we need the addLiquidity cost
-      // all ERC20s will be the same, so use the BOBA contract
-      const tx2 = await this.L2LPContract!.connect(
-        this.provider!
-      ).populateTransaction.addLiquidity(
-        utils.parseEther('1.0'),
-        this.tokenAddresses!['BOBA'].L2,
-        otherField
-      )
-      const stakeGas_BN = await this.provider!.estimateGas(tx2)
-      stakeCost_BN = stakeGas_BN.mul(gasPrice_BN)
-      console.log('addLiquidity cost in ETH:', utils.formatEther(stakeCost_BN))
-
-      const safety_margin_BN = BigNumber.from('1000000000000')
-      console.log('Safety margin:', utils.formatEther(safety_margin_BN))
-
-      return approvalCost_BN.add(stakeCost_BN).add(safety_margin_BN)
-    } catch (error) {
-      console.log('NS: liquidityEstimate() error', error)
-      return error
-    }
-  }
-
+  // FIXME: move this to separate service of earn.
   /***********************************************/
   /*****           Get Reward                *****/
-
   /***********************************************/
-  async getReward(currencyAddress, value_Wei_String, L1orL2Pool: EPoolLayer) {
+  async getReward(
+    currencyAddress,
+    value_Wei_String,
+    L1orL2Pool: LiquidityPoolLayer
+  ) {
     try {
-      const TX = await (L1orL2Pool === EPoolLayer.L1LP
+      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
         ? this.L1LPContract!
         : this.L2LPContract!
       )
@@ -2154,9 +1939,13 @@ class NetworkService {
   /*****          Withdraw Liquidity         *****/
 
   /***********************************************/
-  async withdrawLiquidity(currency, value_Wei_String, L1orL2Pool: EPoolLayer) {
+  async withdrawLiquidity(
+    currency,
+    value_Wei_String,
+    L1orL2Pool: LiquidityPoolLayer
+  ) {
     try {
-      const estimateGas = await (L1orL2Pool === EPoolLayer.L1LP
+      const estimateGas = await (L1orL2Pool === LiquidityPoolLayer.L1LP
         ? this.L1LPContract!
         : this.L2LPContract!
       ).estimateGas.withdrawLiquidity(
@@ -2166,7 +1955,7 @@ class NetworkService {
         { from: this.account }
       )
       const blockGasLimit = (await this.provider!.getBlock('latest')).gasLimit
-      const TX = await (L1orL2Pool === EPoolLayer.L1LP
+      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
         ? this.L1LPContract!
         : this.L2LPContract!
       )
@@ -2793,32 +2582,6 @@ class NetworkService {
       return { votesX: formatEther(votes) }
     } catch (error) {
       console.log('NS: getDaoVotesX error:', error)
-      return error
-    }
-  }
-
-  //Transfer DAO Funds
-  async transferDao({ recipient, amount }) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-    if (!this.BobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: transferDao() error - called but account === null')
-      return
-    }
-
-    try {
-      const tx = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).transfer(recipient, parseEther(amount.toString()))
-      await tx.wait()
-      return tx
-    } catch (error) {
-      console.log('NS: transferDao error:', error)
       return error
     }
   }

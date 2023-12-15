@@ -52,10 +52,6 @@ export const AlertInfo = styled.div`
   flex: 1;
 `
 
-export const Wrapper = styled.div`
-  border-radius: 8px;
-`
-
 export const EarnAction = styled.div`
   display: flex;
   justify-content: space-around;

@@ -137,6 +137,9 @@ describe('UseBridge Hooks', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {
       return
     })
+    jest.spyOn(console, 'log').mockImplementation(() => {
+      return
+    })
 
     store = mockStore({
       ...mockedInitialState,
