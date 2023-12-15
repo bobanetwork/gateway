@@ -26,6 +26,13 @@ export default class PageHeader extends Base {
     return cy.get('div[data-testid="feeSwitcher"]')
   }
 
+  switchFees(oldFeeSymbol: string, newFeeSymbol: string) {
+    this.getFeeSwitcher().contains(oldFeeSymbol).should('exist').click()
+    this.getFeeSwitcher().contains(newFeeSymbol).should('exist').click()
+    this.confirmTransactionOnMetamask()
+    this.getFeeSwitcher().contains(newFeeSymbol).should('exist')
+  }
+
   disconnectWallet() {
     cy.get('#header')
       .contains(/^0x[a-fA-F0-9]{4}...[a-fA-F0-9]{4}$/g)

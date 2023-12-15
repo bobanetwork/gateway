@@ -2,6 +2,7 @@ import { Layer } from '../../../../src/util/constant'
 import {
   EthereumGoerliInfo,
   BinanceTestnetInfo,
+  EthereumInfo,
 } from '../../helpers/base/constants'
 import Bridge from '../../helpers/bridge'
 
@@ -11,52 +12,54 @@ describe('Fee Switching', () => {
   before(() => {
     bridge.visit()
     bridge.isReady()
-    bridge.changeMetamaskNetwork('ethereum')
     bridge.requestMetamaskConnect()
-    bridge.connectMetamask()
+    bridge.verifyAccountConnected()
   })
   it('Fee switcher should not exist when connected to Ethereum', () => {
     bridge.header.getFeeSwitcher().should('not.exist')
   })
   it('Fee switcher should exist when connected to Boba Network', () => {
     // switch to Boba Network
-    bridge.switchBridgeDirection(Layer.L2, true) // change to false after incorporating previous test
+    bridge.switchBridgeDirection(Layer.L2, true)
     bridge.header.getFeeSwitcher().contains('ETH').should('exist')
   })
   it('Should switch to testnet to use fee switcher', () => {
     bridge.switchBridgeDirection(Layer.L1, false)
-    bridge.switchNetworkType(
-      EthereumGoerliInfo.networkAbbreviation,
-      true, // is testnet
-      false // is a new network
-    )
-    bridge.switchBridgeDirection(Layer.L2, true) // change to false after incorporating previous test
+    bridge.switchToTestnet()
+    bridge.switchBridgeDirection(Layer.L2, true)
   })
   it('Use Fee Switcher to switch fee to BOBA', () => {
-    bridge.header.getFeeSwitcher().contains('ETH').should('exist').click()
-    bridge.header.getFeeSwitcher().contains('BOBA').should('exist').click()
-    bridge.confirmTransactionOnMetamask()
-    bridge.header.getFeeSwitcher().contains('BOBA').should('exist')
+    bridge.selectToken('BOBA')
+    bridge.header.switchFees('ETH', 'BOBA')
   })
   it('Use Fee Switcher to switch fee to ETH', () => {
-    bridge.header.getFeeSwitcher().contains('BOBA').should('exist').click()
-    bridge.header.getFeeSwitcher().contains('ETH').should('exist').click()
-    bridge.confirmTransactionOnMetamask()
-    bridge.header.getFeeSwitcher().contains('ETH').should('exist')
-  })
-  it('Fee switcher should disapear when switching to BNB', () => {
+    bridge.header.switchFees('BOBA', 'ETH')
     bridge.switchBridgeDirection(Layer.L1, false)
-    bridge.openNetworkModal(EthereumGoerliInfo.networkName)
-    bridge.selectNetworkFromModal(BinanceTestnetInfo.networkName)
+  })
+  it('Fee switcher should not appear when switching to BNB Testnet', () => {
+    bridge.switchNetworkWithModals(
+      EthereumGoerliInfo,
+      BinanceTestnetInfo,
+      true,
+      false
+    )
     bridge.header.getFeeSwitcher().should('not.exist')
-  }) // try to keep this
+  })
+
+  it('Fee Switcher should appear when switching to Boba BNB Testnet', () => {
+    bridge.switchBridgeDirection(Layer.L2, true)
+    bridge.header.getFeeSwitcher().should('exist')
+  })
 
   after(() => {
+    bridge.switchBridgeDirection(Layer.L1, false)
+    bridge.switchNetworkWithModals(
+      BinanceTestnetInfo,
+      EthereumGoerliInfo,
+      true,
+      false
+    )
+    bridge.switchToMainnet()
     bridge.disconnectWallet()
   })
 })
-
-/**
- * Todo:
- * - Make a method to get the fee switcher and it's contents
- */
