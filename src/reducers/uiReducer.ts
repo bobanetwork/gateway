@@ -63,7 +63,7 @@ const initialState: IUiReducerState = {
   delegateDaoModal: false,
   delegateDaoXModal: false,
   newProposalModal: false,
-  walletSelectorModal: true,
+  walletSelectorModal: false,
   CDMCompletionModal: false,
   switchNetworkModal: false,
   UnsupportedNetwork: false,
