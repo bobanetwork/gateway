@@ -4,12 +4,13 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
 <DocumentFragment>
   <div
     class="sc-eeDRCY bCYpHf"
+    data-testid="feeSwitcher"
   >
     <div
       class="sc-iHGNWf hMJwVs"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-dtBdUo zuBuN"
+        class="sc-jXbUNg jCIOIT sc-dtBdUo zuBuN"
       >
         Fee
       </p>
@@ -45,7 +46,7 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
             />
           </div>
           <p
-            class="sc-dAlyuH eGlSty"
+            class="sc-jXbUNg jCIOIT"
           />
           <div
             class="sc-bXCLTC cVmHtU dropdown sc-kOHTFB eckowJ"

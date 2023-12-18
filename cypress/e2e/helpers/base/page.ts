@@ -97,7 +97,7 @@ export default class Page extends Base {
     })
   }
 
-  accountConnected() {
+  verifyAccountConnected() {
     this.store.verifyReduxStoreSetup('accountEnabled', true)
     this.store
       .getReduxStore()

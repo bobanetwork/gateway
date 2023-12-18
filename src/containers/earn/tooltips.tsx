@@ -2,7 +2,7 @@ import React from 'react'
 import { Typography } from 'components/global/typography'
 
 export const BridgeTooltip = () => (
-  <Typography variant="body2">
+  <Typography variant="body3">
     <span style={{ fontWeight: '700' }}>Staking example</span>. When you stake
     10 BOBA into the L2 pool, then the pool's liquidity and balance both
     increase by 10 BOBA.

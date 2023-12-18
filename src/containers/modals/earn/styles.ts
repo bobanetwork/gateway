@@ -22,8 +22,6 @@ export const EarnContent = styled.div`
   }
 `
 
-export const EarnDetails = styled.div``
-
 export const ContainerMessage = styled.div`
   padding: 10px;
   text-align: center;

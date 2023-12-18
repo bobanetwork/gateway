@@ -79,7 +79,7 @@ const FeeSwitcher: FC = () => {
     )
   }
   return (
-    <FeeSwitcherWrapper>
+    <FeeSwitcherWrapper data-testid={'feeSwitcher'}>
       <FeeSwitcherLabelWrapper>
         <FeeLabel>Fee</FeeLabel>
         <Tooltip
