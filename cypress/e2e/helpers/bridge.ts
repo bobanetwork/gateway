@@ -46,7 +46,7 @@ export default class Bridge extends Page {
     this.onTestnet = isTestnet
   }
 
-  switchBridgeDirection(newOriginLayer: Layer, newNetwork: boolean) {
+  switchBridgeDirection(newOriginLayer: Layer, newNetwork: boolean = false) {
     this.withinPage().find('#switchBridgeDirection').should('exist').click()
     if (newNetwork) {
       this.allowNetworkToBeAddedAndSwitchedTo()
@@ -243,6 +243,8 @@ export default class Bridge extends Page {
         accountConnected,
         nextNetwork.networkName !== l1Networks[0].networkName
       )
+      this.switchBridgeDirection(Layer.L2, true)
+      this.switchBridgeDirection(Layer.L1)
     }
   }
 

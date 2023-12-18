@@ -30,12 +30,12 @@ describe('Testing General Bridging flow on Goerli', () => {
     )
   })
   it('Should switch to L2', () => {
-    bridge.switchBridgeDirection(Layer.L2, false)
+    bridge.switchBridgeDirection(Layer.L2)
   })
   it('Should bridge back to L1', () => {
     bridge.bridgeToken('ETH', '0.0001', Layer.L1)
   })
   it('Should switch to L1', () => {
-    bridge.switchBridgeDirection(Layer.L1, false)
+    bridge.switchBridgeDirection(Layer.L1)
   })
 })
