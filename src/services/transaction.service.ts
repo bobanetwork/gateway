@@ -56,6 +56,9 @@ class TransactionService {
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
     let L2Txs = []
+    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
+      return L2Txs
+    }
     try {
       const responseL2 = await omgxWatcherAxiosInstance(networkConfig)
         .post('get.l2.transactions', {
@@ -117,6 +120,9 @@ class TransactionService {
   // fetch L1 pending transactions from omgxWatcherAxiosInstance
   async fetchL1PendingTx(networkConfig = networkService.networkConfig) {
     let txL1pending = []
+    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
+      return txL1pending
+    }
     try {
       const responseL1pending = await omgxWatcherAxiosInstance(
         networkConfig

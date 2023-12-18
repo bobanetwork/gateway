@@ -8,9 +8,9 @@ export type TxPayload = {
 }
 
 export type NetworkDetailChainConfig = {
-  OMGX_WATCHER_URL: string
+  OMGX_WATCHER_URL?: string
   VERIFIER_WATCHER_URL?: string
-  META_TRANSACTION: string
+  META_TRANSACTION?: string
   MM_Label: string
   addressManager: string
   L1: {
