@@ -37,10 +37,10 @@ export const BridgeTabItem = styled.div<{
       background: ${props.theme.colors.green[300]};
     `};
 
-  &:nth-child(1) {
+  /* &:nth-child(1) {
     border-radius: 8px 0 0 8px;
-  }
-  &:last-child {
-    border-radius: 0 8px 8px 0;
-  }
+  } */
+  /* &:last-child { */
+  border-radius: 8px;
+  /* } */
 `
