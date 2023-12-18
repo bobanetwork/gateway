@@ -58,19 +58,19 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
           class="sc-kOPcWz bZhcnR"
         >
           <div
-            class="sc-cWSHoV eSGvJJ"
+            class="sc-cWSHoV iTrJFd"
             data-testid="classic-btn"
           >
             Classic
           </div>
           <div
-            class="sc-cWSHoV cACtUv"
+            class="sc-cWSHoV hiDYBr"
             data-testid="fast-btn"
           >
             Fast
           </div>
           <div
-            class="sc-cWSHoV cACtUv"
+            class="sc-cWSHoV hiDYBr"
             data-testid="third-party-btn"
           >
             Third Party
@@ -339,19 +339,19 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
           class="sc-kOPcWz bZhcnR"
         >
           <div
-            class="sc-cWSHoV cACtUv"
+            class="sc-cWSHoV hiDYBr"
             data-testid="classic-btn"
           >
             Classic
           </div>
           <div
-            class="sc-cWSHoV cACtUv"
+            class="sc-cWSHoV hiDYBr"
             data-testid="fast-btn"
           >
             Fast
           </div>
           <div
-            class="sc-cWSHoV eSGvJJ"
+            class="sc-cWSHoV iTrJFd"
             data-testid="third-party-btn"
           >
             Third Party
