@@ -29,6 +29,7 @@ export interface IDropdownItem {
   imgSrc?: string
   header?: boolean
   headerName?: string
+  imgType?: string
 }
 
 export interface IDropdownProps {
@@ -40,6 +41,7 @@ export interface IDropdownProps {
   headers?: string[]
   style?: CSSProperties
   setSelectedOnClick?: boolean
+  includeArrow?: boolean
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
@@ -51,6 +53,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   headers = [],
   style,
   setSelectedOnClick = true,
+  includeArrow = true,
 }) => {
   if (headers) {
     let allItems: IDropdownItem[]
@@ -115,6 +118,24 @@ export const Dropdown: React.FC<IDropdownProps> = ({
     setSelectedItem(defaultItem)
   }, [defaultItem])
 
+  const handleIcon = (item: IDropdownItem) => {
+    if (!item.imgSrc) {
+      return
+    }
+    if (
+      (item.imgType && item.imgType === 'img') ||
+      item.imgSrc.includes('png')
+    ) {
+      return <img src={item.imgSrc} alt="token" width="20px" />
+    }
+    if (item.imgSrc.includes('svg')) {
+      return <Icon src={item.imgSrc} />
+    }
+    if (item.imgSrc === 'default') {
+      return <DefaultIcon />
+    }
+  }
+
   return (
     <DropdownContainer
       className={`dropdown ${className}`}
@@ -129,16 +150,12 @@ export const Dropdown: React.FC<IDropdownProps> = ({
       >
         <Option isSelected={false}>
           {selectedItem.imgSrc && (
-            <IconContainer>
-              {selectedItem.imgSrc !== 'default' && (
-                <img src={selectedItem.imgSrc} alt="token" width="20px" />
-              )}
-              {selectedItem.imgSrc === 'default' && <DefaultIcon />}
-            </IconContainer>
+            <IconContainer>{handleIcon(selectedItem)}</IconContainer>
           )}
           <Typography variant="body2">{selectedItem.label}</Typography>
-
-          <Arrow src={ArrowDown} className={`dropdown ${className}`} />
+          {includeArrow && (
+            <Arrow src={ArrowDown} className={`dropdown ${className}`} />
+          )}
         </Option>
       </Header>
       {isOpen && (
@@ -175,11 +192,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
                       }}
                     >
                       {item.imgSrc && (
-                        <IconContainer>
-                          {item.imgSrc !== 'default' && (
-                            <img src={item.imgSrc} alt="token" width="20px" />
-                          )}
-                        </IconContainer>
+                        <IconContainer>{handleIcon(item)}</IconContainer>
                       )}
                       {item.label}
                     </Option>
