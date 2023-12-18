@@ -46,7 +46,7 @@ export default class Bridge extends Page {
     this.onTestnet = isTestnet
   }
 
-  switchBridgeDirection(newOriginLayer: Layer, newNetwork: boolean) {
+  switchBridgeDirection(newOriginLayer: Layer, newNetwork: boolean = false) {
     this.withinPage().find('#switchBridgeDirection').should('exist').click()
     if (newNetwork) {
       this.allowNetworkToBeAddedAndSwitchedTo()
@@ -204,6 +204,31 @@ export default class Bridge extends Page {
     this.getModal().contains(networkName).should('exist').click()
   }
 
+  switchNetworkWithModals(
+    fromNetwork: NetworkTestInfo,
+    toNetwork: NetworkTestInfo,
+    accountConnected: Boolean,
+    newNetwork: Boolean
+  ) {
+    this.openNetworkModal(fromNetwork.networkName)
+    this.selectNetworkFromModal(toNetwork.networkName)
+    if (accountConnected) {
+      this.handleNetworkSwitchModals(
+        toNetwork.networkAbbreviation,
+        toNetwork.isTestnet
+      )
+
+      if (newNetwork) {
+        this.allowNetworkToBeAddedAndSwitchedTo()
+      } else {
+        this.allowNetworkSwitch()
+      }
+      this.checkNetworkSwitchSuccessful(toNetwork.networkAbbreviation)
+    } else {
+      this.store.allowBaseEnabledToUpdate(accountConnected)
+    }
+  }
+
   clickThroughNetworksInModals(
     l1Networks: NetworkTestInfo[],
     l2Networks: NetworkTestInfo[],
@@ -211,32 +236,25 @@ export default class Bridge extends Page {
   ) {
     for (let i = 0; i < 2; i++) {
       this.withinPage().contains(l2Networks[i].networkName).should('exist')
-
-      this.openNetworkModal(l1Networks[i].networkName)
       const nextNetwork = l1Networks[(i + 1) % 2]
-      this.selectNetworkFromModal(nextNetwork.networkName)
-      if (accountConnected) {
-        this.handleNetworkSwitchModals(
-          nextNetwork.networkAbbreviation,
-          nextNetwork.isTestnet
-        )
-        if (nextNetwork.networkName === l1Networks[0].networkName) {
-          this.allowNetworkSwitch()
-        } else {
-          this.allowNetworkToBeAddedAndSwitchedTo()
-        }
-        this.checkNetworkSwitchSuccessful(nextNetwork.networkAbbreviation)
-      } else {
-        this.store.allowBaseEnabledToUpdate(accountConnected)
-      }
+      this.switchNetworkWithModals(
+        l1Networks[i],
+        nextNetwork,
+        accountConnected,
+        nextNetwork.networkName !== l1Networks[0].networkName
+      )
+      this.switchBridgeDirection(Layer.L2, true)
+      this.switchBridgeDirection(Layer.L1)
     }
   }
+
   switchToTestnet(
     networkAbbreviation: string = EthereumGoerliInfo.networkAbbreviation,
     newNetwork: boolean = false
   ) {
     this.switchNetworkType(networkAbbreviation, true, newNetwork)
   }
+
   switchToMainnet(
     networkAbbreviation: string = EthereumInfo.networkAbbreviation,
     newNetwork: boolean = false

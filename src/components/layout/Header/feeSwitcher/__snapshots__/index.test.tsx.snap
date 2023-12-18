@@ -4,6 +4,7 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
 <DocumentFragment>
   <div
     class="sc-eeDRCY bCYpHf"
+    data-testid="feeSwitcher"
   >
     <div
       class="sc-iHGNWf hMJwVs"
