@@ -9,7 +9,6 @@ import {
   DropdownBody,
   DropdownContent,
   Option,
-  Icon,
 } from 'components/global/dropdown/styles'
 import { Dropdown } from 'components/global/dropdown'
 
