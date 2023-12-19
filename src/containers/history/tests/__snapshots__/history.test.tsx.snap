@@ -107,11 +107,16 @@ exports[`Testing history page Test History Page 1`] = `
                   <div
                     class="sc-ikkxIA cMogLc"
                   >
-                    <img
-                      alt="token"
-                      src="allNetworks.svg"
-                      width="20px"
-                    />
+                    <div
+                      class="sc-hzhJZQ bhNdhs"
+                    >
+                      <div>
+                        <div
+                          data-src="allNetworks.svg"
+                          src=""
+                        />
+                      </div>
+                    </div>
                   </div>
                   <p
                     class="sc-jXbUNg jCIOIT"
@@ -162,11 +167,16 @@ exports[`Testing history page Test History Page 1`] = `
                   <div
                     class="sc-ikkxIA cMogLc"
                   >
-                    <img
-                      alt="token"
-                      src="allNetworks.svg"
-                      width="20px"
-                    />
+                    <div
+                      class="sc-hzhJZQ bhNdhs"
+                    >
+                      <div>
+                        <div
+                          data-src="allNetworks.svg"
+                          src=""
+                        />
+                      </div>
+                    </div>
                   </div>
                   <p
                     class="sc-jXbUNg jCIOIT"

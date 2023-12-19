@@ -2,7 +2,6 @@ import { Layer } from '../../../../src/util/constant'
 import {
   EthereumGoerliInfo,
   BinanceTestnetInfo,
-  EthereumInfo,
 } from '../../helpers/base/constants'
 import Bridge from '../../helpers/bridge'
 
@@ -20,13 +19,13 @@ describe('Fee Switching', () => {
   })
   it('Fee switcher should exist when connected to Boba Network', () => {
     // switch to Boba Network
-    bridge.switchBridgeDirection(Layer.L2, true)
+    bridge.switchBridgeDirection(Layer.L2)
     bridge.header.getFeeSwitcher().contains('ETH').should('exist')
   })
   it('Should switch to testnet to use fee switcher', () => {
-    bridge.switchBridgeDirection(Layer.L1, false)
+    bridge.switchBridgeDirection(Layer.L1)
     bridge.switchToTestnet()
-    bridge.switchBridgeDirection(Layer.L2, true)
+    bridge.switchBridgeDirection(Layer.L2)
   })
   it('Use Fee Switcher to switch fee to BOBA', () => {
     bridge.selectToken('BOBA')
@@ -34,7 +33,7 @@ describe('Fee Switching', () => {
   })
   it('Use Fee Switcher to switch fee to ETH', () => {
     bridge.header.switchFees('BOBA', 'ETH')
-    bridge.switchBridgeDirection(Layer.L1, false)
+    bridge.switchBridgeDirection(Layer.L1)
   })
   it('Fee switcher should not appear when switching to BNB Testnet', () => {
     bridge.switchNetworkWithModals(
@@ -47,12 +46,12 @@ describe('Fee Switching', () => {
   })
 
   it('Fee Switcher should appear when switching to Boba BNB Testnet', () => {
-    bridge.switchBridgeDirection(Layer.L2, true)
+    bridge.switchBridgeDirection(Layer.L2)
     bridge.header.getFeeSwitcher().should('exist')
   })
 
   after(() => {
-    bridge.switchBridgeDirection(Layer.L1, false)
+    bridge.switchBridgeDirection(Layer.L1)
     bridge.switchNetworkWithModals(
       BinanceTestnetInfo,
       EthereumGoerliInfo,
