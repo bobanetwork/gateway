@@ -25,6 +25,7 @@ describe('Connect flow', () => {
     it('Should Connect to L1', () => {
       bridge.requestMetamaskConnect()
       bridge.connectMetamask()
+      bridge.verifyAccountConnected()
     })
     it('Should switch through Mainnet networks using Network Picker Modal', () => {
       bridge.clickThroughNetworksInModals(
@@ -48,7 +49,7 @@ describe('Connect flow', () => {
     })
   })
 
-  describe('- WalletConnect', () => {
+  describe('WalletConnect', () => {
     it('Should open connect wallet QR dialog', () => {
       bridge.requestWCConnect()
       bridge.checkWCQROpen()
