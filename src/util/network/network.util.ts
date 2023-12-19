@@ -117,6 +117,22 @@ export const CHAIN_ID_LIST = {
     icon: 'arbitrum',
     limitedAvailability: true,
   },
+  10: {
+    networkType: NetworkType.MAINNET,
+    chain: Network.OPTIMISM,
+    layer: LAYER.L2,
+    name: 'Optimism Mainnet',
+    icon: 'optimism',
+    limitedAvailability: true,
+  },
+  42161: {
+    networkType: NetworkType.MAINNET,
+    chain: Network.ARBITRUM,
+    layer: LAYER.L2,
+    name: 'Arbitrum Mainnet',
+    icon: 'arbitrum',
+    limitedAvailability: true,
+  },
 }
 
 export interface INetworkCategory {

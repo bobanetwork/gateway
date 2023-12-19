@@ -2018,12 +2018,6 @@ class NetworkService {
       )
       return { teleportationAddr: null, networkConfig: null }
     }
-    if (networkConfig.networkType !== NetworkType.TESTNET) {
-      if (isDevBuild()) {
-        /*console.log("DEV: Teleportation is only supported on testnet for now, chainId: ", chainId)*/
-      }
-      return { teleportationAddr: undefined, networkConfig }
-    }
     const addresses = appService.fetchAddresses({
       networkType: networkConfig.networkType,
       network: networkConfig.chain,
