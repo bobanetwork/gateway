@@ -18,9 +18,6 @@ describe('Connect flow', () => {
     before(() => {
       bridge.changeMetamaskNetwork('ethereum')
     })
-    after(() => {
-      bridge.disconnectWallet()
-    })
 
     it('Should Connect to L1', () => {
       bridge.requestMetamaskConnect()
@@ -46,6 +43,9 @@ describe('Connect flow', () => {
     })
     it('Should switch to Mainnet', () => {
       bridge.switchToMainnet()
+    })
+    it('Should disconnect wallet', () => {
+      bridge.disconnectWallet()
     })
   })
 

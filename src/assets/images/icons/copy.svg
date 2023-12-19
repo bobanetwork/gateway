@@ -1,8 +1,4 @@
-import React from 'react'
-
-const CopyIcon = () => {
-  return (
-    <svg
+<svg
       width="15"
       height="16"
       viewBox="0 0 15 16"
@@ -14,7 +10,3 @@ const CopyIcon = () => {
         fill="currentColor"
       />
     </svg>
-  )
-}
-
-export default CopyIcon

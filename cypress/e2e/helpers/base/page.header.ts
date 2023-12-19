@@ -38,6 +38,6 @@ export default class PageHeader extends Base {
       .contains(/^0x[a-fA-F0-9]{4}...[a-fA-F0-9]{4}$/g)
       .should('exist')
       .click()
-    cy.get('ul').contains('li', 'Disconnect').should('exist').click()
+    cy.get('#header').contains('Disconnect').should('exist').click()
   }
 }
