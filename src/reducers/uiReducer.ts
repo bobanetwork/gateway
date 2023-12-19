@@ -15,10 +15,8 @@ limitations under the License. */
 
 interface IUiReducerState {
   theme: string
-  transferModal: boolean
   bridgeTypeSwitch: boolean
   tokenPicker: boolean
-  transferPending: boolean
   mergeModal: boolean
   confirmationModal: boolean
   wrongNetworkModal: boolean
@@ -32,7 +30,6 @@ interface IUiReducerState {
   delegateDaoXModal: boolean
   newProposalModal: boolean
   walletSelectorModal: boolean
-  CDMCompletionModal: boolean
   switchNetworkModal: boolean
   UnsupportedNetwork: boolean
 
@@ -47,10 +44,8 @@ interface IUiReducerState {
 
 const initialState: IUiReducerState = {
   theme: 'dark',
-  transferModal: false,
   bridgeTypeSwitch: false,
   tokenPicker: false,
-  transferPending: false,
   mergeModal: false,
   confirmationModal: false,
   wrongNetworkModal: false,
@@ -64,7 +59,6 @@ const initialState: IUiReducerState = {
   delegateDaoXModal: false,
   newProposalModal: false,
   walletSelectorModal: false,
-  CDMCompletionModal: false,
   switchNetworkModal: false,
   UnsupportedNetwork: false,
 
