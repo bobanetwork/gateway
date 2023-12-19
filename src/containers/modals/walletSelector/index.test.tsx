@@ -8,16 +8,6 @@ import thunk from 'redux-thunk'
 import WalletSelectorModal from './'
 import { mockedInitialState } from 'util/tests'
 
-const requestAccounts = async () => {
-  try {
-    return await (window as any).ethereum.request({
-      method: 'eth_requestAccounts',
-    })
-  } catch (error) {
-    throw new Error('Error requesting accounts: ' + error.message)
-  }
-}
-
 describe('WalletSelectorModal', () => {
   test('Should be visible', () => {
     const initialState = {
