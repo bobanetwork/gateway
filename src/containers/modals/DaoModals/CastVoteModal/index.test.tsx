@@ -53,9 +53,9 @@ describe('CastVoteModal', () => {
       </Provider>
     )
 
-    expect(getByTestId('network-picker-modal')).toBeInTheDocument()
+    expect(getByTestId('castvote-proposal-modal')).toBeInTheDocument()
 
-    fireEvent.click(getByTestId('close-modal-network-picker-modal'))
+    fireEvent.click(getByTestId('close-modal-castvote-proposal-modal'))
 
     const actions = store.getActions()
     expect(actions).toContainEqual({
