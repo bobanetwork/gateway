@@ -81,6 +81,7 @@ import {
   TxPayload,
 } from '../util/network/config/network-details.types'
 import { LiquidityPoolLayer } from 'types/earn.types'
+import { getBobaFeeChoice } from './NetworkServices/BobaFeeChoice'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -176,37 +177,6 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  async getBobaFeeChoice() {
-    const bobaFeeContract = new ethers.Contract(
-      this.addresses.Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.L2Provider
-    )
-
-    try {
-      const priceRatio = await bobaFeeContract.priceRatio()
-
-      let feeChoice
-      if (this.networkGateway === Network.ETHEREUM) {
-        feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
-      } else {
-        // this returns weather the secondary token getting use as tokenfee
-        feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
-        // if it's false which means boba is getting used as tokenfee which is default value.
-        feeChoice = !feeChoice
-      }
-      const bobaFee = {
-        priceRatio: priceRatio.toString(),
-        feeChoice,
-      }
-      await addBobaFee(bobaFee)
-      return bobaFee
-    } catch (error) {
-      console.log(error)
-      return error
-    }
-  }
-
   async estimateMinL1NativeTokenForFee() {
     if (this.L1orL2 !== 'L2') {
       return 0
@@ -259,7 +229,12 @@ class NetworkService {
         return
       }
 
-      await this.getBobaFeeChoice()
+      await getBobaFeeChoice(
+        this.addresses,
+        this.L2Provider,
+        this.networkGateway,
+        this.account
+      )
 
       return tx
     } catch (error) {
@@ -341,7 +316,12 @@ class NetworkService {
         signature,
         data,
       })
-      await this.getBobaFeeChoice()
+      await getBobaFeeChoice(
+        this.addresses,
+        this.L2Provider,
+        this.networkGateway,
+        this.account
+      )
     } catch (error: any) {
       let errorData = error.response.data.error
       if (errorData.hasOwnProperty('error')) {
@@ -743,7 +723,12 @@ class NetworkService {
         CHAIN_ID_LIST[L2ChainId]?.limitedAvailability
       // this should not do anything unless we changed chains
       if (this.L1orL2 === 'L2' && !isLimitedNetwork) {
-        await this.getBobaFeeChoice()
+        await getBobaFeeChoice(
+          this.addresses,
+          this.L2Provider,
+          this.networkGateway,
+          this.account
+        )
       }
 
       return this.L1orL2 // return the layer we are actually on
