@@ -55,7 +55,7 @@ jobs:
           DISPLAY: :0.0
           CYPRESS_ENABLE_VIDEO: true
       - name: Upload Archive e2e artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: e2e-archive
