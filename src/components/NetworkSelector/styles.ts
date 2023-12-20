@@ -2,6 +2,12 @@ import styled, { css } from 'styled-components'
 import { Svg } from 'components/global/svg'
 import { mobile } from 'themes/screens'
 import { ChainLabelContainer } from 'components/bridge/ChainLabel/styles'
+import { FeeSwitchterDropdown } from 'components/layout/Header/feeSwitcher/styles'
+import {
+  Header,
+  DropdownContent,
+  Option,
+} from 'components/global/dropdown/styles'
 
 export const NetworkContainer = styled.div`
   display: flex;
@@ -84,4 +90,39 @@ export const Dropdown = styled.div`
     border-radius: 0px;
     top: 72px;
   `)}
+`
+
+export const NetworkSelectorDropdown = styled(FeeSwitchterDropdown)`
+  ${Header} {
+    width: 172px;
+    height: 40px;
+    img {
+      border-radius: 50%;
+      height: 24px;
+      width: 24px;
+    }
+  }
+  ${DropdownContent} {
+    border-radius: inherit;
+    padding: 8px 8px 16px 8px;
+    gap: 8px;
+    min-height: unset;
+    max-height: 238px;
+    max-width: 184px;
+    ${(props) =>
+      props.theme.name === 'light' &&
+      css`
+        backdrop-filter: blur(15px);
+        border: 1px solid ${props.theme.colors.gray[400]};
+      `}
+    & > ${Option} {
+      width: 145px;
+      height: 32px;
+      ${(props) =>
+        props.theme.name === 'dark' &&
+        css`
+          color: ${props.theme.colors.gray[100]};
+        `}
+    }
+  }
 `
