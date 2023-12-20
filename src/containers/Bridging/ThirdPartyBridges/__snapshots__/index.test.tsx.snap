@@ -62,29 +62,6 @@ exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`]
       <a
         class="sc-eeDRCY dndUuq"
         data-testid="bridge-item"
-        href="https://boba.network/project/beamer-bridge/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <div
-          class="sc-koXPp fZGqGt"
-        >
-          <img
-            alt="Beamer Bridge logo"
-            height="32px"
-            src="beamer.png"
-            width="32px"
-          />
-        </div>
-        <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
-        >
-          Beamer Bridge
-        </p>
-      </a>
-      <a
-        class="sc-eeDRCY dndUuq"
-        data-testid="bridge-item"
         href="https://boba.network/project/boringdao/"
         rel="noopener noreferrer"
         target="_blank"
@@ -131,7 +108,7 @@ exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`]
       <a
         class="sc-eeDRCY dndUuq"
         data-testid="bridge-item"
-        href="https://boba.network/project/chainswap/"
+        href="https://exchange.chainswap.com/#/bridge"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -149,75 +126,6 @@ exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`]
           class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
         >
           Chainswap
-        </p>
-      </a>
-      <a
-        class="sc-eeDRCY dndUuq"
-        data-testid="bridge-item"
-        href="https://boba.network/project/connext/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <div
-          class="sc-koXPp fZGqGt"
-        >
-          <img
-            alt="Connext logo"
-            height="32px"
-            src="connext.png"
-            width="32px"
-          />
-        </div>
-        <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
-        >
-          Connext
-        </p>
-      </a>
-      <a
-        class="sc-eeDRCY dndUuq"
-        data-testid="bridge-item"
-        href="https://boba.network/project/layerswap-io/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <div
-          class="sc-koXPp fZGqGt"
-        >
-          <img
-            alt="Layerswap logo"
-            height="32px"
-            src="layerswap.png"
-            width="32px"
-          />
-        </div>
-        <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
-        >
-          Layerswap
-        </p>
-      </a>
-      <a
-        class="sc-eeDRCY dndUuq"
-        data-testid="bridge-item"
-        href="https://boba.network/project/multichain/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <div
-          class="sc-koXPp fZGqGt"
-        >
-          <img
-            alt="Multichain logo"
-            height="32px"
-            src="multichain.png"
-            width="32px"
-          />
-        </div>
-        <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
-        >
-          Multichain
         </p>
       </a>
       <a
@@ -358,29 +266,6 @@ exports[`3rd Party Bridges should render icons correctly for light mode 1`] = `
       <a
         class="sc-eeDRCY ezvrQC"
         data-testid="bridge-item"
-        href="https://boba.network/project/beamer-bridge/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <div
-          class="sc-koXPp fZGqGt"
-        >
-          <img
-            alt="Beamer Bridge logo"
-            height="32px"
-            src="beamer.png"
-            width="32px"
-          />
-        </div>
-        <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
-        >
-          Beamer Bridge
-        </p>
-      </a>
-      <a
-        class="sc-eeDRCY ezvrQC"
-        data-testid="bridge-item"
         href="https://boba.network/project/boringdao/"
         rel="noopener noreferrer"
         target="_blank"
@@ -427,7 +312,7 @@ exports[`3rd Party Bridges should render icons correctly for light mode 1`] = `
       <a
         class="sc-eeDRCY ezvrQC"
         data-testid="bridge-item"
-        href="https://boba.network/project/chainswap/"
+        href="https://exchange.chainswap.com/#/bridge"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -445,75 +330,6 @@ exports[`3rd Party Bridges should render icons correctly for light mode 1`] = `
           class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
         >
           Chainswap
-        </p>
-      </a>
-      <a
-        class="sc-eeDRCY ezvrQC"
-        data-testid="bridge-item"
-        href="https://boba.network/project/connext/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <div
-          class="sc-koXPp fZGqGt"
-        >
-          <img
-            alt="Connext logo"
-            height="32px"
-            src="connext.png"
-            width="32px"
-          />
-        </div>
-        <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
-        >
-          Connext
-        </p>
-      </a>
-      <a
-        class="sc-eeDRCY ezvrQC"
-        data-testid="bridge-item"
-        href="https://boba.network/project/layerswap-io/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <div
-          class="sc-koXPp fZGqGt"
-        >
-          <img
-            alt="Layerswap logo"
-            height="32px"
-            src="layerswap.png"
-            width="32px"
-          />
-        </div>
-        <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
-        >
-          Layerswap
-        </p>
-      </a>
-      <a
-        class="sc-eeDRCY ezvrQC"
-        data-testid="bridge-item"
-        href="https://boba.network/project/multichain/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <div
-          class="sc-koXPp fZGqGt"
-        >
-          <img
-            alt="Multichain logo"
-            height="32px"
-            src="multichain.png"
-            width="32px"
-          />
-        </div>
-        <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
-        >
-          Multichain
         </p>
       </a>
       <a
