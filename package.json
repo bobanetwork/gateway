@@ -84,7 +84,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
     "react-select": "^5.8.0",
-    "react-svg": "^16.1.15",
+    "react-svg": "^16.1.32",
     "redux-persist": "^6.0.0",
     "sass": "^1.62.1",
     "serve": "^11.3.2",
