@@ -12,6 +12,7 @@ export const mockedInitialState = {
     castVoteModal: false,
     delegateDaoModal: false,
     newProposalModal: false,
+    walletSelectorModal: false,
   },
   loading: {},
   network: {
