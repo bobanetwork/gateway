@@ -148,8 +148,8 @@ export default class Bridge extends Page {
 
     const bridgelist = cy.get('a[data-testid="bridge-item"]')
     bridgelist.should('not.be.empty').and((bridgeItems) => {
-      // should have 12 elements.
-      expect(bridgeItems).to.have.length(12)
+      // should have 8 elements.
+      expect(bridgeItems).to.have.length(8)
 
       const links = bridgeItems.map((i, el) => {
         return Cypress.$(el).attr('href')
@@ -157,13 +157,9 @@ export default class Bridge extends Page {
 
       expect(links.get()).to.deep.eq([
         'https://boba.banxa.com/',
-        'https://boba.network/project/beamer-bridge/',
         'https://boba.network/project/boringdao/',
         'https://boba.network/project/celer/',
-        'https://boba.network/project/chainswap/',
-        'https://boba.network/project/connext/',
-        'https://boba.network/project/layerswap-io/',
-        'https://boba.network/project/multichain/',
+        'https://exchange.chainswap.com/#/bridge',
         'https://boba.network/project/rango-exchange/',
         'https://boba.network/project/rubic-exchange/',
         'https://boba.network/project/synapse/',
@@ -176,13 +172,9 @@ export default class Bridge extends Page {
 
       expect(labels.get()).to.deep.eq([
         'Banxa',
-        'Beamer Bridge',
         'BoringDAO',
         'Celer',
         'Chainswap',
-        'Connext',
-        'Layerswap',
-        'Multichain',
         'Rango Exchange',
         'Rubic Exchange',
         'Synapse',

@@ -32,35 +32,35 @@ import {
 
 export interface IInputProps {
   placeholder: string
-  label: string
-  type: string
-  disabled: boolean
-  unit: string
+  label?: string
+  type?: string
+  disabled?: boolean
+  unit?: string
   value: string
   onChange: (
     newValue: OnChangeValue<any, any>,
     actionMeta?: ActionMeta<any>
   ) => void
-  onSelect: (
+  onSelect?: (
     newValue: OnChangeValue<any, any>,
     actionMeta?: ActionMeta<any>
   ) => void
-  sx
-  paste: boolean
-  maxValue: BN.Value
-  fullWidth: number
-  size: number
-  variant: string
-  newStyle: boolean
-  allowUseAll: boolean
-  onUseMax: () => void
-  selectOptions: string[]
-  selectValue: string
-  style
-  isBridge: boolean
-  openTokenPicker: () => void
-  textarea: boolean
-  maxRows: number
+  sx?: any
+  paste?: boolean
+  maxValue?: BN.Value
+  fullWidth?: boolean
+  size?: number
+  variant?: string
+  newStyle?: boolean
+  allowUseAll?: boolean
+  onUseMax?: () => void
+  selectOptions?: string[]
+  selectValue?: string
+  style?: any
+  isBridge?: boolean
+  openTokenPicker?: () => void
+  textarea?: boolean
+  maxRows?: number
 }
 
 export const Input = ({
@@ -101,11 +101,11 @@ export const Input = ({
   }
 
   const handleClickMax = () => {
-    onUseMax()
+    onUseMax?.()
   }
 
   const underZero = new BN(value).lt(new BN(0))
-  const overMax = new BN(value).gt(new BN(maxValue))
+  const overMax = maxValue ? new BN(value).gt(new BN(maxValue)) : false
   const theme = useTheme()
 
   const tokenImageElement = (unit: string) => {
@@ -213,7 +213,7 @@ export const Input = ({
                   }}
                   onClick={() => {
                     if (isBridge) {
-                      openTokenPicker()
+                      openTokenPicker?.()
                     }
                   }}
                 >

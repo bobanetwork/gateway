@@ -1,10 +1,6 @@
 import BanxaLogo from 'assets/images/bridges/banxa.svg'
-import BeamerLogo from 'assets/images/bridges/beamer.png'
 import BoringDaoLogo from 'assets/images/bridges/Boringdao.png'
 import ChainswapLogo from 'assets/images/bridges/chainswap.png'
-import ConnextLogo from 'assets/images/bridges/connext.png'
-import LayerswapLogo from 'assets/images/bridges/layerswap.png'
-import MultichainLogo from 'assets/images/bridges/multichain.png'
 import RangoExchangeLogo from 'assets/images/bridges/rango_exchange.png'
 import SynapseLogo from 'assets/images/bridges/synapse.png'
 
@@ -30,11 +26,6 @@ export const bobaBridges: IBridges[] = [
     link: 'https://boba.banxa.com/',
   },
   {
-    name: 'Beamer Bridge',
-    icon: BeamerLogo,
-    link: 'https://boba.network/project/beamer-bridge/',
-  },
-  {
     name: 'BoringDAO',
     icon: BoringDaoLogo,
     link: 'https://boba.network/project/boringdao/',
@@ -49,22 +40,7 @@ export const bobaBridges: IBridges[] = [
   {
     name: 'Chainswap',
     icon: ChainswapLogo,
-    link: 'https://boba.network/project/chainswap/',
-  },
-  {
-    name: 'Connext',
-    icon: ConnextLogo,
-    link: 'https://boba.network/project/connext/',
-  },
-  {
-    name: 'Layerswap',
-    icon: LayerswapLogo,
-    link: 'https://boba.network/project/layerswap-io/',
-  },
-  {
-    name: 'Multichain',
-    icon: MultichainLogo,
-    link: 'https://boba.network/project/multichain/',
+    link: 'https://exchange.chainswap.com/#/bridge',
   },
   {
     name: 'Rango Exchange',
