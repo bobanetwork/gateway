@@ -71,15 +71,11 @@ describe('3rd Party Bridges', () => {
 
   test('should render bridge list correctly', () => {
     renderThirdPartyBridges({})
-    expect(screen.getAllByTestId('bridge-item').length).toBe(12)
+    expect(screen.getAllByTestId('bridge-item').length).toBe(8)
     expect(screen.getByText('Banxa')).toBeInTheDocument()
-    expect(screen.getByText('Beamer Bridge')).toBeInTheDocument()
     expect(screen.getByText('BoringDAO')).toBeInTheDocument()
     expect(screen.getByText('Celer')).toBeInTheDocument()
     expect(screen.getByText('Chainswap')).toBeInTheDocument()
-    expect(screen.getByText('Connext')).toBeInTheDocument()
-    expect(screen.getByText('Layerswap')).toBeInTheDocument()
-    expect(screen.getByText('Multichain')).toBeInTheDocument()
     expect(screen.getByText('Rango Exchange')).toBeInTheDocument()
     expect(screen.getByText('Rubic Exchange')).toBeInTheDocument()
     expect(screen.getByText('Synapse')).toBeInTheDocument()
