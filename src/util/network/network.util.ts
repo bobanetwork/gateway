@@ -232,9 +232,8 @@ export const networkLimitedAvailability = (
   networkType: keyof typeof NetworkType,
   network: keyof typeof Network
 ) => {
-  return !!NetworkList[networkType ?? NetworkType.TESTNET]?.find(
-    (n) => n.chain === network
-  )?.limitedAvailability
+  const currNetwork = NetworkList[networkType ?? NetworkType.TESTNET]
+  return !!currNetwork?.find((n) => n.chain === network)?.limitedAvailability
 }
 
 export const AllNetworkConfigs: { [network in Network]: NetworkDetail } = {
