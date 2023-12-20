@@ -1,6 +1,6 @@
 import { TransactionsTableContent } from 'components/global/table/themes'
 import dayjs from 'dayjs'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getCoinImage } from 'util/coinImage'
 import { formatDate, isSameOrAfterDate, isSameOrBeforeDate } from 'util/dates'
 import { ALL_NETWORKS, Chains } from './constants'
@@ -8,28 +8,28 @@ import { Svg } from 'components/global/svg'
 import { TokenInfo } from 'containers/history/tokenInfo'
 
 import {
-  TransactionDate,
-  TransactionAmount,
   Icon,
-  Status,
-  NoHistory,
-  TransactionDetails,
-  TransactionChainDetails,
-  TransactionToken,
-  TransactionsWrapper,
-  TransactionHash,
-  TransactionChain,
   IconContainer,
   Image,
   IncompleteTransactionHash,
+  NoHistory,
+  Status,
+  TransactionAmount,
+  TransactionChain,
+  TransactionChainDetails,
+  TransactionDate,
+  TransactionDetails,
+  TransactionHash,
+  TransactionsWrapper,
+  TransactionToken,
 } from './styles'
 import {
-  ITransactionsResolverProps,
-  ITransaction,
   IProcessedTransaction,
-  TRANSACTION_STATUS,
-  TRANSACTION_FILTER_STATUS,
+  ITransaction,
+  ITransactionsResolverProps,
   LAYER,
+  TRANSACTION_FILTER_STATUS,
+  TRANSACTION_STATUS,
 } from './types'
 import { orderBy } from 'util/lodash'
 import truncate from 'truncate-middle'
@@ -76,8 +76,9 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   // should filter out transactions that aren't cross domain
   const crossDomainFilter = (transaction: ITransaction) => {
     return (
-      transaction.crossDomainMessage &&
-      transaction.crossDomainMessage.crossDomainMessage
+      (transaction.crossDomainMessage &&
+        transaction.crossDomainMessage.crossDomainMessage) ||
+      transaction.isTeleportation
     )
   }
 
@@ -124,8 +125,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     return TRANSACTION_FILTER_STATUS.Canceled
   }
   const statusFilter = (transaction: ITransaction) => {
-    const status = getTransactionStatus(transaction)
-    transaction.UserFacingStatus = status
+    transaction.UserFacingStatus = getTransactionStatus(transaction)
     if (
       transactionsFilter.status &&
       transactionsFilter.status !== TRANSACTION_FILTER_STATUS.All
@@ -167,12 +167,12 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
       decimals: 18,
     }
     if (
-      TokenInfo[transaction.originChainId.toString()][
+      TokenInfo[transaction.originChainId.toString()]?.[
         transaction?.action?.token?.toLowerCase()
       ]
     ) {
       token =
-        TokenInfo[transaction.originChainId.toString()][
+        TokenInfo[transaction.originChainId.toString()]?.[
           transaction?.action?.token?.toLowerCase()
         ]
     }

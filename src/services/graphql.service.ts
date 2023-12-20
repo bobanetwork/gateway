@@ -22,9 +22,9 @@ export type LightBridgeAssetReceivedEvent = {
   depositId: string
   emitter: string
   amount: BigNumberish
-  txHash: string
-  blockNumber: string
-  blockTimestamp: string
+  transactionHash_: string
+  block_number: string
+  timestamp_: string
 }
 
 export type LightBridgeDisbursementSuccessEvent = {
@@ -34,9 +34,9 @@ export type LightBridgeDisbursementSuccessEvent = {
   token: string
   amount: BigNumberish
   sourceChainId: string
-  txHash: string
-  blockNumber: string
-  blockTimestamp: string
+  transactionHash_: string
+  block_number: string
+  timestamp_: string
 }
 
 export type LightBridgeDisbursementFailedEvent = {
@@ -45,9 +45,9 @@ export type LightBridgeDisbursementFailedEvent = {
   to: string
   amount: BigNumberish
   sourceChainId: string
-  txHash: string
-  blockNumber: string
-  blockTimestamp: string
+  transactionHash_: string
+  block_number: string
+  timestamp_: string
 }
 
 export type LightBridgeDisbursementRetrySuccessEvent = {
@@ -56,9 +56,9 @@ export type LightBridgeDisbursementRetrySuccessEvent = {
   to: string
   amount: BigNumberish
   sourceChainId: string
-  txHash: string
-  blockNumber: string
-  blockTimestamp: string
+  transactionHash_: string
+  block_number: string
+  timestamp_: string
 }
 //#endregion
 
@@ -66,7 +66,7 @@ class GraphQLService {
   GRAPHQL_ENDPOINTS = {
     // Boba ETH
     288: {
-      gql: 'https://api.thegraph.com/subgraphs/name/bobanetwork/boba-l2-subgraph',
+      gql: '', // TODO
       local: '',
     },
     // Boba BNB
@@ -76,23 +76,33 @@ class GraphQLService {
     },
     // Goerli
     5: {
-      gql: 'http://graph-loadb-52c7fb91q45b-f7b94f4b90ec39e9.elb.us-east-1.amazonaws.com:8000/subgraphs/name/boba/Bridges', // TODO DNS
+      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-goerli/v1/gn',
       local: '',
     },
     // BNB testnet
     97: {
-      gql: 'http://graph-loadb-bayigwg78i9q-886961d31fa377af.elb.us-east-1.amazonaws.com:8000/subgraphs/name/boba/Bridges', // TODO: DNS
+      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-chapel/v1/gn',
       local: '',
     },
     // Boba Goerli
     2888: {
-      gql: 'http://graph-loadb-1mh7y9k4wlhg2-7ecc2a39c66258e5.elb.us-east-1.amazonaws.com:8000/subgraphs/name/boba/Bridges', // TODO DNS
+      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-goerli/v1/gn',
       local: 'http://127.0.0.1:8000/subgraphs/name/boba/Bridges',
     },
     // Boba BNB testnet
     9728: {
-      gql: 'http://graph-loadb-c2yef63eachk-3a7ebb678a869b0a.elb.us-east-1.amazonaws.com:8000/subgraphs/name/boba/Bridges', // TODO dns
+      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-bnb-testnet/v1/gn',
       local: 'http://127.0.0.1:8002/subgraphs/name/boba/Bridges',
+    },
+    // Arbitrum Goerli
+    421613: {
+      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-arbitrum-goerli/v1/gn',
+      local: '',
+    },
+    // Optimism Goerli
+    420: {
+      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-optimism-goerli/v1/gn',
+      local: '',
     },
   }
 
@@ -162,9 +172,9 @@ class TeleportationGraphQLService extends GraphQLService {
     sourceChainId: BigNumberish
   ): Promise<LightBridgeAssetReceivedEvent[]> {
     const query =
-      gql(`query Teleportation($wallet: Bytes!, $sourceChainId: String!) {
-  teleportationAssetReceivedEvents(
-    where: { and: [{ emitter: $wallet }, { sourceChainId: $sourceChainId }] }
+      gql(`query Teleportation($wallet: String!, $sourceChainId: BigInt!) {
+  assetReceiveds(
+    where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }]}
   ) {
     token
     sourceChainId
@@ -172,9 +182,9 @@ class TeleportationGraphQLService extends GraphQLService {
     depositId
     emitter
     amount
-    blockNumber
-    blockTimestamp
-    txHash
+    block_number
+    timestamp_
+    transactionHash_
   }
 }`)
 
@@ -182,9 +192,10 @@ class TeleportationGraphQLService extends GraphQLService {
       wallet: walletAddress,
       sourceChainId: sourceChainId.toString(),
     }
+
     return (
       await this.conductQuery(query, variables, sourceChainId, this.useLocal)
-    )?.data?.teleportationAssetReceivedEvents
+    )?.data?.assetReceiveds
   }
 
   async queryDisbursementSuccessEvent(
@@ -199,18 +210,18 @@ class TeleportationGraphQLService extends GraphQLService {
       return undefined
     }
     const query =
-      gql(`query Teleportation($wallet: Bytes!, $sourceChainId: String!, $token: Bytes!, $amount: String!, $depositId: String!) {
-  teleportationDisbursementSuccessEvents(
-    where: { and: [{ to: $wallet }, { sourceChainId: $sourceChainId }, { token: $token }, { amount: $amount }, { depositId: $depositId }] }
+      gql(`query Teleportation($wallet: String!, $sourceChainId: BigInt!, $token: String!, $amount: String!, $depositId: String!) {
+  disbursementSuccesses(
+    where: { and: [{ to_contains_nocase: $wallet }, { sourceChainId: $sourceChainId }, { token_contains_nocase: $token }, { amount: $amount }, { depositId: $depositId }] }
   ) {
     depositId
     to
     token
     amount
     sourceChainId
-    blockNumber
-    blockTimestamp
-    txHash
+    block_number
+    timestamp_
+    transactionHash_
   }
 }
 `)
@@ -224,14 +235,8 @@ class TeleportationGraphQLService extends GraphQLService {
     }
     const events = (
       await this.conductQuery(query, variables, destChainId, this.useLocal)
-    )?.data?.teleportationDisbursementSuccessEvents
+    )?.data?.disbursementSuccesses
     if (events?.length) {
-      if (events.length > 1) {
-        console.warn(
-          'Found more than one disbursementSuccessEvent, should always be 1:',
-          events
-        )
-      }
       return events[0] // just first (should always just be one)
     }
     return undefined
@@ -245,17 +250,17 @@ class TeleportationGraphQLService extends GraphQLService {
     depositId: BigNumberish
   ) {
     const query =
-      gql(`query Teleportation($wallet: Bytes!, $sourceChainId: String!, $amount: String!, $depositId: String!) {
-  teleportationDisbursementFailedEvents(
-    where: { and: [{ to: $wallet }, { sourceChainId: $sourceChainId }, { amount: $amount }, { depositId: $depositId }] }
+      gql(`query Teleportation($wallet: String!, $sourceChainId: BigInt!, $amount: String!, $depositId: String!) {
+  disbursementFaileds(
+    where: { and: [{ to_contains_nocase: $wallet }, { sourceChainId: $sourceChainId }, { amount: $amount }, { depositId: $depositId }] }
   ) {
     depositId
     to
     amount
     sourceChainId
-    blockNumber
-    blockTimestamp
-    txHash
+    block_number
+    timestamp_
+    transactionHash_
   }
 }
 `)
@@ -268,7 +273,7 @@ class TeleportationGraphQLService extends GraphQLService {
     }
     const events = (
       await this.conductQuery(query, variables, destChainId, this.useLocal)
-    )?.data?.teleportationDisbursementFailedEvents
+    )?.data?.disbursementFaileds
     if (events?.length) {
       if (events.length > 1) {
         console.warn(
@@ -289,17 +294,17 @@ class TeleportationGraphQLService extends GraphQLService {
     depositId: BigNumberish
   ) {
     const query =
-      gql(`query Teleportation($wallet: Bytes!, $sourceChainId: String!, $amount: String!, $depositId: String!) {
-  teleportationDisbursementRetrySuccessEvents(
-    where: { and: [{ to: $wallet }, { sourceChainId: $sourceChainId }, { amount: $amount }, { depositId: $depositId }] }
+      gql(`query Teleportation($wallet: String!, $sourceChainId: BigInt!, $amount: String!, $depositId: String!) {
+  disbursementRetrySuccesses(
+    where: { and: [{ to_contains_nocase: $wallet }, { sourceChainId: $sourceChainId }, { amount: $amount }, { depositId: $depositId }] }
   ) {
     depositId
     to
     amount
     sourceChainId
-    blockNumber
-    blockTimestamp
-    txHash
+    block_number
+    timestamp_
+    transactionHash_
   }
 }
 `)
@@ -312,14 +317,8 @@ class TeleportationGraphQLService extends GraphQLService {
     }
     const events = (
       await this.conductQuery(query, variables, destChainId, this.useLocal)
-    )?.data?.teleportationDisbursementRetrySuccessEvents
+    )?.data?.disbursementRetrySuccesses
     if (events?.length) {
-      if (events.length > 1) {
-        console.warn(
-          'Found more than one disbursementRetrySuccessEvent, should always be 1:',
-          events
-        )
-      }
       return events[0] // just first (should always just be one)
     }
     return undefined

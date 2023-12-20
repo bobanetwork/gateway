@@ -2,9 +2,6 @@ import { NetworkDetail } from './network-details.types'
 
 export const optimismConfig: NetworkDetail = {
   Testnet: {
-    OMGX_WATCHER_URL: `https://api-watcher.goerli.boba.network/`,
-    VERIFIER_WATCHER_URL: `https://api-verifier.goerli.boba.network/`,
-    META_TRANSACTION: `https://api-meta-transaction.goerli.boba.network/`,
     MM_Label: `optimismTestnet`,
     addressManager: `0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148`,
     L1: {
@@ -33,9 +30,6 @@ export const optimismConfig: NetworkDetail = {
     },
   },
   Mainnet: {
-    OMGX_WATCHER_URL: `https://api-watcher.mainnet.boba.network/`,
-    VERIFIER_WATCHER_URL: `https://api-verifier.mainnet.boba.network/`,
-    META_TRANSACTION: `https://api-meta-transaction.mainnet.boba.network/`,
     addressManager: `0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089`,
     MM_Label: `optimismMainnet`,
     L1: {
