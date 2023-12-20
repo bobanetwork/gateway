@@ -28,13 +28,13 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
       </svg>
     </div>
     <div
-      class="sc-fPXMVe ceppIJ dropdown sc-kOHTFB eckowJ"
+      class="sc-fPXMVe ceppIJ dropdown sc-kOHTFB gHYddX"
     >
       <div
-        class="sc-gFqAkR bIEbk dropdown sc-kOHTFB eckowJ"
+        class="sc-gFqAkR bIEbk dropdown sc-kOHTFB gHYddX"
       >
         <div
-          class="sc-feUZmu hAnnvI"
+          class="sc-feUZmu jZaohZ"
         >
           <div
             class="sc-ikkxIA cMogLc"
@@ -49,7 +49,7 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
             class="sc-jXbUNg jCIOIT"
           />
           <div
-            class="sc-bXCLTC cVmHtU dropdown sc-kOHTFB eckowJ"
+            class="sc-bXCLTC cVmHtU dropdown sc-kOHTFB gHYddX"
           >
             <div>
               <div
