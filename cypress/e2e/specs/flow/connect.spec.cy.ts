@@ -29,7 +29,7 @@ describe('Connect flow', () => {
       bridge.verifyAccountConnected()
     })
 
-    it.skip('Should switch through Mainnet networks using Network Picker Modal', () => {
+    it('Should switch through Mainnet networks using Network Picker Modal', () => {
       bridge.clickThroughNetworksInModals(
         MainnetL1Networks,
         MainnetL2Networks,
