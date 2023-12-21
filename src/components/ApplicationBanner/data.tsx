@@ -14,6 +14,16 @@ export const bannerAlerts = (): IAppAlert[] => [
       </BannerText>
     ),
   },
+  {
+    key: 'relayer-banner-deprecation',
+    type: 'warning',
+    canClose: true,
+    Component: () => (
+      <BannerText>
+        Due to the Anchorage upgrade, relayers will no longer be available.
+      </BannerText>
+    ),
+  },
 ]
 
 export default bannerAlerts
