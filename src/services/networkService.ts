@@ -76,6 +76,7 @@ import {
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
 import { LAYER } from '../containers/history/types'
 import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
+import { estimateMinL1NativeToken } from './NetworkServices/EstimateMinL1Native'
 import {
   NetworkDetailChainConfig,
   TxPayload,
@@ -178,25 +179,13 @@ class NetworkService {
   }
 
   async estimateMinL1NativeTokenForFee() {
-    if (this.L1orL2 !== 'L2') {
-      return 0
-    }
-
-    if (this.networkGateway === Network.ETHEREUM) {
-      // for ethereum l1 fee is always const to 0.002.
-      return MIN_NATIVE_L1_BALANCE
-    } else {
-      // for alt l1 this fee can change
-      const bobaFeeContract = new ethers.Contract(
-        this.addresses.Boba_GasPriceOracle,
-        BobaGasPriceOracleABI,
-        this.provider!.getSigner()
-      )
-
-      const minTokenForFee = await bobaFeeContract.secondaryFeeTokenMinimum()
-
-      return logAmount(minTokenForFee.toString(), 18)
-    }
+    const result = await estimateMinL1NativeToken(
+      this.L1orL2,
+      this.networkGateway,
+      this.addresses,
+      this.provider
+    )
+    return result
   }
 
   async switchFee(targetFee) {
