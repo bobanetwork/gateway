@@ -159,7 +159,7 @@ export const addToken = async (tokenContractAddressL1: string) => {
 
     if (ethers.utils.isAddress(_tokenContractAddressL1)) {
       const tmpTokenInfo =
-        networkService.tokenInfo.L1[
+        networkService.tokenInfo!.L1[
           ethers.utils.getAddress(_tokenContractAddressL1)
         ]
       if (tmpTokenInfo) {

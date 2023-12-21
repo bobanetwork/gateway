@@ -14,6 +14,7 @@ import {
   selectModalState,
   selectLayer,
   selectDestChainIdTeleportation,
+  selectBridgeType,
 } from 'selectors'
 
 import { setNetwork } from 'actions/networkAction'
@@ -24,10 +25,8 @@ import {
   NetworkIcon,
   NetworkLabel,
 } from './styles'
-import {
-  resetToken,
-  setTeleportationDestChainId,
-} from '../../../actions/bridgeAction'
+import { setTeleportationDestChainId } from '../../../actions/bridgeAction'
+import { BRIDGE_TYPE } from '../../../containers/Bridging/BridgeTypeSelector'
 
 export interface NetworkListProps {
   close?: () => void
@@ -44,18 +43,21 @@ export const NetworkList: FC<NetworkListProps> = ({
   const activeNetwork = useSelector(selectActiveNetwork())
   const selectionLayer = useSelector(selectModalState('selectionLayer'))
   const layer = useSelector<any>(selectLayer())
+  const bridgeType = useSelector(selectBridgeType())
+
+  const isLightBridge = bridgeType === BRIDGE_TYPE.LIGHT
+  // cannot use useIndependentDestNetwork here, since from-network should also contain OP/ARB
   const currTeleportationDestChainId = useSelector(
     selectDestChainIdTeleportation()
   )
 
   const l1Icon = L1_ICONS as Record<string, ElementType>
   const l2Icon = L2_ICONS as Record<string, ElementType>
-
   const networks = (NetworkLists as Record<string, any>)[networkType]
-  const currentLayer = selectionLayer || (layer as string)?.toLowerCase()
+  const currentLayer = selectionLayer || (layer as string).toLowerCase()
+
   const onChainChange = (chainDetail: INetwork, layer: string) => {
     if (isIndependentDestNetwork) {
-      dispatch(resetToken())
       dispatch(
         setTeleportationDestChainId(chainDetail.chainId[layer?.toUpperCase()])
       )
@@ -82,11 +84,15 @@ export const NetworkList: FC<NetworkListProps> = ({
 
   const getNetworkItem = (chainDetail: INetwork, layer: string) => {
     if (
-      isIndependentDestNetwork &&
-      activeNetwork === chainDetail.chain &&
-      currentLayer !== layer
-    ) {
       // do not show source network
+      (isIndependentDestNetwork &&
+        activeNetwork === chainDetail.chain &&
+        currentLayer !== layer) ||
+      // limited network
+      (!isLightBridge && chainDetail.limitedAvailability) ||
+      // also hide duplicate L1's (e.g. ETH)
+      (isLightBridge && chainDetail.limitedAvailability && layer === 'l1')
+    ) {
       return
     }
 
@@ -98,8 +104,10 @@ export const NetworkList: FC<NetworkListProps> = ({
         ? currTeleportationDestChainId ===
           chainDetail.chainId[layer?.toUpperCase()]
         : chainDetail.chain === activeNetwork && currentLayer === layer
+
     return (
       <NetworkItem
+        id={'networkItem'}
         selected={selected}
         key={`${chainDetail.label}_${layer}_${chainDetail.key}`}
         onClick={() => onChainChange(chainDetail, layer)}
@@ -116,9 +124,9 @@ export const NetworkList: FC<NetworkListProps> = ({
     <NetworkPickerList>
       {networks.map((chainDetail: INetwork) => {
         return (
-          <React.Fragment key={chainDetail.key}>
+          <React.Fragment key={chainDetail.key + '_' + chainDetail.chainId}>
             {getNetworkItem(chainDetail, currentLayer)}
-            {isIndependentDestNetwork
+            {isLightBridge
               ? getNetworkItem(chainDetail, currentLayer === 'l1' ? 'l2' : 'l1')
               : null}
           </React.Fragment>

@@ -5,6 +5,7 @@ export default class Base {
   addSupportedNetwork() {
     // Mainnet
     this.addNetwork(Binance)
+    // Testnet
     this.addNetwork(BinanceTestnet)
   }
 

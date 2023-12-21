@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { openModal } from 'actions/uiAction'
 import { selectAccountEnabled, selectTokenToBridge } from 'selectors'
 
-import useBridgeSetup from 'hooks/useBridgeSetup'
+import useBridgeSetup from 'hooks/useBridgeSetup/'
 import { getCoinImage } from 'util/coinImage'
 
 import useAmountToReceive from 'hooks/useAmountToReceive'
@@ -48,7 +48,10 @@ const BridgeInput: FC<Props> = (props) => {
       <BridgeInputWrapper>
         <TokenSelector>
           <SectionLabel>Token</SectionLabel>
-          <TokenSelectorInput onClick={() => openTokenPicker()}>
+          <TokenSelectorInput
+            onClick={() => openTokenPicker()}
+            id="tokenSelectorInput"
+          >
             {token && (
               <TokenSymbol>
                 <img

@@ -1,21 +1,20 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectModalState } from 'selectors'
-import CDMCompletionModal from './CDMCompletion/CDMCompletionModal'
-import CastVoteModal from './dao/CastVoteModal'
-import DelegateDaoModal from './dao/DelegateDaoModal'
-import NewProposalModal from './dao/NewProposalModal'
+import CastVoteModal from './DaoModals/CastVoteModal'
+import NewProposalModal from './DaoModals/NewProposalModal'
+import DelegateDaoModal from './DaoModals/DelegateDaoModal'
 
-import EarnDepositModal from './earn/EarnDepositModal'
-import EarnWithdrawModal from './earn/EarnWithdrawModal'
+// import EarnWithdrawModal from './earn/EarnWithdrawModal'
+import EarnWithdrawModal from './earn'
+import EarnWithdrawConfirmModal from './earn/EarnWithdrawConfirmModal'
+import EarnWithdrawModalSuccessModal from './earn/EarnWithdrawSuccess'
 import InstallMetaMaskModal from './noMetaMask/InstallMetaMaskModal/InstallMetaMaskModal'
 import NoMetaMaskModal from './noMetaMask/NoMetaMaskModal'
 import SwitchNetworkModal from './switchNetwork/SwitchNetworkModal'
 import TokenPickerModal from './tokenPicker/TokenPickerModal'
-import TransferModal from './transfer/TransferModal'
 import WrongNetworkModal from './wrongNetwork/WrongNetworkModal'
-import TransferPendingModal from './transferPending/TransferPending'
-import WalletSelectorModal from './walletSelector/WalletSelectorModal'
+import WalletSelectorModal from './walletSelector/'
 import DepositStake from './stake/DepositStake'
 import SettingsModal from './settings'
 import NetworkPickerModal from './networkPicker'
@@ -33,15 +32,16 @@ const ModalContainer = () => {
     selectModalState('UnsupportedNetwork')
   )
 
-  const depositBatchModalState = useSelector(
-    selectModalState('depositBatchModal')
+  const earnWithdrawModalSuccessModalState = useSelector(
+    selectModalState('EarnWithdrawModalSuccess')
   )
 
-  const transferModalState = useSelector(selectModalState('transferModal'))
-  const tokenPickerModalState = useSelector(selectModalState('tokenPicker'))
-  const transferPendingModalState = useSelector(
-    selectModalState('transferPending')
+  const earnWithdrawConfirmModalState = useSelector(
+    selectModalState('EarnWithdrawConfirmModal')
   )
+
+  const tokenPickerModalState = useSelector(selectModalState('tokenPicker'))
+
   const wrongNetworkModalState = useSelector(
     selectModalState('wrongNetworkModal')
   )
@@ -52,9 +52,7 @@ const ModalContainer = () => {
   const walletSelectorModalState = useSelector(
     selectModalState('walletSelectorModal')
   )
-  const CDMCompletionModalState = useSelector(
-    selectModalState('CDMCompletionModal')
-  )
+
   const switchNetworkModalState = useSelector(
     selectModalState('switchNetworkModal')
   )
@@ -67,10 +65,6 @@ const ModalContainer = () => {
   const proposalId = useSelector(selectModalState('proposalId'))
   const destNetworkSelection = useSelector(
     selectModalState('destNetworkSelection')
-  )
-
-  const EarnDepositModalState = useSelector(
-    selectModalState('EarnDepositModal')
   )
 
   const StakeDepositModalState = useSelector(
@@ -110,14 +104,16 @@ const ModalContainer = () => {
         <UnsupportedNetworkModal open={UnsupportedNetworkModalState} />
       )}
 
-      {!!transferModalState && (
-        <TransferModal open={transferModalState} token={token} />
-      )}
-      {!!EarnDepositModalState && (
-        <EarnDepositModal open={EarnDepositModalState} />
-      )}
       {!!EarnWithdrawModalState && (
         <EarnWithdrawModal open={EarnWithdrawModalState} />
+      )}
+      {!!earnWithdrawConfirmModalState && (
+        <EarnWithdrawConfirmModal open={earnWithdrawConfirmModalState} />
+      )}
+      {!!earnWithdrawModalSuccessModalState && (
+        <EarnWithdrawModalSuccessModal
+          open={earnWithdrawModalSuccessModalState}
+        />
       )}
       {!!StakeDepositModalState && (
         <DepositStake open={StakeDepositModalState} />
@@ -137,9 +133,7 @@ const ModalContainer = () => {
           open={tokenPickerModalState}
         />
       )}
-      {!!transferPendingModalState && (
-        <TransferPendingModal open={transferPendingModalState} />
-      )}
+
       {!!wrongNetworkModalState && (
         <WrongNetworkModal open={wrongNetworkModalState} />
       )}
@@ -152,9 +146,7 @@ const ModalContainer = () => {
       {!!walletSelectorModalState && (
         <WalletSelectorModal open={walletSelectorModalState} />
       )}
-      {!!CDMCompletionModalState && (
-        <CDMCompletionModal open={CDMCompletionModalState} />
-      )}
+
       {!!switchNetworkModalState && (
         <SwitchNetworkModal open={switchNetworkModalState} />
       )}

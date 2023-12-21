@@ -23,10 +23,9 @@ import {
   selectLayer,
 } from 'selectors'
 
-import Select from 'components/select/Select'
 import Tooltip from 'components/tooltip/Tooltip'
 
-import networkService from 'services/networkService.js'
+import networkService from 'services/networkService'
 
 import useFeeSwitcher from 'hooks/useFeeSwitcher'
 import { getCoinImage } from 'util/coinImage'
@@ -36,6 +35,7 @@ import {
   FeeSwitcherLabel,
   FeeSwitcherLabelWrapper,
   FeeSwitcherWrapper,
+  FeeSwitchterDropdown,
 } from './styles'
 
 import BobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
@@ -43,14 +43,15 @@ import { fetchBalances } from 'actions/networkAction'
 
 const OptionBoba = () => ({
   value: 'BOBA',
-  title: 'BOBA',
-  icon: BobaLogo,
+  label: 'BOBA',
+  imgSrc: BobaLogo,
 })
 
 const OptionNativeToken = () => ({
   value: networkService.L1NativeTokenSymbol,
-  title: networkService.L1NativeTokenName,
-  icon: getCoinImage(networkService.L1NativeTokenSymbol),
+  label: networkService.L1NativeTokenName,
+  imgSrc: getCoinImage(networkService.L1NativeTokenSymbol),
+  imgType: 'img',
 })
 
 const FeeSwitcher: FC = () => {
@@ -78,9 +79,8 @@ const FeeSwitcher: FC = () => {
       </FeeSwitcherWrapper>
     )
   }
-
   return (
-    <FeeSwitcherWrapper>
+    <FeeSwitcherWrapper data-testid={'feeSwitcher'}>
       <FeeSwitcherLabelWrapper>
         <FeeLabel>Fee</FeeLabel>
         <Tooltip
@@ -89,17 +89,12 @@ const FeeSwitcher: FC = () => {
           <FeeSwitcherIcon fontSize="small" />
         </Tooltip>
       </FeeSwitcherLabelWrapper>
-      <Select
-        isMulti={false}
-        loading={false}
-        newSelect={true}
-        label=""
-        className=""
-        onSelect={(e: any) => {
-          switchFeeUse(e.value)
-        }}
-        value={feeUseBoba ? OptionBoba() : OptionNativeToken()}
-        options={[OptionBoba(), OptionNativeToken()]}
+      <FeeSwitchterDropdown
+        items={[OptionBoba(), OptionNativeToken()]}
+        defaultItem={feeUseBoba ? OptionBoba() : OptionNativeToken()}
+        onItemSelected={(option: any) => switchFeeUse(option.value)}
+        setSelectedOnClick={false}
+        error={true}
       />
     </FeeSwitcherWrapper>
   )

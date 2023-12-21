@@ -6,7 +6,6 @@ import thunk from 'redux-thunk'
 import useThemeSwitcher from './'
 import { THEME_NAME } from 'components/layout/Header/types'
 import { mockedInitialState } from 'util/tests'
-import { AnyAction } from 'redux'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
@@ -27,7 +26,7 @@ describe('useThemeSwitcher', () => {
 
     expect(localStorage.getItem('theme')).toBe(THEME_NAME.LIGHT)
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toContainEqual({
       type: 'UI/THEME/UPDATE',
       payload: THEME_NAME.LIGHT,
@@ -48,7 +47,7 @@ describe('useThemeSwitcher', () => {
     })
 
     expect(localStorage.getItem('theme')).toBe(THEME_NAME.DARK)
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toContainEqual({
       type: 'UI/THEME/UPDATE',
       payload: THEME_NAME.DARK,

@@ -16,7 +16,8 @@ limitations under the License. */
 import * as Sentry from '@sentry/react'
 
 export const createAction =
-  (key: string, asyncAction: () => any) => async (dispatch) => {
+  (key: string, asyncAction: () => any): any =>
+  async (dispatch) => {
     dispatch({ type: `${key}/REQUEST` })
 
     try {

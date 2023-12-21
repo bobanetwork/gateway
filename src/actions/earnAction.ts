@@ -19,6 +19,8 @@
 
 import networkService from 'services/networkService'
 import { createAction } from './createAction'
+import { BigNumberish } from 'ethers'
+import { LiquidityPoolLayer } from 'types/earn.types'
 
 const getEarnInfoBegin = () => ({
   type: 'GET_EARNINFO',
@@ -50,32 +52,40 @@ export const getEarnInfo = () => async (dispatch) => {
   )
 }
 
-export const updateStakeToken = (stakeToken: string) => ({
-  type: 'UPDATE_STAKE_TOKEN',
-  payload: stakeToken,
-})
-
-export const updateWithdrawToken = (withdrawToken: string) => ({
+export const updateWithdrawToken = (withdrawToken: any) => ({
   type: 'UPDATE_WITHDRAW_TOKEN',
   payload: withdrawToken,
 })
 
-export const fetchAllowance = (currency: string, lpAddress: string) =>
-  createAction('FETCH/ALLOWANCE', () =>
-    networkService.checkAllowance(currency, lpAddress)
-  )
-
-export const addLiquidity = (
-  currency: string,
-  weiString: string,
-  L1orL2Pool: string
-) =>
-  createAction('ADD/LIQUIDITY', () =>
-    networkService.addLiquidity(currency, weiString, L1orL2Pool)
-  )
+export const updateWithdrawPayload = (withdrawToken: any) => ({
+  type: 'UPDATE_WITHDRAW_PAYLOAD',
+  payload: withdrawToken,
+})
 
 export const fetchL1LPBalance = (currency: string) =>
   createAction('FETCH/L1LPBALANCE', () => networkService.L1LPBalance(currency))
 
 export const fetchL2LPBalance = (currency: string) =>
   createAction('FETCH/L2LPBALANCE', () => networkService.L2LPBalance(currency))
+
+export const getReward = (
+  currencyAddress: string,
+  value_Wei_String: BigNumberish,
+  L1orL2Pool: LiquidityPoolLayer
+) =>
+  createAction('EARN/HARVEST', () =>
+    networkService.getReward(currencyAddress, value_Wei_String, L1orL2Pool)
+  )
+
+export const withdrawLiquidity = (
+  currencyAddress: string,
+  value_Wei_String: string,
+  L1orL2Pool: LiquidityPoolLayer
+) =>
+  createAction('EARN/WITHDRAW', () =>
+    networkService.withdrawLiquidity(
+      currencyAddress,
+      value_Wei_String,
+      L1orL2Pool
+    )
+  )

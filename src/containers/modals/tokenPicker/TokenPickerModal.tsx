@@ -7,7 +7,7 @@ import {
   fetchBalances,
   isTeleportationOfAssetSupported,
 } from 'actions/networkAction'
-import { closeModal, openAlert } from 'actions/uiAction'
+import { closeModal } from 'actions/uiAction'
 import Modal from 'components/modal/Modal'
 import { isEqual } from 'util/lodash'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,6 +19,7 @@ import {
   selectActiveNetwork,
   selectActiveNetworkType,
   selectDestChainIdTeleportation,
+  selectBridgeType,
 } from 'selectors'
 import { getCoinImage } from 'util/coinImage'
 import { LAYER } from 'util/constant'
@@ -37,14 +38,11 @@ import {
   TokenSymbol,
 } from './styles'
 import { formatTokenAmount } from 'util/common'
-import {
-  NETWORK,
-  NETWORK_TYPE,
-  NetworkList,
-} from '../../../util/network/network.util'
+import { NetworkList } from '../../../util/network/network.util'
 import Tooltip from 'components/tooltip/Tooltip'
 import networkService from 'services/networkService'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
+import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 
 // the L2 token which can not be exited so exclude from dropdown in case of L2
 const NON_EXITABLE_TOKEN = [
@@ -65,6 +63,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
   const layer = useSelector(selectLayer())
   const dispatch = useDispatch<any>()
 
+  const bridgeType = useSelector(selectBridgeType())
   const l1Balance = useSelector(selectlayer1Balance, isEqual)
   const l2Balance = useSelector(selectlayer2Balance, isEqual)
   const tokenToBridge = useSelector(selectTokenToBridge())
@@ -97,10 +96,12 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
       NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
         .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
 
-    const isSupported = await dispatch(
-      isTeleportationOfAssetSupported(layer, token.address, destChainId)
-    )
-    dispatch(setTeleportationOfAssetSupported(isSupported))
+    if (bridgeType === BRIDGE_TYPE.LIGHT) {
+      const isSupported = await dispatch(
+        isTeleportationOfAssetSupported(layer, token.address, destChainId)
+      )
+      dispatch(setTeleportationOfAssetSupported(isSupported))
+    }
     handleClose()
   }
 
@@ -137,7 +138,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
           </ActionLabel>
         </TokenPickerAction>
         <ListLabel> Token Names </ListLabel>
-        <TokenPickerList>
+        <TokenPickerList title="tokenList">
           {balances.length > 0
             ? balances
                 .filter((token: any, index: number) => {

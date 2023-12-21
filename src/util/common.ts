@@ -50,22 +50,19 @@ export const formatTokenAmount = (token: any) => {
     return null
   }
 
-  const amount: string =
-    token.symbol === 'ETH'
-      ? Number(logAmount(token.balance, token.decimals, 4)).toLocaleString(
-          undefined,
-          {
-            minimumFractionDigits: 4,
-            maximumFractionDigits: 4,
-          }
-        )
-      : Number(logAmount(token.balance, token.decimals, 4)).toLocaleString(
-          undefined,
-          {
-            minimumFractionDigits: 4,
-            maximumFractionDigits: 4,
-          }
-        )
-
-  return amount
+  return token.symbol === 'ETH'
+    ? Number(logAmount(token.balance, token.decimals, 4)).toLocaleString(
+        undefined,
+        {
+          minimumFractionDigits: 4,
+          maximumFractionDigits: 4,
+        }
+      )
+    : Number(logAmount(token.balance, token.decimals, 4)).toLocaleString(
+        undefined,
+        {
+          minimumFractionDigits: 4,
+          maximumFractionDigits: 4,
+        }
+      )
 }

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing BridgeTypeSelector Test BridgeTypeSelector renders 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-aXZVg fRVoBl"
+  >
+    <div
+      class="sc-gEvEer eJzIlZ"
+      data-testid="classic-btn"
+    >
+      Classic
+    </div>
+    <div
+      class="sc-gEvEer gnXggf"
+      data-testid="fast-btn"
+    >
+      Fast
+    </div>
+    <div
+      class="sc-gEvEer gnXggf"
+      data-testid="third-party-btn"
+    >
+      Third Party
+    </div>
+  </div>
+</DocumentFragment>
+`;

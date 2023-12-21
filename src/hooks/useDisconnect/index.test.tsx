@@ -4,7 +4,6 @@ import useDisconnect from '.'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
-import { AnyAction } from 'redux'
 import { Provider } from 'react-redux'
 import { setChainIdChanged } from 'actions/setupAction'
 
@@ -41,7 +40,7 @@ describe('useDisconnect', () => {
       await result.current.disconnect()
     })
 
-    const actions: AnyAction[] = store.getActions()
+    const actions = store.getActions()
     expect(actions).toContainEqual({
       type: 'SETUP/CHAINIDCHANGED/SET',
       payload: 2,

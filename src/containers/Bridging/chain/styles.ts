@@ -11,7 +11,7 @@ export const ChainContainer = styled.div`
   width: 100%;
   position: relative;
 
-  div: nth-of-type(3) {
+  div:nth-of-type(3) {
     margin-top: -25px;
   }
 `

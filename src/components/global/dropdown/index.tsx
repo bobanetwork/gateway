@@ -24,21 +24,24 @@ import {
 import { ModalTypography } from 'components/global/modalTypography'
 import { Typography } from '../typography'
 export interface IDropdownItem {
-  value?: string
+  value?: string | number
   label: string | ReactNode
   imgSrc?: string
   header?: boolean
   headerName?: string
+  imgType?: string
 }
 
 export interface IDropdownProps {
-  error: boolean
+  error?: boolean
   items: IDropdownItem[]
   defaultItem: IDropdownItem
   onItemSelected?: (item: IDropdownItem) => void
   className?: string
   headers?: string[]
   style?: CSSProperties
+  setSelectedOnClick?: boolean
+  includeArrow?: boolean
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
@@ -49,15 +52,13 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   className,
   headers = [],
   style,
+  setSelectedOnClick = true,
+  includeArrow = true,
 }) => {
   if (headers) {
-    let allItems: IDropdownItem[] = []
+    let allItems: IDropdownItem[]
     const noHeaders = items.filter((item) => {
-      if (!item.header && !item.headerName) {
-        return true
-      } else {
-        return false
-      }
+      return !item.header && !item.headerName
     })
     allItems = [...noHeaders]
     for (const header of headers) {
@@ -83,11 +84,16 @@ export const Dropdown: React.FC<IDropdownProps> = ({
     setIsOpen(!isOpen)
   }, [isOpen])
 
-  const selectItem = useCallback((item: IDropdownItem) => {
-    onItemSelected && onItemSelected(item)
-    setSelectedItem(item)
-    setIsOpen(false)
-  }, [])
+  const selectItem = useCallback(
+    (item: IDropdownItem) => {
+      onItemSelected && onItemSelected(item)
+      if (setSelectedOnClick) {
+        setSelectedItem(item)
+      }
+      setIsOpen(false)
+    },
+    [onItemSelected]
+  )
 
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -112,6 +118,24 @@ export const Dropdown: React.FC<IDropdownProps> = ({
     setSelectedItem(defaultItem)
   }, [defaultItem])
 
+  const handleIcon = (item: IDropdownItem) => {
+    if (!item.imgSrc) {
+      return
+    }
+    if (
+      (item.imgType && item.imgType === 'img') ||
+      item.imgSrc.includes('png')
+    ) {
+      return <img src={item.imgSrc} alt="token" width="20px" />
+    }
+    if (item.imgSrc.includes('svg')) {
+      return <Icon src={item.imgSrc} />
+    }
+    if (item.imgSrc === 'default') {
+      return <DefaultIcon />
+    }
+  }
+
   return (
     <DropdownContainer
       className={`dropdown ${className}`}
@@ -126,21 +150,12 @@ export const Dropdown: React.FC<IDropdownProps> = ({
       >
         <Option isSelected={false}>
           {selectedItem.imgSrc && (
-            <IconContainer>
-              {selectedItem.imgSrc !== 'default' &&
-                selectedItem.imgSrc.includes('png') && (
-                  <img src={selectedItem.imgSrc} alt="token" width="20px" />
-                )}
-              {selectedItem.imgSrc !== 'default' &&
-                selectedItem.imgSrc.includes('svg') && (
-                  <Icon src={selectedItem.imgSrc} />
-                )}
-              {selectedItem.imgSrc === 'default' && <DefaultIcon />}
-            </IconContainer>
+            <IconContainer>{handleIcon(selectedItem)}</IconContainer>
           )}
           <Typography variant="body2">{selectedItem.label}</Typography>
-
-          <Arrow src={ArrowDown} className={`dropdown ${className}`} />
+          {includeArrow && (
+            <Arrow src={ArrowDown} className={`dropdown ${className}`} />
+          )}
         </Option>
       </Header>
       {isOpen && (
@@ -177,16 +192,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
                       }}
                     >
                       {item.imgSrc && (
-                        <IconContainer>
-                          {item.imgSrc !== 'default' &&
-                            item.imgSrc.includes('png') && (
-                              <img src={item.imgSrc} alt="token" width="20px" />
-                            )}
-                          {item.imgSrc !== 'default' &&
-                            item.imgSrc.includes('svg') && (
-                              <Icon src={item.imgSrc} />
-                            )}
-                        </IconContainer>
+                        <IconContainer>{handleIcon(item)}</IconContainer>
                       )}
                       {item.label}
                     </Option>

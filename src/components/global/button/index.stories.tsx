@@ -13,14 +13,14 @@ const Template: StoryFn<ButtonTypes> = (args: any) => <Button {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  disable: false,
+  disabled: false,
   loading: false,
   label: 'Default Button',
 }
 
 export const Disabled = Template.bind({})
 Disabled.args = {
-  disable: true,
+  disabled: true,
   loading: false,
   label: 'Disabled Button',
 }
@@ -28,13 +28,13 @@ Disabled.args = {
 export const Loading = Template.bind({})
 Loading.args = {
   loading: true,
-  disable: false,
+  disabled: false,
   label: 'Loading...',
 }
 
 export const Small = Template.bind({})
 Small.args = {
-  disable: false,
+  disabled: false,
   loading: false,
   small: true,
   label: 'Default Button',
@@ -42,7 +42,7 @@ Small.args = {
 
 export const Outline = Template.bind({})
 Outline.args = {
-  disable: false,
+  disabled: false,
   loading: false,
   small: false,
   outline: true,

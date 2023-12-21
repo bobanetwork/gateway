@@ -198,11 +198,9 @@ const DepositStake = (props: any) => {
 
         {netLayer === 'L2' && (
           <Button
-            onClick={() => {
-              handleConfirm()
-            }}
+            onClick={() => handleConfirm()}
             loading={props.loading}
-            disable={!accountEnabled}
+            disabled={!accountEnabled}
             label="Stake"
           />
         )}

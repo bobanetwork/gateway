@@ -128,7 +128,7 @@ export class WalletService {
       this.walletConnectProvider = await EthereumProvider.init({
         projectId: WC_PROJECT_ID as string,
         showQrModal: true,
-        chains: [networkService.networkConfig['L1'].chainId],
+        chains: [networkService.networkConfig!['L1'].chainId],
         optionalChains: [1, 5, 56, 97], // only ETH, BNB (mainnet/testnet)
       })
       await this.walletConnectProvider.connect()
@@ -189,6 +189,7 @@ export class WalletService {
       })
       return true
     } catch (error: any) {
+      console.log('error code = ', error)
       if (error.code === 4902 || this.walletType === 'walletconnect') {
         try {
           if (this.walletType === 'walletconnect') {
@@ -248,7 +249,7 @@ export class WalletService {
 
   resetValues(): void {
     this.walletConnectProvider = null
-    this.provider = null
+    this.provider = undefined
     this.account = ''
     this.walletType = null
     store.dispatch({ type: 'SETUP/CHAINIDCHANGED/RESET' })

@@ -12,6 +12,7 @@ export default class Page extends Base {
   walletConnectButtonText: string
   id: string
   title: string
+  onTestnet: boolean
   constructor() {
     super()
     this.store = new ReduxStore()
@@ -20,6 +21,7 @@ export default class Page extends Base {
     this.id = 'header'
     this.walletConnectButtonText = 'Connect Wallet'
     this.title = 'Bridge'
+    this.onTestnet = false
   }
 
   visit() {
@@ -95,7 +97,7 @@ export default class Page extends Base {
     })
   }
 
-  accountConnected() {
+  verifyAccountConnected() {
     this.store.verifyReduxStoreSetup('accountEnabled', true)
     this.store
       .getReduxStore()
@@ -182,11 +184,6 @@ export default class Page extends Base {
     this.header
       .getNetworkSwitcher()
       .contains('Binance Smart Chain')
-      .should('exist')
-
-    this.header
-      .getNetworkSwitcher()
-      .contains('Avalanche Mainnet C-Chain')
       .should('exist')
 
     this.header.getNetworkSwitcher().click()

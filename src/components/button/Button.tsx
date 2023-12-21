@@ -18,18 +18,19 @@ import { CircularProgress, Button as ButtonMUI } from '@mui/material'
 import Tooltip from '../tooltip/Tooltip'
 
 interface IButtonProps {
-  children
-  style
-  onClick
-  color
-  variant
-  fullWidth
-  disabled: boolean
-  loading: boolean
-  sx
-  tooltip: string
-  size
-  triggerTime: Date
+  children?
+  style?
+  onClick?
+  color?
+  variant?
+  fullWidth?
+  disabled?: boolean
+  loading?: boolean
+  sx?
+  tooltip?: string
+  size?
+  triggerTime?: Date
+  testId?: string
 }
 
 const Button = ({
@@ -45,6 +46,7 @@ const Button = ({
   tooltip = '',
   size,
   triggerTime,
+  testId = '',
 }: IButtonProps) => {
   let timeDefined = false
   if (typeof triggerTime !== 'undefined') {
@@ -91,7 +93,7 @@ const Button = ({
   return (
     <Tooltip title={tooltip}>
       <span>
-        <ButtonMUI {...muiProps} style={styleCombo}>
+        <ButtonMUI {...muiProps} data-testid={testId} style={styleCombo}>
           {children}
           {(disabled || loading) && timeDefined && waitTime > 3 && (
             <div style={{ marginLeft: '10px' }}>{waitTime}s ago</div>
