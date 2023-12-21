@@ -1,4 +1,4 @@
-name: Typescript checks
+name: TSC checks
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   test-coverage:
-    name: Generate Test Coverage
+    name: Unit Test - Coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -57,7 +57,7 @@ jobs:
           flags: coverage
 
   lint:
-    name: Run Linting
+    name: Linting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
