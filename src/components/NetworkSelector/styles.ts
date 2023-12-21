@@ -22,7 +22,7 @@ export const NetworkSelectorDropdown = styled(FeeSwitchterDropdown)`
     gap: 8px;
     min-height: unset;
     max-height: 238px;
-    max-width: 186px;
+    max-width: 204px;
     ${(props) =>
       props.theme.name === 'dark' &&
       css`
@@ -35,7 +35,7 @@ export const NetworkSelectorDropdown = styled(FeeSwitchterDropdown)`
         border: 1px solid ${props.theme.colors.gray[400]};
       `}
     & > ${Option} {
-      width: 168px;
+      width: 186px;
       height: 32px;
     }
   }
