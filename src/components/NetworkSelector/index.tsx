@@ -38,7 +38,7 @@ export const NetworkSelector = () => {
 
   const lightBridgeInUse = BRIDGE_TYPE.LIGHT === bridgeType
 
-  const onSelect = (chainId: string | undefined) => {
+  const onSelect = (chainId: string | number | undefined) => {
     if (!chainId) {
       return
     }
