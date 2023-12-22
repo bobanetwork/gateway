@@ -107,6 +107,39 @@ exports[`Home  should match snapshot 1`] = `
           </p>
         </div>
       </div>
+      <div
+        class="sc-cspYLC iXHOBr warning"
+        data-testid="banner-item"
+      >
+        <div
+          class="sc-dwalKd"
+        >
+          <p
+            class="sc-gEvEer hiDcmV sc-bvgPty dzzRNb"
+          >
+            Due to the Anchorage upgrade, relayers will no longer be available.
+          </p>
+        </div>
+        <div
+          class="sc-BQMaI ybznu"
+        >
+          <div
+            class="sc-epqpcT ivzeiY"
+            data-testid="close-icon-relayer-banner-deprecation"
+          >
+            <div
+              class="sc-cyRcrZ hECFKR"
+            >
+              <div>
+                <div
+                  data-src="close.svg"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div
       class="sc-jdUcAg hgbnWB"
