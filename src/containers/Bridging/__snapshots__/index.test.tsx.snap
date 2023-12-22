@@ -394,29 +394,6 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
             <a
               class="sc-cmaqmh fusjGh"
               data-testid="bridge-item"
-              href="https://boba.network/project/beamer-bridge/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div
-                class="sc-kAkpmW HzNLW"
-              >
-                <img
-                  alt="Beamer Bridge logo"
-                  height="32px"
-                  src="beamer.png"
-                  width="32px"
-                />
-              </div>
-              <p
-                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
-              >
-                Beamer Bridge
-              </p>
-            </a>
-            <a
-              class="sc-cmaqmh fusjGh"
-              data-testid="bridge-item"
               href="https://boba.network/project/boringdao/"
               rel="noopener noreferrer"
               target="_blank"
@@ -463,7 +440,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
             <a
               class="sc-cmaqmh fusjGh"
               data-testid="bridge-item"
-              href="https://boba.network/project/chainswap/"
+              href="https://exchange.chainswap.com/#/bridge"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -481,75 +458,6 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
                 class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
               >
                 Chainswap
-              </p>
-            </a>
-            <a
-              class="sc-cmaqmh fusjGh"
-              data-testid="bridge-item"
-              href="https://boba.network/project/connext/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div
-                class="sc-kAkpmW HzNLW"
-              >
-                <img
-                  alt="Connext logo"
-                  height="32px"
-                  src="connext.png"
-                  width="32px"
-                />
-              </div>
-              <p
-                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
-              >
-                Connext
-              </p>
-            </a>
-            <a
-              class="sc-cmaqmh fusjGh"
-              data-testid="bridge-item"
-              href="https://boba.network/project/layerswap-io/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div
-                class="sc-kAkpmW HzNLW"
-              >
-                <img
-                  alt="Layerswap logo"
-                  height="32px"
-                  src="layerswap.png"
-                  width="32px"
-                />
-              </div>
-              <p
-                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
-              >
-                Layerswap
-              </p>
-            </a>
-            <a
-              class="sc-cmaqmh fusjGh"
-              data-testid="bridge-item"
-              href="https://boba.network/project/multichain/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div
-                class="sc-kAkpmW HzNLW"
-              >
-                <img
-                  alt="Multichain logo"
-                  height="32px"
-                  src="multichain.png"
-                  width="32px"
-                />
-              </div>
-              <p
-                class="sc-jXbUNg hMVWVX sc-gFVvzn ehFioJ"
-              >
-                Multichain
               </p>
             </a>
             <a

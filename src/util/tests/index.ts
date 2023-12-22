@@ -9,7 +9,12 @@ export const mockedInitialState = {
     switchNetworkModal: false,
     EarnWithdrawModalSuccess: false,
     EarnWithdrawConfirmModal: false,
+    castVoteModal: false,
+    delegateDaoModal: false,
+    newProposalModal: false,
+    walletSelectorModal: false,
   },
+  loading: {},
   network: {
     activeNetworkName: {
       l1: 'ethereum',
@@ -169,6 +174,9 @@ export const mockedInitialState = {
       L2LP: {},
     },
     withdrawPayload: {},
+  },
+  dao: {
+    proposalThreshold: 0,
   },
 }
 

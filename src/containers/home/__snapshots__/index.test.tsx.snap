@@ -3,7 +3,7 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-gEkIjz llmeUp"
+    class="sc-eIcdZJ ckpuiS"
   >
     <div
       class="sc-dAbbOL gDALCu"
@@ -86,17 +86,17 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-gweoQa dQtWYL"
+      class="sc-fmzyuX dehtEA"
     >
       <div
-        class="sc-eIcdZJ hhctzC warning"
+        class="sc-cspYLC iXHOBr warning"
         data-testid="banner-item"
       >
         <div
-          class="sc-jdUcAg"
+          class="sc-dwalKd"
         >
           <p
-            class="sc-gEvEer hiDcmV sc-eHsDsR kOfbQq"
+            class="sc-gEvEer hiDcmV sc-bvgPty dzzRNb"
           >
             In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
             <a
@@ -107,9 +107,42 @@ exports[`Home  should match snapshot 1`] = `
           </p>
         </div>
       </div>
+      <div
+        class="sc-cspYLC iXHOBr warning"
+        data-testid="banner-item"
+      >
+        <div
+          class="sc-dwalKd"
+        >
+          <p
+            class="sc-gEvEer hiDcmV sc-bvgPty dzzRNb"
+          >
+            Due to the Anchorage upgrade, relayers will no longer be available.
+          </p>
+        </div>
+        <div
+          class="sc-BQMaI ybznu"
+        >
+          <div
+            class="sc-epqpcT ivzeiY"
+            data-testid="close-icon-relayer-banner-deprecation"
+          >
+            <div
+              class="sc-cyRcrZ hECFKR"
+            >
+              <div>
+                <div
+                  data-src="close.svg"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div
-      class="sc-hoLEA dTCHUs"
+      class="sc-jdUcAg hgbnWB"
     />
     <div
       class="sc-eZkCL hGGMQd"
