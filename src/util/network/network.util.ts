@@ -151,19 +151,20 @@ export interface INetwork {
   limitedAvailability?: boolean
 }
 
+export const DEFAULT_NETWORK = {
+  icon: 'ethereum',
+  chain: Network.ETHEREUM,
+  label: 'Ethereum <> Boba ETH',
+  key: 'ethereum',
+  name: {
+    l1: 'Ethereum',
+    l2: 'Boba ETH',
+  },
+  chainId: { [Layer.L1]: '1', [Layer.L2]: '288' },
+}
 export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
   Mainnet: [
-    {
-      icon: 'ethereum',
-      chain: Network.ETHEREUM,
-      label: 'Ethereum <> Boba ETH',
-      key: 'ethereum',
-      name: {
-        l1: 'Ethereum',
-        l2: 'Boba ETH',
-      },
-      chainId: { [Layer.L1]: '1', [Layer.L2]: '288' },
-    },
+    DEFAULT_NETWORK,
     {
       icon: 'bnb',
       chain: Network.BNB,
@@ -231,8 +232,8 @@ export const networkLimitedAvailability = (
   networkType: keyof typeof NetworkType,
   network: keyof typeof Network
 ) => {
-  return !!NetworkList[networkType]?.find((n) => n.chain === network)
-    ?.limitedAvailability
+  const currNetwork = NetworkList[networkType ?? NetworkType.TESTNET]
+  return !!currNetwork?.find((n) => n.chain === network)?.limitedAvailability
 }
 
 export const AllNetworkConfigs: { [network in Network]: NetworkDetail } = {

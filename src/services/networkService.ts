@@ -573,6 +573,44 @@ class NetworkService {
 
         this.tokenAddresses = tokenList
         allTokens = tokenList
+
+        /*The test token*/
+        this.L1_TEST_Contract = new ethers.Contract(
+          allTokens.BOBA.L1, //this will get changed anyway when the contract is used
+          L1ERC20ABI,
+          this.L1Provider
+        )
+
+        this.L2_TEST_Contract = new ethers.Contract(
+          allTokens.BOBA.L2, //this will get changed anyway when the contract is used
+          L2StandardERC20ABI,
+          this.L2Provider
+        )
+
+        // Liquidity pools
+        this.L1LPContract = new ethers.Contract(
+          this.addresses.L1LPAddress,
+          L1LiquidityPoolABI,
+          this.L1Provider
+        )
+        this.L2LPContract = new ethers.Contract(
+          this.addresses.L2LPAddress,
+          L2LiquidityPoolABI,
+          this.L2Provider
+        )
+
+        this.watcher = new CrossChainMessenger({
+          l1SignerOrProvider: this.L1Provider,
+          l2SignerOrProvider: this.L2Provider,
+          l1ChainId: chainId,
+          fastRelayer: false,
+        })
+        this.fastWatcher = new CrossChainMessenger({
+          l1SignerOrProvider: this.L1Provider,
+          l2SignerOrProvider: this.L2Provider,
+          l1ChainId: chainId,
+          fastRelayer: true,
+        })
       }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {
@@ -589,54 +627,15 @@ class NetworkService {
         this.L2Provider
       )
 
-      /*The test token*/
-      this.L1_TEST_Contract = new ethers.Contract(
-        allTokens.BOBA.L1, //this will get changed anyway when the contract is used
-        L1ERC20ABI,
-        this.L1Provider
-      )
-
-      this.L2_TEST_Contract = new ethers.Contract(
-        allTokens.BOBA.L2, //this will get changed anyway when the contract is used
-        L2StandardERC20ABI,
-        this.L2Provider
-      )
-
       // Teleportation
       // not deployed on mainnets yet
       this.Teleportation = new ethers.Contract(
         // correct one is used accordingly, thus as last resort we use a wrong/dummy address to have this constant defined
         this.addresses.Proxy__L1Teleportation ??
           this.addresses.Proxy__L2Teleportation ??
-          this.addresses.L1LPAddress,
+          '0x000000000000000000000000000000000000dead', // cannot be 0x0 due to internal checks
         TeleportationABI
       )
-
-      // Liquidity pools
-
-      this.L1LPContract = new ethers.Contract(
-        this.addresses.L1LPAddress,
-        L1LiquidityPoolABI,
-        this.L1Provider
-      )
-      this.L2LPContract = new ethers.Contract(
-        this.addresses.L2LPAddress,
-        L2LiquidityPoolABI,
-        this.L2Provider
-      )
-
-      this.watcher = new CrossChainMessenger({
-        l1SignerOrProvider: this.L1Provider,
-        l2SignerOrProvider: this.L2Provider,
-        l1ChainId: chainId,
-        fastRelayer: false,
-      })
-      this.fastWatcher = new CrossChainMessenger({
-        l1SignerOrProvider: this.L1Provider,
-        l2SignerOrProvider: this.L2Provider,
-        l1ChainId: chainId,
-        fastRelayer: true,
-      })
 
       let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
       if (Network.ETHEREUM === network && chainId === 1) {

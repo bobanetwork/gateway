@@ -13,6 +13,7 @@ import {
   NetworkType,
   networkLimitedAvailability,
   NetworkList,
+  DEFAULT_NETWORK,
 } from '../../../util/network/network.util'
 import { setNetwork } from '../../../actions/networkAction'
 
@@ -35,23 +36,26 @@ const BridgeTypeSelector = () => {
   const isTestnet =
     useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
 
-  const onTabClick = (payload: any) => {
-    if (payload !== BRIDGE_TYPE.LIGHT && isOnLimitedNetwork) {
-      // change network back to fully supported network when leaving light bridge
-      const defaultChainDetail = NetworkList[networkType].find(
-        (n) => n.chain === Network.ETHEREUM
-      )
+  const switchToFullySupportedNetwork = () => {
+    // change network back to fully supported network when leaving light bridge
+    dispatch(
+      setNetwork({
+        network: DEFAULT_NETWORK.chain,
+        name: DEFAULT_NETWORK.name,
+        networkIcon: DEFAULT_NETWORK.icon,
+        chainIds: DEFAULT_NETWORK.chainId,
+        networkType,
+      })
+    )
+  }
 
-      dispatch(
-        setNetwork({
-          network: defaultChainDetail.chain,
-          name: defaultChainDetail.name,
-          networkIcon: defaultChainDetail.icon,
-          chainIds: defaultChainDetail.chainId,
-          networkType,
-        })
-      )
+  useEffect(() => {
+    if (bridgeType !== BRIDGE_TYPE.LIGHT && isOnLimitedNetwork) {
+      switchToFullySupportedNetwork()
     }
+  }, [bridgeType, isOnLimitedNetwork])
+
+  const onTabClick = (payload: any) => {
     dispatch(setBridgeType(payload))
   }
 

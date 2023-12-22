@@ -36,6 +36,14 @@ export class ReduxStore {
     this.getReduxStore().its(type).its(name).should('not.be.empty')
   }
 
+  verifyReduxStoreBridge(attribute: string, expectedValue: boolean | string) {
+    this.getReduxStore()
+      .its('bridge')
+      .its(attribute)
+      .should('exist')
+      .should('equal', expectedValue)
+  }
+
   allowBaseEnabledToUpdate(accountConnected: boolean) {
     if (!accountConnected) {
       this.verifyReduxStoreSetup('baseEnabled', false)
