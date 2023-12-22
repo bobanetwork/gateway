@@ -97,6 +97,7 @@ exports[`Testing history page Test History Page 1`] = `
             </p>
             <div
               class="sc-fPXMVe ceppIJ dropdown sc-gmPhUn dGUYIG"
+              data-testid="dropdown-"
             >
               <div
                 class="sc-gFqAkR bIEbk dropdown sc-gmPhUn dGUYIG"
@@ -157,6 +158,7 @@ exports[`Testing history page Test History Page 1`] = `
             </p>
             <div
               class="sc-fPXMVe ceppIJ dropdown sc-gmPhUn dGUYIG"
+              data-testid="dropdown-"
             >
               <div
                 class="sc-gFqAkR bIEbk dropdown sc-gmPhUn dGUYIG"

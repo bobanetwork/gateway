@@ -3,13 +3,11 @@ import {
   selectActiveNetworkType,
   selectNetworkChainIds,
   selectLayer,
-  selectDestChainIdTeleportation,
   selectBridgeType,
 } from 'selectors'
 import { NetworkList, CHAIN_ID_LIST } from 'util/network/network.util'
 import { setNetwork } from 'actions/networkAction'
 import { useDispatch, useSelector } from 'react-redux'
-import { setTeleportationDestChainId } from 'actions/bridgeAction'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { NetworkSelectorDropdown } from './styles'
 import { IDropdownItem } from 'components/global/dropdown'
@@ -104,13 +102,13 @@ export const NetworkSelector = () => {
 
   return (
     <NetworkSelectorDropdown
-      data-testid={'network-selector'}
       items={getNetworkItems() as IDropdownItem[]}
       defaultItem={currentOption}
       onItemSelected={(item) => onSelect(item.value)}
       setSelectedOnClick={false}
       error={false}
       headers={['Networks']}
+      testId={'network-selector'}
     />
   )
 }
