@@ -136,7 +136,7 @@ export default class Page extends Base {
       .should('not.be.empty')
       .should('be.visible')
       .and(($p) => {
-        expect($p).to.have.length(1)
+        expect($p).to.have.length(2)
       })
   }
 
