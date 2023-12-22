@@ -1,15 +1,60 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
 import { Layer } from '../../../src/util/constant'
-import { NetworkTestInfo } from './base/types'
+import { BridgeType, NetworkTestInfo } from './base/types'
 import { EthereumGoerliInfo, EthereumInfo } from './base/constants'
 
 export default class Bridge extends Page {
+  type: string
   constructor() {
     super()
     this.id = 'bridge'
     this.walletConnectButtonText = 'Connect Wallet'
     this.title = 'Bridge'
+    this.type = BridgeType.Classic
+  }
+
+  switchToTestnet(
+    networkAbbreviation: string = EthereumGoerliInfo.networkAbbreviation,
+    newNetwork: boolean = false
+  ) {
+    this.switchNetworkType(networkAbbreviation, true, newNetwork)
+  }
+
+  switchToMainnet(
+    networkAbbreviation: string = EthereumInfo.networkAbbreviation,
+    newNetwork: boolean = false
+  ) {
+    this.switchNetworkType(networkAbbreviation, false, newNetwork)
+  }
+
+  openSettings() {
+    this.withinPage()
+      .find('[data-testid="setting-btn"]')
+      .should('exist')
+      .click()
+  }
+
+  toggleShowTestnets() {
+    this.getModal()
+      .find('[data-testid="switch-label"]')
+      .should('have.length', 2)
+      .first()
+      .click()
+  }
+
+  toggleAddDestinationAddress() {
+    this.getModal()
+      .find('[data-testid="switch-label"]')
+      .should('have.length', 2)
+      .eq(1)
+      .click()
+  }
+  closeModal(dataTestId: String) {
+    this.getModal()
+      .find(`[data-testid="close-modal-${dataTestId}"]`)
+      .should('exist')
+      .click()
   }
 
   switchNetworkType(
@@ -28,18 +73,7 @@ export default class Bridge extends Page {
       isTestnet ? 'Testnet' : 'Mainnet'
     )
 
-    this.handleNetworkSwitchModals(networkAbbreviation, isTestnet)
-
-    if (
-      networkAbbreviation === EthereumGoerliInfo.networkAbbreviation ||
-      !newNetwork
-    ) {
-      this.allowNetworkSwitch()
-    } else {
-      this.allowNetworkToBeAddedAndSwitchedTo()
-    }
-
-    this.checkNetworkSwitchSuccessful(networkAbbreviation)
+    this.handleNetworkSwitchModals(networkAbbreviation, isTestnet, newNetwork)
 
     this.store.verifyReduxStoreSetup('accountEnabled', true)
     this.store.verifyReduxStoreSetup('baseEnabled', true)
@@ -199,23 +233,17 @@ export default class Bridge extends Page {
   switchNetworkWithModals(
     fromNetwork: NetworkTestInfo,
     toNetwork: NetworkTestInfo,
-    accountConnected: Boolean,
-    newNetwork: Boolean
+    accountConnected: boolean,
+    newNetwork: boolean
   ) {
     this.openNetworkModal(fromNetwork.networkName)
     this.selectNetworkFromModal(toNetwork.networkName)
     if (accountConnected) {
       this.handleNetworkSwitchModals(
         toNetwork.networkAbbreviation,
-        toNetwork.isTestnet
+        toNetwork.isTestnet,
+        newNetwork
       )
-
-      if (newNetwork) {
-        this.allowNetworkToBeAddedAndSwitchedTo()
-      } else {
-        this.allowNetworkSwitch()
-      }
-      this.checkNetworkSwitchSuccessful(toNetwork.networkAbbreviation)
     } else {
       this.store.allowBaseEnabledToUpdate(accountConnected)
     }
@@ -240,46 +268,27 @@ export default class Bridge extends Page {
     }
   }
 
-  switchToTestnet(
-    networkAbbreviation: string = EthereumGoerliInfo.networkAbbreviation,
-    newNetwork: boolean = false
+  switchBridgeType(
+    bridgeType: BridgeType,
+    currentNetwork: NetworkTestInfo = EthereumGoerliInfo
   ) {
-    this.switchNetworkType(networkAbbreviation, true, newNetwork)
-  }
+    this.withinPage().contains(bridgeType).should('exist').click()
+    this.store.verifyReduxStoreBridge('bridgeType', bridgeType.toUpperCase())
+    if (this.type === BridgeType.Light) {
+      this.getModal()
+        .find(
+          `button[label="Switch to ${currentNetwork.networkAbbreviation} ${
+            currentNetwork.isTestnet ? 'Testnet' : ''
+          } network"]`,
+          { timeout: 90000 }
+        )
+        .should('exist')
+        .click()
 
-  switchToMainnet(
-    networkAbbreviation: string = EthereumInfo.networkAbbreviation,
-    newNetwork: boolean = false
-  ) {
-    this.switchNetworkType(networkAbbreviation, false, newNetwork)
-  }
-
-  openSettings() {
-    this.withinPage()
-      .find('[data-testid="setting-btn"]')
-      .should('exist')
-      .click()
-  }
-
-  toggleShowTestnets() {
-    this.getModal()
-      .find('[data-testid="switch-label"]')
-      .should('have.length', 2)
-      .first()
-      .click()
-  }
-
-  toggleAddDestinationAddress() {
-    this.getModal()
-      .find('[data-testid="switch-label"]')
-      .should('have.length', 2)
-      .eq(1)
-      .click()
-  }
-  closeModal(dataTestId: String) {
-    this.getModal()
-      .find(`[data-testid="close-modal-${dataTestId}"]`)
-      .should('exist')
-      .click()
+      this.store.verifyReduxStoreSetup('accountEnabled', false)
+      this.store.verifyReduxStoreSetup('baseEnabled', false)
+      this.store.verifyReduxStoreSetup('baseEnabled', true)
+    }
+    this.type = bridgeType
   }
 }

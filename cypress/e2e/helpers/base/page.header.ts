@@ -6,7 +6,7 @@ export default class PageHeader extends Base {
   }
 
   getNetworkSwitcher() {
-    return cy.get('#networkSelector').should('exist')
+    return cy.get('div[data-testid="network-selector"]').should('exist')
   }
 
   getLightThemeSwitcher() {

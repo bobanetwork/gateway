@@ -104,6 +104,7 @@ export const NetworkSelector = () => {
 
   return (
     <NetworkSelectorDropdown
+      data-testid={'network-selector'}
       items={getNetworkItems() as IDropdownItem[]}
       defaultItem={currentOption}
       onItemSelected={(item) => onSelect(item.value)}
