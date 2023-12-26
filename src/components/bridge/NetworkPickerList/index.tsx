@@ -17,7 +17,7 @@ import {
   selectBridgeType,
 } from 'selectors'
 
-import { setNetwork } from 'actions/networkAction'
+import { setActiveNetwork, setNetwork } from 'actions/networkAction'
 
 import {
   NetworkPickerList,
@@ -27,6 +27,15 @@ import {
 } from './styles'
 import { setTeleportationDestChainId } from '../../../actions/bridgeAction'
 import { BRIDGE_TYPE } from '../../../containers/Bridging/BridgeTypeSelector'
+import {
+  setBaseState,
+  setConnect,
+  setConnectBOBA,
+  setConnectETH,
+  setEnableAccount,
+  setLayer,
+} from '../../../actions/setupAction'
+import useSwitchChain from '../../../hooks/useSwitchChain'
 
 export interface NetworkListProps {
   close?: () => void
@@ -71,12 +80,24 @@ export const NetworkList: FC<NetworkListProps> = ({
           networkType,
         })
       )
-      if (chainDetail.chainId === currTeleportationDestChainId) {
-        dispatch(
-          setTeleportationDestChainId(
-            chainDetail.chainId[layer?.toUpperCase() === 'L1' ? 'L2' : 'L1']
+
+      if (bridgeType === BRIDGE_TYPE.LIGHT) {
+        const toLayer1 = layer?.toUpperCase() === 'L1'
+        if (toLayer1) {
+          dispatch(setConnectETH(true))
+        } else {
+          dispatch(setConnectBOBA(true))
+        }
+        dispatch(setActiveNetwork())
+        dispatch(setBaseState(false))
+
+        if (chainDetail.chainId === currTeleportationDestChainId) {
+          dispatch(
+            setTeleportationDestChainId(
+              chainDetail.chainId[toLayer1 ? 'L2' : 'L1']
+            )
           )
-        )
+        }
       }
     }
     close()

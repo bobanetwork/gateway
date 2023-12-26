@@ -223,6 +223,12 @@ export default class Bridge extends Page {
     cy.contains('No bridges available').should('be.visible')
   }
 
+  checkIfLightBridgeTab() {
+    cy.get('[data-testid="light-btn"]').should('be.visible').click()
+    cy.contains('From').should('be.visible')
+    cy.contains('To').should('be.visible')
+  }
+
   openNetworkModal(networkName: string) {
     this.withinPage().contains(networkName).should('exist').click()
   }
