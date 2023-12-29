@@ -115,7 +115,7 @@ const useBridgeSetup = () => {
       } else if (i.symbolL1 === 'OLO') {
         return 'oolongswap'
       } else {
-        return i.symbolL1.toLowerCase()
+        return i?.symbolL1?.toLowerCase() ?? ''
       }
     })
 

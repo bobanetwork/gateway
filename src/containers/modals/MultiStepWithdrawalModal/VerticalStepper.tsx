@@ -8,7 +8,7 @@ import {
   Stepper,
   Typography,
 } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ConfirmActionButton,
   PassiveStepIcon,
@@ -16,18 +16,17 @@ import {
   SecondaryActionButton,
 } from './index.styles'
 import { Heading } from '../../../components/global'
-import { setNetwork } from '../../../actions/networkAction'
-import { Network, NetworkList } from '../../../util/network/network.util'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectAmountToBridge,
-  selectLayer,
-  selectNetwork,
-  selectNetworkType,
-  selectTokenToBridge,
-} from '../../../selectors'
+import { selectLayer, selectModalState } from '../../../selectors'
 import { setConnectETH } from '../../../actions/setupAction'
 import { Layer } from '../../../util/constant'
+import { ethers } from 'ethers'
+import {
+  claimWithdrawal,
+  handleInitiateWithdrawal,
+  handleProveWithdrawal,
+} from './withdrawal'
+import { openModal } from '../../../actions/uiAction'
 
 const steps = [
   {
@@ -60,37 +59,35 @@ const steps = [
 
 interface IVerticalStepperProps {
   handleClose: () => void
-  token: any
-  amountToBridge: number
+  token?: any
+  amountToBridge?: number
+  reenterWithdrawConfig?: any
 }
 
 export const VerticalWithdrawalStepper = (props: IVerticalStepperProps) => {
   const dispatch = useDispatch<any>()
   const layer = useSelector(selectLayer())
-
+  const [reenterWithdrawal, setReenterWithdrawal] = useState({})
+  const [latestLogs, setLatestLogs] = useState(null)
   const [activeStep, setActiveStep] = React.useState(0)
 
   useEffect(() => {
     // TODO: Use goldsky.com
     // todo load current stage
-    // has started withdrawal? has proven withdrawal? waiting periods, etc.
     if (layer === Layer.L1) {
       setActiveStep(3)
     } else {
-      setActiveStep(2)
+      setActiveStep(0)
+    }
+
+    if (props.reenterWithdrawConfig) {
+      setReenterWithdrawal(props.reenterWithdrawConfig)
+      setActiveStep(props.reenterWithdrawConfig.step)
     }
   }, [layer])
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
-  }
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
-  }
-
-  const handleReset = () => {
-    setActiveStep(0)
   }
 
   return (
@@ -136,17 +133,36 @@ export const VerticalWithdrawalStepper = (props: IVerticalStepperProps) => {
           disabled={!steps[activeStep].btnLbl}
           onClick={() => {
             switch (activeStep) {
-              case 0:
+              case 0: // "Initial Withdrawal Transaction sent and waiting period over"
+                const amount = ethers.utils
+                  .parseEther(props.amountToBridge!.toString())
+                  .toString()
+                selectModalState('transactionSuccess')
+                handleInitiateWithdrawal(amount).then((res) => {
+                  setActiveStep(2)
+                  setReenterWithdrawal({ withdrawalHash: { blockNumber: res } })
+                  console.log('---> Init Withdrawal done')
+                })
                 break
-              case 2:
+              case 2: // "Switch to L1"
                 dispatch(setConnectETH(true))
                 break
-              case 3:
+              case 3: // "Proof"
+                handleProveWithdrawal(reenterWithdrawal).then((res: any) => {
+                  console.log('---> Proof done', res)
+                  setLatestLogs(res)
+                  setActiveStep(5)
+                })
                 break
-              case 5:
-                break
+              case 5: // "Claim"
+                claimWithdrawal(latestLogs).then((res) => {
+                  console.log('---> Claim done: ', res)
+                  dispatch(openModal('transactionSuccess'))
+                })
             }
-            handleNext()
+            if (activeStep !== 5) {
+              handleNext()
+            }
           }}
           label={<Heading variant="h3">{steps[activeStep].btnLbl}</Heading>}
         />

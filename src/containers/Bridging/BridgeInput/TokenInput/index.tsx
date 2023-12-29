@@ -38,7 +38,6 @@ const TokenInput = (props: Props) => {
 
   useEffect(() => {
     // on changing token reset token amount.
-    setTokenAmount('')
     dispatch(setAmountToBridge(''))
 
     if (!token) {

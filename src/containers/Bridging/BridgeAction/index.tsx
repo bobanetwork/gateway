@@ -43,7 +43,7 @@ const BridgeAction = () => {
         />
       ) : (
         <BridgeActionButton
-          disabled={isBridgeActionDisabled()}
+          disabled={false} // todo adapt
           onClick={onBridge}
           data-testid="bridge-btn"
           label={<Heading variant="h3">Bridge</Heading>}

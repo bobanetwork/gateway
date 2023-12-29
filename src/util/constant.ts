@@ -13,7 +13,7 @@ export const GAS_POLL_INTERVAL: EnvType =
 export const GA4_MEASUREMENT_ID: EnvType =
   process.env.REACT_APP_GA4_MEASUREMENT_ID || null
 export const APP_ENV: EnvType = process.env.REACT_APP_ENV || 'dev'
-export const isDevBuild = () => APP_ENV === 'dev'
+export const isDevBuild = () => false
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
 export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 // WalletConnect FLAG

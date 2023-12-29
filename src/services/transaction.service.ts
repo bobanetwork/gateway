@@ -297,7 +297,7 @@ class TransactionService {
             sourceChainId
           )
         } catch (err: any) {
-          console.log(err?.message)
+          // console.log(err?.message)
         }
 
         if (!sentEvents || !sentEvents?.length) {

@@ -134,7 +134,8 @@ class NetworkService {
   L2LPContract?: Contract
 
   //#region Anchorage specific
-  L2ToL1MessagePasserConract?: Contract
+  L2ToL1MessagePasser?: Contract
+  L2OutputOracle?: Contract
   OptimismPortal?: Contract
   //#endregion
   //#endregion
@@ -207,7 +208,7 @@ class NetworkService {
       await addBobaFee(bobaFee)
       return bobaFee
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return error
     }
   }
@@ -268,7 +269,7 @@ class NetworkService {
 
       return tx
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return error
     }
   }
@@ -374,6 +375,13 @@ class NetworkService {
   }
 
   async initializeBase({ networkGateway: network, networkType }) {
+    // TODO adapt once finalized
+    const OptimismPortalABI =
+      '[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint8","name":"version","type":"uint8"}],"name":"Initialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"version","type":"uint256"},{"indexed":false,"internalType":"bytes","name":"opaqueData","type":"bytes"}],"name":"TransactionDeposited","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Unpaused","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"withdrawalHash","type":"bytes32"},{"indexed":false,"internalType":"bool","name":"success","type":"bool"}],"name":"WithdrawalFinalized","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"withdrawalHash","type":"bytes32"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"WithdrawalProven","type":"event"},{"inputs":[],"name":"GUARDIAN","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"L2_ORACLE","outputs":[{"internalType":"contractL2OutputOracle","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SYSTEM_CONFIG","outputs":[{"internalType":"contractSystemConfig","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_to","type":"address"},{"internalType":"uint256","name":"_value","type":"uint256"},{"internalType":"uint64","name":"_gasLimit","type":"uint64"},{"internalType":"bool","name":"_isCreation","type":"bool"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"depositTransaction","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"donateETH","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"target","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"gasLimit","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"internalType":"structTypes.WithdrawalTransaction","name":"_tx","type":"tuple"}],"name":"finalizeWithdrawalTransaction","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"finalizedWithdrawals","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"guardian","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"contractL2OutputOracle","name":"_l2Oracle","type":"address"},{"internalType":"address","name":"_guardian","type":"address"},{"internalType":"contractSystemConfig","name":"_systemConfig","type":"address"},{"internalType":"bool","name":"_paused","type":"bool"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_l2OutputIndex","type":"uint256"}],"name":"isOutputFinalized","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"l2Oracle","outputs":[{"internalType":"contractL2OutputOracle","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"l2Sender","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint64","name":"_byteCount","type":"uint64"}],"name":"minimumGasLimit","outputs":[{"internalType":"uint64","name":"","type":"uint64"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"params","outputs":[{"internalType":"uint128","name":"prevBaseFee","type":"uint128"},{"internalType":"uint64","name":"prevBoughtGas","type":"uint64"},{"internalType":"uint64","name":"prevBlockNum","type":"uint64"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"target","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"gasLimit","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"internalType":"structTypes.WithdrawalTransaction","name":"_tx","type":"tuple"},{"internalType":"uint256","name":"_l2OutputIndex","type":"uint256"},{"components":[{"internalType":"bytes32","name":"version","type":"bytes32"},{"internalType":"bytes32","name":"stateRoot","type":"bytes32"},{"internalType":"bytes32","name":"messagePasserStorageRoot","type":"bytes32"},{"internalType":"bytes32","name":"latestBlockhash","type":"bytes32"}],"internalType":"structTypes.OutputRootProof","name":"_outputRootProof","type":"tuple"},{"internalType":"bytes[]","name":"_withdrawalProof","type":"bytes[]"}],"name":"proveWithdrawalTransaction","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"provenWithdrawals","outputs":[{"internalType":"bytes32","name":"outputRoot","type":"bytes32"},{"internalType":"uint128","name":"timestamp","type":"uint128"},{"internalType":"uint128","name":"l2OutputIndex","type":"uint128"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"systemConfig","outputs":[{"internalType":"contractSystemConfig","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"unpause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"version","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}]'
+    const L2ToL1MessagePasserABI =
+      '[{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"nonce","type":"uint256"},{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":true,"internalType":"address","name":"target","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"gasLimit","type":"uint256"},{"indexed":false,"internalType":"bytes","name":"data","type":"bytes"},{"indexed":false,"internalType":"bytes32","name":"withdrawalHash","type":"bytes32"}],"name":"MessagePassed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"WithdrawerBalanceBurnt","type":"event"},{"inputs":[],"name":"MESSAGE_VERSION","outputs":[{"internalType":"uint16","name":"","type":"uint16"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_target","type":"address"},{"internalType":"uint256","name":"_gasLimit","type":"uint256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"initiateWithdrawal","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"messageNonce","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"sentMessages","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"version","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}]'
+    const L2CrossDomainMessagerABI =
+      '[{"stateMutability":"nonpayable","type":"constructor","inputs":[{"name":"_l1CrossDomainMessenger","internalType":"address","type":"address"}]},{"type":"event","anonymous":false,"inputs":[{"name":"msgHash","internalType":"bytes32","type":"bytes32","indexed":true}],"name":"FailedRelayedMessage"},{"type":"event","anonymous":false,"inputs":[{"name":"version","internalType":"uint8","type":"uint8","indexed":false}],"name":"Initialized"},{"type":"event","anonymous":false,"inputs":[{"name":"msgHash","internalType":"bytes32","type":"bytes32","indexed":true}],"name":"RelayedMessage"},{"type":"event","anonymous":false,"inputs":[{"name":"target","internalType":"address","type":"address","indexed":true},{"name":"sender","internalType":"address","type":"address","indexed":false},{"name":"message","internalType":"bytes","type":"bytes","indexed":false},{"name":"messageNonce","internalType":"uint256","type":"uint256","indexed":false},{"name":"gasLimit","internalType":"uint256","type":"uint256","indexed":false}],"name":"SentMessage"},{"type":"event","anonymous":false,"inputs":[{"name":"sender","internalType":"address","type":"address","indexed":true},{"name":"value","internalType":"uint256","type":"uint256","indexed":false}],"name":"SentMessageExtension1"},{"stateMutability":"view","type":"function","inputs":[],"name":"MESSAGE_VERSION","outputs":[{"name":"","internalType":"uint16","type":"uint16"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"MIN_GAS_CALLDATA_OVERHEAD","outputs":[{"name":"","internalType":"uint64","type":"uint64"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"MIN_GAS_DYNAMIC_OVERHEAD_DENOMINATOR","outputs":[{"name":"","internalType":"uint64","type":"uint64"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"MIN_GAS_DYNAMIC_OVERHEAD_NUMERATOR","outputs":[{"name":"","internalType":"uint64","type":"uint64"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"OTHER_MESSENGER","outputs":[{"name":"","internalType":"address","type":"address"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"RELAY_CALL_OVERHEAD","outputs":[{"name":"","internalType":"uint64","type":"uint64"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"RELAY_CONSTANT_OVERHEAD","outputs":[{"name":"","internalType":"uint64","type":"uint64"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"RELAY_GAS_CHECK_BUFFER","outputs":[{"name":"","internalType":"uint64","type":"uint64"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"RELAY_RESERVED_GAS","outputs":[{"name":"","internalType":"uint64","type":"uint64"}]},{"stateMutability":"pure","type":"function","inputs":[{"name":"_message","internalType":"bytes","type":"bytes"},{"name":"_minGasLimit","internalType":"uint32","type":"uint32"}],"name":"baseGas","outputs":[{"name":"","internalType":"uint64","type":"uint64"}]},{"stateMutability":"view","type":"function","inputs":[{"name":"","internalType":"bytes32","type":"bytes32"}],"name":"failedMessages","outputs":[{"name":"","internalType":"bool","type":"bool"}]},{"stateMutability":"nonpayable","type":"function","inputs":[],"name":"initialize","outputs":[]},{"stateMutability":"view","type":"function","inputs":[],"name":"l1CrossDomainMessenger","outputs":[{"name":"","internalType":"address","type":"address"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"messageNonce","outputs":[{"name":"","internalType":"uint256","type":"uint256"}]},{"stateMutability":"payable","type":"function","inputs":[{"name":"_nonce","internalType":"uint256","type":"uint256"},{"name":"_sender","internalType":"address","type":"address"},{"name":"_target","internalType":"address","type":"address"},{"name":"_value","internalType":"uint256","type":"uint256"},{"name":"_minGasLimit","internalType":"uint256","type":"uint256"},{"name":"_message","internalType":"bytes","type":"bytes"}],"name":"relayMessage","outputs":[]},{"stateMutability":"payable","type":"function","inputs":[{"name":"_target","internalType":"address","type":"address"},{"name":"_message","internalType":"bytes","type":"bytes"},{"name":"_minGasLimit","internalType":"uint32","type":"uint32"}],"name":"sendMessage","outputs":[]},{"stateMutability":"view","type":"function","inputs":[{"name":"","internalType":"bytes32","type":"bytes32"}],"name":"successfulMessages","outputs":[{"name":"","internalType":"bool","type":"bool"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"version","outputs":[{"name":"","internalType":"string","type":"string"}]},{"stateMutability":"view","type":"function","inputs":[],"name":"xDomainMessageSender","outputs":[{"name":"","internalType":"address","type":"address"}]}]'
     this.network = network //// refer this in other services and clean up iteratively.
     this.networkGateway = network // e.g. mainnet | goerli | ...
     this.networkType = networkType // e.g. mainnet | goerli | ...
@@ -607,6 +615,31 @@ class NetworkService {
         this.L2Provider
       )
 
+      //    L2ToL1MessagePasserConract?: Contract
+      //     OptimismPortal?: Contract
+
+      this.L2ToL1MessagePasser = new ethers.Contract(
+        '0x4200000000000000000000000000000000000016',
+        L2ToL1MessagePasserABI,
+        this.L2Provider
+      )
+
+      this.OptimismPortal = new ethers.Contract(
+        '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+        OptimismPortalABI,
+        this.L1Provider
+      )
+
+      this.L2OutputOracle = new ethers.Contract(
+        '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
+        new ethers.utils.Interface([
+          'function latestBlockNumber() public view returns (uint256)',
+          'function getL2OutputIndexAfter(uint256) public view returns (uint256)',
+          'function getL2Output(uint256) public view returns (bytes32 outputRoot, uint128 timestamp, uint128 l2BlockNumber)',
+        ]),
+        this.L1Provider
+      )
+
       // Teleportation
       // not deployed on mainnets yet
       this.Teleportation = new ethers.Contract(
@@ -630,18 +663,18 @@ class NetworkService {
         this.L2Provider
       )
 
-      this.watcher = new CrossChainMessenger({
-        l1SignerOrProvider: this.L1Provider,
-        l2SignerOrProvider: this.L2Provider,
-        l1ChainId: chainId,
-        fastRelayer: false,
-      })
-      this.fastWatcher = new CrossChainMessenger({
-        l1SignerOrProvider: this.L1Provider,
-        l2SignerOrProvider: this.L2Provider,
-        l1ChainId: chainId,
-        fastRelayer: true,
-      })
+      // this.watcher = new CrossChainMessenger({
+      //   l1SignerOrProvider: this.L1Provider,
+      //   l2SignerOrProvider: this.L2Provider,
+      //   l1ChainId: chainId,
+      //   fastRelayer: false,
+      // })
+      // this.fastWatcher = new CrossChainMessenger({
+      //   l1SignerOrProvider: this.L1Provider,
+      //   l2SignerOrProvider: this.L2Provider,
+      //   l1ChainId: chainId,
+      //   fastRelayer: true,
+      // })
 
       let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
       if (Network.ETHEREUM === network && chainId === 1) {
@@ -986,7 +1019,7 @@ class NetworkService {
                   return true
                 }
                 case 'rejected': {
-                  console.log('NS: getBalances:', result.reason)
+                  // console.log('NS: getBalances:', result.reason)
                   return false
                 }
               }
