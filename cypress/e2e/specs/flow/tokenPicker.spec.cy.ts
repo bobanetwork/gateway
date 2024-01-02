@@ -24,4 +24,7 @@ describe('Token Picker', () => {
   it('Should select Boba token', () => {
     bridge.selectToken('BOBA')
   })
+  after(() => {
+    bridge.switchToMainnet()
+  })
 })
