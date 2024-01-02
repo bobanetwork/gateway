@@ -42,6 +42,7 @@ export interface IDropdownProps {
   style?: CSSProperties
   setSelectedOnClick?: boolean
   includeArrow?: boolean
+  testId?: string
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
@@ -54,6 +55,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   style,
   setSelectedOnClick = true,
   includeArrow = true,
+  testId = '',
 }) => {
   if (headers) {
     let allItems: IDropdownItem[]
@@ -141,6 +143,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
       className={`dropdown ${className}`}
       ref={dropdownRef}
       style={style}
+      data-testid={`dropdown-${testId}`}
     >
       <Header
         onClick={handleDropdown}

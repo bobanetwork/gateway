@@ -4,6 +4,7 @@ import PageHeader from './page.header'
 import PageFooter from './page.footer'
 import { ReduxStore } from './store'
 import { pageTitleWhiteList } from '../../../../src/components/layout/PageTitle/constants'
+import { NetworkTestInfo } from './types'
 
 export default class Page extends Base {
   header: PageHeader
@@ -204,7 +205,11 @@ export default class Page extends Base {
     this.store.verifyReduxUiState('theme', 'dark')
   }
 
-  handleNetworkSwitchModals(networkAbbreviation: string, isTestnet: boolean) {
+  handleNetworkSwitchModals(
+    networkAbbreviation: string,
+    isTestnet: boolean,
+    newNetwork: boolean
+  ) {
     this.getModal()
       .find(
         `button[label="Switch to ${networkAbbreviation} ${
@@ -228,20 +233,13 @@ export default class Page extends Base {
       )
       .should('exist')
       .click()
-  }
 
-  switchThroughMainnetNetworks() {
-    // switch to BNB
-    this.header.switchNetwork('BNB')
-    this.handleNetworkSwitchModals('BNB', false)
-    this.allowNetworkSwitch()
-    this.checkNetworkSwitchSuccessful('BNB')
-
-    // switch to Ethereum
-    this.header.switchNetwork('Ethereum')
-    this.handleNetworkSwitchModals('ETHEREUM', false)
-    this.allowNetworkSwitch()
-    this.checkNetworkSwitchSuccessful('ETHEREUM')
+    if (newNetwork) {
+      this.allowNetworkToBeAddedAndSwitchedTo()
+    } else {
+      this.allowNetworkSwitch()
+    }
+    this.checkNetworkSwitchSuccessful(networkAbbreviation)
   }
 
   checkNetworkSwitchSuccessful(networkAbbreviation: string) {
@@ -365,5 +363,18 @@ export default class Page extends Base {
       .and(($p) => {
         expect($p).to.have.length(5)
       })
+  }
+  switchNetwork(network: NetworkTestInfo, newNetwork: boolean = false) {
+    this.header.getNetworkSwitcher().click()
+    this.header
+      .getNetworkSwitcher()
+      .contains(network.networkName)
+      .should('exist')
+      .click()
+    this.handleNetworkSwitchModals(
+      network.networkAbbreviation,
+      network.isTestnet,
+      newNetwork
+    )
   }
 }
