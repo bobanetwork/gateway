@@ -4,8 +4,3 @@ export interface SettingRowTypes {
   isActive: boolean
   onStateChange: (state: boolean) => void
 }
-
-export interface SettingDropDownRowTypes {
-  title: string
-  subTitle: string
-}
