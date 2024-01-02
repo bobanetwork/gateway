@@ -118,6 +118,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
       minHeight="180px"
       title="Select Token"
       transparent={false}
+      testId="token-picker-modal"
     >
       <TokenPickerModalContainer>
         <TokenSearchContainer>
@@ -190,6 +191,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
                       </TokenLabel>
                       <Tooltip title="Add token to wallet">
                         <PlusIcon
+                          data-testid={'add-token'}
                           onClick={(e) => {
                             e.stopPropagation()
                             addToMetamask(token)
