@@ -1,15 +1,60 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
 import { Layer } from '../../../src/util/constant'
-import { NetworkTestInfo } from './base/types'
+import { BridgeType, NetworkTestInfo } from './base/types'
 import { EthereumGoerliInfo, EthereumInfo } from './base/constants'
 
 export default class Bridge extends Page {
+  type: string
   constructor() {
     super()
     this.id = 'bridge'
     this.walletConnectButtonText = 'Connect Wallet'
     this.title = 'Bridge'
+    this.type = BridgeType.Classic
+  }
+
+  switchToTestnet(
+    networkAbbreviation: string = EthereumGoerliInfo.networkAbbreviation,
+    newNetwork: boolean = false
+  ) {
+    this.switchNetworkType(networkAbbreviation, true, newNetwork)
+  }
+
+  switchToMainnet(
+    networkAbbreviation: string = EthereumInfo.networkAbbreviation,
+    newNetwork: boolean = false
+  ) {
+    this.switchNetworkType(networkAbbreviation, false, newNetwork)
+  }
+
+  openSettings() {
+    this.withinPage()
+      .find('[data-testid="setting-btn"]')
+      .should('exist')
+      .click()
+  }
+
+  toggleShowTestnets() {
+    this.getModal()
+      .find('[data-testid="switch-label"]')
+      .should('have.length', 2)
+      .first()
+      .click()
+  }
+
+  toggleAddDestinationAddress() {
+    this.getModal()
+      .find('[data-testid="switch-label"]')
+      .should('have.length', 2)
+      .eq(1)
+      .click()
+  }
+  closeModal(dataTestId: String) {
+    this.getModal()
+      .find(`[data-testid="close-modal-${dataTestId}"]`)
+      .should('exist')
+      .click()
   }
 
   switchNetworkType(
@@ -28,25 +73,14 @@ export default class Bridge extends Page {
       isTestnet ? 'Testnet' : 'Mainnet'
     )
 
-    this.handleNetworkSwitchModals(networkAbbreviation, isTestnet)
-
-    if (
-      networkAbbreviation === EthereumGoerliInfo.networkAbbreviation ||
-      !newNetwork
-    ) {
-      this.allowNetworkSwitch()
-    } else {
-      this.allowNetworkToBeAddedAndSwitchedTo()
-    }
-
-    this.checkNetworkSwitchSuccessful(networkAbbreviation)
+    this.handleNetworkSwitchModals(networkAbbreviation, isTestnet, newNetwork)
 
     this.store.verifyReduxStoreSetup('accountEnabled', true)
     this.store.verifyReduxStoreSetup('baseEnabled', true)
     this.onTestnet = isTestnet
   }
 
-  switchBridgeDirection(newOriginLayer: Layer, newNetwork: boolean) {
+  switchBridgeDirection(newOriginLayer: Layer, newNetwork: boolean = false) {
     this.withinPage().find('#switchBridgeDirection').should('exist').click()
     if (newNetwork) {
       this.allowNetworkToBeAddedAndSwitchedTo()
@@ -148,8 +182,8 @@ export default class Bridge extends Page {
 
     const bridgelist = cy.get('a[data-testid="bridge-item"]')
     bridgelist.should('not.be.empty').and((bridgeItems) => {
-      // should have 12 elements.
-      expect(bridgeItems).to.have.length(12)
+      // should have 8 elements.
+      expect(bridgeItems).to.have.length(8)
 
       const links = bridgeItems.map((i, el) => {
         return Cypress.$(el).attr('href')
@@ -157,13 +191,9 @@ export default class Bridge extends Page {
 
       expect(links.get()).to.deep.eq([
         'https://boba.banxa.com/',
-        'https://boba.network/project/beamer-bridge/',
         'https://boba.network/project/boringdao/',
         'https://boba.network/project/celer/',
-        'https://boba.network/project/chainswap/',
-        'https://boba.network/project/connext/',
-        'https://boba.network/project/layerswap-io/',
-        'https://boba.network/project/multichain/',
+        'https://exchange.chainswap.com/#/bridge',
         'https://boba.network/project/rango-exchange/',
         'https://boba.network/project/rubic-exchange/',
         'https://boba.network/project/synapse/',
@@ -176,13 +206,9 @@ export default class Bridge extends Page {
 
       expect(labels.get()).to.deep.eq([
         'Banxa',
-        'Beamer Bridge',
         'BoringDAO',
         'Celer',
         'Chainswap',
-        'Connext',
-        'Layerswap',
-        'Multichain',
         'Rango Exchange',
         'Rubic Exchange',
         'Synapse',
@@ -204,6 +230,25 @@ export default class Bridge extends Page {
     this.getModal().contains(networkName).should('exist').click()
   }
 
+  switchNetworkWithModals(
+    fromNetwork: NetworkTestInfo,
+    toNetwork: NetworkTestInfo,
+    accountConnected: boolean,
+    newNetwork: boolean
+  ) {
+    this.openNetworkModal(fromNetwork.networkName)
+    this.selectNetworkFromModal(toNetwork.networkName)
+    if (accountConnected) {
+      this.handleNetworkSwitchModals(
+        toNetwork.networkAbbreviation,
+        toNetwork.isTestnet,
+        newNetwork
+      )
+    } else {
+      this.store.allowBaseEnabledToUpdate(accountConnected)
+    }
+  }
+
   clickThroughNetworksInModals(
     l1Networks: NetworkTestInfo[],
     l2Networks: NetworkTestInfo[],
@@ -211,65 +256,39 @@ export default class Bridge extends Page {
   ) {
     for (let i = 0; i < 2; i++) {
       this.withinPage().contains(l2Networks[i].networkName).should('exist')
-
-      this.openNetworkModal(l1Networks[i].networkName)
       const nextNetwork = l1Networks[(i + 1) % 2]
-      this.selectNetworkFromModal(nextNetwork.networkName)
-      if (accountConnected) {
-        this.handleNetworkSwitchModals(
-          nextNetwork.networkAbbreviation,
-          nextNetwork.isTestnet
-        )
-        if (nextNetwork.networkName === l1Networks[0].networkName) {
-          this.allowNetworkSwitch()
-        } else {
-          this.allowNetworkToBeAddedAndSwitchedTo()
-        }
-        this.checkNetworkSwitchSuccessful(nextNetwork.networkAbbreviation)
-      } else {
-        this.store.allowBaseEnabledToUpdate(accountConnected)
-      }
+      this.switchNetworkWithModals(
+        l1Networks[i],
+        nextNetwork,
+        accountConnected,
+        nextNetwork.networkName !== l1Networks[0].networkName
+      )
+      this.switchBridgeDirection(Layer.L2, true)
+      this.switchBridgeDirection(Layer.L1)
     }
   }
-  switchToTestnet(
-    networkAbbreviation: string = EthereumGoerliInfo.networkAbbreviation,
-    newNetwork: boolean = false
+
+  switchBridgeType(
+    bridgeType: BridgeType,
+    currentNetwork: NetworkTestInfo = EthereumGoerliInfo
   ) {
-    this.switchNetworkType(networkAbbreviation, true, newNetwork)
-  }
-  switchToMainnet(
-    networkAbbreviation: string = EthereumInfo.networkAbbreviation,
-    newNetwork: boolean = false
-  ) {
-    this.switchNetworkType(networkAbbreviation, false, newNetwork)
-  }
+    this.withinPage().contains(bridgeType).should('exist').click()
+    this.store.verifyReduxStoreBridge('bridgeType', bridgeType.toUpperCase())
+    if (this.type === BridgeType.Light) {
+      this.getModal()
+        .find(
+          `button[label="Switch to ${currentNetwork.networkAbbreviation} ${
+            currentNetwork.isTestnet ? 'Testnet' : ''
+          } network"]`,
+          { timeout: 90000 }
+        )
+        .should('exist')
+        .click()
 
-  openSettings() {
-    this.withinPage()
-      .find('[data-testid="setting-btn"]')
-      .should('exist')
-      .click()
-  }
-
-  toggleShowTestnets() {
-    this.getModal()
-      .find('[data-testid="switch-label"]')
-      .should('have.length', 2)
-      .first()
-      .click()
-  }
-
-  toggleAddDestinationAddress() {
-    this.getModal()
-      .find('[data-testid="switch-label"]')
-      .should('have.length', 2)
-      .eq(1)
-      .click()
-  }
-  closeModal(dataTestId: String) {
-    this.getModal()
-      .find(`[data-testid="close-modal-${dataTestId}"]`)
-      .should('exist')
-      .click()
+      this.store.verifyReduxStoreSetup('accountEnabled', false)
+      this.store.verifyReduxStoreSetup('baseEnabled', false)
+      this.store.verifyReduxStoreSetup('baseEnabled', true)
+    }
+    this.type = bridgeType
   }
 }

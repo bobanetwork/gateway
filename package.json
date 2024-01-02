@@ -1,6 +1,6 @@
 {
   "name": "@bobanetwork/gateway",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "private": true,
   "scripts": {
     "audit-check": "audit-ci --moderate",
@@ -86,20 +86,20 @@
     "react-select": "^5.8.0",
     "react-svg": "^16.1.15",
     "redux-persist": "^6.0.0",
-    "sass": "^1.62.1",
+    "sass": "^1.69.5",
     "serve": "^11.3.2",
     "stream-browserify": "^3.0.0",
     "styled-components": "^5.3.10",
     "truncate-middle": "^1.0.6",
     "ts-md5": "^1.2.11",
-    "typescript": "^5.1.6",
+    "typescript": "^5.3.3",
     "webpack-bundle-analyzer": "^4.10.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.5",
-    "@sentry/types": "^7.73.0",
+    "@sentry/types": "^7.89.0",
     "@storybook/addon-essentials": "^7.0.15",
     "@storybook/addon-interactions": "^7.0.15",
     "@storybook/addon-links": "^7.5.2",
@@ -110,7 +110,7 @@
     "@storybook/react": "^7.5.3",
     "@storybook/react-webpack5": "^7.5.1",
     "@storybook/testing-library": "^0.2.2",
-    "@synthetixio/synpress": "^3.7.2-beta.8",
+    "@synthetixio/synpress": "^3.7.2-beta.9",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^12.1.2",
@@ -133,7 +133,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.14.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^46.2.6",
+    "eslint-plugin-jsdoc": "^46.9.1",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.24.0",
@@ -149,7 +149,7 @@
     "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.4.2",
     "start-server-and-test": "2.0.3",
-    "storybook": "^7.5.1",
+    "storybook": "^7.6.5",
     "storybook-addon-sass-postcss": "^0.1.3"
   },
   "jest": {

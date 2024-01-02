@@ -24,6 +24,9 @@ const useDisconnect = () => {
   useEffect(() => {
     const switchChain = () => {
       const { networkType, chain } = CHAIN_ID_LIST[Number(chainIdChanged)]
+      const chainIds = NetworkList[networkType].find(
+        (network) => network.chain === chain
+      ).chainId
       const foundNetwork = NetworkList[networkType].find(
         (network: NetworkType) => network.chain === chain
       ) as NetworkType
@@ -38,6 +41,7 @@ const useDisconnect = () => {
             network,
             networkIcon,
             name,
+            chainIds,
           })
         )
         dispatch(setActiveNetwork())

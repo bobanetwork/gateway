@@ -208,7 +208,7 @@ class NetworkService {
       await addBobaFee(bobaFee)
       return bobaFee
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       return error
     }
   }
@@ -269,7 +269,7 @@ class NetworkService {
 
       return tx
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       return error
     }
   }
@@ -586,6 +586,66 @@ class NetworkService {
 
         this.tokenAddresses = tokenList
         allTokens = tokenList
+
+        /*The test token*/
+        this.L1_TEST_Contract = new ethers.Contract(
+          allTokens.BOBA.L1, //this will get changed anyway when the contract is used
+          L1ERC20ABI,
+          this.L1Provider
+        )
+
+        this.L2_TEST_Contract = new ethers.Contract(
+          allTokens.BOBA.L2, //this will get changed anyway when the contract is used
+          L2StandardERC20ABI,
+          this.L2Provider
+        )
+
+        this.L2ToL1MessagePasser = new ethers.Contract(
+          '0x4200000000000000000000000000000000000016',
+          L2ToL1MessagePasserABI,
+          this.L2Provider
+        )
+
+        this.OptimismPortal = new ethers.Contract(
+          '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+          OptimismPortalABI,
+          this.L1Provider
+        )
+
+        this.L2OutputOracle = new ethers.Contract(
+          '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
+          new ethers.utils.Interface([
+            'function latestBlockNumber() public view returns (uint256)',
+            'function getL2OutputIndexAfter(uint256) public view returns (uint256)',
+            'function getL2Output(uint256) public view returns (bytes32 outputRoot, uint128 timestamp, uint128 l2BlockNumber)',
+          ]),
+          this.L1Provider
+        )
+
+        // Liquidity pools
+        this.L1LPContract = new ethers.Contract(
+          this.addresses.L1LPAddress,
+          L1LiquidityPoolABI,
+          this.L1Provider
+        )
+        this.L2LPContract = new ethers.Contract(
+          this.addresses.L2LPAddress,
+          L2LiquidityPoolABI,
+          this.L2Provider
+        )
+
+        this.watcher = new CrossChainMessenger({
+          l1SignerOrProvider: this.L1Provider,
+          l2SignerOrProvider: this.L2Provider,
+          l1ChainId: chainId,
+          fastRelayer: false,
+        })
+        this.fastWatcher = new CrossChainMessenger({
+          l1SignerOrProvider: this.L1Provider,
+          l2SignerOrProvider: this.L2Provider,
+          l1ChainId: chainId,
+          fastRelayer: true,
+        })
       }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {
@@ -602,79 +662,15 @@ class NetworkService {
         this.L2Provider
       )
 
-      /*The test token*/
-      this.L1_TEST_Contract = new ethers.Contract(
-        allTokens.BOBA.L1, //this will get changed anyway when the contract is used
-        L1ERC20ABI,
-        this.L1Provider
-      )
-
-      this.L2_TEST_Contract = new ethers.Contract(
-        allTokens.BOBA.L2, //this will get changed anyway when the contract is used
-        L2StandardERC20ABI,
-        this.L2Provider
-      )
-
-      //    L2ToL1MessagePasserConract?: Contract
-      //     OptimismPortal?: Contract
-
-      this.L2ToL1MessagePasser = new ethers.Contract(
-        '0x4200000000000000000000000000000000000016',
-        L2ToL1MessagePasserABI,
-        this.L2Provider
-      )
-
-      this.OptimismPortal = new ethers.Contract(
-        '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
-        OptimismPortalABI,
-        this.L1Provider
-      )
-
-      this.L2OutputOracle = new ethers.Contract(
-        '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
-        new ethers.utils.Interface([
-          'function latestBlockNumber() public view returns (uint256)',
-          'function getL2OutputIndexAfter(uint256) public view returns (uint256)',
-          'function getL2Output(uint256) public view returns (bytes32 outputRoot, uint128 timestamp, uint128 l2BlockNumber)',
-        ]),
-        this.L1Provider
-      )
-
       // Teleportation
       // not deployed on mainnets yet
       this.Teleportation = new ethers.Contract(
         // correct one is used accordingly, thus as last resort we use a wrong/dummy address to have this constant defined
         this.addresses.Proxy__L1Teleportation ??
           this.addresses.Proxy__L2Teleportation ??
-          this.addresses.L1LPAddress,
+          '0x000000000000000000000000000000000000dead', // cannot be 0x0 due to internal checks
         TeleportationABI
       )
-
-      // Liquidity pools
-
-      this.L1LPContract = new ethers.Contract(
-        this.addresses.L1LPAddress,
-        L1LiquidityPoolABI,
-        this.L1Provider
-      )
-      this.L2LPContract = new ethers.Contract(
-        this.addresses.L2LPAddress,
-        L2LiquidityPoolABI,
-        this.L2Provider
-      )
-
-      // this.watcher = new CrossChainMessenger({
-      //   l1SignerOrProvider: this.L1Provider,
-      //   l2SignerOrProvider: this.L2Provider,
-      //   l1ChainId: chainId,
-      //   fastRelayer: false,
-      // })
-      // this.fastWatcher = new CrossChainMessenger({
-      //   l1SignerOrProvider: this.L1Provider,
-      //   l2SignerOrProvider: this.L2Provider,
-      //   l1ChainId: chainId,
-      //   fastRelayer: true,
-      // })
 
       let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
       if (Network.ETHEREUM === network && chainId === 1) {
@@ -1019,7 +1015,7 @@ class NetworkService {
                   return true
                 }
                 case 'rejected': {
-                  // console.log('NS: getBalances:', result.reason)
+                  console.log('NS: getBalances:', result.reason)
                   return false
                 }
               }
@@ -2055,12 +2051,6 @@ class NetworkService {
         `Unknown chainId to retrieve teleportation contract from: ${chainId}`
       )
       return { teleportationAddr: null, networkConfig: null }
-    }
-    if (networkConfig.networkType !== NetworkType.TESTNET) {
-      if (isDevBuild()) {
-        /*console.log("DEV: Teleportation is only supported on testnet for now, chainId: ", chainId)*/
-      }
-      return { teleportationAddr: undefined, networkConfig }
     }
     const addresses = appService.fetchAddresses({
       networkType: networkConfig.networkType,

@@ -51,6 +51,7 @@ const OptionNativeToken = () => ({
   value: networkService.L1NativeTokenSymbol,
   label: networkService.L1NativeTokenName,
   imgSrc: getCoinImage(networkService.L1NativeTokenSymbol),
+  imgType: 'img',
 })
 
 const FeeSwitcher: FC = () => {
@@ -79,7 +80,7 @@ const FeeSwitcher: FC = () => {
     )
   }
   return (
-    <FeeSwitcherWrapper>
+    <FeeSwitcherWrapper data-testid={'feeSwitcher'}>
       <FeeSwitcherLabelWrapper>
         <FeeLabel>Fee</FeeLabel>
         <Tooltip

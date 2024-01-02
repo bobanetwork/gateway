@@ -21,7 +21,7 @@ describe('Page Layout', () => {
   })
 
   describe('Application Banner', () => {
-    it('Should see the earn deprecation banner and remove on close.', () => {
+    it('Should see the earn & relayer deprecation banner and remove on close.', () => {
       page.validateApplicationBanner()
     })
   })

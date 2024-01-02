@@ -6,19 +6,19 @@ exports[`Testing BridgeTypeSelector Test BridgeTypeSelector renders 1`] = `
     class="sc-aXZVg fRVoBl"
   >
     <div
-      class="sc-gEvEer hAIush"
+      class="sc-gEvEer eJzIlZ"
       data-testid="classic-btn"
     >
       Classic
     </div>
     <div
-      class="sc-gEvEer bGdtCD"
+      class="sc-gEvEer gnXggf"
       data-testid="fast-btn"
     >
       Fast
     </div>
     <div
-      class="sc-gEvEer bGdtCD"
+      class="sc-gEvEer gnXggf"
       data-testid="third-party-btn"
     >
       Third Party

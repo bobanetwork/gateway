@@ -56,6 +56,9 @@ class TransactionService {
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
     let L2Txs = []
+    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
+      return L2Txs
+    }
     try {
       const responseL2 = await omgxWatcherAxiosInstance(networkConfig)
         .post('get.l2.transactions', {
@@ -66,7 +69,7 @@ class TransactionService {
         .catch((error) => {
           console.log('get l2 tx', error)
         })
-      if (responseL2!.status === 201) {
+      if (responseL2?.status === 201) {
         L2Txs = responseL2!.data.map((v: any) => ({
           ...v,
           layer: 'L2',
@@ -117,6 +120,9 @@ class TransactionService {
   // fetch L1 pending transactions from omgxWatcherAxiosInstance
   async fetchL1PendingTx(networkConfig = networkService.networkConfig) {
     let txL1pending = []
+    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
+      return txL1pending
+    }
     try {
       const responseL1pending = await omgxWatcherAxiosInstance(
         networkConfig
@@ -189,22 +195,22 @@ class TransactionService {
       disburseEvent?: LightBridgeDisbursementEvents
     ) => {
       const txReceipt = await contract.provider.getTransactionReceipt(
-        sendEvent.txHash
+        sendEvent.transactionHash_
       )
       let crossDomainMessageFinalize
 
       if (disburseEvent) {
-        crossDomainMessageFinalize = disburseEvent.blockTimestamp
+        crossDomainMessageFinalize = disburseEvent.timestamp_
       }
 
       const crossDomainMessage: ICrossDomainMessage = {
         crossDomainMessage: disburseEvent?.depositId,
         crossDomainMessageEstimateFinalizedTime:
           crossDomainMessageFinalize ??
-          parseInt(sendEvent.blockTimestamp, 10) + 180, // should never take longer than a few minutes
+          parseInt(sendEvent.timestamp_, 10) + 180, // should never take longer than a few minutes
         crossDomainMessageFinalize,
-        crossDomainMessageSendTime: sendEvent.blockTimestamp,
-        fromHash: sendEvent.txHash,
+        crossDomainMessageSendTime: sendEvent.timestamp_,
+        fromHash: sendEvent.transactionHash_,
         toHash: undefined,
       }
 
@@ -216,7 +222,7 @@ class TransactionService {
           getRpcUrlByChainId(sendEvent.toChainId)
         )
         const disburseTxReceipt = await rpc.getTransactionReceipt(
-          disburseEvent.txHash
+          disburseEvent.transactionHash_
         )
         status =
           disburseTxReceipt.status === 1
@@ -229,7 +235,7 @@ class TransactionService {
           // won't go in here if already retried
           status = TRANSACTION_STATUS.Failed // TODO: but can be retried
         }
-        crossDomainMessage.toHash = disburseEvent.txHash
+        crossDomainMessage.toHash = disburseEvent.transactionHash_
       }
 
       const action = {
@@ -244,14 +250,14 @@ class TransactionService {
         ...sendEvent,
         ...txReceipt,
         disburseEvent,
-        timeStamp: sendEvent.blockTimestamp,
+        timeStamp: sendEvent.timestamp_,
         layer: networkConfigForChainId.layer,
         chainName: networkConfigForChainId.name,
         originChainId: sendEvent.sourceChainId,
         destinationChainId: sendEvent.toChainId,
         UserFacingStatus: status,
         contractAddress: contract.address,
-        hash: sendEvent.txHash,
+        hash: sendEvent.transactionHash_,
         crossDomainMessage,
         contractName: 'Teleportation',
         from: sendEvent.emitter,
