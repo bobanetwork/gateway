@@ -58,13 +58,6 @@ const ADDRESS_CONFIG = {
         layerZeroTestnet.Layer_Zero_Protocol.BNB.Layer_Zero_ChainId,
     },
   },
-  [NetworkType.LOCAL]: {
-    [Network.ETHEREUM]: {
-      // TODO: Possibly also load from register package if possible
-      L2ToL1MessagePasser: '0x4200000000000000000000000000000000000016',
-      OptimismPortal: '0x..', // TODO
-    },
-  },
 }
 
 type NetworkTypeConfig = {
@@ -78,7 +71,6 @@ type NetworkTypeConfig = {
 type NetworkTypeConfigs = {
   [NetworkType.TESTNET]: NetworkTypeConfig
   [NetworkType.MAINNET]: NetworkTypeConfig
-  [NetworkType.LOCAL]: NetworkTypeConfig
 }
 
 const SUPPORTED_ASSETS: NetworkTypeConfigs = {
@@ -191,28 +183,6 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
       altL1Chains: [],
     },
   },
-  [NetworkType.LOCAL]: {
-    [Network.ETHEREUM]: {
-      tokenAddresses: {},
-      tokens: ['ETH'],
-      altL1Chains: [],
-    },
-    [Network.BNB]: {
-      tokenAddresses: {},
-      tokens: ['BNB'],
-      altL1Chains: [],
-    },
-    [Network.OPTIMISM]: {
-      tokenAddresses: {},
-      tokens: ['ETH'],
-      altL1Chains: [],
-    },
-    [Network.ARBITRUM]: {
-      tokenAddresses: {},
-      tokens: ['ETH'],
-      altL1Chains: [],
-    },
-  },
 }
 
 class AppService {
@@ -243,8 +213,9 @@ class AppService {
       L1_ETH_Address,
       NETWORK_NATIVE: '0x4200000000000000000000000000000000000006', // always native
       // TODO Bedrock contract addresses probably not yet available, remove/replace once supplied in address object
-      L2ToL1MessagePasser: '0x4200000000000000000000000000000000000016', // L2
-      OptimismPortal: '0x....', // L1
+      L2ToL1MessagePasserProxy: '0x4200000000000000000000000000000000000016', // L2
+      OptimismPortalProxy: '0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8', // L1
+      L2OutputOracleProxy: '0x9E545E3C0baAB3E08CdfD552C960A1050f373042', // L1
     }
   }
 

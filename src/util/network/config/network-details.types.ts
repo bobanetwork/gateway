@@ -43,5 +43,4 @@ export type NetworkDetailChainConfig = {
 export type NetworkDetail = {
   Testnet: NetworkDetailChainConfig
   Mainnet: NetworkDetailChainConfig
-  Local?: NetworkDetailChainConfig
 }

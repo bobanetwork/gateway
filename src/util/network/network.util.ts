@@ -193,7 +193,12 @@ export const DEFAULT_NETWORK = {
   },
   chainId: { [Layer.L1]: '1', [Layer.L2]: '288' },
 }
-export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
+type NetworkLists = {
+  Mainnet: INetwork[]
+  Testnet: INetwork[]
+  Local: INetwork[]
+}
+export const NetworkList: NetworkLists = {
   Mainnet: [
     DEFAULT_NETWORK,
     {
@@ -255,6 +260,20 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
       },
       chainId: { [Layer.L1]: '5', [Layer.L2]: '421613' },
       limitedAvailability: true,
+    },
+  ],
+  Local: [
+    // e.g. Bedrock
+    {
+      icon: 'ethereum',
+      chain: Network.ETHEREUM,
+      label: 'Ethereum <> Boba ETH',
+      key: 'ethereum',
+      name: {
+        l1: 'Ethereum',
+        l2: 'Boba ETH',
+      },
+      chainId: { [Layer.L1]: '900', [Layer.L2]: '901' },
     },
   ],
 }

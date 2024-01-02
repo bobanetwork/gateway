@@ -23,7 +23,7 @@ import {
 } from 'selectors'
 import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
-import { Layer, LAYER } from 'util/constant'
+import { ENABLE_ANCHORAGE, Layer, LAYER } from 'util/constant'
 import {
   purgeBridgeAlert,
   resetBridgeAmount,
@@ -138,9 +138,13 @@ export const useBridge = () => {
   }
 
   const triggerExit = async (amountWei: any) => {
-    dispatch(openModal('bridgeMultiStepWithdrawal'))
-    // todo return
-    // todo return dispatch(exitBOBA(token.address, amountWei))
+    if (ENABLE_ANCHORAGE) {
+      // Anchorage has a separate withdrawal flow, once bedrock is fully rolled out, we might get rid of this if
+      // todo return
+      dispatch(openModal('bridgeMultiStepWithdrawal'))
+    } else {
+      return dispatch(exitBOBA(token.address, amountWei))
+    }
   }
 
   const triggerFastExit = async (amountWei: any) => {

@@ -23,7 +23,6 @@ export const checkReenterWithdraw = async (
     l2BridgeLogs,
     l2toL1Logs
   )
-  console.log('hi')
   const withdrawalsProven = await findProvenWithdrawals()
   for (const withdrawalSubmit of withdrawalHashesLogs) {
     if (
