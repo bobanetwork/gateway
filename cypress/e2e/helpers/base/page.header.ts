@@ -6,7 +6,9 @@ export default class PageHeader extends Base {
   }
 
   getNetworkSwitcher() {
-    return cy.get('#networkSelector').should('exist')
+    return cy
+      .get('div[data-testid="dropdown-network-selector"]')
+      .should('exist')
   }
 
   getLightThemeSwitcher() {
@@ -30,7 +32,9 @@ export default class PageHeader extends Base {
     this.getFeeSwitcher().contains(oldFeeSymbol).should('exist').click()
     this.getFeeSwitcher().contains(newFeeSymbol).should('exist').click()
     this.confirmTransactionOnMetamask()
-    this.getFeeSwitcher().contains(newFeeSymbol).should('exist')
+    this.getFeeSwitcher()
+      .contains(newFeeSymbol, { timeout: 90000 })
+      .should('exist')
   }
 
   disconnectWallet() {

@@ -121,8 +121,17 @@ export const Option = styled.div<{
   color: inherit;
   ${(props) =>
     props.isSelected &&
+    props.theme.name === 'dark' &&
     css`
       background: ${props.theme.colors.gray[400]};
+      border: 1px solid ${props.theme.colors.gray[100]};
+    `}
+  ${(props) =>
+    props.isSelected &&
+    props.theme.name === 'light' &&
+    css`
+      background: ${props.theme.colors.gray[400]};
+      border: 1px solid ${props.theme.colors.gray[600]};
     `}
 `
 
@@ -208,11 +217,10 @@ export const DropdownContent = styled.div`
     border-radius: 14px;
     padding: 5px;
     box-sizing: border-box;
-    /* background: inherit; */
     ${(props) =>
       props.theme.name === 'light' &&
       css`
-        /* background: ${props.theme.colors.gray[100]}; */
+        color: ${props.theme.colors.gray[800]};
         &:hover {
           background: ${props.theme.colors.gray[300]};
         }
@@ -220,10 +228,8 @@ export const DropdownContent = styled.div`
     ${(props) =>
       props.theme.name === 'dark' &&
       css`
-        border: 1px solid ${props.theme.colors.gray[500]};
-        /* background: ${props.theme.colors.gray[500]}; */
+        color: ${props.theme.colors.gray[100]};
         &:hover {
-          border: 1px solid ${props.theme.colors.gray[400]};
           background: ${props.theme.colors.gray[400]};
         }
       `};

@@ -5821,10 +5821,10 @@
   resolved "https://registry.yarnpkg.com/@swc/types/-/types-0.1.5.tgz#043b731d4f56a79b4897a3de1af35e75d56bc63a"
   integrity sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==
 
-"@synthetixio/synpress@^3.7.2-beta.8":
-  version "3.7.2-beta.8"
-  resolved "https://registry.yarnpkg.com/@synthetixio/synpress/-/synpress-3.7.2-beta.8.tgz#6ea9370891858aa340eb8939cac837a790973602"
-  integrity sha512-pxfee++qDDcK+3uKP5aeuoDGydXOE5bFIkdubODwnVoMxguLndwHkdlYG1wLWrxjuTES8XyvUQ5O0zl/7WWEpg==
+"@synthetixio/synpress@^3.7.2-beta.9":
+  version "3.7.2-beta.9"
+  resolved "https://registry.yarnpkg.com/@synthetixio/synpress/-/synpress-3.7.2-beta.9.tgz#32c3d9b24a4fc25613184f5ee80f695f535a2b5b"
+  integrity sha512-1fnr3jzQA2op6YnXxx6ERZ4babB+Ib1Xc5URGTcndH891Oa5uVlIaP0zRm5udTJuNdENOTLgkAdjv4WTGurBVA==
   dependencies:
     "@cypress/code-coverage" "^3.11.0"
     "@cypress/webpack-dev-server" "^3.5.2"
@@ -19621,10 +19621,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@^5.1.6:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
-  integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
+typescript@^5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
+  integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
 
 u2f-api@0.2.7:
   version "0.2.7"

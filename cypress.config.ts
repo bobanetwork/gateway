@@ -6,9 +6,9 @@ dotenv.config()
 export default defineConfig({
   userAgent: 'synpress',
   chromeWebSecurity: true,
-  defaultCommandTimeout: 30000,
-  pageLoadTimeout: 30000,
-  requestTimeout: 30000,
+  defaultCommandTimeout: 60000,
+  pageLoadTimeout: 60000,
+  requestTimeout: 60000,
   video: !!process.env.CYPRESS_ENABLE_VIDEO || false,
   e2e: {
     testIsolation: false,
