@@ -12,19 +12,17 @@ import {
   selectBridgeType,
 } from 'selectors'
 import { setBridgeDestinationAddressAvailable } from 'actions/bridgeAction'
-import { SettingDropDownRowTypes, SettingRowTypes } from './types'
+import { SettingRowTypes } from './types'
 
 import {
+  SettingSubTitle,
+  SettingTitle,
   SettingsAction,
   SettingsItem,
   SettingsText,
-  SettingSubTitle,
   SettingsWrapper,
-  SettingTitle,
 } from './styles'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
-import { isDevBuild } from '../../../util/constant'
-import { Dropdown, IDropdownProps } from '../../../components/global/dropdown'
 
 interface SettingsModalProps {
   open: boolean
@@ -42,37 +40,15 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
     dispatch(closeModal('settingsModal'))
   }
 
-  const onChangeNetworkType = (value: NetworkType) => {
+  const onChangeNetworkType = (value: boolean) => {
     dispatch(
       setActiveNetworkType({
-        networkType: value,
+        networkType: value ? NetworkType.TESTNET : NetworkType.MAINNET,
       })
     )
   }
   const onChangeDestinationAddressAvailable = (value: boolean) => {
     dispatch(setBridgeDestinationAddressAvailable(value))
-  }
-
-  const SettingDropDownRow: React.FC<
-    SettingDropDownRowTypes & IDropdownProps
-  > = ({ title, subTitle, onItemSelected, items, defaultItem, error }) => {
-    return (
-      <SettingsItem>
-        <SettingsText>
-          <SettingTitle>{title}</SettingTitle>
-          <SettingSubTitle>{subTitle}</SettingSubTitle>
-        </SettingsText>
-        <SettingsAction>
-          <Dropdown
-            onItemSelected={onItemSelected}
-            error={error}
-            minWidth={'75px'}
-            items={items}
-            defaultItem={defaultItem}
-          />
-        </SettingsAction>
-      </SettingsItem>
-    )
   }
 
   const SettingRow: React.FC<SettingRowTypes> = ({
@@ -104,29 +80,12 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
       transparent={false}
     >
       <SettingsWrapper>
-        {isDevBuild() ? (
-          <SettingDropDownRow
-            title="Switch Networks"
-            subTitle="Other networks will be available to bridge"
-            error={false}
-            items={[
-              { value: NetworkType.MAINNET, label: 'Mainnets' },
-              { value: NetworkType.TESTNET, label: 'Testnets' },
-              { value: NetworkType.LOCAL, label: 'Local' },
-            ]}
-            defaultItem={{ value: NetworkType.MAINNET, label: 'Mainnets' }}
-            onItemSelected={(v) => onChangeNetworkType(v.value as NetworkType)}
-          />
-        ) : (
-          <SettingRow
-            title="Show Testnets"
-            subTitle="Testnets will be available to bridge"
-            isActive={activeNetworkType === NetworkType.TESTNET}
-            onStateChange={(v) =>
-              onChangeNetworkType(v ? NetworkType.TESTNET : NetworkType.MAINNET)
-            }
-          />
-        )}
+        <SettingRow
+          title="Show Testnets"
+          subTitle="Testnets will be available to bridge"
+          isActive={activeNetworkType === NetworkType.TESTNET}
+          onStateChange={(v) => onChangeNetworkType(v)}
+        />
         {/* Custom destination address seems to be only available for classic bridge */}
         {bridgeType === BRIDGE_TYPE.CLASSIC ? (
           <SettingRow

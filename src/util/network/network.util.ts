@@ -35,7 +35,6 @@ export const L2_ICONS = {
 export enum NetworkType {
   MAINNET = 'Mainnet',
   TESTNET = 'Testnet',
-  LOCAL = 'Local',
 }
 
 export enum Network {
@@ -118,20 +117,6 @@ export const CHAIN_ID_LIST = {
     icon: 'arbitrum',
     limitedAvailability: true,
   },
-  900: {
-    networkType: NetworkType.LOCAL,
-    chain: Network.ETHEREUM,
-    layer: LAYER.L1,
-    name: 'Local L1',
-    icon: 'ethereum',
-  },
-  901: {
-    networkType: NetworkType.LOCAL,
-    chain: Network.ETHEREUM,
-    layer: LAYER.L1,
-    name: 'Local L1',
-    icon: 'ethereum',
-  },
 }
 
 export interface INetworkCategory {
@@ -150,11 +135,7 @@ export interface INetwork {
   limitedAvailability?: boolean
 }
 
-export const NetworkList: {
-  Mainnet: INetwork[]
-  Testnet: INetwork[]
-  Local: INetwork[]
-} = {
+export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
   Mainnet: [
     {
       icon: 'ethereum',
@@ -228,20 +209,6 @@ export const NetworkList: {
       limitedAvailability: true,
     },
   ],
-  Local: [
-    // e.g. Bedrock
-    {
-      icon: 'ethereum',
-      chain: Network.ETHEREUM,
-      label: 'Ethereum <> Boba ETH',
-      key: 'ethereum',
-      name: {
-        l1: 'Ethereum',
-        l2: 'Boba ETH',
-      },
-      chainId: { [Layer.L1]: '900', [Layer.L2]: '901' },
-    },
-  ],
 }
 
 export const networkLimitedAvailability = (
@@ -263,10 +230,7 @@ export const getNetworkDetail = ({
   network,
   networkType,
 }: INetworkCategory): NetworkDetailChainConfig => {
-  return (
-    AllNetworkConfigs?.[network]?.[networkType] ??
-    AllNetworkConfigs?.[network]?.[NetworkType.TESTNET] // use testnet, if no local configured
-  )
+  return AllNetworkConfigs?.[network]?.[networkType]
 }
 
 export const getRpcUrlByChainId = (chainId): string => {

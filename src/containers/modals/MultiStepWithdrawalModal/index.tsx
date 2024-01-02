@@ -6,6 +6,7 @@ import {
   Item,
   LayerNames,
   Separator,
+  WithdrawalNetworkContainer,
 } from './index.styles'
 import { closeModal } from 'actions/uiAction'
 import Modal from 'components/modal/Modal'
@@ -70,7 +71,7 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
           <SubLabel>Withdraw Amount</SubLabel>
           <SubValue>
             {amountToBridge} {token?.symbol}
-            <LightText style={{ marginLeft: 8 }}>
+            <LightText>
               {token
                 ? `$${amountToUsd(amountToBridge, lookupPrice, token).toFixed(
                     2
@@ -79,14 +80,7 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
             </LightText>
           </SubValue>
         </Item>
-        <div
-          style={{
-            alignItems: 'center',
-            display: 'flex',
-            gap: 25,
-            justifyContent: 'center',
-          }}
-        >
+        <WithdrawalNetworkContainer>
           <LayerNames>
             <L2Icon selected /> {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
           </LayerNames>
@@ -94,7 +88,7 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
           <LayerNames>
             <L1Icon selected /> {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
           </LayerNames>
-        </div>
+        </WithdrawalNetworkContainer>
         <Separator />
 
         <VerticalWithdrawalStepper

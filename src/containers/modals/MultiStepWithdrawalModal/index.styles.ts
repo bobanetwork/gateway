@@ -24,6 +24,7 @@ export const SubValue = styled(Typography).attrs({
 export const LightText = styled.span`
   color: ${({ theme }) =>
     theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[200]};
+  margin-left: 8px;
 `
 
 export const LayerNames = styled.div`
@@ -80,4 +81,11 @@ export const Item = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 8px;
+`
+
+export const WithdrawalNetworkContainer = styled(Box)`
+  align-items: center;
+  display: flex;
+  gap: 25px;
+  justify-content: 'center';
 `
