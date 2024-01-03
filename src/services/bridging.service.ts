@@ -17,6 +17,13 @@ import {
 } from 'actions/signAction'
 import walletService from './wallet.service'
 
+const L1GasLimit = 9999999
+
+// setting of this value not important since it's not connected to anything in the contracts
+// "param _l1Gas Unused, but included for potential forward compatibility considerations"
+
+const L2GasLimit = 1300000
+
 export class BridgingService {
   // Fast Deposit to L2
   async depositL1LP(currency, value_Wei_String) {
@@ -75,7 +82,7 @@ export class BridgingService {
               networkService.provider!.getSigner()
             )
             .depositETH(
-              networkService.L2GasLimit,
+              L2GasLimit,
               utils.formatBytes32String(new Date().getTime().toString()),
               {
                 value: value_Wei_String,
@@ -88,7 +95,7 @@ export class BridgingService {
             )
             .depositETHTo(
               recipient,
-              networkService.L2GasLimit,
+              L2GasLimit,
               utils.formatBytes32String(new Date().getTime().toString()),
               {
                 value: value_Wei_String,
@@ -102,7 +109,7 @@ export class BridgingService {
               networkService.provider!.getSigner()
             )
             .depositNativeToken(
-              networkService.L2GasLimit,
+              L2GasLimit,
               utils.formatBytes32String(new Date().getTime().toString()),
               {
                 value: value_Wei_String,
@@ -115,7 +122,7 @@ export class BridgingService {
             )
             .depositNativeTokenTo(
               recipient,
-              networkService.L2GasLimit,
+              L2GasLimit,
               utils.formatBytes32String(new Date().getTime().toString()),
               {
                 value: value_Wei_String,
@@ -298,7 +305,7 @@ export class BridgingService {
             currency,
             currencyL2,
             value_Wei_String,
-            networkService.L2GasLimit,
+            L2GasLimit,
             utils.formatBytes32String(new Date().getTime().toString())
           )
       } else {
@@ -312,7 +319,7 @@ export class BridgingService {
             currencyL2,
             recipient,
             value_Wei_String,
-            networkService.L2GasLimit,
+            L2GasLimit,
             utils.formatBytes32String(new Date().getTime().toString())
           )
       }
@@ -421,7 +428,7 @@ export class BridgingService {
       const tx = await DiscretionaryExitFeeContract.payAndWithdraw(
         currencyAddress,
         value_Wei_String,
-        networkService.L1GasLimit,
+        L1GasLimit,
         utils.formatBytes32String(new Date().getTime().toString()),
         otherField
       )

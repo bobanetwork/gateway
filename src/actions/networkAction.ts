@@ -20,6 +20,7 @@ import { BigNumberish } from 'ethers'
 import balanceService from 'services/balance.service'
 import bridgingService from 'services/bridging.service'
 import teleportationService from 'services/teleportation.service'
+import apiService from 'services/api.service'
 
 export const fetchBalances = () =>
   createAction('BALANCE/GET', () => balanceService.getBalances())
@@ -112,7 +113,7 @@ export const transfer = (
   )
 
 export const fetchLookUpPrice = (params) =>
-  createAction('PRICE/GET', () => networkService.fetchLookUpPrice(params))
+  createAction('PRICE/GET', () => apiService.fetchTokenPriceInUsd(params))
 
 export const clearLookupPrice = () => (dispatch) =>
   dispatch({ type: 'LOOKUP/PRICE/CLEAR' })

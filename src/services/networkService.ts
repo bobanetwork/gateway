@@ -14,40 +14,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { formatEther } from '@ethersproject/units'
 import { CrossChainMessenger } from '@bobanetwork/sdk'
-
-import { BigNumber, BigNumberish, Contract, ethers, utils } from 'ethers'
-
-import store from 'store'
-import { orderBy } from 'util/lodash'
-import BN from 'bn.js'
-
-import { logAmount } from 'util/amountConvert'
+import { Contract, ethers } from 'ethers'
 import { getToken } from 'actions/tokenAction'
-
 import { addBobaFee } from 'actions/setupAction'
-
-import {
-  updateSignatureStatus_depositLP,
-  updateSignatureStatus_exitLP,
-  updateSignatureStatus_exitTRAD,
-} from 'actions/signAction'
-
-import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
-import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
-
-import { sortRawTokens } from 'util/common'
-import { graphQLService } from './graphql.service'
-
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
-import { isDevBuild, Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
 import {
   CHAIN_ID_LIST,
   getNetworkDetail,
-  getRpcUrl,
   Network,
   networkLimitedAvailability,
   NetworkType,
@@ -58,14 +34,11 @@ import walletService, { WalletService } from './wallet.service'
 
 import {
   BOBAABI,
-  BobaFixedSavingsABI,
   BobaGasPriceOracleABI,
-  DiscretionaryExitFeeABI,
   GovernorBravoDelegateABI,
   L1ERC20ABI,
   L1LiquidityPoolABI,
   L1StandardBridgeABI,
-  L2BillingContractABI,
   L2LiquidityPoolABI,
   L2StandardBridgeABI,
   L2StandardERC20ABI,
@@ -73,15 +46,11 @@ import {
   TeleportationABI,
 } from './abi'
 
-import { setFetchDepositTxBlock } from 'actions/bridgeAction'
-import { LAYER } from '../containers/history/types'
-import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
-import { LiquidityPoolLayer } from 'types/earn.types'
-import balanceService from './balance.service'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -136,8 +105,6 @@ class NetworkService {
   //#endregion
 
   tokenAddresses?: TokenAddresses
-  L1GasLimit: number
-  L2GasLimit: number
   gasEstimateAccount?: string
   payloadForL1SecurityFee?: TxPayload
   payloadForFastDepositBatchCost?: TxPayload
@@ -145,7 +112,7 @@ class NetworkService {
   supportedTokenAddresses: TokenAddresses
   supportedAltL1Chains: string[]
   tokenInfo?: TokenInfoForNetwork
-  addresses
+  addresses: any
   network?: Network
   networkConfig?: NetworkDetailChainConfig
   walletService: WalletService
@@ -154,12 +121,6 @@ class NetworkService {
   L1NativeTokenName?: string
 
   constructor() {
-    // gas
-    this.L1GasLimit = 9999999
-    // setting of this value not important since it's not connected to anything in the contracts
-    // "param _l1Gas Unused, but included for potential forward compatibility considerations"
-    this.L2GasLimit = 1300000 //use the same as the hardcoded receive
-
     // support token
     this.supportedTokens = []
     this.supportedTokenAddresses = {}
@@ -733,7 +694,6 @@ class NetworkService {
     return this.walletService.switchChain(targetIDHex, chainParam)
   }
 
-  // TODO: token.service.ts
   async addTokenList() {
     // Add the token to our master list, if we do not have it yet
     // if the token is already in the list, then this function does nothing
@@ -745,77 +705,6 @@ class NetworkService {
     Object.keys(allTokens).forEach((token, i) => {
       getToken(allTokens[token].L1)
     })
-  }
-
-  // TODO: price.service.ts or api.service.ts
-  async fetchLookUpPrice(params) {
-    try {
-      // fetching only the prices compare to usd.
-      const res = await coinGeckoAxiosInstance.get(
-        `simple/price?ids=${params.join()}&vs_currencies=usd`
-      )
-      return res.data
-    } catch (error) {
-      return error
-    }
-  }
-
-  async submitTxBuilder(
-    contract: Contract,
-    methodIndex,
-    methodName: string,
-    inputs
-  ) {
-    const parseResult = (resultPR, outputsPR) => {
-      const parseResultPR: any = []
-      if (outputsPR.length === 1) {
-        return resultPR.toString()
-      }
-      for (let i = 0; i < outputsPR.length; i++) {
-        try {
-          const output = outputsPR[i]
-          const key = output.name ? output.name : output.type
-          if (output.type.includes('uint')) {
-            parseResultPR.push({ [key]: resultPR[i].toString() })
-          } else {
-            parseResultPR.push({ [key]: resultPR[i] })
-          }
-        } catch (err) {
-          return 'Error: Failed to parse result'
-        }
-      }
-      return JSON.stringify(parseResultPR)
-    }
-
-    let parseInput: any = Object.values(inputs)
-    let value = 0
-    const stateMutability =
-      contract.interface.functions[methodName].stateMutability
-    const outputs = contract.interface.functions[methodName].outputs
-    if (stateMutability === 'payable') {
-      value = parseInput[parseInput.length - 1]
-      parseInput = parseInput.slice(0, parseInput.length - 1)
-    }
-
-    let result
-    try {
-      if (stateMutability === 'view' || stateMutability === 'pure') {
-        result = await contract[methodName](...parseInput)
-        return {
-          methodIndex,
-          result: { result: parseResult(result, outputs), err: null },
-        }
-      } else if (stateMutability === 'payable') {
-        console.log({ value }, ...parseInput)
-        const tx = await contract[methodName](...parseInput, { value })
-        return { methodIndex, result: { transactionHash: tx.hash, err: null } }
-      } else {
-        const tx = await contract[methodName](...parseInput)
-        return { methodIndex, result: { transactionHash: tx.hash, err: null } }
-      }
-    } catch (err) {
-      return { methodIndex, result: { err: JSON.stringify(err) } }
-    }
   }
 }
 

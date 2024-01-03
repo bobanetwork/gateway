@@ -18,7 +18,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 
 // TODO: move to constant or app config.
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
-
+const L1GasLimit = 9999999
 export class FeeService {
   async switchFee(targetFee: 'BOBA' | 'ETH') {
     if (networkService.L1orL2 !== 'L2') {
@@ -267,7 +267,7 @@ export class FeeService {
         await DiscretionaryExitFeeContract.populateTransaction.payAndWithdraw(
           networkService.addresses.L2_ETH_Address,
           utils.parseEther('0.00001'),
-          networkService.L1GasLimit,
+          L1GasLimit,
           ethers.utils.formatBytes32String(new Date().getTime().toString()),
           { value }
         )
