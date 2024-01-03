@@ -259,6 +259,10 @@ export class DaoService {
         sourceChainId: L2ChainId,
       })
 
+      if (!descriptionList || !descriptionList.data) {
+        return { proposalList }
+      }
+
       for (let i = 0; i < totalProposals; i++) {
         const proposalRaw = descriptionList!.data.governorProposalCreateds[i]
 
