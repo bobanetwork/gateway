@@ -17,56 +17,47 @@
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import networkService from 'services/networkService'
+import daoService from 'services/dao.service'
 import { createAction } from './createAction'
 
-/***********************************************/
 /*****           DAO Action                *****/
-/***********************************************/
 
-/*****           DAO Action                *****/
 export const fetchDaoBalance = () =>
-  createAction('BALANCE/DAO/GET', () => networkService.getDaoBalance())
+  createAction('BALANCE/DAO/GET', () => daoService.fetchDaoBalance())
 
 export const fetchDaoVotes = () =>
-  createAction('VOTES/DAO/GET', () => networkService.getDaoVotes())
+  createAction('VOTES/DAO/GET', () => daoService.fetchDaoVotes())
 
 export const fetchDaoBalanceX = () =>
-  createAction('BALANCEX/DAO/GET', () => networkService.getDaoBalanceX())
+  createAction('BALANCEX/DAO/GET', () => daoService.fetchDaoBalanceX())
 
 export const fetchDaoVotesX = () =>
-  createAction('VOTESX/DAO/GET', () => networkService.getDaoVotesX())
+  createAction('VOTESX/DAO/GET', () => daoService.fetchDaoVotesX())
 
 export const delegateVotes = ({ recipient }) =>
   createAction('DELEGATE/VOTES/CREATE', () =>
-    networkService.delegateVotes({ recipient })
+    daoService.delegateVotes({ recipient })
   )
 
 export const delegateVotesX = ({ recipient }) =>
   createAction('DELEGATEX/VOTES/CREATE', () =>
-    networkService.delegateVotesX({ recipient })
+    daoService.delegateVotesX({ recipient })
   )
 
 export const getProposalThreshold = () =>
-  createAction('PROPOSALTHRESHOLD/GET', () =>
-    networkService.getProposalThreshold()
-  )
+  createAction('PROPOSALTHRESHOLD/GET', () => daoService.getProposalThreshold())
 
 export const fetchDaoProposals = () =>
-  createAction('PROPOSALS/GET', () => networkService.fetchProposals())
+  createAction('PROPOSALS/GET', () => daoService.fetchProposals())
 
 export const createDaoProposal = (payload) =>
-  createAction('PROPOSAL/CREATE', () => networkService.createProposal(payload))
+  createAction('PROPOSAL/CREATE', () => daoService.createProposal(payload))
 
 export const queueProposal = (proposalID) =>
-  createAction('PROPOSAL/QUEUE', () => networkService.queueProposal(proposalID))
+  createAction('PROPOSAL/QUEUE', () => daoService.queueProposal(proposalID))
 
-export const executeProposal = (proposalID) =>
-  createAction('PROPOSAL/EXECUTE', () =>
-    networkService.executeProposal(proposalID)
-  )
+export const executeProposal = (proposalId) =>
+  createAction('PROPOSAL/EXECUTE', () => daoService.executeProposal(proposalId))
 
 export const castProposalVote = (payload) =>
-  createAction('PROPOSAL/CAST/VOTE', () =>
-    networkService.castProposalVote(payload)
-  )
+  createAction('PROPOSAL/CAST/VOTE', () => daoService.castProposalVote(payload))
