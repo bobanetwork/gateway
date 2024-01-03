@@ -16,6 +16,7 @@ import { Network, NetworkType } from 'util/network/network.util'
 import { fetchGasDetail } from 'services/gas.service'
 import useInterval from './useInterval'
 import { GAS_POLL_INTERVAL } from 'util/constant'
+import feeService from 'services/fee.service'
 
 /**
  *
@@ -61,8 +62,8 @@ const useGasWatcher = () => {
 
   useEffect(() => {
     const getGasSavings = async () => {
-      const l1SecurityFee = await networkService.estimateL1SecurityFee()
-      const l2Fee = await networkService.estimateL2Fee()
+      const l1SecurityFee = await feeService.estimateL1SecurityFee()
+      const l2Fee = await feeService.estimateL2Fee()
 
       const gasSavings =
         (Number(gas.gasL1) * l2Fee) /

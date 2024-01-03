@@ -176,7 +176,6 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  // TODO: fee.service.ts or find better name.
   async getBobaFeeChoice() {
     const bobaFeeContract = new ethers.Contract(
       this.addresses.Boba_GasPriceOracle,
@@ -202,69 +201,6 @@ class NetworkService {
       }
       await addBobaFee(bobaFee)
       return bobaFee
-    } catch (error) {
-      console.log(error)
-      return error
-    }
-  }
-
-  // TODO: fee.service.ts or find better name.
-  async estimateMinL1NativeTokenForFee() {
-    if (this.L1orL2 !== 'L2') {
-      return 0
-    }
-
-    if (this.networkGateway === Network.ETHEREUM) {
-      // for ethereum l1 fee is always const to 0.002.
-      return MIN_NATIVE_L1_BALANCE
-    } else {
-      // for alt l1 this fee can change
-      const bobaFeeContract = new ethers.Contract(
-        this.addresses.Boba_GasPriceOracle,
-        BobaGasPriceOracleABI,
-        this.provider!.getSigner()
-      )
-
-      const minTokenForFee = await bobaFeeContract.secondaryFeeTokenMinimum()
-
-      return logAmount(minTokenForFee.toString(), 18)
-    }
-  }
-
-  // TODO: fee.service.ts or find better name.
-  async switchFee(targetFee) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-
-    const bobaFeeContract = new ethers.Contract(
-      this.addresses.Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.provider!.getSigner()
-    )
-
-    try {
-      let tx: TransactionResponse
-
-      if (targetFee === 'BOBA') {
-        tx = await bobaFeeContract.useBobaAsFeeToken()
-        await tx.wait()
-      } else if (targetFee === 'ETH') {
-        tx = await bobaFeeContract.useETHAsFeeToken()
-        await tx.wait()
-      } else if (targetFee === this.L1NativeTokenSymbol) {
-        tx = await bobaFeeContract.useSecondaryFeeTokenAsFeeToken()
-        await tx.wait()
-      } else {
-        console.error(
-          `NetworkService:switchFee: Unknown targetFee selected: ${targetFee}`
-        )
-        return
-      }
-
-      await this.getBobaFeeChoice()
-
-      return tx
     } catch (error) {
       console.log(error)
       return error
@@ -2185,56 +2121,6 @@ class NetworkService {
     } catch (error) {
       return error
     }
-  }
-
-  /***********************************************/
-  /*****            L1 Security Fee          *****/
-  /***********************************************/
-
-  // TODO: fee.service.ts
-
-  async estimateL1SecurityFee(payload = this.payloadForL1SecurityFee) {
-    const deepCopyPayload = { ...payload }
-    delete deepCopyPayload.from
-    // Gas oracle
-    this.gasOracleContract = new ethers.Contract(
-      L2GasOracle,
-      OVM_GasPriceOracleABI,
-      this.L2Provider
-    )
-    const l1SecurityFee = await this.gasOracleContract!.getL1Fee(
-      ethers.utils.serializeTransaction(deepCopyPayload)
-    )
-    return l1SecurityFee.toNumber()
-  }
-
-  // TODO: fee.service.ts
-  /***********************************************/
-  /*****                L2 Fee              *****/
-
-  /***********************************************/
-  async estimateL2Fee(payload: TxPayload = this.payloadForL1SecurityFee!) {
-    try {
-      const l2GasPrice = await this.L2Provider!.getGasPrice()
-      const l2GasEstimate = await this.L2Provider!.estimateGas(payload)
-      return l2GasPrice.mul(l2GasEstimate).toNumber()
-    } catch {
-      return 0
-    }
-  }
-
-  // TODO: fee.service.ts
-  /***********************************************/
-  /*****              Exit fee               *****/
-
-  /***********************************************/
-  async getExitFeeFromBillingContract() {
-    const L2BillingContract = new ethers.Contract(
-      this.addresses.Proxy__BobaBillingContract,
-      L2BillingContractABI,
-      this.L2Provider
-    )
-    return ethers.utils.formatEther(await L2BillingContract.exitFee())
   }
 
   async submitTxBuilder(

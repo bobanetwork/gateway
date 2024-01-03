@@ -19,6 +19,7 @@
 
 import networkService from 'services/networkService'
 import { createAction } from './createAction'
+import feeService from 'services/fee.service'
 
 export const fetchL1LPBalance = (address: string) =>
   createAction('FETCH/L1LP/BALANCE', () => networkService.L1LPBalance(address))
@@ -86,5 +87,5 @@ export const fetchL2BalanceBOBA = () =>
 
 export const fetchExitFee = () =>
   createAction('FETCH/EXITFEE', () =>
-    networkService.getExitFeeFromBillingContract()
+    feeService.getExitFeeFromBillingContract()
   )

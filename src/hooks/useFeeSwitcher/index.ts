@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectBobaFeeChoice, selectlayer2Balance } from 'selectors'
 import networkService from 'services/networkService'
 import { logAmount } from 'util/amountConvert'
+import feeService from 'services/fee.service'
 
 /**
  * useFeeSwitcher.
@@ -31,7 +32,7 @@ const useFeeSwitcher = () => {
       let tooSmallL1NativeToken: boolean
       // mini balance required for token to use as bridge fee
       const minL1NativeBalance =
-        await networkService.estimateMinL1NativeTokenForFee() //0.002
+        await feeService.estimateMinL1NativeTokenForFee() //0.002
       let tooSmallBOBA: boolean
       if (typeof balanceBOBA === 'undefined') {
         tooSmallBOBA = true
