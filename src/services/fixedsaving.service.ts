@@ -1,8 +1,8 @@
 import { BigNumber, BigNumberish, ethers, utils } from 'ethers'
-import walletService from './wallet.service'
-import networkService from './networkService'
-import { BOBAABI, BobaFixedSavingsABI } from './abi'
 import { logAmount } from 'util/amountConvert'
+import { BobaFixedSavingsABI } from './abi'
+import networkService from './networkService'
+import walletService from './wallet.service'
 
 export class FixedSavingService {
   async addFS_Savings(amountToStake: BigNumberish) {
