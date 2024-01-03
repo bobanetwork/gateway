@@ -61,9 +61,11 @@ export const updateWithdrawPayload = (withdrawToken: any) => ({
   payload: withdrawToken,
 })
 
+// TODO: refer from balance.service.ts
 export const fetchL1LPBalance = (currency: string) =>
   createAction('FETCH/L1LPBALANCE', () => earnService.getL1LPBalance(currency))
 
+// TODO: refer from balance.service.ts
 export const fetchL2LPBalance = (currency: string) =>
   createAction('FETCH/L2LPBALANCE', () => earnService.getL2LPBalance(currency))
 

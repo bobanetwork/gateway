@@ -176,6 +176,7 @@ class NetworkService {
     this.walletService = walletService
   }
 
+  // TODO: fee.service.ts or find better name.
   async getBobaFeeChoice() {
     const bobaFeeContract = new ethers.Contract(
       this.addresses.Boba_GasPriceOracle,
@@ -207,6 +208,7 @@ class NetworkService {
     }
   }
 
+  // TODO: fee.service.ts or find better name.
   async estimateMinL1NativeTokenForFee() {
     if (this.L1orL2 !== 'L2') {
       return 0
@@ -229,6 +231,7 @@ class NetworkService {
     }
   }
 
+  // TODO: fee.service.ts or find better name.
   async switchFee(targetFee) {
     if (this.L1orL2 !== 'L2') {
       return
@@ -268,6 +271,8 @@ class NetworkService {
     }
   }
 
+  // TODO: swap.service.ts
+  // TODO: rename to swap it's more over emergency swap feature.
   async getETHMetaTransaction() {
     const EIP712Domain = [
       { name: 'name', type: 'string' },
@@ -351,6 +356,7 @@ class NetworkService {
     }
   }
 
+  //TODO: app.service.ts
   async getAddressCached(cache, contractName, varToSet) {
     const address = cache[contractName]
     if (typeof address === 'undefined') {
@@ -367,6 +373,8 @@ class NetworkService {
   getAllAddresses() {
     return this.addresses
   }
+
+  // TODO: cleannup and see if we can move contract initiation specific to service or function.
 
   async initializeBase({ networkGateway: network, networkType }) {
     this.network = network //// refer this in other services and clean up iteratively.
@@ -752,6 +760,7 @@ class NetworkService {
     }
   }
 
+  // TODO: cleanup and move to walletService itself.
   async switchChain(targetLayer) {
     // ignore request if we are already on the target layer
 
@@ -785,6 +794,7 @@ class NetworkService {
     return this.walletService.switchChain(targetIDHex, chainParam)
   }
 
+  // TODO: token.service.ts
   async addTokenList() {
     // Add the token to our master list, if we do not have it yet
     // if the token is already in the list, then this function does nothing
@@ -798,6 +808,7 @@ class NetworkService {
     })
   }
 
+  // TODO: balance.service.ts
   async getL1FeeBalance() {
     try {
       const balance = await this.L1Provider!.getBalance(this.account!)
@@ -808,6 +819,7 @@ class NetworkService {
     }
   }
 
+  // TODO: balance.service.ts
   async getL2BalanceETH() {
     try {
       const balance = await this.L2Provider!.getBalance(this.account!)
@@ -818,6 +830,7 @@ class NetworkService {
     }
   }
 
+  // TODO: balance.service.ts
   async getL2BalanceBOBA() {
     try {
       const ERC20Contract = new ethers.Contract(
@@ -833,6 +846,7 @@ class NetworkService {
     }
   }
 
+  // TODO: balance.service.ts
   async getBalances() {
     try {
       let layer1Balances
@@ -1015,6 +1029,7 @@ class NetworkService {
     }
   }
 
+  // TODO: bridging.service.ts
   //Move ETH from L1 to L2 using the standard deposit system
   /******
    * Deposit ETH from L1 to L2.
@@ -1093,6 +1108,8 @@ class NetworkService {
     }
   }
 
+  // TODO: bridging.service.ts
+  // REVIEW: More over looks like deprecated so we can remove this.
   //Transfer funds from one account to another, on the L2
   async transfer(
     address: string,
@@ -1126,7 +1143,9 @@ class NetworkService {
     }
   }
 
-  //Transfer funds from one account to another, on the L2
+  // TODO: bridging.service.ts
+  // REVIEW: More over looks like deprecated so we can remove this.
+  //Estimate funds transfer from one account to another, on the L2
   async transferEstimate(
     recipient: string,
     value_Wei_String: string,
@@ -1264,6 +1283,7 @@ class NetworkService {
     }
   }
 
+  // TODO: bridging.service.ts
   //Used to move ERC20 Tokens from L1 to L2 using the classic deposit
   async depositErc20({
     recipient = null,
@@ -1360,6 +1380,7 @@ class NetworkService {
     }
   }
 
+  // TODO: bridging.service.ts
   //Standard 7 day exit from BOBA
   async exitBOBA(currencyAddress, value_Wei_String) {
     await updateSignatureStatus_exitTRAD(false)
@@ -1461,6 +1482,7 @@ class NetworkService {
     }
   }
 
+  // TODO: balance.service.ts
   /* Estimate cost of Classical Exit to L1 */
   async getExitCost(currencyAddress: string) {
     try {
@@ -1538,9 +1560,8 @@ class NetworkService {
   /*****                  Fee                *****/
   /***** Fees are reported as integers,      *****/
   /***** where every int represents 0.1%     *****/
-
   /***********************************************/
-
+  // TODO: balance.service.ts
   async getL1TotalFeeRate() {
     try {
       const L1LPContract = new ethers.Contract(
@@ -1567,7 +1588,7 @@ class NetworkService {
       return error
     }
   }
-
+  // TODO: balance.service.ts
   async getL2TotalFeeRate() {
     try {
       const L2LPContract = new ethers.Contract(
@@ -1595,6 +1616,7 @@ class NetworkService {
     }
   }
 
+  // TODO: balance.service.ts
   async getL1UserRewardFeeRate(tokenAddress) {
     try {
       const L1LPContract = new ethers.Contract(
@@ -1611,6 +1633,7 @@ class NetworkService {
     }
   }
 
+  // TODO: balance.service.ts
   async getL2UserRewardFeeRate(tokenAddress) {
     try {
       const L2LPContract = new ethers.Contract(
@@ -1627,355 +1650,11 @@ class NetworkService {
     }
   }
 
-  /*****************************************************/
-  /***** Pool, User Info, to populate the Earn tab *****/
-
-  /*****************************************************/
-  // FIXME: remove
-  async getL1LPInfo() {
-    const poolInfo = {}
-    const userInfo = {}
-
-    const tokenAddressList = Object.keys(this.tokenAddresses!).reduce(
-      (acc, cur) => {
-        if (
-          cur !== 'xBOBA' &&
-          cur !== 'OLO' &&
-          cur !== 'WAGMIv0' &&
-          cur !== 'WAGMIv1' &&
-          cur !== 'WAGMIv2' &&
-          cur !== 'WAGMIv2-Oolong' &&
-          cur !== 'WAGMIv3' &&
-          cur !== 'WAGMIv3-Oolong'
-        ) {
-          acc.push(this.tokenAddresses![cur].L1.toLowerCase())
-        }
-        return acc
-      },
-      [this.addresses.L1_ETH_Address]
-    )
-
-    const L1LPContract = new ethers.Contract(
-      this.addresses.L1LPAddress,
-      L1LiquidityPoolABI,
-      this.L1Provider
-    )
-
-    const L1LPInfoPromise: any = []
-
-    const getL1LPInfoPromise = async (tokenAddress) => {
-      let tokenBalance
-      let tokenSymbol
-      let tokenName
-      let decimals
-
-      if (tokenAddress === this.addresses.L1_ETH_Address) {
-        //getting eth balance
-        tokenBalance = await this.L1Provider!.getBalance(
-          this.addresses.L1LPAddress
-        )
-        tokenSymbol = this.L1NativeTokenSymbol
-        tokenName = this.L1NativeTokenName
-        decimals = 18
-      } else {
-        //getting eth balance
-        tokenBalance = await this.L1_TEST_Contract!.attach(tokenAddress)
-          .connect(this.L1Provider!)
-          .balanceOf(this.addresses.L1LPAddress)
-        const tokenInfoFiltered =
-          this.tokenInfo!.L1[utils.getAddress(tokenAddress)]
-        if (tokenInfo) {
-          tokenSymbol = tokenInfoFiltered?.symbol
-          tokenName = tokenInfoFiltered?.name
-          decimals = tokenInfoFiltered?.decimals
-        } else {
-          tokenSymbol = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .symbol()
-          tokenName = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .name()
-          decimals = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .decimals()
-        }
-      }
-
-      const poolTokenInfo = await L1LPContract.poolInfo(tokenAddress)
-      let userTokenInfo = {}
-      if (typeof this.account !== 'undefined' && this.account) {
-        userTokenInfo = await L1LPContract.userInfo(tokenAddress, this.account)
-      }
-      return {
-        tokenAddress,
-        tokenBalance,
-        tokenSymbol,
-        tokenName,
-        poolTokenInfo,
-        userTokenInfo,
-        decimals,
-      }
-    }
-
-    tokenAddressList.forEach((tokenAddress) =>
-      L1LPInfoPromise.push(getL1LPInfoPromise(tokenAddress))
-    )
-
-    const L1LPInfo = await Promise.all(L1LPInfoPromise)
-    sortRawTokens(L1LPInfo).forEach((token) => {
-      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
-      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
-      const duration =
-        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
-      const durationDays = duration / (60 * 60 * 24 * 1000)
-      const annualRewardEstimate = (365 * rewards) / durationDays
-      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
-      if (!annualYieldEstimate) {
-        annualYieldEstimate = 0
-      }
-      poolInfo[token.tokenAddress.toLowerCase()] = {
-        symbol: token.tokenSymbol,
-        name: token.tokenName,
-        decimals: token.decimals,
-        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
-        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
-        accUserReward: token.poolTokenInfo.accUserReward.toString(),
-        accUserRewardPerShare:
-          token.poolTokenInfo.accUserRewardPerShare.toString(),
-        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
-        startTime: token.poolTokenInfo.startTime.toString(),
-        APR: annualYieldEstimate,
-        tokenBalance: token.tokenBalance.toString(),
-      }
-      userInfo[token.tokenAddress] = {
-        l1TokenAddress: token.tokenAddress.toLowerCase(),
-        amount: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.amount.toString()
-          : 0,
-        pendingReward: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.pendingReward.toString()
-          : 0,
-        rewardDebt: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.rewardDebt.toString()
-          : 0,
-      }
-    })
-
-    return { poolInfo, userInfo }
-  }
-
-  // FIXME: remove
-
-  async getL2LPInfo() {
-    const tokenAddressList = Object.keys(this.tokenAddresses!).reduce(
-      (acc, cur) => {
-        if (
-          cur !== 'xBOBA' &&
-          cur !== 'OLO' &&
-          cur !== 'WAGMIv0' &&
-          cur !== 'WAGMIv1' &&
-          cur !== 'WAGMIv2' &&
-          cur !== 'WAGMIv2-Oolong' &&
-          cur !== 'WAGMIv3' &&
-          cur !== 'WAGMIv3-Oolong'
-        ) {
-          acc.push({
-            L1: this.tokenAddresses![cur].L1.toLowerCase(),
-            L2: this.tokenAddresses![cur].L2.toLowerCase(),
-          })
-        }
-        return acc
-      },
-      [
-        {
-          L1: this.addresses.L1_ETH_Address,
-          L2: this.addresses[`TK_L2${this.L1NativeTokenSymbol}`],
-        },
-      ]
-    )
-
-    const L2LPContract = new ethers.Contract(
-      this.addresses.L2LPAddress,
-      L2LiquidityPoolABI,
-      this.L2Provider
-    )
-
-    const poolInfo = {}
-    const userInfo = {}
-
-    const L2LPInfoPromise: any = []
-
-    const getL2LPInfoPromise = async (
-      tokenAddress: string,
-      tokenAddressL1: string
-    ) => {
-      let tokenBalance
-      let tokenSymbol
-      let tokenName
-      let decimals
-
-      if (tokenAddress === this.addresses.L2_ETH_Address) {
-        tokenBalance = await this.L2Provider!.getBalance(
-          this.addresses.L2LPAddress
-        )
-        tokenSymbol = this.network === Network.ETHEREUM ? 'ETH' : 'BOBA'
-        tokenName =
-          this.network === Network.ETHEREUM ? 'Ethereum' : 'BOBA Token'
-        decimals = 18
-      } else {
-        tokenBalance = await this.L2_TEST_Contract!.attach(tokenAddress)
-          .connect(this.L2Provider!)
-          .balanceOf(this.addresses.L2LPAddress)
-        const tokenInfoFiltered =
-          this.tokenInfo!.L2[utils.getAddress(tokenAddress)]
-        if (tokenInfo) {
-          tokenSymbol = tokenInfoFiltered.symbol
-          tokenName = tokenInfoFiltered.name
-          decimals = tokenInfoFiltered.decimals
-        } else {
-          tokenSymbol = await this.L2_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L2Provider!)
-            .symbol()
-          tokenName = await this.L2_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L2Provider!)
-            .name()
-          decimals = await this.L1_TEST_Contract!.attach(tokenAddressL1)
-            .connect(this.L1Provider!)
-            .decimals()
-        }
-      }
-      const poolTokenInfo = await L2LPContract.poolInfo(tokenAddress)
-      let userTokenInfo = {}
-      if (typeof this.account !== 'undefined' && this.account) {
-        userTokenInfo = await L2LPContract.userInfo(tokenAddress, this.account)
-      }
-      return {
-        tokenAddress,
-        tokenBalance,
-        tokenSymbol,
-        tokenName,
-        poolTokenInfo,
-        userTokenInfo,
-        decimals,
-      }
-    }
-
-    tokenAddressList.forEach(({ L1, L2 }) =>
-      L2LPInfoPromise.push(getL2LPInfoPromise(L2, L1))
-    )
-
-    const L2LPInfo = await Promise.all(L2LPInfoPromise)
-
-    sortRawTokens(L2LPInfo).forEach((token) => {
-      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
-      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
-      const duration =
-        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
-      const durationDays = duration / (60 * 60 * 24 * 1000)
-      const annualRewardEstimate = (365 * rewards) / durationDays
-      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
-      if (!annualYieldEstimate) {
-        annualYieldEstimate = 0
-      }
-      poolInfo[token.tokenAddress.toLowerCase()] = {
-        symbol: token.tokenSymbol,
-        name: token.tokenName,
-        decimals: token.decimals,
-        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
-        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
-        accUserReward: token.poolTokenInfo.accUserReward.toString(),
-        accUserRewardPerShare:
-          token.poolTokenInfo.accUserRewardPerShare.toString(),
-        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
-        startTime: token.poolTokenInfo.startTime.toString(),
-        APR: annualYieldEstimate,
-        tokenBalance: token.tokenBalance.toString(),
-      }
-      userInfo[token.tokenAddress.toLowerCase()] = {
-        l2TokenAddress: token.tokenAddress.toLowerCase(),
-        amount: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.amount.toString()
-          : 0,
-        pendingReward: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.pendingReward.toString()
-          : 0,
-        rewardDebt: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.rewardDebt.toString()
-          : 0,
-      }
-    })
-
-    return { poolInfo, userInfo }
-  }
-
-  // FIXME: remove
-  // move this to separate service of earn.
-  /***********************************************/
-  /*****           Get Reward                *****/
-  /***********************************************/
-  async getReward(
-    currencyAddress,
-    value_Wei_String,
-    L1orL2Pool: LiquidityPoolLayer
-  ) {
-    try {
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
-      )
-        .connect(this.provider!.getSigner())
-        .withdrawReward(value_Wei_String, currencyAddress, this.account)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: getReward error:', error)
-      return error
-    }
-  }
-
-  // TODO: remove
-  /***********************************************/
-  /*****          Withdraw Liquidity         *****/
-
-  /***********************************************/
-  async withdrawLiquidity(
-    currency,
-    value_Wei_String,
-    L1orL2Pool: LiquidityPoolLayer
-  ) {
-    try {
-      const estimateGas = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
-      ).estimateGas.withdrawLiquidity(
-        value_Wei_String,
-        currency,
-        this.account,
-        { from: this.account }
-      )
-      const blockGasLimit = (await this.provider!.getBlock('latest')).gasLimit
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
-      )
-        .connect(this.provider!.getSigner())
-        .withdrawLiquidity(value_Wei_String, currency, this.account, {
-          gasLimit: estimateGas.mul(2).gt(blockGasLimit)
-            ? blockGasLimit
-            : estimateGas.mul(2),
-        })
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: withdrawLiquidity error:', error)
-      return error
-    }
-  }
-
   /***********************************************************/
   /***** SWAP ON to BOBA by depositing funds to the L1LP *****/
-
   /***********************************************************/
+
+  // TODO: move to bridging service as it's corresponds to fast deposits.
   async depositL1LP(currency, value_Wei_String) {
     try {
       await updateSignatureStatus_depositLP(false)
@@ -2010,6 +1689,7 @@ class NetworkService {
     }
   }
 
+  // TODO: teleportation.service.ts
   getTeleportationAddress(chainId?: number) {
     if (!chainId) {
       chainId = this.chainId
@@ -2034,6 +1714,7 @@ class NetworkService {
     return { teleportationAddr, networkConfig }
   }
 
+  // TODO: teleportation.service.ts
   getTeleportationContract(chainId) {
     const { teleportationAddr, networkConfig } =
       this.getTeleportationAddress(chainId)
@@ -2051,6 +1732,7 @@ class NetworkService {
     return this.Teleportation!.attach(teleportationAddr).connect(provider)
   }
 
+  // TODO: teleportation.service.ts
   async isTeleportationOfAssetSupported(layer, token, destChainId) {
     const teleportationAddr =
       layer === Layer.L1
@@ -2065,6 +1747,7 @@ class NetworkService {
     return contract.supportedTokens(token, destChainId)
   }
 
+  // TODO: teleportation.service.ts
   async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
     try {
       updateSignatureStatus_depositLP(false)
@@ -2131,7 +1814,7 @@ class NetworkService {
 
   /***************************************/
   /************ L1LP Pool size ***********/
-
+  // TODO: balance.service.ts
   async L1LPPending(tokenAddress): Promise<string> {
     const L1pending = await omgxWatcherAxiosInstance(this.networkConfig).get(
       'get.l2.pendingexits',
@@ -2155,8 +1838,9 @@ class NetworkService {
 
   /***************************************/
   /************ L1LP Pool size ***********/
-
   /***************************************/
+
+  // TODO: balance.service.ts
   async L2LPPending(tokenAddress) {
     //Placeholder return
     const sum = BigNumber.from('0')
@@ -2167,6 +1851,7 @@ class NetworkService {
   /************ L1LP Pool size ***********/
 
   /***************************************/
+  // TODO: balance.service.ts
   async L1LPBalance(tokenAddress): Promise<string> {
     let balance: BigNumberish
     const tokenAddressLC = tokenAddress.toLowerCase()
@@ -2187,8 +1872,8 @@ class NetworkService {
 
   /***************************************/
   /************ L2LP Pool size ***********/
-
   /***************************************/
+  // TODO: balance.service.ts
   async L2LPBalance(tokenAddress): Promise<string> {
     let balance: BigNumberish
     const tokenAddressLC = tokenAddress.toLowerCase()
@@ -2212,8 +1897,8 @@ class NetworkService {
 
   /***************************************/
   /*********** L1LP Liquidity ************/
-
   /***************************************/
+  // TODO: balance.service.ts
   async L1LPLiquidity(tokenAddress) {
     const L1LPContractNS = new ethers.Contract(
       this.addresses.L1LPAddress,
@@ -2234,6 +1919,7 @@ class NetworkService {
   /*********** L2LP Liquidity ************/
 
   /***************************************/
+  // TODO: balance.service.ts
   async L2LPLiquidity(tokenAddress) {
     const L2LPContractNS = new ethers.Contract(
       this.addresses.L2LPAddress,
@@ -2250,6 +1936,7 @@ class NetworkService {
     }
   }
 
+  //TODO: bridging.service.ts
   /* Estimate cost of Fast Exit to L1 */
   async getFastExitCost(currencyAddress) {
     let approvalCost_BN = BigNumber.from('0')
@@ -2330,6 +2017,7 @@ class NetworkService {
     return utils.formatEther(depositCost_BN.add(approvalCost_BN))
   }
 
+  //TODO: bridging.service.ts
   /* Estimate cost of Fast Deposit to L2 */
   async getFastDepositCost(currencyAddress: string) {
     let approvalCost_BN = BigNumber.from('0')
@@ -2375,8 +2063,8 @@ class NetworkService {
 
   /**************************************************************/
   /***** SWAP OFF from BOBA by depositing funds to the L2LP *****/
-
   /**************************************************************/
+  // TODO: bridging.service.ts
   async depositL2LP(currencyAddress: string, value_Wei_String: BigNumberish) {
     await updateSignatureStatus_exitLP(false)
 
@@ -2484,6 +2172,7 @@ class NetworkService {
     }
   }
 
+  // TODO: price.service.ts or api.service.ts
   async fetchLookUpPrice(params) {
     try {
       // fetching only the prices compare to usd.
@@ -2500,6 +2189,7 @@ class NetworkService {
   /*****         DAO Functions               *****/
   /***********************************************/
 
+  // TODO: dao.service.ts
   // get DAO Balance
   async getDaoBalance() {
     if (!this.BobaContract) {
@@ -2520,6 +2210,7 @@ class NetworkService {
     }
   }
 
+  // TODO: dao.service.ts
   async getDaoBalanceX() {
     if (!this.xBobaContract) {
       return
@@ -2539,6 +2230,7 @@ class NetworkService {
     }
   }
 
+  // TODO: dao.service.ts
   // get DAO Votes
   async getDaoVotes() {
     if (!this.BobaContract) {
@@ -2559,6 +2251,7 @@ class NetworkService {
     }
   }
 
+  // TODO: dao.service.ts
   // get DAO Votes
   async getDaoVotesX() {
     if (!this.xBobaContract) {
@@ -2579,6 +2272,7 @@ class NetworkService {
     }
   }
 
+  // TODO: dao.service.ts
   //Delegate DAO Authority
   async delegateVotes({ recipient }) {
     if (this.L1orL2 !== 'L2') {
@@ -2605,6 +2299,7 @@ class NetworkService {
     }
   }
 
+  // TODO: dao.service.ts
   //Delegate DAO Authority
   async delegateVotesX({ recipient }) {
     if (this.L1orL2 !== 'L2') {
@@ -2631,6 +2326,7 @@ class NetworkService {
     }
   }
 
+  // TODO: dao.service.ts
   // Proposal Create Threshold
   async getProposalThreshold() {
     if (!this.delegateContract) {
@@ -2653,7 +2349,7 @@ class NetworkService {
   /************************/
   /*****Old Dao Fix Me.****/
   /************************/
-
+  // TODO: dao.service.ts
   // FIXME:
   async createProposal(payload) {
     if (this.L1orL2 !== 'L2') {
@@ -2741,6 +2437,7 @@ class NetworkService {
     }
   }
 
+  // TODO: dao.service.ts
   //Fetch DAO Proposals
   async queueProposal(proposalID) {
     if (!this.delegateContract) {
@@ -2762,7 +2459,7 @@ class NetworkService {
       return error
     }
   }
-
+  // TODO: dao.service.ts
   async executeProposal(proposalID) {
     if (!this.delegateContract) {
       return
@@ -2786,8 +2483,10 @@ class NetworkService {
 
   /***********************************************/
   /*****       Fixed savings account         *****/
-
   /***********************************************/
+
+  // TODO: fixedsaving.service.ts
+
   async addFS_Savings(value_Wei_String: BigNumberish) {
     if (!this.account) {
       console.log(
@@ -2841,6 +2540,7 @@ class NetworkService {
     }
   }
 
+  // TODO: fixedsaving.service.ts
   async savingEstimate() {
     // used to generate gas estimates for contracts that cannot set amount === 0
     // to avoid need to approve amount
@@ -2899,6 +2599,7 @@ class NetworkService {
     }
   }
 
+  // TODO: fixedsaving.service.ts
   async withdrawFS_Savings(stakeID) {
     if (!this.account) {
       return
@@ -2919,6 +2620,7 @@ class NetworkService {
     }
   }
 
+  // TODO: fixedsaving.service.ts
   async getFS_Saves() {
     if (this.account === null) {
       return
@@ -2939,6 +2641,7 @@ class NetworkService {
     }
   }
 
+  // TODO: fixedsaving.service.ts
   async getFS_Info() {
     if (this.account === null) {
       console.log('NS: getFS_Info() error - called but account === null')
@@ -2976,8 +2679,10 @@ class NetworkService {
 
   /***********************************************/
   /*****            L1 Security Fee          *****/
-
   /***********************************************/
+
+  // TODO: fee.service.ts
+
   async estimateL1SecurityFee(payload = this.payloadForL1SecurityFee) {
     const deepCopyPayload = { ...payload }
     delete deepCopyPayload.from
@@ -2993,6 +2698,7 @@ class NetworkService {
     return l1SecurityFee.toNumber()
   }
 
+  // TODO: fee.service.ts
   /***********************************************/
   /*****                L2 Fee              *****/
 
@@ -3007,6 +2713,7 @@ class NetworkService {
     }
   }
 
+  // TODO: fee.service.ts
   /***********************************************/
   /*****              Exit fee               *****/
 
@@ -3020,13 +2727,10 @@ class NetworkService {
     return ethers.utils.formatEther(await L2BillingContract.exitFee())
   }
 
-  /*************************************************
-   **************** Alt L1 Functions ***************
-   *************************************************/
-
   /****************************************
    ************* DAO ***********
    *****************************************/
+  // TODO: dao.service.ts
   async fetchProposals() {
     if (!this.delegateContract) {
       return
@@ -3114,6 +2818,7 @@ class NetworkService {
     }
   }
 
+  // TODO: dao.service.ts
   async castProposalVote({ id, userVote }) {
     if (!this.delegateContract) {
       return
@@ -3198,11 +2903,12 @@ class NetworkService {
   }
 
   // getting block number;
-
+  //TODO common.service.ts OR app.service.ts
   async getLatestBlockNumber() {
     return this.provider!.getBlockNumber()
   }
 
+  //TODO common.service.ts OR app.service.ts
   async getBlockTime(blockNumber) {
     return (await this.provider!.getBlock(blockNumber)).timestamp
   }
