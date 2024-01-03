@@ -1,10 +1,16 @@
-import { BigNumber, ethers, utils } from 'ethers'
+import { BigNumber, BigNumberish, ethers, utils } from 'ethers'
 import networkService from './networkService'
 import walletService from './wallet.service'
-import { L1ERC20ABI, L2StandardERC20ABI } from './abi'
+import {
+  L1ERC20ABI,
+  L1LiquidityPoolABI,
+  L2LiquidityPoolABI,
+  L2StandardERC20ABI,
+} from './abi'
 import orderBy from 'lodash.orderby'
 import { Network } from 'util/network/network.util'
 import store from 'store'
+import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 
 export class BalanceService {
   async getL1FeeBalance() {
@@ -256,6 +262,107 @@ export class BalanceService {
     } catch (error) {
       console.log('NS: getBalances error:', error)
       return error
+    }
+  }
+
+  async L2LPPending(tokenAddress: string) {
+    //Placeholder return
+    const sum = BigNumber.from('0')
+    return sum.toString()
+  }
+
+  async L1LPPending(tokenAddress: string): Promise<string> {
+    const L1pending = await omgxWatcherAxiosInstance(
+      networkService.networkConfig
+    ).get('get.l2.pendingexits', {})
+
+    const pendingFast = L1pending.data.filter((i) => {
+      return (
+        i.fastRelay === 1 && //fast exit
+        i.exitToken.toLowerCase() === tokenAddress.toLowerCase()
+      ) //and, this specific token
+    })
+
+    const sum = pendingFast.reduce((prev, current) => {
+      const weiString = BigNumber.from(current.exitAmount)
+      return prev.add(weiString)
+    }, BigNumber.from('0'))
+
+    return sum.toString()
+  }
+
+  async L1LPBalance(tokenAddress: string): Promise<string> {
+    let balance: BigNumberish
+    const tokenAddressLC = tokenAddress.toLowerCase()
+
+    if (
+      tokenAddressLC === networkService.addresses.L2_ETH_Address ||
+      tokenAddressLC === networkService.addresses.L1_ETH_Address
+    ) {
+      balance = await networkService.L1Provider!.getBalance(
+        networkService.addresses.L1LPAddress
+      )
+    } else {
+      balance = await networkService
+        .L1_TEST_Contract!.attach(tokenAddress)
+        .connect(networkService.L1Provider!)
+        .balanceOf(networkService.addresses.L1LPAddress)
+    }
+
+    return balance.toString()
+  }
+
+  async L2LPBalance(tokenAddress: string): Promise<string> {
+    let balance: BigNumberish
+    const tokenAddressLC = tokenAddress.toLowerCase()
+
+    if (
+      tokenAddressLC === networkService.addresses.L2_BOBA_Address ||
+      tokenAddressLC === networkService.addresses.L1_ETH_Address
+    ) {
+      //We are dealing with ETH
+      balance = await networkService
+        .L2_ETH_Contract!.connect(networkService.L2Provider!)
+        .balanceOf(networkService.addresses.L2LPAddress)
+    } else {
+      balance = await networkService
+        .L2_TEST_Contract!.attach(tokenAddress)
+        .connect(networkService.L2Provider!)
+        .balanceOf(networkService.addresses.L2LPAddress)
+    }
+
+    return balance.toString()
+  }
+
+  async L1LPLiquidity(tokenAddress: string) {
+    const L1LPContract = new ethers.Contract(
+      networkService.addresses.L1LPAddress,
+      L1LiquidityPoolABI,
+      networkService.L1Provider
+    )
+
+    try {
+      const poolTokenInfo = await L1LPContract.poolInfo(tokenAddress)
+      return poolTokenInfo.userDepositAmount.toString()
+    } catch (error) {
+      console.log('NS: L1LPLiquidity error:', error)
+      return 0
+    }
+  }
+
+  async L2LPLiquidity(tokenAddress: string) {
+    const L2LPContract = new ethers.Contract(
+      networkService.addresses.L2LPAddress,
+      L2LiquidityPoolABI,
+      networkService.L2Provider
+    )
+
+    try {
+      const poolTokenInfo = await L2LPContract.poolInfo(tokenAddress)
+      return poolTokenInfo.userDepositAmount.toString()
+    } catch (error) {
+      console.log('NS: L2LPLiquidity error:', error)
+      return 0
     }
   }
 }
