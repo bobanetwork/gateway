@@ -134,13 +134,6 @@ const EarnListItem = ({
     enableReward = true
   }
 
-  console.log({
-    disabled,
-    amount: logAmount(userReward, decimals),
-    enableReward,
-    canHarvest: logAmount(userReward, decimals) === '0',
-  })
-
   const actionItems = [
     {
       disabled,
