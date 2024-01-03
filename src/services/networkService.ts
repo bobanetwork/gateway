@@ -357,38 +357,34 @@ class NetworkService {
       if (network === Network.ETHEREUM) {
         // check only if selected network is ETHEREUM
         if (
-          !(await this.getAddressCached(
-            this.addresses,
-            'BobaMonsters',
-            'BobaMonsters'
-          ))
+          !this.getAddressCached(this.addresses, 'BobaMonsters', 'BobaMonsters')
         ) {
           return
         }
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'Proxy__L1LiquidityPool',
             'L1LPAddress'
-          ))
+          )
         ) {
           return
         }
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'Proxy__L2LiquidityPool',
             'L2LPAddress'
-          ))
+          )
         ) {
           return
         }
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'Proxy__BobaFixedSavings',
             'BobaFixedSavings'
-          ))
+          )
         ) {
           return
         }
@@ -397,45 +393,45 @@ class NetworkService {
       const isLimitedNetwork = networkLimitedAvailability(networkType, network)
       if (!isLimitedNetwork) {
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'Proxy__L1CrossDomainMessenger',
             'L1MessengerAddress'
-          ))
+          )
         ) {
           return
         }
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'Proxy__L1CrossDomainMessengerFast',
             'L1FastMessengerAddress'
-          ))
+          )
         ) {
           return
         }
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'Proxy__L1StandardBridge',
             'L1StandardBridgeAddress'
-          ))
+          )
         ) {
           return
         }
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'Proxy__Boba_GasPriceOracle',
             'Boba_GasPriceOracle'
-          ))
+          )
         ) {
           return
         }
       }
 
       // not critical
-      await this.getAddressCached(
+      this.getAddressCached(
         this.addresses,
         'DiscretionaryExitFee',
         'DiscretionaryExitFee'
@@ -563,20 +559,20 @@ class NetworkService {
         )
 
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'GovernorBravoDelegate',
             'GovernorBravoDelegate'
-          ))
+          )
         ) {
           return
         }
         if (
-          !(await this.getAddressCached(
+          !this.getAddressCached(
             this.addresses,
             'GovernorBravoDelegator',
             'GovernorBravoDelegator'
-          ))
+          )
         ) {
           return
         }
