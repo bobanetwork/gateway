@@ -36,11 +36,11 @@ import { PlaceholderConnect } from 'components/global/placeholderConnect'
 import { Typography } from 'components/global/typography'
 import TransactionList from 'components/stake/transactionList'
 import { BigNumber, utils } from 'ethers'
-import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
 
 import useInterval from 'hooks/useInterval'
 import { selectBalance, selectFixed, selectLayer, selectSetup } from 'selectors'
+import fixedSavingService from 'services/fixedsaving.service'
 import styled from 'styled-components'
 import { POLL_INTERVAL } from 'util/constant'
 
@@ -105,7 +105,7 @@ const Save = () => {
       let fee = '0'
 
       if (netLayer === 'L2') {
-        const cost_BN: any = await networkService.savingEstimate()
+        const cost_BN: any = await fixedSavingService.savingEstimate()
 
         if (bobaFeeChoice) {
           // we are staking BOBA and paying in BOBA

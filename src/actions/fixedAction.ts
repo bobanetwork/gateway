@@ -17,19 +17,21 @@
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import networkService from 'services/networkService'
+import fixedSavingService from 'services/fixedsaving.service'
 import { createAction } from './createAction'
 
 export const addFS_Savings = (weiString: string) =>
-  createAction('ADD/FS_SAVINGS', () => networkService.addFS_Savings(weiString))
+  createAction('ADD/FS_SAVINGS', () =>
+    fixedSavingService.addFS_Savings(weiString)
+  )
 
 export const withdrawFS_Savings = (stakeID: number) =>
   createAction('WITHDRAW/FS_SAVINGS', () =>
-    networkService.withdrawFS_Savings(stakeID)
+    fixedSavingService.withdrawFS_Savings(stakeID)
   )
 
 export const getFS_Saves = () =>
-  createAction('GET/FS_SAVES', () => networkService.getFS_Saves())
+  createAction('GET/FS_SAVES', () => fixedSavingService.getFS_Saves())
 
 export const getFS_Info = () =>
-  createAction('GET/FS_INFO', () => networkService.getFS_Info())
+  createAction('GET/FS_INFO', () => fixedSavingService.getFS_Info())
