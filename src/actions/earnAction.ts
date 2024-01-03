@@ -16,8 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
-
-import networkService from 'services/networkService'
+import earnService from 'services/earn.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
 import { LiquidityPoolLayer } from 'types/earn.types'
@@ -39,8 +38,8 @@ const getEarnInfoSuccess = (
 export const getEarnInfo = () => async (dispatch) => {
   dispatch(getEarnInfoBegin())
   const [L1LPInfo, L2LPInfo] = await Promise.all([
-    networkService.getL1LPInfo(),
-    networkService.getL2LPInfo(),
+    earnService.getL1LPInfo(),
+    earnService.getL2LPInfo(),
   ])
   dispatch(
     getEarnInfoSuccess(
@@ -63,10 +62,10 @@ export const updateWithdrawPayload = (withdrawToken: any) => ({
 })
 
 export const fetchL1LPBalance = (currency: string) =>
-  createAction('FETCH/L1LPBALANCE', () => networkService.L1LPBalance(currency))
+  createAction('FETCH/L1LPBALANCE', () => earnService.getL1LPBalance(currency))
 
 export const fetchL2LPBalance = (currency: string) =>
-  createAction('FETCH/L2LPBALANCE', () => networkService.L2LPBalance(currency))
+  createAction('FETCH/L2LPBALANCE', () => earnService.getL2LPBalance(currency))
 
 export const getReward = (
   currencyAddress: string,
@@ -74,7 +73,7 @@ export const getReward = (
   L1orL2Pool: LiquidityPoolLayer
 ) =>
   createAction('EARN/HARVEST', () =>
-    networkService.getReward(currencyAddress, value_Wei_String, L1orL2Pool)
+    earnService.withdrawReward(currencyAddress, value_Wei_String, L1orL2Pool)
   )
 
 export const withdrawLiquidity = (
@@ -83,9 +82,5 @@ export const withdrawLiquidity = (
   L1orL2Pool: LiquidityPoolLayer
 ) =>
   createAction('EARN/WITHDRAW', () =>
-    networkService.withdrawLiquidity(
-      currencyAddress,
-      value_Wei_String,
-      L1orL2Pool
-    )
+    earnService.withdrawLiquidity(currencyAddress, value_Wei_String, L1orL2Pool)
   )

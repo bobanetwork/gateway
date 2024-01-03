@@ -1631,6 +1631,7 @@ class NetworkService {
   /***** Pool, User Info, to populate the Earn tab *****/
 
   /*****************************************************/
+  // FIXME: remove
   async getL1LPInfo() {
     const poolInfo = {}
     const userInfo = {}
@@ -1762,6 +1763,8 @@ class NetworkService {
 
     return { poolInfo, userInfo }
   }
+
+  // FIXME: remove
 
   async getL2LPInfo() {
     const tokenAddressList = Object.keys(this.tokenAddresses!).reduce(
@@ -1905,7 +1908,8 @@ class NetworkService {
     return { poolInfo, userInfo }
   }
 
-  // FIXME: move this to separate service of earn.
+  // FIXME: remove
+  // move this to separate service of earn.
   /***********************************************/
   /*****           Get Reward                *****/
   /***********************************************/
@@ -1929,6 +1933,7 @@ class NetworkService {
     }
   }
 
+  // TODO: remove
   /***********************************************/
   /*****          Withdraw Liquidity         *****/
 
