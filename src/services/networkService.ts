@@ -2903,17 +2903,6 @@ class NetworkService {
       return { methodIndex, result: { err: JSON.stringify(err) } }
     }
   }
-
-  // getting block number;
-  //TODO common.service.ts OR app.service.ts
-  async getLatestBlockNumber() {
-    return this.provider!.getBlockNumber()
-  }
-
-  //TODO common.service.ts OR app.service.ts
-  async getBlockTime(blockNumber) {
-    return (await this.provider!.getBlock(blockNumber)).timestamp
-  }
 }
 
 const networkService = new NetworkService()
