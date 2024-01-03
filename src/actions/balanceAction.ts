@@ -63,18 +63,14 @@ export const fetchL2FeeRateN = (tokenAddress: string) =>
   })
 
 export const fetchFastExitCost = (address: string) =>
-  createAction('FETCH/FASTEXIT/COST', () =>
-    networkService.getFastExitCost(address)
-  )
+  createAction('FETCH/FASTEXIT/COST', () => feeService.getFastExitCost(address))
 
 export const fetchClassicExitCost = (address: string) =>
-  createAction('FETCH/CLASSICEXIT/COST', () =>
-    networkService.getExitCost(address)
-  )
+  createAction('FETCH/CLASSICEXIT/COST', () => feeService.getExitCost(address))
 
 export const fetchFastDepositCost = (address: string) =>
   createAction('FETCH/FASTDEPOSIT/COST', () =>
-    networkService.getFastDepositCost(address)
+    feeService.getFastDepositCost(address)
   )
 
 export const fetchL1FeeBalance = () =>

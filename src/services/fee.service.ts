@@ -3,13 +3,14 @@ import networkService from './networkService'
 import {
   BobaGasPriceOracleABI,
   DiscretionaryExitFeeABI,
+  L1ERC20ABI,
   L1LiquidityPoolABI,
   L2BillingContractABI,
   L2LiquidityPoolABI,
   L2StandardERC20ABI,
   OVM_GasPriceOracleABI,
 } from './abi'
-import { Network } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 import { MIN_NATIVE_L1_BALANCE } from 'util/constant'
 import walletService from './wallet.service'
 import { logAmount } from 'util/amountConvert'
@@ -288,6 +289,134 @@ export class FeeService {
     } catch (error) {
       return 0
     }
+  }
+
+  /* Estimate cost of Fast Exit to L1 */
+  async getFastExitCost(currencyAddress) {
+    let approvalCost_BN = BigNumber.from('0')
+
+    const gasPrice = await networkService.L2Provider!.getGasPrice()
+    console.log('Fast exit gas price', gasPrice.toString())
+
+    if (currencyAddress !== networkService.addresses.L2_ETH_Address) {
+      const ERC20Contract = new ethers.Contract(
+        currencyAddress,
+        L2StandardERC20ABI, //any old abi will do...
+        walletService.provider!.getSigner()
+      )
+
+      const tx = await ERC20Contract.populateTransaction.approve(
+        networkService.addresses.L2LPAddress,
+        utils.parseEther('1.0')
+      )
+
+      const approvalGas_BN = await networkService.L2Provider!.estimateGas({
+        ...tx,
+        from: networkService.gasEstimateAccount,
+      })
+      approvalCost_BN = approvalGas_BN.mul(gasPrice)
+      console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
+    }
+
+    const L2BillingContract = new ethers.Contract(
+      networkService.addresses.Proxy__BobaBillingContract,
+      L2BillingContractABI,
+      networkService.L2Provider
+    )
+
+    const approvalAmount = await L2BillingContract.exitFee()
+
+    let value
+    if (networkService.networkGateway === Network.ETHEREUM) {
+      value =
+        currencyAddress === networkService.addresses.L2_ETH_Address
+          ? { value: '1' }
+          : {}
+    } else {
+      value =
+        currencyAddress === networkService.addresses.L2_ETH_Address
+          ? { value: approvalAmount.add('1') }
+          : { value: approvalAmount }
+    }
+
+    //in some cases zero not allowed
+    const tx2 = await networkService
+      .L2LPContract!.connect(walletService.provider!.getSigner())
+      .populateTransaction.clientDepositL2(
+        currencyAddress === networkService.addresses.L2_ETH_Address ? '1' : '0', //ETH does not allow zero
+        currencyAddress,
+        value
+      )
+
+    const depositGas_BN = await networkService.L2Provider!.estimateGas({
+      ...tx2,
+      from: networkService.gasEstimateAccount,
+    })
+
+    let l1SecurityFee = BigNumber.from('0')
+    if (networkService.networkType === NetworkType.MAINNET) {
+      delete tx2.from
+      l1SecurityFee = await networkService.gasOracleContract!.getL1Fee(
+        utils.serializeTransaction(tx2)
+      )
+      // We can't correctly calculate the final l1 securifty fee,
+      // so we increase it by 1.1X to make sure that users have
+      // enough balance to cover it
+      l1SecurityFee = l1SecurityFee.mul('11').div('10')
+      console.log('l1Security fee (ETH)', l1SecurityFee.toString())
+    }
+
+    const depositCost_BN = depositGas_BN.mul(gasPrice).add(l1SecurityFee)
+    console.log('Fast exit cost (ETH):', utils.formatEther(depositCost_BN))
+
+    //returns total cost in ETH
+    return utils.formatEther(depositCost_BN.add(approvalCost_BN))
+  }
+
+  //TODO: bridging.service.ts
+  /* Estimate cost of Fast Deposit to L2 */
+  async getFastDepositCost(currencyAddress: string) {
+    let approvalCost_BN = BigNumber.from('0')
+
+    const gasPrice = await networkService.L1Provider!.getGasPrice()
+    console.log('Fast deposit gas price', gasPrice.toString())
+
+    if (currencyAddress !== networkService.addresses.L1_ETH_Address) {
+      const ERC20Contract = new ethers.Contract(
+        currencyAddress,
+        L1ERC20ABI, //any old abi will do...
+        walletService.provider!.getSigner()
+      )
+
+      const tx = await ERC20Contract.populateTransaction.approve(
+        networkService.addresses.L1LPAddress,
+        utils.parseEther('1.0')
+      )
+
+      const approvalGas_BN = await networkService.L1Provider!.estimateGas(tx)
+      approvalCost_BN = approvalGas_BN.mul(gasPrice)
+      console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
+    }
+
+    //in some cases zero not allowed
+    const tx2 = await networkService
+      .L1LPContract!.connect(walletService.provider!.getSigner())
+      .populateTransaction.clientDepositL1(
+        currencyAddress === networkService.addresses.L1_ETH_Address ? '1' : '0', //ETH does not allow zero
+        currencyAddress,
+        currencyAddress === networkService.addresses.L1_ETH_Address
+          ? { value: '1' }
+          : {}
+      )
+
+    const depositGas_BN = await networkService.L1Provider!.estimateGas(tx2)
+    console.log('Fast deposit gas', depositGas_BN.toString())
+
+    const depositCost_BN = depositGas_BN.mul(gasPrice)
+    console.log('Fast deposit cost (ETH):', utils.formatEther(depositCost_BN))
+
+    //returns total cost in ETH
+    return utils.formatEther(depositCost_BN.add(approvalCost_BN))
   }
 }
 
