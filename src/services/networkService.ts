@@ -356,8 +356,11 @@ class NetworkService {
     }
   }
 
-  //TODO: app.service.ts
-  async getAddressCached(cache, contractName, varToSet) {
+  getAddressCached(
+    cache: Record<any, any>,
+    contractName: string,
+    varToSet: string
+  ): Boolean {
     const address = cache[contractName]
     if (typeof address === 'undefined') {
       return false
@@ -375,7 +378,6 @@ class NetworkService {
   }
 
   // TODO: cleannup and see if we can move contract initiation specific to service or function.
-
   async initializeBase({ networkGateway: network, networkType }) {
     this.network = network //// refer this in other services and clean up iteratively.
     this.networkGateway = network // e.g. mainnet | goerli | ...
