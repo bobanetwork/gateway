@@ -189,15 +189,18 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
                         {token.symbol}
                         <TokenBalance>{amount}</TokenBalance>
                       </TokenLabel>
-                      <Tooltip title="Add token to wallet">
-                        <PlusIcon
-                          data-testid={'add-token'}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            addToMetamask(token)
-                          }}
-                        />
-                      </Tooltip>
+                      {token.address !==
+                        '0x0000000000000000000000000000000000000000' && (
+                        <Tooltip title="Add token to wallet">
+                          <PlusIcon
+                            data-testid={'add-token'}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              addToMetamask(token)
+                            }}
+                          />
+                        </Tooltip>
+                      )}
                     </TokenListItem>
                   )
                 })
