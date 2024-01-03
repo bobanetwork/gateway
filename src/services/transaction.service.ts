@@ -14,6 +14,7 @@ import {
 import { Contract, ethers, providers } from 'ethers'
 import { isDevBuild } from '../util/constant'
 import { BobaChains } from '../util/chainConfig'
+import teleportationService from './teleportation.service'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -182,10 +183,10 @@ class TransactionService {
   ) {
     let rawTx = []
 
-    const contractL1 = networkService.getTeleportationContract(
+    const contractL1 = teleportationService.getTeleportationContract(
       networkConfig!.L1.chainId
     )
-    const contractL2 = networkService.getTeleportationContract(
+    const contractL2 = teleportationService.getTeleportationContract(
       networkConfig!.L2.chainId
     )
 
