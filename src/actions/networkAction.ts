@@ -17,9 +17,10 @@ import networkService from 'services/networkService'
 import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
+import balanceService from 'services/balance.service'
 
 export const fetchBalances = () =>
-  createAction('BALANCE/GET', () => networkService.getBalances())
+  createAction('BALANCE/GET', () => balanceService.getBalances())
 
 export const addTokenList = () =>
   createAction('TOKENLIST/GET', () => networkService.addTokenList())

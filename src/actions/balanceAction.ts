@@ -20,6 +20,7 @@
 import networkService from 'services/networkService'
 import { createAction } from './createAction'
 import feeService from 'services/fee.service'
+import balanceService from 'services/balance.service'
 
 export const fetchL1LPBalance = (address: string) =>
   createAction('FETCH/L1LP/BALANCE', () => networkService.L1LPBalance(address))
@@ -45,20 +46,20 @@ export const fetchL2LPLiquidity = (address: string) =>
 
 export const fetchL1TotalFeeRate = () =>
   createAction('FETCH/L1TOTALFEERATE', () => {
-    return networkService.getL1TotalFeeRate()
+    return feeService.getL1TotalFeeRate()
   })
 export const fetchL2TotalFeeRate = () =>
   createAction('FETCH/L2TOTALFEERATE', () => {
-    return networkService.getL2TotalFeeRate()
+    return feeService.getL2TotalFeeRate()
   })
 
 export const fetchL1FeeRateN = (tokenAddress: string) =>
   createAction('FETCH/L1FEERATE', () => {
-    return networkService.getL1UserRewardFeeRate(tokenAddress)
+    return feeService.getL1UserRewardFeeRate(tokenAddress)
   })
 export const fetchL2FeeRateN = (tokenAddress: string) =>
   createAction('FETCH/L2FEERATE', () => {
-    return networkService.getL2UserRewardFeeRate(tokenAddress)
+    return feeService.getL2UserRewardFeeRate(tokenAddress)
   })
 
 export const fetchFastExitCost = (address: string) =>
@@ -77,13 +78,13 @@ export const fetchFastDepositCost = (address: string) =>
   )
 
 export const fetchL1FeeBalance = () =>
-  createAction('FETCH/L1FEE/BALANCE', () => networkService.getL1FeeBalance())
+  createAction('FETCH/L1FEE/BALANCE', () => balanceService.getL1FeeBalance())
 
 export const fetchL2BalanceETH = () =>
-  createAction('FETCH/L2ETH/BALANCE', () => networkService.getL2BalanceETH())
+  createAction('FETCH/L2ETH/BALANCE', () => balanceService.getL2BalanceETH())
 
 export const fetchL2BalanceBOBA = () =>
-  createAction('FETCH/L2BOBA/BALANCE', () => networkService.getL2BalanceBOBA())
+  createAction('FETCH/L2BOBA/BALANCE', () => balanceService.getL2BalanceBOBA())
 
 export const fetchExitFee = () =>
   createAction('FETCH/EXITFEE', () =>
