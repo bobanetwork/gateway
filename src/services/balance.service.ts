@@ -11,45 +11,16 @@ import {
   Balances,
 } from './balances'
 export class BalanceService {
-  async getL1FeeBalance() {
-    return L1FeeBalance()
-  }
-
-  async getL2BalanceETH() {
-    return L2BalanceETH()
-  }
-
-  async getL2BalanceBOBA() {
-    return L2BalanceBOBA()
-  }
-
-  async getL2LPPending(tokenAddress: string) {
-    return L2LPPending()
-  }
-
-  async getL1LPBalance(tokenAddress: string): Promise<string> {
-    return L1LPBalance(tokenAddress)
-  }
-
-  async getL1LPLiquidity(tokenAddress: string) {
-    return L1LPLiquidity(tokenAddress)
-  }
-
-  async getL2LPBalance(tokenAddress: string): Promise<string> {
-    return L2LPBalance(tokenAddress)
-  }
-
-  async getBalances() {
-    return Balances()
-  }
-
-  async getL1LPPending(tokenAddress: string) {
-    return L1LPPending(tokenAddress)
-  }
-
-  async getL2LPLiquidity(tokenAddress: string) {
-    return L2LPLiquidity(tokenAddress)
-  }
+  getL1FeeBalance = async () => L1FeeBalance()
+  getL2BalanceETH = async () => L2BalanceETH()
+  getL2BalanceBOBA = async () => L2BalanceBOBA()
+  getL1LPBalance = async (tokenAddress: string) => L1LPBalance(tokenAddress)
+  getL1LPLiquidity = async (tokenAddress: string) => L1LPLiquidity(tokenAddress)
+  getL2LPBalance = async (tokenAddress: string) => L2LPBalance(tokenAddress)
+  getL1LPPending = async (tokenAddress: string) => L1LPPending(tokenAddress)
+  getL2LPPending = async (tokenAddress: string) => L2LPPending(tokenAddress)
+  getL2LPLiquidity = async (tokenAddress: string) => L2LPLiquidity(tokenAddress)
+  getBalances = async () => Balances()
 }
 
 const balanceService = new BalanceService()
