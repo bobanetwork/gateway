@@ -8,6 +8,7 @@ export const L1FeeBalance = async () => {
     const balance = await networkService.L1Provider!.getBalance(
       walletService.account!
     )
+    console.log('utils.formatEther(balance)', utils.formatEther(balance))
     return utils.formatEther(balance)
   } catch (error) {
     console.log('NS: getL1FeeBalance error:', error)
