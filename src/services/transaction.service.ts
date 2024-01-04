@@ -12,7 +12,6 @@ import {
   lightBridgeGraphQLService,
 } from './graphql.service'
 import { Contract, ethers, providers } from 'ethers'
-import { isDevBuild } from '../util/constant'
 import { BobaChains } from '../util/chainConfig'
 
 interface ICrossDomainMessage {
@@ -356,8 +355,6 @@ class TransactionService {
             return mapEventToTransaction(contract, sendEvent, receiveEvent)
           })
         )
-      } else if (isDevBuild()) {
-        console.log('DEV: Teleportation not supported on network')
       }
       return []
     }

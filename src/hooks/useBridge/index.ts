@@ -23,7 +23,7 @@ import {
 } from 'selectors'
 import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
-import { Layer, LAYER } from 'util/constant'
+import { ENABLE_ANCHORAGE, Layer, LAYER } from 'util/constant'
 import {
   purgeBridgeAlert,
   resetBridgeAmount,
@@ -138,7 +138,13 @@ export const useBridge = () => {
   }
 
   const triggerExit = async (amountWei: any) => {
-    return dispatch(exitBOBA(token.address, amountWei))
+    if (ENABLE_ANCHORAGE) {
+      // Anchorage has a separate withdrawal flow, once bedrock is fully rolled out, we might get rid of this if
+      // todo return
+      dispatch(openModal('bridgeMultiStepWithdrawal'))
+    } else {
+      return dispatch(exitBOBA(token.address, amountWei))
+    }
   }
 
   const triggerFastExit = async (amountWei: any) => {
@@ -147,6 +153,7 @@ export const useBridge = () => {
 
   const triggerSubmit = async () => {
     const amountWei = toWei_String(amountToBridge, token.decimals)
+
     let receipt
     dispatch(openModal('bridgeInProgress'))
     if (layer === LAYER.L1) {
@@ -159,6 +166,7 @@ export const useBridge = () => {
       }
     } else {
       if (bridgeType === BRIDGE_TYPE.CLASSIC) {
+        // Anchorage update, other bridges should keep working as before
         receipt = await triggerExit(amountWei)
       } else if (bridgeType === BRIDGE_TYPE.FAST) {
         receipt = await triggerFastExit(amountWei)

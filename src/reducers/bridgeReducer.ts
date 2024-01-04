@@ -43,6 +43,7 @@ interface IBridgeReducerState {
     transferTimestampCheckPoint: number
     transferredAmount: number
   }
+  withdrawalConfig: any // TODO type once finalized
   alerts: IBridgeAltert[]
 }
 
@@ -64,6 +65,7 @@ const initialState: IBridgeReducerState = {
     transferTimestampCheckPoint: 0,
     transferredAmount: 0,
   },
+  withdrawalConfig: null,
   alerts: [],
 }
 
@@ -189,6 +191,13 @@ const bridgeReducer = (state = initialState, action) => {
         ...state,
         destChainIdTeleportation: action.payload,
       }
+
+    case 'BRIDGE/REENTER/WITHDRAWAL': {
+      return {
+        ...state,
+        withdrawalConfig: action.payload,
+      }
+    }
 
     default:
       return state

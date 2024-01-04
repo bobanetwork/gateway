@@ -43,7 +43,7 @@ import { graphQLService } from './graphql.service'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
-import { isDevBuild, Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
+import { Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
 import {
   CHAIN_ID_LIST,
   getNetworkDetail,
@@ -68,6 +68,9 @@ import {
   L2BillingContractABI,
   L2LiquidityPoolABI,
   L2StandardBridgeABI,
+  OptimismPortalABI,
+  L2OutputOracleABI,
+  L2ToL1MessagePasserABI,
   L2StandardERC20ABI,
   OVM_GasPriceOracleABI,
   TeleportationABI,
@@ -132,6 +135,12 @@ class NetworkService {
   Teleportation?: Contract
   L1LPContract?: Contract
   L2LPContract?: Contract
+
+  //#region Anchorage specific
+  L2ToL1MessagePasser?: Contract
+  L2OutputOracle?: Contract
+  OptimismPortal?: Contract
+  //#endregion
   //#endregion
 
   tokenAddresses?: TokenAddresses
@@ -587,6 +596,30 @@ class NetworkService {
           this.L2Provider
         )
 
+        if (this.addresses.L2ToL1MessagePasserProxy) {
+          this.L2ToL1MessagePasser = new ethers.Contract(
+            this.addresses.L2ToL1MessagePasserProxy,
+            L2ToL1MessagePasserABI,
+            this.L2Provider
+          )
+        }
+
+        if (this.addresses.OptimismPortalProxy) {
+          this.OptimismPortal = new ethers.Contract(
+            this.addresses.OptimismPortalProxy,
+            OptimismPortalABI,
+            this.L1Provider
+          )
+        }
+
+        if (this.addresses.L2OutputOracleProxy) {
+          this.L2OutputOracle = new ethers.Contract(
+            this.addresses.L2OutputOracleProxy,
+            L2OutputOracleABI,
+            this.L1Provider
+          )
+        }
+
         // Liquidity pools
         this.L1LPContract = new ethers.Contract(
           this.addresses.L1LPAddress,
@@ -599,18 +632,21 @@ class NetworkService {
           this.L2Provider
         )
 
-        this.watcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: false,
-        })
-        this.fastWatcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: true,
-        })
+        // chainId 900|901 are used for the local bedrock devnet
+        if (chainId !== 900 && chainId !== 901) {
+          this.watcher = new CrossChainMessenger({
+            l1SignerOrProvider: this.L1Provider,
+            l2SignerOrProvider: this.L2Provider,
+            l1ChainId: chainId,
+            fastRelayer: false,
+          })
+          this.fastWatcher = new CrossChainMessenger({
+            l1SignerOrProvider: this.L1Provider,
+            l2SignerOrProvider: this.L2Provider,
+            l1ChainId: chainId,
+            fastRelayer: true,
+          })
+        }
       }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {

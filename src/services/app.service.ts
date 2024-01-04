@@ -6,7 +6,6 @@ import {
 
 // testnet addresss
 import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
-import addresses_BobaFuji from '@bobanetwork/register/addresses/addressBobaFuji_0xcE78de95b85212BC348452e91e0e74c17cf37c79.json'
 import addresses_BobaBnbTestnet from '@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa.json'
 
 // mainnet address
@@ -19,13 +18,10 @@ import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.j
 import store from 'store'
 
 // predeployed contracts.
-
-// const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
 const L2_BOBA_Address = '0x4200000000000000000000000000000000000006'
 const L2MessengerAddress = '0x4200000000000000000000000000000000000007'
 const L2StandardBridgeAddress = '0x4200000000000000000000000000000000000010'
-// const L2GasOracle = '0x420000000000000000000000000000000000000F'
 const L2_SECONDARYFEETOKEN_ADDRESS =
   '0x4200000000000000000000000000000000000023'
 
@@ -216,6 +212,10 @@ class AppService {
       L2_BOBA_Address,
       L1_ETH_Address,
       NETWORK_NATIVE: '0x4200000000000000000000000000000000000006', // always native
+      // TODO Bedrock contract addresses probably not yet available, remove/replace once supplied in address object
+      L2ToL1MessagePasserProxy: '0x4200000000000000000000000000000000000016', // L2
+      OptimismPortalProxy: '0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8', // L1
+      L2OutputOracleProxy: '0x9E545E3C0baAB3E08CdfD552C960A1050f373042', // L1
     }
   }
 

@@ -69,7 +69,8 @@ Copy `.env.example` file and name by excluding `.example` and populate the varia
 | REACT_APP_GA4_MEASUREMENT_ID  | Yes      | N/A          | Google analytics api key                                     |
 | REACT_APP_SENTRY_DSN          | Yes      | N/A          | Sentry DSN url to catch the error on frontend                |
 | REACT_APP_GAS_POLL_INTERVAL   | Yes      | 30000        | Poll interval to fetch the gas price and verifier status     |
-| REACT_APP_WC_PROJECT_ID=      | Yes      | N/A          | Wallet Connect project ID                                    |
+| REACT_APP_WC_PROJECT_ID       | Yes      | N/A          | Wallet Connect project ID                                    |
+| REACT_APP_ENABLE_ANCHORAGE    | No       | false        | Enable Anchorage UI flows which are partially different.     |
 | CYPRESS_REMOTE_DEBUGGING_PORT | Yes      | 9222         | Debugging port for Cypress                                   |
 | NETWORK_NAME                  | Yes      | goerli       | Starting network for wallet                                  |
 | SECRET_WORDS                  | Yes      | N/A          | Secret phrase for wallet to be used by Cypress e2e test      |
