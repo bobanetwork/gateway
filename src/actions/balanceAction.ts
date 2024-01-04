@@ -20,25 +20,33 @@ import feeService from 'services/fee.service'
 import { createAction } from './createAction'
 
 export const fetchL1LPBalance = (address: string) =>
-  createAction('FETCH/L1LP/BALANCE', () => balanceService.L1LPBalance(address))
+  createAction('FETCH/L1LP/BALANCE', () =>
+    balanceService.getL1LPBalance(address)
+  )
 
 export const fetchL2LPBalance = (address: string) =>
-  createAction('FETCH/L2LP/BALANCE', () => balanceService.L2LPBalance(address))
+  createAction('FETCH/L2LP/BALANCE', () =>
+    balanceService.getL2LPBalance(address)
+  )
 
 export const fetchL1LPPending = (address: string) =>
-  createAction('FETCH/L1LP/PENDING', () => balanceService.L1LPPending(address))
+  createAction('FETCH/L1LP/PENDING', () =>
+    balanceService.getL1LPPending(address)
+  )
 
 export const fetchL2LPPending = (address: string) =>
-  createAction('FETCH/L2LP/PENDING', () => balanceService.L2LPPending(address))
+  createAction('FETCH/L2LP/PENDING', () =>
+    balanceService.getL2LPPending(address)
+  )
 
 export const fetchL1LPLiquidity = (address: string) =>
   createAction('FETCH/L1LP/LIQUIDITY', () =>
-    balanceService.L1LPLiquidity(address)
+    balanceService.getL1LPLiquidity(address)
   )
 
 export const fetchL2LPLiquidity = (address: string) =>
   createAction('FETCH/L2LP/LIQUIDITY', () =>
-    balanceService.L2LPLiquidity(address)
+    balanceService.getL2LPLiquidity(address)
   )
 
 export const fetchL1TotalFeeRate = () =>
