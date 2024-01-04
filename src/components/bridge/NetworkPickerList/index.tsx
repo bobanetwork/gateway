@@ -29,13 +29,9 @@ import { setTeleportationDestChainId } from '../../../actions/bridgeAction'
 import { BRIDGE_TYPE } from '../../../containers/Bridging/BridgeTypeSelector'
 import {
   setBaseState,
-  setConnect,
   setConnectBOBA,
   setConnectETH,
-  setEnableAccount,
-  setLayer,
 } from '../../../actions/setupAction'
-import useSwitchChain from '../../../hooks/useSwitchChain'
 
 export interface NetworkListProps {
   close?: () => void
