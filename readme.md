@@ -71,7 +71,6 @@ Copy `.env.example` file and name by excluding `.example` and populate the varia
 | CYPRESS_REMOTE_DEBUGGING_PORT | Yes      | 9222         | Debugging port for Cypress                                                                                                                                                                 |
 | NETWORK_NAME                  | Yes      | goerli       | Starting network for wallet                                                                                                                                                                |
 | SECRET_WORDS                  | Yes      | N/A          | Secret phrase for wallet to be used by Cypress e2e test. Please note that this wallet should have at least .1 Goerli ETH and 40 Boba Testnet Token on the Goerli and Boba Goerli Networks. |
-| CYPRESS_TEST_HASH             | Yes      | N/A          | Txn hash that has occured on the wallet in the last 6 months                                                                                                                               |
 
 ### To start local dev-server
 
