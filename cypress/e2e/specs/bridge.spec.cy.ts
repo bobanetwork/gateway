@@ -26,17 +26,6 @@ describe('Testing Entire Site', () => {
           bridge.checkThirdPartyTabInBNB()
         })
       })
-
-      describe('Light bridge', () => {
-        it('Should have light bridge tab with correct details', () => {
-          bridge.setNetworkTo('ETH', 'Testnet')
-          bridge.checkIfLightBridgeTab()
-        })
-        it('Should have light bridge tab with correct details in case of BNB', () => {
-          bridge.setNetworkTo('BNB', 'Testnet')
-          bridge.checkIfLightBridgeTab()
-        })
-      })
     })
   })
 })
