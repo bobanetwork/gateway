@@ -1,5 +1,5 @@
-import networkService from './networkService'
-import walletService from './wallet.service'
+import networkService from 'services/networkService'
+import walletService from 'services/wallet.service'
 
 export const CastProposalVote = async ({ id, userVote }) => {
   if (!networkService.delegateContract || !walletService.account) {

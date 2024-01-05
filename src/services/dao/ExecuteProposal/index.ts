@@ -1,5 +1,5 @@
 import networkService from 'services/networkService'
-import walletService from 'services/walletService'
+import walletService from 'services/wallet.service'
 
 export const ExecuteProposal = async (proposalId: string | number) => {
   if (!networkService.delegateContract || !walletService.account) {

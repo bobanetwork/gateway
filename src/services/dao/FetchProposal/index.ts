@@ -1,5 +1,5 @@
 import networkService from 'services/networkService'
-import { graphQLService } from './graphql.service'
+import { graphQLService } from 'services/graphql.service'
 import { formatEther } from '@ethersproject/units'
 
 export const FetchProposal = async () => {
