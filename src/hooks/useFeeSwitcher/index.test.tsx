@@ -6,6 +6,7 @@ import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
 import { Provider } from 'react-redux'
 import networkService from 'services/networkService'
+import feeServices from 'services/fee.service'
 
 jest.mock('services/networkService', () => ({
   ...jest.requireActual('services/networkService'),
@@ -19,7 +20,7 @@ describe('useFeeSwitcher', () => {
   const mockStore = configureMockStore(middlewares)
   beforeEach(() => {
     jest
-      .spyOn(networkService, 'estimateMinL1NativeTokenForFee')
+      .spyOn(feeServices, 'estimateMinL1NativeTokenForFee')
       .mockResolvedValueOnce(0.002)
 
     jest.spyOn(console, 'log').mockImplementation(() => {

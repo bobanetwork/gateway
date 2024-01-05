@@ -10,6 +10,7 @@ import thunk from 'redux-thunk'
 import { fetchGasDetail } from 'services/gas.service'
 import networkService from 'services/networkService'
 import verifierService from 'services/verifier.service'
+import feeServices from 'services/fee.service'
 
 jest.mock('services/gas.service')
 
@@ -18,6 +19,11 @@ jest.mock('services/verifier.service')
 jest.mock('services/networkService', () => {
   return {
     getAllAddress: jest.fn(),
+  }
+})
+
+jest.mock('services/fee.service', () => {
+  return {
     estimateL1SecurityFee: jest.fn(),
     estimateL2Fee: jest.fn(),
   }
@@ -48,8 +54,8 @@ describe('UseGasWatcher', () => {
       blockL2: 220000,
     })
     ;(verifierService.getVerifierStatus as jest.Mock).mockResolvedValue(322232)
-    ;(networkService.estimateL1SecurityFee as jest.Mock).mockResolvedValue(10)
-    ;(networkService.estimateL2Fee as jest.Mock).mockResolvedValue(20)
+    ;(feeServices.estimateL1SecurityFee as jest.Mock).mockResolvedValue(10)
+    ;(feeServices.estimateL2Fee as jest.Mock).mockResolvedValue(20)
   })
 
   test('should work as expected incase of ETHEREUM network ', async () => {

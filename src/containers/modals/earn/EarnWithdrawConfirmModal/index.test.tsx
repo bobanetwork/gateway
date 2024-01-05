@@ -14,15 +14,14 @@ import thunk from 'redux-thunk'
 import EarnWithdrawConfirmModal from './'
 import { mockedInitialState } from 'util/tests'
 import { BrowserRouter } from 'react-router-dom'
-import networkService from 'services/networkService'
+import earnService from 'services/earn.service'
 
-jest.mock('services/networkService', () => {
+jest.mock('services/earn.service', () => {
   return {
     withdrawLiquidity: jest.fn(),
     getL1LPInfo: jest.fn(),
     getL2LPInfo: jest.fn(),
-    getReward: jest.fn(),
-    getBalances: jest.fn(),
+    withdrawReward: jest.fn(),
     getAllAddresses: jest.fn(),
   }
 })
@@ -109,15 +108,15 @@ describe('EarnWithdrawConfirmModal', () => {
 
   test('Should dispatch sequence of actions on confirm with sucess', async () => {
     // @ts-ignore
-    networkService.getL1LPInfo.mockImplementation(() =>
+    earnService.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.getL2LPInfo.mockImplementation(() =>
+    earnService.getL2LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.withdrawLiquidity.mockImplementation(() =>
+    earnService.withdrawLiquidity.mockImplementation(() =>
       Promise.resolve(true)
     )
     const initialState = {
@@ -168,15 +167,15 @@ describe('EarnWithdrawConfirmModal', () => {
   })
   test('Should dispatch sequence of actions on confirm with sucess', async () => {
     // @ts-ignore
-    networkService.getL1LPInfo.mockImplementation(() =>
+    earnService.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.getL2LPInfo.mockImplementation(() =>
+    earnService.getL2LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.withdrawLiquidity.mockImplementation(() =>
+    earnService.withdrawLiquidity.mockImplementation(() =>
       Promise.resolve(false)
     )
     const initialState = {
