@@ -1,11 +1,6 @@
-import { TeleportationAddress } from './TeleportationAddress'
-import { TeleportationContract } from './TeleportationContract'
-import { IsTeleportationOfAssetSupported } from './IsTeleportationOfAssetSupported'
-import { DepositWithTeleporter } from './DepositWithTeleporter'
+import { Address } from './Address'
+import { Contract } from './Contract'
+import { SupportedAsset } from './SupportedAsset'
+import { Deposit } from './Deposit'
 
-export {
-  TeleportationAddress,
-  TeleportationContract,
-  IsTeleportationOfAssetSupported,
-  DepositWithTeleporter,
-}
+export { Address, Contract, SupportedAsset, Deposit }

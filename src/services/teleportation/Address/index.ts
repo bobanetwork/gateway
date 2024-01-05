@@ -4,7 +4,7 @@ import appService from 'services/app.service'
 
 import { CHAIN_ID_LIST } from 'util/network/network.util'
 
-export const TeleportationAddress = (chainId?: number) => {
+export const Address = (chainId?: number) => {
   if (!chainId) {
     chainId = networkService.chainId
   }

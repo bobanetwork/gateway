@@ -5,7 +5,7 @@ import { Layer } from 'util/constant'
 import walletService from 'services/wallet.service'
 import { ethers } from 'ethers'
 
-export const DepositWithTeleporter = async (
+export const Deposit = async (
   layer,
   currency,
   value_Wei_String,

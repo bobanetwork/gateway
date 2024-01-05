@@ -1,9 +1,9 @@
 import { ethers } from 'ethers'
 import networkService from 'services/networkService'
 import { getRpcUrl } from 'util/network/network.util'
-import { getTeleportationAddress } from './services/teleportation.service'
+import { getTeleportationAddress } from 'services/teleportation.service'
 
-export const TeleportationContract = (chainId) => {
+export const Contract = (chainId) => {
   const { teleportationAddr, networkConfig } = getTeleportationAddress(chainId)
   if (!teleportationAddr || !networkService.Teleportation) {
     return
