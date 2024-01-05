@@ -44,8 +44,8 @@ const initialState: ITokenReducerState = {
 
 const tokenReducer = (state: ITokenReducerState = initialState, action) => {
   switch (action.type) {
-    case 'TOKEN/GET/RESET':
-      state = initialState
+    case 'TOKEN/GET/INITIALIZE':
+      state = { [action.payload.currency]: action.payload }
       return state
     case 'TOKEN/GET/SUCCESS':
       return {

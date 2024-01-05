@@ -239,7 +239,7 @@ class AppService {
 
   setupInitState({ l1Token, l1TokenName }) {
     store.dispatch({
-      type: 'TOKEN/GET/SUCCESS',
+      type: 'TOKEN/GET/INITIALIZE',
       payload: {
         currency: L1_ETH_Address,
         addressL1: L1_ETH_Address,
