@@ -32,7 +32,7 @@ import {
   setConnectBOBA,
   setConnectETH,
 } from '../../../actions/setupAction'
-import { closeModal } from '../../../actions/uiAction'
+import { closeModal, openModal } from '../../../actions/uiAction'
 
 export interface NetworkListProps {
   close?: () => void
@@ -82,12 +82,13 @@ export const NetworkList: FC<NetworkListProps> = ({
         // Workaround due to our tighly coupled network logic and wrongModal watcher, confirmed with Sahil that setNetwork + layerSet only approach for now
         let closeWrongNetworkModalIntervalCounter = 0
         const intervalID = setInterval(() => {
+          dispatch(closeModal('switchNetworkModal'))
           dispatch(closeModal('wrongNetworkModal'))
 
-          if (++closeWrongNetworkModalIntervalCounter === 10) {
+          if (++closeWrongNetworkModalIntervalCounter === 15) {
             window.clearInterval(intervalID)
           }
-        }, 250)
+        }, 150)
 
         const toLayer1 = layer?.toUpperCase() === 'L1'
         if (toLayer1) {
