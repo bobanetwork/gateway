@@ -34,7 +34,7 @@ jest.mock('services/teleportation.service', () => {
   }
 })
 
-jest.mock('services/bridging.services', () => {
+jest.mock('services/bridging.service', () => {
   return {
     approveERC20: jest.fn(),
     depositErc20: jest.fn(),

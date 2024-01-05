@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import networkService from 'services/networkService'
+import earnServices from 'services/earn.service'
 import CustomThemeProvider from 'themes'
 import { EarnListItemProps, LiquidityPoolLayer } from 'types/earn.types'
 import { mockedInitialState } from 'util/tests'
@@ -22,7 +22,7 @@ interface TestEarnListItemProps extends EarnListItemProps {
   store?: any
 }
 
-jest.mock('services/networkService', () => {
+jest.mock('services/earn.service', () => {
   return {
     getL1LPInfo: jest.fn(),
     getL2LPInfo: jest.fn(),
@@ -95,11 +95,11 @@ describe('EarnList ', () => {
       ...mockedInitialState,
     })
     // @ts-ignore
-    networkService.getL1LPInfo.mockImplementation(() =>
+    earnServices.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.getL2LPInfo.mockImplementation(() =>
+    earnServices.getL2LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
   })
