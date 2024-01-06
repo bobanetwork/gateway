@@ -237,5 +237,5 @@ export const addToken = async (tokenContractAddressL1: string) => {
   }
 }
 
-export const InitializeTokenList = () => (dispatch) =>
+export const initializeTokenList = () => (dispatch) =>
   dispatch({ type: 'TOKEN/GET/INITIALIZE' })
