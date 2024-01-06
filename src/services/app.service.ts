@@ -16,6 +16,7 @@ import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0x
 import layerZeroTestnet from '@bobanetwork/register/addresses/layerZeroTestnet.json'
 import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.json'
 import store from 'store'
+import { ENABLE_ANCHORAGE } from '../util/constant'
 
 // predeployed contracts.
 const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
@@ -216,6 +217,9 @@ class AppService {
       L2ToL1MessagePasserProxy: '0x4200000000000000000000000000000000000016', // L2
       OptimismPortalProxy: '0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8', // L1
       L2OutputOracleProxy: '0x9E545E3C0baAB3E08CdfD552C960A1050f373042', // L1
+      L1StandardBridgeAddress: ENABLE_ANCHORAGE
+        ? '0x71089Ba41e478702e1904692385Be3972B2cBf9e'
+        : addresses.L1StandardBridgeAddress, // L1, Proxy
     }
   }
 
