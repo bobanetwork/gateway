@@ -8,6 +8,31 @@ import { Provider } from 'react-redux'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { LAYER } from 'util/constant'
 
+jest.mock('services/fee.service', () => {
+  return {
+    getL1TotalFeeRate: jest.fn(),
+    getL2TotalFeeRate: jest.fn(),
+    getL1UserRewardFeeRate: jest.fn(),
+    getL2UserRewardFeeRate: jest.fn(),
+    getFastExitCost: jest.fn(),
+    getExitCost: jest.fn(),
+    getFastDepositCost: jest.fn(),
+    getExitFeeFromBillingContract: jest.fn(),
+  }
+})
+
+jest.mock('services/bridging.service', () => {
+  return {
+    depositETHToL2: jest.fn(),
+  }
+})
+
+jest.mock('services/teleportation.service', () => {
+  return {
+    getTeleportationAddress: jest.fn(),
+  }
+})
+
 jest.mock('services/networkService', () => {
   return {
     L1LPBalance: jest.fn(),
@@ -17,17 +42,9 @@ jest.mock('services/networkService', () => {
     L1LPLiquidity: jest.fn(),
     L2LPLiquidity: jest.fn(),
     fetchLookUpPrice: jest.fn(),
-    getL1TotalFeeRate: jest.fn(),
-    getL2TotalFeeRate: jest.fn(),
-    getL1UserRewardFeeRate: jest.fn(),
-    getL2UserRewardFeeRate: jest.fn(),
-    getFastExitCost: jest.fn(),
-    getExitCost: jest.fn(),
-    getFastDepositCost: jest.fn(),
     getL1FeeBalance: jest.fn(),
     getL2BalanceETH: jest.fn(),
     getL2BalanceBOBA: jest.fn(),
-    getExitFeeFromBillingContract: jest.fn(),
     supportedTokens: [
       'USDT',
       'DAI',

@@ -18,7 +18,7 @@ jest.mock('services/earn.service', () => {
   return {
     getL1LPInfo: jest.fn(),
     getL2LPInfo: jest.fn(),
-    getReward: jest.fn(),
+    withdrawReward: jest.fn(),
   }
 })
 jest.mock('services/networkService', () => {
