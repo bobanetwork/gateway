@@ -6223,10 +6223,10 @@
   dependencies:
     "@types/lodash" "*"
 
-"@types/lodash.intersection@^4.4.7":
-  version "4.4.7"
-  resolved "https://registry.yarnpkg.com/@types/lodash.intersection/-/lodash.intersection-4.4.7.tgz#fb7850d59e3259238dfe0ecb20952c589dd31dc5"
-  integrity sha512-7ukD2s54bmRNNpiH9ApEErO4H6mB8+WmXFr/6RpP3e/n7h3UFhEJC7QwLcoWAqOrYCIRFMAAwDf3ambSsW8c5Q==
+"@types/lodash.intersection@^4.4.9":
+  version "4.4.9"
+  resolved "https://registry.yarnpkg.com/@types/lodash.intersection/-/lodash.intersection-4.4.9.tgz#24afb3177f0100d3772eedd0bdc331510d72d75d"
+  integrity sha512-AenZXU5mbikacV1LyGTFIP7s94s0UyscACObGMrqDvKjZfRj+PpmAVvhNeLUMCBLi7RMlLgHic53J/LbaciEmg==
   dependencies:
     "@types/lodash" "*"
 
