@@ -14,6 +14,6 @@ export const ButtonContainer = styled.div`
   flex-direction: column;
 `
 
-export const Detail = styled.p`
+export const Detail = styled.span`
   display: block;
 `
