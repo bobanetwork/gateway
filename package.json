@@ -130,7 +130,7 @@
     "audit-ci": "^6.6.1",
     "cypress": "12.17.3",
     "env-cmd": "^10.1.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-cypress": "^2.14.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^46.9.1",
