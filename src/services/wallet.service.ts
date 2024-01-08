@@ -27,9 +27,10 @@ import store from 'store'
 import { CHAIN_ID_LIST } from 'util/network/network.util'
 import networkService from './networkService'
 import { WC_PROJECT_ID } from 'util/constant'
+import { JsonRpcProvider } from '@ethersproject/providers'
 
 export class WalletService {
-  provider: any
+  provider?: JsonRpcProvider
   walletConnectProvider: any
   account: string = ''
   walletType: 'metamask' | 'walletconnect' | null = null
@@ -253,6 +254,14 @@ export class WalletService {
     this.account = ''
     this.walletType = null
     store.dispatch({ type: 'SETUP/CHAINIDCHANGED/RESET' })
+  }
+
+  async getLatestBlockNumber(): Promise<number> {
+    return this.provider!.getBlockNumber()
+  }
+
+  async getBlockTime(blockNumber: string | number): Promise<number> {
+    return (await this.provider!.getBlock(blockNumber)).timestamp
   }
 }
 

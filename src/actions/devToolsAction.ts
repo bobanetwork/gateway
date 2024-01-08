@@ -1,6 +1,6 @@
 /*
-  Varna - A Privacy-Preserving Marketplace
-  Varna uses Fully Homomorphic Encryption to make markets fair.
+   
+  
   Copyright (C) 2021 Enya Inc. Palo Alto, CA
 
   This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,9 @@
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import networkService from 'services/networkService'
-import { createAction } from './createAction'
 import { Contract } from 'ethers'
+import txBuilderService from 'services/txbuilder.service'
+import { createAction } from './createAction'
 
 export const submitTxBuilder = (
   contract: Contract,
@@ -28,7 +28,7 @@ export const submitTxBuilder = (
   inputs: any
 ) =>
   createAction('TX_BUILDER', () =>
-    networkService.submitTxBuilder(contract, methodIndex, methodName, inputs)
+    txBuilderService.submitTxBuilder(contract, methodIndex, methodName, inputs)
   )
 
 export const resetTxBuilder = () => (dispatch) =>

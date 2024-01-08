@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { openAlert, closeModal } from 'actions/uiAction'
+import { closeModal, openAlert } from 'actions/uiAction'
 
 import Modal from 'components/modal/Modal'
 
 import { Button } from 'components/global/button'
 
-import { StakeInputContainer, Flex, StakeContent, StakeDetails } from './styles'
+import { Flex, StakeContent, StakeDetails, StakeInputContainer } from './styles'
 
-import { getFS_Saves, getFS_Info, addFS_Savings } from 'actions/fixedAction'
+import { addFS_Savings, getFS_Info, getFS_Saves } from 'actions/fixedAction'
 
-import { toWei_String } from 'util/amountConvert'
-import networkService from 'services/networkService'
-import { BigNumber, utils } from 'ethers'
 import { MaxInput } from 'components/global/InputMax'
+import { BigNumber, utils } from 'ethers'
+import { toWei_String } from 'util/amountConvert'
 
 import { ModalTypography } from 'components/global/modalTypography'
-import { selectFixed, selectSetup, selectBalance } from 'selectors'
+import { selectBalance, selectFixed, selectSetup } from 'selectors'
+import fixedSavingService from 'services/fixedsaving.service'
 
 const DepositStake = (props: any) => {
   const { stakeInfo } = useSelector(selectFixed())
@@ -57,7 +57,7 @@ const DepositStake = (props: any) => {
       let fee = '0'
 
       if (netLayer === 'L2') {
-        const cost_BN: any = await networkService.savingEstimate()
+        const cost_BN: any = await fixedSavingService.savingEstimate()
 
         if (bobaFeeChoice) {
           // we are staking BOBA and paying in BOBA

@@ -3,10 +3,10 @@ import useInterval from 'hooks/useInterval'
 import React, { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectIsFetchTxBlockNumber } from 'selectors'
-import networkService from 'services/networkService'
+import walletService from 'services/wallet.service'
 import { POLL_INTERVAL } from 'util/constant'
-import { MutedText } from './index.styles'
 import { diffBetweenTimeStamp } from 'util/dates'
+import { MutedText } from './index.styles'
 
 interface Props {
   onClose: () => void
@@ -21,9 +21,9 @@ const BlockConfirmation: FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     const fetchBlockNumber = async () => {
-      const blockN = await networkService.getLatestBlockNumber()
-      const time1 = await networkService.getBlockTime(blockN)
-      const time2 = await networkService.getBlockTime(blockN - 1)
+      const blockN = await walletService.getLatestBlockNumber()
+      const time1 = await walletService.getBlockTime(blockN)
+      const time2 = await walletService.getBlockTime(blockN - 1)
       setBlockTime(diffBetweenTimeStamp(time1, time2))
       setInitialBlock(blockN)
     }
@@ -34,7 +34,7 @@ const BlockConfirmation: FC<Props> = ({ onClose }) => {
 
   useInterval(() => {
     const fetchBlockNumber = async () => {
-      const blockN = await networkService.getLatestBlockNumber()
+      const blockN = await walletService.getLatestBlockNumber()
       setLatestBlock(blockN)
     }
     if (isFetchTxBlock) {

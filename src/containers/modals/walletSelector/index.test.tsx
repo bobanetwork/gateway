@@ -101,7 +101,7 @@ describe('WalletSelectorModal', () => {
     const mockStore = configureMockStore(middlewares)
     const store = mockStore(initialState)
 
-    const { queryByTestId, getByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <CustomThemeProvider>
           <WalletSelectorModal open={initialState.ui.walletSelectorModal} />

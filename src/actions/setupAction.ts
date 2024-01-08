@@ -16,6 +16,7 @@ limitations under the License. */
 import networkService from 'services/networkService'
 import { createAction } from './createAction'
 import store from 'store'
+import feeService from 'services/fee.service'
 
 export const setEnableAccount = (enabled) => (dispatch) =>
   dispatch({ type: 'SETUP/ACCOUNT/SET', payload: enabled })
@@ -30,7 +31,7 @@ export const setWalletAddress = (account) => (dispatch) =>
   dispatch({ type: 'SETUP/WALLETADDRESS/SET', payload: account })
 
 export const switchFee = (targetFee) =>
-  createAction('SETUP/SWITCHFEE', () => networkService.switchFee(targetFee))
+  createAction('SETUP/SWITCHFEE', () => feeService.switchFee(targetFee))
 
 export const getETHMetaTransaction = () =>
   createAction('SETUP/GETETH', () => networkService.getETHMetaTransaction())
