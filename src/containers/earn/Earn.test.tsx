@@ -7,14 +7,22 @@ import thunk from 'redux-thunk'
 import CustomThemeProvider from 'themes'
 import { mockedInitialState } from 'util/tests'
 import Earn from './Earn'
-import networkService from 'services/networkService'
+import earnService from 'services/earn.service'
 
-jest.mock('services/networkService', () => {
+jest.mock('services/balance.service', () => {
+  return {
+    getBalances: jest.fn(),
+  }
+})
+jest.mock('services/earn.service', () => {
   return {
     getL1LPInfo: jest.fn(),
     getL2LPInfo: jest.fn(),
     getReward: jest.fn(),
-    getBalances: jest.fn(),
+  }
+})
+jest.mock('services/networkService', () => {
+  return {
     getAllAddresses: jest.fn(),
   }
 })
@@ -37,11 +45,11 @@ describe('Earn ', () => {
   let store
   beforeEach(() => {
     // @ts-ignore
-    networkService.getL1LPInfo.mockImplementation(() =>
+    earnService.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.getL2LPInfo.mockImplementation(() =>
+    earnService.getL2LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
   })
