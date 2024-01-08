@@ -32,13 +32,13 @@ export const BinanceInfo: NetworkTestInfo = {
 
 export const BobaEthInfo: NetworkTestInfo = {
   networkName: 'Boba ETH',
-  networkAbbreviation: 'Boba Eth',
+  networkAbbreviation: 'ETHEREUM',
   isTestnet: false,
 }
 
 export const BobaBNBInfo: NetworkTestInfo = {
   networkName: 'Boba BNB',
-  networkAbbreviation: 'Boba BNB',
+  networkAbbreviation: 'BNB',
   isTestnet: false,
 }
 
@@ -56,13 +56,13 @@ export const BinanceTestnetInfo: NetworkTestInfo = {
 
 export const BobaGoerliInfo: NetworkTestInfo = {
   networkName: 'Boba (Goerli)',
-  networkAbbreviation: 'Boba (Goerli)',
+  networkAbbreviation: 'ETHEREUM',
   isTestnet: true,
 }
 
 export const BobaBNBTestnetInfo: NetworkTestInfo = {
   networkName: 'Boba BNB Testnet',
-  networkAbbreviation: 'Boba BNB',
+  networkAbbreviation: 'BNB',
   isTestnet: true,
 }
 

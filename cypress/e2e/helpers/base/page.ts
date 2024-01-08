@@ -205,11 +205,7 @@ export default class Page extends Base {
     this.store.verifyReduxUiState('theme', 'dark')
   }
 
-  handleNetworkSwitchModals(
-    networkAbbreviation: string,
-    isTestnet: boolean,
-    newNetwork: boolean
-  ) {
+  handleNetworkSwitchModals(networkAbbreviation: string, isTestnet: boolean) {
     this.getModal()
       .find(
         `button[label="Switch to ${networkAbbreviation} ${
@@ -233,13 +229,6 @@ export default class Page extends Base {
       )
       .should('exist')
       .click()
-
-    if (newNetwork) {
-      this.allowNetworkToBeAddedAndSwitchedTo()
-    } else {
-      this.allowNetworkSwitch()
-    }
-    this.checkNetworkSwitchSuccessful(networkAbbreviation)
   }
 
   checkNetworkSwitchSuccessful(networkAbbreviation: string) {
@@ -364,6 +353,15 @@ export default class Page extends Base {
         expect($p).to.have.length(5)
       })
   }
+
+  allowNetworkSwitch(newNetwork: boolean) {
+    if (newNetwork) {
+      this.allowNetworkToBeAddedAndSwitchedTo()
+    } else {
+      this.allowNetworkToBeSwitchedTo()
+    }
+  }
+
   switchNetwork(network: NetworkTestInfo, newNetwork: boolean = false) {
     this.header.getNetworkSwitcher().click()
     this.header
@@ -373,8 +371,9 @@ export default class Page extends Base {
       .click()
     this.handleNetworkSwitchModals(
       network.networkAbbreviation,
-      network.isTestnet,
-      newNetwork
+      network.isTestnet
     )
+    this.allowNetworkSwitch(newNetwork)
+    this.checkNetworkSwitchSuccessful(network.networkAbbreviation)
   }
 }

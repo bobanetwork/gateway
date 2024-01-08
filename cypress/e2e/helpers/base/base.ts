@@ -19,7 +19,7 @@ export default class Base {
     cy.changeMetamaskNetwork(networkName)
   }
 
-  allowNetworkSwitch() {
+  allowNetworkToBeSwitchedTo() {
     cy.allowMetamaskToSwitchNetwork()
   }
   confirmTransactionOnMetamask() {

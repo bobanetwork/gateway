@@ -85,7 +85,7 @@ export const NetworkList: FC<NetworkListProps> = ({
           dispatch(closeModal('switchNetworkModal'))
           dispatch(closeModal('wrongNetworkModal'))
 
-          if (++closeWrongNetworkModalIntervalCounter === 15) {
+          if (++closeWrongNetworkModalIntervalCounter === 30) {
             window.clearInterval(intervalID)
           }
         }, 150)

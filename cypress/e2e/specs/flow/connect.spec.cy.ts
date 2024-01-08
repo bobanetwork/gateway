@@ -1,6 +1,8 @@
 import { Layer } from '../../../../src/util/constant'
 import {
   ArbitrumGoerliInfo,
+  BobaGoerliInfo,
+  EthereumGoerliInfo,
   MainnetL1Networks,
   MainnetL2Networks,
   OptimismGoerliInfo,
@@ -50,22 +52,36 @@ describe('Connect flow', () => {
     })
 
     it('Should be able to switch to the light bridge', () => {
-      bridge.switchBridgeDirection(Layer.L2, false)
       bridge.switchBridgeType(BridgeType.Light)
+      bridge.switchBridgeDirection(Layer.L2, false)
     })
 
     it('Should switch to Optimism', () => {
-      bridge.switchNetwork(OptimismGoerliInfo, true)
-      bridge.switchBridgeDirection(Layer.L1, false)
-      bridge.switchBridgeDirection(Layer.L2, false)
+      bridge.switchNetworkWithModals(
+        BobaGoerliInfo,
+        OptimismGoerliInfo,
+        true,
+        true
+      )
     })
 
     it('Should switch to Arbitrum', () => {
-      bridge.switchNetwork(ArbitrumGoerliInfo, true)
-      bridge.switchBridgeDirection(Layer.L1, false)
+      bridge.switchNetworkWithModals(
+        OptimismGoerliInfo,
+        ArbitrumGoerliInfo,
+        true,
+        true
+      )
     })
 
     it('Should switch back to classic bridge', () => {
+      bridge.switchNetworkWithModals(
+        ArbitrumGoerliInfo,
+        BobaGoerliInfo,
+        true,
+        false
+      )
+      bridge.switchBridgeDirection(Layer.L1)
       bridge.switchBridgeType(BridgeType.Classic)
     })
 
