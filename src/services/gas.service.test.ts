@@ -1,8 +1,6 @@
 import { fetchGasDetail } from 'services/gas.service'
 import networkService from 'services/networkService'
 
-jest.mock('services/networkService')
-
 jest.mock('services/networkService', () => {
   return {
     L1Provider: {
