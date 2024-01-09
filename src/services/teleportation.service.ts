@@ -35,6 +35,7 @@ export class TeleportationService {
   getTeleportationContract(chainId) {
     const { teleportationAddr, networkConfig } =
       this.getTeleportationAddress(chainId)
+
     if (!teleportationAddr || !networkService.Teleportation) {
       return
     }
@@ -45,10 +46,11 @@ export class TeleportationService {
       layer: networkConfig.layer,
     })
     const provider = new ethers.providers.StaticJsonRpcProvider(rpc)
-
-    return networkService
+    const response = networkService
       .Teleportation!.attach(teleportationAddr)
       .connect(provider)
+    console.log('response', response)
+    return response
   }
 
   async isTeleportationOfAssetSupported(layer, token, destChainId) {
