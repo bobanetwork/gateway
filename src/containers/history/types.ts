@@ -6,6 +6,9 @@ export enum TRANSACTION_FILTER_STATUS {
 }
 
 export enum TRANSACTION_STATUS {
+  WithdrawInitiated = 'initialized',
+  WithdrawProven = 'proven',
+  WithdrawFinalized = 'finalized',
   Succeeded = 'succeeded',
   Pending = 'pending',
   Failed = 'failed',
@@ -97,6 +100,7 @@ export interface ITransaction {
   to: string
   UserFacingStatus: TRANSACTION_FILTER_STATUS
   isTeleportation?: boolean
+  actionRequired?: boolean
 }
 
 export interface IProcessedTransaction {
@@ -110,6 +114,7 @@ export interface IProcessedTransaction {
   status: TRANSACTION_FILTER_STATUS // need to remove the undefined option
   originChainId: number
   destinationChainId: number
+  actionRequired?: boolean
 }
 
 export interface ITransactionsResolverProps {

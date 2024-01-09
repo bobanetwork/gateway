@@ -36,12 +36,16 @@ import truncate from 'truncate-middle'
 import { logAmount } from 'util/amountConvert'
 import noHistoryIcon from 'assets/images/noHistory.svg'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
+import { openModal } from '../../actions/uiAction'
+import { setReenterWithdrawalConfig } from '../../actions/bridgeAction'
+import { useDispatch } from 'react-redux'
 
 export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   transactions,
   transactionsFilter,
   loading = false,
 }) => {
+  const dispatch = useDispatch<any>()
   const [currentTransactions, setCurrentTransactions] = useState<
     ITransaction[]
   >([])
@@ -114,9 +118,12 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
         transaction.crossDomainMessage.crossDomainMessageSendTime)
     ) {
       switch (transaction.action.status) {
+        case TRANSACTION_STATUS.WithdrawFinalized:
         case TRANSACTION_STATUS.Succeeded: {
           return TRANSACTION_FILTER_STATUS.Completed
         }
+        case TRANSACTION_STATUS.WithdrawInitiated:
+        case TRANSACTION_STATUS.WithdrawProven:
         case TRANSACTION_STATUS.Pending: {
           return TRANSACTION_FILTER_STATUS.Pending
         }
@@ -148,6 +155,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     }
     return true
   }
+  // const filteredTransactions = orderedTransactions
   const filteredTransactions = orderedTransactions.filter((transaction) => {
     return (
       crossDomainFilter(transaction) &&
@@ -207,6 +215,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
       status: transaction.UserFacingStatus,
       originChainId: transaction.originChainId,
       destinationChainId: transaction.destinationChainId,
+      actionRequired: transaction.actionRequired,
     }
     return processedTransaction
   }
@@ -241,9 +250,9 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     hash: string,
     status: string
   ) => {
-    const linkToHash = `${Chains[chainID].transactionUrlPrefix}${hash}`
-    const networkName = Chains[chainID].name
-    const imgSrc = Chains[chainID].imgSrc
+    const linkToHash = `${Chains[chainID]?.transactionUrlPrefix}${hash}` ?? ''
+    const networkName = Chains[chainID]?.name ?? ''
+    const imgSrc = Chains[chainID]?.imgSrc ?? ''
 
     return (
       <TransactionDetails>
@@ -284,6 +293,16 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
       <TransactionAmount>Not Available</TransactionAmount>
     )
   }
+
+  const handleAction = (transaction: any) => {
+    switch (transaction.actionRequired.type) {
+      case 'reenterWithdraw': {
+        dispatch(setReenterWithdrawalConfig(transaction.actionRequired))
+        dispatch(openModal('bridgeMultiStepWithdrawal'))
+      }
+    }
+  }
+
   return (
     <>
       {transactions.length === 0 && (
@@ -329,7 +348,13 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                       width: 80,
                     },
                     {
-                      content: <Status>{transaction.status}</Status>,
+                      content: (
+                        <Status onClick={() => handleAction(transaction)}>
+                          {transaction.actionRequired
+                            ? 'Action required'
+                            : transaction.status}
+                        </Status>
+                      ),
                       width: 88,
                     },
                   ]}

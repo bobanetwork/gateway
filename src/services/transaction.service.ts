@@ -7,6 +7,7 @@ import {
 } from 'util/network/network.util'
 import { TRANSACTION_STATUS } from '../containers/history/types'
 import {
+  bedrockGraphQLService,
   LightBridgeAssetReceivedEvent,
   LightBridgeDisbursementEvents,
   lightBridgeGraphQLService,
@@ -48,6 +49,18 @@ class TransactionService {
     } else {
       return []
     }
+  }
+
+  async fetchL2WithdrawalTransactions(
+    networkConfig = networkService.networkConfig
+  ): Promise<any[]> {
+    if (networkConfig?.L2.chainId !== 901) {
+      return []
+    }
+    return bedrockGraphQLService.queryWithdrawalTransactions(
+      await networkService.provider?.getSigner().getAddress(),
+      networkConfig!
+    )
   }
 
   // fetch L2 transactions from omgxWatcherAxiosInstance
@@ -160,20 +173,23 @@ class TransactionService {
       return [network.Testnet, network.Mainnet]
     })
 
-    const allNetworksTransactions = await Promise.all(
+    const allNetworksTransactions: any[] = await Promise.all(
       networkConfigsArray.flatMap((config) => {
         return [
-          this.fetchL2Tx(config),
-          this.fetchL1PendingTx(config),
-          this.fetchTeleportationTransactions(config),
+          this.fetchL2WithdrawalTransactions(config),
+          // this.fetchL2Tx(config),
+          // this.fetchL1PendingTx(config),
+          // this.fetchTeleportationTransactions(config),
         ]
       })
     )
+
     const filteredResults = allNetworksTransactions.reduce(
       (acc, res) => [...acc, ...res],
       []
     )
-    return filteredResults?.filter((transaction) => transaction.hash)
+
+    return filteredResults.filter((transaction) => transaction?.hash)
   }
 
   async fetchTeleportationTransactions(

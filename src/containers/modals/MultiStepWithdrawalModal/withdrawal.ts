@@ -1,16 +1,38 @@
 import { ethers } from 'ethers'
 import networkService from '../../../services/networkService'
 import { defaultAbiCoder, keccak256 } from 'ethers/lib/utils'
+import { L2StandardERC20ABI } from '../../../services/abi'
 
-export const handleInitiateWithdrawal = async (amount: string) => {
+export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
   const signer = await networkService.provider?.getSigner()
   if (!signer) {
     return { error: 'No signer' }
   }
-  const initWithdraw = await signer!.sendTransaction({
-    to: '0x4200000000000000000000000000000000000010', // L2StandardBridge TODO outsource
-    value: amount,
-  })
+
+  let initWithdraw
+
+  if (!token) {
+    initWithdraw = await signer!.sendTransaction({
+      to: '0x4200000000000000000000000000000000000010', // L2StandardBridge TODO outsource
+      value: amount,
+    })
+  } else {
+    const tokenContract = new ethers.Contract(
+      token.address,
+      L2StandardERC20ABI,
+      networkService.provider!.getSigner()
+    )
+
+    const approveTx = await tokenContract!.approve(
+      '0x4200000000000000000000000000000000000010', // L2StandardBridge TODO outsource
+      amount
+    )
+    await approveTx.wait()
+    initWithdraw = await networkService
+      .L2StandardBridgeContract!.connect(signer)
+      .withdraw(token.address, amount, 30000, '0x')
+  }
+
   const receipt = await initWithdraw.wait()
   const L2BlockNumber = receipt.blockNumber
   let latestBlockOnL1 = await networkService.L2OutputOracle!.latestBlockNumber()
@@ -45,7 +67,7 @@ export const handleProveWithdrawal = async (txInfo: any) => {
   )
 
   if (!logs || logs.length !== 1 || !logs[0].args) {
-    return { error: 'length not 1' }
+    return Promise.reject({ error: 'length not 1' })
   }
 
   const types = ['uint256', 'address', 'address', 'uint256', 'uint256', 'bytes']
@@ -103,6 +125,7 @@ export const handleProveWithdrawal = async (txInfo: any) => {
       ]
     )
   )
+
   const signer = await networkService.provider?.getSigner()
   const proveTx = await networkService.OptimismPortal.connect(
     signer
