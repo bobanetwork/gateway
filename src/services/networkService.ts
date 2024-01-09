@@ -606,7 +606,7 @@ class NetworkService {
 
         if (this.addresses.OptimismPortalProxy) {
           this.OptimismPortal = new ethers.Contract(
-            this.addresses.OptimismPortalProxy,
+            '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
             OptimismPortalABI,
             this.L1Provider
           )
@@ -614,7 +614,7 @@ class NetworkService {
 
         if (this.addresses.L2OutputOracleProxy) {
           this.L2OutputOracle = new ethers.Contract(
-            this.addresses.L2OutputOracleProxy,
+            '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
             L2OutputOracleABI,
             this.L1Provider
           )
@@ -1006,6 +1006,25 @@ class NetworkService {
           )
         }
       })
+
+      // TODO REMOVE
+      getBalancePromise.push(
+        getERC20Balance(
+          {
+            currency: '0x0000000000000000000000000000000000000000',
+            addressL1: '0x0000000000000000000000000000000000000000',
+            addressL2: '0x4200000000000000000000000000000000000023',
+            symbolL1: 'BOBA',
+            symbolL2: 'BOBA',
+            decimals: 18,
+            name: 'BOBA',
+            redalert: false,
+          },
+          '0x4200000000000000000000000000000000000023',
+          'L2',
+          this.L2Provider
+        )
+      )
 
       const tokenBalances = await Promise.allSettled(getBalancePromise).then(
         (results) =>

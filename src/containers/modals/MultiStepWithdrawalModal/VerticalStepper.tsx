@@ -27,6 +27,7 @@ import {
   handleProveWithdrawal,
 } from './withdrawal'
 import { openModal } from '../../../actions/uiAction'
+import networkService from '../../../services/networkService'
 
 const steps = [
   {
@@ -134,31 +135,60 @@ export const VerticalWithdrawalStepper = (props: IVerticalStepperProps) => {
           onClick={() => {
             switch (activeStep) {
               case 0: // "Initial Withdrawal Transaction sent and waiting period over"
-                const amount = ethers.utils
-                  .parseEther(props.amountToBridge!.toString())
-                  .toString()
+                const isNativeWithdrawal =
+                  props.token.address ===
+                  '0x4200000000000000000000000000000000000006'
                 selectModalState('transactionSuccess')
-                handleInitiateWithdrawal(amount).then((res) => {
+                handleInitiateWithdrawal(
+                  ethers.utils
+                    .parseEther(props.amountToBridge!.toString())
+                    .toString(),
+                  isNativeWithdrawal ? null : props.token
+                ).then((res) => {
                   setActiveStep(2)
-                  setReenterWithdrawal({ withdrawalHash: { blockNumber: res } })
+                  setReenterWithdrawal({
+                    withdrawalHash: { blockNumber: res },
+                  })
                   console.log('---> Init Withdrawal done')
                 })
                 break
+
               case 2: // "Switch to L1"
                 dispatch(setConnectETH(true))
                 break
               case 3: // "Proof"
-                handleProveWithdrawal(reenterWithdrawal).then((res: any) => {
-                  console.log('---> Proof done', res)
-                  setLatestLogs(res)
-                  setActiveStep(5)
-                })
+                handleProveWithdrawal(reenterWithdrawal)
+                  .then((res: any) => {
+                    console.log('---> Proof done', res)
+                    setLatestLogs(res)
+                    setActiveStep(5)
+                  })
+                  .catch((err) => {
+                    console.log('---> Proof failed', err)
+                  })
                 break
               case 5: // "Claim"
-                claimWithdrawal(latestLogs).then((res) => {
-                  console.log('---> Claim done: ', res)
-                  dispatch(openModal('transactionSuccess'))
-                })
+                console.log('reentrancy logs: ', props.reenterWithdrawConfig)
+                if (reenterWithdrawal) {
+                  networkService
+                    .L2ToL1MessagePasser!.queryFilter(
+                      networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
+                      props.reenterWithdrawConfig.blockNumber, // todo adapt
+                      props.reenterWithdrawConfig.blockNumber // todo adapt
+                    )
+                    .then((logs) => {
+                      console.log('logs found...', logs)
+                      claimWithdrawal(latestLogs).then((res) => {
+                        console.log('---> Claim done: ', res)
+                        dispatch(openModal('transactionSuccess'))
+                      })
+                    })
+                } else {
+                  claimWithdrawal(latestLogs).then((res) => {
+                    console.log('---> Claim done: ', res)
+                    dispatch(openModal('transactionSuccess'))
+                  })
+                }
             }
             if (activeStep !== 5) {
               handleNext()
