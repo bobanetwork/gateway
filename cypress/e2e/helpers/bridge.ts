@@ -88,7 +88,9 @@ export default class Bridge extends Page {
       isTestnet ? 'Testnet' : 'Mainnet'
     )
 
-    this.handleNetworkSwitchModals(networkAbbreviation, isTestnet, newNetwork)
+    this.handleNetworkSwitchModals(networkAbbreviation, isTestnet)
+    this.allowNetworkSwitch(newNetwork)
+    this.checkNetworkSwitchSuccessful(networkAbbreviation)
 
     this.store.verifyReduxStoreSetup('accountEnabled', true)
     this.store.verifyReduxStoreSetup('baseEnabled', true)
@@ -100,7 +102,7 @@ export default class Bridge extends Page {
     if (newNetwork) {
       this.allowNetworkToBeAddedAndSwitchedTo()
     } else {
-      this.allowNetworkSwitch()
+      this.allowNetworkToBeSwitchedTo()
     }
     this.store.verifyReduxStoreSetup('netLayer', newOriginLayer)
   }
@@ -247,11 +249,14 @@ export default class Bridge extends Page {
     this.openNetworkModal(fromNetwork.networkName)
     this.selectNetworkFromModal(toNetwork.networkName)
     if (accountConnected) {
-      this.handleNetworkSwitchModals(
-        toNetwork.networkAbbreviation,
-        toNetwork.isTestnet,
-        newNetwork
-      )
+      if (this.type === BridgeType.Classic) {
+        this.handleNetworkSwitchModals(
+          toNetwork.networkAbbreviation,
+          toNetwork.isTestnet
+        )
+      }
+      this.allowNetworkSwitch(newNetwork)
+      this.checkNetworkSwitchSuccessful(toNetwork.networkAbbreviation)
     } else {
       this.store.allowBaseEnabledToUpdate(accountConnected)
     }
@@ -282,7 +287,10 @@ export default class Bridge extends Page {
   ) {
     this.withinPage().contains(bridgeType).should('exist').click()
     this.store.verifyReduxStoreBridge('bridgeType', bridgeType.toUpperCase())
-    if (this.type === BridgeType.Light) {
+    if (
+      this.type === BridgeType.Light &&
+      currentNetwork !== EthereumGoerliInfo
+    ) {
       this.getModal()
         .find(
           `button[label="Switch to ${currentNetwork.networkAbbreviation} ${
