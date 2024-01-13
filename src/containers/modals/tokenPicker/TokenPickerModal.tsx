@@ -22,7 +22,7 @@ import {
   selectBridgeType,
 } from 'selectors'
 import { getCoinImage } from 'util/coinImage'
-import { LAYER } from 'util/constant'
+import { LAYER, Layer } from 'util/constant'
 import {
   ActionLabel,
   ListLabel,
@@ -111,6 +111,14 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
     await networkService.walletService.addTokenToMetaMask({ ...token, logoURI })
   }
 
+  const shouldHaveOptionToAddToken = (token: any): boolean => {
+    if (layer === Layer.L1) {
+      return token.address !== '0x0000000000000000000000000000000000000000'
+    } else {
+      return token.address !== '0x4200000000000000000000000000000000000006'
+    }
+  }
+
   return (
     <Modal
       open={open}
@@ -189,8 +197,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
                         {token.symbol}
                         <TokenBalance>{amount}</TokenBalance>
                       </TokenLabel>
-                      {token.address !==
-                        '0x0000000000000000000000000000000000000000' && (
+                      {shouldHaveOptionToAddToken(token) && (
                         <Tooltip title="Add token to wallet">
                           <PlusIcon
                             data-testid={'add-token'}
