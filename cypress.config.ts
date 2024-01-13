@@ -25,8 +25,5 @@ export default defineConfig({
       'cypress/e2e/specs/flow/bridging.spec.cy.ts',
     ],
   },
-  env: {
-    target_hash: process.env.CYPRESS_TEST_HASH,
-  },
   includeShadowDom: true,
 })
