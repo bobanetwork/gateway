@@ -17,7 +17,7 @@ import {
   selectBridgeType,
 } from 'selectors'
 
-import { setNetwork } from 'actions/networkAction'
+import { setActiveNetwork, setNetwork } from 'actions/networkAction'
 
 import {
   NetworkPickerList,
@@ -27,6 +27,12 @@ import {
 } from './styles'
 import { setTeleportationDestChainId } from '../../../actions/bridgeAction'
 import { BRIDGE_TYPE } from '../../../containers/Bridging/BridgeTypeSelector'
+import {
+  setBaseState,
+  setConnectBOBA,
+  setConnectETH,
+} from '../../../actions/setupAction'
+import { closeModal, openModal } from '../../../actions/uiAction'
 
 export interface NetworkListProps {
   close?: () => void
@@ -71,12 +77,35 @@ export const NetworkList: FC<NetworkListProps> = ({
           networkType,
         })
       )
-      if (chainDetail.chainId === currTeleportationDestChainId) {
-        dispatch(
-          setTeleportationDestChainId(
-            chainDetail.chainId[layer?.toUpperCase() === 'L1' ? 'L2' : 'L1']
+
+      if (bridgeType === BRIDGE_TYPE.LIGHT) {
+        // Workaround due to our tighly coupled network logic and wrongModal watcher, confirmed with Sahil that setNetwork + layerSet only approach for now
+        let closeWrongNetworkModalIntervalCounter = 0
+        const intervalID = setInterval(() => {
+          dispatch(closeModal('switchNetworkModal'))
+          dispatch(closeModal('wrongNetworkModal'))
+
+          if (++closeWrongNetworkModalIntervalCounter === 30) {
+            window.clearInterval(intervalID)
+          }
+        }, 150)
+
+        const toLayer1 = layer?.toUpperCase() === 'L1'
+        if (toLayer1) {
+          dispatch(setConnectETH(true))
+        } else {
+          dispatch(setConnectBOBA(true))
+        }
+        dispatch(setActiveNetwork())
+        dispatch(setBaseState(false))
+
+        if (chainDetail.chainId === currTeleportationDestChainId) {
+          dispatch(
+            setTeleportationDestChainId(
+              chainDetail.chainId[toLayer1 ? 'L2' : 'L1']
+            )
           )
-        )
+        }
       }
     }
     close()
