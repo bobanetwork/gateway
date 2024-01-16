@@ -7,11 +7,15 @@ import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 import { sortRawTokens } from 'util/common'
 import { Network } from 'util/network/network.util'
 import { LiquidityPoolLayer } from 'types/earn.types'
+import { IlpInfoResponse } from './types'
 
 /*Earn program is deprecated but we need to support indefinetly to withdraw tokens from LP*/
 
+// TODO: Defined Types
+// TODO: Get Unit test written
+
 class EarnService {
-  async getL1LPInfo() {
+  async getL1LPInfo(): Promise<IlpInfoResponse> {
     const poolInfo = {}
     const userInfo = {}
 
@@ -149,11 +153,10 @@ class EarnService {
           : 0,
       }
     })
-
     return { poolInfo, userInfo }
   }
 
-  async getL2LPInfo() {
+  async getL2LPInfo(): Promise<IlpInfoResponse> {
     const tokenAddressList = Object.keys(networkService.tokenAddresses!).reduce(
       (acc, cur) => {
         if (
