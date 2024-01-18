@@ -1,25 +1,41 @@
 import { LiquidityPoolLayer } from 'types/earn.types'
 import earnService from './earn.service'
-import { ethers } from 'ethers'
+import { BigNumber, ethers, utils } from 'ethers'
 import networkService from './networkService'
+import walletService from './wallet.service'
 
 jest.mock('./networkService')
+
+const mockGas = BigNumber.from(50000)
 
 jest.mock('./wallet.service', () => {
   return {
     provider: {
       getSigner: jest.fn(),
+      getBlock: jest.fn(),
     },
   }
 })
+
 const mockWithdrawReward = jest.fn()
+const mockWithdrawLiquidity = jest.fn()
+const mockWait = jest.fn()
+
 jest.mock('ethers', () => {
   const originalModule = jest.requireActual('ethers')
   return {
     ...originalModule,
     ethers: {
       ...originalModule.ethers,
-      Contract: jest.fn(),
+      Contract: jest.fn(() => ({
+        estimateGas: {
+          withdrawLiquidity: jest.fn(() => mockGas),
+        },
+        connect: jest.fn(() => ({
+          withdrawLiquidity: jest.fn(),
+        })),
+        wait: jest.fn(),
+      })),
       Wallet: jest.fn(),
     },
   }
@@ -109,7 +125,100 @@ describe('Earn Service', () => {
 
   // })
 
-  // describe('withdrawLiquidity ', () => {
+  describe('withdrawLiquidity ', () => {
+    beforeEach(() => {
+      ;(ethers.Contract as any).mockImplementation(() => ({
+        estimateGas: {
+          withdrawLiquidity: mockWithdrawLiquidity.mockResolvedValue(mockGas),
+        },
+        connect: jest.fn(() => ({
+          withdrawLiquidity: mockWithdrawLiquidity.mockResolvedValue({
+            wait: mockWait,
+          }),
+        })),
+      }))
+      ;(walletService.provider?.getBlock as jest.Mock).mockResolvedValue({
+        gasLimit: mockGas,
+      })
 
-  // })
+      networkService.account = 'mockedAccount'
+      walletService.account = 'mockedAccount'
+    })
+    it('should withdraw liquidity successfully for L1LP', async () => {
+      const currency = 'ETH'
+      const valueWeiString = utils.parseEther('1').toString()
+      const L1orL2Pool = LiquidityPoolLayer.L1LP
+
+      const result = await earnService.withdrawLiquidity(
+        currency,
+        valueWeiString,
+        L1orL2Pool
+      )
+
+      expect(result).toBeDefined()
+      expect(walletService.provider?.getBlock).toHaveBeenCalledWith('latest')
+      expect(mockWithdrawLiquidity).toHaveBeenCalledTimes(2)
+      expect(mockWithdrawLiquidity).toHaveBeenLastCalledWith(
+        valueWeiString,
+        currency,
+        'mockedAccount',
+        { gasLimit: mockGas }
+      )
+      expect(mockWait).toHaveBeenCalled()
+    })
+
+    it('should withdraw liquidity successfully for L2LP', async () => {
+      const currency = 'BOBA'
+      const valueWeiString = utils.parseEther('1').toString()
+      const L1orL2Pool = LiquidityPoolLayer.L2LP
+
+      const result = await earnService.withdrawLiquidity(
+        currency,
+        valueWeiString,
+        L1orL2Pool
+      )
+
+      expect(result).toBeDefined()
+      expect(walletService.provider?.getBlock).toHaveBeenCalledWith('latest')
+      expect(mockWithdrawLiquidity).toHaveBeenCalledTimes(2)
+      expect(mockWithdrawLiquidity).toHaveBeenLastCalledWith(
+        valueWeiString,
+        currency,
+        'mockedAccount',
+        { gasLimit: mockGas }
+      )
+      expect(mockWait).toHaveBeenCalled()
+    })
+
+    it('should handle error during withdrawal', async () => {
+      const currency = 'ETH'
+      const valueWeiString = utils.parseEther('1').toString()
+      const L1orL2Pool = LiquidityPoolLayer.L1LP
+
+      ;(ethers.Contract as any).mockImplementation(() => ({
+        estimateGas: {
+          withdrawLiquidity: mockWithdrawLiquidity.mockRejectedValueOnce(
+            new Error('Withdrawal error')
+          ),
+        },
+        connect: jest.fn(() => ({
+          withdrawLiquidity: mockWithdrawLiquidity.mockRejectedValueOnce(
+            new Error('Withdrawal error')
+          ),
+        })),
+      }))
+
+      const result = await earnService.withdrawLiquidity(
+        currency,
+        valueWeiString,
+        L1orL2Pool
+      )
+
+      expect(result).toBeInstanceOf(Error)
+    })
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
 })

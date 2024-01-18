@@ -390,32 +390,49 @@ class EarnService {
   }
 
   async withdrawLiquidity(
-    currency,
-    value_Wei_String,
+    currency: string,
+    valueWeiString: BigNumberish,
     L1orL2Pool: LiquidityPoolLayer
   ) {
     try {
+      const L1LPContract = new ethers.Contract(
+        networkService.addresses.L1LPAddress,
+        L1LiquidityPoolABI,
+        networkService.L1Provider
+      )
+
+      const L2LPContract = new ethers.Contract(
+        networkService.addresses.L2LPAddress,
+        L2LiquidityPoolABI,
+        networkService.L2Provider
+      )
+
       const estimateGas = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? networkService.L1LPContract!
-        : networkService.L2LPContract!
+        ? L1LPContract
+        : L2LPContract
       ).estimateGas.withdrawLiquidity(
-        value_Wei_String,
+        valueWeiString,
         currency,
-        networkService.account,
-        { from: networkService.account }
+        walletService.account,
+        { from: walletService.account }
       )
-      const blockGasLimit = (await networkService.provider!.getBlock('latest'))
+
+      const blockGasLimit = (await walletService.provider!.getBlock('latest'))
         .gasLimit
+
+      const gasLimit = estimateGas.mul(2).gt(blockGasLimit)
+        ? blockGasLimit
+        : estimateGas.mul(2)
+
       const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? networkService.L1LPContract!
-        : networkService.L2LPContract!
+        ? L1LPContract
+        : L2LPContract
       )
-        .connect(networkService.provider!.getSigner())
-        .withdrawLiquidity(value_Wei_String, currency, networkService.account, {
-          gasLimit: estimateGas.mul(2).gt(blockGasLimit)
-            ? blockGasLimit
-            : estimateGas.mul(2),
+        .connect(walletService.provider!.getSigner())
+        .withdrawLiquidity(valueWeiString, currency, walletService.account, {
+          gasLimit,
         })
+
       await TX.wait()
       return TX
     } catch (error) {
