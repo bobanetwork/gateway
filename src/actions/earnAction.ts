@@ -20,6 +20,7 @@ import earnService from 'services/earn.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
 import { LiquidityPoolLayer } from 'types/earn.types'
+import balanceService from 'services/balance.service'
 
 const getEarnInfoBegin = () => ({
   type: 'GET_EARNINFO',
@@ -61,13 +62,11 @@ export const updateWithdrawPayload = (withdrawToken: any) => ({
   payload: withdrawToken,
 })
 
-// TODO: refer from balance.service.ts
 export const fetchL1LPBalance = (currency: string) =>
-  createAction('FETCH/L1LPBALANCE', () => earnService.getL1LPBalance(currency))
+  createAction('FETCH/L1LPBALANCE', () => balanceService.L1LPBalance(currency))
 
-// TODO: refer from balance.service.ts
 export const fetchL2LPBalance = (currency: string) =>
-  createAction('FETCH/L2LPBALANCE', () => earnService.getL2LPBalance(currency))
+  createAction('FETCH/L2LPBALANCE', () => balanceService.L2LPBalance(currency))
 
 export const getReward = (
   currencyAddress: string,

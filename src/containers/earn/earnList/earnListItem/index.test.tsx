@@ -30,6 +30,8 @@ jest.mock('services/earn.service', () => {
   }
 })
 
+jest.mock('services/balance.service')
+
 const renderEarnListItemComponent = ({
   poolInfo,
   userInfo,

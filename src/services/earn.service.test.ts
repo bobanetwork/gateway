@@ -117,14 +117,6 @@ describe('Earn Service', () => {
     })
   })
 
-  // describe('getL1LPBalance ', () => {
-
-  // })
-
-  // describe('getL2LPBalance ', () => {
-
-  // })
-
   describe('withdrawLiquidity ', () => {
     beforeEach(() => {
       ;(ethers.Contract as any).mockImplementation(() => ({
