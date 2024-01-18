@@ -6,8 +6,8 @@ import networkService from './networkService'
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 import { sortRawTokens } from 'util/common'
 import { Network } from 'util/network/network.util'
-import { LiquidityPoolLayer } from 'types/earn.types'
-import { IlpInfoResponse } from './types'
+import { ILpInfoResponse, LiquidityPoolLayer } from 'types/earn.types'
+import walletService from './wallet.service'
 
 /*Earn program is deprecated but we need to support indefinetly to withdraw tokens from LP*/
 
@@ -15,7 +15,7 @@ import { IlpInfoResponse } from './types'
 // TODO: Get Unit test written
 
 class EarnService {
-  async getL1LPInfo(): Promise<IlpInfoResponse> {
+  async getL1LPInfo(): Promise<ILpInfoResponse> {
     const poolInfo = {}
     const userInfo = {}
 
@@ -156,7 +156,7 @@ class EarnService {
     return { poolInfo, userInfo }
   }
 
-  async getL2LPInfo(): Promise<IlpInfoResponse> {
+  async getL2LPInfo(): Promise<ILpInfoResponse> {
     const tokenAddressList = Object.keys(networkService.tokenAddresses!).reduce(
       (acc, cur) => {
         if (
@@ -315,21 +315,29 @@ class EarnService {
 
   // TODO: setup types correctly.
   async withdrawReward(
-    currencyAddress,
-    value_Wei_String,
+    currencyAddress: string,
+    valueWeiString: BigNumberish,
     L1orL2Pool: LiquidityPoolLayer
   ) {
     try {
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? networkService.L1LPContract!
-        : networkService.L2LPContract!
+      const L1LPContract = new ethers.Contract(
+        networkService.addresses.L1LPAddress,
+        L1LiquidityPoolABI,
+        networkService.L1Provider
       )
-        .connect(networkService.provider!.getSigner())
-        .withdrawReward(
-          value_Wei_String,
-          currencyAddress,
-          networkService.account
-        )
+
+      const L2LPContract = new ethers.Contract(
+        networkService.addresses.L2LPAddress,
+        L2LiquidityPoolABI,
+        networkService.L2Provider
+      )
+
+      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
+        ? L1LPContract
+        : L2LPContract
+      )
+        .connect(walletService.provider!.getSigner())
+        .withdrawReward(valueWeiString, currencyAddress, networkService.account)
       await TX.wait()
       return TX
     } catch (error) {

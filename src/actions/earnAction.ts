@@ -71,11 +71,11 @@ export const fetchL2LPBalance = (currency: string) =>
 
 export const getReward = (
   currencyAddress: string,
-  value_Wei_String: BigNumberish,
+  valueWeiString: BigNumberish,
   L1orL2Pool: LiquidityPoolLayer
 ) =>
   createAction('EARN/HARVEST', () =>
-    earnService.withdrawReward(currencyAddress, value_Wei_String, L1orL2Pool)
+    earnService.withdrawReward(currencyAddress, valueWeiString, L1orL2Pool)
   )
 
 export const withdrawLiquidity = (

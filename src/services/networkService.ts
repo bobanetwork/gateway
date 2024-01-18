@@ -492,6 +492,7 @@ class NetworkService {
         )
 
         // Liquidity pools
+        // TODO: review and remove if it's not getting used.
         this.L1LPContract = new ethers.Contract(
           this.addresses.L1LPAddress,
           L1LiquidityPoolABI,
