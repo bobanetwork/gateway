@@ -204,6 +204,25 @@ export const TokenInfo: TokenInfoMap = {
       decimals: 18,
     },
   },
+  '900': {
+    '0x67d269191c92caf3cd7723f116c85e6e9bf55933': {
+      name: 'BOBA Token',
+      symbol: 'BOBA',
+      decimals: 18,
+    },
+  },
+  '901': {
+    '0x67d269191c92caf3cd7723f116c85e6e9bf55933': {
+      name: 'BOBA Token',
+      symbol: 'BOBA',
+      decimals: 18,
+    },
+    '0x4200000000000000000000000000000000000023': {
+      name: 'BOBA Token',
+      symbol: 'BOBA',
+      decimals: 18,
+    },
+  },
   '288': {
     '0x4200000000000000000000000000000000000006': {
       name: 'Ethereum',

@@ -67,11 +67,11 @@ import {
   L1StandardBridgeABI,
   L2BillingContractABI,
   L2LiquidityPoolABI,
-  L2StandardBridgeABI,
-  OptimismPortalABI,
   L2OutputOracleABI,
-  L2ToL1MessagePasserABI,
+  L2StandardBridgeABI,
   L2StandardERC20ABI,
+  L2ToL1MessagePasserABI,
+  OptimismPortalABI,
   OVM_GasPriceOracleABI,
   TeleportationABI,
 } from './abi'
@@ -544,9 +544,14 @@ class NetworkService {
 
       if (!isLimitedNetwork) {
         this.L1StandardBridgeContract = new ethers.Contract(
-          this.addresses.L1StandardBridgeAddress,
+          '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
           L1StandardBridgeABI,
           this.L1Provider
+        )
+
+        console.log(
+          'L1StandardBridge initialized: ',
+          this.L1StandardBridgeContract
         )
 
         const tokenList = {}
@@ -633,20 +638,20 @@ class NetworkService {
         )
 
         // chainId 900|901 are used for the local bedrock devnet
-        if (chainId !== 900 && chainId !== 901) {
-          this.watcher = new CrossChainMessenger({
-            l1SignerOrProvider: this.L1Provider,
-            l2SignerOrProvider: this.L2Provider,
-            l1ChainId: chainId,
-            fastRelayer: false,
-          })
-          this.fastWatcher = new CrossChainMessenger({
-            l1SignerOrProvider: this.L1Provider,
-            l2SignerOrProvider: this.L2Provider,
-            l1ChainId: chainId,
-            fastRelayer: true,
-          })
-        }
+        // if (chainId !== 900 && chainId !== 901) {
+        //   this.watcher = new CrossChainMessenger({
+        //     l1SignerOrProvider: this.L1Provider,
+        //     l2SignerOrProvider: this.L2Provider,
+        //     l1ChainId: chainId,
+        //     fastRelayer: false,
+        //   })
+        //   this.fastWatcher = new CrossChainMessenger({
+        //     l1SignerOrProvider: this.L1Provider,
+        //     l2SignerOrProvider: this.L2Provider,
+        //     l1ChainId: chainId,
+        //     fastRelayer: true,
+        //   })
+        // }
       }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {
@@ -725,6 +730,7 @@ class NetworkService {
       return 'enabled'
     } catch (error) {
       console.log(`NS: ERROR: InitializeBase `, error)
+      return true
       return false
     }
   }
@@ -1026,6 +1032,24 @@ class NetworkService {
         )
       )
 
+      getBalancePromise.push(
+        getERC20Balance(
+          {
+            currency: '0x0000000000000000000000000000000000000000',
+            addressL1: '0x67d269191c92Caf3cD7723F116c85e6E9bf55933',
+            addressL2: '0x4200000000000000000000000000000000000023',
+            symbolL1: 'BOBA',
+            symbolL2: 'BOBA',
+            decimals: 18,
+            name: 'BOBA',
+            redalert: false,
+          },
+          '0x67d269191c92Caf3cD7723F116c85e6E9bf55933',
+          'L1',
+          this.L1Provider
+        )
+      )
+
       const tokenBalances = await Promise.allSettled(getBalancePromise).then(
         (results) =>
           results
@@ -1072,56 +1096,46 @@ class NetworkService {
 
   /** @dev Once we fully migrated to Anchorage we might want to merge this function with depositETHL2. */
   async depositETHAnchorage({ recipient = null, L1DepositAmountWei }) {
-    console.log(`---------------------------------------------------`)
-    console.log(`Start bridging ETH to L2...`)
-    const signer = networkService.provider?.getSigner()
-    const L2Wallet = signer!.connect(this.L2Provider!)
-    const L1Balance = await signer!.connect(this.L1Provider!).getBalance()
-    const L2Balance = await L2Wallet.getBalance()
-    console.log(`L1 Balance: ${ethers.utils.formatEther(L1Balance)}`)
-    console.log(`L2 Balance: ${ethers.utils.formatEther(L2Balance)}`)
-    console.log(`---------------------------------------------------`)
+    // determine if the sequencer is down or we want to user the alternative route via OptimismPortal
+    // generally, if the sequencer is down we can deposit funds directly via OptimismPortal
+    // this creates an uncensored alternative
+    // it is recommended to add a 50% buffer for whatever is returned by estimateGas
+    const isFallback = false
 
-    if (L1Balance.lt(L1DepositAmountWei)) {
-      console.error('Insufficient L1 balance')
-      return
-    }
+    console.log('starting deposit...')
 
-    let L1Tx
+    const signer = await networkService.provider?.getSigner()
+
+    // deposit preferred way via L1StandardBridge
     if (recipient) {
-      L1Tx = await this.L1StandardBridgeContract!.depositETHTo(
+      console.log('SENDING TO RECIPIENT')
+      return this.L1StandardBridgeContract!.depositETHTo(
         recipient,
-        999999,
-        '0x'
+        100000,
+        [],
+        { value: L1DepositAmountWei }
       )
     } else {
-      L1Tx = await this.L1Provider!.getSigner().sendTransaction({
-        to: this.addresses.OptimismPortalProxy,
+      console.log('NO RECIPIENT, sending Transaction to L1StandardBridge')
+      return signer!.sendTransaction({
+        to: this.L1StandardBridgeContract?.address,
         value: L1DepositAmountWei,
       })
     }
-    const depositReceipt = await L1Tx.wait()
-    console.log(
-      `Deposited ${ethers.utils.formatEther(
-        L1DepositAmountWei
-      )} ETH to Optimism Portal`
-    )
 
-    while (true) {
-      const postL2BalanceTmp = await L2Wallet.getBalance()
-      if (!L2Balance.eq(postL2BalanceTmp)) {
-        break
+    // deposit fallback via OptimismPortal
+    if (!isFallback) {
+      if (recipient) {
+        return networkService.OptimismPortal?.connect(
+          signer!
+        ).depositTransaction(recipient, L1DepositAmountWei, 100000, false, [])
+      } else {
+        return signer!.sendTransaction({
+          to: this.OptimismPortal?.address,
+          value: L1DepositAmountWei,
+        })
       }
-      await new Promise((resolve) => setTimeout(resolve, 1000))
     }
-
-    console.log(`---------------------------------------------------`)
-    console.log(`ETH bridged to L2!`)
-    const postL2Balance = await L2Wallet.getBalance()
-    console.log(`L2 Balance: ${ethers.utils.formatEther(postL2Balance)}`)
-
-    // TODO: Probably we want the L2 receipt here instead
-    return depositReceipt
   }
 
   //Move ETH from L1 to L2 using the standard deposit system
@@ -1130,6 +1144,7 @@ class NetworkService {
    * Deposit ETH from L1 to another L2 account.
    * */
   async depositETHL2({ recipient = null, value_Wei_String }) {
+    console.log('starting depositETHL2...')
     try {
       setFetchDepositTxBlock(false)
 
@@ -1189,10 +1204,16 @@ class NetworkService {
         }
       }
 
-      setFetchDepositTxBlock(true)
+      console.log('waiting for finalization...')
 
+      setFetchDepositTxBlock(true)
       //at this point the tx has been submitted, and we are waiting...
-      await depositTX.wait()
+      const received = await depositTX.wait()
+
+      if (ENABLE_ANCHORAGE) {
+        console.log('Deposit complete: ', received)
+        return received
+      }
 
       const opts = {
         fromBlock: -4000,
@@ -1337,13 +1358,21 @@ class NetworkService {
     currency,
     currencyL2,
   }): Promise<any> {
+    const signer = await this.provider?.getSigner()
+    if (!signer) {
+      console.error('no signer!')
+    }
+
     console.log(`---------------------------------------------------`)
     console.log(`Start bridging BOBA to L2...`)
 
     const L1_ERC20_Contract = this.L1_TEST_Contract!.attach(currency)
     const L2_ERC20_Contract = this.L2_TEST_Contract!.attach(currencyL2)
+    console.log('attached contracts', this.account)
     const L1BOBABalance = await L1_ERC20_Contract.balanceOf(this.account)
+    console.log('l1 balance: ', L1BOBABalance)
     const L2BOBABalance = await L2_ERC20_Contract.balanceOf(this.account)
+    console.log('l2 balance: ', L2BOBABalance)
     console.log(`L1 BOBA Balance: ${ethers.utils.formatEther(L1BOBABalance)}`)
     console.log(`L2 BOBA Balance: ${ethers.utils.formatEther(L2BOBABalance)}`)
     console.log(`---------------------------------------------------`)
@@ -1355,29 +1384,27 @@ class NetworkService {
 
     const allowance_BN = await L1_ERC20_Contract.allowance(
       this.account,
-      this.addresses.L1StandardBridgeAddress
+      '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
     )
 
     const allowed = allowance_BN.gte(BigNumber.from(L1DepositAmountWei))
 
-    // Check for allowance to avoid double tx
     if (!allowed) {
-      const L1ApproveTx = await L1_ERC20_Contract.approve(
-        this.addresses.L1StandardBridgeAddress,
+      const L1ApproveTx = await L1_ERC20_Contract.connect(signer!).approve(
+        '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         L1DepositAmountWei
       )
       await L1ApproveTx.wait()
       console.log(
         `Approved ${ethers.utils.formatEther(L1DepositAmountWei)} tokens`
       )
-    } else {
-      console.log('Already approved tokens.')
     }
 
     let L1DepositTx
-
     if (recipient) {
-      L1DepositTx = await this.L1StandardBridgeContract!.depositERC20To(
+      L1DepositTx = await this.L1StandardBridgeContract!.connect(
+        signer!
+      ).depositERC20To(
         currency,
         currencyL2,
         recipient,
@@ -1386,13 +1413,9 @@ class NetworkService {
         '0x'
       )
     } else {
-      L1DepositTx = await this.L1StandardBridgeContract!.depositERC20(
-        currency,
-        currencyL2,
-        L1DepositAmountWei,
-        999999,
-        '0x'
-      )
+      L1DepositTx = await this.L1StandardBridgeContract!.connect(
+        signer!
+      ).depositERC20(currency, currencyL2, L1DepositAmountWei, 999999, '0x')
     }
     const depositReceipt = await L1DepositTx.wait()
     console.log(

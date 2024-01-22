@@ -7,8 +7,13 @@ import {
 } from '@apollo/client'
 import { NetworkType } from 'util/network/network.util'
 import networkService from './networkService'
-import { BigNumberish, Event } from 'ethers'
+import { BigNumber, BigNumberish, Event } from 'ethers'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
+import {
+  DepositState,
+  WithdrawProcessStep,
+  WithdrawState,
+} from '../containers/modals/MultiStepWithdrawalModal/withdrawal'
 
 //#region types
 export type LightBridgeDisbursementEvents =
@@ -327,7 +332,7 @@ class TeleportationGraphQLService extends GraphQLService {
 }
 
 class BedrockGraphQLService extends GraphQLService {
-  async findProvenWithdrawals() {
+  async findWithdrawalsProven() {
     return networkService.OptimismPortal!.queryFilter(
       networkService.OptimismPortal!.filters.WithdrawalProven(),
       undefined,
@@ -335,7 +340,7 @@ class BedrockGraphQLService extends GraphQLService {
     )
   }
 
-  async findFinalizedWithdrawals() {
+  async findWithdrawalsFinalized() {
     return networkService.OptimismPortal!.queryFilter(
       networkService.OptimismPortal!.filters.WithdrawalFinalized(),
       undefined,
@@ -343,7 +348,7 @@ class BedrockGraphQLService extends GraphQLService {
     )
   }
 
-  async latestL2InitWithdrawalLogs(address: string) {
+  async findWithdrawalsInitiated(address: string) {
     return (
       await networkService.L2StandardBridgeContract!.queryFilter(
         networkService.L2StandardBridgeContract!.filters.WithdrawalInitiated(),
@@ -353,11 +358,32 @@ class BedrockGraphQLService extends GraphQLService {
     ).filter((entry) => entry.args?.from === address)
   }
 
-  async latestL2ToL1MessagePassedLogs() {
+  async findWithdrawalMessagesPassed(fromBlock?: number, toBlock?: number) {
     return networkService.L2ToL1MessagePasser!.queryFilter(
       networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
-      undefined,
-      undefined
+      fromBlock ?? undefined,
+      toBlock ?? undefined
+    )
+  }
+
+  async queryL1ToL2DepositTransactions(
+    networkConfig: NetworkDetailChainConfig
+  ) {
+    const eventsDepositFinalized =
+      await networkService.L2StandardBridgeContract!.queryFilter(
+        (
+          networkService.L2StandardBridgeContract!.filters as any
+        ).DepositFinalized(),
+        undefined,
+        undefined
+      )
+
+    const events = [...eventsDepositFinalized]
+
+    return Promise.all(
+      events.map((event) => {
+        return this.mapDepositToTransaction(networkConfig, event, 'status')
+      })
     )
   }
 
@@ -370,7 +396,126 @@ class BedrockGraphQLService extends GraphQLService {
     )
   }
 
-  async queryWithdrawalTransactions(
+  async mapDepositToTransaction(
+    networkConfig: NetworkDetailChainConfig,
+    event: Event,
+    status: any
+  ) {
+    let provider
+    switch (event.event) {
+      case DepositState.deposited: {
+        provider = networkService.L1Provider
+        break
+      }
+      case DepositState.finalized: {
+        provider = networkService.L2Provider
+        break
+      }
+      default: {
+        return []
+      }
+    }
+
+    const block = await provider!.getBlock(event.blockHash)
+    const transaction = await provider!.getTransaction(event.transactionHash)
+    const isNativeTransaction = transaction?.value?.gt(0)
+    const action = {
+      amount: isNativeTransaction
+        ? transaction?.value?.toString()
+        : event.args?.amount?.toString(),
+      sender: isNativeTransaction ? event.args?.sender : event.args?.from,
+      status: 'succeeded',
+      to: isNativeTransaction ? event.args!.target : event.args!.to,
+      token: isNativeTransaction ? null : event.args!.l1Token,
+    }
+
+    return {
+      timeStamp: block.timestamp,
+      layer: 'l2',
+      chainName: networkConfig.L1.name,
+      originChainId: networkConfig.L1.chainId,
+      destinationChainId: networkConfig.L2.chainId,
+      UserFacingStatus: status,
+      contractAddress: event.address,
+      hash: transaction.hash,
+      crossDomainMessage: {
+        crossDomainMessage: 1,
+        crossDomainMessageEstimateFinalizedTime: 180,
+        crossDomainMessageFinalize: 1,
+        crossDomainMessageSendTime: 100,
+        fromHash: '0x0',
+        toHash: undefined,
+        fast: 1,
+      },
+      contractName: '-',
+      from: event.args!.from,
+      to: event.args!.to,
+      action,
+      isTeleportation: false,
+    }
+  }
+
+  async mapWithdrawalToTransaction(
+    networkConfig: NetworkDetailChainConfig,
+    event: Event,
+    status: WithdrawState,
+    value?: BigNumber
+  ) {
+    const provider =
+      status !== WithdrawState.initialized
+        ? networkService.L1Provider
+        : networkService.L2Provider
+
+    const block = await provider!.getBlock(event.blockHash)
+    const transaction = await provider!.getTransaction(event.transactionHash)
+
+    return {
+      timeStamp: block.timestamp,
+      layer: 'l2',
+      chainName: networkConfig.L2.name,
+      originChainId: networkConfig.L2.chainId,
+      destinationChainId: networkConfig.L1?.chainId,
+      UserFacingStatus: status,
+      contractAddress: event.address,
+      hash: transaction.hash,
+      crossDomainMessage: {
+        crossDomainMessage: 1,
+        crossDomainMessageEstimateFinalizedTime: 180,
+        crossDomainMessageFinalize: 1,
+        crossDomainMessageSendTime: 100,
+        fromHash: '0x0',
+        toHash: undefined,
+        fast: 1,
+      },
+      contractName: '-',
+      from: event.args!.from,
+      to: event.args!.to,
+      action: {
+        amount: value?.toString() ?? '0',
+        sender: event.args?.sender,
+        status: status === WithdrawState.finalized ? 'succeeded' : status,
+        to: event.args!.target,
+        token: event.args!.value ? 'native' : 'find token',
+      },
+      isTeleportation: false,
+      actionRequired:
+        status === WithdrawState.finalized
+          ? null
+          : {
+              type: 'reenterWithdraw',
+              state: status,
+              step:
+                status === WithdrawState.initialized
+                  ? WithdrawProcessStep.Initialized
+                  : WithdrawProcessStep.Proven,
+              withdrawalHash: event.args!.withdrawalHash,
+              blockNumber: event.blockNumber,
+              blockHash: event.blockHash,
+            },
+    }
+  }
+
+  async queryWithdrawalTransactionsHistory(
     address,
     networkConfig: NetworkDetailChainConfig
   ) {
@@ -380,60 +525,11 @@ class BedrockGraphQLService extends GraphQLService {
       withdrawalsProvenEvents,
       withdrawalsFinalizedEvents,
     ] = await Promise.all([
-      this.latestL2InitWithdrawalLogs(address),
-      this.latestL2ToL1MessagePassedLogs(),
-      this.findProvenWithdrawals(),
-      this.findFinalizedWithdrawals(),
+      this.findWithdrawalsInitiated(address),
+      this.findWithdrawalMessagesPassed(),
+      this.findWithdrawalsProven(),
+      this.findWithdrawalsFinalized(),
     ])
-    const mapToTransaction = async (event, status) => {
-      console.log('event is ', event)
-      console.log('provider is: ', networkService.provider)
-      const block = await networkService.provider!.getBlock(event.blockHash)
-      const transaction = await networkService.provider!.getTransaction(
-        event.transactionHash
-      )
-      return {
-        timeStamp: block.timestamp,
-        layer: 'l2',
-        chainName: networkConfig.L2.name,
-        originChainId: networkConfig.L2.chainId,
-        destinationChainId: networkConfig.L2.chainId,
-        UserFacingStatus: status,
-        contractAddress: event.address,
-        hash: transaction.hash,
-        crossDomainMessage: {
-          crossDomainMessage: 1,
-          crossDomainMessageEstimateFinalizedTime: 180,
-          crossDomainMessageFinalize: 1,
-          crossDomainMessageSendTime: 100,
-          fromHash: '0x0',
-          toHash: undefined,
-          fast: 1,
-        },
-        contractName: '-',
-        from: event.args!.from,
-        to: event.args!.to,
-        action: {
-          amount: event.args!.value.toString(),
-          sender: event.args!.sender,
-          status: status === 'finalized' ? 'succeeded' : status,
-          to: event.args!.target,
-          token: event.args!.value ? 'native' : 'find token',
-        },
-        isTeleportation: false,
-        actionRequired:
-          status === 'finalized'
-            ? null
-            : {
-                type: 'reenterWithdraw',
-                state: status,
-                step:
-                  status === 'initialized' ? 3 : status === 'proven' ? 4 : 5,
-                withdrawalHash: event.args!.withdrawalHash,
-                blockNumber: event.blockNumber,
-              },
-      }
-    }
     const result: {
       initialized: any[]
       proven: any[]
@@ -460,16 +556,31 @@ class BedrockGraphQLService extends GraphQLService {
           )
           if (finalizedEvent) {
             result.finalized.push(
-              await mapToTransaction(initializeEvent, 'finalized')
+              await this.mapWithdrawalToTransaction(
+                networkConfig,
+                finalizedEvent,
+                WithdrawState.finalized,
+                initializeEvent.args?.value
+              )
             )
           } else {
             result.proven.push(
-              await mapToTransaction(initializeEvent, 'proven')
+              await this.mapWithdrawalToTransaction(
+                networkConfig,
+                provenEvent,
+                WithdrawState.proven,
+                initializeEvent.args?.value
+              )
             )
           }
         } else {
           result.initialized.push(
-            await mapToTransaction(initializeEvent, 'initialized')
+            await this.mapWithdrawalToTransaction(
+              networkConfig,
+              initializeEvent,
+              WithdrawState.initialized,
+              initializeEvent.args?.value
+            )
           )
         }
       }

@@ -1,19 +1,11 @@
-import {
-  Box,
-  Button,
-  Paper,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-  Typography,
-} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import {
   ConfirmActionButton,
-  PassiveStepIcon,
-  PassiveStepIconActive,
+  Description,
+  PassiveStepperNumberIndicator,
   SecondaryActionButton,
+  ActiveStepNumberIndicator,
+  StepContainer,
 } from './index.styles'
 import { Heading } from '../../../components/global'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,11 +14,13 @@ import { setConnectETH } from '../../../actions/setupAction'
 import { Layer } from '../../../util/constant'
 import { ethers } from 'ethers'
 import {
+  approvalRequired,
   claimWithdrawal,
   handleInitiateWithdrawal,
   handleProveWithdrawal,
+  HandleProveWithdrawalConfig,
 } from './withdrawal'
-import { openModal } from '../../../actions/uiAction'
+import { closeModal, openModal } from '../../../actions/uiAction'
 import networkService from '../../../services/networkService'
 
 const steps = [
@@ -56,6 +50,7 @@ const steps = [
     passiveStep: false,
     btnLbl: 'Claim Withdrawal',
   },
+  { label: 'Wait for Confirmation', passiveStep: true },
 ]
 
 interface IVerticalStepperProps {
@@ -65,12 +60,14 @@ interface IVerticalStepperProps {
   reenterWithdrawConfig?: any
 }
 
-export const VerticalWithdrawalStepper = (props: IVerticalStepperProps) => {
+export const VerticalStepper = (props: IVerticalStepperProps) => {
   const dispatch = useDispatch<any>()
   const layer = useSelector(selectLayer())
-  const [reenterWithdrawal, setReenterWithdrawal] = useState({})
+  const [withdrawalConfig, setWithdrawalConfig] =
+    useState<HandleProveWithdrawalConfig>()
   const [latestLogs, setLatestLogs] = useState(null)
   const [activeStep, setActiveStep] = React.useState(0)
+  const [approvalNeeded, setApprovalNeeded] = useState(false)
 
   useEffect(() => {
     // TODO: Use goldsky.com
@@ -81,8 +78,15 @@ export const VerticalWithdrawalStepper = (props: IVerticalStepperProps) => {
       setActiveStep(0)
     }
 
+    if (activeStep === 0 && props.token) {
+      approvalRequired(props.token, props.amountToBridge).then((res) => {
+        setApprovalNeeded(res)
+      })
+    }
+
     if (props.reenterWithdrawConfig) {
-      setReenterWithdrawal(props.reenterWithdrawConfig)
+      dispatch(setConnectETH(true))
+      setWithdrawalConfig(props.reenterWithdrawConfig)
       setActiveStep(props.reenterWithdrawConfig.step)
     }
   }, [layer])
@@ -91,116 +95,130 @@ export const VerticalWithdrawalStepper = (props: IVerticalStepperProps) => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
+  const initWithdrawalStep = () => {
+    const isNativeWithdrawal =
+      props.token.address === '0x4200000000000000000000000000000000000006'
+    selectModalState('transactionSuccess')
+    handleInitiateWithdrawal(
+      ethers.utils.parseEther(props.amountToBridge!.toString()).toString(),
+      isNativeWithdrawal ? null : props.token
+    )
+      .then((res) => {
+        setActiveStep(2)
+        setWithdrawalConfig({
+          blockNumber: res,
+        })
+      })
+      .catch((err) => {
+        console.error('ERROR: ', err)
+      })
+  }
+
+  const proofWithdrawalStep = () => {
+    dispatch(setConnectETH(true))
+    handleProveWithdrawal(withdrawalConfig!)
+      .then((res: any) => {
+        setActiveStep(5)
+        setLatestLogs(res)
+      })
+      .catch((err) => {})
+  }
+
+  const claimWithdrawalStep = () => {
+    if (!withdrawalConfig?.withdrawalHash) {
+      claimWithdrawal(latestLogs).then((res) => {
+        console.log('---> Claim done: ', res)
+        dispatch(closeModal('bridgeMultiStepWithdrawal'))
+        dispatch(openModal('transactionSuccess'))
+      })
+    } else {
+      networkService
+        .L2ToL1MessagePasser!.queryFilter(
+          networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
+          undefined, // todo adapt
+          undefined // todo adapt
+        )
+        .then((logs) => {
+          logs = logs.filter(
+            (log) =>
+              log?.args?.withdrawalHash === withdrawalConfig.withdrawalHash
+          )
+          claimWithdrawal(logs).then((res) => {
+            console.log('---> Claim done: ', res)
+            setActiveStep(6)
+            dispatch(openModal('transactionSuccess'))
+            dispatch(closeModal('bridgeMultiStepWithdrawal'))
+          })
+        })
+    }
+  }
+
   return (
     <>
-      <Box>
-        <Stepper orientation="vertical" activeStep={activeStep}>
+      <div>
+        <div>
           {steps.map((step, index) => (
-            <Step key={step.label}>
+            <div key={step.label}>
               {step.passiveStep ? (
-                <StepLabel
-                  StepIconComponent={() => {
-                    return activeStep >= index ? (
-                      <PassiveStepIconActive />
-                    ) : (
-                      <PassiveStepIcon />
-                    )
-                  }}
-                >
+                <PassiveStepperNumberIndicator active={activeStep >= index}>
+                  <span>○</span>
                   {step.label}
-                </StepLabel>
+                </PassiveStepperNumberIndicator>
               ) : (
-                <StepLabel>{step.label}</StepLabel>
+                <StepContainer active={activeStep >= index}>
+                  <ActiveStepNumberIndicator active={activeStep >= index}>
+                    {index}
+                  </ActiveStepNumberIndicator>
+                  {step.label}
+                  <Description active={activeStep >= index}>
+                    {step.description}
+                  </Description>
+                </StepContainer>
               )}
-              {step.description && (
-                <StepContent>
-                  <Typography>{step.description}</Typography>
-                </StepContent>
-              )}
-            </Step>
+            </div>
           ))}
-        </Stepper>
+        </div>
         {activeStep === steps.length && (
-          <Paper square elevation={0} sx={{ p: 3 }}>
-            <Typography>Withdrawal Successful</Typography>
-            <Button onClick={props.handleClose} sx={{ mt: 1, mr: 1 }}>
-              Close
-            </Button>
-          </Paper>
+          <div>
+            <h1>Withdrawal Successful</h1>
+            <button onClick={props.handleClose}>Close</button>
+          </div>
         )}
         <ConfirmActionButton
           style={{ marginTop: '12px' }}
           loading={!steps[activeStep].btnLbl}
           disabled={!steps[activeStep].btnLbl}
           onClick={() => {
+            console.log('Clicked on: ', activeStep)
             switch (activeStep) {
-              case 0: // "Initial Withdrawal Transaction sent and waiting period over"
-                const isNativeWithdrawal =
-                  props.token.address ===
-                  '0x4200000000000000000000000000000000000006'
-                selectModalState('transactionSuccess')
-                handleInitiateWithdrawal(
-                  ethers.utils
-                    .parseEther(props.amountToBridge!.toString())
-                    .toString(),
-                  isNativeWithdrawal ? null : props.token
-                ).then((res) => {
-                  setActiveStep(2)
-                  setReenterWithdrawal({
-                    withdrawalHash: { blockNumber: res },
-                  })
-                  console.log('---> Init Withdrawal done')
-                })
+              case 0:
+                initWithdrawalStep()
                 break
-
-              case 2: // "Switch to L1"
+              case 2:
                 dispatch(setConnectETH(true))
                 break
-              case 3: // "Proof"
-                handleProveWithdrawal(reenterWithdrawal)
-                  .then((res: any) => {
-                    console.log('---> Proof done', res)
-                    setLatestLogs(res)
-                    setActiveStep(5)
-                  })
-                  .catch((err) => {
-                    console.log('---> Proof failed', err)
-                  })
+              case 3:
+                proofWithdrawalStep()
                 break
-              case 5: // "Claim"
-                console.log('reentrancy logs: ', props.reenterWithdrawConfig)
-                if (reenterWithdrawal) {
-                  networkService
-                    .L2ToL1MessagePasser!.queryFilter(
-                      networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
-                      props.reenterWithdrawConfig.blockNumber, // todo adapt
-                      props.reenterWithdrawConfig.blockNumber // todo adapt
-                    )
-                    .then((logs) => {
-                      console.log('logs found...', logs)
-                      claimWithdrawal(latestLogs).then((res) => {
-                        console.log('---> Claim done: ', res)
-                        dispatch(openModal('transactionSuccess'))
-                      })
-                    })
-                } else {
-                  claimWithdrawal(latestLogs).then((res) => {
-                    console.log('---> Claim done: ', res)
-                    dispatch(openModal('transactionSuccess'))
-                  })
-                }
+              case 5:
+                claimWithdrawalStep()
+                break
             }
-            if (activeStep !== 5) {
-              handleNext()
-            }
+            handleNext()
           }}
-          label={<Heading variant="h3">{steps[activeStep].btnLbl}</Heading>}
+          label={
+            <Heading variant="h3">
+              {activeStep === 0 && approvalNeeded
+                ? 'Approve'
+                : steps[activeStep].btnLbl}
+            </Heading>
+          }
         />
         <SecondaryActionButton
           onClick={props.handleClose}
           label={<Heading variant="h3">Close</Heading>}
         />
-      </Box>
+      </div>
     </>
   )
 }

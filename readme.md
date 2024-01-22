@@ -14,7 +14,6 @@
 
 <br />
 
-
 # Contributing
 
 Follow these instructions to set up your local development environment.
@@ -32,9 +31,9 @@ $ cd gateway
 
 You'll need the following:
 
-* [Git](https://git-scm.com/downloads)
-* [NodeJS](https://nodejs.org/en/download/)
-* [Yarn](https://classic.yarnpkg.com/en/docs/install)
+- [Git](https://git-scm.com/downloads)
+- [NodeJS](https://nodejs.org/en/download/)
+- [Yarn](https://classic.yarnpkg.com/en/docs/install)
 
 Ensure that you have installed and are using nodejs v16.16.0:
 
@@ -52,7 +51,7 @@ $ nvm use
 Install nodejs packages with `yarn`:
 
 ```bash
-$ yarn 
+$ yarn
 $ yarn prepare # to setup husky on your local.
 ```
 
@@ -60,21 +59,18 @@ $ yarn prepare # to setup husky on your local.
 
 Copy `.env.example` file and name by excluding `.example` and populate the variables listed below
 
-
-| Environment Vars              | Required | Default Valu | Description                                                  |
-|-------------------------------|----------|--------------|--------------------------------------------------------------|
-| REACT_APP_POLL_INTERVAL       | Yes      | 20000        | Interval to poll the fetch api about the records             |
-| REACT_APP_WALLET_VERSION      | Yes      | N/A          | This will be useful while prepare the build.                 |
-| REACT_APP_ENV                 | Yes      | dev          | This will be used in case of sentry configuration.           |
-| REACT_APP_GA4_MEASUREMENT_ID  | Yes      | N/A          | Google analytics api key                                     |
-| REACT_APP_SENTRY_DSN          | Yes      | N/A          | Sentry DSN url to catch the error on frontend                |
-| REACT_APP_GAS_POLL_INTERVAL   | Yes      | 30000        | Poll interval to fetch the gas price and verifier status     |
-| REACT_APP_WC_PROJECT_ID       | Yes      | N/A          | Wallet Connect project ID                                    |
-| REACT_APP_ENABLE_ANCHORAGE    | No       | false        | Enable Anchorage UI flows which are partially different.     |
-| CYPRESS_REMOTE_DEBUGGING_PORT | Yes      | 9222         | Debugging port for Cypress                                   |
-| NETWORK_NAME                  | Yes      | goerli       | Starting network for wallet                                  |
-| SECRET_WORDS                  | Yes      | N/A          | Secret phrase for wallet to be used by Cypress e2e test      |
-| CYPRESS_TEST_HASH             | Yes      | N/A          | Txn hash that has occured on the wallet in the last 6 months |
+| Environment Vars              | Required | Default Valu | Description                                                                                                                                                                                |
+| ----------------------------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| REACT_APP_POLL_INTERVAL       | Yes      | 20000        | Interval to poll the fetch api about the records                                                                                                                                           |
+| REACT_APP_WALLET_VERSION      | Yes      | N/A          | This will be useful while prepare the build.                                                                                                                                               |
+| REACT_APP_ENV                 | Yes      | dev          | This will be used in case of sentry configuration.                                                                                                                                         |
+| REACT_APP_GA4_MEASUREMENT_ID  | Yes      | N/A          | Google analytics api key                                                                                                                                                                   |
+| REACT_APP_SENTRY_DSN          | Yes      | N/A          | Sentry DSN url to catch the error on frontend                                                                                                                                              |
+| REACT_APP_GAS_POLL_INTERVAL   | Yes      | 30000        | Poll interval to fetch the gas price and verifier status                                                                                                                                   |
+| REACT_APP_WC_PROJECT_ID=      | Yes      | N/A          | Wallet Connect project ID                                                                                                                                                                  |
+| CYPRESS_REMOTE_DEBUGGING_PORT | Yes      | 9222         | Debugging port for Cypress                                                                                                                                                                 |
+| NETWORK_NAME                  | Yes      | goerli       | Starting network for wallet                                                                                                                                                                |
+| SECRET_WORDS                  | Yes      | N/A          | Secret phrase for wallet to be used by Cypress e2e test. Please note that this wallet should have at least .1 Goerli ETH and 40 Boba Testnet Token on the Goerli and Boba Goerli Networks. |
 
 ### To start local dev-server
 
@@ -87,11 +83,13 @@ $ yarn start
 ```bash
 $ yarn start
 ```
+
 ### To fix formating
 
 ```bash
 $ yarn format:fix
 ```
+
 ### To fix linting
 
 ```bash
@@ -101,11 +99,13 @@ $ yarn lint:fix
 ## Running Tests
 
 Tests are executed via `yarn`:
+
 ```shell
 $ yarn test
 ```
 
 Run specific tests by giving a path to the file you want to run:
+
 ```shell
 $ yarn test ./path-to-file/file.spec.ts
 ```
@@ -127,17 +127,21 @@ $ yarn test:w src/components/layout/Footer/GasWatcher/index.test.tsx --coverage 
 ```
 
 ## Measuring test coverage:
+
 ```bash
 $ yarn test:coverage
 ```
 
 The output is most easily viewable by opening the html file in your browser:
+
 ```bash
 $ open ./coverage/index.html
 ```
 
 ## Integration Tests
+
 To run the integration test against the gateway execute the command below
+
 ```bash
 $ yarn test:integration
 ```
@@ -150,7 +154,7 @@ $ yarn test:integration
 ├── .vscode                    # VSCode settings for ESLint auto-fix function
 ├── demo                       # Storybook static file
 ├── build                      # Bundled JS and TS declaration file for deployed npm package
-├── public                     # Public file which 
+├── public                     # Public file which
 ├── src                        # All source code
 │    ├── src/actions           # Redux Actions.
 │    ├── src/api               # React axios instance of api
@@ -189,7 +193,6 @@ $ yarn test:integration
 
 We are following branch names like `<type>/<issue>-<change-hint>`
 
-
 ```shell
 # Type can be one of the following
 add/ #adding new stuff
@@ -198,7 +201,8 @@ chore/ #refactoring, removing, cleanup or documentation update
 fix/ #fix for breaking changes
 ```
 
-example 
+example
+
 ```shell
 add/14-includes-readme
 ```

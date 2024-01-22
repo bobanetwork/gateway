@@ -51,16 +51,24 @@ class TransactionService {
     }
   }
 
-  async fetchL2WithdrawalTransactions(
+  async fetchBedrockTransactions(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
-    if (networkConfig?.L2.chainId !== 901) {
+    if (networkConfig?.L2.chainId === 901) {
+      const withdrawalTransactions =
+        await bedrockGraphQLService.queryWithdrawalTransactionsHistory(
+          await networkService.provider?.getSigner().getAddress(),
+          networkConfig!
+        )
+      const depositTransactions =
+        await bedrockGraphQLService.queryL1ToL2DepositTransactions(
+          networkConfig!
+        )
+
+      return [...withdrawalTransactions, ...depositTransactions]
+    } else {
       return []
     }
-    return bedrockGraphQLService.queryWithdrawalTransactions(
-      await networkService.provider?.getSigner().getAddress(),
-      networkConfig!
-    )
   }
 
   // fetch L2 transactions from omgxWatcherAxiosInstance
@@ -176,7 +184,7 @@ class TransactionService {
     const allNetworksTransactions: any[] = await Promise.all(
       networkConfigsArray.flatMap((config) => {
         return [
-          this.fetchL2WithdrawalTransactions(config),
+          this.fetchBedrockTransactions(config),
           // this.fetchL2Tx(config),
           // this.fetchL1PendingTx(config),
           // this.fetchTeleportationTransactions(config),

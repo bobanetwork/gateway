@@ -18,14 +18,14 @@ export const checkReenterWithdraw = async (
     return false
   }
   const l2BridgeLogs =
-    await bedrockGraphQLService.latestL2InitWithdrawalLogs(address)
-  const l2toL1Logs = await bedrockGraphQLService.latestL2ToL1MessagePassedLogs()
+    await bedrockGraphQLService.findWithdrawalsInitiated(address)
+  const l2toL1Logs = await bedrockGraphQLService.findWithdrawalMessagesPassed()
   const withdrawalHashesLogs =
     await bedrockGraphQLService.findWithdrawHashesFromLogs(
       l2BridgeLogs,
       l2toL1Logs
     )
-  const withdrawalsProven = await bedrockGraphQLService.findProvenWithdrawals()
+  const withdrawalsProven = await bedrockGraphQLService.findWithdrawalsProven()
   for (const withdrawalSubmit of withdrawalHashesLogs) {
     if (
       !withdrawalsProven.find(
@@ -41,7 +41,7 @@ export const checkReenterWithdraw = async (
     }
   }
   const withdrawalsFinalized =
-    await bedrockGraphQLService.findFinalizedWithdrawals()
+    await bedrockGraphQLService.findWithdrawalsFinalized()
   for (const withdrawalSubmit of withdrawalHashesLogs) {
     if (
       !withdrawalsFinalized.find(

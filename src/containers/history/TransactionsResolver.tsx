@@ -39,6 +39,7 @@ import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { openModal } from '../../actions/uiAction'
 import { setReenterWithdrawalConfig } from '../../actions/bridgeAction'
 import { useDispatch } from 'react-redux'
+import Button from '../../components/button/Button'
 
 export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   transactions,
@@ -250,9 +251,9 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     hash: string,
     status: string
   ) => {
-    const linkToHash = `${Chains[chainID]?.transactionUrlPrefix}${hash}` ?? ''
-    const networkName = Chains[chainID]?.name ?? ''
-    const imgSrc = Chains[chainID]?.imgSrc ?? ''
+    const linkToHash = `${Chains[chainID].transactionUrlPrefix}${hash}`
+    const networkName = Chains[chainID].name
+    const imgSrc = Chains[chainID].imgSrc
 
     return (
       <TransactionDetails>
@@ -348,12 +349,17 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                       width: 80,
                     },
                     {
-                      content: (
-                        <Status onClick={() => handleAction(transaction)}>
-                          {transaction.actionRequired
-                            ? 'Action required'
-                            : transaction.status}
-                        </Status>
+                      content: transaction.actionRequired ? (
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          size="small"
+                          onClick={() => handleAction(transaction)}
+                        >
+                          Reenter
+                        </Button>
+                      ) : (
+                        <Status>{transaction.status}</Status>
                       ),
                       width: 88,
                     },

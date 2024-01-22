@@ -1,6 +1,5 @@
 import { Button, Typography } from 'components/global'
-import styled from 'styled-components'
-import { Box } from '@mui/material'
+import styled, { css } from 'styled-components'
 
 export const ConfirmModalContainer = styled.div`
   display: flex;
@@ -62,7 +61,7 @@ export const SecondaryActionButton = styled(Button)`
   }
 `
 
-export const PassiveStepIcon = styled(Box)`
+export const PassiveStepIcon = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -83,9 +82,92 @@ export const Item = styled.div`
   gap: 8px;
 `
 
-export const WithdrawalNetworkContainer = styled(Box)`
+export const WithdrawalNetworkContainer = styled.div`
   align-items: center;
   display: flex;
   gap: 25px;
   justify-content: 'center';
+`
+interface CanBeActive {
+  active: boolean
+}
+
+export const ActiveStepNumberIndicator = styled.div<CanBeActive>`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: ${({ theme }) =>
+    theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[400]};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  color: #fff;
+  font-size: 16px; 
+  text-align: center;
+  font-weight: bold;
+  line-height: 32px;
+  opacity: 0.5;
+
+  ${(props) =>
+    props.active &&
+    css`
+      opacity: 1;
+      background-color: ${({ theme }) =>
+        theme.name === 'light'
+          ? theme.colors.green[600]
+          : theme.colors.green[400]};
+    `}
+  }
+`
+
+export const PassiveStepperNumberIndicator = styled.p<CanBeActive>`
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding-left: 40px;
+  font-size: 16px;
+  opacity: 0.5;
+  color: ${({ theme }) => theme.color.gray};
+
+  span {
+    position: absolute;
+    left: 8.5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+
+  ${(props) =>
+    props.active &&
+    css`
+      font-weight: bold;
+      opacity: 1;
+      color: ${({ theme }) => theme.color.green};
+    `}
+`
+
+export const Description = styled.p<CanBeActive>`
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-left: 14px;
+  padding: 8px 24px;
+  border-left: 2px solid gray;
+  font-size: 14px;
+  opacity: 0.5;
+
+  ${(props) =>
+    props.active &&
+    css`
+      opacity: 1;
+    `}
+`
+
+export const StepContainer = styled.div<CanBeActive>`
+  opacity: 0.5;
+  ${(props) =>
+    props.active &&
+    css`
+      opacity: 1;
+    `}
 `
