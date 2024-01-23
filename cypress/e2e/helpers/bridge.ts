@@ -56,6 +56,21 @@ export default class Bridge extends Page {
       .should('exist')
       .click()
   }
+  openTokenPicker() {
+    this.withinPage().contains('Select').should('exist').click()
+  }
+  verifyTokenInTokenList(tokenSymbol: string) {
+    this.getModal().contains(tokenSymbol).should('exist')
+  }
+  addTokenWithTokenPicker(tokenSymbol: string) {
+    this.getModal()
+      .contains(tokenSymbol)
+      .siblings()
+      .filter('[data-testid="add-token"]')
+      .should('exist')
+      .click()
+    this.allowMetamskToAddToken()
+  }
 
   switchNetworkType(
     networkAbbreviation: string,
@@ -93,7 +108,7 @@ export default class Bridge extends Page {
   }
 
   selectToken(tokenSymbol: string) {
-    this.withinPage().contains('Select').should('exist').click()
+    this.openTokenPicker()
 
     cy.get('div[title="tokenList"]')
       .contains(tokenSymbol)
@@ -101,14 +116,7 @@ export default class Bridge extends Page {
       .click()
 
     // ensure store has correct values
-    this.store
-      .getReduxStore()
-      .its('bridge')
-      .its('tokens')
-      .its(0)
-      .should('exist')
-      .its('symbol')
-      .should('equal', tokenSymbol)
+    this.store.verifyTokenSelected(tokenSymbol)
 
     // ensure img has loaded before typing in amount
     this.withinPage()
