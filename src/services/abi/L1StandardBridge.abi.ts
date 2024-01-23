@@ -1,5 +1,3 @@
-import { ENABLE_ANCHORAGE } from '../../util/constant'
-
 export const L1StandardBridgeABI = [
   'function depositETH(uint32 _l2Gas, bytes calldata _data) external payable',
   'function depositETHTo(address _to, uint32 _l2Gas, bytes calldata _data) external payable',

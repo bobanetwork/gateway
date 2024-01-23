@@ -16,7 +16,7 @@ import ReenterWithdrawModal from '../modals/ReenterWithdrawModal'
 import networkService from '../../services/networkService'
 import { openModal } from '../../actions/uiAction'
 import { setReenterWithdrawalConfig } from '../../actions/bridgeAction'
-import { bedrockGraphQLService } from '../../services/graphql.service'
+import { anchorageGraphQLService } from '../../services/graphql.service'
 import {
   ReenterWithdrawConfig,
   WithdrawState,
@@ -31,32 +31,24 @@ const Bridging = () => {
     useState<ReenterWithdrawConfig | null>()
 
   useEffect(() => {
-    networkService.provider?.getNetwork().then(async (res) => {
-      bedrockGraphQLService
-        .queryWithdrawalTransactionsHistory(
-          await networkService.provider!.getSigner().getAddress(),
-          // TODO fetch network config
-          {
-            L2: {
-              name: 'ETH',
-              chainId: 901,
-            },
-          } as any
+    anchorageGraphQLService
+      .queryWithdrawalTransactionsHistory(
+        networkService.account,
+        networkService.networkConfig!
+      )
+      .then((events: any) => {
+        events = events.filter(
+          (e) => e.UserFacingStatus !== WithdrawState.finalized
         )
-        .then((events: any) => {
-          events = events.filter(
-            (e) => e.UserFacingStatus !== WithdrawState.finalized
-          )
-          if (events?.length > 1) {
-            if (events[0]?.actionRequired) {
-              setReenterWithdrawConfig({
-                ...events[0].actionRequired,
-              })
-            }
+        if (events?.length > 1) {
+          if (events[0]?.actionRequired) {
+            setReenterWithdrawConfig({
+              ...events[0].actionRequired,
+            })
           }
-        })
-    })
-  }, [!!networkService.provider])
+        }
+      })
+  }, [!!networkService.account, !!networkService.networkConfig])
 
   const currentBridgeType = useSelector(selectBridgeType())
 

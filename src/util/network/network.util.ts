@@ -196,7 +196,6 @@ export const DEFAULT_NETWORK = {
 type NetworkLists = {
   Mainnet: INetwork[]
   Testnet: INetwork[]
-  Local: INetwork[]
 }
 export const NetworkList: NetworkLists = {
   Mainnet: [
@@ -236,7 +235,7 @@ export const NetworkList: NetworkLists = {
       },
       chainId: { [Layer.L1]: '97', [Layer.L2]: '9728' },
     },
-    // TODO Make sure they are only shown for light bridge
+    // Make sure they are only shown for light bridge
     {
       icon: 'optimism',
       chain: Network.OPTIMISM,
@@ -260,20 +259,6 @@ export const NetworkList: NetworkLists = {
       },
       chainId: { [Layer.L1]: '5', [Layer.L2]: '421613' },
       limitedAvailability: true,
-    },
-  ],
-  Local: [
-    // e.g. Bedrock
-    {
-      icon: 'ethereum',
-      chain: Network.ETHEREUM,
-      label: 'Ethereum <> Boba ETH',
-      key: 'ethereum',
-      name: {
-        l1: 'Ethereum',
-        l2: 'Boba ETH',
-      },
-      chainId: { [Layer.L1]: '900', [Layer.L2]: '901' },
     },
   ],
 }

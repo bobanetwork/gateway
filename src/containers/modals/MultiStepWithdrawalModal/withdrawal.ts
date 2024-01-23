@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import networkService from '../../../services/networkService'
 import { defaultAbiCoder, keccak256 } from 'ethers/lib/utils'
 import { L2StandardERC20ABI } from '../../../services/abi'
-import { bedrockGraphQLService } from '../../../services/graphql.service'
+import { anchorageGraphQLService } from '../../../services/graphql.service'
 
 export enum DepositState {
   deposited = 'TransactionDeposited',
@@ -34,13 +34,9 @@ export interface HandleProveWithdrawalConfig {
 }
 
 export const approvalRequired = async (token, amount) => {
-  if (
-    !token ||
-    token.address === '0x4200000000000000000000000000000000000006'
-  ) {
+  if (!token || token.address === networkService.addresses.NETWORK_NATIVE) {
     return false
   }
-  const signer = await networkService.provider?.getSigner()
   const tokenContract = new ethers.Contract(
     token.address,
     L2StandardERC20ABI,
@@ -49,8 +45,8 @@ export const approvalRequired = async (token, amount) => {
   return (
     (
       await tokenContract.allowance(
-        signer!.getAddress(),
-        '0x4200000000000000000000000000000000000010'
+        networkService.account,
+        networkService.addresses.L2StandardBridgeAddress
       )
     ).toString() <= amount
   )
@@ -65,7 +61,7 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
   let initWithdraw
   if (!token) {
     initWithdraw = await signer!.sendTransaction({
-      to: '0x4200000000000000000000000000000000000010', // L2StandardBridge TODO outsource
+      to: networkService.addresses.L2StandardBridgeAddress, // L2StandardBridge
       value: amount,
     })
   } else {
@@ -78,13 +74,12 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
     // check prior, if already approved
     const allowance = await tokenContract.allowance(
       signer.getAddress(),
-      '0x4200000000000000000000000000000000000010'
+      networkService.addresses.L2StandardBridgeAddress
     )
 
     if (allowance.toString() < amount) {
-      console.log('requesting approval...')
       const approveTx = await tokenContract!.approve(
-        '0x4200000000000000000000000000000000000010', // L2StandardBridge TODO outsource
+        networkService.addresses.L2StandardBridgeAddress, // L2StandardBridge
         amount
       )
       await approveTx.wait()
@@ -96,7 +91,6 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
   }
 
   const receipt = await initWithdraw.wait()
-  console.log('init done! --> ', receipt)
   const L2BlockNumber = receipt.blockNumber
   let latestBlockOnL1 = await networkService.L2OutputOracle!.latestBlockNumber()
   while (latestBlockOnL1 < L2BlockNumber) {
@@ -117,7 +111,6 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
 export const handleProveWithdrawal = async (
   txInfo: HandleProveWithdrawalConfig
 ) => {
-  console.log('received withdrawalConfig: ', txInfo)
   if (
     !networkService.OptimismPortal ||
     !networkService.L2ToL1MessagePasser ||
@@ -126,15 +119,12 @@ export const handleProveWithdrawal = async (
     return { error: 'OptimismPortal / L2ToL1MessagePasser not initialized!' }
   }
 
-  console.log('txInfo: blop', txInfo)
-  let logs = await bedrockGraphQLService.findWithdrawalMessagesPassed(
+  let logs = await anchorageGraphQLService.findWithdrawalMessagesPassed(
     txInfo.blockNumber,
     txInfo.blockNumber
   )
 
-  console.log('before filtering: ', logs)
   if (txInfo.withdrawalHash) {
-    console.log('found reenter, will filter for withdrawalhash')
     logs = logs.filter((b) => b.args!.withdrawalHash === txInfo.withdrawalHash)
   }
 
@@ -175,7 +165,7 @@ export const handleProveWithdrawal = async (
     : { blockNumber: txInfo.blockNumber }
 
   const proof = await networkService.L2Provider!.send('eth_getProof', [
-    '0x4200000000000000000000000000000000000016', // todo adapt
+    networkService.addresses.L2ToL1MessagePasserProxy,
     [messageSlot],
     filter,
   ])
@@ -247,14 +237,8 @@ export const claimWithdrawal = async (logs) => {
           logs[0].args.data,
         ]
       )
-    console.log(
-      'Gas estimation for finalizeWithdrawalTransaction',
-      gas.toString()
-    )
     await new Promise((resolve) => setTimeout(resolve, 2000))
   }
-
-  console.log('estimated gas for logs: ', logs)
 
   while (true) {
     try {
@@ -262,7 +246,7 @@ export const claimWithdrawal = async (logs) => {
       break
     } catch (e) {
       await new Promise((resolve) => setTimeout(resolve, 5000))
-      console.log(
+      console.warn(
         `Failed to get gas estimation for finalizeWithdrawalTransaction`
       )
     }
@@ -280,7 +264,5 @@ export const claimWithdrawal = async (logs) => {
       logs[0].args.gasLimit,
       logs[0].args.data,
     ])
-  const txFinal = await finalSubmitTx.wait()
-  console.log(`Finalized withdrawal transaction!`)
-  return txFinal
+  return finalSubmitTx.wait()
 }

@@ -7,7 +7,7 @@ import {
 } from 'util/network/network.util'
 import { TRANSACTION_STATUS } from '../containers/history/types'
 import {
-  bedrockGraphQLService,
+  anchorageGraphQLService,
   LightBridgeAssetReceivedEvent,
   LightBridgeDisbursementEvents,
   lightBridgeGraphQLService,
@@ -56,12 +56,12 @@ class TransactionService {
   ): Promise<any[]> {
     if (networkConfig?.L2.chainId === 901) {
       const withdrawalTransactions =
-        await bedrockGraphQLService.queryWithdrawalTransactionsHistory(
+        await anchorageGraphQLService.queryWithdrawalTransactionsHistory(
           await networkService.provider?.getSigner().getAddress(),
           networkConfig!
         )
       const depositTransactions =
-        await bedrockGraphQLService.queryL1ToL2DepositTransactions(
+        await anchorageGraphQLService.queryL1ToL2DepositTransactions(
           networkConfig!
         )
 
@@ -185,9 +185,9 @@ class TransactionService {
       networkConfigsArray.flatMap((config) => {
         return [
           this.fetchBedrockTransactions(config),
-          // this.fetchL2Tx(config),
-          // this.fetchL1PendingTx(config),
-          // this.fetchTeleportationTransactions(config),
+          this.fetchL2Tx(config),
+          this.fetchL1PendingTx(config),
+          this.fetchTeleportationTransactions(config),
         ]
       })
     )

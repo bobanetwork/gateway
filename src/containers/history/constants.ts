@@ -50,6 +50,7 @@ export const Chains: ChainMap = {
     symbol: 'ETH',
     imgSrc: ethIcon,
   },
+  // 900 & 901 are local chainIds, 900 (L1), 901 (L2)
   '900': {
     name: CHAIN_NAME.Boba_Ethereum,
     transactionUrlPrefix: 'https://bobascan.com/tx/',

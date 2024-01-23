@@ -331,7 +331,7 @@ class TeleportationGraphQLService extends GraphQLService {
   }
 }
 
-class BedrockGraphQLService extends GraphQLService {
+class AnchorageGraphQLService extends GraphQLService {
   async findWithdrawalsProven() {
     return networkService.OptimismPortal!.queryFilter(
       networkService.OptimismPortal!.filters.WithdrawalProven(),
@@ -591,6 +591,6 @@ class BedrockGraphQLService extends GraphQLService {
 
 const graphQLService = new GraphQLService()
 const lightBridgeGraphQLService = new TeleportationGraphQLService()
-const bedrockGraphQLService = new BedrockGraphQLService()
+const anchorageGraphQLService = new AnchorageGraphQLService()
 
-export { graphQLService, lightBridgeGraphQLService, bedrockGraphQLService }
+export { graphQLService, lightBridgeGraphQLService, anchorageGraphQLService }

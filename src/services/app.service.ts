@@ -218,7 +218,7 @@ class AppService {
       OptimismPortalProxy: '0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8', // L1
       L2OutputOracleProxy: '0x9E545E3C0baAB3E08CdfD552C960A1050f373042', // L1
       L1StandardBridgeAddress: ENABLE_ANCHORAGE
-        ? '0x71089Ba41e478702e1904692385Be3972B2cBf9e'
+        ? '0x71089Ba41e478702e1904692385Be3972B2cBf9e' // TODO: Adapt
         : addresses.L1StandardBridgeAddress, // L1, Proxy
     }
   }

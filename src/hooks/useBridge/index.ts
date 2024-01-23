@@ -140,7 +140,6 @@ export const useBridge = () => {
   const triggerExit = async (amountWei: any) => {
     if (ENABLE_ANCHORAGE) {
       // Anchorage has a separate withdrawal flow, once bedrock is fully rolled out, we might get rid of this if
-      // todo return
       dispatch(openModal('bridgeMultiStepWithdrawal'))
     } else {
       return dispatch(exitBOBA(token.address, amountWei))

@@ -22,6 +22,7 @@ import {
 } from './withdrawal'
 import { closeModal, openModal } from '../../../actions/uiAction'
 import networkService from '../../../services/networkService'
+import { anchorageGraphQLService } from '../../../services/graphql.service'
 
 const steps = [
   {
@@ -70,14 +71,6 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const [approvalNeeded, setApprovalNeeded] = useState(false)
 
   useEffect(() => {
-    // TODO: Use goldsky.com
-    // todo load current stage
-    if (layer === Layer.L1) {
-      setActiveStep(3)
-    } else {
-      setActiveStep(0)
-    }
-
     if (activeStep === 0 && props.token) {
       approvalRequired(props.token, props.amountToBridge).then((res) => {
         setApprovalNeeded(res)
@@ -97,7 +90,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
 
   const initWithdrawalStep = () => {
     const isNativeWithdrawal =
-      props.token.address === '0x4200000000000000000000000000000000000006'
+      props.token.address === networkService.addresses.NETWORK_NATIVE
     selectModalState('transactionSuccess')
     handleInitiateWithdrawal(
       ethers.utils.parseEther(props.amountToBridge!.toString()).toString(),
@@ -127,29 +120,20 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const claimWithdrawalStep = () => {
     if (!withdrawalConfig?.withdrawalHash) {
       claimWithdrawal(latestLogs).then((res) => {
-        console.log('---> Claim done: ', res)
         dispatch(closeModal('bridgeMultiStepWithdrawal'))
         dispatch(openModal('transactionSuccess'))
       })
     } else {
-      networkService
-        .L2ToL1MessagePasser!.queryFilter(
-          networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
-          undefined, // todo adapt
-          undefined // todo adapt
+      anchorageGraphQLService.findWithdrawalMessagesPassed().then((logs) => {
+        logs = logs.filter(
+          (log) => log?.args?.withdrawalHash === withdrawalConfig.withdrawalHash
         )
-        .then((logs) => {
-          logs = logs.filter(
-            (log) =>
-              log?.args?.withdrawalHash === withdrawalConfig.withdrawalHash
-          )
-          claimWithdrawal(logs).then((res) => {
-            console.log('---> Claim done: ', res)
-            setActiveStep(6)
-            dispatch(openModal('transactionSuccess'))
-            dispatch(closeModal('bridgeMultiStepWithdrawal'))
-          })
+        claimWithdrawal(logs).then((res) => {
+          setActiveStep(6)
+          dispatch(openModal('transactionSuccess'))
+          dispatch(closeModal('bridgeMultiStepWithdrawal'))
         })
+      })
     }
   }
 

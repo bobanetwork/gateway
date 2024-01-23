@@ -1,5 +1,5 @@
 import networkService from '../../../services/networkService'
-import { bedrockGraphQLService } from '../../../services/graphql.service'
+import { anchorageGraphQLService } from '../../../services/graphql.service'
 
 interface WithdrawalSubmitted {
   blockHash: string
@@ -18,14 +18,16 @@ export const checkReenterWithdraw = async (
     return false
   }
   const l2BridgeLogs =
-    await bedrockGraphQLService.findWithdrawalsInitiated(address)
-  const l2toL1Logs = await bedrockGraphQLService.findWithdrawalMessagesPassed()
+    await anchorageGraphQLService.findWithdrawalsInitiated(address)
+  const l2toL1Logs =
+    await anchorageGraphQLService.findWithdrawalMessagesPassed()
   const withdrawalHashesLogs =
-    await bedrockGraphQLService.findWithdrawHashesFromLogs(
+    await anchorageGraphQLService.findWithdrawHashesFromLogs(
       l2BridgeLogs,
       l2toL1Logs
     )
-  const withdrawalsProven = await bedrockGraphQLService.findWithdrawalsProven()
+  const withdrawalsProven =
+    await anchorageGraphQLService.findWithdrawalsProven()
   for (const withdrawalSubmit of withdrawalHashesLogs) {
     if (
       !withdrawalsProven.find(
@@ -41,7 +43,7 @@ export const checkReenterWithdraw = async (
     }
   }
   const withdrawalsFinalized =
-    await bedrockGraphQLService.findWithdrawalsFinalized()
+    await anchorageGraphQLService.findWithdrawalsFinalized()
   for (const withdrawalSubmit of withdrawalHashesLogs) {
     if (
       !withdrawalsFinalized.find(
