@@ -24,7 +24,8 @@ import { amountToUsd } from 'util/amountConvert'
 import useBridge from 'hooks/useBridge'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK } from 'util/constant'
-import { VerticalWithdrawalStepper } from './VerticalStepper'
+import { VerticalStepper } from './VerticalStepper'
+import { setReenterWithdrawalConfig } from '../../../actions/bridgeAction'
 
 interface Props {
   open: boolean
@@ -55,6 +56,7 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
   }, [_token, _amountToBridge])
 
   const handleClose = () => {
+    dispatch(setReenterWithdrawalConfig(null))
     dispatch(closeModal('bridgeMultiStepWithdrawal'))
   }
 
@@ -91,7 +93,7 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
         </WithdrawalNetworkContainer>
         <Separator />
 
-        <VerticalWithdrawalStepper
+        <VerticalStepper
           reenterWithdrawConfig={withdrawalConfig}
           handleClose={handleClose}
           token={token}

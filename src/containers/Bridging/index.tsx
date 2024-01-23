@@ -13,27 +13,48 @@ import { BridgeContent, BridgeWrapper, BridginContainer } from './styles'
 import useBridgeAlerts from 'hooks/useBridgeAlerts'
 import useBridgeCleanUp from 'hooks/useBridgeCleanUp'
 import ReenterWithdrawModal from '../modals/ReenterWithdrawModal'
-import { checkReenterWithdraw } from './ReenterWithdraw'
 import networkService from '../../services/networkService'
 import { openModal } from '../../actions/uiAction'
 import { setReenterWithdrawalConfig } from '../../actions/bridgeAction'
+import { bedrockGraphQLService } from '../../services/graphql.service'
+import {
+  ReenterWithdrawConfig,
+  WithdrawState,
+} from '../modals/MultiStepWithdrawalModal/withdrawal'
 
 const Bridging = () => {
   const dispatch = useDispatch<any>()
   useBridgeCleanUp()
   useBridgeAlerts()
 
-  const [reenterWithdrawConfig, setReenterWithdrawConfig] = useState(null)
+  const [reenterWithdrawConfig, setReenterWithdrawConfig] =
+    useState<ReenterWithdrawConfig | null>()
 
   useEffect(() => {
     networkService.provider?.getNetwork().then(async (res) => {
-      checkReenterWithdraw(
-        await networkService.provider!.getSigner().getAddress()
-      ).then((response) => {
-        if (response) {
-          setReenterWithdrawConfig(response as any)
-        }
-      })
+      bedrockGraphQLService
+        .queryWithdrawalTransactionsHistory(
+          await networkService.provider!.getSigner().getAddress(),
+          // TODO fetch network config
+          {
+            L2: {
+              name: 'ETH',
+              chainId: 901,
+            },
+          } as any
+        )
+        .then((events: any) => {
+          events = events.filter(
+            (e) => e.UserFacingStatus !== WithdrawState.finalized
+          )
+          if (events?.length > 1) {
+            if (events[0]?.actionRequired) {
+              setReenterWithdrawConfig({
+                ...events[0].actionRequired,
+              })
+            }
+          }
+        })
     })
   }, [!!networkService.provider])
 

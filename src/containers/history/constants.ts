@@ -50,6 +50,18 @@ export const Chains: ChainMap = {
     symbol: 'ETH',
     imgSrc: ethIcon,
   },
+  '900': {
+    name: CHAIN_NAME.Boba_Ethereum,
+    transactionUrlPrefix: 'https://bobascan.com/tx/',
+    symbol: 'ETH',
+    imgSrc: ethIcon,
+  },
+  '901': {
+    name: CHAIN_NAME.Boba_Goerli,
+    transactionUrlPrefix: 'https://bobascan.com/tx/',
+    symbol: 'BOBA',
+    imgSrc: bobaEth,
+  },
   '288': {
     name: CHAIN_NAME.Boba_Ethereum,
     transactionUrlPrefix: 'https://bobascan.com/tx/',

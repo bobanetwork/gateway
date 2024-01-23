@@ -1,3 +1,5 @@
+import { ReenterWithdrawConfig } from '../modals/MultiStepWithdrawalModal/withdrawal'
+
 export enum TRANSACTION_FILTER_STATUS {
   Pending = 'Pending',
   Completed = 'Completed',
@@ -6,6 +8,9 @@ export enum TRANSACTION_FILTER_STATUS {
 }
 
 export enum TRANSACTION_STATUS {
+  WithdrawInitiated = 'initialized',
+  WithdrawProven = 'proven',
+  WithdrawFinalized = 'finalized',
   Succeeded = 'succeeded',
   Pending = 'pending',
   Failed = 'failed',
@@ -97,6 +102,7 @@ export interface ITransaction {
   to: string
   UserFacingStatus: TRANSACTION_FILTER_STATUS
   isTeleportation?: boolean
+  actionRequired?: ReenterWithdrawConfig
 }
 
 export interface IProcessedTransaction {
@@ -110,6 +116,7 @@ export interface IProcessedTransaction {
   status: TRANSACTION_FILTER_STATUS // need to remove the undefined option
   originChainId: number
   destinationChainId: number
+  actionRequired?: ReenterWithdrawConfig
 }
 
 export interface ITransactionsResolverProps {

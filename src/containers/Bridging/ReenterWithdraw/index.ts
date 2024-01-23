@@ -1,4 +1,5 @@
 import networkService from '../../../services/networkService'
+import { bedrockGraphQLService } from '../../../services/graphql.service'
 
 interface WithdrawalSubmitted {
   blockHash: string
@@ -16,14 +17,15 @@ export const checkReenterWithdraw = async (
   if (!address || !networkService.L2ToL1MessagePasser) {
     return false
   }
-
-  const l2BridgeLogs = await latestL2BridgeLogs(address)
-  const l2toL1Logs = await latestL2ToL1MessagePasseLogs()
-  const withdrawalHashesLogs = await findWithdrawHashesFromLogs(
-    l2BridgeLogs,
-    l2toL1Logs
-  )
-  const withdrawalsProven = await findProvenWithdrawals()
+  const l2BridgeLogs =
+    await bedrockGraphQLService.findWithdrawalsInitiated(address)
+  const l2toL1Logs = await bedrockGraphQLService.findWithdrawalMessagesPassed()
+  const withdrawalHashesLogs =
+    await bedrockGraphQLService.findWithdrawHashesFromLogs(
+      l2BridgeLogs,
+      l2toL1Logs
+    )
+  const withdrawalsProven = await bedrockGraphQLService.findWithdrawalsProven()
   for (const withdrawalSubmit of withdrawalHashesLogs) {
     if (
       !withdrawalsProven.find(
@@ -38,7 +40,8 @@ export const checkReenterWithdraw = async (
       }
     }
   }
-  const withdrawalsFinalized = await findFinalizedWithdrawals()
+  const withdrawalsFinalized =
+    await bedrockGraphQLService.findWithdrawalsFinalized()
   for (const withdrawalSubmit of withdrawalHashesLogs) {
     if (
       !withdrawalsFinalized.find(
@@ -55,44 +58,4 @@ export const checkReenterWithdraw = async (
     }
   }
   return false
-}
-
-const findProvenWithdrawals = async () => {
-  return networkService.OptimismPortal!.queryFilter(
-    networkService.OptimismPortal!.filters.WithdrawalProven(),
-    undefined,
-    undefined
-  )
-}
-
-const findFinalizedWithdrawals = async () => {
-  return networkService.OptimismPortal!.queryFilter(
-    networkService.OptimismPortal!.filters.WithdrawalFinalized(),
-    undefined,
-    undefined
-  )
-}
-const latestL2BridgeLogs = async (address: string) => {
-  return (
-    await networkService.L2StandardBridgeContract!.queryFilter(
-      networkService.L2StandardBridgeContract!.filters.WithdrawalInitiated(),
-      undefined,
-      undefined
-    )
-  ).filter((entry) => entry.args?.from === address)
-}
-
-const latestL2ToL1MessagePasseLogs = async () => {
-  return networkService.L2ToL1MessagePasser!.queryFilter(
-    networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
-    undefined,
-    undefined
-  )
-}
-
-const findWithdrawHashesFromLogs = (bridgeLogsArr, l2tol1Logs) => {
-  const transactionHashSet = new Set(
-    bridgeLogsArr.map((obj) => obj.transactionHash)
-  )
-  return l2tol1Logs.filter((obj) => transactionHashSet.has(obj.transactionHash))
 }
