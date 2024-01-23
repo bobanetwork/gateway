@@ -6,7 +6,7 @@ const SepoliaTestnet = {
   OMGX_WATCHER_URL: `https://api-watcher.goerli.boba.network/`,
   VERIFIER_WATCHER_URL: `https://api-verifier.goerli.boba.network/`,
   META_TRANSACTION: `https://api-meta-transaction.goerli.boba.network/`,
-  MM_Label: `Goerli`,
+  MM_Label: `Sepolia`,
   addressManager: `0x439E2b672AABfD851625fA93487e815b790a5961`,
   L1: {
     name: 'Sepolia',
@@ -19,10 +19,10 @@ const SepoliaTestnet = {
     tokenName: 'ETH',
   },
   L2: {
-    name: 'BOBA Goerli L2',
+    name: 'BOBA Sepolia L2',
     chainId: 28882,
     chainIdHex: '0x70d2',
-    rpcUrl: [`https://proxyd.anchorage.boba.network`],
+    rpcUrl: [`https://sepolia.boba.network`],
     blockExplorer: `https://proxyd.anchorage.boba.network/`,
     transaction: `https://testnet.bobascan.com/tx/`,
     blockExplorerUrl: `https://testnet.bobascan.com/`,
