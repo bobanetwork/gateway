@@ -50,4 +50,13 @@ export class ReduxStore {
       this.verifyReduxStoreSetup('baseEnabled', true)
     }
   }
+  verifyTokenSelected(tokenSymbol: string) {
+    this.getReduxStore()
+      .its('bridge')
+      .its('tokens')
+      .its(0)
+      .should('exist')
+      .its('symbol')
+      .should('equal', tokenSymbol)
+  }
 }
