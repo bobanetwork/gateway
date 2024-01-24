@@ -46,9 +46,41 @@ describe('Earn Service', () => {
 
   // })
 
-  // describe('getL2LPInfo ', () => {
+  // describe('preparePoolUserInfo ', () => {
 
   // })
+
+  describe('getTokenAddressList', () => {
+    it('should return an empty array when networkService.tokenAddresses is undefined', () => {
+      networkService.tokenAddresses = undefined
+      const result = earnService.getTokenAddressList()
+      expect(result).toEqual([])
+    })
+
+    it('should return an empty array when networkService.tokenAddresses is an empty object', () => {
+      networkService.tokenAddresses = {}
+      const result = earnService.getTokenAddressList()
+      expect(result).toEqual([])
+    })
+
+    it('should return the correct token address list', () => {
+      networkService.addresses.L1_ETH_Address = 'L1ETHADDRESS'
+      networkService.addresses['TK_L2NativeTokenSymbol'] = 'L2ETHADDRESS'
+      networkService.L1NativeTokenSymbol = 'NativeTokenSymbol'
+      networkService.tokenAddresses = {
+        xBOBA: { L1: 'L1xBOBA', L2: 'L2xBOBA' },
+        WAGMIv1: { L1: 'L1WAGMIv1', L2: 'L2WAGMIv1' },
+        BOBA: { L1: 'L1BOBA', L2: 'L2BOBA' },
+        ETH: { L1: 'L1ETH', L2: 'L2ETH' },
+      }
+      const result = earnService.getTokenAddressList()
+      expect(result).toEqual([
+        { L1: 'l1boba', L2: 'l2boba' },
+        { L1: 'l1eth', L2: 'l2eth' },
+        { L1: 'L1ETHADDRESS', L2: 'L2ETHADDRESS' },
+      ])
+    })
+  })
 
   describe('withdrawReward ', () => {
     beforeEach(() => {

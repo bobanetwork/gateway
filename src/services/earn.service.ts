@@ -9,42 +9,111 @@ import { Network } from 'util/network/network.util'
 import { ILpInfoResponse, LiquidityPoolLayer } from 'types/earn.types'
 import walletService from './wallet.service'
 
-/*Earn program is deprecated but we need to support indefinetly to withdraw tokens from LP*/
-
 // TODO: Defined Types
 // TODO: Get Unit test written
 
 class EarnService {
+  preparePoolUserInfo(rawInfoPromise: any[]): ILpInfoResponse {
+    let poolInfo = {}
+    let userInfo = {}
+    console.log(rawInfoPromise)
+    sortRawTokens(rawInfoPromise).forEach((token) => {
+      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
+      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
+      const duration =
+        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
+      const durationDays = duration / (60 * 60 * 24 * 1000)
+      const annualRewardEstimate = (365 * rewards) / durationDays
+      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
+      if (!annualYieldEstimate) {
+        annualYieldEstimate = 0
+      }
+      poolInfo[token.tokenAddress.toLowerCase()] = {
+        symbol: token.tokenSymbol,
+        name: token.tokenName,
+        decimals: token.decimals,
+        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
+        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
+        accUserReward: token.poolTokenInfo.accUserReward.toString(),
+        accUserRewardPerShare:
+          token.poolTokenInfo.accUserRewardPerShare.toString(),
+        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
+        startTime: token.poolTokenInfo.startTime.toString(),
+        APR: annualYieldEstimate,
+        tokenBalance: token.tokenBalance.toString(),
+      }
+      userInfo[token.tokenAddress.toLowerCase()] = {
+        l2TokenAddress: token.tokenAddress.toLowerCase(),
+        l1TokenAddress: token.tokenAddress.toLowerCase(),
+        amount: Object.keys(token.userTokenInfo).length
+          ? token.userTokenInfo.amount.toString()
+          : 0,
+        pendingReward: Object.keys(token.userTokenInfo).length
+          ? token.userTokenInfo.pendingReward.toString()
+          : 0,
+        rewardDebt: Object.keys(token.userTokenInfo).length
+          ? token.userTokenInfo.rewardDebt.toString()
+          : 0,
+      }
+    })
+
+    console.log({
+      poolInfo,
+      userInfo,
+    })
+    return {
+      poolInfo,
+      userInfo,
+    }
+  }
+
+  getTokenAddressList(): Array<any> {
+    try {
+      if (
+        !networkService.tokenAddresses ||
+        !Object.keys(networkService.tokenAddresses).length
+      ) {
+        return []
+      }
+
+      return Object.keys(networkService.tokenAddresses)
+        .filter(
+          (tokenSymbol) =>
+            ![
+              'xBOBA',
+              'OLO',
+              'WAGMIv0',
+              'WAGMIv1',
+              'WAGMIv2',
+              'WAGMIv2-Oolong',
+              'WAGMIv3',
+              'WAGMIv3-Oolong',
+            ].includes(tokenSymbol)
+        )
+        .map((tokenSymbol) => ({
+          L1: networkService.tokenAddresses![tokenSymbol].L1.toLowerCase(),
+          L2: networkService.tokenAddresses![tokenSymbol].L2.toLowerCase(),
+        }))
+        .concat([
+          {
+            L1: networkService.addresses.L1_ETH_Address,
+            L2: networkService.addresses[
+              `TK_L2${networkService.L1NativeTokenSymbol}`
+            ],
+          },
+        ])
+    } catch (error) {
+      console.log(`Error: getTokenAddressList`, error)
+      return []
+    }
+  }
+
   async getL1LPInfo(): Promise<ILpInfoResponse> {
-    const poolInfo = {}
-    const userInfo = {}
-
-    const tokenAddressList = Object.keys(networkService.tokenAddresses!).reduce(
-      (acc, cur) => {
-        if (
-          cur !== 'xBOBA' &&
-          cur !== 'OLO' &&
-          cur !== 'WAGMIv0' &&
-          cur !== 'WAGMIv1' &&
-          cur !== 'WAGMIv2' &&
-          cur !== 'WAGMIv2-Oolong' &&
-          cur !== 'WAGMIv3' &&
-          cur !== 'WAGMIv3-Oolong'
-        ) {
-          acc.push(networkService.tokenAddresses![cur].L1.toLowerCase())
-        }
-        return acc
-      },
-      [networkService.addresses.L1_ETH_Address]
-    )
-
     const L1LPContract = new ethers.Contract(
       networkService.addresses.L1LPAddress,
       L1LiquidityPoolABI,
       networkService.L1Provider
     )
-
-    const L1LPInfoPromise: any = []
 
     const getL1LPInfoPromise = async (tokenAddress) => {
       let tokenBalance
@@ -110,92 +179,20 @@ class EarnService {
       }
     }
 
-    tokenAddressList.forEach((tokenAddress) =>
-      L1LPInfoPromise.push(getL1LPInfoPromise(tokenAddress))
-    )
+    const l1LPInfoPromiseList: Array<Promise<any>> =
+      this.getTokenAddressList().map(async ({ L1 }) => getL1LPInfoPromise(L1))
 
-    const L1LPInfo = await Promise.all(L1LPInfoPromise)
-    sortRawTokens(L1LPInfo).forEach((token) => {
-      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
-      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
-      const duration =
-        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
-      const durationDays = duration / (60 * 60 * 24 * 1000)
-      const annualRewardEstimate = (365 * rewards) / durationDays
-      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
-      if (!annualYieldEstimate) {
-        annualYieldEstimate = 0
-      }
-      poolInfo[token.tokenAddress.toLowerCase()] = {
-        symbol: token.tokenSymbol,
-        name: token.tokenName,
-        decimals: token.decimals,
-        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
-        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
-        accUserReward: token.poolTokenInfo.accUserReward.toString(),
-        accUserRewardPerShare:
-          token.poolTokenInfo.accUserRewardPerShare.toString(),
-        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
-        startTime: token.poolTokenInfo.startTime.toString(),
-        APR: annualYieldEstimate,
-        tokenBalance: token.tokenBalance.toString(),
-      }
-      userInfo[token.tokenAddress] = {
-        l1TokenAddress: token.tokenAddress.toLowerCase(),
-        amount: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.amount.toString()
-          : 0,
-        pendingReward: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.pendingReward.toString()
-          : 0,
-        rewardDebt: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.rewardDebt.toString()
-          : 0,
-      }
-    })
-    return { poolInfo, userInfo }
+    const l1LPInfo = await Promise.all(l1LPInfoPromiseList)
+
+    return this.preparePoolUserInfo(l1LPInfo)
   }
 
   async getL2LPInfo(): Promise<ILpInfoResponse> {
-    const tokenAddressList = Object.keys(networkService.tokenAddresses!).reduce(
-      (acc, cur) => {
-        if (
-          cur !== 'xBOBA' &&
-          cur !== 'OLO' &&
-          cur !== 'WAGMIv0' &&
-          cur !== 'WAGMIv1' &&
-          cur !== 'WAGMIv2' &&
-          cur !== 'WAGMIv2-Oolong' &&
-          cur !== 'WAGMIv3' &&
-          cur !== 'WAGMIv3-Oolong'
-        ) {
-          acc.push({
-            L1: networkService.tokenAddresses![cur].L1.toLowerCase(),
-            L2: networkService.tokenAddresses![cur].L2.toLowerCase(),
-          })
-        }
-        return acc
-      },
-      [
-        {
-          L1: networkService.addresses.L1_ETH_Address,
-          L2: networkService.addresses[
-            `TK_L2${networkService.L1NativeTokenSymbol}`
-          ],
-        },
-      ]
-    )
-
     const L2LPContract = new ethers.Contract(
       networkService.addresses.L2LPAddress,
       L2LiquidityPoolABI,
       networkService.L2Provider
     )
-
-    const poolInfo = {}
-    const userInfo = {}
-
-    const L2LPInfoPromise: any = []
 
     const getL2LPInfoPromise = async (
       tokenAddress: string,
@@ -265,55 +262,15 @@ class EarnService {
       }
     }
 
-    tokenAddressList.forEach(({ L1, L2 }) =>
-      L2LPInfoPromise.push(getL2LPInfoPromise(L2, L1))
+    const l2LpPromiseList = this.getTokenAddressList().map(async ({ L1, L2 }) =>
+      getL2LPInfoPromise(L2, L1)
     )
 
-    const L2LPInfo = await Promise.all(L2LPInfoPromise)
+    const l2LPInfo = await Promise.all(l2LpPromiseList)
 
-    sortRawTokens(L2LPInfo).forEach((token) => {
-      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
-      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
-      const duration =
-        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
-      const durationDays = duration / (60 * 60 * 24 * 1000)
-      const annualRewardEstimate = (365 * rewards) / durationDays
-      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
-      if (!annualYieldEstimate) {
-        annualYieldEstimate = 0
-      }
-      poolInfo[token.tokenAddress.toLowerCase()] = {
-        symbol: token.tokenSymbol,
-        name: token.tokenName,
-        decimals: token.decimals,
-        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
-        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
-        accUserReward: token.poolTokenInfo.accUserReward.toString(),
-        accUserRewardPerShare:
-          token.poolTokenInfo.accUserRewardPerShare.toString(),
-        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
-        startTime: token.poolTokenInfo.startTime.toString(),
-        APR: annualYieldEstimate,
-        tokenBalance: token.tokenBalance.toString(),
-      }
-      userInfo[token.tokenAddress.toLowerCase()] = {
-        l2TokenAddress: token.tokenAddress.toLowerCase(),
-        amount: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.amount.toString()
-          : 0,
-        pendingReward: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.pendingReward.toString()
-          : 0,
-        rewardDebt: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.rewardDebt.toString()
-          : 0,
-      }
-    })
-
-    return { poolInfo, userInfo }
+    return this.preparePoolUserInfo(l2LPInfo)
   }
 
-  // TODO: setup types correctly.
   async withdrawReward(
     currencyAddress: string,
     valueWeiString: BigNumberish,
