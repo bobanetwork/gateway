@@ -1,12 +1,6 @@
 /* eslint-disable */
 
-import {
-  BigNumberish,
-  Contract,
-  ContractInterface,
-  ethers,
-  utils,
-} from 'ethers'
+import { BigNumberish, Contract, ethers, utils } from 'ethers'
 import { L1LiquidityPoolABI, L2LiquidityPoolABI } from './abi'
 import networkService from './networkService'
 import { sortRawTokens } from 'util/common'
@@ -242,71 +236,85 @@ class EarnService {
   }
 
   async getL1LPInfo(): Promise<ILpInfoResponse> {
-    const L1LPContract = new ethers.Contract(
-      networkService.addresses.L1LPAddress,
-      L1LiquidityPoolABI,
-      networkService.L1Provider
-    )
+    try {
+      const L1LPContract = new ethers.Contract(
+        networkService.addresses.L1LPAddress,
+        L1LiquidityPoolABI,
+        networkService.L1Provider
+      )
 
-    const l1LPInfoPromiseList: Array<Promise<any>> =
-      this.getTokenAddressList().map(async ({ L1 }) => {
-        const tokenRes = await this.getL1TokenDetail({
-          tokenAddress: L1,
+      const l1LPInfoPromises: Array<Promise<any>> =
+        this.getTokenAddressList().map(async ({ L1 }) => {
+          const tokenRes = await this.getL1TokenDetail({
+            tokenAddress: L1,
+          })
+          const poolTokenInfo = await this.getPoolInfo({
+            tokenAddress: L1,
+            lpContract: L1LPContract,
+          })
+          const userTokenInfo = await this.getTokenInfo({
+            tokenAddress: L1,
+            lpContract: L1LPContract,
+          })
+          return {
+            ...tokenRes,
+            poolTokenInfo,
+            userTokenInfo,
+          }
         })
-        const poolTokenInfo = await this.getPoolInfo({
-          tokenAddress: L1,
-          lpContract: L1LPContract,
-        })
-        const userTokenInfo = await this.getTokenInfo({
-          tokenAddress: L1,
-          lpContract: L1LPContract,
-        })
-        return {
-          ...tokenRes,
-          poolTokenInfo,
-          userTokenInfo,
-        }
-      })
 
-    const l1LPInfo = await Promise.all(l1LPInfoPromiseList)
+      const l1LPInfo = await Promise.all(l1LPInfoPromises)
 
-    return this.preparePoolUserInfo(l1LPInfo)
+      return this.preparePoolUserInfo(l1LPInfo)
+    } catch (error) {
+      return {
+        poolInfo: {},
+        userInfo: {},
+      }
+    }
   }
 
   async getL2LPInfo(): Promise<ILpInfoResponse> {
-    const L2LPContract = new ethers.Contract(
-      networkService.addresses.L2LPAddress,
-      L2LiquidityPoolABI,
-      networkService.L2Provider
-    )
+    try {
+      const L2LPContract = new ethers.Contract(
+        networkService.addresses.L2LPAddress,
+        L2LiquidityPoolABI,
+        networkService.L2Provider
+      )
 
-    const l2LpPromiseList = this.getTokenAddressList().map(
-      async ({ L1, L2 }) => {
-        const tokenRes = await this.getL2TokenDetail({
-          tokenAddress: L2,
-          tokenAddressL1: L1,
-        })
+      const l2LpPromises = this.getTokenAddressList().map(
+        async ({ L1, L2 }) => {
+          const tokenRes = await this.getL2TokenDetail({
+            tokenAddress: L2,
+            tokenAddressL1: L1,
+          })
 
-        const poolTokenInfo = await this.getPoolInfo({
-          tokenAddress: L2,
-          lpContract: L2LPContract,
-        })
-        const userTokenInfo = await this.getTokenInfo({
-          tokenAddress: L2,
-          lpContract: L2LPContract,
-        })
+          const poolTokenInfo = await this.getPoolInfo({
+            tokenAddress: L2,
+            lpContract: L2LPContract,
+          })
+          const userTokenInfo = await this.getTokenInfo({
+            tokenAddress: L2,
+            lpContract: L2LPContract,
+          })
 
-        return {
-          ...tokenRes,
-          poolTokenInfo,
-          userTokenInfo,
+          return {
+            ...tokenRes,
+            poolTokenInfo,
+            userTokenInfo,
+          }
         }
+      )
+
+      const l2LPInfo = await Promise.all(l2LpPromises)
+
+      return this.preparePoolUserInfo(l2LPInfo)
+    } catch (error) {
+      return {
+        poolInfo: {},
+        userInfo: {},
       }
-    )
-
-    const l2LPInfo = await Promise.all(l2LpPromiseList)
-
-    return this.preparePoolUserInfo(l2LPInfo)
+    }
   }
 
   async withdrawReward(

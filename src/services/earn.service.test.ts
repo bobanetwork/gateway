@@ -93,12 +93,218 @@ jest.mock('ethers', () => {
 })
 
 describe('Earn Service', () => {
-  // describe('getL1LPInfo ', () => {
+  describe('getL1LPInfo ', () => {
+    afterAll(() => {
+      jest.restoreAllMocks()
+    })
+    test('should return empty object when the token is empty or error thrown', async () => {
+      jest.spyOn(earnService, 'getTokenAddressList').mockReturnValue([])
+      const result = await earnService.getL1LPInfo()
+      expect(result).toEqual({ poolInfo: {}, userInfo: {} })
+      expect(earnService.getTokenAddressList).toHaveBeenCalled()
 
-  // })
-  // describe('getL2LPInfo ', () => {
+      jest.spyOn(earnService, 'getTokenAddressList').mockImplementation(() => {
+        throw new Error('Mocked error')
+      })
+      const errorResult = await earnService.getL1LPInfo()
+      expect(errorResult).toEqual({ poolInfo: {}, userInfo: {} })
+      expect(earnService.getTokenAddressList).toHaveBeenCalled()
+    })
 
-  // })
+    test('should invoke functions and return results correctly', async () => {
+      // Arrange
+      const mockTokenList = [
+        {
+          L1: '0x9876543210987654321098765432109876543210',
+          L2: '0x9876543210987654321098765432109876543210',
+        },
+        {
+          L1: '0x9876543210987654321098765432109876543210',
+          L2: '0x9876543210987654321098765432109876543210',
+        },
+      ]
+
+      jest
+        .spyOn(earnService, 'getTokenAddressList')
+        .mockReturnValue(mockTokenList)
+      jest
+        .spyOn(earnService, 'getL1TokenDetail')
+        .mockImplementation(async (params) => ({
+          tokenAddress: 'tokenAddress',
+          tokenBalance: BigNumber.from(100),
+          tokenSymbol: `${params.tokenAddress}Symbol`,
+          tokenName: `${params.tokenAddress}Name`,
+          decimals: 18,
+        }))
+
+      jest
+        .spyOn(earnService, 'getPoolInfo')
+        .mockImplementation(async ({ tokenAddress }) => ({
+          userDepositAmount: '100',
+          accUserReward: '0',
+          accUserRewardPerShare: '0.5',
+          startTime: '1638430800',
+          l1TokenAddress: tokenAddress.toLowerCase(),
+          l2TokenAddress: `L2${tokenAddress}Address`,
+        }))
+      jest
+        .spyOn(earnService, 'getTokenInfo')
+        .mockImplementation(async (params) => {
+          if (params.tokenAddress === 'L1Token2') {
+            throw new Error('Mocked error for L1Token2')
+          }
+          return {
+            amount: '10',
+            pendingReward: '5',
+            rewardDebt: '0',
+          }
+        })
+
+      // Act
+      const result = await earnService.getL1LPInfo()
+
+      // Assert
+      expect(result).toEqual({
+        poolInfo: {
+          tokenaddress: {
+            APR: 0,
+            accUserReward: '0',
+            accUserRewardPerShare: '0.5',
+            decimals: 18,
+            l1TokenAddress: '0x9876543210987654321098765432109876543210',
+            l2TokenAddress:
+              'l20x9876543210987654321098765432109876543210address',
+            name: '0x9876543210987654321098765432109876543210Name',
+            startTime: '1638430800',
+            symbol: '0x9876543210987654321098765432109876543210Symbol',
+            tokenBalance: '100',
+            userDepositAmount: '100',
+          },
+        },
+        userInfo: {
+          tokenaddress: {
+            amount: '10',
+            l1TokenAddress: 'tokenaddress',
+            l2TokenAddress: 'tokenaddress',
+            pendingReward: '5',
+            rewardDebt: '0',
+          },
+        },
+      })
+
+      expect(earnService.getTokenAddressList).toHaveBeenCalled()
+      expect(earnService.getL1TokenDetail).toHaveBeenCalledTimes(2)
+      expect(earnService.getPoolInfo).toHaveBeenCalledTimes(2)
+      expect(earnService.getTokenInfo).toHaveBeenCalledTimes(2)
+    })
+  })
+  describe('getL2LPInfo ', () => {
+    afterAll(() => {
+      jest.restoreAllMocks()
+    })
+    test('should return empty object when the token is empty or error thrown', async () => {
+      jest.spyOn(earnService, 'getTokenAddressList').mockReturnValue([])
+
+      const result = await earnService.getL2LPInfo()
+
+      expect(result).toEqual({ poolInfo: {}, userInfo: {} })
+      expect(earnService.getTokenAddressList).toHaveBeenCalled()
+
+      jest.spyOn(earnService, 'getTokenAddressList').mockImplementation(() => {
+        throw new Error('Mocked error')
+      })
+      const errorResult = await earnService.getL2LPInfo()
+      expect(errorResult).toEqual({ poolInfo: {}, userInfo: {} })
+      expect(earnService.getTokenAddressList).toHaveBeenCalled()
+    })
+
+    test('should invoke functions and return results correctly', async () => {
+      // Arrange
+      const mockTokenList = [
+        {
+          L1: '0x9876543210987654321098765432109876543210',
+          L2: '0x9876543210987654321098765432109876543210',
+        },
+        {
+          L1: '0x9876543210987654321098765432109876543210',
+          L2: '0x9876543210987654321098765432109876543210',
+        },
+      ]
+
+      jest
+        .spyOn(earnService, 'getTokenAddressList')
+        .mockReturnValue(mockTokenList)
+      jest
+        .spyOn(earnService, 'getL2TokenDetail')
+        .mockImplementation(async (params) => ({
+          tokenAddress: 'tokenAddress',
+          tokenBalance: BigNumber.from(100),
+          tokenSymbol: `${params.tokenAddress}Symbol`,
+          tokenName: `${params.tokenAddress}Name`,
+          decimals: 18,
+        }))
+
+      jest
+        .spyOn(earnService, 'getPoolInfo')
+        .mockImplementation(async ({ tokenAddress }) => ({
+          userDepositAmount: '100',
+          accUserReward: '0',
+          accUserRewardPerShare: '0.5',
+          startTime: '1638430800',
+          l1TokenAddress: tokenAddress.toLowerCase(),
+          l2TokenAddress: `L2${tokenAddress}Address`,
+        }))
+      jest
+        .spyOn(earnService, 'getTokenInfo')
+        .mockImplementation(async (params) => {
+          if (params.tokenAddress === 'L1Token2') {
+            throw new Error('Mocked error for L1Token2')
+          }
+          return {
+            amount: '10',
+            pendingReward: '5',
+            rewardDebt: '0',
+          }
+        })
+
+      // Act
+      const result = await earnService.getL2LPInfo()
+
+      // Assert
+      expect(result).toEqual({
+        poolInfo: {
+          tokenaddress: {
+            APR: 0,
+            accUserReward: '0',
+            accUserRewardPerShare: '0.5',
+            decimals: 18,
+            l1TokenAddress: '0x9876543210987654321098765432109876543210',
+            l2TokenAddress:
+              'l20x9876543210987654321098765432109876543210address',
+            name: '0x9876543210987654321098765432109876543210Name',
+            startTime: '1638430800',
+            symbol: '0x9876543210987654321098765432109876543210Symbol',
+            tokenBalance: '100',
+            userDepositAmount: '100',
+          },
+        },
+        userInfo: {
+          tokenaddress: {
+            amount: '10',
+            l1TokenAddress: 'tokenaddress',
+            l2TokenAddress: 'tokenaddress',
+            pendingReward: '5',
+            rewardDebt: '0',
+          },
+        },
+      })
+
+      expect(earnService.getTokenAddressList).toHaveBeenCalled()
+      expect(earnService.getL2TokenDetail).toHaveBeenCalledTimes(2)
+      expect(earnService.getPoolInfo).toHaveBeenCalledTimes(2)
+      expect(earnService.getTokenInfo).toHaveBeenCalledTimes(2)
+    })
+  })
 
   describe('getL1TokenDetail', () => {
     let mockL1Provider: any
