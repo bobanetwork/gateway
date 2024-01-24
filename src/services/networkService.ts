@@ -70,8 +70,8 @@ type TokenList = Record<
 >
 
 type TokenInfoForNetwork = {
-  L1: Record<string, TokenList>
-  L2: Record<string, TokenList>
+  L1: TokenList
+  L2: TokenList
 }
 
 type TokenAddresses = Record<string, { L1: string; L2: string }>

@@ -1,8 +1,9 @@
 import { LiquidityPoolLayer } from 'types/earn.types'
 import earnService from './earn.service'
-import { BigNumber, ethers, utils } from 'ethers'
+import { BigNumber, Contract, ethers, utils } from 'ethers'
 import networkService from './networkService'
 import walletService from './wallet.service'
+import { Network } from 'util/network/network.util'
 
 jest.mock('./networkService')
 
@@ -95,6 +96,346 @@ describe('Earn Service', () => {
   // describe('getL1LPInfo ', () => {
 
   // })
+  // describe('getL2LPInfo ', () => {
+
+  // })
+
+  describe('getL1TokenDetail', () => {
+    let mockL1Provider: any
+    const mockSymbol = jest.fn()
+    const mockName = jest.fn()
+    const mockDecimals = jest.fn()
+    const mockBalanceOf = jest.fn()
+    beforeEach(() => {
+      mockL1Provider = {
+        getBalance: jest.fn().mockResolvedValue(BigNumber.from(100)),
+      }
+      networkService.L1Provider = mockL1Provider
+      networkService.L1_TEST_Contract = {
+        attach: jest.fn(() => ({
+          balanceOf: mockBalanceOf,
+          symbol: mockSymbol,
+          name: mockName,
+          decimals: mockDecimals,
+          connect: jest.fn(() => ({
+            balanceOf: mockBalanceOf.mockResolvedValue(BigNumber.from(200)),
+            symbol: mockSymbol.mockResolvedValue('Unknown'),
+            name: mockName.mockResolvedValue('Unknown Token'),
+            decimals: mockDecimals.mockResolvedValue(18),
+          })),
+        })),
+      } as unknown as Contract
+    })
+
+    it('should return details for the native token (ETH)', async () => {
+      const tokenAddress = networkService.addresses.L1_ETH_Address
+      networkService.L1NativeTokenSymbol = 'ETH'
+      networkService.L1NativeTokenName = 'Ethereum'
+
+      const result = await earnService.getL1TokenDetail({ tokenAddress })
+
+      expect(result).toEqual({
+        tokenAddress,
+        tokenBalance: BigNumber.from(100),
+        tokenSymbol: 'ETH',
+        tokenName: 'Ethereum',
+        decimals: 18,
+      })
+      expect(networkService.L1Provider!.getBalance).toHaveBeenCalledWith(
+        networkService.addresses.L1LPAddress
+      )
+    })
+
+    it('should return details for an ERC-20 token', async () => {
+      const tokenAddress = '0x1234567890123456789012345678901234567890'
+      const tokenInfoFiltered = {
+        symbol: 'ABC',
+        name: 'ABC Token',
+        decimals: 8,
+      }
+      networkService.tokenInfo = {
+        L1: { [utils.getAddress(tokenAddress)]: tokenInfoFiltered },
+        L2: { [utils.getAddress(tokenAddress)]: tokenInfoFiltered },
+      }
+
+      const result = await earnService.getL1TokenDetail({ tokenAddress })
+
+      expect(result).toEqual({
+        tokenAddress,
+        tokenBalance: BigNumber.from(200),
+        tokenSymbol: 'ABC',
+        tokenName: 'ABC Token',
+        decimals: 8,
+      })
+      expect(networkService.L1_TEST_Contract!.attach).toHaveBeenCalledWith(
+        tokenAddress
+      )
+      expect(mockBalanceOf).toHaveBeenCalledWith(
+        networkService.addresses.L1LPAddress
+      )
+    })
+
+    it('should return default details for an unknown ERC-20 token', async () => {
+      const tokenAddress = '0x9876543210987654321098765432109876543210'
+      networkService.tokenInfo = {
+        L1: {},
+        L2: {},
+      }
+
+      const result = await earnService.getL1TokenDetail({ tokenAddress })
+
+      expect(result).toEqual({
+        tokenAddress,
+        tokenBalance: BigNumber.from(200),
+        tokenSymbol: 'Unknown',
+        tokenName: 'Unknown Token',
+        decimals: 18,
+      })
+      expect(networkService.L1_TEST_Contract!.attach).toHaveBeenCalledWith(
+        tokenAddress
+      )
+      expect(mockBalanceOf).toHaveBeenCalledWith(
+        networkService.addresses.L1LPAddress
+      )
+      expect(mockSymbol).toHaveBeenCalled()
+      expect(mockName).toHaveBeenCalled()
+      expect(mockDecimals).toHaveBeenCalled()
+    })
+  })
+
+  describe('getL2TokenDetail', () => {
+    let mockL2Provider: any
+    const mockSymbol = jest.fn()
+    const mockName = jest.fn()
+    const mockDecimals = jest.fn()
+    const mockBalanceOf = jest.fn()
+    beforeEach(() => {
+      mockL2Provider = {
+        getBalance: jest.fn().mockResolvedValue(BigNumber.from(100)),
+      }
+      networkService.L2Provider = mockL2Provider
+      networkService.L2_TEST_Contract = {
+        attach: jest.fn(() => ({
+          balanceOf: mockBalanceOf,
+          symbol: mockSymbol,
+          name: mockName,
+          decimals: mockDecimals,
+          connect: jest.fn(() => ({
+            balanceOf: mockBalanceOf.mockResolvedValue(BigNumber.from(200)),
+            symbol: mockSymbol.mockResolvedValue('Unknown'),
+            name: mockName.mockResolvedValue('Unknown Token'),
+            decimals: mockDecimals.mockResolvedValue(18),
+          })),
+        })),
+      } as unknown as Contract
+      networkService.L1_TEST_Contract = {
+        attach: jest.fn(() => ({
+          balanceOf: mockBalanceOf,
+          symbol: mockSymbol,
+          name: mockName,
+          decimals: mockDecimals,
+          connect: jest.fn(() => ({
+            balanceOf: mockBalanceOf.mockResolvedValue(BigNumber.from(200)),
+            symbol: mockSymbol.mockResolvedValue('Unknown'),
+            name: mockName.mockResolvedValue('Unknown Token'),
+            decimals: mockDecimals.mockResolvedValue(18),
+          })),
+        })),
+      } as unknown as Contract
+    })
+
+    it('should return details for the native token (ETH)', async () => {
+      const tokenAddress = networkService.addresses.L2_ETH_Address
+      const tokenAddressL1 = networkService.addresses.L2_ETH_Address
+      networkService.L1NativeTokenSymbol = 'ETH'
+      networkService.L1NativeTokenName = 'Ethereum'
+
+      const result = await earnService.getL2TokenDetail({
+        tokenAddress,
+        tokenAddressL1,
+      })
+
+      expect(result).toEqual({
+        tokenAddress,
+        tokenBalance: BigNumber.from(100),
+        tokenSymbol: 'BOBA',
+        tokenName: 'BOBA Token',
+        decimals: 18,
+      })
+      expect(networkService.L2Provider!.getBalance).toHaveBeenCalledWith(
+        networkService.addresses.L1LPAddress
+      )
+
+      networkService.network = Network.ETHEREUM
+      const resultEth = await earnService.getL2TokenDetail({
+        tokenAddress,
+        tokenAddressL1,
+      })
+
+      expect(resultEth).toEqual({
+        tokenAddress,
+        tokenBalance: BigNumber.from(100),
+        tokenSymbol: 'ETH',
+        tokenName: 'Ethereum',
+        decimals: 18,
+      })
+    })
+
+    it('should return details for an ERC-20 token', async () => {
+      const tokenAddress = '0x1234567890123456789012345678901234567890'
+      const tokenAddressL1 = '0x1234567890123456789012345678901234567890'
+      const tokenInfoFiltered = {
+        symbol: 'ABC',
+        name: 'ABC Token',
+        decimals: 8,
+      }
+      networkService.tokenInfo = {
+        L1: { [utils.getAddress(tokenAddress)]: tokenInfoFiltered },
+        L2: { [utils.getAddress(tokenAddress)]: tokenInfoFiltered },
+      }
+
+      const result = await earnService.getL2TokenDetail({
+        tokenAddress,
+        tokenAddressL1,
+      })
+
+      expect(result).toEqual({
+        tokenAddress,
+        tokenBalance: BigNumber.from(200),
+        tokenSymbol: 'ABC',
+        tokenName: 'ABC Token',
+        decimals: 8,
+      })
+      expect(networkService.L2_TEST_Contract!.attach).toHaveBeenCalledWith(
+        tokenAddress
+      )
+      expect(mockBalanceOf).toHaveBeenCalledWith(
+        networkService.addresses.L1LPAddress
+      )
+    })
+
+    it('should return default details for an unknown ERC-20 token', async () => {
+      const tokenAddress = '0x9876543210987654321098765432109876543210'
+      const tokenAddressL1 = '0x9876543210987654321098765432109876543210'
+      networkService.tokenInfo = {
+        L1: {},
+        L2: {},
+      }
+
+      const result = await earnService.getL2TokenDetail({
+        tokenAddress,
+        tokenAddressL1,
+      })
+
+      expect(result).toEqual({
+        tokenAddress,
+        tokenBalance: BigNumber.from(200),
+        tokenSymbol: 'Unknown',
+        tokenName: 'Unknown Token',
+        decimals: 18,
+      })
+      expect(networkService.L1_TEST_Contract!.attach).toHaveBeenCalledWith(
+        tokenAddress
+      )
+      expect(mockBalanceOf).toHaveBeenCalledWith(
+        networkService.addresses.L1LPAddress
+      )
+      expect(mockSymbol).toHaveBeenCalled()
+      expect(mockName).toHaveBeenCalled()
+      expect(mockDecimals).toHaveBeenCalled()
+    })
+  })
+
+  describe('getPoolInfo', () => {
+    it('should return poolInfo when lpContract.poolInfo succeeds', async () => {
+      const tokenAddress = '0x123abc'
+      const mockPoolInfo = mockRowTokens[0].poolTokenInfo
+      const mockLpContract = {
+        poolInfo: jest.fn().mockResolvedValue(mockPoolInfo),
+      } as unknown as Contract
+
+      const result = await earnService.getPoolInfo({
+        tokenAddress,
+        lpContract: mockLpContract,
+      })
+      expect(result).toEqual(mockPoolInfo)
+      expect(mockLpContract.poolInfo).toHaveBeenCalledWith(tokenAddress)
+    })
+
+    it('should throw an error when lpContract.poolInfo fails', async () => {
+      const tokenAddress = '0x456def'
+      const error = new Error('Mock poolInfo error')
+      const mockLpContract = {
+        poolInfo: jest.fn().mockRejectedValue(error),
+      } as unknown as Contract
+
+      const result = await earnService.getPoolInfo({
+        tokenAddress,
+        lpContract: mockLpContract,
+      })
+      expect(result).toEqual({})
+      expect(mockLpContract.poolInfo).toHaveBeenCalledWith(tokenAddress)
+    })
+  })
+
+  describe('getTokenInfo', () => {
+    it('should return userInfo when walletService.account is truthy', async () => {
+      const tokenAddress = '0x123abc'
+      const fakeUserInfo = { amount: '100', rewardDebt: '50' }
+      walletService.account = '0x789def'
+      const mockLpContract = {
+        userInfo: jest.fn().mockResolvedValue(fakeUserInfo),
+      } as unknown as Contract
+
+      const result = await earnService.getTokenInfo({
+        tokenAddress,
+        lpContract: mockLpContract,
+      })
+
+      expect(result).toEqual(fakeUserInfo)
+      expect(mockLpContract.userInfo).toHaveBeenCalledWith(
+        tokenAddress,
+        walletService.account
+      )
+    })
+
+    it('should return an empty object when walletService.account is falsy', async () => {
+      const tokenAddress = '0x123abc'
+      walletService.account = undefined
+      const mockLpContract = {
+        userInfo: jest.fn(),
+      } as unknown as Contract
+
+      const result = await earnService.getTokenInfo({
+        tokenAddress,
+        lpContract: mockLpContract,
+      })
+
+      expect(result).toEqual({})
+      expect(mockLpContract.userInfo).not.toHaveBeenCalled()
+    })
+
+    it('should handle errors and return an empty object', async () => {
+      const tokenAddress = '0x123abc'
+      walletService.account = '0x789def'
+      const mockLpContract = {
+        userInfo: jest.fn().mockRejectedValue({
+          code: 4902,
+        }),
+      } as unknown as Contract
+
+      const result = await earnService.getTokenInfo({
+        tokenAddress,
+        lpContract: mockLpContract,
+      })
+
+      expect(result).toEqual({})
+      expect(mockLpContract.userInfo).toHaveBeenCalledWith(
+        tokenAddress,
+        walletService.account
+      )
+    })
+  })
 
   describe('preparePoolUserInfo ', () => {
     it('Should return the correct poolInfo, userInfo for provided rawTokens', () => {

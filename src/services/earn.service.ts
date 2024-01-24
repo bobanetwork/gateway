@@ -1,23 +1,24 @@
 /* eslint-disable */
 
-import { BigNumberish, ethers, utils } from 'ethers'
+import {
+  BigNumberish,
+  Contract,
+  ContractInterface,
+  ethers,
+  utils,
+} from 'ethers'
 import { L1LiquidityPoolABI, L2LiquidityPoolABI } from './abi'
 import networkService from './networkService'
-import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 import { sortRawTokens } from 'util/common'
 import { Network } from 'util/network/network.util'
 import { ILpInfoResponse, LiquidityPoolLayer } from 'types/earn.types'
 import walletService from './wallet.service'
-
-// TODO: Defined Types
-// TODO: Get Unit test written
 
 class EarnService {
   preparePoolUserInfo(rowTokens: any[]): ILpInfoResponse {
     let poolInfo = {}
     let userInfo = {}
     sortRawTokens(rowTokens).forEach((token) => {
-      console.log(token.tokenBalance, token.tokenBalance.toString())
       const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
       const rewards = Number(token.poolTokenInfo.accUserReward.toString())
       const duration =
@@ -64,43 +65,179 @@ class EarnService {
   }
 
   getTokenAddressList(): Array<any> {
-    try {
-      if (
-        !networkService.tokenAddresses ||
-        !Object.keys(networkService.tokenAddresses).length
-      ) {
-        return []
-      }
-
-      return Object.keys(networkService.tokenAddresses)
-        .filter(
-          (tokenSymbol) =>
-            ![
-              'xBOBA',
-              'OLO',
-              'WAGMIv0',
-              'WAGMIv1',
-              'WAGMIv2',
-              'WAGMIv2-Oolong',
-              'WAGMIv3',
-              'WAGMIv3-Oolong',
-            ].includes(tokenSymbol)
-        )
-        .map((tokenSymbol) => ({
-          L1: networkService.tokenAddresses![tokenSymbol].L1.toLowerCase(),
-          L2: networkService.tokenAddresses![tokenSymbol].L2.toLowerCase(),
-        }))
-        .concat([
-          {
-            L1: networkService.addresses.L1_ETH_Address,
-            L2: networkService.addresses[
-              `TK_L2${networkService.L1NativeTokenSymbol}`
-            ],
-          },
-        ])
-    } catch (error) {
-      console.log(`Error: getTokenAddressList`, error)
+    if (
+      !networkService.tokenAddresses ||
+      !Object.keys(networkService.tokenAddresses).length
+    ) {
       return []
+    }
+
+    return Object.keys(networkService.tokenAddresses)
+      .filter(
+        (tokenSymbol) =>
+          ![
+            'xBOBA',
+            'OLO',
+            'WAGMIv0',
+            'WAGMIv1',
+            'WAGMIv2',
+            'WAGMIv2-Oolong',
+            'WAGMIv3',
+            'WAGMIv3-Oolong',
+          ].includes(tokenSymbol)
+      )
+      .map((tokenSymbol) => ({
+        // TODO: make sure to change the name to tokenAddressL1, tokenAddressL2
+        L1: networkService.tokenAddresses![tokenSymbol].L1.toLowerCase(),
+        L2: networkService.tokenAddresses![tokenSymbol].L2.toLowerCase(),
+      }))
+      .concat([
+        {
+          L1: networkService.addresses.L1_ETH_Address,
+          L2: networkService.addresses[
+            `TK_L2${networkService.L1NativeTokenSymbol}`
+          ],
+        },
+      ])
+  }
+
+  async getTokenInfo({
+    tokenAddress,
+    lpContract,
+  }: {
+    tokenAddress: string
+    lpContract: Contract
+  }) {
+    try {
+      if (!!walletService.account) {
+        return await lpContract.userInfo(tokenAddress, walletService.account)
+      }
+      return {}
+    } catch (error) {
+      return {}
+    }
+  }
+
+  async getPoolInfo({
+    tokenAddress,
+    lpContract,
+  }: {
+    tokenAddress: string
+    lpContract: Contract
+  }) {
+    try {
+      return await lpContract.poolInfo(tokenAddress)
+    } catch (error) {
+      return {}
+    }
+  }
+
+  async getL1TokenDetail({ tokenAddress }: { tokenAddress: string }) {
+    let tokenBalance: BigNumberish
+    let tokenSymbol: string
+    let tokenName: string
+    let decimals: number
+
+    if (tokenAddress === networkService.addresses.L1_ETH_Address) {
+      //getting eth balance
+      tokenBalance = await networkService.L1Provider!.getBalance(
+        networkService.addresses.L1LPAddress
+      )
+      tokenSymbol = networkService.L1NativeTokenSymbol
+      tokenName = networkService.L1NativeTokenName!
+      decimals = 18
+    } else {
+      //getting eth balance
+      tokenBalance = await networkService
+        .L1_TEST_Contract!.attach(tokenAddress)
+        .connect(networkService.L1Provider!)
+        .balanceOf(networkService.addresses.L1LPAddress)
+      const tokenInfoFiltered =
+        networkService.tokenInfo!.L1[utils.getAddress(tokenAddress)]
+      if (tokenInfoFiltered) {
+        tokenSymbol = tokenInfoFiltered?.symbol
+        tokenName = tokenInfoFiltered?.name
+        decimals = tokenInfoFiltered?.decimals
+      } else {
+        tokenSymbol = await networkService
+          .L1_TEST_Contract!.attach(tokenAddress)
+          .connect(networkService.L1Provider!)
+          .symbol()
+        tokenName = await networkService
+          .L1_TEST_Contract!.attach(tokenAddress)
+          .connect(networkService.L1Provider!)
+          .name()
+        decimals = await networkService
+          .L1_TEST_Contract!.attach(tokenAddress)
+          .connect(networkService.L1Provider!)
+          .decimals()
+      }
+    }
+
+    return {
+      tokenAddress,
+      tokenBalance,
+      tokenSymbol,
+      tokenName,
+      decimals,
+    }
+  }
+
+  async getL2TokenDetail({
+    tokenAddress,
+    tokenAddressL1,
+  }: {
+    tokenAddress: string
+    tokenAddressL1: string
+  }) {
+    let tokenBalance: BigNumberish
+    let tokenSymbol: string
+    let tokenName: string
+    let decimals: number
+
+    if (tokenAddress === networkService.addresses.L2_ETH_Address) {
+      //getting ETH token balance
+      tokenBalance = await networkService.L2Provider!.getBalance(
+        networkService.addresses.L2LPAddress
+      )
+      tokenSymbol = networkService.network === Network.ETHEREUM ? 'ETH' : 'BOBA'
+      tokenName =
+        networkService.network === Network.ETHEREUM ? 'Ethereum' : 'BOBA Token'
+      decimals = 18
+    } else {
+      tokenBalance = await networkService
+        .L2_TEST_Contract!.attach(tokenAddress)
+        .connect(networkService.L2Provider!)
+        .balanceOf(networkService.addresses.L2LPAddress)
+
+      const tokenInfoFiltered =
+        networkService.tokenInfo!.L2[utils.getAddress(tokenAddress)]
+
+      if (tokenInfoFiltered) {
+        tokenSymbol = tokenInfoFiltered.symbol
+        tokenName = tokenInfoFiltered.name
+        decimals = tokenInfoFiltered.decimals
+      } else {
+        tokenSymbol = await networkService
+          .L2_TEST_Contract!.attach(tokenAddress)
+          .connect(networkService.L2Provider!)
+          .symbol()
+        tokenName = await networkService
+          .L2_TEST_Contract!.attach(tokenAddress)
+          .connect(networkService.L2Provider!)
+          .name()
+        decimals = await networkService
+          .L1_TEST_Contract!.attach(tokenAddressL1)
+          .connect(networkService.L1Provider!)
+          .decimals()
+      }
+    }
+    return {
+      tokenAddress,
+      tokenBalance,
+      tokenSymbol,
+      tokenName,
+      decimals,
     }
   }
 
@@ -111,72 +248,25 @@ class EarnService {
       networkService.L1Provider
     )
 
-    const getL1LPInfoPromise = async (tokenAddress) => {
-      let tokenBalance
-      let tokenSymbol
-      let tokenName
-      let decimals
-
-      if (tokenAddress === networkService.addresses.L1_ETH_Address) {
-        //getting eth balance
-        tokenBalance = await networkService.L1Provider!.getBalance(
-          networkService.addresses.L1LPAddress
-        )
-        tokenSymbol = networkService.L1NativeTokenSymbol
-        tokenName = networkService.L1NativeTokenName
-        decimals = 18
-      } else {
-        //getting eth balance
-        tokenBalance = await networkService
-          .L1_TEST_Contract!.attach(tokenAddress)
-          .connect(networkService.L1Provider!)
-          .balanceOf(networkService.addresses.L1LPAddress)
-        const tokenInfoFiltered =
-          networkService.tokenInfo!.L1[utils.getAddress(tokenAddress)]
-        if (tokenInfo) {
-          tokenSymbol = tokenInfoFiltered?.symbol
-          tokenName = tokenInfoFiltered?.name
-          decimals = tokenInfoFiltered?.decimals
-        } else {
-          tokenSymbol = await networkService
-            .L1_TEST_Contract!.attach(tokenAddress)
-            .connect(networkService.L1Provider!)
-            .symbol()
-          tokenName = await networkService
-            .L1_TEST_Contract!.attach(tokenAddress)
-            .connect(networkService.L1Provider!)
-            .name()
-          decimals = await networkService
-            .L1_TEST_Contract!.attach(tokenAddress)
-            .connect(networkService.L1Provider!)
-            .decimals()
-        }
-      }
-
-      const poolTokenInfo = await L1LPContract.poolInfo(tokenAddress)
-      let userTokenInfo = {}
-      if (
-        typeof networkService.account !== 'undefined' &&
-        networkService.account
-      ) {
-        userTokenInfo = await L1LPContract.userInfo(
-          tokenAddress,
-          networkService.account
-        )
-      }
-      return {
-        tokenAddress,
-        tokenBalance,
-        tokenSymbol,
-        tokenName,
-        poolTokenInfo,
-        userTokenInfo,
-        decimals,
-      }
-    }
-
     const l1LPInfoPromiseList: Array<Promise<any>> =
-      this.getTokenAddressList().map(async ({ L1 }) => getL1LPInfoPromise(L1))
+      this.getTokenAddressList().map(async ({ L1 }) => {
+        const tokenRes = await this.getL1TokenDetail({
+          tokenAddress: L1,
+        })
+        const poolTokenInfo = await this.getPoolInfo({
+          tokenAddress: L1,
+          lpContract: L1LPContract,
+        })
+        const userTokenInfo = await this.getTokenInfo({
+          tokenAddress: L1,
+          lpContract: L1LPContract,
+        })
+        return {
+          ...tokenRes,
+          poolTokenInfo,
+          userTokenInfo,
+        }
+      })
 
     const l1LPInfo = await Promise.all(l1LPInfoPromiseList)
 
@@ -190,76 +280,28 @@ class EarnService {
       networkService.L2Provider
     )
 
-    const getL2LPInfoPromise = async (
-      tokenAddress: string,
-      tokenAddressL1: string
-    ) => {
-      let tokenBalance
-      let tokenSymbol
-      let tokenName
-      let decimals
+    const l2LpPromiseList = this.getTokenAddressList().map(
+      async ({ L1, L2 }) => {
+        const tokenRes = await this.getL2TokenDetail({
+          tokenAddress: L2,
+          tokenAddressL1: L1,
+        })
 
-      if (tokenAddress === networkService.addresses.L2_ETH_Address) {
-        tokenBalance = await networkService.L2Provider!.getBalance(
-          networkService.addresses.L2LPAddress
-        )
-        tokenSymbol =
-          networkService.network === Network.ETHEREUM ? 'ETH' : 'BOBA'
-        tokenName =
-          networkService.network === Network.ETHEREUM
-            ? 'Ethereum'
-            : 'BOBA Token'
-        decimals = 18
-      } else {
-        tokenBalance = await networkService
-          .L2_TEST_Contract!.attach(tokenAddress)
-          .connect(networkService.L2Provider!)
-          .balanceOf(networkService.addresses.L2LPAddress)
-        const tokenInfoFiltered =
-          networkService.tokenInfo!.L2[utils.getAddress(tokenAddress)]
-        if (tokenInfo) {
-          tokenSymbol = tokenInfoFiltered.symbol
-          tokenName = tokenInfoFiltered.name
-          decimals = tokenInfoFiltered.decimals
-        } else {
-          tokenSymbol = await networkService
-            .L2_TEST_Contract!.attach(tokenAddress)
-            .connect(networkService.L2Provider!)
-            .symbol()
-          tokenName = await networkService
-            .L2_TEST_Contract!.attach(tokenAddress)
-            .connect(networkService.L2Provider!)
-            .name()
-          decimals = await networkService
-            .L1_TEST_Contract!.attach(tokenAddressL1)
-            .connect(networkService.L1Provider!)
-            .decimals()
+        const poolTokenInfo = await this.getPoolInfo({
+          tokenAddress: L2,
+          lpContract: L2LPContract,
+        })
+        const userTokenInfo = await this.getTokenInfo({
+          tokenAddress: L2,
+          lpContract: L2LPContract,
+        })
+
+        return {
+          ...tokenRes,
+          poolTokenInfo,
+          userTokenInfo,
         }
       }
-      const poolTokenInfo = await L2LPContract.poolInfo(tokenAddress)
-      let userTokenInfo = {}
-      if (
-        typeof networkService.account !== 'undefined' &&
-        networkService.account
-      ) {
-        userTokenInfo = await L2LPContract.userInfo(
-          tokenAddress,
-          networkService.account
-        )
-      }
-      return {
-        tokenAddress,
-        tokenBalance,
-        tokenSymbol,
-        tokenName,
-        poolTokenInfo,
-        userTokenInfo,
-        decimals,
-      }
-    }
-
-    const l2LpPromiseList = this.getTokenAddressList().map(async ({ L1, L2 }) =>
-      getL2LPInfoPromise(L2, L1)
     )
 
     const l2LPInfo = await Promise.all(l2LpPromiseList)
