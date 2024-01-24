@@ -13,11 +13,11 @@ import walletService from './wallet.service'
 // TODO: Get Unit test written
 
 class EarnService {
-  preparePoolUserInfo(rawInfoPromise: any[]): ILpInfoResponse {
+  preparePoolUserInfo(rowTokens: any[]): ILpInfoResponse {
     let poolInfo = {}
     let userInfo = {}
-    console.log(rawInfoPromise)
-    sortRawTokens(rawInfoPromise).forEach((token) => {
+    sortRawTokens(rowTokens).forEach((token) => {
+      console.log(token.tokenBalance, token.tokenBalance.toString())
       const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
       const rewards = Number(token.poolTokenInfo.accUserReward.toString())
       const duration =
@@ -57,10 +57,6 @@ class EarnService {
       }
     })
 
-    console.log({
-      poolInfo,
-      userInfo,
-    })
     return {
       poolInfo,
       userInfo,

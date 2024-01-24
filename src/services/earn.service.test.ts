@@ -17,6 +17,56 @@ jest.mock('./wallet.service', () => {
   }
 })
 
+const mockRowTokens = [
+  {
+    tokenAddress: '0xeccd355862591cbb4bb7e7dd55072070ee3d0fc1',
+    tokenBalance: '99954534947000000000000',
+    tokenSymbol: 'BOBA',
+    tokenName: 'Boba Token',
+    poolTokenInfo: {
+      userDepositAmount: '100003300000000000000000',
+      startTime: '1668555540',
+      l1TokenAddress: '0xeCCD355862591CBB4bB7E7dD55072070ee3d0fC1',
+      l2TokenAddress: '0x4200000000000000000000000000000000000023',
+      accUserReward: '000000000000',
+      accUserRewardPerShare: '3595007',
+    },
+    userTokenInfo: {
+      amount: '0',
+      pendingReward: '0',
+      rewardDebt: '0',
+    },
+    decimals: 18,
+  },
+]
+
+const mockProcessLpInfo = {
+  poolInfo: {
+    '0xeccd355862591cbb4bb7e7dd55072070ee3d0fc1': {
+      symbol: 'BOBA',
+      name: 'Boba Token',
+      decimals: 18,
+      l1TokenAddress: '0xeccd355862591cbb4bb7e7dd55072070ee3d0fc1',
+      l2TokenAddress: '0x4200000000000000000000000000000000000023',
+      APR: 0,
+      accUserReward: '000000000000',
+      accUserRewardPerShare: '3595007',
+      userDepositAmount: '100003300000000000000000',
+      startTime: '1668555540',
+      tokenBalance: '99954534947000000000000',
+    },
+  },
+  userInfo: {
+    '0xeccd355862591cbb4bb7e7dd55072070ee3d0fc1': {
+      l2TokenAddress: '0xeccd355862591cbb4bb7e7dd55072070ee3d0fc1',
+      l1TokenAddress: '0xeccd355862591cbb4bb7e7dd55072070ee3d0fc1',
+      amount: '0',
+      pendingReward: '0',
+      rewardDebt: '0',
+    },
+  },
+}
+
 const mockWithdrawReward = jest.fn()
 const mockWithdrawLiquidity = jest.fn()
 const mockWait = jest.fn()
@@ -46,9 +96,12 @@ describe('Earn Service', () => {
 
   // })
 
-  // describe('preparePoolUserInfo ', () => {
-
-  // })
+  describe('preparePoolUserInfo ', () => {
+    it('Should return the correct poolInfo, userInfo for provided rawTokens', () => {
+      const res = earnService.preparePoolUserInfo(mockRowTokens)
+      expect(res).toEqual(mockProcessLpInfo)
+    })
+  })
 
   describe('getTokenAddressList', () => {
     it('should return an empty array when networkService.tokenAddresses is undefined', () => {
