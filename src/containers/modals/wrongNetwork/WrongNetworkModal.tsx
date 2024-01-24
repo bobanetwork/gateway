@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'components/modal/Modal'
 
 import { setConnect, setConnectBOBA, setConnectETH } from 'actions/setupAction'
-import { restTokenList } from 'actions/tokenAction'
 import { closeModal } from 'actions/uiAction'
 
 import { Button } from 'components/global'
@@ -19,12 +18,6 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
   const network = useSelector(selectNetwork())
   const networkType = useSelector(selectActiveNetworkType())
   const layer = useSelector(selectLayer())
-
-  useEffect(() => {
-    if (open) {
-      dispatch(restTokenList())
-    }
-  }, [dispatch, open])
 
   const handleClose = () => {
     dispatch(setConnect(false))

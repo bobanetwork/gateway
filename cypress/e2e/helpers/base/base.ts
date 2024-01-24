@@ -42,6 +42,9 @@ export default class Base {
   allowMetamaskToSpendToken(amount?: string) {
     cy.confirmMetamaskPermissionToSpend(amount)
   }
+  allowMetamskToAddToken() {
+    cy.confirmMetamaskAddToken()
+  }
 
   readLocalStorage() {
     return cy.getAllLocalStorage()

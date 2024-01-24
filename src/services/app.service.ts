@@ -20,8 +20,8 @@ import store from 'store'
 // predeployed contracts.
 
 // const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
-const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
-const L2_BOBA_Address = '0x4200000000000000000000000000000000000006'
+export const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
+export const L2_BOBA_Address = '0x4200000000000000000000000000000000000006'
 const L2MessengerAddress = '0x4200000000000000000000000000000000000007'
 const L2StandardBridgeAddress = '0x4200000000000000000000000000000000000010'
 // const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -238,7 +238,7 @@ class AppService {
 
   setupInitState({ l1Token, l1TokenName }) {
     store.dispatch({
-      type: 'TOKEN/GET/SUCCESS',
+      type: 'TOKEN/GET/INITIALIZE',
       payload: {
         currency: L1_ETH_Address,
         addressL1: L1_ETH_Address,
