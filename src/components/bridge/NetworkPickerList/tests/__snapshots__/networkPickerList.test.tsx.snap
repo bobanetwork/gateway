@@ -68,7 +68,7 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
       <p
         class="sc-jXbUNg gzUJEq sc-feUZmu cuGbHm"
       >
-        Boba (Sepolia)
+        Boba (Goerli)
       </p>
     </div>
     <div
