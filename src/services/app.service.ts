@@ -6,6 +6,7 @@ import {
 
 // testnet addresss
 import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
+import addresses_Sepolia from '@bobanetwork/register/addresses/addressesBobaSepolia_0xC62C429390B7bCE9960fa647d5556CA7238168AB.json'
 import addresses_BobaBnbTestnet from '@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa.json'
 
 // mainnet address
@@ -16,7 +17,7 @@ import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0x
 import layerZeroTestnet from '@bobanetwork/register/addresses/layerZeroTestnet.json'
 import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.json'
 import store from 'store'
-import { ENABLE_ANCHORAGE } from '../util/constant'
+import { isAnchorageEnabled } from '../util/constant'
 
 // predeployed contracts.
 export const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
@@ -45,7 +46,7 @@ const ADDRESS_CONFIG = {
   },
   [NetworkType.TESTNET]: {
     [Network.ETHEREUM]: {
-      ...addresses_Goerli,
+      ...(isAnchorageEnabled('Testnet') ? addresses_Sepolia : addresses_Goerli),
       ...layerZeroTestnet.BOBA_Bridges.Testnet,
       ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
       layerZeroTargetChainID:
@@ -165,7 +166,9 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
   [NetworkType.TESTNET]: {
     [Network.ETHEREUM]: {
       tokenAddresses: {},
-      tokens: ['BOBA', 'USDC', 'OMG', 'xBOBA'],
+      tokens: isAnchorageEnabled('Testnet')
+        ? ['BOBA']
+        : ['BOBA', 'USDC', 'OMG', 'xBOBA'],
       altL1Chains: ['BNB'],
     },
     [Network.BNB]: {
@@ -213,13 +216,6 @@ class AppService {
       L2_BOBA_Address,
       L1_ETH_Address,
       NETWORK_NATIVE: '0x4200000000000000000000000000000000000006', // always native
-      // TODO Bedrock contract addresses probably not yet available, remove/replace once supplied in address object
-      L2ToL1MessagePasserProxy: '0x4200000000000000000000000000000000000016', // L2
-      OptimismPortalProxy: '0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8', // L1
-      L2OutputOracleProxy: '0x9E545E3C0baAB3E08CdfD552C960A1050f373042', // L1
-      L1StandardBridgeAddress: ENABLE_ANCHORAGE
-        ? '0x71089Ba41e478702e1904692385Be3972B2cBf9e' // TODO: Adapt
-        : addresses.L1StandardBridgeAddress, // L1, Proxy
     }
   }
 

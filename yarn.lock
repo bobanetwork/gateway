@@ -1705,10 +1705,10 @@
     "@ethersproject/abstract-signer" "^5.5.0"
     "@ethersproject/hardware-wallets" "^5.5.0"
 
-"@bobanetwork/register@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.2.tgz#cb4f7e88e537d69b81d588750de16499762a7a87"
-  integrity sha512-Ljy0wf8kGA/1iljKT5LohN939H4IuedbL/ta4r9vl+SFKAcnSqGBA4Vft06oFQK1f/KXiVFHQXp4+UHvMqQ2ZQ==
+"@bobanetwork/register@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.12.tgz#02c9c9a64d91a31e7f46b55619a7c3dae366da7f"
+  integrity sha512-7QIlx0463yrRuh/J+U5R+lUwg9Ffou9rpeVNINuzJcKh6JC/iu1D+TKBicOCFQO9cuqR0s3ZpmlOznWSQ2NFUQ==
   dependencies:
     "@bobanetwork/core_contracts" "0.5.13"
     "@eth-optimism/core-utils" "^0.8.1"

@@ -93,6 +93,18 @@ export const Chains: ChainMap = {
     symbol: 'ETH',
     imgSrc: arbitrum,
   },
+  '11155111': {
+    name: CHAIN_NAME.Sepolia,
+    transactionUrlPrefix: 'https://sepolia.etherscan.io/tx/',
+    symbol: 'ETH',
+    imgSrc: ethIcon,
+  },
+  '28882': {
+    name: CHAIN_NAME.Boba_Sepolia,
+    transactionUrlPrefix: 'https://testnet.bobascan.com/tx/',
+    symbol: 'ETH',
+    imgSrc: ethIcon,
+  },
 }
 
 export const ALL_NETWORKS: IDropdownItem = {

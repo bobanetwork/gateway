@@ -332,62 +332,105 @@ class TeleportationGraphQLService extends GraphQLService {
 }
 
 class AnchorageGraphQLService extends GraphQLService {
+  // will be replaced with goldsky
+  async getBlockRange() {
+    try {
+      const avgBlockTime = 15
+      const timeBackInSeconds = 750_000
+      const latestBlock = await networkService.provider?.getBlockNumber()
+      return [
+        latestBlock! - Math.floor(timeBackInSeconds / avgBlockTime),
+        latestBlock,
+      ]
+    } catch (e) {
+      return [undefined, undefined]
+    }
+  }
+
   async findWithdrawalsProven() {
-    return networkService.OptimismPortal!.queryFilter(
-      networkService.OptimismPortal!.filters.WithdrawalProven(),
-      undefined,
-      undefined
-    )
+    try {
+      const range = await this.getBlockRange()
+      return networkService.OptimismPortal!.queryFilter(
+        networkService.OptimismPortal!.filters.WithdrawalProven(),
+        range[0],
+        range[1]
+      )
+    } catch (e) {
+      return []
+    }
   }
 
   async findWithdrawalsFinalized() {
-    return networkService.OptimismPortal!.queryFilter(
-      networkService.OptimismPortal!.filters.WithdrawalFinalized(),
-      undefined,
-      undefined
-    )
+    try {
+      const range = await this.getBlockRange()
+      return networkService.OptimismPortal!.queryFilter(
+        networkService.OptimismPortal!.filters.WithdrawalFinalized(),
+        range[0],
+        range[1]
+      )
+    } catch (e) {
+      return []
+    }
   }
 
   async findWithdrawalsInitiated(address: string) {
-    return (
-      await networkService.L2StandardBridgeContract!.queryFilter(
-        networkService.L2StandardBridgeContract!.filters.WithdrawalInitiated(),
-        undefined,
-        undefined
-      )
-    ).filter((entry) => entry.args?.from === address)
+    try {
+      return (
+        await networkService.L2StandardBridgeContract!.queryFilter(
+          networkService.L2StandardBridgeContract!.filters.WithdrawalInitiated(),
+          undefined,
+          undefined
+        )
+      ).filter((entry) => {
+        return entry.args?.from === address
+      })
+    } catch (e) {
+      return []
+    }
   }
 
   async findWithdrawalMessagesPassed(fromBlock?: number, toBlock?: number) {
-    return networkService.L2ToL1MessagePasser!.queryFilter(
-      networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
-      fromBlock ?? undefined,
-      toBlock ?? undefined
-    )
+    try {
+      return networkService.L2ToL1MessagePasser!.queryFilter(
+        networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
+        fromBlock ?? undefined,
+        toBlock ?? undefined
+      )
+    } catch (e) {
+      return []
+    }
   }
 
-  async queryL1ToL2DepositTransactions(
-    networkConfig: NetworkDetailChainConfig
-  ) {
-    const eventsDepositFinalized =
-      await networkService.L2StandardBridgeContract!.queryFilter(
-        (
-          networkService.L2StandardBridgeContract!.filters as any
-        ).DepositFinalized(),
-        undefined,
-        undefined
-      )
+  async queryDepositTransactions(networkConfig: NetworkDetailChainConfig) {
+    let eventsDepositFinalized: any[] = []
+    try {
+      eventsDepositFinalized =
+        await networkService.L2StandardBridgeContract!.queryFilter(
+          (
+            networkService.L2StandardBridgeContract!.filters as any
+          ).DepositFinalized(),
+          undefined,
+          undefined
+        )
+    } catch (e) {
+      return eventsDepositFinalized
+    }
 
     const events = [...eventsDepositFinalized]
 
     return Promise.all(
       events.map((event) => {
-        return this.mapDepositToTransaction(networkConfig, event, 'status')
+        return this.mapDepositToTransaction(
+          networkService,
+          networkConfig,
+          event,
+          'status'
+        )
       })
     )
   }
 
-  async findWithdrawHashesFromLogs(bridgeLogsArr, l2tol1Logs) {
+  findWithdrawHashesFromLogs(bridgeLogsArr, l2tol1Logs) {
     const transactionHashSet = new Set(
       bridgeLogsArr.map((obj) => obj.transactionHash)
     )
@@ -397,6 +440,7 @@ class AnchorageGraphQLService extends GraphQLService {
   }
 
   async mapDepositToTransaction(
+    service,
     networkConfig: NetworkDetailChainConfig,
     event: Event,
     status: any
@@ -404,11 +448,11 @@ class AnchorageGraphQLService extends GraphQLService {
     let provider
     switch (event.event) {
       case DepositState.deposited: {
-        provider = networkService.L1Provider
+        provider = service.L1Provider
         break
       }
       case DepositState.finalized: {
-        provider = networkService.L2Provider
+        provider = service.L2Provider
         break
       }
       default: {
@@ -431,7 +475,7 @@ class AnchorageGraphQLService extends GraphQLService {
 
     return {
       timeStamp: block.timestamp,
-      layer: 'l2',
+      layer: 'l1',
       chainName: networkConfig.L1.name,
       originChainId: networkConfig.L1.chainId,
       destinationChainId: networkConfig.L2.chainId,
@@ -456,6 +500,7 @@ class AnchorageGraphQLService extends GraphQLService {
   }
 
   async mapWithdrawalToTransaction(
+    service,
     networkConfig: NetworkDetailChainConfig,
     event: Event,
     status: WithdrawState,
@@ -463,8 +508,8 @@ class AnchorageGraphQLService extends GraphQLService {
   ) {
     const provider =
       status !== WithdrawState.initialized
-        ? networkService.L1Provider
-        : networkService.L2Provider
+        ? service.L1Provider
+        : service.L2Provider
 
     const block = await provider!.getBlock(event.blockHash)
     const transaction = await provider!.getTransaction(event.transactionHash)
@@ -557,6 +602,7 @@ class AnchorageGraphQLService extends GraphQLService {
           if (finalizedEvent) {
             result.finalized.push(
               await this.mapWithdrawalToTransaction(
+                networkService,
                 networkConfig,
                 finalizedEvent,
                 WithdrawState.finalized,
@@ -566,6 +612,7 @@ class AnchorageGraphQLService extends GraphQLService {
           } else {
             result.proven.push(
               await this.mapWithdrawalToTransaction(
+                networkService,
                 networkConfig,
                 provenEvent,
                 WithdrawState.proven,
@@ -576,6 +623,7 @@ class AnchorageGraphQLService extends GraphQLService {
         } else {
           result.initialized.push(
             await this.mapWithdrawalToTransaction(
+              networkService,
               networkConfig,
               initializeEvent,
               WithdrawState.initialized,

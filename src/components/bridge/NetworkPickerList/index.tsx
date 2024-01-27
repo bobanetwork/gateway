@@ -60,7 +60,7 @@ export const NetworkList: FC<NetworkListProps> = ({
   const l1Icon = L1_ICONS as Record<string, ElementType>
   const l2Icon = L2_ICONS as Record<string, ElementType>
   const networks = (NetworkLists as Record<string, any>)[networkType]
-  const currentLayer = selectionLayer || (layer as string).toLowerCase()
+  const currentLayer = selectionLayer || (layer as string)?.toLowerCase()
 
   const onChainChange = (chainDetail: INetwork, layer: string) => {
     if (isIndependentDestNetwork) {

@@ -30,6 +30,8 @@ export enum CHAIN_NAME {
   Ethereum = 'Ethereum',
   Boba_Ethereum = 'Boba Ethereum',
   Goerli = 'Goerli',
+  Sepolia = 'Sepolia',
+  Boba_Sepolia = 'Boba Sepolia',
   Boba_Goerli = 'Boba Goerli',
   Optimism_Goerli = 'Optimism Goerli',
   Arbitrum_Goerli = 'Arbitrum Goerli',

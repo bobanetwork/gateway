@@ -251,9 +251,9 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     hash: string,
     status: string
   ) => {
-    const linkToHash = `${Chains[chainID].transactionUrlPrefix}${hash}`
-    const networkName = Chains[chainID].name
-    const imgSrc = Chains[chainID].imgSrc
+    const linkToHash = `${Chains[chainID]?.transactionUrlPrefix}${hash}`
+    const networkName = Chains[chainID]?.name
+    const imgSrc = Chains[chainID]?.imgSrc
 
     return (
       <TransactionDetails>

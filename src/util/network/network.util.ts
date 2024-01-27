@@ -18,7 +18,7 @@ import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
 import { optimismConfig } from './config/optimism'
 import { arbitrumConfig } from './config/arbitrum'
-import { Layer, LAYER } from 'util/constant'
+import { isAnchorageEnabled, Layer, LAYER } from 'util/constant'
 import {
   NetworkDetail,
   NetworkDetailChainConfig,
@@ -69,6 +69,24 @@ export const CHAIN_ID_LIST = {
     icon: 'ethereum',
     siteName: 'Boba (Goerli)',
     imgSrc: bobaEth,
+  },
+  28882: {
+    networkType: NetworkType.TESTNET,
+    chain: Network.ETHEREUM,
+    layer: LAYER.L2,
+    name: 'Boba Sepolia',
+    icon: 'ethereum',
+    siteName: 'Boba (Sepolia)',
+    imgSrc: ethIcon,
+  },
+  11155111: {
+    networkType: NetworkType.TESTNET,
+    chain: Network.ETHEREUM,
+    layer: LAYER.L2,
+    name: 'Sepolia',
+    icon: 'ethereum',
+    siteName: 'Ethereum (Sepolia)',
+    imgSrc: ethIcon,
   },
   1: {
     networkType: NetworkType.MAINNET,
@@ -197,6 +215,37 @@ type NetworkLists = {
   Mainnet: INetwork[]
   Testnet: INetwork[]
 }
+// todo can be removed once fully migrated
+const getEthTestnet = () => {
+  if (isAnchorageEnabled('Testnet')) {
+    return {
+      icon: 'ethereum',
+      chain: Network.ETHEREUM,
+      label: 'Ethereum (Sepolia) <> Boba (Sepolia)',
+      key: 'ethereum',
+      name: {
+        l1: 'Ethereum (Sepolia)',
+        l2: 'Boba (Sepolia)',
+      },
+      chainId: { [Layer.L1]: '11155111', [Layer.L2]: '28882' },
+      limitedAvailability: false,
+    }
+  } else {
+    return {
+      icon: 'ethereum',
+      chain: Network.ETHEREUM,
+      label: 'Ethereum (Goerli) <> Boba (Goerli)',
+      key: 'ethereum',
+      name: {
+        l1: 'Ethereum (Goerli)',
+        l2: 'Boba (Goerli)',
+      },
+      chainId: { [Layer.L1]: '5', [Layer.L2]: '2888' },
+      limitedAvailability: false,
+    }
+  }
+}
+
 export const NetworkList: NetworkLists = {
   Mainnet: [
     DEFAULT_NETWORK,
@@ -213,17 +262,7 @@ export const NetworkList: NetworkLists = {
     },
   ],
   Testnet: [
-    {
-      icon: 'ethereum',
-      chain: Network.ETHEREUM,
-      label: 'Ethereum (Goerli) <> Boba (Goerli)',
-      key: 'ethereum',
-      name: {
-        l1: 'Ethereum (Goerli)',
-        l2: 'Boba (Goerli)',
-      },
-      chainId: { [Layer.L1]: '5', [Layer.L2]: '2888' },
-    },
+    getEthTestnet(),
     {
       icon: 'bnb',
       chain: Network.BNB,

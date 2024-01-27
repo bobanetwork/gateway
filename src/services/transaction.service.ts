@@ -14,6 +14,7 @@ import {
 } from './graphql.service'
 import { Contract, ethers, providers } from 'ethers'
 import { BobaChains } from '../util/chainConfig'
+import { ethereumConfig } from '../util/network/config/ethereum'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -54,19 +55,21 @@ class TransactionService {
   async fetchBedrockTransactions(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
-    if (networkConfig?.L2.chainId === 901) {
+    if (networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId) {
+      return []
+    }
+    try {
       const withdrawalTransactions =
         await anchorageGraphQLService.queryWithdrawalTransactionsHistory(
           await networkService.provider?.getSigner().getAddress(),
           networkConfig!
         )
+
       const depositTransactions =
-        await anchorageGraphQLService.queryL1ToL2DepositTransactions(
-          networkConfig!
-        )
+        await anchorageGraphQLService.queryDepositTransactions(networkConfig!)
 
       return [...withdrawalTransactions, ...depositTransactions]
-    } else {
+    } catch (e) {
       return []
     }
   }

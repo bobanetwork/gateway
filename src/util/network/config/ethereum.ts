@@ -1,5 +1,5 @@
 import { NetworkDetail } from './network-details.types'
-import { ENABLE_ANCHORAGE } from '../../constant'
+import { isAnchorageEnabled } from '../../constant'
 
 // Anchorage
 const SepoliaTestnet = {
@@ -7,13 +7,13 @@ const SepoliaTestnet = {
   VERIFIER_WATCHER_URL: `https://api-verifier.goerli.boba.network/`,
   META_TRANSACTION: `https://api-meta-transaction.goerli.boba.network/`,
   MM_Label: `Sepolia`,
-  addressManager: `0x439E2b672AABfD851625fA93487e815b790a5961`,
+  addressManager: `0x9bFE9c5609311DF1c011c47642253B78a4f33F4B`,
   L1: {
     name: 'Sepolia',
     chainId: 11155111,
     chainIdHex: '0xaa36a7',
-    rpcUrl: [`https://gateway.tenderly.co/public/sepolia`],
-    transaction: `https://gateway.tenderly.co/public/sepolia/tx/`,
+    rpcUrl: [`https://ethereum-sepolia.publicnode.com`],
+    transaction: `https://rpc.sepolia.ethpandaops.io/tx/`,
     blockExplorerUrl: `https://gateway.tenderly.co/public/sepolia`,
     symbol: 'ETH',
     tokenName: 'ETH',
@@ -91,7 +91,7 @@ const GoerliTestnet = {
 }
 
 export const ethereumConfig: NetworkDetail = {
-  Testnet: ENABLE_ANCHORAGE ? SepoliaTestnet : GoerliTestnet,
+  Testnet: isAnchorageEnabled('Testnet') ? SepoliaTestnet : GoerliTestnet,
   Mainnet: {
     OMGX_WATCHER_URL: `https://api-watcher.mainnet.boba.network/`,
     VERIFIER_WATCHER_URL: `https://api-verifier.mainnet.boba.network/`,

@@ -91,21 +91,8 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
   }
 
   const receipt = await initWithdraw.wait()
-  const L2BlockNumber = receipt.blockNumber
-  let latestBlockOnL1 = await networkService.L2OutputOracle!.latestBlockNumber()
-  while (latestBlockOnL1 < L2BlockNumber) {
-    await new Promise((resolve) => setTimeout(resolve, 12000))
-    latestBlockOnL1 = await networkService.L2OutputOracle!.latestBlockNumber()
-    console.log(
-      `Waiting for L2 block: ${L2BlockNumber} - Latest L2 block on L1: ${latestBlockOnL1}`
-    )
-  }
 
-  console.log(
-    'L2 Initial Withdrawal transaction sent and waiting period over',
-    L2BlockNumber
-  )
-  return L2BlockNumber
+  return receipt.blockNumber
 }
 
 export const handleProveWithdrawal = async (
@@ -158,17 +145,23 @@ export const handleProveWithdrawal = async (
     return { error: 'Networkservice provider not set' }
   }
 
-  console.log('--> Requesting proof now')
-
   const filter = txInfo.blockHash
     ? { blockHash: txInfo.blockHash }
     : { blockNumber: txInfo.blockNumber }
 
   const proof = await networkService.L2Provider!.send('eth_getProof', [
-    networkService.addresses.L2ToL1MessagePasserProxy,
+    networkService.addresses.L2ToL1MessagePasser,
     [messageSlot],
     filter,
   ])
+
+  // waiting period before claiming
+  let latestBlockOnL1 = await networkService.L2OutputOracle.latestBlockNumber()
+  while (latestBlockOnL1 < txInfo.blockNumber) {
+    await new Promise((resolve) => setTimeout(resolve, 12000))
+    latestBlockOnL1 = await networkService.L2OutputOracle.latestBlockNumber()
+  }
+
   const l2OutputIndex =
     await networkService.L2OutputOracle.getL2OutputIndexAfter(
       txInfo.blockNumber
@@ -251,8 +244,6 @@ export const claimWithdrawal = async (logs) => {
       )
     }
   }
-
-  console.log('current network: ', await networkService.provider?.getNetwork())
 
   const finalSubmitTx = await networkService
     .OptimismPortal!.connect(networkService.provider!.getSigner())
