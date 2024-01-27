@@ -221,7 +221,7 @@ exports[`Home  should match snapshot 1`] = `
           <p
             class="sc-gEvEer hiDcmV sc-bBeLUv efIAuB"
           >
-            v1.0.10
+            v0.9.1
           </p>
         </div>
         <div
