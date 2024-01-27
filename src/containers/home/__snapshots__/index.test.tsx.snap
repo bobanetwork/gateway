@@ -3,7 +3,7 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-kbdlSk hpOmdY"
+    class="sc-kUdmhA jodrUH"
   >
     <div
       class="sc-dAbbOL gDALCu"
@@ -86,17 +86,17 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fyVfxW ivrfrd"
+      class="sc-cezyBN iHKOMw"
     >
       <div
-        class="sc-eHsDsR heySqa warning"
+        class="sc-fUkmAC isqotW warning"
         data-testid="banner-item"
       >
         <div
-          class="sc-jdkBTo"
+          class="sc-cXPBUD"
         >
           <p
-            class="sc-gEvEer hiDcmV sc-dwalKd kLIvkQ"
+            class="sc-gEvEer hiDcmV sc-iLLODe frsHES"
           >
             In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
             <a
@@ -108,27 +108,27 @@ exports[`Home  should match snapshot 1`] = `
         </div>
       </div>
       <div
-        class="sc-eHsDsR heySqa warning"
+        class="sc-fUkmAC isqotW warning"
         data-testid="banner-item"
       >
         <div
-          class="sc-jdkBTo"
+          class="sc-cXPBUD"
         >
           <p
-            class="sc-gEvEer hiDcmV sc-dwalKd kLIvkQ"
+            class="sc-gEvEer hiDcmV sc-iLLODe frsHES"
           >
             Due to the Anchorage upgrade, relayers will no longer be available.
           </p>
         </div>
         <div
-          class="sc-fmzyuX bmYIaB"
+          class="sc-edKZPI jxoprt"
         >
           <div
-            class="sc-cspYLC eFDnUF"
+            class="sc-bhqpjJ iIXqAs"
             data-testid="close-icon-relayer-banner-deprecation"
           >
             <div
-              class="sc-BQMaI irQEmo"
+              class="sc-fPrdXf fVBKFo"
             >
               <div>
                 <div
@@ -142,7 +142,7 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-camqpD ipQYPR"
+      class="sc-hgRRfv eSKSfM"
     />
     <div
       class="sc-eZkCL hGGMQd"
@@ -221,7 +221,7 @@ exports[`Home  should match snapshot 1`] = `
           <p
             class="sc-gEvEer hiDcmV sc-bBeLUv efIAuB"
           >
-            v0.9.1
+            v1.0.10
           </p>
         </div>
         <div

@@ -187,33 +187,35 @@ class NetworkService {
   }
 
   async getBobaFeeChoice() {
-    const bobaFeeContract = new ethers.Contract(
-      this.addresses.Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.L2Provider
-    )
+    if (!isAnchorageEnabled(this.networkType)) {
+      const bobaFeeContract = new ethers.Contract(
+        this.addresses.Boba_GasPriceOracle,
+        BobaGasPriceOracleABI,
+        this.L2Provider
+      )
 
-    try {
-      const priceRatio = await bobaFeeContract.priceRatio()
+      try {
+        const priceRatio = await bobaFeeContract.priceRatio()
 
-      let feeChoice
-      if (this.networkGateway === Network.ETHEREUM) {
-        feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
-      } else {
-        // this returns weather the secondary token getting use as tokenfee
-        feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
-        // if it's false which means boba is getting used as tokenfee which is default value.
-        feeChoice = !feeChoice
+        let feeChoice
+        if (this.networkGateway === Network.ETHEREUM) {
+          feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
+        } else {
+          // this returns weather the secondary token getting use as tokenfee
+          feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
+          // if it's false which means boba is getting used as tokenfee which is default value.
+          feeChoice = !feeChoice
+        }
+        const bobaFee = {
+          priceRatio: priceRatio.toString(),
+          feeChoice,
+        }
+        await addBobaFee(bobaFee)
+        return bobaFee
+      } catch (error) {
+        console.log(error)
+        return error
       }
-      const bobaFee = {
-        priceRatio: priceRatio.toString(),
-        feeChoice,
-      }
-      await addBobaFee(bobaFee)
-      return bobaFee
-    } catch (error) {
-      console.log(error)
-      return error
     }
   }
 
