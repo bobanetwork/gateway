@@ -10,11 +10,6 @@ import {
   L2StandardERC20ABI,
 } from './abi'
 import balanceService from './balance.service'
-import {
-  updateSignatureStatus_depositLP,
-  updateSignatureStatus_exitLP,
-  updateSignatureStatus_exitTRAD,
-} from 'actions/signAction'
 import walletService from './wallet.service'
 
 const L1GasLimit = 9999999
@@ -28,7 +23,6 @@ export class BridgingService {
   // Fast Deposit to L2
   async depositL1LP(currency, value_Wei_String) {
     try {
-      await updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
 
       const depositTX = await networkService
@@ -45,7 +39,6 @@ export class BridgingService {
 
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()
-      await updateSignatureStatus_depositLP(true)
 
       const opts = {
         fromBlock: -4000,
@@ -345,8 +338,6 @@ export class BridgingService {
 
   //Standard 7 day exit from BOBA
   async exitBOBA(currencyAddress, value_Wei_String) {
-    await updateSignatureStatus_exitTRAD(false)
-
     try {
       const L2BillingContract = new ethers.Contract(
         networkService.addresses.Proxy__BobaBillingContract,
@@ -436,9 +427,6 @@ export class BridgingService {
       //everything submitted... waiting
       await tx.wait()
 
-      //can close window now
-      await updateSignatureStatus_exitTRAD(true)
-
       return tx
     } catch (error) {
       console.log('NS: exitBOBA error:', error)
@@ -464,8 +452,6 @@ export class BridgingService {
   }
 
   async depositL2LP(currencyAddress: string, value_Wei_String: BigNumberish) {
-    await updateSignatureStatus_exitLP(false)
-
     const L2BillingContract = new ethers.Contract(
       networkService.addresses.Proxy__BobaBillingContract,
       L2BillingContractABI,
@@ -558,11 +544,6 @@ export class BridgingService {
       const block = await networkService.L2Provider!.getTransaction(
         depositTX.hash
       )
-      console.log(' block:', block)
-
-      //closes the modal
-      await updateSignatureStatus_exitLP(true)
-
       return depositTX
     } catch (error) {
       console.log('NS: depositL2LP error:', error)

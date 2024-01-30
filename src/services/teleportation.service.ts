@@ -4,7 +4,6 @@ import appService from './app.service'
 import { LAYER, Layer } from 'util/constant'
 import { ethers } from 'ethers'
 import walletService from './wallet.service'
-import { updateSignatureStatus_depositLP } from 'actions/signAction'
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
 
 export class TeleportationService {
@@ -69,7 +68,6 @@ export class TeleportationService {
 
   async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
     try {
-      updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
 
       const teleportationAddr =
@@ -116,7 +114,6 @@ export class TeleportationService {
 
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()
-      updateSignatureStatus_depositLP(true)
 
       const opts = {
         fromBlock: -4000,

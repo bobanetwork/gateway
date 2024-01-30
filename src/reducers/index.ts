@@ -19,12 +19,10 @@ import transactionReducer from './transactionReducer'
 import dataReducer from './dataReducer'
 import balanceReducer from './balanceReducer'
 import tokenReducer from './tokenReducer'
-import nftReducer from './nftReducer'
 import uiReducer from './uiReducer'
 import setupReducer from './setupReducer'
 import earnReduer from './earnReducer'
 import lookupReducer from './lookupReducer'
-import signatureReducer from './signatureReducer'
 import daoReducer from './daoReducer'
 import fixedReducer from './fixedReducer'
 import verifierReducer from './verifierReducer'
@@ -38,10 +36,8 @@ const rootReducer = combineReducers({
   deposit: depositReducer,
   transaction: transactionReducer,
   data: dataReducer,
-  signature: signatureReducer,
   balance: balanceReducer,
   tokenList: tokenReducer,
-  nft: nftReducer,
   ui: uiReducer,
   setup: setupReducer,
   earn: earnReduer,
