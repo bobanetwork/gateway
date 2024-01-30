@@ -1,14 +1,6 @@
-import { Binance, BinanceTestnet } from './constants'
 import { MetamaskNetwork } from './types'
 
 export default class Base {
-  addSupportedNetwork() {
-    // Mainnet
-    this.addNetwork(Binance)
-    // Testnet
-    this.addNetwork(BinanceTestnet)
-  }
-
   visit() {
     cy.visit('/')
   }
@@ -57,5 +49,9 @@ export default class Base {
 
   clearAllCookies() {
     cy.clearAllCookies()
+  }
+
+  disconnectFromDapp() {
+    cy.disconnectMetamaskWalletFromDapp()
   }
 }

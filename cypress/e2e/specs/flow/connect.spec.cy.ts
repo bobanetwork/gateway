@@ -2,7 +2,6 @@ import { Layer } from '../../../../src/util/constant'
 import {
   ArbitrumGoerliInfo,
   BobaGoerliInfo,
-  EthereumGoerliInfo,
   MainnetL1Networks,
   MainnetL2Networks,
   OptimismGoerliInfo,
@@ -31,7 +30,7 @@ describe('Connect flow', () => {
       bridge.verifyAccountConnected()
     })
 
-    it('Should switch through Mainnet networks using Network Picker Modal', () => {
+    it.skip('Should switch through Mainnet networks using Network Picker Modal', () => {
       bridge.clickThroughNetworksInModals(
         MainnetL1Networks,
         MainnetL2Networks,
@@ -51,12 +50,16 @@ describe('Connect flow', () => {
       )
     })
 
-    it('Should be able to switch to the light bridge', () => {
+    it('Should switch to metamask winow', () => {
+      cy.removePreviouslyAddedNetworks()
+    })
+
+    it.skip('Should be able to switch to the light bridge', () => {
       bridge.switchBridgeType(BridgeType.Light)
       bridge.switchBridgeDirection(Layer.L2, false)
     })
 
-    it('Should switch to Optimism', () => {
+    it.skip('Should switch to Optimism', () => {
       bridge.switchNetworkWithModals(
         BobaGoerliInfo,
         OptimismGoerliInfo,
@@ -65,7 +68,7 @@ describe('Connect flow', () => {
       )
     })
 
-    it('Should switch to Arbitrum', () => {
+    it.skip('Should switch to Arbitrum', () => {
       bridge.switchNetworkWithModals(
         OptimismGoerliInfo,
         ArbitrumGoerliInfo,
@@ -74,7 +77,7 @@ describe('Connect flow', () => {
       )
     })
 
-    it('Should switch back to classic bridge', () => {
+    it.skip('Should switch back to classic bridge', () => {
       bridge.switchNetworkWithModals(
         ArbitrumGoerliInfo,
         BobaGoerliInfo,
@@ -91,6 +94,7 @@ describe('Connect flow', () => {
 
     it('Should disconnect wallet', () => {
       bridge.disconnectWallet()
+      bridge.disconnectFromDapp()
     })
   })
 

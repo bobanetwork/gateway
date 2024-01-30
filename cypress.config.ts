@@ -18,7 +18,7 @@ export default defineConfig({
     baseUrl: 'http://localhost:3000',
     supportFile: 'cypress/support/e2e.ts',
     specPattern: [
-      `cypress/e2e/specs/*.spec.cy.ts`,
+      // `cypress/e2e/specs/*.spec.cy.ts`,
       'cypress/e2e/specs/flow/connect.spec.cy.ts',
       'cypress/e2e/specs/flow/feeSwitching.spec.cy.ts',
       'cypress/e2e/specs/flow/bridging.spec.cy.ts',

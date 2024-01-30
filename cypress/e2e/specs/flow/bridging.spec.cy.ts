@@ -10,9 +10,12 @@ describe('Testing General Bridging flow on Goerli', () => {
   })
   after(() => {
     bridge.switchToMainnet()
+    bridge.disconnectWallet()
+    bridge.disconnectFromDapp()
   })
   it('Should connect to metamask', () => {
     bridge.requestMetamaskConnect()
+    bridge.connectMetamask()
     bridge.verifyAccountConnected()
   })
   it('Should switch to testnet', () => {
@@ -30,7 +33,7 @@ describe('Testing General Bridging flow on Goerli', () => {
     )
   })
   it('Should switch to L2', () => {
-    bridge.switchBridgeDirection(Layer.L2)
+    bridge.switchBridgeDirection(Layer.L2, true)
   })
   it('Should bridge back to L1', () => {
     bridge.bridgeToken('ETH', '0.0001', Layer.L1)

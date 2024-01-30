@@ -12,6 +12,7 @@ describe('Fee Switching', () => {
     bridge.visit()
     bridge.isReady()
     bridge.requestMetamaskConnect()
+    bridge.connectMetamask()
     bridge.verifyAccountConnected()
   })
   it('Fee switcher should not exist when connected to Ethereum', () => {
@@ -19,13 +20,13 @@ describe('Fee Switching', () => {
   })
   it('Fee switcher should exist when connected to Boba Network', () => {
     // switch to Boba Network
-    bridge.switchBridgeDirection(Layer.L2)
+    bridge.switchBridgeDirection(Layer.L2, true)
     bridge.header.getFeeSwitcher().contains('ETH').should('exist')
   })
   it('Should switch to testnet to use fee switcher', () => {
     bridge.switchBridgeDirection(Layer.L1)
     bridge.switchToTestnet()
-    bridge.switchBridgeDirection(Layer.L2)
+    bridge.switchBridgeDirection(Layer.L2, true)
   })
   it('Use Fee Switcher to switch fee to BOBA', () => {
     bridge.selectToken('BOBA')
@@ -40,13 +41,13 @@ describe('Fee Switching', () => {
       EthereumGoerliInfo,
       BinanceTestnetInfo,
       true,
-      false
+      true
     )
     bridge.header.getFeeSwitcher().should('not.exist')
   })
 
   it('Fee Switcher should appear when switching to Boba BNB Testnet', () => {
-    bridge.switchBridgeDirection(Layer.L2)
+    bridge.switchBridgeDirection(Layer.L2, true)
     bridge.header.getFeeSwitcher().should('exist')
   })
 
@@ -60,5 +61,6 @@ describe('Fee Switching', () => {
     )
     bridge.switchToMainnet()
     bridge.disconnectWallet()
+    bridge.disconnectFromDapp()
   })
 })
