@@ -66,6 +66,71 @@ export type LightBridgeDisbursementRetrySuccessEvent = {
   block_number: string
   timestamp_: string
 }
+
+export type GQPWithdrawalInitiatedEvent = {
+  id: string
+  to: string
+  from: string
+  contractId_: string
+  timestamp_: string
+  block_number: string
+  transactionHash_: string
+  l1Token: string
+  l2Token: string
+  amount: string
+  extraData: string
+}
+
+export type GQL2ToL1MessagePassedEvent = {
+  id: string
+  block_number: string
+  timestamp_: string
+  transactionHash_: string
+  contractId_: string
+  nonce: string
+  sender: string
+  target: string
+  value: string
+  gasLimit: string
+  data: string
+  withdrawalHash: string
+}
+
+export type GQLWithdrawalFinalizedEvent = {
+  id: string
+  block_number: string
+  timestamp_: string
+  transactionHash_: string
+  contractId_: string
+  withdrawalHash: string
+  success: string
+}
+
+export type GQLWithdrawalProvenEvent = {
+  id: string
+  block_number: string
+  timestamp_: string
+  transactionHash_: string
+  withdrawalHash: string
+  contractId_: string
+  from: string
+  to: string
+}
+
+export type GQLDepositFinalizedEvent = {
+  id: string
+  block_number: string
+  timestamp_: number
+  transactionHash_: string
+  contractId_: string
+  l1Token: string
+  l2Token: string
+  from: string
+  to: string
+  amount: string
+  extraData: string
+  __typename: DepositState
+}
 //#endregion
 
 class GraphQLService {
@@ -109,6 +174,14 @@ class GraphQLService {
     420: {
       gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-optimism-goerli/v1/gn',
       local: '',
+    },
+    // Sepolia
+    11155111: {
+      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-sepolia/v1/gn',
+    },
+    // Boba Sepolia
+    28882: {
+      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-boba-sepolia/v1/gn',
     },
   }
 
@@ -332,156 +405,217 @@ class TeleportationGraphQLService extends GraphQLService {
 }
 
 class AnchorageGraphQLService extends GraphQLService {
-  // will be replaced with goldsky
-  async getBlockRange() {
+  async findWithdrawalsProven(
+    withdrawalHashes: string[]
+  ): Promise<GQLWithdrawalProvenEvent[]> {
     try {
-      const avgBlockTime = 15
-      const timeBackInSeconds = 750_000
-      const latestBlock = await networkService.provider?.getBlockNumber()
-      return [
-        latestBlock! - Math.floor(timeBackInSeconds / avgBlockTime),
-        latestBlock,
-      ]
-    } catch (e) {
-      return [undefined, undefined]
-    }
-  }
-
-  async findWithdrawalsProven() {
-    try {
-      const range = await this.getBlockRange()
-      return networkService.OptimismPortal!.queryFilter(
-        networkService.OptimismPortal!.filters.WithdrawalProven(),
-        range[0],
-        range[1]
-      )
-    } catch (e) {
-      return []
-    }
-  }
-
-  async findWithdrawalsFinalized() {
-    try {
-      const range = await this.getBlockRange()
-      return networkService.OptimismPortal!.queryFilter(
-        networkService.OptimismPortal!.filters.WithdrawalFinalized(),
-        range[0],
-        range[1]
-      )
-    } catch (e) {
-      return []
-    }
-  }
-
-  async findWithdrawalsInitiated(address: string) {
-    try {
+      const qry = gql`
+        query getWithdrawalProven($withdrawalHash: [String!]!) {
+          withdrawalProvens(where: { withdrawalHash_in: $withdrawalHash }) {
+            id
+            block_number
+            timestamp_
+            transactionHash_
+            contractId_
+            from
+            to
+          }
+        }
+      `
       return (
-        await networkService.L2StandardBridgeContract!.queryFilter(
-          networkService.L2StandardBridgeContract!.filters.WithdrawalInitiated(),
-          undefined,
-          undefined
+        await this.conductQuery(
+          qry,
+          { withdrawalHash: withdrawalHashes },
+          28882
         )
-      ).filter((entry) => {
-        return entry.args?.from === address
-      })
+      )?.data.withdrawalProvens
+    } catch (e) {
+      console.log('Error while fetching: PROVEN')
+      return []
+    }
+  }
+
+  async findWithdrawalsFinalized(
+    withdrawalHashes: string[]
+  ): Promise<GQLWithdrawalFinalizedEvent[]> {
+    try {
+      const graphqlQuery = gql`
+        query getWithdrawalsFinalized($withdrawalHash: [String!]!) {
+          withdrawalFinalizeds(where: { withdrawalHash_in: $withdrawalHash }) {
+            id
+            block_number
+            timestamp_
+            transactionHash_
+            contractId_
+            withdrawalHash
+            success
+          }
+        }
+      `
+      return (
+        await this.conductQuery(
+          graphqlQuery,
+          { withdrawalHash: withdrawalHashes },
+          28882
+        )
+      )?.data.withdrawalFinalizeds
     } catch (e) {
       return []
     }
   }
 
-  async findWithdrawalMessagesPassed(fromBlock?: number, toBlock?: number) {
+  async findWithdrawalsInitiated(
+    address: string
+  ): Promise<GQPWithdrawalInitiatedEvent[]> {
     try {
-      return networkService.L2ToL1MessagePasser!.queryFilter(
-        networkService.L2ToL1MessagePasser!.filters.MessagePassed(),
-        fromBlock ?? undefined,
-        toBlock ?? undefined
+      const qry = gql`
+        query GetWithdrawalInitiateds($address: String!) {
+          withdrawalInitiateds(where: { from: $address }) {
+            id
+            to
+            from
+            contractId_
+            timestamp_
+            transactionHash_
+            block_number
+            l1Token
+            l2Token
+            amount
+            extraData
+          }
+        }
+      `
+      return (
+        await this.conductQuery(qry, { address: address.toLowerCase() }, 28882)
+      )?.data.withdrawalInitiateds
+    } catch (e) {
+      return []
+    }
+  }
+
+  async findWithdrawalMessagedPassed(): Promise<GQL2ToL1MessagePassedEvent[]> {
+    try {
+      const qry = gql`
+        query GetWithdrawalInitiateds($withdrawalHash: String!) {
+          messagePasseds(where: { withdrawalHash: $withdrawalHash }) {
+            id
+            block_number
+            timestamp_
+            transactionHash_
+            contractId_
+            nonce
+            sender
+            target
+            value
+            gasLimit
+            data
+            withdrawalHash
+          }
+        }
+      `
+      return (await this.conductQuery(qry, {}, 28882))?.data.messagePasseds
+    } catch (e) {
+      return []
+    }
+  }
+
+  async findWithdrawalMessagesPassed(
+    blockNumbers: string[]
+  ): Promise<GQL2ToL1MessagePassedEvent[]> {
+    try {
+      const qry = gql`
+        query getMessagePasseds($blockNumbers: [String!]!) {
+          messagePasseds(where: { block_number_in: $blockNumbers }) {
+            id
+            block_number
+            timestamp_
+            transactionHash_
+            contractId_
+            nonce
+            sender
+            target
+            value
+            gasLimit
+            data
+            withdrawalHash
+          }
+        }
+      `
+      return (await this.conductQuery(qry, { blockNumbers }, 28882))?.data
+        .messagePasseds
+    } catch (e) {
+      return []
+    }
+  }
+
+  async queryDepositTransactions(
+    address: string,
+    networkConfig: NetworkDetailChainConfig
+  ) {
+    try {
+      const graphqlQuery = gql`
+        query GetDepositsFinalized($address: String!) {
+          depositFinalizeds(where: { from: $address }) {
+            id
+            to
+            from
+            contractId_
+            timestamp_
+            transactionHash_
+            block_number
+            l1Token
+            l2Token
+            amount
+            extraData
+          }
+        }
+      `
+      const depositsFinalized: GQLDepositFinalizedEvent[] = (
+        await this.conductQuery(
+          graphqlQuery,
+          {
+            address: address.toLowerCase(),
+          },
+          28882
+        )
+      )?.data.depositFinalizeds
+
+      return Promise.all(
+        depositsFinalized.map((event) => {
+          return this.mapDepositToTransaction(
+            networkService.L2Provider,
+            networkConfig,
+            event,
+            'status'
+          )
+        })
       )
     } catch (e) {
       return []
     }
-  }
-
-  async queryDepositTransactions(networkConfig: NetworkDetailChainConfig) {
-    let eventsDepositFinalized: any[] = []
-    try {
-      eventsDepositFinalized =
-        await networkService.L2StandardBridgeContract!.queryFilter(
-          (
-            networkService.L2StandardBridgeContract!.filters as any
-          ).DepositFinalized(),
-          undefined,
-          undefined
-        )
-    } catch (e) {
-      return eventsDepositFinalized
-    }
-
-    const events = [...eventsDepositFinalized]
-
-    return Promise.all(
-      events.map((event) => {
-        return this.mapDepositToTransaction(
-          networkService,
-          networkConfig,
-          event,
-          'status'
-        )
-      })
-    )
-  }
-
-  findWithdrawHashesFromLogs(bridgeLogsArr, l2tol1Logs) {
-    const transactionHashSet = new Set(
-      bridgeLogsArr.map((obj) => obj.transactionHash)
-    )
-    return l2tol1Logs.filter((obj) =>
-      transactionHashSet.has(obj.transactionHash)
-    )
   }
 
   async mapDepositToTransaction(
-    service,
+    provider,
     networkConfig: NetworkDetailChainConfig,
-    event: Event,
+    event: GQLDepositFinalizedEvent,
     status: any
   ) {
-    let provider
-    switch (event.event) {
-      case DepositState.deposited: {
-        provider = service.L1Provider
-        break
-      }
-      case DepositState.finalized: {
-        provider = service.L2Provider
-        break
-      }
-      default: {
-        return []
-      }
+    const isTokenDeposit = (token) => {
+      return token !== '0x0000000000000000000000000000000000000000'
     }
-
-    const block = await provider!.getBlock(event.blockHash)
-    const transaction = await provider!.getTransaction(event.transactionHash)
-    const isNativeTransaction = transaction?.value?.gt(0)
-    const action = {
-      amount: isNativeTransaction
-        ? transaction?.value?.toString()
-        : event.args?.amount?.toString(),
-      sender: isNativeTransaction ? event.args?.sender : event.args?.from,
-      status: 'succeeded',
-      to: isNativeTransaction ? event.args!.target : event.args!.to,
-      token: isNativeTransaction ? null : event.args!.l1Token,
-    }
+    const transaction = await provider!.getTransaction(event.transactionHash_)
+    const block = await provider!.getBlock(transaction.blockHash)
 
     return {
       timeStamp: block.timestamp,
-      layer: 'l1',
+      layer: 'l2',
       chainName: networkConfig.L1.name,
       originChainId: networkConfig.L1.chainId,
       destinationChainId: networkConfig.L2.chainId,
       UserFacingStatus: status,
-      contractAddress: event.address,
-      hash: transaction.hash,
+      contractAddress: event.contractId_,
+      hash: event.transactionHash_,
       crossDomainMessage: {
         crossDomainMessage: 1,
         crossDomainMessageEstimateFinalizedTime: 180,
@@ -492,9 +626,15 @@ class AnchorageGraphQLService extends GraphQLService {
         fast: 1,
       },
       contractName: '-',
-      from: event.args!.from,
-      to: event.args!.to,
-      action,
+      from: event.from,
+      to: event.to,
+      action: {
+        amount: event.amount,
+        sender: event.from,
+        status: 'succeeded',
+        to: event.to,
+        token: isTokenDeposit(event.l1Token) ? event.l1Token : null,
+      },
       isTeleportation: false,
     }
   }
@@ -502,17 +642,16 @@ class AnchorageGraphQLService extends GraphQLService {
   async mapWithdrawalToTransaction(
     service,
     networkConfig: NetworkDetailChainConfig,
-    event: Event,
-    status: WithdrawState,
-    value?: BigNumber
+    event: any,
+    status: WithdrawState
   ) {
     const provider =
       status !== WithdrawState.initialized
         ? service.L1Provider
         : service.L2Provider
 
-    const block = await provider!.getBlock(event.blockHash)
-    const transaction = await provider!.getTransaction(event.transactionHash)
+    const transaction = await provider!.getTransaction(event.transactionHash_)
+    const block = await provider!.getBlock(transaction.blockNumber)
 
     return {
       timeStamp: block.timestamp,
@@ -521,7 +660,7 @@ class AnchorageGraphQLService extends GraphQLService {
       originChainId: networkConfig.L2.chainId,
       destinationChainId: networkConfig.L1?.chainId,
       UserFacingStatus: status,
-      contractAddress: event.address,
+      contractAddress: event.contractId_,
       hash: transaction.hash,
       crossDomainMessage: {
         crossDomainMessage: 1,
@@ -533,14 +672,14 @@ class AnchorageGraphQLService extends GraphQLService {
         fast: 1,
       },
       contractName: '-',
-      from: event.args!.from,
-      to: event.args!.to,
+      from: event.from,
+      to: event.to,
       action: {
-        amount: value?.toString() ?? '0',
-        sender: event.args?.sender,
+        amount: event.value,
+        sender: event.from,
         status: status === WithdrawState.finalized ? 'succeeded' : status,
-        to: event.args!.target,
-        token: event.args!.value ? 'native' : 'find token',
+        to: event.to,
+        token: event.l1Token,
       },
       isTeleportation: false,
       actionRequired:
@@ -553,7 +692,7 @@ class AnchorageGraphQLService extends GraphQLService {
                 status === WithdrawState.initialized
                   ? WithdrawProcessStep.Initialized
                   : WithdrawProcessStep.Proven,
-              withdrawalHash: event.args!.withdrawalHash,
+              withdrawalHash: event.withdrawalHash,
               blockNumber: event.blockNumber,
               blockHash: event.blockHash,
             },
@@ -564,76 +703,69 @@ class AnchorageGraphQLService extends GraphQLService {
     address,
     networkConfig: NetworkDetailChainConfig
   ) {
-    const [
-      withdrawalsInitiatedEvents,
-      messagePassedEvents,
-      withdrawalsProvenEvents,
-      withdrawalsFinalizedEvents,
-    ] = await Promise.all([
-      this.findWithdrawalsInitiated(address),
-      this.findWithdrawalMessagesPassed(),
-      this.findWithdrawalsProven(),
-      this.findWithdrawalsFinalized(),
-    ])
-    const result: {
-      initialized: any[]
-      proven: any[]
-      finalized: any[]
-    } = {
-      initialized: [],
-      proven: [],
-      finalized: [],
-    }
-    for (const entry of withdrawalsInitiatedEvents) {
-      const blockHash = entry.blockHash
-      if (messagePassedEvents.find((e) => e.blockHash === blockHash)) {
-        const withdrawHashIndex = messagePassedEvents.findIndex(
-          (e) => e.blockHash === blockHash
+    const withdrawalsInitiated = await this.findWithdrawalsInitiated(address)
+    const messagesPassed = await this.findWithdrawalMessagesPassed(
+      withdrawalsInitiated.map((wI) => wI.block_number)
+    )
+    const withdrawalHashes = messagesPassed.map((mP) => mP.withdrawalHash)
+    const provenWithdrawals = await this.findWithdrawalsProven(withdrawalHashes)
+    const finalizedWithdrawals =
+      await this.findWithdrawalsFinalized(withdrawalHashes)
+    const withdrawalTransactions: any[] = []
+    for (const withdrawalHashCandidate of withdrawalHashes) {
+      const provenEvent = provenWithdrawals.find(
+        (e) => e!.withdrawalHash === withdrawalHashCandidate
+      )
+      if (provenEvent) {
+        const finalizedEvent = finalizedWithdrawals.find(
+          (e) => e!.withdrawalHash === withdrawalHashCandidate
         )
-        const initializeEvent: Event = messagePassedEvents[withdrawHashIndex]
-        const provenEvent = withdrawalsProvenEvents.find(
-          (e) => e.args!.withdrawalHash === initializeEvent.args!.withdrawalHash
-        )
-        if (provenEvent) {
-          const finalizedEvent = withdrawalsFinalizedEvents.find(
-            (e) =>
-              e.args!.withdrawalHash === initializeEvent.args!.withdrawalHash
-          )
-          if (finalizedEvent) {
-            result.finalized.push(
-              await this.mapWithdrawalToTransaction(
-                networkService,
-                networkConfig,
-                finalizedEvent,
-                WithdrawState.finalized,
-                initializeEvent.args?.value
-              )
-            )
-          } else {
-            result.proven.push(
-              await this.mapWithdrawalToTransaction(
-                networkService,
-                networkConfig,
-                provenEvent,
-                WithdrawState.proven,
-                initializeEvent.args?.value
-              )
-            )
-          }
-        } else {
-          result.initialized.push(
+        if (finalizedEvent) {
+          withdrawalTransactions.push(
             await this.mapWithdrawalToTransaction(
               networkService,
               networkConfig,
-              initializeEvent,
-              WithdrawState.initialized,
-              initializeEvent.args?.value
+              finalizedEvent,
+              WithdrawState.finalized
+            )
+          )
+        } else {
+          withdrawalTransactions.push(
+            await this.mapWithdrawalToTransaction(
+              networkService,
+              networkConfig,
+              provenEvent,
+              WithdrawState.proven
             )
           )
         }
+      } else {
+        withdrawalTransactions.push(
+          await this.mapWithdrawalToTransaction(
+            networkService,
+            networkConfig,
+            messagesPassed.find(
+              (message) => message.withdrawalHash === withdrawalHashCandidate
+            ),
+            WithdrawState.initialized
+          )
+        )
       }
     }
-    return [...result.finalized, ...result.proven, ...result.initialized]
+
+    return withdrawalTransactions
+  }
+
+  findWithdrawHashesFromLogs(
+    bridgeLogsArr: GQPWithdrawalInitiatedEvent[],
+    l2tol1Logs: GQL2ToL1MessagePassedEvent[]
+  ) {
+    const transactionHashSet = new Set(
+      bridgeLogsArr.map((obj) => obj.transactionHash_)
+    )
+    return l2tol1Logs.filter((obj) =>
+      transactionHashSet.has(obj.transactionHash_)
+    )
   }
 }
 

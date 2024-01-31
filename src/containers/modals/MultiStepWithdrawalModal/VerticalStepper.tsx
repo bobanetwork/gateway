@@ -11,7 +11,6 @@ import { Heading } from '../../../components/global'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectLayer, selectModalState } from '../../../selectors'
 import { setConnectETH } from '../../../actions/setupAction'
-import { Layer } from '../../../util/constant'
 import { ethers } from 'ethers'
 import {
   approvalRequired,
@@ -114,26 +113,28 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         setActiveStep(5)
         setLatestLogs(res)
       })
-      .catch((err) => {})
+      .catch(() => {})
   }
 
   const claimWithdrawalStep = () => {
-    if (!withdrawalConfig?.withdrawalHash) {
-      claimWithdrawal(latestLogs).then((res) => {
-        dispatch(closeModal('bridgeMultiStepWithdrawal'))
-        dispatch(openModal('transactionSuccess'))
-      })
-    } else {
-      anchorageGraphQLService.findWithdrawalMessagesPassed().then((logs) => {
-        logs = logs.filter(
-          (log) => log?.args?.withdrawalHash === withdrawalConfig.withdrawalHash
-        )
-        claimWithdrawal(logs).then((res) => {
-          setActiveStep(6)
-          dispatch(openModal('transactionSuccess'))
+    if (latestLogs) {
+      if (!withdrawalConfig?.withdrawalHash) {
+        claimWithdrawal(latestLogs).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
+          dispatch(openModal('transactionSuccess'))
         })
-      })
+      } else {
+        anchorageGraphQLService.findWithdrawalMessagedPassed().then((logs) => {
+          logs = logs.filter(
+            (log) => log?.withdrawalHash === withdrawalConfig.withdrawalHash
+          )
+          claimWithdrawal(logs).then(() => {
+            setActiveStep(6)
+            dispatch(openModal('transactionSuccess'))
+            dispatch(closeModal('bridgeMultiStepWithdrawal'))
+          })
+        })
+      }
     }
   }
 

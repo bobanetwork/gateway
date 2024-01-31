@@ -2,7 +2,10 @@ import { ethers } from 'ethers'
 import networkService from '../../../services/networkService'
 import { defaultAbiCoder, keccak256 } from 'ethers/lib/utils'
 import { L2StandardERC20ABI } from '../../../services/abi'
-import { anchorageGraphQLService } from '../../../services/graphql.service'
+import {
+  anchorageGraphQLService,
+  GQL2ToL1MessagePassedEvent,
+} from '../../../services/graphql.service'
 
 export enum DepositState {
   deposited = 'TransactionDeposited',
@@ -57,7 +60,6 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
   if (!signer) {
     return { error: 'No signer' }
   }
-
   let initWithdraw
   if (!token) {
     initWithdraw = await signer!.sendTransaction({
@@ -71,7 +73,6 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
       networkService.provider!.getSigner()
     )
 
-    // check prior, if already approved
     const allowance = await tokenContract.allowance(
       signer.getAddress(),
       networkService.addresses.L2StandardBridgeAddress
@@ -79,7 +80,7 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
 
     if (allowance.toString() < amount) {
       const approveTx = await tokenContract!.approve(
-        networkService.addresses.L2StandardBridgeAddress, // L2StandardBridge
+        networkService.addresses.L2StandardBridgeAddress, // todo L2StandardBridge CHECK AGAIN
         amount
       )
       await approveTx.wait()
@@ -106,31 +107,30 @@ export const handleProveWithdrawal = async (
     return { error: 'OptimismPortal / L2ToL1MessagePasser not initialized!' }
   }
 
-  let logs = await anchorageGraphQLService.findWithdrawalMessagesPassed(
-    txInfo.blockNumber,
-    txInfo.blockNumber
-  )
+  let logs = await anchorageGraphQLService.findWithdrawalMessagesPassed([
+    txInfo.blockNumber.toString(),
+  ])
 
   if (txInfo.withdrawalHash) {
-    logs = logs.filter((b) => b.args!.withdrawalHash === txInfo.withdrawalHash)
+    logs = logs.filter((b) => b!.withdrawalHash === txInfo.withdrawalHash)
   }
 
-  if (!logs || logs.length !== 1 || !logs[0].args) {
+  if (!logs || logs.length !== 1 || !logs[0]) {
     return Promise.reject({ error: 'length not 1' })
   }
 
   const types = ['uint256', 'address', 'address', 'uint256', 'uint256', 'bytes']
   const encoded = defaultAbiCoder.encode(types, [
-    logs[0].args.nonce,
-    logs[0].args.sender,
-    logs[0].args.target,
-    logs[0].args.value,
-    logs[0].args.gasLimit,
-    logs[0].args.data,
+    logs[0].nonce,
+    logs[0].sender,
+    logs[0].target,
+    logs[0].value,
+    logs[0].gasLimit,
+    logs[0].data,
   ])
 
   const slot = keccak256(encoded)
-  const withdrawalHash = logs[0].args.withdrawalHash
+  const withdrawalHash = logs[0].withdrawalHash
   if (withdrawalHash !== slot) {
     return { error: 'Widthdraw hash does not match' }
   }
@@ -149,11 +149,14 @@ export const handleProveWithdrawal = async (
     ? { blockHash: txInfo.blockHash }
     : { blockNumber: txInfo.blockNumber }
 
+  console.log('requesting proof...')
   const proof = await networkService.L2Provider!.send('eth_getProof', [
     networkService.addresses.L2ToL1MessagePasser,
     [messageSlot],
     filter,
   ])
+
+  console.log('proof requested!')
 
   // waiting period before claiming
   let latestBlockOnL1 = await networkService.L2OutputOracle.latestBlockNumber()
@@ -174,29 +177,17 @@ export const handleProveWithdrawal = async (
     [proposalBlockNumber.toNumber(), false]
   )
 
-  const hash = keccak256(
-    defaultAbiCoder.encode(
-      ['bytes32', 'bytes32', 'bytes32', 'bytes32'],
-      [
-        ethers.constants.HashZero,
-        proposalBlock.stateRoot,
-        proof.storageHash,
-        proposalBlock.hash,
-      ]
-    )
-  )
-
   const signer = await networkService.provider?.getSigner()
   const proveTx = await networkService.OptimismPortal.connect(
     signer
   ).proveWithdrawalTransaction(
     [
-      logs[0].args.nonce,
-      logs[0].args.sender,
-      logs[0].args.target,
-      logs[0].args.value,
-      logs[0].args.gasLimit,
-      logs[0].args.data,
+      logs[0].nonce,
+      logs[0].sender,
+      logs[0].target,
+      logs[0].value,
+      logs[0].gasLimit,
+      logs[0].data,
     ],
     l2OutputIndex,
     [
@@ -214,20 +205,20 @@ export const handleProveWithdrawal = async (
   return logs
 }
 
-export const claimWithdrawal = async (logs) => {
+export const claimWithdrawal = async (logs: GQL2ToL1MessagePassedEvent[]) => {
   const gasEstimationFinalSubmit = async () => {
-    if (!networkService.OptimismPortal || !logs[0]?.args) {
+    if (!networkService.OptimismPortal || !logs[0]) {
       return { error: 'OptimismPortal not initialized' }
     }
     const gas =
       await networkService.OptimismPortal.estimateGas.finalizeWithdrawalTransaction(
         [
-          logs[0].args.nonce,
-          logs[0].args.sender,
-          logs[0].args.target,
-          logs[0].args.value,
-          logs[0].args.gasLimit,
-          logs[0].args.data,
+          logs[0].nonce,
+          logs[0].sender,
+          logs[0].target,
+          logs[0].value,
+          logs[0].gasLimit,
+          logs[0].data,
         ]
       )
     await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -248,12 +239,12 @@ export const claimWithdrawal = async (logs) => {
   const finalSubmitTx = await networkService
     .OptimismPortal!.connect(networkService.provider!.getSigner())
     .finalizeWithdrawalTransaction([
-      logs[0].args.nonce,
-      logs[0].args.sender,
-      logs[0].args.target,
-      logs[0].args.value,
-      logs[0].args.gasLimit,
-      logs[0].args.data,
+      logs[0].nonce,
+      logs[0].sender,
+      logs[0].target,
+      logs[0].value,
+      logs[0].gasLimit,
+      logs[0].data,
     ])
   return finalSubmitTx.wait()
 }

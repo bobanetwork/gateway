@@ -1,6 +1,11 @@
-import { anchorageGraphQLService } from './graphql.service'
-import { WithdrawState } from '../containers/modals/MultiStepWithdrawalModal/withdrawal'
-import { BigNumber } from 'ethers'
+import {
+  anchorageGraphQLService,
+  GQLDepositFinalizedEvent,
+} from './graphql.service'
+import {
+  DepositState,
+  WithdrawState,
+} from '../containers/modals/MultiStepWithdrawalModal/withdrawal'
 
 describe('GraphQLService', () => {
   let mockProvider
@@ -50,77 +55,41 @@ describe('GraphQLService', () => {
     })
     it('should filter withdrawalHashLogs', () => {
       const bridgeLogsArr = [
-        { transactionHash: '0x1' },
-        { transactionHash: '0x2' },
-        { transactionHash: '0x3' },
+        { transactionHash_: '0x1' },
+        { transactionHash_: '0x2' },
+        { transactionHash_: '0x3' },
       ]
       const l2ToL1Logs = [
-        { transactionHash: '0x1' },
-        { transactionHash: '0x98' },
-        { transactionHash: '0x99' },
+        { transactionHash_: '0x1' },
+        { transactionHash_: '0x98' },
+        { transactionHash_: '0x99' },
       ]
       const result = anchorageGraphQLService.findWithdrawHashesFromLogs(
-        bridgeLogsArr,
-        l2ToL1Logs
+        bridgeLogsArr as any,
+        l2ToL1Logs as any
       )
       expect(result.length).toEqual(1)
     })
   })
 
   describe('Deposits', () => {
-    it('should map a TransactionDeposit event correctly', async () => {
-      const event = {
-        event: 'TransactionDeposited',
-        blockHash: '1',
-        transactionHash: '2',
-        args: {
-          amount: '0x0',
-          sender: '0xSender',
-          target: '0xTarget',
-          from: '0xFrom',
-          to: '0xTo',
-          l1Token: '0xL1Token',
-        },
-        address: '0xAddr',
-      }
-
-      const mapped: any = await anchorageGraphQLService.mapDepositToTransaction(
-        mockNetworkService,
-        {
-          L1: {
-            name: 'L1Name',
-            chainId: '0x01',
-          },
-          L2: {
-            chainId: '0x01',
-          },
-        } as any,
-        event as any,
-        'Completed'
-      )
-
-      expect(mapped.layer).toEqual('l1')
-      expect(mapped.UserFacingStatus).toEqual('Completed')
-      expect(mapped.contractAddress).toEqual(event.address)
-      expect(mapped.isTeleportation).toEqual(false)
-    })
     it('should map a DepositFinalized event correctly', async () => {
-      const event = {
-        event: 'DepositFinalized',
-        blockHash: '1',
-        transactionHash: '2',
-        args: {
-          amount: '0x0',
-          sender: '0xSender',
-          target: '0xTarget',
-          from: '0xFrom',
-          to: '0xTo',
-          l1Token: '0xL1Token',
-        },
-        address: '0xAddr',
+      const event: GQLDepositFinalizedEvent = {
+        transactionHash_: '2',
+        amount: '0x0',
+        from: '0xFrom',
+        to: '0xTo',
+        l1Token: '0xL1Token',
+        block_number: '100',
+        contractId_: '0xContr',
+        timestamp_: 0,
+        extraData: '0x',
+        __typename: DepositState.finalized,
+        l2Token: '0x33',
+        id: '0',
       }
       const mapped: any = await anchorageGraphQLService.mapDepositToTransaction(
-        mockNetworkService,
+        mockNetworkService.L2Provider,
         {
           L1: {
             name: 'L1Name',
@@ -134,14 +103,30 @@ describe('GraphQLService', () => {
         'Completed'
       )
 
-      expect(mapped.layer).toEqual('l1')
+      expect(mapped.layer).toEqual('l2')
       expect(mapped.UserFacingStatus).toEqual('Completed')
-      expect(mapped.contractAddress).toEqual(event.address)
+      expect(mapped.contractAddress).toEqual(event.contractId_)
       expect(mapped.isTeleportation).toEqual(false)
     })
   })
 
   describe('Withdrawals', () => {
+    it('should query for WithdrawalsInitiated', async () => {
+      const res = await anchorageGraphQLService.findWithdrawalsInitiated(
+        '0x81C2016c97970752080554d0Ed365717D597076C'.toLowerCase()
+      )
+      expect(Array.isArray(res)).toBeTruthy()
+    })
+    it('should query for WithdrawalsProven', async () => {
+      const res = await anchorageGraphQLService.findWithdrawalsProven(['123'])
+      expect(Array.isArray(res)).toBeTruthy()
+    })
+    it('should query for WithdrawalsFinalized', async () => {
+      const res = await anchorageGraphQLService.findWithdrawalsFinalized([
+        '123',
+      ])
+      expect(Array.isArray(res)).toBeTruthy()
+    })
     it('should map a WithdrawalInitiated event correctly', async () => {
       const event = {
         event: WithdrawState.initialized,
@@ -162,8 +147,7 @@ describe('GraphQLService', () => {
         mockNetworkService as any,
         mockNetworkConfig as any,
         event as any,
-        WithdrawState.initialized,
-        BigNumber.from(100)
+        WithdrawState.initialized
       )
 
       expect(res).toBeDefined()
@@ -192,8 +176,7 @@ describe('GraphQLService', () => {
         mockNetworkService as any,
         mockNetworkConfig as any,
         event as any,
-        WithdrawState.proven,
-        BigNumber.from(100)
+        WithdrawState.proven
       )
 
       expect(res).toBeDefined()

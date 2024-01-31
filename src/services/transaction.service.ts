@@ -55,20 +55,27 @@ class TransactionService {
   async fetchBedrockTransactions(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
-    if (networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId) {
+    const address = await networkService.provider?.getSigner().getAddress()
+    if (
+      networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId ||
+      !address
+    ) {
       return []
     }
     try {
       const withdrawalTransactions =
         await anchorageGraphQLService.queryWithdrawalTransactionsHistory(
-          await networkService.provider?.getSigner().getAddress(),
+          address,
           networkConfig!
         )
 
       const depositTransactions =
-        await anchorageGraphQLService.queryDepositTransactions(networkConfig!)
+        await anchorageGraphQLService.queryDepositTransactions(
+          address,
+          networkConfig!
+        )
 
-      return [...withdrawalTransactions, ...depositTransactions]
+      return [...depositTransactions, ...withdrawalTransactions]
     } catch (e) {
       return []
     }

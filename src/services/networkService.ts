@@ -1073,6 +1073,24 @@ class NetworkService {
         )
       )
 
+      getBalancePromise.push(
+        getERC20Balance(
+          {
+            currency: '0x0000000000000000000000000000000000000000',
+            addressL1: '0x33faF65b3DfcC6A1FccaD4531D9ce518F0FDc896',
+            addressL2: '0x4200000000000000000000000000000000000023',
+            symbolL1: 'BOBA',
+            symbolL2: 'BOBA',
+            decimals: 18,
+            name: 'BOBA',
+            redalert: false,
+          },
+          '0x4200000000000000000000000000000000000023',
+          'L2',
+          this.L2Provider
+        )
+      )
+
       const tokenBalances = await Promise.allSettled(getBalancePromise).then(
         (results) =>
           results
