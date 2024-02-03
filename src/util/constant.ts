@@ -20,7 +20,7 @@ export const isAnchorageEnabled = (networkType: any) => {
   return (
     (process.env.REACT_APP_ENABLE_ANCHORAGE?.toLowerCase() === 'true' ||
       false) &&
-    networkType === 'Testnet'
+    networkType === NetworkType.TESTNET
   )
 }
 export const DISABLE_WALLETCONNECT: EnvType =
