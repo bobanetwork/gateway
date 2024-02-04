@@ -7,13 +7,13 @@ import {
 } from '@apollo/client'
 import { NetworkType } from 'util/network/network.util'
 import networkService from './networkService'
-import { BigNumber, BigNumberish, Event } from 'ethers'
+import { BigNumberish } from 'ethers'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
 import {
   DepositState,
   WithdrawProcessStep,
   WithdrawState,
-} from '../containers/modals/MultiStepWithdrawalModal/withdrawal'
+} from './anchorage.service'
 
 //#region types
 export type LightBridgeDisbursementEvents =

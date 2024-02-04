@@ -17,7 +17,7 @@ import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0x
 import layerZeroTestnet from '@bobanetwork/register/addresses/layerZeroTestnet.json'
 import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.json'
 import store from 'store'
-import { isAnchorageEnabled } from '../util/constant'
+import { isAnchorageEnabled } from '../util/common'
 
 // predeployed contracts.
 export const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
@@ -215,7 +215,7 @@ class AppService {
       L2_ETH_Address: L2_BOBA_Address,
       L2_BOBA_Address,
       L1_ETH_Address,
-      NETWORK_NATIVE: '0x4200000000000000000000000000000000000006', // always native
+      NETWORK_NATIVE_TOKEN: '0x4200000000000000000000000000000000000006', // always native
     }
   }
 

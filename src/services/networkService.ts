@@ -38,12 +38,12 @@ import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
 
-import { sortRawTokens } from 'util/common'
+import { isAnchorageEnabled, sortRawTokens } from 'util/common'
 import { graphQLService } from './graphql.service'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
-import { isAnchorageEnabled, Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
+import { Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
 import {
   CHAIN_ID_LIST,
   getNetworkDetail,
@@ -2277,14 +2277,14 @@ class NetworkService {
           : this.addresses.Proxy__L2Teleportation
       const msgVal =
         currency === this.addresses.L1_ETH_Address ||
-        currency === this.addresses.NETWORK_NATIVE
+        currency === this.addresses.NETWORK_NATIVE_TOKEN
           ? { value: value_Wei_String }
           : {}
       const teleportationContract = this.Teleportation!.attach(
         teleportationAddr
       ).connect(this.provider!.getSigner())
       const tokenAddress =
-        currency === this.addresses.NETWORK_NATIVE
+        currency === this.addresses.NETWORK_NATIVE_TOKEN
           ? ethers.constants.AddressZero
           : currency
 

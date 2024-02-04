@@ -23,13 +23,14 @@ import {
 } from 'selectors'
 import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
-import { isAnchorageEnabled, Layer, LAYER } from 'util/constant'
+import { Layer, LAYER } from 'util/constant'
 import {
   purgeBridgeAlert,
   resetBridgeAmount,
   resetToken,
 } from 'actions/bridgeAction'
 import { INetwork, NetworkList } from '../../util/network/network.util'
+import { isAnchorageEnabled } from '../../util/common'
 
 export const useBridge = () => {
   const dispatch = useDispatch<any>()

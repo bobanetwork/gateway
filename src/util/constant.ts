@@ -16,13 +16,9 @@ export const APP_ENV: EnvType = process.env.REACT_APP_ENV || 'dev'
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
 export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 // WalletConnect FLAG
-export const isAnchorageEnabled = (networkType: any) => {
-  return (
-    (process.env.REACT_APP_ENABLE_ANCHORAGE?.toLowerCase() === 'true' ||
-      false) &&
-    networkType === 'Testnet'
-  )
-}
+export const ANCHORAGE_ENABLED =
+  process.env.REACT_APP_ENABLE_ANCHORAGE?.toLowerCase() === 'true' || false
+
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
 

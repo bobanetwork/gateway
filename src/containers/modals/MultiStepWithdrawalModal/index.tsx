@@ -17,11 +17,10 @@ import {
   selectActiveNetworkName,
   selectAmountToBridge,
   selectLookupPrice,
-  selectReenterWithdrawal,
+  selectReenterWithdrawalConfig,
   selectTokenToBridge,
 } from 'selectors'
 import { amountToUsd } from 'util/amountConvert'
-import useBridge from 'hooks/useBridge'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK } from 'util/constant'
 import { VerticalStepper } from './VerticalStepper'
@@ -32,7 +31,7 @@ interface Props {
 }
 
 export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
-  const withdrawalConfig = useSelector(selectReenterWithdrawal())
+  const withdrawalConfig = useSelector(selectReenterWithdrawalConfig())
   const dispatch = useDispatch<any>()
   const _token = useSelector(selectTokenToBridge()) // is undefined on network change
   const _amountToBridge = useSelector(selectAmountToBridge()) // is undefined on network change
@@ -44,7 +43,6 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
-  const { triggerSubmit } = useBridge()
 
   useEffect(() => {
     if (!token) {

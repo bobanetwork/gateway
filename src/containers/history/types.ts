@@ -1,4 +1,4 @@
-import { ReenterWithdrawConfig } from '../modals/MultiStepWithdrawalModal/withdrawal'
+import { IReenterWithdrawConfig } from '../../services/anchorage.service'
 
 export enum TRANSACTION_FILTER_STATUS {
   Pending = 'Pending',
@@ -104,7 +104,7 @@ export interface ITransaction {
   to: string
   UserFacingStatus: TRANSACTION_FILTER_STATUS
   isTeleportation?: boolean
-  actionRequired?: ReenterWithdrawConfig
+  actionRequired?: IReenterWithdrawConfig
 }
 
 export interface IProcessedTransaction {
@@ -118,7 +118,7 @@ export interface IProcessedTransaction {
   status: TRANSACTION_FILTER_STATUS // need to remove the undefined option
   originChainId: number
   destinationChainId: number
-  actionRequired?: ReenterWithdrawConfig
+  actionRequired?: IReenterWithdrawConfig
 }
 
 export interface ITransactionsResolverProps {

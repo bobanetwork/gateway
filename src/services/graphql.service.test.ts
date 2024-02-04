@@ -2,10 +2,7 @@ import {
   anchorageGraphQLService,
   GQLDepositFinalizedEvent,
 } from './graphql.service'
-import {
-  DepositState,
-  WithdrawState,
-} from '../containers/modals/MultiStepWithdrawalModal/withdrawal'
+import { DepositState, WithdrawState } from './anchorage.service'
 
 describe('GraphQLService', () => {
   let mockProvider

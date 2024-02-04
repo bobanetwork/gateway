@@ -12,46 +12,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectLayer, selectModalState } from '../../../selectors'
 import { setConnectETH } from '../../../actions/setupAction'
 import { ethers } from 'ethers'
+import { closeModal, openModal } from '../../../actions/uiAction'
+import networkService from '../../../services/networkService'
+import { anchorageGraphQLService } from '../../../services/graphql.service'
 import {
   approvalRequired,
   claimWithdrawal,
   handleInitiateWithdrawal,
   handleProveWithdrawal,
-  HandleProveWithdrawalConfig,
-} from './withdrawal'
-import { closeModal, openModal } from '../../../actions/uiAction'
-import networkService from '../../../services/networkService'
-import { anchorageGraphQLService } from '../../../services/graphql.service'
-
-const steps = [
-  {
-    label: 'Start Withdrawal',
-    description: `Submit the 1st transaction of the new Anchorage two-step withdrawal process.`,
-    passiveStep: false,
-    btnLbl: 'Initiate Withdrawal',
-  },
-  { label: 'Wait up to 5 minutes', passiveStep: true },
-  {
-    label: 'Switch network',
-    passiveStep: false,
-    btnLbl: 'Switch Network',
-  },
-  {
-    label: 'Prove Withdrawal',
-    description:
-      'Submit the proof in advance. This additional step is part of the new Anchorage specification.',
-    passiveStep: false,
-    btnLbl: 'Prove Withdrawal',
-  },
-  { label: 'Wait about 7 days', passiveStep: true },
-  {
-    label: 'Claim Withdrawal',
-    description: `Claim your funds. This is the final step.`,
-    passiveStep: false,
-    btnLbl: 'Claim Withdrawal',
-  },
-  { label: 'Wait for Confirmation', passiveStep: true },
-]
+  IHandleProveWithdrawalConfig,
+} from '../../../services/anchorage.service'
+import { steps } from './config'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -64,7 +35,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const dispatch = useDispatch<any>()
   const layer = useSelector(selectLayer())
   const [withdrawalConfig, setWithdrawalConfig] =
-    useState<HandleProveWithdrawalConfig>()
+    useState<IHandleProveWithdrawalConfig>()
   const [latestLogs, setLatestLogs] = useState(null)
   const [activeStep, setActiveStep] = React.useState(0)
   const [approvalNeeded, setApprovalNeeded] = useState(false)
@@ -89,7 +60,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
 
   const initWithdrawalStep = () => {
     const isNativeWithdrawal =
-      props.token.address === networkService.addresses.NETWORK_NATIVE
+      props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
     selectModalState('transactionSuccess')
     handleInitiateWithdrawal(
       ethers.utils.parseEther(props.amountToBridge!.toString()).toString(),
