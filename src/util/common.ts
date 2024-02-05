@@ -15,6 +15,7 @@ limitations under the License. */
 
 import { logAmount } from './amountConvert'
 import { ANCHORAGE_ENABLED } from './constant'
+import { NetworkType } from './network/network.util'
 
 type TokenSymbolType = {
   tokenSymbol: string
@@ -69,4 +70,4 @@ export const formatTokenAmount = (token: any) => {
 }
 
 export const isAnchorageEnabled = (networkType: any) =>
-  ANCHORAGE_ENABLED && networkType === 'Testnet'
+  ANCHORAGE_ENABLED && networkType === NetworkType.TESTNET
