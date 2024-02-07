@@ -18,7 +18,7 @@ import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
 import { optimismConfig } from './config/optimism'
 import { arbitrumConfig } from './config/arbitrum'
-import { Layer, LAYER } from 'util/constant'
+import { ANCHORAGE_ENABLED, Layer, LAYER } from 'util/constant'
 import {
   NetworkDetail,
   NetworkDetailChainConfig,
@@ -218,7 +218,7 @@ type NetworkLists = {
 }
 // todo can be removed once fully migrated
 const getEthTestnet = () => {
-  if (isAnchorageEnabled('Testnet')) {
+  if (ANCHORAGE_ENABLED) {
     return {
       icon: 'ethereum',
       chain: Network.ETHEREUM,
