@@ -143,7 +143,7 @@ describe('appService', () => {
         layerZeroTargetChainID: '10121',
       })
     })
-    test('fetchAddresses - should return addresses for specified network and network type for TESTNET', () => {
+    test('fetchAddresses - should return addresses for specified network and network type for MAINNET', () => {
       const addresses = appService.fetchAddresses({
         networkType: NetworkType.MAINNET,
         network: Network.ETHEREUM,
