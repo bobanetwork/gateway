@@ -96,3 +96,6 @@ export const MM_EXTENTION_URL: string =
   'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en'
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
+
+export const THIRD_PARTY_BRIDGES_LIST =
+  'https://raw.githubusercontent.com/bobanetwork/gateway-data/main/bridges/list.json'

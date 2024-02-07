@@ -1,4 +1,7 @@
-export interface AvailableBridgesProps {
-  token?: any | null // FIXME: fix the type of token
-  walletAddress: string
+export interface IThirdPartyBridge {
+  name: string
+  icon?: any
+  iconLight?: any
+  iconDark?: any
+  link?: string
 }
