@@ -47,7 +47,7 @@
     "@mui/styles": "^5.14.18",
     "@reduxjs/toolkit": "^1.9.7",
     "@sentry/react": "^7.51.0",
-    "@sentry/tracing": "^7.76.0",
+    "@sentry/tracing": "^7.99.0",
     "@walletconnect/ethereum-provider": "^2.10.5",
     "@walletconnect/modal": "^2.6.2",
     "assert": "^2.0.0",
@@ -58,7 +58,7 @@
     "browserify-zlib": "^0.2.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.4.1",
     "eslint-config-react-app": "^7.0.0",
     "ethers": "5.7.2",
     "graphql": "^16.3.0",
@@ -97,7 +97,7 @@
     "webpack-bundle-analyzer": "^4.10.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.21.5",
     "@sentry/types": "^7.98.0",
