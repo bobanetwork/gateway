@@ -1,5 +1,6 @@
 import { NetworkDetail } from './network-details.types'
-import { isAnchorageEnabled } from '../../constant'
+import { isAnchorageEnabled } from '../../common'
+import { ANCHORAGE_ENABLED } from '../../constant'
 
 // Anchorage
 const SepoliaTestnet = {
@@ -91,7 +92,7 @@ const GoerliTestnet = {
 }
 
 export const ethereumConfig: NetworkDetail = {
-  Testnet: isAnchorageEnabled('Testnet') ? SepoliaTestnet : GoerliTestnet,
+  Testnet: ANCHORAGE_ENABLED ? SepoliaTestnet : GoerliTestnet,
   Mainnet: {
     OMGX_WATCHER_URL: `https://api-watcher.mainnet.boba.network/`,
     VERIFIER_WATCHER_URL: `https://api-verifier.mainnet.boba.network/`,

@@ -16,12 +16,10 @@ import ReenterWithdrawModal from '../modals/ReenterWithdrawModal'
 import networkService from '../../services/networkService'
 import { openModal } from '../../actions/uiAction'
 import { setReenterWithdrawalConfig } from '../../actions/bridgeAction'
-import { anchorageGraphQLService } from '../../services/graphql.service'
 import {
-  ReenterWithdrawConfig,
-  WithdrawState,
-} from '../modals/MultiStepWithdrawalModal/withdrawal'
-import { isAnchorageEnabled } from '../../util/constant'
+  checkBridgeWithdrawalReenter,
+  IReenterWithdrawConfig,
+} from '../../services/anchorage.service'
 
 const Bridging = () => {
   const dispatch = useDispatch<any>()
@@ -29,32 +27,15 @@ const Bridging = () => {
   useBridgeAlerts()
 
   const [reenterWithdrawConfig, setReenterWithdrawConfig] =
-    useState<ReenterWithdrawConfig | null>()
+    useState<IReenterWithdrawConfig | null>()
 
   useEffect(() => {
-    if (
-      isAnchorageEnabled(networkService.networkType) &&
-      !!networkService.provider
-    ) {
-      anchorageGraphQLService
-        .queryWithdrawalTransactionsHistory(
-          networkService.account,
-          networkService.networkConfig!
-        )
-        .then((events: any) => {
-          events = events.filter(
-            (e) => e.UserFacingStatus !== WithdrawState.finalized
-          )
-          if (events?.length > 1) {
-            if (events[0]?.actionRequired) {
-              setReenterWithdrawConfig({
-                ...events[0].actionRequired,
-              })
-            }
-          }
-        })
+    const config = checkBridgeWithdrawalReenter()
+    if (config) {
+      dispatch(setReenterWithdrawalConfig(config))
+      openModal('ReenterWithdrawModal')
     }
-  }, [!!networkService.account, !!networkService.networkConfig])
+  }, [networkService.account, networkService.networkConfig])
 
   const currentBridgeType = useSelector(selectBridgeType())
 

@@ -1,12 +1,13 @@
 import { ethers } from 'ethers'
-import networkService from '../../../services/networkService'
 import { defaultAbiCoder, keccak256 } from 'ethers/lib/utils'
-import { L2StandardERC20ABI } from '../../../services/abi'
+import { L2StandardERC20ABI } from './abi'
+import networkService from './networkService'
 import {
   anchorageGraphQLService,
   GQL2ToL1MessagePassedEvent,
-} from '../../../services/graphql.service'
-
+} from './graphql.service'
+import { isAnchorageEnabled } from '../util/common'
+import { setReenterWithdrawalConfig } from '../actions/bridgeAction'
 export enum DepositState {
   deposited = 'TransactionDeposited',
   finalized = 'DepositFinalized',
@@ -22,7 +23,7 @@ export enum WithdrawState {
   finalized = 'finalized',
 }
 
-export interface ReenterWithdrawConfig {
+export interface IReenterWithdrawConfig {
   state: WithdrawState
   step: WithdrawProcessStep
   withdrawalHash: `${'0x'}${string}`
@@ -30,14 +31,17 @@ export interface ReenterWithdrawConfig {
   blockNumber: number
 }
 
-export interface HandleProveWithdrawalConfig {
+export interface IHandleProveWithdrawalConfig {
   blockNumber: number
   withdrawalHash?: string
   blockHash?: string
 }
 
 export const approvalRequired = async (token, amount) => {
-  if (!token || token.address === networkService.addresses.NETWORK_NATIVE) {
+  if (
+    !token ||
+    token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
+  ) {
     return false
   }
   const tokenContract = new ethers.Contract(
@@ -97,7 +101,7 @@ export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
 }
 
 export const handleProveWithdrawal = async (
-  txInfo: HandleProveWithdrawalConfig
+  txInfo: IHandleProveWithdrawalConfig
 ) => {
   if (
     !networkService.OptimismPortal ||
@@ -248,3 +252,29 @@ export const claimWithdrawal = async (logs: GQL2ToL1MessagePassedEvent[]) => {
     ])
   return finalSubmitTx.wait()
 }
+
+export const checkBridgeWithdrawalReenter =
+  (): IReenterWithdrawConfig | null => {
+    if (
+      isAnchorageEnabled(networkService.networkType) &&
+      !!networkService.provider
+    ) {
+      anchorageGraphQLService
+        .queryWithdrawalTransactionsHistory(
+          networkService.account,
+          networkService.networkConfig!
+        )
+        .then((events: any) => {
+          events = events.filter(
+            (e) => e.UserFacingStatus !== WithdrawState.finalized
+          )
+          if (events?.length > 1) {
+            if (events[0]?.actionRequired) {
+              return events[0].actionRequired
+            }
+          }
+        })
+        .catch(() => null)
+    }
+    return null
+  }

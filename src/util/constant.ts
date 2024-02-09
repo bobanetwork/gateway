@@ -16,13 +16,9 @@ export const APP_ENV: EnvType = process.env.REACT_APP_ENV || 'dev'
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
 export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 // WalletConnect FLAG
-export const isAnchorageEnabled = (networkType: any) => {
-  return (
-    (process.env.REACT_APP_ENABLE_ANCHORAGE?.toLowerCase() === 'true' ||
-      false) &&
-    networkType === 'Testnet'
-  )
-}
+export const ANCHORAGE_ENABLED =
+  process.env.REACT_APP_ENABLE_ANCHORAGE?.toLowerCase() === 'true' || false
+
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
 
@@ -100,3 +96,6 @@ export const MM_EXTENTION_URL: string =
   'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en'
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
+
+export const THIRD_PARTY_BRIDGES_LIST =
+  'https://raw.githubusercontent.com/bobanetwork/gateway-data/main/bridges/list.json'
