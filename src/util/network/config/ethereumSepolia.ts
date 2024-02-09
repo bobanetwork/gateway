@@ -1,6 +1,4 @@
 import { NetworkDetail } from './network-details.types'
-import { isAnchorageEnabled } from '../../common'
-import { ANCHORAGE_ENABLED } from '../../constant'
 
 // Anchorage
 const SepoliaTestnet = {

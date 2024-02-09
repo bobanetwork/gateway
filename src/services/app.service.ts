@@ -17,7 +17,6 @@ import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0x
 import layerZeroTestnet from '@bobanetwork/register/addresses/layerZeroTestnet.json'
 import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.json'
 import store from 'store'
-import { isAnchorageEnabled } from '../util/common'
 
 // predeployed contracts.
 export const L1_ETH_Address = '0x0000000000000000000000000000000000000000'

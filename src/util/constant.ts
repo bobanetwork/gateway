@@ -58,8 +58,8 @@ type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
   ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
-  ethereum_sepolia: ['Bridge', 'History'],
   bnb: ['Bridge', 'Earn', 'History'],
+  ethereum_sepolia: ['Bridge', 'History'],
   optimism: ['Bridge', 'History'],
   arbitrum: ['Bridge', 'History'],
 }

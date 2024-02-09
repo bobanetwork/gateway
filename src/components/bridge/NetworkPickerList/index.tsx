@@ -5,6 +5,7 @@ import {
   INetwork,
   L1_ICONS,
   L2_ICONS,
+  Network,
   NetworkList as NetworkLists,
 } from 'util/network/network.util'
 
@@ -16,6 +17,7 @@ import {
   selectDestChainIdTeleportation,
   selectBridgeType,
 } from 'selectors'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 
 import { setActiveNetwork, setNetwork } from 'actions/networkAction'
 
@@ -25,14 +27,17 @@ import {
   NetworkIcon,
   NetworkLabel,
 } from './styles'
-import { setTeleportationDestChainId } from '../../../actions/bridgeAction'
-import { BRIDGE_TYPE } from '../../../containers/Bridging/BridgeTypeSelector'
+import {
+  setBridgeType,
+  setTeleportationDestChainId,
+} from 'actions/bridgeAction'
+
 import {
   setBaseState,
   setConnectBOBA,
   setConnectETH,
-} from '../../../actions/setupAction'
-import { closeModal, openModal } from '../../../actions/uiAction'
+} from 'actions/setupAction'
+import { closeModal, openModal } from 'actions/uiAction'
 
 export interface NetworkListProps {
   close?: () => void
@@ -68,6 +73,10 @@ export const NetworkList: FC<NetworkListProps> = ({
         setTeleportationDestChainId(chainDetail.chainId[layer?.toUpperCase()])
       )
     } else {
+      console.log(`chainDetail`, chainDetail)
+      if (chainDetail.chain === Network.ETHEREUM_SEPOLIA) {
+        dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
+      }
       dispatch(
         setNetwork({
           network: chainDetail.chain,

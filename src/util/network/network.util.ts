@@ -19,13 +19,12 @@ import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
 import { optimismConfig } from './config/optimism'
 import { arbitrumConfig } from './config/arbitrum'
-import { ANCHORAGE_ENABLED, Layer, LAYER } from 'util/constant'
+import { Layer, LAYER } from 'util/constant'
 import {
   NetworkDetail,
   NetworkDetailChainConfig,
 } from './config/network-details.types'
 import { getCoinImage } from 'util/coinImage'
-import { isAnchorageEnabled } from '../common'
 
 export const L1_ICONS = {
   ethereum: EthereumIcon,
@@ -217,37 +216,6 @@ export const DEFAULT_NETWORK = {
 type NetworkLists = {
   Mainnet: INetwork[]
   Testnet: INetwork[]
-}
-// @todo remove before merging PR for separate option for sepolia change.
-// todo can be removed once fully migrated
-const getEthTestnet = () => {
-  if (ANCHORAGE_ENABLED) {
-    return {
-      icon: 'ethereum',
-      chain: Network.ETHEREUM,
-      label: 'Ethereum (Sepolia) <> Boba (Sepolia)',
-      key: 'ethereum',
-      name: {
-        l1: 'Ethereum (Sepolia)',
-        l2: 'Boba (Sepolia)',
-      },
-      chainId: { [Layer.L1]: '11155111', [Layer.L2]: '28882' },
-      limitedAvailability: false,
-    }
-  } else {
-    return {
-      icon: 'ethereum',
-      chain: Network.ETHEREUM,
-      label: 'Ethereum (Goerli) <> Boba (Goerli)',
-      key: 'ethereum',
-      name: {
-        l1: 'Ethereum (Goerli)',
-        l2: 'Boba (Goerli)',
-      },
-      chainId: { [Layer.L1]: '5', [Layer.L2]: '2888' },
-      limitedAvailability: false,
-    }
-  }
 }
 
 export const NetworkList: NetworkLists = {
