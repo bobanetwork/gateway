@@ -403,7 +403,6 @@ class NetworkService {
 
     this.networkConfig = networkDetail
 
-    console.log(networkDetail, this.networkConfig)
     try {
       if (Network[network]) {
         this.payloadForL1SecurityFee = networkDetail.payloadForL1SecurityFee
@@ -454,7 +453,6 @@ class NetworkService {
         network,
         networkType,
       })
-      console.log(`tokenAsset`, tokenAsset)
       if (tokenAsset) {
         this.supportedTokens = tokenAsset.tokens
         this.supportedTokenAddresses = tokenAsset.tokenAddresses
@@ -469,7 +467,6 @@ class NetworkService {
           networkType,
         })
       }
-      console.log(`addresses`, addresses)
       this.addresses = addresses
 
       // NOTE: should invoke for anchorage.
@@ -916,7 +913,10 @@ class NetworkService {
     try {
       let layer1Balances
       let layer2Balances
-      if (this.network === Network.ETHEREUM) {
+      if (
+        this.network === Network.ETHEREUM ||
+        this.network === Network.ETHEREUM_SEPOLIA
+      ) {
         layer1Balances = [
           {
             address: this.addresses.L1_ETH_Address,
@@ -1004,7 +1004,10 @@ class NetworkService {
         if (token.addressL2 === null) {
           return
         }
-        if (this.network === Network.ETHEREUM) {
+        if (
+          this.network === Network.ETHEREUM ||
+          this.network === Network.ETHEREUM_SEPOLIA
+        ) {
           if (token.addressL1 === this.addresses.L1_ETH_Address) {
             return
           }
