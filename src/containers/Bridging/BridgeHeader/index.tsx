@@ -92,25 +92,25 @@ const BridgeHeader = () => {
     <BridgeHeaderWrapper>
       <Heading variant="h2">
         Bridge
-        <Tooltip
-          data-testid="tooltip-btn"
-          title={
-            <>
-              <ClassicBridgeInfo />
-              <FastBridgeInfo />
-              <LightBridgeInfo />
-            </>
-          }
-        >
-          {isSepoliaNetwork ? null : (
+        {isSepoliaNetwork ? null : (
+          <Tooltip
+            data-testid="tooltip-btn"
+            title={
+              <>
+                <ClassicBridgeInfo />
+                <FastBridgeInfo />
+                <LightBridgeInfo />
+              </>
+            }
+          >
             <IconWrapper inline={true} style={{ marginLeft: '5px' }}>
               <HelpOutlineOutlined
                 fontSize="small"
                 sx={{ cursor: 'pointer', color: iconColor }}
               />
             </IconWrapper>
-          )}
-        </Tooltip>
+          </Tooltip>
+        )}
       </Heading>
       <IconWrapper>
         <GearIcon
