@@ -52,12 +52,13 @@ export const ROUTES_PATH: RoutesPathType = {
   DEV_TOOLS: '/devtools',
 }
 
-type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum' //we move this to global network type once we define this
+type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum' | 'ethereum_sepolia' //we move this to global network type once we define this
 type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO' | 'Monster'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
   ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
+  ethereum_sepolia: ['Bridge', 'History'],
   bnb: ['Bridge', 'Earn', 'History'],
   optimism: ['Bridge', 'History'],
   arbitrum: ['Bridge', 'History'],

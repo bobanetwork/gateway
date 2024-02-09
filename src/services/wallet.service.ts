@@ -45,6 +45,7 @@ export class WalletService {
       this.account = await this.provider.getSigner().getAddress()
       this.walletType = 'metamask'
       const network = await this.provider.getNetwork()
+      console.log(`=>?network.chainId`, network.chainId)
       this.networkId = network.chainId
       return true
     } catch (e) {

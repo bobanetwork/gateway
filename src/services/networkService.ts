@@ -392,6 +392,7 @@ class NetworkService {
 
     this.networkConfig = networkDetail
 
+    console.log(networkDetail, this.networkConfig)
     try {
       if (Network[network]) {
         this.payloadForL1SecurityFee = networkDetail.payloadForL1SecurityFee
@@ -442,10 +443,12 @@ class NetworkService {
         network,
         networkType,
       })
-
-      this.supportedTokens = tokenAsset.tokens
-      this.supportedTokenAddresses = tokenAsset.tokenAddresses
-      this.supportedAltL1Chains = tokenAsset.altL1Chains
+      console.log(`tokenAsset`, tokenAsset)
+      if (tokenAsset) {
+        this.supportedTokens = tokenAsset.tokens
+        this.supportedTokenAddresses = tokenAsset.tokenAddresses
+        this.supportedAltL1Chains = tokenAsset.altL1Chains
+      }
 
       let addresses = {}
       // setting up all address;
@@ -455,14 +458,14 @@ class NetworkService {
           networkType,
         })
       }
-
+      console.log(`addresses`, addresses)
       this.addresses = addresses
 
+      // NOTE: should invoke for anchorage.
       if (
-        network === Network.ETHEREUM &&
+        network === Network.ETHEREUM_SEPOLIA &&
         !isAnchorageEnabled(this.networkType)
       ) {
-        // check only if selected network is ETHEREUM
         if (
           !(await this.getAddressCached(
             this.addresses,
@@ -501,6 +504,7 @@ class NetworkService {
         }
       }
 
+      // Note: should bypass if limitedNetworkAvailability & anchorage not enabled.
       const isLimitedNetwork = networkLimitedAvailability(networkType, network)
       if (!isLimitedNetwork && !isAnchorageEnabled(networkType)) {
         if (
@@ -660,7 +664,7 @@ class NetworkService {
           )
         }
 
-        // todo remove once fully migrated
+        // @todo remove once fully migrated
         if (!isAnchorageEnabled(this.networkType)) {
           this.watcher = new CrossChainMessenger({
             l1SignerOrProvider: this.L1Provider,
@@ -713,7 +717,10 @@ class NetworkService {
         this.L2Provider
       )
 
-      if (Network.ETHEREUM === network && !isAnchorageEnabled(networkType)) {
+      if (
+        Network.ETHEREUM_SEPOLIA === network &&
+        !isAnchorageEnabled(networkType)
+      ) {
         this.xBobaContract = new ethers.Contract(
           allTokens.xBOBA.L2,
           BOBAABI,

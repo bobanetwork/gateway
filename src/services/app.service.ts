@@ -45,8 +45,15 @@ const ADDRESS_CONFIG = {
     },
   },
   [NetworkType.TESTNET]: {
+    [Network.ETHEREUM_SEPOLIA]: {
+      ...addresses_Sepolia,
+      ...layerZeroTestnet.BOBA_Bridges.Testnet,
+      ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
+      layerZeroTargetChainID:
+        layerZeroTestnet.Layer_Zero_Protocol.Testnet.Layer_Zero_ChainId,
+    },
     [Network.ETHEREUM]: {
-      ...(isAnchorageEnabled('Testnet') ? addresses_Sepolia : addresses_Goerli),
+      ...addresses_Goerli,
       ...layerZeroTestnet.BOBA_Bridges.Testnet,
       ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
       layerZeroTargetChainID:
@@ -71,8 +78,8 @@ type NetworkTypeConfig = {
 }
 
 type NetworkTypeConfigs = {
-  [NetworkType.TESTNET]: NetworkTypeConfig
-  [NetworkType.MAINNET]: NetworkTypeConfig
+  [NetworkType.TESTNET]: Partial<NetworkTypeConfig>
+  [NetworkType.MAINNET]: Partial<NetworkTypeConfig>
 }
 
 const SUPPORTED_ASSETS: NetworkTypeConfigs = {
@@ -164,11 +171,14 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
     },
   },
   [NetworkType.TESTNET]: {
+    [Network.ETHEREUM_SEPOLIA]: {
+      tokenAddresses: {},
+      tokens: ['BOBA'],
+      altL1Chains: ['BNB'],
+    },
     [Network.ETHEREUM]: {
       tokenAddresses: {},
-      tokens: isAnchorageEnabled('Testnet')
-        ? ['BOBA']
-        : ['BOBA', 'USDC', 'OMG', 'xBOBA'],
+      tokens: ['BOBA', 'USDC', 'OMG', 'xBOBA'],
       altL1Chains: ['BNB'],
     },
     [Network.BNB]: {
@@ -228,7 +238,7 @@ class AppService {
    */
 
   fetchSupportedAssets({ networkType, network }: INetworkCategory) {
-    return SUPPORTED_ASSETS[networkType][network] || {}
+    return SUPPORTED_ASSETS[networkType][network]
   }
 
   /**
