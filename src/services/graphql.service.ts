@@ -133,69 +133,101 @@ export type GQLDepositFinalizedEvent = {
 }
 //#endregion
 
+enum EGraphQLService {
+  AnchorageBridge = 1,
+  LightBridge = 2,
+  DAO = 3,
+}
+
 class GraphQLService {
   GRAPHQL_ENDPOINTS = {
     // Boba ETH
     288: {
-      gql: '', // TODO
-      local: '',
+      [EGraphQLService.LightBridge]: {
+        gql: '', // TODO
+        local: '',
+      },
     },
     // Boba BNB
     56288: {
-      gql: '', // TODO
-      local: '',
+      [EGraphQLService.LightBridge]: {
+        gql: '', // TODO
+        local: '',
+      },
     },
+    // TODO: Add other mainnets
     // Goerli
     5: {
-      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-goerli/v1/gn',
-      local: '',
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-goerli/v1/gn',
+        local: '',
+      },
     },
     // BNB testnet
     97: {
-      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-chapel/v1/gn',
-      local: '',
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-chapel/v1/gn',
+        local: '',
+      },
     },
     // Boba Goerli
     2888: {
-      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-goerli/v1/gn',
-      local: 'http://127.0.0.1:8000/subgraphs/name/boba/Bridges',
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-goerli/v1/gn',
+        local: 'http://127.0.0.1:8000/subgraphs/name/boba/Bridges',
+      },
     },
     // Boba BNB testnet
     9728: {
-      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-bnb-testnet/v1/gn',
-      local: 'http://127.0.0.1:8002/subgraphs/name/boba/Bridges',
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-bnb-testnet/v1/gn',
+        local: 'http://127.0.0.1:8002/subgraphs/name/boba/Bridges',
+      },
     },
     // Arbitrum Goerli
     421613: {
-      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-arbitrum-goerli/v1/gn',
-      local: '',
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-arbitrum-goerli/v1/gn',
+        local: '',
+      },
     },
     // Optimism Goerli
     420: {
-      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-optimism-goerli/v1/gn',
-      local: '',
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-optimism-goerli/v1/gn',
+        local: '',
+      },
     },
     // Sepolia
     11155111: {
-      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-sepolia/v1/gn',
+      [EGraphQLService.AnchorageBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-sepolia/v1/gn',
+      },
     },
     // Boba Sepolia
     28882: {
-      gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-boba-sepolia/v1/gn',
+      [EGraphQLService.AnchorageBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-boba-sepolia/v1/gn',
+      },
     },
   }
 
-  getBridgeEndpoint = (chainId, useLocal = false) => {
-    return this.GRAPHQL_ENDPOINTS[chainId][useLocal ? 'local' : 'gql']
+  getBridgeEndpoint = (chainId, service: EGraphQLService, useLocal = false) => {
+    return this.GRAPHQL_ENDPOINTS[chainId][service][useLocal ? 'local' : 'gql']
   }
 
   async conductQuery(
     query: DocumentNode,
     variables = {},
     sourceChainId: BigNumberish,
+    service: EGraphQLService,
     useLocalGraphEndpoint = false
   ) {
-    const uri = this.getBridgeEndpoint(sourceChainId, useLocalGraphEndpoint)
+    const uri = this.getBridgeEndpoint(
+      sourceChainId,
+      service,
+      useLocalGraphEndpoint
+    )
     if (!uri) {
       return
     }
@@ -239,7 +271,12 @@ class GraphQLService {
       }
     }
 
-    return this.conductQuery(query, undefined, sourceChainId)
+    return this.conductQuery(
+      query,
+      undefined,
+      sourceChainId,
+      EGraphQLService.DAO
+    )
   }
 }
 
@@ -273,7 +310,13 @@ class TeleportationGraphQLService extends GraphQLService {
     }
 
     return (
-      await this.conductQuery(query, variables, sourceChainId, this.useLocal)
+      await this.conductQuery(
+        query,
+        variables,
+        sourceChainId,
+        EGraphQLService.LightBridge,
+        this.useLocal
+      )
     )?.data?.assetReceiveds
   }
 
@@ -313,7 +356,13 @@ class TeleportationGraphQLService extends GraphQLService {
       depositId: depositId.toString(),
     }
     const events = (
-      await this.conductQuery(query, variables, destChainId, this.useLocal)
+      await this.conductQuery(
+        query,
+        variables,
+        destChainId,
+        EGraphQLService.LightBridge,
+        this.useLocal
+      )
     )?.data?.disbursementSuccesses
     if (events?.length) {
       return events[0] // just first (should always just be one)
@@ -351,7 +400,13 @@ class TeleportationGraphQLService extends GraphQLService {
       depositId: depositId.toString(),
     }
     const events = (
-      await this.conductQuery(query, variables, destChainId, this.useLocal)
+      await this.conductQuery(
+        query,
+        variables,
+        destChainId,
+        EGraphQLService.LightBridge,
+        this.useLocal
+      )
     )?.data?.disbursementFaileds
     if (events?.length) {
       if (events.length > 1) {
@@ -395,7 +450,13 @@ class TeleportationGraphQLService extends GraphQLService {
       depositId: depositId.toString(),
     }
     const events = (
-      await this.conductQuery(query, variables, destChainId, this.useLocal)
+      await this.conductQuery(
+        query,
+        variables,
+        destChainId,
+        EGraphQLService.LightBridge,
+        this.useLocal
+      )
     )?.data?.disbursementRetrySuccesses
     if (events?.length) {
       return events[0] // just first (should always just be one)
@@ -426,7 +487,8 @@ class AnchorageGraphQLService extends GraphQLService {
         await this.conductQuery(
           qry,
           { withdrawalHash: withdrawalHashes },
-          28882
+          28882,
+          EGraphQLService.AnchorageBridge
         )
       )?.data.withdrawalProvens
     } catch (e) {
@@ -456,7 +518,8 @@ class AnchorageGraphQLService extends GraphQLService {
         await this.conductQuery(
           graphqlQuery,
           { withdrawalHash: withdrawalHashes },
-          28882
+          28882,
+          EGraphQLService.AnchorageBridge
         )
       )?.data.withdrawalFinalizeds
     } catch (e) {
@@ -486,7 +549,12 @@ class AnchorageGraphQLService extends GraphQLService {
         }
       `
       return (
-        await this.conductQuery(qry, { address: address.toLowerCase() }, 28882)
+        await this.conductQuery(
+          qry,
+          { address: address.toLowerCase() },
+          28882,
+          EGraphQLService.AnchorageBridge
+        )
       )?.data.withdrawalInitiateds
     } catch (e) {
       return []
@@ -513,7 +581,9 @@ class AnchorageGraphQLService extends GraphQLService {
           }
         }
       `
-      return (await this.conductQuery(qry, {}, 28882))?.data.messagePasseds
+      return (
+        await this.conductQuery(qry, {}, 28882, EGraphQLService.AnchorageBridge)
+      )?.data.messagePasseds
     } catch (e) {
       return []
     }
@@ -541,8 +611,14 @@ class AnchorageGraphQLService extends GraphQLService {
           }
         }
       `
-      return (await this.conductQuery(qry, { blockNumbers }, 28882))?.data
-        .messagePasseds
+      return (
+        await this.conductQuery(
+          qry,
+          { blockNumbers },
+          28882,
+          EGraphQLService.AnchorageBridge
+        )
+      )?.data.messagePasseds
     } catch (e) {
       return []
     }
@@ -576,7 +652,8 @@ class AnchorageGraphQLService extends GraphQLService {
           {
             address: address.toLowerCase(),
           },
-          28882
+          28882,
+          EGraphQLService.AnchorageBridge
         )
       )?.data.depositFinalizeds
 
