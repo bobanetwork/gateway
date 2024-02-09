@@ -46,7 +46,7 @@ export const useWalletConnect = () => {
   const triggerInit = useCallback(() => {
     const initAccount = async () => {
       const initialized = await networkService.initializeAccount()
-      console.log(`on initialized Account`, initAccount)
+      console.log(`on initialized Account`, initialized)
       if (initialized === 'nometamask') {
         dispatch(openModal('noMetaMaskModal'))
         return false
