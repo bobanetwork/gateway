@@ -143,8 +143,8 @@ class GraphQLService {
   GRAPHQL_ENDPOINTS = {
     // Boba ETH
     288: {
-      [EGraphQLService.LightBridge]: {
-        gql: '', // TODO
+      [EGraphQLService.DAO]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-eth/v1/gn',
         local: '',
       },
     },
@@ -248,18 +248,18 @@ class GraphQLService {
 
   async queryBridgeProposalCreated({ sourceChainId }) {
     const query = gql(
-      `query { governorProposalCreateds { proposalId values description proposer } }`
+      `query { proposalCreateds { idParam values description proposer } }`
     )
 
     /*
     curl -g -X POST \
     -H "Content-Type: application/json" \
-    -d '{"query":"{ governorProposalCreateds {proposalId values description proposer}}"}' \
+    -d '{"query":"{ proposalCreateds {idParam values description proposer}}"}' \
     https://graph.goerli.boba.network/subgraphs/name/boba/Bridges
 
     curl -g -X POST \
     -H "Content-Type: application/json" \
-    -d '{"query":"{ governorProposalCreateds {proposalId values description proposer}}"}' \
+    -d '{"query":"{ proposalCreateds {idParam values description proposer}}"}' \
     https://api.thegraph.com/subgraphs/name/bobanetwork/boba-l2-subgraph
 
     */
@@ -267,7 +267,7 @@ class GraphQLService {
     if (NetworkType.TESTNET === networkService.networkType) {
       // As there is no subgraph node for goerli L2 disable it.
       return {
-        data: { governorProposalCreateds: [] },
+        data: { proposalCreateds: [] },
       }
     }
 
