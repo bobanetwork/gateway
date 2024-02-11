@@ -3215,13 +3215,13 @@ class NetworkService {
       })
 
       for (let i = 0; i < totalProposals; i++) {
-        const proposalRaw = descriptionList!.data.governorProposalCreateds[i]
+        const proposalRaw = descriptionList!.data.proposalCreateds[i]
 
         if (typeof proposalRaw === 'undefined') {
           continue
         }
 
-        const proposalID = proposalRaw.proposalId
+        const proposalID = proposalRaw.idParam
 
         //this is a number such as 2
         const proposalData = await delegateCheck.proposals(proposalID)
