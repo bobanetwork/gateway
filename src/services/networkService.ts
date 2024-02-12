@@ -471,7 +471,6 @@ class NetworkService {
 
       // NOTE: should invoke for anchorage.
       if (!this.isAnchorageEnabled()) {
-        console.log(`Should not trigger for SEPOLIA`)
         if (
           !(await this.getAddressCached(
             this.addresses,
