@@ -32,7 +32,7 @@ import Router from './routes'
 import CustomThemeProvider from 'themes'
 import { Background } from 'components/global/background'
 import FallbackLoader from './FallbackLoader'
-import { ValentinesDayBanner } from 'util/animations'
+import { ValentinesDayConfetti } from 'components/ValentinesDayConfetti'
 const App = () => {
   const dispatch = useDispatch()
 
@@ -412,7 +412,7 @@ const App = () => {
         <CssBaseline />
         <BrowserRouter>
           <Background />
-          <ValentinesDayBanner />
+          <ValentinesDayConfetti />
           <Box
             sx={{
               display: 'flex',

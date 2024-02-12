@@ -72,7 +72,7 @@ export const Confetti = ({ size, particles, spreads }: any) => {
   )
 }
 
-export const ValentinesDayBanner = () => {
+export const ValentinesDayConfetti = () => {
   const [isValentinesDay, setIsValentinesDay] = useState(false)
 
   useEffect(() => {
