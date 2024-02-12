@@ -3,7 +3,7 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-kbdlSk hpOmdY"
+    class="sc-iLLODe gqEZFu"
   >
     <div
       class="sc-fPXMVe ftesQA"
@@ -86,17 +86,17 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fyVfxW iqpLGx"
+      class="sc-dUYLmH hgBpkU"
     >
       <div
-        class="sc-eHsDsR heySqa warning"
+        class="sc-faUjhM TBPSM warning"
         data-testid="banner-item"
       >
         <div
-          class="sc-jdkBTo"
+          class="sc-cezyBN"
         >
           <p
-            class="sc-gEvEer hiDcmV sc-dwalKd kLIvkQ"
+            class="sc-jXbUNg jCIOIT sc-edKZPI itxrZo"
           >
             In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
             <a
@@ -109,27 +109,27 @@ exports[`Home  should match snapshot 1`] = `
         </div>
       </div>
       <div
-        class="sc-eHsDsR heySqa warning"
+        class="sc-faUjhM TBPSM warning"
         data-testid="banner-item"
       >
         <div
-          class="sc-jdkBTo"
+          class="sc-cezyBN"
         >
           <p
-            class="sc-gEvEer hiDcmV sc-dwalKd kLIvkQ"
+            class="sc-jXbUNg jCIOIT sc-edKZPI itxrZo"
           >
             Due to the Anchorage upgrade, relayers will no longer be available.
           </p>
         </div>
         <div
-          class="sc-fmzyuX bmYIaB"
+          class="sc-fUkmAC cYpNwH"
         >
           <div
-            class="sc-cspYLC eFDnUF"
+            class="sc-cXPBUD gFgxJD"
             data-testid="close-icon-relayer-banner-deprecation"
           >
             <div
-              class="sc-BQMaI irQEmo"
+              class="sc-bhqpjJ bSfsQN"
             >
               <div>
                 <div
@@ -143,7 +143,7 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-camqpD ipQYPR"
+      class="sc-fPrdXf glfuqR"
     />
     <div
       class="sc-hIUJlX wSeVU"

@@ -252,28 +252,15 @@ class GraphQLService {
 
   async queryBridgeProposalCreated({ sourceChainId }) {
     const query = gql(
-      `query { proposalCreateds { idParam values description proposer } }`
+      `query {
+          proposalCreateds{
+            id
+            values
+            description
+            proposer
+         }
+      }`
     )
-
-    /*
-    curl -g -X POST \
-    -H "Content-Type: application/json" \
-    -d '{"query":"{ proposalCreateds {idParam values description proposer}}"}' \
-    https://graph.goerli.boba.network/subgraphs/name/boba/Bridges
-
-    curl -g -X POST \
-    -H "Content-Type: application/json" \
-    -d '{"query":"{ proposalCreateds {idParam values description proposer}}"}' \
-    https://api.thegraph.com/subgraphs/name/bobanetwork/boba-l2-subgraph
-
-    */
-
-    if (NetworkType.TESTNET === networkService.networkType) {
-      // As there is no subgraph node for goerli L2 disable it.
-      return {
-        data: { proposalCreateds: [] },
-      }
-    }
 
     return this.conductQuery(
       query,
