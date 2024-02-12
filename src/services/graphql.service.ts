@@ -162,6 +162,10 @@ class GraphQLService {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-goerli/v1/gn',
         local: '',
       },
+      [EGraphQLService.DAO]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-goerli/v1/gn',
+        local: '',
+      },
     },
     // BNB testnet
     97: {

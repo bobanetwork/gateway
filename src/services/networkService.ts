@@ -1052,24 +1052,6 @@ class NetworkService {
         }
       })
 
-      getBalancePromise.push(
-        getERC20Balance(
-          {
-            currency: '0x0000000000000000000000000000000000000000',
-            addressL1: this.addresses.TK_L1BOBA,
-            addressL2: this.addresses.TK_L2BOBA,
-            symbolL1: 'BOBA',
-            symbolL2: 'BOBA',
-            decimals: 18,
-            name: 'BOBA',
-            redalert: false,
-          },
-          this.addresses.TK_L1BOBA,
-          'L1',
-          this.L1Provider
-        )
-      )
-
       const tokenBalances = await Promise.allSettled(getBalancePromise).then(
         (results) =>
           results
@@ -2084,9 +2066,10 @@ class NetworkService {
     L1orL2Pool: LiquidityPoolLayer
   ) {
     try {
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
+      const TX = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP
+          ? this.L1LPContract!
+          : this.L2LPContract!
       )
         .connect(this.provider!.getSigner())
         .withdrawReward(value_Wei_String, currencyAddress, this.account)
@@ -2108,9 +2091,10 @@ class NetworkService {
     L1orL2Pool: LiquidityPoolLayer
   ) {
     try {
-      const estimateGas = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
+      const estimateGas = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP
+          ? this.L1LPContract!
+          : this.L2LPContract!
       ).estimateGas.withdrawLiquidity(
         value_Wei_String,
         currency,
@@ -2118,9 +2102,10 @@ class NetworkService {
         { from: this.account }
       )
       const blockGasLimit = (await this.provider!.getBlock('latest')).gasLimit
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
+      const TX = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP
+          ? this.L1LPContract!
+          : this.L2LPContract!
       )
         .connect(this.provider!.getSigner())
         .withdrawLiquidity(value_Wei_String, currency, this.account, {
