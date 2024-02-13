@@ -23,26 +23,24 @@ export const EthereumInfo: NetworkTestInfo = {
   networkAbbreviation: 'ETHEREUM',
   isTestnet: false,
 }
+
 export const BinanceInfo: NetworkTestInfo = {
   networkName: 'Binance Smart Chain',
   networkAbbreviation: 'BNB',
   isTestnet: false,
 }
 
-export const MainnetL1Networks: NetworkTestInfo[] = [EthereumInfo, BinanceInfo]
+export const BobaEthInfo: NetworkTestInfo = {
+  networkName: 'Boba ETH',
+  networkAbbreviation: 'ETHEREUM',
+  isTestnet: false,
+}
 
-export const MainnetL2Networks: NetworkTestInfo[] = [
-  {
-    networkName: 'Boba ETH',
-    networkAbbreviation: 'Boba Eth',
-    isTestnet: false,
-  },
-  {
-    networkName: 'Boba BNB',
-    networkAbbreviation: 'Boba BNB',
-    isTestnet: false,
-  },
-]
+export const BobaBNBInfo: NetworkTestInfo = {
+  networkName: 'Boba BNB',
+  networkAbbreviation: 'BNB',
+  isTestnet: false,
+}
 
 export const EthereumGoerliInfo: NetworkTestInfo = {
   networkName: 'Ethereum (Goerli)',
@@ -56,20 +54,46 @@ export const BinanceTestnetInfo: NetworkTestInfo = {
   isTestnet: true,
 }
 
+export const BobaGoerliInfo: NetworkTestInfo = {
+  networkName: 'Boba (Goerli)',
+  networkAbbreviation: 'ETHEREUM',
+  isTestnet: true,
+}
+
+export const BobaBNBTestnetInfo: NetworkTestInfo = {
+  networkName: 'Boba BNB Testnet',
+  networkAbbreviation: 'BNB',
+  isTestnet: true,
+}
+
+export const OptimismGoerliInfo: NetworkTestInfo = {
+  networkName: 'Optimism (Goerli)',
+  networkAbbreviation: 'OPTIMISM',
+  isTestnet: true,
+}
+export const ArbitrumGoerliInfo: NetworkTestInfo = {
+  networkName: 'Arbitrum (Goerli)',
+  networkAbbreviation: 'ARBITRUM',
+  isTestnet: true,
+}
+
+export const MainnetL1Networks: NetworkTestInfo[] = [EthereumInfo, BinanceInfo]
+
+export const MainnetL2Networks: NetworkTestInfo[] = [BobaEthInfo, BobaBNBInfo]
+
 export const TestnetL1Networks: NetworkTestInfo[] = [
   EthereumGoerliInfo,
   BinanceTestnetInfo,
 ]
 
 export const TestnetL2Networks: NetworkTestInfo[] = [
-  {
-    networkName: 'Boba (Goerli)',
-    networkAbbreviation: 'Boba (Goerli)',
-    isTestnet: true,
-  },
-  {
-    networkName: 'Boba BNB Testnet',
-    networkAbbreviation: 'Boba BNB',
-    isTestnet: true,
-  },
+  BobaGoerliInfo,
+  BobaBNBTestnetInfo,
+]
+
+export const TestnetLightBridgeNetworks: NetworkTestInfo[] = [
+  BobaGoerliInfo,
+  BobaBNBTestnetInfo,
+  OptimismGoerliInfo,
+  ArbitrumGoerliInfo,
 ]

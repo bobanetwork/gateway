@@ -40,11 +40,6 @@ const useBridgeSetup = () => {
   const token = useSelector(selectTokenToBridge())
 
   useEffect(() => {
-    if (bridgeType === BRIDGE_TYPE.LIGHT) {
-      // Teleportation
-      // TODO: Load required info
-    }
-
     if (layer === LAYER.L1) {
       if (token && bridgeType === BRIDGE_TYPE.FAST) {
         /**
@@ -115,7 +110,7 @@ const useBridgeSetup = () => {
       } else if (i.symbolL1 === 'OLO') {
         return 'oolongswap'
       } else {
-        return i.symbolL1.toLowerCase()
+        return i?.symbolL1?.toLowerCase() ?? ''
       }
     })
 

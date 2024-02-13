@@ -59,7 +59,8 @@ const WalletSelectorModal: React.FC<ModalInterface> = ({ open }) => {
 
   const connectToWallet = async (type: WalletType) => {
     try {
-      if (await networkService.walletService.connect(type)) {
+      const res = await networkService.walletService.connect(type)
+      if (res) {
         dispatch(closeModal('walletSelectorModal'))
         triggerInit()
       } else {

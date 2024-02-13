@@ -6,7 +6,7 @@ import {
 
 // testnet addresss
 import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
-import addresses_BobaFuji from '@bobanetwork/register/addresses/addressBobaFuji_0xcE78de95b85212BC348452e91e0e74c17cf37c79.json'
+import addresses_Sepolia from '@bobanetwork/register/addresses/addressesBobaSepolia_0xC62C429390B7bCE9960fa647d5556CA7238168AB.json'
 import addresses_BobaBnbTestnet from '@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa.json'
 
 // mainnet address
@@ -19,13 +19,10 @@ import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.j
 import store from 'store'
 
 // predeployed contracts.
-
-// const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
-const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
-const L2_BOBA_Address = '0x4200000000000000000000000000000000000006'
+export const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
+export const L2_BOBA_Address = '0x4200000000000000000000000000000000000006'
 const L2MessengerAddress = '0x4200000000000000000000000000000000000007'
 const L2StandardBridgeAddress = '0x4200000000000000000000000000000000000010'
-// const L2GasOracle = '0x420000000000000000000000000000000000000F'
 const L2_SECONDARYFEETOKEN_ADDRESS =
   '0x4200000000000000000000000000000000000023'
 
@@ -47,6 +44,13 @@ const ADDRESS_CONFIG = {
     },
   },
   [NetworkType.TESTNET]: {
+    [Network.ETHEREUM_SEPOLIA]: {
+      ...addresses_Sepolia,
+      ...layerZeroTestnet.BOBA_Bridges.Testnet,
+      ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
+      layerZeroTargetChainID:
+        layerZeroTestnet.Layer_Zero_Protocol.Testnet.Layer_Zero_ChainId,
+    },
     [Network.ETHEREUM]: {
       ...addresses_Goerli,
       ...layerZeroTestnet.BOBA_Bridges.Testnet,
@@ -73,8 +77,8 @@ type NetworkTypeConfig = {
 }
 
 type NetworkTypeConfigs = {
-  [NetworkType.TESTNET]: NetworkTypeConfig
-  [NetworkType.MAINNET]: NetworkTypeConfig
+  [NetworkType.TESTNET]: Partial<NetworkTypeConfig>
+  [NetworkType.MAINNET]: Partial<NetworkTypeConfig>
 }
 
 const SUPPORTED_ASSETS: NetworkTypeConfigs = {
@@ -166,6 +170,11 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
     },
   },
   [NetworkType.TESTNET]: {
+    [Network.ETHEREUM_SEPOLIA]: {
+      tokenAddresses: {},
+      tokens: ['BOBA'],
+      altL1Chains: ['BNB'],
+    },
     [Network.ETHEREUM]: {
       tokenAddresses: {},
       tokens: ['BOBA', 'USDC', 'OMG', 'xBOBA'],
@@ -215,7 +224,7 @@ class AppService {
       L2_ETH_Address: L2_BOBA_Address,
       L2_BOBA_Address,
       L1_ETH_Address,
-      NETWORK_NATIVE: '0x4200000000000000000000000000000000000006', // always native
+      NETWORK_NATIVE_TOKEN: '0x4200000000000000000000000000000000000006', // always native
     }
   }
 
@@ -228,7 +237,7 @@ class AppService {
    */
 
   fetchSupportedAssets({ networkType, network }: INetworkCategory) {
-    return SUPPORTED_ASSETS[networkType][network] || {}
+    return SUPPORTED_ASSETS[networkType][network]
   }
 
   /**
@@ -239,7 +248,7 @@ class AppService {
 
   setupInitState({ l1Token, l1TokenName }) {
     store.dispatch({
-      type: 'TOKEN/GET/SUCCESS',
+      type: 'TOKEN/GET/INITIALIZE',
       payload: {
         currency: L1_ETH_Address,
         addressL1: L1_ETH_Address,
