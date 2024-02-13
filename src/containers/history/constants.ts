@@ -103,7 +103,7 @@ export const Chains: ChainMap = {
     name: CHAIN_NAME.Boba_Sepolia,
     transactionUrlPrefix: 'https://testnet.bobascan.com/tx/',
     symbol: 'ETH',
-    imgSrc: ethIcon,
+    imgSrc: bobaEth,
   },
 }
 
@@ -134,6 +134,12 @@ export const NETWORK_L1_OPTIONS: IDropdownItem[] = [
     imgSrc: ethIcon,
     headerName: NetworkType.TESTNET,
   },
+  {
+    value: '11155111',
+    label: 'Sepolia',
+    imgSrc: ethIcon,
+    headerName: NetworkType.TESTNET,
+  },
 ]
 
 export const NETWORK_L2_OPTIONS = [
@@ -153,6 +159,12 @@ export const NETWORK_L2_OPTIONS = [
   {
     value: '2888',
     label: 'Boba Goerli',
+    imgSrc: bobaEth,
+    headerName: NetworkType.TESTNET,
+  },
+  {
+    value: '28882',
+    label: 'Boba Sepolia',
     imgSrc: bobaEth,
     headerName: NetworkType.TESTNET,
   },
