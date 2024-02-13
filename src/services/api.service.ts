@@ -6,6 +6,7 @@ export class ApiService {
       const res = await _coinGeckoAxiosInstance.get(
         `simple/price?ids=${params.join()}&vs_currencies=usd`
       )
+
       return res.data
     } catch (error) {
       return error
