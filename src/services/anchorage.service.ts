@@ -6,8 +6,7 @@ import {
   anchorageGraphQLService,
   GQL2ToL1MessagePassedEvent,
 } from './graphql.service'
-import { isAnchorageEnabled } from '../util/common'
-import { setReenterWithdrawalConfig } from '../actions/bridgeAction'
+
 export enum DepositState {
   deposited = 'TransactionDeposited',
   finalized = 'DepositFinalized',
@@ -255,10 +254,7 @@ export const claimWithdrawal = async (logs: GQL2ToL1MessagePassedEvent[]) => {
 
 export const checkBridgeWithdrawalReenter =
   (): IReenterWithdrawConfig | null => {
-    if (
-      isAnchorageEnabled(networkService.networkType) &&
-      !!networkService.provider
-    ) {
+    if (networkService.isAnchorageEnabled() && !!networkService.provider) {
       anchorageGraphQLService
         .queryWithdrawalTransactionsHistory(
           networkService.account,

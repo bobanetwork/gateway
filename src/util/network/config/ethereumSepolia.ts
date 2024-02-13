@@ -1,31 +1,28 @@
 import { NetworkDetail } from './network-details.types'
 
-// Legacy, Pre-Anchorage
-const GoerliTestnet = {
+// Anchorage
+const SepoliaTestnet = {
   OMGX_WATCHER_URL: `https://api-watcher.goerli.boba.network/`,
   VERIFIER_WATCHER_URL: `https://api-verifier.goerli.boba.network/`,
   META_TRANSACTION: `https://api-meta-transaction.goerli.boba.network/`,
-  MM_Label: `Goerli`,
-  addressManager: `0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148`,
+  MM_Label: `Sepolia`,
+  addressManager: `0x9bFE9c5609311DF1c011c47642253B78a4f33F4B`,
   L1: {
-    name: 'Goerli',
-    chainId: 5,
-    chainIdHex: '0x5',
-    rpcUrl: [
-      `https://goerli.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
-      `https://rpc.ankr.com/eth_goerli`,
-    ],
-    transaction: `https://goerli.etherscan.io/tx/`,
-    blockExplorerUrl: `https://goerli.etherscan.io/`,
+    name: 'Sepolia',
+    chainId: 11155111,
+    chainIdHex: '0xaa36a7',
+    rpcUrl: [`https://ethereum-sepolia.publicnode.com`],
+    transaction: `https://rpc.sepolia.ethpandaops.io/tx/`,
+    blockExplorerUrl: `https://gateway.tenderly.co/public/sepolia`,
     symbol: 'ETH',
     tokenName: 'ETH',
   },
   L2: {
-    name: 'BOBA Goerli L2',
-    chainId: 2888,
-    chainIdHex: '0xB48',
-    rpcUrl: [`https://goerli.boba.network`],
-    blockExplorer: `https://testnet.bobascan.com/`,
+    name: 'BOBA Sepolia L2',
+    chainId: 28882,
+    chainIdHex: '0x70d2',
+    rpcUrl: [`https://sepolia.boba.network`],
+    blockExplorer: `https://proxyd.anchorage.boba.network/`,
     transaction: `https://testnet.bobascan.com/tx/`,
     blockExplorerUrl: `https://testnet.bobascan.com/`,
     symbol: 'ETH',
@@ -46,8 +43,8 @@ const GoerliTestnet = {
   gasEstimateAccount: `0xdb5a187FED81c735ddB1F6E47F28f2A5F74639b2`,
 }
 
-export const ethereumConfig: NetworkDetail = {
-  Testnet: GoerliTestnet,
+export const sepoliaConfig: NetworkDetail = {
+  Testnet: SepoliaTestnet,
   Mainnet: {
     OMGX_WATCHER_URL: `https://api-watcher.mainnet.boba.network/`,
     VERIFIER_WATCHER_URL: `https://api-verifier.mainnet.boba.network/`,

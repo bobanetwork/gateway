@@ -68,6 +68,3 @@ export const formatTokenAmount = (token: any) => {
         }
       )
 }
-
-export const isAnchorageEnabled = (networkType: any) =>
-  ANCHORAGE_ENABLED && networkType === NetworkType.TESTNET
