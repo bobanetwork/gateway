@@ -722,7 +722,7 @@ class NetworkService {
         this.L2Provider
       )
 
-      if (Network.ETHEREUM_SEPOLIA === network && !this.isAnchorageEnabled()) {
+      if (Network.ETHEREUM === network) {
         this.xBobaContract = new ethers.Contract(
           allTokens.xBOBA.L2,
           BOBAABI,

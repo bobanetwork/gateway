@@ -254,7 +254,7 @@ class GraphQLService {
     const query = gql(
       `query {
           proposalCreateds{
-            id
+            idParam
             values
             description
             proposer
@@ -280,20 +280,20 @@ class TeleportationGraphQLService extends GraphQLService {
   ): Promise<LightBridgeAssetReceivedEvent[]> {
     const query =
       gql(`query Teleportation($wallet: String!, $sourceChainId: BigInt!) {
-  assetReceiveds(
-    where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }]}
-  ) {
-    token
-    sourceChainId
-    toChainId
-    depositId
-    emitter
-    amount
-    block_number
-    timestamp_
-    transactionHash_
-  }
-}`)
+            assetReceiveds(
+              where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }]}
+            ) {
+              token
+              sourceChainId
+              toChainId
+              depositId
+              emitter
+              amount
+              block_number
+              timestamp_
+              transactionHash_
+            }
+          }`)
 
     const variables = {
       wallet: walletAddress,
