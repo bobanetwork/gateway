@@ -68,6 +68,6 @@ export const Label = styled(Typography).attrs({
     color
       ? color
       : theme.name === 'light'
-      ? theme.colors.gray[700]
-      : theme.colors.gray[100]};
+        ? theme.colors.gray[700]
+        : theme.colors.gray[100]};
 `

@@ -13,12 +13,17 @@ export const GAS_POLL_INTERVAL: EnvType =
 export const GA4_MEASUREMENT_ID: EnvType =
   process.env.REACT_APP_GA4_MEASUREMENT_ID || null
 export const APP_ENV: EnvType = process.env.REACT_APP_ENV || 'dev'
-export const isDevBuild = () => APP_ENV === 'dev'
 export const WALLET_VERSION: EnvType = process.env.REACT_APP_WALLET_VERSION
 export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 // WalletConnect FLAG
+export const ANCHORAGE_ENABLED =
+  process.env.REACT_APP_ENABLE_ANCHORAGE?.toLowerCase() === 'true' || false
+
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
+
+export const GATEWAY_DATA_BRANCH: EnvType =
+  process.env.REACT_APP_GATEWAY_DATA_BRANCH || 'main'
 
 /*********************
  * Routes Constants **
@@ -50,13 +55,14 @@ export const ROUTES_PATH: RoutesPathType = {
   DEV_TOOLS: '/devtools',
 }
 
-type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum' //we move this to global network type once we define this
+type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum' | 'ethereum_sepolia' //we move this to global network type once we define this
 type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO' | 'Monster'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
   ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
   bnb: ['Bridge', 'Earn', 'History'],
+  ethereum_sepolia: ['Bridge', 'History'],
   optimism: ['Bridge', 'History'],
   arbitrum: ['Bridge', 'History'],
 }
@@ -95,5 +101,4 @@ export const MM_EXTENTION_URL: string =
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
 
-export const THIRD_PARTY_BRIDGES_LIST =
-  'https://raw.githubusercontent.com/bobanetwork/gateway-data/main/bridges/list.json'
+export const THIRD_PARTY_BRIDGES_LIST = `https://raw.githubusercontent.com/bobanetwork/gateway-data/${GATEWAY_DATA_BRANCH}/bridges/list.json`

@@ -97,4 +97,8 @@ export const CloseIcon = styled(Svg).attrs({
     height: auto;
     stroke: #000;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `

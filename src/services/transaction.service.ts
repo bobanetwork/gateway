@@ -7,13 +7,14 @@ import {
 } from 'util/network/network.util'
 import { TRANSACTION_STATUS } from '../containers/history/types'
 import {
+  anchorageGraphQLService,
   LightBridgeAssetReceivedEvent,
   LightBridgeDisbursementEvents,
   lightBridgeGraphQLService,
 } from './graphql.service'
 import { Contract, ethers, providers } from 'ethers'
-import { isDevBuild } from '../util/constant'
 import { BobaChains } from '../util/chainConfig'
+import { sepoliaConfig } from 'util/network/config/ethereumSepolia'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -47,6 +48,35 @@ class TransactionService {
       const data = response.data
       return data.filter((i) => i.fastRelay === 1 && i.status === 'pending')
     } else {
+      return []
+    }
+  }
+
+  async fetchAnchorageTransactions(
+    networkConfig = networkService.networkConfig
+  ): Promise<any[]> {
+    const address = await networkService.provider?.getSigner().getAddress()
+    if (
+      networkConfig?.L1.chainId !== sepoliaConfig.Testnet.L1.chainId ||
+      !address
+    ) {
+      return []
+    }
+    try {
+      const withdrawalTransactions =
+        await anchorageGraphQLService.queryWithdrawalTransactionsHistory(
+          address,
+          networkConfig!
+        )
+
+      const depositTransactions =
+        await anchorageGraphQLService.queryDepositTransactions(
+          address,
+          networkConfig!
+        )
+
+      return [...depositTransactions, ...withdrawalTransactions]
+    } catch (e) {
       return []
     }
   }
@@ -161,20 +191,23 @@ class TransactionService {
       return [network.Testnet, network.Mainnet]
     })
 
-    const allNetworksTransactions = await Promise.all(
+    const allNetworksTransactions: any[] = await Promise.all(
       networkConfigsArray.flatMap((config) => {
         return [
+          this.fetchAnchorageTransactions(config),
           this.fetchL2Tx(config),
           this.fetchL1PendingTx(config),
           this.fetchTeleportationTransactions(config),
         ]
       })
     )
+
     const filteredResults = allNetworksTransactions.reduce(
       (acc, res) => [...acc, ...res],
       []
     )
-    return filteredResults?.filter((transaction) => transaction.hash)
+
+    return filteredResults.filter((transaction) => transaction?.hash)
   }
 
   async fetchTeleportationTransactions(
@@ -356,8 +389,6 @@ class TransactionService {
             return mapEventToTransaction(contract, sendEvent, receiveEvent)
           })
         )
-      } else if (isDevBuild()) {
-        console.log('DEV: Teleportation not supported on network')
       }
       return []
     }
