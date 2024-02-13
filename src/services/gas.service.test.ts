@@ -16,21 +16,25 @@ jest.mock('services/networkService', () => {
 
 describe('fetchGasDetail', () => {
   beforeEach(() => {
-    networkService.L1Provider.getFeeData.mockClear()
-    networkService.L2Provider.getFeeData.mockClear()
-    networkService.L1Provider.getBlockNumber.mockClear()
-    networkService.L2Provider.getBlockNumber.mockClear()
+    ;(networkService.L1Provider!.getFeeData as jest.Mock).mockClear()
+    ;(networkService.L2Provider!.getFeeData as jest.Mock).mockClear()
+    ;(networkService.L1Provider!.getBlockNumber as jest.Mock).mockClear()
+    ;(networkService.L2Provider!.getBlockNumber as jest.Mock).mockClear()
   })
 
   test('Should fetch gas details successfully for L1 and L2', async () => {
-    networkService.L1Provider.getFeeData.mockResolvedValue({
+    ;(networkService.L1Provider!.getFeeData as jest.Mock).mockResolvedValue({
       gasPrice: '1000000000',
     })
-    networkService.L2Provider.getFeeData.mockResolvedValue({
+    ;(networkService.L2Provider!.getFeeData as jest.Mock).mockResolvedValue({
       gasPrice: '500000000',
     })
-    networkService.L1Provider.getBlockNumber.mockResolvedValue(110000)
-    networkService.L2Provider.getBlockNumber.mockResolvedValue(220000)
+    ;(networkService.L1Provider!.getBlockNumber as jest.Mock).mockResolvedValue(
+      110000
+    )
+    ;(networkService.L2Provider!.getBlockNumber as jest.Mock).mockResolvedValue(
+      220000
+    )
 
     const result = await fetchGasDetail()
 
@@ -41,9 +45,9 @@ describe('fetchGasDetail', () => {
       blockL2: 220000,
     })
 
-    expect(networkService.L1Provider.getFeeData).toHaveBeenCalled()
-    expect(networkService.L2Provider.getFeeData).toHaveBeenCalled()
-    expect(networkService.L1Provider.getBlockNumber).toHaveBeenCalled()
-    expect(networkService.L2Provider.getBlockNumber).toHaveBeenCalled()
+    expect(networkService.L1Provider!.getFeeData).toHaveBeenCalled()
+    expect(networkService.L2Provider!.getFeeData).toHaveBeenCalled()
+    expect(networkService.L1Provider!.getBlockNumber).toHaveBeenCalled()
+    expect(networkService.L2Provider!.getBlockNumber).toHaveBeenCalled()
   })
 })

@@ -13,24 +13,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import loadingReducer from './loadingReducer'
-import depositReducer from './depositReducer'
-import transactionReducer from './transactionReducer'
-import dataReducer from './dataReducer'
 import balanceReducer from './balanceReducer'
-import tokenReducer from './tokenReducer'
-import nftReducer from './nftReducer'
-import uiReducer from './uiReducer'
-import setupReducer from './setupReducer'
-import earnReduer from './earnReducer'
-import lookupReducer from './lookupReducer'
-import signatureReducer from './signatureReducer'
-import daoReducer from './daoReducer'
-import fixedReducer from './fixedReducer'
-import verifierReducer from './verifierReducer'
 import bridgeReducer from './bridgeReducer'
+import daoReducer from './daoReducer'
+import dataReducer from './dataReducer'
+import depositReducer from './depositReducer'
 import devToolsReducer from './devToolsReducer'
+import earnReduer from './earnReducer'
+import fixedReducer from './fixedReducer'
+import loadingReducer from './loadingReducer'
+import lookupReducer from './lookupReducer'
 import networkReducer from './networkReducer'
+import setupReducer from './setupReducer'
+import tokenReducer from './tokenReducer'
+import transactionReducer from './transactionReducer'
+import uiReducer from './uiReducer'
+import verifierReducer from './verifierReducer'
 import { combineReducers } from '@reduxjs/toolkit'
 
 const rootReducer = combineReducers({
@@ -38,10 +36,8 @@ const rootReducer = combineReducers({
   deposit: depositReducer,
   transaction: transactionReducer,
   data: dataReducer,
-  signature: signatureReducer,
   balance: balanceReducer,
   tokenList: tokenReducer,
-  nft: nftReducer,
   ui: uiReducer,
   setup: setupReducer,
   earn: earnReduer,

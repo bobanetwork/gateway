@@ -32,7 +32,7 @@ import { JsonRpcProvider } from '@ethersproject/providers'
 export class WalletService {
   provider?: JsonRpcProvider
   walletConnectProvider: any
-  account: string = ''
+  account?: string = ''
   walletType: 'metamask' | 'walletconnect' | null = null
   userTriggeredSwitchChain: boolean = false
   networkId: number = 1

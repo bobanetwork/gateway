@@ -70,8 +70,8 @@ type TokenList = Record<
 >
 
 type TokenInfoForNetwork = {
-  L1: Record<string, TokenList>
-  L2: Record<string, TokenList>
+  L1: TokenList
+  L2: TokenList
 }
 
 type TokenAddresses = Record<string, { L1: string; L2: string }>
@@ -492,6 +492,7 @@ class NetworkService {
         )
 
         // Liquidity pools
+        // TODO: review and remove if it's not getting used.
         this.L1LPContract = new ethers.Contract(
           this.addresses.L1LPAddress,
           L1LiquidityPoolABI,
