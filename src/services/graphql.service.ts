@@ -5,7 +5,6 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client'
-import { NetworkType } from 'util/network/network.util'
 import networkService from './networkService'
 import { BigNumberish } from 'ethers'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
