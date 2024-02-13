@@ -22,6 +22,9 @@ export const ANCHORAGE_ENABLED =
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
 
+export const GATEWAY_DATA_BRANCH: EnvType =
+  process.env.REACT_APP_GATEWAY_DATA_BRANCH || 'main'
+
 /*********************
  * Routes Constants **
  *********************/
@@ -98,5 +101,4 @@ export const MM_EXTENTION_URL: string =
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
 
-export const THIRD_PARTY_BRIDGES_LIST =
-  'https://raw.githubusercontent.com/bobanetwork/gateway-data/main/bridges/list.json'
+export const THIRD_PARTY_BRIDGES_LIST = `https://raw.githubusercontent.com/bobanetwork/gateway-data/${GATEWAY_DATA_BRANCH}/bridges/list.json`
