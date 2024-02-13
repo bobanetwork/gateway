@@ -2,7 +2,7 @@ import { NetworkDetail } from './network-details.types'
 
 // Anchorage
 const SepoliaTestnet = {
-  OMGX_WATCHER_URL: `https://api-watcher.goerli.boba.network/`,
+  OMGX_WATCHER_URL: '',
   VERIFIER_WATCHER_URL: `https://api-verifier.goerli.boba.network/`,
   META_TRANSACTION: `https://api-meta-transaction.goerli.boba.network/`,
   MM_Label: `Sepolia`,
