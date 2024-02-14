@@ -14,6 +14,10 @@ import {
 
 const blockExplorerLinks = {
   [NetworkType.TESTNET]: {
+    [Network.ETHEREUM_SEPOLIA]: {
+      l1: `https://sepolia.etherscan.io`,
+      l2: `https://testnet.bobascan.com`,
+    },
     [Network.ETHEREUM]: {
       l1: `https://goerli.etherscan.io`,
       l2: `https://testnet.bobascan.com`,

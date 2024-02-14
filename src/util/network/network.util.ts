@@ -7,7 +7,14 @@ import BobaIcon from 'components/icons/chain/L2/BobaIcon'
 import BobaBNBIcon from 'components/icons/chain/L2/BobaBNBIcon'
 import OptimismIcon from 'components/icons/chain/L2/OptimismIcon'
 import ArbitrumIcon from 'components/icons/chain/L2/ArbitrumIcon'
+import bobaEth from 'assets/bobaEth.svg'
+import bobaBnb from 'assets/bobaBNB.svg'
+import optimism from 'assets/optimism.svg'
+import arbitrum from 'assets/arbitrum.svg'
 
+import ethIcon from 'assets/ethereum.svg'
+
+import { sepoliaConfig } from './config/ethereumSepolia'
 import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
 import { optimismConfig } from './config/optimism'
@@ -17,6 +24,7 @@ import {
   NetworkDetail,
   NetworkDetailChainConfig,
 } from './config/network-details.types'
+import { getCoinImage } from 'util/coinImage'
 
 export const L1_ICONS = {
   ethereum: EthereumIcon,
@@ -39,6 +47,7 @@ export enum NetworkType {
 
 export enum Network {
   ETHEREUM = 'ETHEREUM',
+  ETHEREUM_SEPOLIA = 'ETHEREUM_SEPOLIA',
   BNB = 'BNB',
   OPTIMISM = 'OPTIMISM',
   ARBITRUM = 'ARBITRUM',
@@ -51,6 +60,8 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L1,
     name: 'Goerli',
     icon: 'ethereum',
+    siteName: 'Ethereum (Goerli)',
+    imgSrc: ethIcon,
   },
   2888: {
     networkType: NetworkType.TESTNET,
@@ -58,6 +69,26 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Boba Goerli',
     icon: 'ethereum',
+    siteName: 'Boba (Goerli)',
+    imgSrc: bobaEth,
+  },
+  28882: {
+    networkType: NetworkType.TESTNET,
+    chain: Network.ETHEREUM_SEPOLIA,
+    layer: LAYER.L2,
+    name: 'Boba Sepolia',
+    icon: 'ethereum',
+    siteName: 'Boba (Sepolia)',
+    imgSrc: bobaEth,
+  },
+  11155111: {
+    networkType: NetworkType.TESTNET,
+    chain: Network.ETHEREUM_SEPOLIA,
+    layer: LAYER.L2,
+    name: 'Sepolia',
+    icon: 'ethereum',
+    siteName: 'Ethereum (Sepolia)',
+    imgSrc: ethIcon,
   },
   1: {
     networkType: NetworkType.MAINNET,
@@ -65,6 +96,8 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L1,
     name: 'Ethereum',
     icon: 'ethereum',
+    siteName: 'Ethereum',
+    imgSrc: ethIcon,
   },
   288: {
     networkType: NetworkType.MAINNET,
@@ -72,6 +105,8 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Boba Eth',
     icon: 'ethereum',
+    siteName: 'Boba ETH',
+    imgSrc: bobaEth,
   },
   97: {
     networkType: NetworkType.TESTNET,
@@ -79,6 +114,8 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L1,
     name: 'Bnb Testnet',
     icon: 'bnb',
+    siteName: 'BNB Testnet',
+    imgSrc: getCoinImage('BNB'),
   },
   9728: {
     networkType: NetworkType.TESTNET,
@@ -86,6 +123,8 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Boba Bnb Testnet',
     icon: 'bnb',
+    siteName: 'Boba BNB Testnet',
+    imgSrc: bobaBnb,
   },
   56: {
     networkType: NetworkType.MAINNET,
@@ -93,6 +132,8 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L1,
     name: 'Bnb',
     icon: 'bnb',
+    siteName: 'Binance Smart Chain',
+    imgSrc: getCoinImage('BNB'),
   },
   56288: {
     networkType: NetworkType.MAINNET,
@@ -100,6 +141,8 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Boba Bnb',
     icon: 'bnb',
+    siteName: 'Boba BNB',
+    imgSrc: bobaBnb,
   },
   420: {
     networkType: NetworkType.TESTNET,
@@ -107,7 +150,9 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Optimism Goerli',
     icon: 'optimism',
+    siteName: 'Optimism (Goerli)',
     limitedAvailability: true,
+    imgSrc: optimism,
   },
   421613: {
     networkType: NetworkType.TESTNET,
@@ -115,7 +160,9 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Arbitrum Goerli',
     icon: 'arbitrum',
+    siteName: 'Arbitrum (Goerli)',
     limitedAvailability: true,
+    imgSrc: arbitrum,
   },
   10: {
     networkType: NetworkType.MAINNET,
@@ -123,7 +170,9 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Optimism Mainnet',
     icon: 'optimism',
+    siteName: 'Optimism',
     limitedAvailability: true,
+    imgSrc: optimism,
   },
   42161: {
     networkType: NetworkType.MAINNET,
@@ -131,7 +180,9 @@ export const CHAIN_ID_LIST = {
     layer: LAYER.L2,
     name: 'Arbitrum Mainnet',
     icon: 'arbitrum',
+    siteName: 'Arbitrum',
     limitedAvailability: true,
+    imgSrc: arbitrum,
   },
 }
 
@@ -151,19 +202,25 @@ export interface INetwork {
   limitedAvailability?: boolean
 }
 
-export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
+export const DEFAULT_NETWORK = {
+  icon: 'ethereum',
+  chain: Network.ETHEREUM,
+  label: 'Ethereum <> Boba ETH',
+  key: 'ethereum',
+  name: {
+    l1: 'Ethereum',
+    l2: 'Boba ETH',
+  },
+  chainId: { [Layer.L1]: '1', [Layer.L2]: '288' },
+}
+type NetworkLists = {
+  Mainnet: INetwork[]
+  Testnet: INetwork[]
+}
+
+export const NetworkList: NetworkLists = {
   Mainnet: [
-    {
-      icon: 'ethereum',
-      chain: Network.ETHEREUM,
-      label: 'Ethereum <> Boba ETH',
-      key: 'ethereum',
-      name: {
-        l1: 'Ethereum',
-        l2: 'Boba ETH',
-      },
-      chainId: { [Layer.L1]: '1', [Layer.L2]: '288' },
-    },
+    DEFAULT_NETWORK,
     {
       icon: 'bnb',
       chain: Network.BNB,
@@ -179,6 +236,19 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
   Testnet: [
     {
       icon: 'ethereum',
+      chain: Network.ETHEREUM_SEPOLIA,
+      label: 'Ethereum (Sepolia) <> Boba (Sepolia)',
+      key: 'ethereum',
+      name: {
+        l1: 'Ethereum (Sepolia)',
+        l2: 'Boba (Sepolia)',
+      },
+      chainId: { [Layer.L1]: '11155111', [Layer.L2]: '28882' },
+      limitedAvailability: false,
+    },
+    {
+      //@todo remove on full migration to sepolia.
+      icon: 'ethereum',
       chain: Network.ETHEREUM,
       label: 'Ethereum (Goerli) <> Boba (Goerli)',
       key: 'ethereum',
@@ -187,6 +257,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
         l2: 'Boba (Goerli)',
       },
       chainId: { [Layer.L1]: '5', [Layer.L2]: '2888' },
+      limitedAvailability: false,
     },
     {
       icon: 'bnb',
@@ -199,7 +270,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
       },
       chainId: { [Layer.L1]: '97', [Layer.L2]: '9728' },
     },
-    // TODO Make sure they are only shown for light bridge
+    // Make sure they are only shown for light bridge
     {
       icon: 'optimism',
       chain: Network.OPTIMISM,
@@ -231,11 +302,12 @@ export const networkLimitedAvailability = (
   networkType: keyof typeof NetworkType,
   network: keyof typeof Network
 ) => {
-  return !!NetworkList[networkType]?.find((n) => n.chain === network)
-    ?.limitedAvailability
+  const currNetwork = NetworkList[networkType ?? NetworkType.TESTNET]
+  return !!currNetwork?.find((n) => n.chain === network)?.limitedAvailability
 }
 
 export const AllNetworkConfigs: { [network in Network]: NetworkDetail } = {
+  [Network.ETHEREUM_SEPOLIA]: sepoliaConfig,
   [Network.ETHEREUM]: ethereumConfig,
   [Network.BNB]: bnbConfig,
   [Network.OPTIMISM]: optimismConfig,
@@ -276,4 +348,12 @@ export const pingRpcUrl = async (rpcUrl) => {
     console.log(`Error pinging Rpc Url: ${rpcUrl}`)
     return false
   }
+}
+
+export const chainNameMaps: Record<Network, string> = {
+  ETHEREUM: 'Ethereum',
+  ETHEREUM_SEPOLIA: 'Ethereum Sepolia',
+  BNB: 'Bnb',
+  OPTIMISM: 'Optimism',
+  ARBITRUM: 'Arbitrum',
 }

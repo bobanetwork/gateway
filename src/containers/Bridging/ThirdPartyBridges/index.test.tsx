@@ -6,6 +6,13 @@ import { Network, NetworkType } from 'util/network/network.util'
 import CustomThemeProvider from 'themes'
 import ThirdPartyBridges from '.'
 import { mockedInitialState } from 'util/tests'
+import useThirdPartyBridges from 'hooks/useThirdPartyBridges'
+
+jest.mock('hooks/useThirdPartyBridges')
+
+const mockUseThirdPartyBridges = useThirdPartyBridges as jest.MockedFunction<
+  typeof useThirdPartyBridges
+>
 
 const mockStore = configureStore()
 
@@ -25,7 +32,26 @@ const renderThirdPartyBridges = ({ options = {} }: any) => {
 }
 
 describe('3rd Party Bridges', () => {
+  beforeEach(() => {
+    mockUseThirdPartyBridges.mockReturnValue({
+      bridges: null,
+      loading: false,
+      error: null,
+    })
+  })
+
   test('should match snapshot when network is ETH Mainnet', () => {
+    mockUseThirdPartyBridges.mockReturnValue({
+      bridges: [
+        {
+          name: 'Banxa',
+          icon: 'https://raw.githubusercontent.com/bobanetwork/gateway-data/main/bridges/icons/banxa.svg',
+          link: 'https://boba.banxa.com/',
+        },
+      ],
+      loading: false,
+      error: null,
+    })
     const { asFragment } = renderThirdPartyBridges({})
     expect(asFragment()).toMatchSnapshot()
   })
@@ -54,31 +80,20 @@ describe('3rd Party Bridges', () => {
     expect(asFragment()).toMatchSnapshot()
   })
 
-  test('should render icons correctly for light mode', () => {
-    const { asFragment } = renderThirdPartyBridges({
-      options: {
-        ui: {
-          theme: 'light',
-        },
-      },
-    })
-    expect(asFragment()).toMatchSnapshot()
-
-    expect(screen.getAllByAltText('light-logo', { exact: false }).length).toBe(
-      3
-    )
-  })
-
   test('should render bridge list correctly', () => {
+    mockUseThirdPartyBridges.mockReturnValue({
+      bridges: [
+        {
+          name: 'Banxa',
+          icon: 'https://raw.githubusercontent.com/bobanetwork/gateway-data/main/bridges/icons/banxa.svg',
+          link: 'https://boba.banxa.com/',
+        },
+      ],
+      loading: false,
+      error: null,
+    })
     renderThirdPartyBridges({})
-    expect(screen.getAllByTestId('bridge-item').length).toBe(8)
+    expect(screen.getAllByTestId('bridge-item').length).toBe(1)
     expect(screen.getByText('Banxa')).toBeInTheDocument()
-    expect(screen.getByText('BoringDAO')).toBeInTheDocument()
-    expect(screen.getByText('Celer')).toBeInTheDocument()
-    expect(screen.getByText('Chainswap')).toBeInTheDocument()
-    expect(screen.getByText('Rango Exchange')).toBeInTheDocument()
-    expect(screen.getByText('Rubic Exchange')).toBeInTheDocument()
-    expect(screen.getByText('Synapse')).toBeInTheDocument()
-    expect(screen.getByText('Via Protocol')).toBeInTheDocument()
   })
 })

@@ -1,0 +1,293 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NetworkSelector should match snapshot when account connected to Boba (Goerli) 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-ikkxIA hCYbic dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    data-testid="dropdown-network-selector"
+  >
+    <div
+      class="sc-dAbbOL RcOpK dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    >
+      <div
+        class="sc-hzhJZQ kDuYcO"
+      >
+        <div
+          class="sc-feUZmu eYMtOB"
+        >
+          <img
+            alt="token"
+            src="bobaEth.svg"
+            width="20px"
+          />
+        </div>
+        <p
+          class="sc-kpDqfm cBJJYe"
+        >
+          Boba (Goerli)
+        </p>
+        <div
+          class="sc-eeDRCY gwpNMS dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div>
+            <div
+              data-src="arrowdown.svg"
+              src=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`NetworkSelector should match snapshot when account connected to Boba (Goerli) 2`] = `
+<DocumentFragment>
+  <div
+    class="sc-ikkxIA hCYbic dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    data-testid="dropdown-network-selector"
+  >
+    <div
+      class="sc-dAbbOL ezuarg dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    >
+      <div
+        class="sc-hzhJZQ kDuYcO"
+      >
+        <div
+          class="sc-feUZmu eYMtOB"
+        >
+          <img
+            alt="token"
+            src="bobaEth.svg"
+            width="20px"
+          />
+        </div>
+        <p
+          class="sc-kpDqfm cBJJYe"
+        >
+          Boba (Goerli)
+        </p>
+        <div
+          class="sc-eeDRCY gwpNMS dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div>
+            <div
+              data-src="arrowdown.svg"
+              src=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-bXCLTC BGvxD"
+    >
+      <div
+        class="sc-jsJBEP fuNUGg"
+      >
+        <div
+          class="sc-fUnMCh kfvKvW dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          Networks
+        </div>
+        <div
+          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div
+            class="sc-feUZmu eYMtOB"
+          >
+            <img
+              alt="token"
+              src="bobaEth.svg"
+              width="20px"
+            />
+          </div>
+          Boba (Sepolia)
+        </div>
+        <div
+          class="sc-hzhJZQ liKHdJ dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div
+            class="sc-feUZmu eYMtOB"
+          >
+            <img
+              alt="token"
+              src="bobaEth.svg"
+              width="20px"
+            />
+          </div>
+          Boba (Goerli)
+        </div>
+        <div
+          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div
+            class="sc-feUZmu eYMtOB"
+          >
+            <img
+              alt="token"
+              src="bobaBNB.svg"
+              width="20px"
+            />
+          </div>
+          Boba BNB Testnet
+        </div>
+        <div
+          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div
+            class="sc-feUZmu eYMtOB"
+          >
+            <img
+              alt="token"
+              src="optimism.svg"
+              width="20px"
+            />
+          </div>
+          Optimism (Goerli)
+        </div>
+        <div
+          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div
+            class="sc-feUZmu eYMtOB"
+          >
+            <img
+              alt="token"
+              src="arbitrum.svg"
+              width="20px"
+            />
+          </div>
+          Arbitrum (Goerli)
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`NetworkSelector should match snapshot when account connected to Ethereum Mainnet 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-ikkxIA hCYbic dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    data-testid="dropdown-network-selector"
+  >
+    <div
+      class="sc-dAbbOL RcOpK dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    >
+      <div
+        class="sc-hzhJZQ kDuYcO"
+      >
+        <div
+          class="sc-feUZmu eYMtOB"
+        >
+          <img
+            alt="token"
+            src="ethereum.svg"
+            width="20px"
+          />
+        </div>
+        <p
+          class="sc-kpDqfm cBJJYe"
+        >
+          Ethereum
+        </p>
+        <div
+          class="sc-eeDRCY gwpNMS dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div>
+            <div
+              data-src="arrowdown.svg"
+              src=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`NetworkSelector should match snapshot when account connected to Ethereum Mainnet 2`] = `
+<DocumentFragment>
+  <div
+    class="sc-ikkxIA hCYbic dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    data-testid="dropdown-network-selector"
+  >
+    <div
+      class="sc-dAbbOL ezuarg dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    >
+      <div
+        class="sc-hzhJZQ kDuYcO"
+      >
+        <div
+          class="sc-feUZmu eYMtOB"
+        >
+          <img
+            alt="token"
+            src="ethereum.svg"
+            width="20px"
+          />
+        </div>
+        <p
+          class="sc-kpDqfm cBJJYe"
+        >
+          Ethereum
+        </p>
+        <div
+          class="sc-eeDRCY gwpNMS dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div>
+            <div
+              data-src="arrowdown.svg"
+              src=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-bXCLTC BGvxD"
+    >
+      <div
+        class="sc-jsJBEP fuNUGg"
+      >
+        <div
+          class="sc-fUnMCh kfvKvW dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          Networks
+        </div>
+        <div
+          class="sc-hzhJZQ liKHdJ dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div
+            class="sc-feUZmu eYMtOB"
+          >
+            <img
+              alt="token"
+              src="ethereum.svg"
+              width="20px"
+            />
+          </div>
+          Ethereum
+        </div>
+        <div
+          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div
+            class="sc-feUZmu eYMtOB"
+          >
+            <img
+              alt="token"
+              src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/bnb.svg"
+              width="20px"
+            />
+          </div>
+          Binance Smart Chain
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,14 +1,14 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Modal from 'components/modal/Modal'
 
 import { setConnect, setConnectBOBA, setConnectETH } from 'actions/setupAction'
-import { restTokenList } from 'actions/tokenAction'
 import { closeModal } from 'actions/uiAction'
 
 import { Button } from 'components/global'
 import { selectActiveNetworkType, selectLayer, selectNetwork } from 'selectors'
+import { chainNameMaps } from 'util/network/network.util'
 
 interface Props {
   open: boolean
@@ -19,12 +19,6 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
   const network = useSelector(selectNetwork())
   const networkType = useSelector(selectActiveNetworkType())
   const layer = useSelector(selectLayer())
-
-  useEffect(() => {
-    if (open) {
-      dispatch(restTokenList())
-    }
-  }, [dispatch, open])
 
   const handleClose = () => {
     dispatch(setConnect(false))
@@ -40,7 +34,7 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
       transparent={false}
     >
       <Button
-        label={`Connect to the ${network} ${networkType} network`}
+        label={`Connect to the ${chainNameMaps[network]} ${networkType} network`}
         onClick={() => {
           if (layer === 'L2') {
             dispatch(setConnectBOBA(true))

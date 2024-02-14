@@ -5,6 +5,7 @@ import {
   INetwork,
   L1_ICONS,
   L2_ICONS,
+  Network,
   NetworkList as NetworkLists,
 } from 'util/network/network.util'
 
@@ -16,8 +17,9 @@ import {
   selectDestChainIdTeleportation,
   selectBridgeType,
 } from 'selectors'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 
-import { setNetwork } from 'actions/networkAction'
+import { setActiveNetwork, setNetwork } from 'actions/networkAction'
 
 import {
   NetworkPickerList,
@@ -25,8 +27,17 @@ import {
   NetworkIcon,
   NetworkLabel,
 } from './styles'
-import { setTeleportationDestChainId } from '../../../actions/bridgeAction'
-import { BRIDGE_TYPE } from '../../../containers/Bridging/BridgeTypeSelector'
+import {
+  setBridgeType,
+  setTeleportationDestChainId,
+} from 'actions/bridgeAction'
+
+import {
+  setBaseState,
+  setConnectBOBA,
+  setConnectETH,
+} from 'actions/setupAction'
+import { closeModal, openModal } from 'actions/uiAction'
 
 export interface NetworkListProps {
   close?: () => void
@@ -54,7 +65,7 @@ export const NetworkList: FC<NetworkListProps> = ({
   const l1Icon = L1_ICONS as Record<string, ElementType>
   const l2Icon = L2_ICONS as Record<string, ElementType>
   const networks = (NetworkLists as Record<string, any>)[networkType]
-  const currentLayer = selectionLayer || (layer as string).toLowerCase()
+  const currentLayer = selectionLayer || (layer as string)?.toLowerCase()
 
   const onChainChange = (chainDetail: INetwork, layer: string) => {
     if (isIndependentDestNetwork) {
@@ -62,6 +73,9 @@ export const NetworkList: FC<NetworkListProps> = ({
         setTeleportationDestChainId(chainDetail.chainId[layer?.toUpperCase()])
       )
     } else {
+      if (chainDetail.chain === Network.ETHEREUM_SEPOLIA) {
+        dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
+      }
       dispatch(
         setNetwork({
           network: chainDetail.chain,
@@ -71,12 +85,35 @@ export const NetworkList: FC<NetworkListProps> = ({
           networkType,
         })
       )
-      if (chainDetail.chainId === currTeleportationDestChainId) {
-        dispatch(
-          setTeleportationDestChainId(
-            chainDetail.chainId[layer?.toUpperCase() === 'L1' ? 'L2' : 'L1']
+
+      if (bridgeType === BRIDGE_TYPE.LIGHT) {
+        // Workaround due to our tighly coupled network logic and wrongModal watcher, confirmed with Sahil that setNetwork + layerSet only approach for now
+        let closeWrongNetworkModalIntervalCounter = 0
+        const intervalID = setInterval(() => {
+          dispatch(closeModal('switchNetworkModal'))
+          dispatch(closeModal('wrongNetworkModal'))
+
+          if (++closeWrongNetworkModalIntervalCounter === 30) {
+            window.clearInterval(intervalID)
+          }
+        }, 150)
+
+        const toLayer1 = layer?.toUpperCase() === 'L1'
+        if (toLayer1) {
+          dispatch(setConnectETH(true))
+        } else {
+          dispatch(setConnectBOBA(true))
+        }
+        dispatch(setActiveNetwork())
+        dispatch(setBaseState(false))
+
+        if (chainDetail.chainId === currTeleportationDestChainId) {
+          dispatch(
+            setTeleportationDestChainId(
+              chainDetail.chainId[toLayer1 ? 'L2' : 'L1']
+            )
           )
-        )
+        }
       }
     }
     close()

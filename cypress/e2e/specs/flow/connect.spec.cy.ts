@@ -1,9 +1,15 @@
+import { Layer } from '../../../../src/util/constant'
 import {
+  ArbitrumGoerliInfo,
+  BobaGoerliInfo,
+  EthereumGoerliInfo,
   MainnetL1Networks,
   MainnetL2Networks,
+  OptimismGoerliInfo,
   TestnetL1Networks,
   TestnetL2Networks,
 } from '../../helpers/base/constants'
+import { BridgeType } from '../../helpers/base/types'
 import Bridge from '../../helpers/bridge'
 
 const bridge = new Bridge()
@@ -24,6 +30,7 @@ describe('Connect flow', () => {
       bridge.connectMetamask()
       bridge.verifyAccountConnected()
     })
+
     it('Should switch through Mainnet networks using Network Picker Modal', () => {
       bridge.clickThroughNetworksInModals(
         MainnetL1Networks,
@@ -31,9 +38,11 @@ describe('Connect flow', () => {
         true
       )
     })
+
     it('Switch to testnet', () => {
       bridge.switchToTestnet()
     })
+
     it('Should switch through Testnet networks using Network Modal', () => {
       bridge.clickThroughNetworksInModals(
         TestnetL1Networks,
@@ -41,9 +50,45 @@ describe('Connect flow', () => {
         true
       )
     })
+
+    it('Should be able to switch to the light bridge', () => {
+      bridge.switchBridgeType(BridgeType.Light)
+      bridge.switchBridgeDirection(Layer.L2, false)
+    })
+
+    it('Should switch to Optimism', () => {
+      bridge.switchNetworkWithModals(
+        BobaGoerliInfo,
+        OptimismGoerliInfo,
+        true,
+        true
+      )
+    })
+
+    it('Should switch to Arbitrum', () => {
+      bridge.switchNetworkWithModals(
+        OptimismGoerliInfo,
+        ArbitrumGoerliInfo,
+        true,
+        true
+      )
+    })
+
+    it('Should switch back to classic bridge', () => {
+      bridge.switchNetworkWithModals(
+        ArbitrumGoerliInfo,
+        BobaGoerliInfo,
+        true,
+        false
+      )
+      bridge.switchBridgeDirection(Layer.L1)
+      bridge.switchBridgeType(BridgeType.Classic)
+    })
+
     it('Should switch to Mainnet', () => {
       bridge.switchToMainnet()
     })
+
     it('Should disconnect wallet', () => {
       bridge.disconnectWallet()
     })
