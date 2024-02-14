@@ -1,33 +1,33 @@
 import React, { FC } from 'react'
 
+import { closeModal } from 'actions/uiAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { closeModal } from 'actions/uiAction'
 import {
   selectActiveNetworkName,
   selectBridgeType,
-  selectLayer,
   selectDestChainIdTeleportation,
+  selectLayer,
 } from 'selectors'
 
+import { Button, Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
-import { Button, Heading, Typography } from 'components/global'
-import { CHAIN_ID_LIST } from '../../../util/network/network.util'
+import { CHAIN_ID_LIST } from 'util/network/network.util'
 
-import { LAYER } from 'util/constant'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { LAYER } from 'util/constant'
 import { ModalInterface } from '../types'
 
-import {
-  SuccessContainer,
-  SuccessCheck,
-  MutedText,
-  CircleOuter,
-  CircleInner,
-  TitleText,
-  SuccessContent,
-} from './styles'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
+import {
+  CircleInner,
+  CircleOuter,
+  MutedText,
+  SuccessCheck,
+  SuccessContainer,
+  SuccessContent,
+  TitleText,
+} from './styles'
 
 const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
