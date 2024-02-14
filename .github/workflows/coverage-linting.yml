@@ -49,7 +49,7 @@ jobs:
           SKIP_PREFLIGHT_CHECK: true
           REACT_APP_WALLET_VERSION: 0.9.1
 
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v3
         with:
           files: ./coverage/coverage-final.json
           fail_ci_if_error: false

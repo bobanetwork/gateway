@@ -23,8 +23,8 @@ export const SwapAlert = styled(Typography).attrs({
     color
       ? color
       : theme.name === 'light'
-        ? theme.colors.gray[700]
-        : theme.colors.gray[100]};
+      ? theme.colors.gray[700]
+      : theme.colors.gray[100]};
 `
 export const SwapAction = styled(Button)`
   padding: 10px;

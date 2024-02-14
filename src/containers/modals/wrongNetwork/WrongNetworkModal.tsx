@@ -4,22 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'components/modal/Modal'
 
 import { setConnect, setConnectBOBA, setConnectETH } from 'actions/setupAction'
+import { restTokenList } from 'actions/tokenAction'
 import { closeModal } from 'actions/uiAction'
 
 import { Button } from 'components/global'
 import { selectActiveNetworkType, selectLayer, selectNetwork } from 'selectors'
-import { Network } from 'util/network/network.util'
 
 interface Props {
   open: boolean
-}
-
-const chainCopy: Record<Network, string> = {
-  ETHEREUM: 'Ethereum',
-  ETHEREUM_SEPOLIA: 'Ethereum Sepolia',
-  BNB: 'Bnb',
-  OPTIMISM: 'Optimism',
-  ARBITRUM: 'Arbitrum',
 }
 
 const WrongNetworkModal: FC<Props> = ({ open }) => {
@@ -27,6 +19,12 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
   const network = useSelector(selectNetwork())
   const networkType = useSelector(selectActiveNetworkType())
   const layer = useSelector(selectLayer())
+
+  useEffect(() => {
+    if (open) {
+      dispatch(restTokenList())
+    }
+  }, [dispatch, open])
 
   const handleClose = () => {
     dispatch(setConnect(false))
@@ -42,7 +40,7 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
       transparent={false}
     >
       <Button
-        label={`Connect to the ${chainCopy[network]} ${networkType} network`}
+        label={`Connect to the ${network} ${networkType} network`}
         onClick={() => {
           if (layer === 'L2') {
             dispatch(setConnectBOBA(true))

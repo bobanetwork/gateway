@@ -12,9 +12,3 @@ export type NetworkTestInfo = {
   networkAbbreviation: string
   isTestnet: boolean
 }
-
-export enum BridgeType {
-  Classic = 'Classic',
-  Fast = 'Fast',
-  Light = 'Light',
-}

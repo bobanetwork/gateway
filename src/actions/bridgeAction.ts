@@ -77,12 +77,6 @@ export const setTeleportationDestChainId =
       payload,
     })
 
-export const setReenterWithdrawalConfig = (payload: any) => (dispatch) =>
-  dispatch({
-    type: 'BRIDGE/REENTER/WITHDRAWAL',
-    payload,
-  })
-
 export const setFetchDepositTxBlock = (payload?) => {
   store.dispatch({ type: 'BRIDGE/DEPOSIT_TX/BLOCK', payload })
 }

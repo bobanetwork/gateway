@@ -50,19 +50,6 @@ export const Chains: ChainMap = {
     symbol: 'ETH',
     imgSrc: ethIcon,
   },
-  // 900 & 901 are local chainIds, 900 (L1), 901 (L2)
-  '900': {
-    name: CHAIN_NAME.Boba_Ethereum,
-    transactionUrlPrefix: 'https://bobascan.com/tx/',
-    symbol: 'ETH',
-    imgSrc: ethIcon,
-  },
-  '901': {
-    name: CHAIN_NAME.Boba_Goerli,
-    transactionUrlPrefix: 'https://bobascan.com/tx/',
-    symbol: 'BOBA',
-    imgSrc: bobaEth,
-  },
   '288': {
     name: CHAIN_NAME.Boba_Ethereum,
     transactionUrlPrefix: 'https://bobascan.com/tx/',
@@ -93,18 +80,6 @@ export const Chains: ChainMap = {
     symbol: 'ETH',
     imgSrc: arbitrum,
   },
-  '11155111': {
-    name: CHAIN_NAME.Sepolia,
-    transactionUrlPrefix: 'https://sepolia.etherscan.io/tx/',
-    symbol: 'ETH',
-    imgSrc: ethIcon,
-  },
-  '28882': {
-    name: CHAIN_NAME.Boba_Sepolia,
-    transactionUrlPrefix: 'https://testnet.bobascan.com/tx/',
-    symbol: 'ETH',
-    imgSrc: bobaEth,
-  },
 }
 
 export const ALL_NETWORKS: IDropdownItem = {
@@ -134,12 +109,6 @@ export const NETWORK_L1_OPTIONS: IDropdownItem[] = [
     imgSrc: ethIcon,
     headerName: NetworkType.TESTNET,
   },
-  {
-    value: '11155111',
-    label: 'Sepolia',
-    imgSrc: ethIcon,
-    headerName: NetworkType.TESTNET,
-  },
 ]
 
 export const NETWORK_L2_OPTIONS = [
@@ -159,12 +128,6 @@ export const NETWORK_L2_OPTIONS = [
   {
     value: '2888',
     label: 'Boba Goerli',
-    imgSrc: bobaEth,
-    headerName: NetworkType.TESTNET,
-  },
-  {
-    value: '28882',
-    label: 'Boba Sepolia',
     imgSrc: bobaEth,
     headerName: NetworkType.TESTNET,
   },

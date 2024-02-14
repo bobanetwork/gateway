@@ -8,7 +8,6 @@ import { selectActiveNetworkType } from 'selectors'
 import styled, { useTheme } from 'styled-components'
 import { NetworkType } from 'util/network/network.util'
 import { BridgeHeaderWrapper, GearIcon, IconWrapper } from './styles'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 export const LabelStyle = styled.span`
   color: var(--Gray-50, #eee);
@@ -31,7 +30,6 @@ export const ValueStyle = styled.span`
 const BridgeHeader = () => {
   const dispatch = useDispatch<any>()
   const theme: any = useTheme()
-  const { isSepoliaNetwork } = useNetworkInfo()
   const isTestnet =
     useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
 
@@ -92,25 +90,23 @@ const BridgeHeader = () => {
     <BridgeHeaderWrapper>
       <Heading variant="h2">
         Bridge
-        {isSepoliaNetwork ? null : (
-          <Tooltip
-            data-testid="tooltip-btn"
-            title={
-              <>
-                <ClassicBridgeInfo />
-                <FastBridgeInfo />
-                <LightBridgeInfo />
-              </>
-            }
-          >
-            <IconWrapper inline={true} style={{ marginLeft: '5px' }}>
-              <HelpOutlineOutlined
-                fontSize="small"
-                sx={{ cursor: 'pointer', color: iconColor }}
-              />
-            </IconWrapper>
-          </Tooltip>
-        )}
+        <Tooltip
+          data-testid="tooltip-btn"
+          title={
+            <>
+              <ClassicBridgeInfo />
+              <FastBridgeInfo />
+              <LightBridgeInfo />
+            </>
+          }
+        >
+          <IconWrapper inline={true} style={{ marginLeft: '5px' }}>
+            <HelpOutlineOutlined
+              fontSize="small"
+              sx={{ cursor: 'pointer', color: iconColor }}
+            />
+          </IconWrapper>
+        </Tooltip>
       </Heading>
       <IconWrapper>
         <GearIcon

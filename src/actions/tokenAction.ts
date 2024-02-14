@@ -46,6 +46,7 @@ export const getToken = async (tokenContractAddressL1: string) => {
   if (state.tokenList[_tokenContractAddressL1]) {
     return state.tokenList[_tokenContractAddressL1]
   } else {
+    //console.log("Adding new token:",_tokenContractAddressL1)
     const tokenInfo = await addToken(_tokenContractAddressL1)
     return tokenInfo
   }
@@ -69,6 +70,7 @@ export const addToken = async (tokenContractAddressL1: string) => {
 
   //if we already have looked it up, no need to look up again.
   if (state.tokenList[_tokenContractAddressL1]) {
+    console.log('token already in list:', _tokenContractAddressL1)
     return state.tokenList[_tokenContractAddressL1]
   }
 
@@ -79,6 +81,7 @@ export const addToken = async (tokenContractAddressL1: string) => {
 
     /********* DO WE HAVE L2 DATA?? *************/
     // Let's go see
+    // console.log("Addresses for lookup:", networkService.tokenAddresses)
 
     if (_tokenContractAddressL1 === 'xboba') {
       _tokenContractAddressL2 = tA['xBOBA']?.L2?.toLowerCase()
@@ -233,3 +236,6 @@ export const addToken = async (tokenContractAddressL1: string) => {
     }
   }
 }
+
+export const restTokenList = () => (dispatch) =>
+  dispatch({ type: 'TOKEN/GET/RESET' })

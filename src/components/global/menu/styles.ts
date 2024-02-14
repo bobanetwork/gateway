@@ -33,8 +33,8 @@ export const StyleMenuButton = styled.div<{
         ${name === 'light'
           ? colors.gray[600]
           : active
-            ? colors.green[300]
-            : colors.gray[200]};
+          ? colors.green[300]
+          : colors.gray[200]};
 
       background: transparent;
 

@@ -141,6 +141,7 @@ export const FeeSwitchterDropdown = styled(Dropdown)`
       border-radius: 8px;
       padding: 8px;
       box-sizing: border-box;
+      border: 1px solid rgba(0, 0, 0, 0);
       gap: 8px;
       &:hover {
         background: ${(props) => props.theme.colors.gray[400]};
@@ -152,6 +153,9 @@ export const FeeSwitchterDropdown = styled(Dropdown)`
           svg {
             fill: ${props.theme.colors.gray[800]};
           }
+          &:hover {
+            border: 1px solid ${props.theme.colors.gray[600]};
+          }
         `}
       ${(props) =>
         props.theme.name === 'dark' &&
@@ -159,7 +163,10 @@ export const FeeSwitchterDropdown = styled(Dropdown)`
           svg {
             fill: ${props.theme.colors.gray[100]};
           }
-        `}
+          &:hover {
+            border: 1px solid ${props.theme.colors.gray[100]};
+          }
+        `};
     }
   }
 `

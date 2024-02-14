@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -32,7 +32,7 @@ import Router from './routes'
 import CustomThemeProvider from 'themes'
 import { Background } from 'components/global/background'
 import FallbackLoader from './FallbackLoader'
-import { ValentinesDayConfetti } from 'components/ValentinesDayConfetti'
+
 const App = () => {
   const dispatch = useDispatch()
 
@@ -412,7 +412,7 @@ const App = () => {
         <CssBaseline />
         <BrowserRouter>
           <Background />
-          <ValentinesDayConfetti />
+
           <Box
             sx={{
               display: 'flex',

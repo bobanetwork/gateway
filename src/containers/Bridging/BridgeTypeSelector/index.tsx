@@ -1,6 +1,5 @@
-import { setBridgeType } from 'actions/bridgeAction'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React, { useEffect } from 'react'
+import { BridgeTabs, BridgeTabItem } from './style'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkType,
@@ -8,13 +7,14 @@ import {
   selectNetwork,
   selectNetworkType,
 } from 'selectors'
-import { setNetwork } from '../../../actions/networkAction'
+import { setBridgeType } from 'actions/bridgeAction'
 import {
-  DEFAULT_NETWORK,
+  Network,
   NetworkType,
   networkLimitedAvailability,
+  NetworkList,
 } from '../../../util/network/network.util'
-import { BridgeTabItem, BridgeTabs } from './style'
+import { setNetwork } from '../../../actions/networkAction'
 
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
@@ -30,46 +30,34 @@ const BridgeTypeSelector = () => {
   const network = useSelector(selectNetwork())
   const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
   const activeNetworkType = useSelector(selectActiveNetworkType())
-  const { isSepoliaNetwork } = useNetworkInfo()
 
   // Only show teleportation on testnet for now
   const isTestnet =
     useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
 
-  const switchToFullySupportedNetwork = () => {
-    // change network back to fully supported network when leaving light bridge
-    dispatch(
-      setNetwork({
-        network: DEFAULT_NETWORK.chain,
-        name: DEFAULT_NETWORK.name,
-        networkIcon: DEFAULT_NETWORK.icon,
-        chainIds: DEFAULT_NETWORK.chainId,
-        networkType,
-      })
-    )
-  }
-
-  useEffect(() => {
-    if (bridgeType !== BRIDGE_TYPE.LIGHT && isOnLimitedNetwork) {
-      switchToFullySupportedNetwork()
-    }
-  }, [bridgeType, isOnLimitedNetwork])
-
   const onTabClick = (payload: any) => {
+    if (payload !== BRIDGE_TYPE.LIGHT && isOnLimitedNetwork) {
+      // change network back to fully supported network when leaving light bridge
+      const defaultChainDetail = NetworkList[networkType].find(
+        (n) => n.chain === Network.ETHEREUM
+      )
+
+      dispatch(
+        setNetwork({
+          network: defaultChainDetail.chain,
+          name: defaultChainDetail.name,
+          networkIcon: defaultChainDetail.icon,
+          chainIds: defaultChainDetail.chainId,
+          networkType,
+        })
+      )
+    }
     dispatch(setBridgeType(payload))
   }
 
   useEffect(() => {
     dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
   }, [activeNetworkType])
-
-  // @todo return <></> for the testnet with sepolia connection.
-  // as sepolia doesn't support the fast / light bridge
-  // note: remove conditional check once light bridge deployed to sepolia.
-
-  if (!!isSepoliaNetwork) {
-    return <></>
-  }
 
   return (
     <BridgeTabs>

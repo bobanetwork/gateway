@@ -4,7 +4,6 @@ import PageHeader from './page.header'
 import PageFooter from './page.footer'
 import { ReduxStore } from './store'
 import { pageTitleWhiteList } from '../../../../src/components/layout/PageTitle/constants'
-import { NetworkTestInfo } from './types'
 
 export default class Page extends Base {
   header: PageHeader
@@ -137,7 +136,7 @@ export default class Page extends Base {
       .should('not.be.empty')
       .should('be.visible')
       .and(($p) => {
-        expect($p).to.have.length(2)
+        expect($p).to.have.length(1)
       })
   }
 
@@ -229,6 +228,20 @@ export default class Page extends Base {
       )
       .should('exist')
       .click()
+  }
+
+  switchThroughMainnetNetworks() {
+    // switch to BNB
+    this.header.switchNetwork('BNB')
+    this.handleNetworkSwitchModals('BNB', false)
+    this.allowNetworkSwitch()
+    this.checkNetworkSwitchSuccessful('BNB')
+
+    // switch to Ethereum
+    this.header.switchNetwork('Ethereum')
+    this.handleNetworkSwitchModals('ETHEREUM', false)
+    this.allowNetworkSwitch()
+    this.checkNetworkSwitchSuccessful('ETHEREUM')
   }
 
   checkNetworkSwitchSuccessful(networkAbbreviation: string) {
@@ -352,28 +365,5 @@ export default class Page extends Base {
       .and(($p) => {
         expect($p).to.have.length(5)
       })
-  }
-
-  allowNetworkSwitch(newNetwork: boolean) {
-    if (newNetwork) {
-      this.allowNetworkToBeAddedAndSwitchedTo()
-    } else {
-      this.allowNetworkToBeSwitchedTo()
-    }
-  }
-
-  switchNetwork(network: NetworkTestInfo, newNetwork: boolean = false) {
-    this.header.getNetworkSwitcher().click()
-    this.header
-      .getNetworkSwitcher()
-      .contains(network.networkName)
-      .should('exist')
-      .click()
-    this.handleNetworkSwitchModals(
-      network.networkAbbreviation,
-      network.isTestnet
-    )
-    this.allowNetworkSwitch(newNetwork)
-    this.checkNetworkSwitchSuccessful(network.networkAbbreviation)
   }
 }
