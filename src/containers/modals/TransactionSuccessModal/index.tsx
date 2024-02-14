@@ -27,6 +27,7 @@ import {
   TitleText,
   SuccessContent,
 } from './styles'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
@@ -34,6 +35,7 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   const layer = useSelector(selectLayer())
   const name = useSelector(selectActiveNetworkName())
   const bridgeType = useSelector(selectBridgeType())
+  const { isSepoliaNetwork } = useNetworkInfo()
 
   const destNetworkLightBridgeChainId = useSelector(
     selectDestChainIdTeleportation()
@@ -86,7 +88,7 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
           <Heading variant="h1">Bridge Successful</Heading>
           <TitleText>
             Your funds will arrive in {estimateTime()} at your wallet on{' '}
-            {destNetworkLightBridge && layer === LAYER.L1
+            {(destNetworkLightBridge && layer === LAYER.L1) || isSepoliaNetwork
               ? name['l2']
               : name['l1']}
             .
