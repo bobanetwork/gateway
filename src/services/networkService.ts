@@ -2744,10 +2744,21 @@ class NetworkService {
     }
 
     try {
-      const tx = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).delegate(recipient)
+      console.log(`delegating votes`, recipient)
+
+      const bobaContract = new ethers.Contract(
+        L2_SECONDARYFEETOKEN_ADDRESS,
+        BOBAABI,
+        this.L2Provider
+      )
+
+      const tx = await bobaContract!
+        .connect(this.provider!.getSigner())
+        .delegate(recipient)
+
+      console.log(`tx`, tx, recipient)
       await tx.wait()
+
       return tx
     } catch (error) {
       console.log('NS: delegateVotes error:', error)
@@ -2814,7 +2825,7 @@ class NetworkService {
     }
 
     if (!this.account) {
-      console.log('NS: delegateVotesX() error - called but account === null')
+      console.log('NS: createProposal() error - called but account === null')
       return
     }
 

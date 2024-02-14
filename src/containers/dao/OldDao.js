@@ -111,10 +111,8 @@ const OldDao = () => {
   }, POLL_INTERVAL)
 
 
-  console.log([votes,votesX])
-
   const handleNewProposal = () => {
-    if (Number(balance + balanceX) < Number(proposalThreshold)) {
+    if (Number(votes + votesX) < Number(proposalThreshold)) {
       dispatch(
         openError(
           `Insufficient BOBA to create a new proposal. You need at least ${proposalThreshold} BOBA + xBOBA to create a proposal.`
