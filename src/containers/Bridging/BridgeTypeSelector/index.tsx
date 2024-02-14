@@ -1,4 +1,5 @@
 import { setBridgeType } from 'actions/bridgeAction'
+import { setNetwork } from 'actions/networkAction'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,12 +9,11 @@ import {
   selectNetwork,
   selectNetworkType,
 } from 'selectors'
-import { setNetwork } from '../../../actions/networkAction'
 import {
   DEFAULT_NETWORK,
   NetworkType,
   networkLimitedAvailability,
-} from '../../../util/network/network.util'
+} from 'util/network/network.util'
 import { BridgeTabItem, BridgeTabs } from './style'
 
 export enum BRIDGE_TYPE {
