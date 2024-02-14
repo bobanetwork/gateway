@@ -13,10 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { useEffect, useState } from 'react'
-
-import { useDispatch, useSelector } from 'react-redux'
-
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { closeModal, openAlert } from 'actions/uiAction'
 
 import Button from 'components/button/Button'
@@ -24,12 +22,11 @@ import Modal from 'components/modal/Modal'
 
 import { createDaoProposal } from 'actions/daoAction'
 import { Dropdown } from 'components/global/dropdown'
-import { selectProposalThreshold } from 'selectors'
 
 import { ModalInterface } from '../../types'
+
 import { options } from './CONST'
 import { BoxContainer, ButtonContainer, StyledDescription } from './styles'
-import { TokenTypes } from './types'
 
 import { LPFeeSection, TextProposalSection, ThresholdSection } from './views'
 
@@ -37,8 +34,6 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch()
 
   const [action, setAction] = useState('')
-  const [selectedAction, setSelectedAction] = useState('')
-  const [tokens, setTokens] = useState<TokenTypes[]>([] as TokenTypes[])
   const [votingThreshold, setVotingThreshold] = useState('')
 
   const [errorText, setErrorText] = useState('')
@@ -52,19 +47,6 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
 
   const loading = false
 
-  const proposalThreshold = useSelector(selectProposalThreshold)
-
-  useEffect(() => {
-    const tokensSum: any = tokens.reduce((c, i) => c + Number(i.balance), 0)
-    if (tokensSum < proposalThreshold) {
-      setErrorText(
-        `Insufficient govBOBA to create a new proposal. You need at least ${proposalThreshold} govBOBA to create a proposal.`
-      )
-    } else {
-      setErrorText('')
-    }
-  }, [tokens, proposalThreshold])
-
   const resetState = () => {
     setVotingThreshold('')
     setLPfeeMin('')
@@ -77,7 +59,6 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
 
   const onActionChange = (e) => {
     resetState()
-    setSelectedAction(e)
     setAction(e.value)
   }
 
@@ -88,7 +69,7 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
 
   const submit = async () => {
     let res = null
-    const tokenIds = tokens.map((t) => t.value)
+    const tokenIds = [] // @todo remove tokens.map((t) => t.value)
     const roundValues = (min, max, own) => [
       Math.round(Number(min) * 10),
       Math.round(Number(max) * 10),
@@ -153,7 +134,7 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
 
     const actionDisabledCheck = actionConfig[action] || (() => true)
 
-    return !proposalThreshold || actionDisabledCheck()
+    return actionDisabledCheck()
   }
 
   return (

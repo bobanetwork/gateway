@@ -2825,14 +2825,6 @@ class NetworkService {
     let description = ''
     let address = ['']
     let callData = ['']
-    // FIXME: Ve DAO From here
-    /*
-      let tokenIds = payload.tokenIds
-      // create proposal only on latest contracts.
-      const delegateCheck = await this.delegateContract.attach(this.addresses.GovernorBravoDelegatorV2)
-
-    */
-    // FIXME: Ve DAO Till here
 
     const delegateCheck = await this.delegateContract.attach(
       this.addresses.GovernorBravoDelegator
