@@ -66,7 +66,6 @@ export const addToken = async (tokenContractAddressL1: string) => {
   /*****************************************************************/
   const _tokenContractAddressL1 = tokenContractAddressL1.toLowerCase()
   /*****************************************************************/
-  console.log(`add token _tokenContractAddressL1`, _tokenContractAddressL1)
   //if we already have looked it up, no need to look up again.
   if (state.tokenList[_tokenContractAddressL1]) {
     return state.tokenList[_tokenContractAddressL1]
@@ -137,7 +136,6 @@ export const addToken = async (tokenContractAddressL1: string) => {
         networkService.L2Provider!
       )
     } else {
-      console.log(tA)
       Object.keys(tA).forEach((token, i) => {
         //let's see if we know about this Token
         if (_tokenContractAddressL1 === tA[token].L1.toLowerCase()) {

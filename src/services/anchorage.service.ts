@@ -59,44 +59,49 @@ export const approvalRequired = async (token, amount) => {
 }
 
 export const handleInitiateWithdrawal = async (amount: string, token?: any) => {
-  const signer = await networkService.provider?.getSigner()
-  if (!signer) {
-    return { error: 'No signer' }
-  }
-  let initWithdraw
-  if (!token) {
-    initWithdraw = await signer!.sendTransaction({
-      to: networkService.addresses.L2StandardBridgeAddress, // L2StandardBridge
-      value: amount,
-    })
-  } else {
-    const tokenContract = new ethers.Contract(
-      token.address,
-      L2StandardERC20ABI,
-      networkService.provider!.getSigner()
-    )
-
-    const allowance = await tokenContract.allowance(
-      signer.getAddress(),
-      networkService.addresses.L2StandardBridgeAddress
-    )
-
-    if (allowance.toString() < amount) {
-      const approveTx = await tokenContract!.approve(
-        networkService.addresses.L2StandardBridgeAddress, // todo L2StandardBridge CHECK AGAIN
-        amount
+  try {
+    const signer = networkService.provider?.getSigner()
+    if (!signer) {
+      return { error: 'No signer' }
+    }
+    let initWithdraw
+    if (!token) {
+      initWithdraw = await signer!.sendTransaction({
+        to: networkService.addresses.L2StandardBridgeAddress, // L2StandardBridge
+        value: amount,
+      })
+    } else {
+      const tokenContract = new ethers.Contract(
+        token.address,
+        L2StandardERC20ABI,
+        networkService.provider!.getSigner()
       )
-      await approveTx.wait()
+
+      const allowance = await tokenContract.allowance(
+        signer.getAddress(),
+        networkService.addresses.L2StandardBridgeAddress
+      )
+
+      if (allowance.toString() < amount) {
+        const approveTx = await tokenContract!.approve(
+          networkService.addresses.L2StandardBridgeAddress, // todo L2StandardBridge CHECK AGAIN
+          amount
+        )
+        await approveTx.wait()
+      }
+
+      initWithdraw = await networkService
+        .L2StandardBridgeContract!.connect(signer)
+        .withdraw(token.address, amount, 30000, '0x')
     }
 
-    initWithdraw = await networkService
-      .L2StandardBridgeContract!.connect(signer)
-      .withdraw(token.address, amount, 30000, '0x')
+    const receipt = await initWithdraw.wait()
+
+    return receipt.blockNumber
+  } catch (error) {
+    console.log(`error handle initiate withdrawal`, error)
+    return null
   }
-
-  const receipt = await initWithdraw.wait()
-
-  return receipt.blockNumber
 }
 
 export const handleProveWithdrawal = async (
