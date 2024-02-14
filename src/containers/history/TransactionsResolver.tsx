@@ -1,12 +1,21 @@
+import { Svg } from 'components/global/svg'
 import { TransactionsTableContent } from 'components/global/table/themes'
+import { TokenInfo } from 'containers/history/tokenInfo'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { getCoinImage } from 'util/coinImage'
 import { formatDate, isSameOrAfterDate, isSameOrBeforeDate } from 'util/dates'
 import { ALL_NETWORKS, Chains } from './constants'
-import { Svg } from 'components/global/svg'
-import { TokenInfo } from 'containers/history/tokenInfo'
 
+import { setReenterWithdrawalConfig } from 'actions/bridgeAction'
+import { openModal } from 'actions/uiAction'
+import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
+import noHistoryIcon from 'assets/images/noHistory.svg'
+import Button from 'components/button/Button'
+import { useDispatch } from 'react-redux'
+import truncate from 'truncate-middle'
+import { logAmount } from 'util/amountConvert'
+import { orderBy } from 'util/lodash'
 import {
   Icon,
   IconContainer,
@@ -31,15 +40,6 @@ import {
   TRANSACTION_FILTER_STATUS,
   TRANSACTION_STATUS,
 } from './types'
-import { orderBy } from 'util/lodash'
-import truncate from 'truncate-middle'
-import { logAmount } from 'util/amountConvert'
-import noHistoryIcon from 'assets/images/noHistory.svg'
-import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
-import { openModal } from '../../actions/uiAction'
-import { setReenterWithdrawalConfig } from '../../actions/bridgeAction'
-import { useDispatch } from 'react-redux'
-import Button from '../../components/button/Button'
 
 export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   transactions,

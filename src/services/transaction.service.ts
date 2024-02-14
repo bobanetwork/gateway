@@ -1,20 +1,20 @@
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
-import networkService from './networkService'
+import { TRANSACTION_STATUS } from 'containers/history/types'
+import { Contract, ethers, providers } from 'ethers'
+import { BobaChains } from 'util/chainConfig'
+import { sepoliaConfig } from 'util/network/config/ethereumSepolia'
 import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
 } from 'util/network/network.util'
-import { TRANSACTION_STATUS } from '../containers/history/types'
 import {
-  anchorageGraphQLService,
   LightBridgeAssetReceivedEvent,
   LightBridgeDisbursementEvents,
+  anchorageGraphQLService,
   lightBridgeGraphQLService,
 } from './graphql.service'
-import { Contract, ethers, providers } from 'ethers'
-import { BobaChains } from '../util/chainConfig'
-import { sepoliaConfig } from 'util/network/config/ethereumSepolia'
+import networkService from './networkService'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string

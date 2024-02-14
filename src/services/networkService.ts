@@ -1101,6 +1101,7 @@ class NetworkService {
     try {
       setFetchDepositTxBlock(false)
       let depositTX
+      // @todo make sure to evaluate and update the fallback logic.
       const isFallback = false // TODO evaluate when to use fallback optimismportal
 
       const signer = networkService.provider?.getSigner()

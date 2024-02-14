@@ -66,7 +66,6 @@ export const addToken = async (tokenContractAddressL1: string) => {
   /*****************************************************************/
   const _tokenContractAddressL1 = tokenContractAddressL1.toLowerCase()
   /*****************************************************************/
-
   //if we already have looked it up, no need to look up again.
   if (state.tokenList[_tokenContractAddressL1]) {
     return state.tokenList[_tokenContractAddressL1]
@@ -213,12 +212,13 @@ export const addToken = async (tokenContractAddressL1: string) => {
 
     return tokenInfo
   } catch (error) {
+    console.log(`error while add token`, error)
     store.dispatch({
       type: 'TOKEN/GET/FAILURE',
       payload: {
         currency: _tokenContractAddressL1,
-        L1address: _tokenContractAddressL1,
-        L2address: '',
+        addressL1: _tokenContractAddressL1,
+        addressL2: '',
         symbol: 'Not found',
         error: 'Not found',
       },
@@ -226,8 +226,8 @@ export const addToken = async (tokenContractAddressL1: string) => {
 
     return {
       currency: _tokenContractAddressL1,
-      L1address: _tokenContractAddressL1,
-      L2address: '',
+      addressL1: _tokenContractAddressL1,
+      addressL2: '',
       symbol: 'Not found',
       error: 'Not found',
     }

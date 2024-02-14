@@ -99,7 +99,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           >
             <img
               alt="token"
-              src="ethereum.svg"
+              src="bobaEth.svg"
               width="20px"
             />
           </div>

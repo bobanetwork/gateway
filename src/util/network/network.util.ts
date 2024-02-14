@@ -74,16 +74,16 @@ export const CHAIN_ID_LIST = {
   },
   28882: {
     networkType: NetworkType.TESTNET,
-    chain: Network.ETHEREUM,
+    chain: Network.ETHEREUM_SEPOLIA,
     layer: LAYER.L2,
     name: 'Boba Sepolia',
     icon: 'ethereum',
     siteName: 'Boba (Sepolia)',
-    imgSrc: ethIcon,
+    imgSrc: bobaEth,
   },
   11155111: {
     networkType: NetworkType.TESTNET,
-    chain: Network.ETHEREUM,
+    chain: Network.ETHEREUM_SEPOLIA,
     layer: LAYER.L2,
     name: 'Sepolia',
     icon: 'ethereum',
@@ -348,4 +348,12 @@ export const pingRpcUrl = async (rpcUrl) => {
     console.log(`Error pinging Rpc Url: ${rpcUrl}`)
     return false
   }
+}
+
+export const chainNameMaps: Record<Network, string> = {
+  ETHEREUM: 'Ethereum',
+  ETHEREUM_SEPOLIA: 'Ethereum Sepolia',
+  BNB: 'Bnb',
+  OPTIMISM: 'Optimism',
+  ARBITRUM: 'Arbitrum',
 }

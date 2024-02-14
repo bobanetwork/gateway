@@ -171,7 +171,12 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
   },
   [NetworkType.TESTNET]: {
     [Network.ETHEREUM_SEPOLIA]: {
-      tokenAddresses: {},
+      tokenAddresses: {
+        BOBA: {
+          L1: '0x33faF65b3DfcC6A1FccaD4531D9ce518F0FDc896',
+          L2: '0x4200000000000000000000000000000000000023',
+        },
+      },
       tokens: ['BOBA'],
       altL1Chains: ['BNB'],
     },
