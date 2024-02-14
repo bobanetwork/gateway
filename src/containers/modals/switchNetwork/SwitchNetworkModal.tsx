@@ -10,6 +10,7 @@ import { closeModal } from 'actions/uiAction'
 
 import { selectActiveNetworkType, selectNetwork } from 'selectors'
 import { ModalInterface } from '../types'
+import { chainNameMaps } from 'util/network/network.util'
 
 const SwitchNetworkModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch<any>()
@@ -36,7 +37,7 @@ const SwitchNetworkModal: React.FC<ModalInterface> = ({ open }) => {
       testId="switch-network-modal"
     >
       <Button
-        label={`Switch to ${network} ${
+        label={`Switch to ${chainNameMaps[network]} ${
           networkType === 'Testnet' ? networkType : ''
         } network`}
         onClick={() => onClick()}

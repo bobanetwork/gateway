@@ -18,6 +18,7 @@ import { LAYER } from 'util/constant'
 import BlockConfirmation from './BlockConfirmation'
 import { InprogressContainer, MutedText, ProgressLoader } from './index.styles'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {
   open: boolean
@@ -30,6 +31,8 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
   const bridgeToAddressEnable = useSelector(
     selectBridgeDestinationAddressAvailable()
   )
+
+  const { isSepoliaNetwork } = useNetworkInfo()
 
   const handleClose = () => {
     dispatch(closeModal('bridgeInProgress'))
@@ -55,7 +58,9 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
       <InprogressContainer>
         <ProgressLoader />
         <Heading variant="h1">Bridging...</Heading>
-        {layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT ? (
+        {layer === LAYER.L1 &&
+        bridgeType !== BRIDGE_TYPE.LIGHT &&
+        !isSepoliaNetwork ? (
           <BlockConfirmation onClose={handleClose} />
         ) : (
           <>
