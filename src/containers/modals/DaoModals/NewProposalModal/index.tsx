@@ -13,23 +13,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
 import { closeModal, openAlert } from 'actions/uiAction'
 
-import Button from 'components/button/Button'
 import Modal from 'components/modal/Modal'
+import Button from 'components/button/Button'
+import Input from 'components/input/Input'
 
 import { createDaoProposal } from 'actions/daoAction'
-import { Dropdown } from 'components/global/dropdown'
 import { selectProposalThreshold } from 'selectors'
+import { Dropdown } from 'components/global/dropdown'
 
-import { ModalInterface } from '../../types'
-import { options } from './CONST'
-import { BoxContainer, ButtonContainer, StyledDescription } from './styles'
 import { TokenTypes } from './types'
+import { BoxContainer, ButtonContainer, StyledDescription } from './styles'
+import { options } from './CONST'
+import { ModalInterface } from '../../types'
 
 import { LPFeeSection, TextProposalSection, ThresholdSection } from './views'
 

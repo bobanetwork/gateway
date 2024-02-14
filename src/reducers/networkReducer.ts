@@ -36,7 +36,6 @@ interface INetworkReducerState {
   activeNetwork: Network
   activeNetworkType: NetworkType
   activeNetworkName: {}
-  chainIds: {}
 }
 
 const initialState: INetworkReducerState = {
@@ -48,7 +47,6 @@ const initialState: INetworkReducerState = {
   activeNetwork: Network.ETHEREUM,
   activeNetworkType: NetworkType.MAINNET,
   activeNetworkName: {},
-  chainIds: { L1: '1', L2: '288' },
 }
 
 const networkReducer = (state: INetworkReducerState = initialState, action) => {

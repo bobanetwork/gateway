@@ -27,7 +27,3 @@ export const selectActiveNetworkIcon = () => (state) =>
   state.network['activeNetworkIcon']
 export const selectActiveNetworkName = () => (state) =>
   state.network?.['activeNetworkName']
-
-export const selectNetworkState = () => (state) => state.network
-// TODO: add chainIds field in the reducer
-export const selectNetworkChainIds = () => (state) => state.network['chainIds']

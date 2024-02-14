@@ -36,27 +36,10 @@ export class ReduxStore {
     this.getReduxStore().its(type).its(name).should('not.be.empty')
   }
 
-  verifyReduxStoreBridge(attribute: string, expectedValue: boolean | string) {
-    this.getReduxStore()
-      .its('bridge')
-      .its(attribute)
-      .should('exist')
-      .should('equal', expectedValue)
-  }
-
   allowBaseEnabledToUpdate(accountConnected: boolean) {
     if (!accountConnected) {
       this.verifyReduxStoreSetup('baseEnabled', false)
       this.verifyReduxStoreSetup('baseEnabled', true)
     }
-  }
-  verifyTokenSelected(tokenSymbol: string) {
-    this.getReduxStore()
-      .its('bridge')
-      .its('tokens')
-      .its(0)
-      .should('exist')
-      .its('symbol')
-      .should('equal', tokenSymbol)
   }
 }

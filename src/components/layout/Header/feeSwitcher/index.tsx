@@ -40,7 +40,6 @@ import {
 
 import BobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { fetchBalances } from 'actions/networkAction'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 const OptionBoba = () => ({
   value: 'BOBA',
@@ -63,16 +62,10 @@ const FeeSwitcher: FC = () => {
   const layer = useSelector(selectLayer())
 
   const { switchFeeUse } = useFeeSwitcher()
-  const { isSepoliaNetwork } = useNetworkInfo()
 
   useEffect(() => {
     dispatch(fetchBalances())
   }, [dispatch])
-
-  // @todo remove check once goerli deprecated.
-  if (!!isSepoliaNetwork) {
-    return <></>
-  }
 
   if (!accountEnabled && layer !== 'L2') {
     return (

@@ -35,6 +35,3 @@ export const selectIsFetchTxBlockNumber = () => (state) =>
 
 export const selectIsTeleportationOfAssetSupported = () => (state) =>
   state.bridge.isTeleportationOfAssetSupported
-
-export const selectReenterWithdrawalConfig = () => (state) =>
-  state.bridge.withdrawalConfig

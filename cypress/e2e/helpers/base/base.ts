@@ -19,7 +19,7 @@ export default class Base {
     cy.changeMetamaskNetwork(networkName)
   }
 
-  allowNetworkToBeSwitchedTo() {
+  allowNetworkSwitch() {
     cy.allowMetamaskToSwitchNetwork()
   }
   confirmTransactionOnMetamask() {
@@ -41,9 +41,6 @@ export default class Base {
 
   allowMetamaskToSpendToken(amount?: string) {
     cy.confirmMetamaskPermissionToSpend(amount)
-  }
-  allowMetamskToAddToken() {
-    cy.confirmMetamaskAddToken()
   }
 
   readLocalStorage() {

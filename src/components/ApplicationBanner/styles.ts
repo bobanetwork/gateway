@@ -6,7 +6,6 @@ export const BannerWrapper = styled('div')`
   display: flex;
   align-items: center;
   width: 100vw;
-  max-width: 100%;
   flex-direction: column;
   justify-content: flex-start;
   gap: 2px;
@@ -96,9 +95,5 @@ export const CloseIcon = styled(Svg).attrs({
     min-width: 10px;
     height: auto;
     stroke: #000;
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 `

@@ -21,6 +21,7 @@ export const Router = () => {
 
   useEffect(() => {
     const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
+
     const childRoutes = routeList[0].children
     const fRoutes = childRoutes.filter(
       (m) =>

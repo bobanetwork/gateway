@@ -10,14 +10,10 @@ import {
 } from './styles'
 import { bannerAlerts } from './data'
 import { IAppAlert } from './types'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
-// @todo disable banner for sepolia.
-// remove use of isSepoliaNetwork
 const ApplicationBanner = () => {
   const [alerts, setAlerts] = useState<IAppAlert[]>([])
   const [storageChange, setStorageChange] = useState(false)
-  const { isSepoliaNetwork } = useNetworkInfo()
 
   useEffect(() => {
     const appBanners = bannerAlerts().map((alert) => {
@@ -34,10 +30,6 @@ const ApplicationBanner = () => {
   const onClose = (alertKey: string) => {
     localStorage.setItem(`appBanner__${alertKey}`, JSON.stringify(true))
     setStorageChange(!storageChange)
-  }
-
-  if (!!isSepoliaNetwork) {
-    return <></>
   }
 
   if (alerts && !alerts.length) {

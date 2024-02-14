@@ -22,7 +22,7 @@ import {
   selectBridgeType,
 } from 'selectors'
 import { getCoinImage } from 'util/coinImage'
-import { LAYER, Layer } from 'util/constant'
+import { LAYER } from 'util/constant'
 import {
   ActionLabel,
   ListLabel,
@@ -43,7 +43,6 @@ import Tooltip from 'components/tooltip/Tooltip'
 import networkService from 'services/networkService'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
-import { L1_ETH_Address, L2_BOBA_Address } from 'services/app.service'
 
 // the L2 token which can not be exited so exclude from dropdown in case of L2
 const NON_EXITABLE_TOKEN = [
@@ -119,7 +118,6 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
       minHeight="180px"
       title="Select Token"
       transparent={false}
-      testId="token-picker-modal"
     >
       <TokenPickerModalContainer>
         <TokenSearchContainer>
@@ -190,20 +188,14 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
                         {token.symbol}
                         <TokenBalance>{amount}</TokenBalance>
                       </TokenLabel>
-                      {((layer === Layer.L1 &&
-                        token.address !== L1_ETH_Address) ||
-                        (layer !== Layer.L1 &&
-                          token.address !== L2_BOBA_Address)) && (
-                        <Tooltip title="Add token to wallet">
-                          <PlusIcon
-                            data-testid={'add-token'}
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              addToMetamask(token)
-                            }}
-                          />
-                        </Tooltip>
-                      )}
+                      <Tooltip title="Add token to wallet">
+                        <PlusIcon
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            addToMetamask(token)
+                          }}
+                        />
+                      </Tooltip>
                     </TokenListItem>
                   )
                 })

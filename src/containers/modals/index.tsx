@@ -22,7 +22,6 @@ import BridgeConfirmModal from './BridgeConfirmModal'
 import BridgeInProgressModal from './BridgeInProgressModal'
 import TransactionSuccessModal from './TransactionSuccessModal'
 import UnsupportedNetworkModal from './UnsupportedNetworkModal'
-import { MultiStepWithdrawalModal } from './MultiStepWithdrawalModal'
 /**
  *
  * NOTE:TODO: https://github.com/bobanetwork/boba/pull/982#discussion_r1253868688
@@ -89,10 +88,6 @@ const ModalContainer = () => {
 
   const bridgeConfirmModalState = useSelector(
     selectModalState('bridgeConfirmModal')
-  )
-
-  const bridgeMultiStepModalState = useSelector(
-    selectModalState('bridgeMultiStepWithdrawal')
   )
 
   const bridgeInProgressModalState = useSelector(
@@ -165,10 +160,6 @@ const ModalContainer = () => {
 
       {!!bridgeConfirmModalState && (
         <BridgeConfirmModal open={bridgeConfirmModalState} />
-      )}
-
-      {!!bridgeMultiStepModalState && (
-        <MultiStepWithdrawalModal open={bridgeMultiStepModalState} />
       )}
 
       {!!bridgeInProgressModalState && (

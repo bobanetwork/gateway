@@ -42,7 +42,6 @@ const TokenInput = (props: Props) => {
     dispatch(setAmountToBridge(''))
 
     if (!token) {
-      setMaxBalance(0)
       return
     }
 

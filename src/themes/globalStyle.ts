@@ -61,8 +61,5 @@ export const GlobalStyle = createGlobalStyle<{ theme: DefaultThemeProps }>`
     font-family: 'Montserrat';
   }
 
-  .MuiBox-root > div {
-    max-width:100%;
-  }
 
 `

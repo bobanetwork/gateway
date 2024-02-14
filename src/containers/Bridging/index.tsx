@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { selectBridgeType } from 'selectors'
 import BridgeAction from './BridgeAction'
 import BridgeAlert from './BridgeAlert'
@@ -12,48 +12,16 @@ import { BridgeContent, BridgeWrapper, BridginContainer } from './styles'
 
 import useBridgeAlerts from 'hooks/useBridgeAlerts'
 import useBridgeCleanUp from 'hooks/useBridgeCleanUp'
-import ReenterWithdrawModal from '../modals/ReenterWithdrawModal'
-import networkService from '../../services/networkService'
-import { openModal } from '../../actions/uiAction'
-import { setReenterWithdrawalConfig } from '../../actions/bridgeAction'
-import {
-  checkBridgeWithdrawalReenter,
-  IReenterWithdrawConfig,
-} from '../../services/anchorage.service'
 
 const Bridging = () => {
-  const dispatch = useDispatch<any>()
   useBridgeCleanUp()
   useBridgeAlerts()
 
-  const [reenterWithdrawConfig, setReenterWithdrawConfig] =
-    useState<IReenterWithdrawConfig | null>()
-
-  useEffect(() => {
-    const config = checkBridgeWithdrawalReenter()
-    if (config) {
-      dispatch(setReenterWithdrawalConfig(config))
-      openModal('ReenterWithdrawModal')
-    }
-  }, [networkService.account, networkService.networkConfig])
-
   const currentBridgeType = useSelector(selectBridgeType())
-
-  const handleClose = () => setReenterWithdrawConfig(null)
 
   return (
     <BridginContainer>
       <BridgeWrapper id="bridge">
-        {reenterWithdrawConfig && (
-          <ReenterWithdrawModal
-            handleClose={handleClose}
-            state={1}
-            onReenterWithdrawal={() => {
-              dispatch(setReenterWithdrawalConfig(reenterWithdrawConfig))
-              dispatch(openModal('bridgeMultiStepWithdrawal'))
-            }}
-          />
-        )}
         <BridgeContent>
           <BridgeHeader />
           <BridgeAlert />

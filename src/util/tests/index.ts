@@ -23,7 +23,6 @@ export const mockedInitialState = {
     activeNetwork: 'ETHEREUM',
     activeNetworkType: 'Mainnet',
     activeNetworkIcon: 'ethereum',
-    chainIds: { L1: '1', L2: '288' },
   },
   balance: {
     l2FeeRateN: 2,
