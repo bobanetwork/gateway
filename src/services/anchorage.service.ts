@@ -229,7 +229,11 @@ export const claimWithdrawal = async (logs: GQL2ToL1MessagePassedEvent[]) => {
           logs[0].data,
         ]
       )
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve(gas)
+      }, 2000)
+    )
   }
 
   while (true) {

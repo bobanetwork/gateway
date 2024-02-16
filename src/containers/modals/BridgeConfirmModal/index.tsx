@@ -17,6 +17,8 @@ import {
   selectAmountToBridge,
   selectBridgeType,
   selectDestChainIdTeleportation,
+  selectL1FeeRateN,
+  selectL2FeeRateN,
   selectLayer,
   selectLookupPrice,
   selectTokenToBridge,
@@ -34,6 +36,8 @@ interface Props {
 
 const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const dispatch = useDispatch<any>()
+  const l1FeeRateN = useSelector(selectL1FeeRateN)
+  const l2FeeRateN = useSelector(selectL2FeeRateN)
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
@@ -140,7 +144,12 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
         </Item>
         <Item>
           <ConfirmLabel>Gas Fee</ConfirmLabel>
-          <ConfirmValue>0.000038 ETH</ConfirmValue>
+          <ConfirmValue>
+            {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
+              ? l2FeeRateN
+              : l1FeeRateN) || 0}
+            %
+          </ConfirmValue>
         </Item>
         <Item>
           <ConfirmLabel>Time</ConfirmLabel>

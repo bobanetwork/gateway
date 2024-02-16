@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import {
-  ConfirmActionButton,
-  Description,
-  PassiveStepperNumberIndicator,
-  SecondaryActionButton,
-  ActiveStepNumberIndicator,
-  StepContainer,
-} from './index.styles'
-import { Heading } from '../../../components/global'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectLayer, selectModalState } from '../../../selectors'
-import { setConnectETH } from '../../../actions/setupAction'
+import { setConnectETH } from 'actions/setupAction'
+import { closeModal, openError, openModal } from 'actions/uiAction'
+import { Heading } from 'components/global'
 import { ethers } from 'ethers'
-import { closeModal, openModal } from '../../../actions/uiAction'
-import networkService from '../../../services/networkService'
-import { anchorageGraphQLService } from '../../../services/graphql.service'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectLayer, selectModalState } from 'selectors'
 import {
+  IHandleProveWithdrawalConfig,
   approvalRequired,
   claimWithdrawal,
   handleInitiateWithdrawal,
   handleProveWithdrawal,
-  IHandleProveWithdrawalConfig,
-} from '../../../services/anchorage.service'
+} from 'services/anchorage.service'
+import { anchorageGraphQLService } from 'services/graphql.service'
+import networkService from 'services/networkService'
 import { steps } from './config'
+import {
+  ActiveStepNumberIndicator,
+  ConfirmActionButton,
+  Description,
+  PassiveStepperNumberIndicator,
+  SecondaryActionButton,
+  StepContainer,
+} from './index.styles'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -67,6 +67,13 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       isNativeWithdrawal ? null : props.token
     )
       .then((res) => {
+        if (!res) {
+          props.handleClose()
+          dispatch(
+            openError('Failed to approve amount or user rejected signature')
+          )
+          return
+        }
         setActiveStep(2)
         setWithdrawalConfig({
           blockNumber: res,

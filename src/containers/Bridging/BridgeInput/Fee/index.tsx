@@ -19,6 +19,7 @@ import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import useAmountToReceive from 'hooks/useAmountToReceive'
 import networkService from 'services/networkService'
 import { useTheme } from 'styled-components'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {}
 
@@ -36,6 +37,8 @@ const Fee = (props: Props) => {
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
+
+  const { isSepoliaNetwork } = useNetworkInfo()
 
   const { amount: amountToReceive } = useAmountToReceive()
 
@@ -103,7 +106,9 @@ const Fee = (props: Props) => {
         <Label>Destination gas fee</Label>
         <Label>{gasFee}</Label>
       </InfoRow>
-      {layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT ? (
+      {!isSepoliaNetwork &&
+      layer === LAYER.L2 &&
+      bridgeType !== BRIDGE_TYPE.LIGHT ? (
         <InfoRow>
           <Label>xChain Relay Fee</Label>
           <Label>{exitFee} BOBA</Label>
