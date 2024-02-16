@@ -1,20 +1,20 @@
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
-import networkService from './networkService'
+import { TRANSACTION_STATUS } from 'containers/history/types'
+import { Contract, ethers, providers } from 'ethers'
+import { BobaChains } from 'util/chainConfig'
+import { sepoliaConfig } from 'util/network/config/ethereumSepolia'
 import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
 } from 'util/network/network.util'
-import { TRANSACTION_STATUS } from '../containers/history/types'
 import {
-  anchorageGraphQLService,
   LightBridgeAssetReceivedEvent,
   LightBridgeDisbursementEvents,
+  anchorageGraphQLService,
   lightBridgeGraphQLService,
 } from './graphql.service'
-import { Contract, ethers, providers } from 'ethers'
-import { BobaChains } from '../util/chainConfig'
-import { ethereumConfig } from '../util/network/config/ethereum'
+import networkService from './networkService'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -52,12 +52,12 @@ class TransactionService {
     }
   }
 
-  async fetchBedrockTransactions(
+  async fetchAnchorageTransactions(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
     if (
-      networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId ||
+      networkConfig?.L1.chainId !== sepoliaConfig.Testnet.L1.chainId ||
       !address
     ) {
       return []
@@ -194,7 +194,7 @@ class TransactionService {
     const allNetworksTransactions: any[] = await Promise.all(
       networkConfigsArray.flatMap((config) => {
         return [
-          this.fetchBedrockTransactions(config),
+          this.fetchAnchorageTransactions(config),
           this.fetchL2Tx(config),
           this.fetchL1PendingTx(config),
           this.fetchTeleportationTransactions(config),

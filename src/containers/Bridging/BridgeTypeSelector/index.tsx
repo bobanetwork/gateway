@@ -1,5 +1,7 @@
+import { setBridgeType } from 'actions/bridgeAction'
+import { setNetwork } from 'actions/networkAction'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React, { useEffect } from 'react'
-import { BridgeTabs, BridgeTabItem } from './style'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkType,
@@ -7,15 +9,12 @@ import {
   selectNetwork,
   selectNetworkType,
 } from 'selectors'
-import { setBridgeType } from 'actions/bridgeAction'
 import {
-  Network,
+  DEFAULT_NETWORK,
   NetworkType,
   networkLimitedAvailability,
-  NetworkList,
-  DEFAULT_NETWORK,
-} from '../../../util/network/network.util'
-import { setNetwork } from '../../../actions/networkAction'
+} from 'util/network/network.util'
+import { BridgeTabItem, BridgeTabs } from './style'
 
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
@@ -31,6 +30,7 @@ const BridgeTypeSelector = () => {
   const network = useSelector(selectNetwork())
   const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
   const activeNetworkType = useSelector(selectActiveNetworkType())
+  const { isSepoliaNetwork } = useNetworkInfo()
 
   // Only show teleportation on testnet for now
   const isTestnet =
@@ -62,6 +62,14 @@ const BridgeTypeSelector = () => {
   useEffect(() => {
     dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
   }, [activeNetworkType])
+
+  // @todo return <></> for the testnet with sepolia connection.
+  // as sepolia doesn't support the fast / light bridge
+  // note: remove conditional check once light bridge deployed to sepolia.
+
+  if (!!isSepoliaNetwork) {
+    return <></>
+  }
 
   return (
     <BridgeTabs>

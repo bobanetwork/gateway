@@ -52,8 +52,8 @@ const ThirdPartyBridges: FC = () => {
                       bridge.icon
                         ? bridge.icon
                         : theme.name === 'light'
-                        ? bridge.iconLight
-                        : bridge.iconDark
+                          ? bridge.iconLight
+                          : bridge.iconDark
                     }
                     alt={`${bridge.name} ${
                       bridge.icon ? '' : theme.name + '-'
