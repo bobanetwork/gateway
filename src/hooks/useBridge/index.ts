@@ -1,6 +1,13 @@
 import {
+  purgeBridgeAlert,
+  resetBridgeAmount,
+  resetToken,
+} from 'actions/bridgeAction'
+import {
   approveERC20,
   depositErc20,
+  depositErc20Anchorage,
+  depositETHAnchorageL2,
   depositETHL2,
   depositL1LP,
   depositL2LP,
@@ -10,6 +17,7 @@ import {
 import { closeModal, openError, openModal } from 'actions/uiAction'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { BigNumberish, ethers } from 'ethers'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetwork,
@@ -24,13 +32,7 @@ import {
 import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
 import { Layer, LAYER } from 'util/constant'
-import {
-  purgeBridgeAlert,
-  resetBridgeAmount,
-  resetToken,
-} from 'actions/bridgeAction'
 import { INetwork, NetworkList } from '../../util/network/network.util'
-import { isAnchorageEnabled } from '../../util/common'
 
 export const useBridge = () => {
   const dispatch = useDispatch<any>()
@@ -39,6 +41,7 @@ export const useBridge = () => {
   const toL2Account = useSelector(selectBridgeDestinationAddress())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
+  const { isSepoliaNetwork } = useNetworkInfo()
 
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const activeNetwork = useSelector(selectActiveNetwork())
@@ -64,21 +67,41 @@ export const useBridge = () => {
   const triggerDeposit = async (amountWei: any) => {
     let receipt
     if (token.address === ethers.constants.AddressZero) {
-      receipt = await dispatch(
-        depositETHL2({
-          recipient: toL2Account || '',
-          value_Wei_String: amountWei,
-        })
-      )
+      if (!!isSepoliaNetwork) {
+        receipt = await dispatch(
+          depositETHAnchorageL2({
+            recipient: toL2Account || '',
+            L1DepositAmountWei: amountWei,
+          })
+        )
+      } else {
+        receipt = await dispatch(
+          depositETHL2({
+            recipient: toL2Account || '',
+            value_Wei_String: amountWei,
+          })
+        )
+      }
     } else {
-      receipt = await dispatch(
-        depositErc20({
-          recipient: toL2Account || '',
-          value_Wei_String: amountWei,
-          currency: token.address,
-          currencyL2: token.addressL2,
-        })
-      )
+      if (!!isSepoliaNetwork) {
+        receipt = await dispatch(
+          depositErc20Anchorage({
+            recipient: toL2Account || '',
+            L1DepositAmountWei: amountWei,
+            currency: token.address,
+            currencyL2: token.addressL2,
+          })
+        )
+      } else {
+        receipt = await dispatch(
+          depositErc20({
+            recipient: toL2Account || '',
+            value_Wei_String: amountWei,
+            currency: token.address,
+            currencyL2: token.addressL2,
+          })
+        )
+      }
     }
 
     return receipt
@@ -139,8 +162,10 @@ export const useBridge = () => {
   }
 
   const triggerExit = async (amountWei: any) => {
-    if (isAnchorageEnabled(networkService.networkType)) {
-      // Anchorage has a separate withdrawal flow, once bedrock is fully rolled out, we might get rid of this if
+    // @todo instead validate testnet with sepolia network.
+    // as testnet sepoli only supports 2 step bridging.
+    // NOTE: Anchorage has a separate withdrawal flow, once bedrock is fully rolled out, we might get rid of this if
+    if (!!isSepoliaNetwork) {
       dispatch(openModal('bridgeMultiStepWithdrawal'))
     } else {
       return dispatch(exitBOBA(token.address, amountWei))

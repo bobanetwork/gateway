@@ -5,7 +5,6 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client'
-import { NetworkType } from 'util/network/network.util'
 import networkService from './networkService'
 import { BigNumberish } from 'ethers'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
@@ -278,28 +277,15 @@ class GraphQLService {
 
   async queryBridgeProposalCreated({ sourceChainId }) {
     const query = gql(
-      `query { proposalCreateds { idParam values description proposer } }`
+      `query {
+          proposalCreateds{
+            idParam
+            values
+            description
+            proposer
+         }
+      }`
     )
-
-    /*
-    curl -g -X POST \
-    -H "Content-Type: application/json" \
-    -d '{"query":"{ proposalCreateds {idParam values description proposer}}"}' \
-    https://graph.goerli.boba.network/subgraphs/name/boba/Bridges
-
-    curl -g -X POST \
-    -H "Content-Type: application/json" \
-    -d '{"query":"{ proposalCreateds {idParam values description proposer}}"}' \
-    https://api.thegraph.com/subgraphs/name/bobanetwork/boba-l2-subgraph
-
-    */
-
-    if (NetworkType.TESTNET === networkService.networkType) {
-      // As there is no subgraph node for goerli L2 disable it.
-      return {
-        data: { proposalCreateds: [] },
-      }
-    }
 
     return this.conductQuery(
       query,
@@ -319,20 +305,20 @@ class TeleportationGraphQLService extends GraphQLService {
   ): Promise<LightBridgeAssetReceivedEvent[]> {
     const query =
       gql(`query Teleportation($wallet: String!, $sourceChainId: BigInt!) {
-  assetReceiveds(
-    where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }]}
-  ) {
-    token
-    sourceChainId
-    toChainId
-    depositId
-    emitter
-    amount
-    block_number
-    timestamp_
-    transactionHash_
-  }
-}`)
+            assetReceiveds(
+              where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }]}
+            ) {
+              token
+              sourceChainId
+              toChainId
+              depositId
+              emitter
+              amount
+              block_number
+              timestamp_
+              transactionHash_
+            }
+          }`)
 
     const variables = {
       wallet: walletAddress,
