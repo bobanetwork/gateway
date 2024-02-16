@@ -149,7 +149,7 @@ class GraphQLService {
       },
     },
     // Optimism Mainnet
-    420: {
+    10: {
       [EGraphQLService.LightBridge]: {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-optimism/v1/gn',
         local: '',
