@@ -168,11 +168,17 @@ class GraphQLService {
     // Boba BNB
     56288: {
       [EGraphQLService.LightBridge]: {
-        gql: '', // TODO
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-bnb/v1/gn',
         local: '',
       },
     },
-    // TODO: Add other mainnets
+    // BSC
+    56: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-bsc/v1/gn',
+        local: '',
+      },
+    },
     // Goerli
     5: {
       [EGraphQLService.LightBridge]: {
