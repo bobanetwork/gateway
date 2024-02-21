@@ -335,9 +335,8 @@ class EarnService {
         networkService.L2Provider
       )
 
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? L1LPContract
-        : L2LPContract
+      const TX = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP ? L1LPContract : L2LPContract
       )
         .connect(walletService.provider!.getSigner())
         .withdrawReward(valueWeiString, currencyAddress, networkService.account)
@@ -367,9 +366,8 @@ class EarnService {
         networkService.L2Provider
       )
 
-      const estimateGas = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? L1LPContract
-        : L2LPContract
+      const estimateGas = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP ? L1LPContract : L2LPContract
       ).estimateGas.withdrawLiquidity(
         valueWeiString,
         currency,
@@ -384,9 +382,8 @@ class EarnService {
         ? blockGasLimit
         : estimateGas.mul(2)
 
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? L1LPContract
-        : L2LPContract
+      const TX = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP ? L1LPContract : L2LPContract
       )
         .connect(walletService.provider!.getSigner())
         .withdrawLiquidity(valueWeiString, currency, walletService.account, {
