@@ -29,6 +29,7 @@ import useBridge from 'hooks/useBridge'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK, LAYER } from 'util/constant'
 import { CHAIN_ID_LIST } from '../../../util/network/network.util'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {
   open: boolean
@@ -48,11 +49,14 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
+  const { isSepoliaNetwork } = useNetworkInfo()
 
   const { triggerSubmit } = useBridge()
 
   const estimateTime = () => {
-    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
+    if (isSepoliaNetwork) {
+      return '~ 3mins.'
+    } else if (bridgeType === BRIDGE_TYPE.CLASSIC) {
       if (layer === LAYER.L1) {
         return '13 ~ 14mins.'
       } else {

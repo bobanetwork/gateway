@@ -45,7 +45,9 @@ const Fee = (props: Props) => {
   const [gasFee, setGasFee] = useState('')
 
   const estimateTime = () => {
-    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
+    if (isSepoliaNetwork) {
+      return '~ 3mins'
+    } else if (bridgeType === BRIDGE_TYPE.CLASSIC) {
       if (layer === LAYER.L1) {
         return '13 ~ 14mins.'
       } else {
