@@ -9,6 +9,7 @@ import { closeModal } from 'actions/uiAction'
 import { Button } from 'components/global'
 import { selectActiveNetworkType, selectLayer, selectNetwork } from 'selectors'
 import { chainNameMaps } from 'util/network/network.util'
+import walletService from 'services/wallet.service'
 
 interface Props {
   open: boolean
@@ -22,6 +23,7 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
 
   const handleClose = () => {
     dispatch(setConnect(false))
+    walletService.resetValues()
     dispatch(closeModal('wrongNetworkModal'))
   }
 
@@ -41,7 +43,7 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
           } else {
             dispatch(setConnectETH(true))
           }
-          dispatch(closeModal('settingsModal'))
+          dispatch(closeModal('wrongNetworkModal'))
         }}
       />
     </Modal>
