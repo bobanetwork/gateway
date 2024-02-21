@@ -262,24 +262,24 @@ export const claimWithdrawal = async (logs: GQL2ToL1MessagePassedEvent[]) => {
 }
 
 export const checkBridgeWithdrawalReenter =
-  (): IReenterWithdrawConfig | null => {
-    if (networkService.isAnchorageEnabled() && !!networkService.provider) {
-      anchorageGraphQLService
-        .queryWithdrawalTransactionsHistory(
-          networkService.account,
-          networkService.networkConfig!
+  async (): Promise<IReenterWithdrawConfig | null> => {
+    return anchorageGraphQLService
+      .queryWithdrawalTransactionsHistory(
+        networkService.account,
+        networkService.networkConfig!
+      )
+      .then((events: any) => {
+        const filterEvents = events.filter(
+          (e: any) => e.UserFacingStatus !== WithdrawState.finalized
         )
-        .then((events: any) => {
-          events = events.filter(
-            (e) => e.UserFacingStatus !== WithdrawState.finalized
-          )
-          if (events?.length > 1) {
-            if (events[0]?.actionRequired) {
-              return events[0].actionRequired
-            }
-          }
-        })
-        .catch(() => null)
-    }
-    return null
+        if (filterEvents?.length > 0 && filterEvents[0]?.actionRequired) {
+          return filterEvents[0].actionRequired
+        } else {
+          return null
+        }
+      })
+      .catch((error) => {
+        console.log(`error while fetching history`, error)
+        return null
+      })
   }

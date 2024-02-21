@@ -85,13 +85,14 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   }
 
   const proofWithdrawalStep = () => {
-    dispatch(setConnectETH(true))
     handleProveWithdrawal(withdrawalConfig!)
       .then((res: any) => {
         setActiveStep(5)
         setLatestLogs(res)
       })
-      .catch(() => {})
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   const claimWithdrawalStep = () => {

@@ -760,8 +760,8 @@ class AnchorageGraphQLService extends GraphQLService {
                   ? WithdrawProcessStep.Initialized
                   : WithdrawProcessStep.Proven,
               withdrawalHash: event.withdrawalHash,
-              blockNumber: event.blockNumber,
-              blockHash: event.blockHash,
+              blockNumber: transaction.blockNumber,
+              blockHash: block.hash,
             },
     }
   }
