@@ -140,21 +140,52 @@ enum EGraphQLService {
 
 class GraphQLService {
   GRAPHQL_ENDPOINTS = {
+    // ETH Mainnet
+    1: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-mainnet/v1/gn',
+        local: '',
+      },
+    },
+    // Arbitrum One
+    42161: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-arbitrum-one/v1/gn',
+        local: '',
+      },
+    },
+    // Optimism Mainnet
+    10: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-optimism/v1/gn',
+        local: '',
+      },
+    },
     // Boba ETH
     288: {
       [EGraphQLService.DAO]: {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-eth/v1/gn',
         local: '',
       },
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-eth/v1/gn',
+        local: '',
+      },
     },
     // Boba BNB
     56288: {
       [EGraphQLService.LightBridge]: {
-        gql: '', // TODO
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-bnb/v1/gn',
         local: '',
       },
     },
-    // TODO: Add other mainnets
+    // BSC
+    56: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-bsc/v1/gn',
+        local: '',
+      },
+    },
     // Goerli
     5: {
       [EGraphQLService.LightBridge]: {
@@ -206,11 +237,19 @@ class GraphQLService {
       [EGraphQLService.AnchorageBridge]: {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-sepolia/v1/gn',
       },
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-sepolia/v1/gn',
+        local: '',
+      },
     },
     // Boba Sepolia
     28882: {
       [EGraphQLService.AnchorageBridge]: {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-boba-sepolia/v1/gn',
+      },
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-sepolia/v1/gn',
+        local: '',
       },
     },
   }
