@@ -84,9 +84,20 @@ export const depositETHL2 = (payload) =>
     return bridgingService.depositETHToL2(payload)
   })
 
+//CLASSIC DEPOSIT ETH
+export const depositETHAnchorageL2 = (payload) =>
+  createAction('DEPOSIT/CREATE', () => {
+    return networkService.depositETHAnchorage(payload)
+  })
+
 //DEPOSIT ERC20
 export const depositErc20 = (payload) =>
   createAction('DEPOSIT/CREATE', () => bridgingService.depositErc20(payload))
+
+export const depositErc20Anchorage = (payload) =>
+  createAction('DEPOSIT/CREATE', () =>
+    networkService.depositERC20Anchorage(payload)
+  )
 
 export const approveERC20 = (
   value: BigNumberish,

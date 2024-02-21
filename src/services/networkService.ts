@@ -15,21 +15,19 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import { CrossChainMessenger } from '@bobanetwork/sdk'
-import { Contract, ethers } from 'ethers'
-import { getToken } from 'actions/tokenAction'
 import { addBobaFee } from 'actions/setupAction'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
-import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
+import { Contract, ethers } from 'ethers'
 
 import {
   CHAIN_ID_LIST,
-  getNetworkDetail,
   Network,
-  networkLimitedAvailability,
   NetworkType,
+  getNetworkDetail,
+  networkLimitedAvailability,
   pingRpcUrl,
 } from 'util/network/network.util'
-import appService from './app.service'
+import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 import walletService, { WalletService } from './wallet.service'
 
 import {
@@ -40,9 +38,13 @@ import {
   L1LiquidityPoolABI,
   L1StandardBridgeABI,
   L2LiquidityPoolABI,
+  L2OutputOracleABI,
   L2StandardBridgeABI,
+  L2StandardBridgeABIAnchorage,
   L2StandardERC20ABI,
+  L2ToL1MessagePasserABI,
   OVM_GasPriceOracleABI,
+  OptimismPortalABI,
   TeleportationABI,
 } from './abi'
 
@@ -51,6 +53,8 @@ import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
+import appService from './app.service'
+import { getToken } from 'actions/tokenAction'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -76,20 +80,36 @@ type TokenInfoForNetwork = {
 
 type TokenAddresses = Record<string, { L1: string; L2: string }>
 
-class NetworkService {
-  account?: string
+export class NetworkService {
+  addresses: Record<string, string>
+
+  networkType?: NetworkType
+  network?: Network
+  networkConfig?: any
   L1Provider?: JsonRpcProvider
   L2Provider?: JsonRpcProvider
-  provider?: JsonRpcProvider
-  chainId?: number
-  environment?: string
-  L1orL2?: 'L2' | 'L1'
-  networkGateway?: Network
-  networkType?: NetworkType
-  watcher?: CrossChainMessenger
-  fastWatcher?: CrossChainMessenger
+  L1orL2?: 'L1' | 'L2'
 
-  //#region contract_members
+  // L1 native details.
+  L1NativeTokenSymbol?: string
+  L1NativeTokenName?: string
+  tokenInfo?: TokenInfoForNetwork
+
+  // populated by initializeAccount
+  provider?: JsonRpcProvider
+  chainId?: string | number
+  account?: string
+
+  tokenAddresses?: TokenAddresses
+  supportedTokens: string[]
+  supportedTokenAddresses: TokenAddresses
+  supportedAltL1Chains?: string[] // @todo can be removed.
+
+  // @todo remove and make use of this.networkConfig in places where it's getting used.
+  payloadForL1SecurityFee?: TxPayload
+  gasEstimateAccount?: string
+
+  // #Contracts @todo remove and move to sepecific services files.
   L1_TEST_Contract?: Contract
   L2_TEST_Contract?: Contract
   L2_ETH_Contract?: Contract
@@ -102,75 +122,89 @@ class NetworkService {
   Teleportation?: Contract
   L1LPContract?: Contract
   L2LPContract?: Contract
-  //#endregion
 
-  tokenAddresses?: TokenAddresses
-  gasEstimateAccount?: string
-  payloadForL1SecurityFee?: TxPayload
-  payloadForFastDepositBatchCost?: TxPayload
-  supportedTokens: string[]
-  supportedTokenAddresses: TokenAddresses
-  supportedAltL1Chains: string[]
-  tokenInfo?: TokenInfoForNetwork
-  addresses: any
-  network?: Network
-  networkConfig?: NetworkDetailChainConfig
+  //#region Anchorage specific
+  L2ToL1MessagePasser?: Contract
+  L2OutputOracle?: Contract
+  OptimismPortal?: Contract
+
+  watcher?: CrossChainMessenger
+  fastWatcher?: CrossChainMessenger
   walletService: WalletService
 
-  L1NativeTokenSymbol
-  L1NativeTokenName?: string
-
   constructor() {
-    // support token
-    this.supportedTokens = []
-    this.supportedTokenAddresses = {}
-
-    // support alt l1 tokens
-    this.supportedAltL1Chains = []
-
-    // token info
-    this.tokenInfo = {} as any
-
-    // newly added properties to network services.
     this.addresses = {}
 
-    // wallet service
+    this.supportedTokens = []
+    this.supportedTokenAddresses = {}
     this.walletService = walletService
   }
 
-  async getBobaFeeChoice() {
-    const bobaFeeContract = new ethers.Contract(
-      this.addresses.Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.L2Provider
-    )
-
-    try {
-      const priceRatio = await bobaFeeContract.priceRatio()
-
-      let feeChoice
-      if (this.networkGateway === Network.ETHEREUM) {
-        feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
-      } else {
-        // this returns weather the secondary token getting use as tokenfee
-        feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
-        // if it's false which means boba is getting used as tokenfee which is default value.
-        feeChoice = !feeChoice
+  // caching address for user further in application.
+  getAddressCached(
+    cache: Record<string, string>, /// @todo double check if we can remove
+    contractName: string,
+    varToSet: string
+  ): boolean {
+    const address = cache[contractName]
+    if (typeof address === 'undefined') {
+      return false
+    } else {
+      this.addresses = {
+        ...this.addresses,
+        [varToSet]: address,
       }
-      const bobaFee = {
-        priceRatio: priceRatio.toString(),
-        feeChoice,
-      }
-      await addBobaFee(bobaFee)
-      return bobaFee
-    } catch (error) {
-      console.log(error)
-      return error
+      return true
     }
   }
 
-  // TODO: swap.service.ts
-  // TODO: rename to swap it's more over emergency swap feature.
+  getAllAddresses() {
+    return this.addresses
+  }
+
+  isAnchorageEnabled() {
+    if (
+      this.networkType === NetworkType.TESTNET &&
+      this.network === Network.ETHEREUM_SEPOLIA
+    ) {
+      return true
+    }
+    return false
+  }
+
+  async getBobaFeeChoice() {
+    if (!this.isAnchorageEnabled()) {
+      const bobaFeeContract = new ethers.Contract(
+        this.addresses.Boba_GasPriceOracle,
+        BobaGasPriceOracleABI,
+        this.L2Provider
+      )
+
+      try {
+        const priceRatio = await bobaFeeContract.priceRatio()
+
+        let feeChoice
+        if (this.network === Network.ETHEREUM) {
+          feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
+        } else {
+          // this returns weather the secondary token getting use as tokenfee
+          feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
+          // if it's false which means boba is getting used as tokenfee which is default value.
+          feeChoice = !feeChoice
+        }
+        const bobaFee = {
+          priceRatio: priceRatio.toString(),
+          feeChoice,
+        }
+        await addBobaFee(bobaFee)
+        return bobaFee
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    }
+  }
+
   async getETHMetaTransaction() {
     const EIP712Domain = [
       { name: 'name', type: 'string' },
@@ -196,7 +230,7 @@ class NetworkService {
     )
 
     let rawValue
-    if (this.networkGateway === Network.ETHEREUM) {
+    if (this.network === Network.ETHEREUM) {
       rawValue = await Boba_GasPriceOracle.getBOBAForSwap()
     } else {
       rawValue = await Boba_GasPriceOracle.getSecondaryFeeTokenForSwap()
@@ -204,11 +238,22 @@ class NetworkService {
 
     const value = rawValue.toString()
 
-    const nonce = (await this.BobaContract!.nonces(this.account)).toNumber()
-    const deadline = Math.floor(Date.now() / 1000) + 300
-    const verifyingContract = this.BobaContract!.address
+    let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
+    if (Network.ETHEREUM === this.network && this.chainId === 1) {
+      l2SecondaryFeeTokenAddress = allTokens.BOBA.L2
+    }
 
-    const name = await this.BobaContract!.name()
+    const bobaContract = new ethers.Contract(
+      l2SecondaryFeeTokenAddress,
+      BOBAABI,
+      this.L2Provider
+    )
+
+    const nonce = (await bobaContract!.nonces(this.account)).toNumber()
+    const deadline = Math.floor(Date.now() / 1000) + 300
+    const verifyingContract = bobaContract!.address
+
+    const name = await bobaContract!.name()
     const version = '1'
     const chainId = (await this.L2Provider!.getNetwork()).chainId
 
@@ -233,7 +278,7 @@ class NetworkService {
     try {
       // change url if network is ethereum
       const swapUrl =
-        this.networkGateway === Network.ETHEREUM
+        this.network === Network.ETHEREUM
           ? '/send.swapBOBAForETH'
           : '/send.swapSecondaryFeeToken'
       await metaTransactionAxiosInstance(this.networkConfig).post(swapUrl, {
@@ -254,32 +299,9 @@ class NetworkService {
     }
   }
 
-  getAddressCached(
-    cache: Record<any, any>,
-    contractName: string,
-    varToSet: string
-  ): Boolean {
-    const address = cache[contractName]
-    if (typeof address === 'undefined') {
-      return false
-    } else {
-      this.addresses = {
-        ...this.addresses,
-        [varToSet]: address,
-      }
-      return true
-    }
-  }
-
-  getAllAddresses() {
-    return this.addresses
-  }
-
-  // TODO: cleannup and see if we can move contract initiation specific to service or function.
   async initializeBase({ networkGateway: network, networkType }) {
     this.network = network //// refer this in other services and clean up iteratively.
-    this.networkGateway = network // e.g. mainnet | goerli | ...
-    this.networkType = networkType // e.g. mainnet | goerli | ...
+    this.networkType = networkType // e.g. mainnet | sepolia | ...
     // defines the set of possible networks along with chainId for L1 and L2
     const networkDetail = getNetworkDetail({
       network,
@@ -291,8 +313,6 @@ class NetworkService {
     try {
       if (Network[network]) {
         this.payloadForL1SecurityFee = networkDetail.payloadForL1SecurityFee
-        this.payloadForFastDepositBatchCost =
-          networkDetail.payloadForFastDepositBatchCost
         this.gasEstimateAccount = networkDetail.gasEstimateAccount
       }
 
@@ -308,10 +328,10 @@ class NetworkService {
         activeL1RpcURL
       )
 
-      const activeL2RpcURL = networkDetail['L2']['rpcUrl'][0]
+      let activeL2RpcURL = networkDetail['L2']['rpcUrl'][0]
       for (const rpcURL of networkDetail['L2']['rpcUrl']) {
         if (await pingRpcUrl(rpcURL)) {
-          activeL1RpcURL = rpcURL
+          activeL2RpcURL = rpcURL
           break
         }
       }
@@ -329,7 +349,7 @@ class NetworkService {
         l1TokenName: this.L1NativeTokenName,
       })
 
-      // get the tokens based on l1ChainId
+      // load L1 network specific tokens.
       const chainId = (await this.L1Provider!.getNetwork()).chainId
       this.tokenInfo = tokenInfo[chainId]
 
@@ -339,28 +359,22 @@ class NetworkService {
         networkType,
       })
 
-      this.supportedTokens = tokenAsset.tokens
-      this.supportedTokenAddresses = tokenAsset.tokenAddresses
-      this.supportedAltL1Chains = tokenAsset.altL1Chains
+      if (tokenAsset) {
+        this.supportedTokens = tokenAsset.tokens
+        this.supportedTokenAddresses = tokenAsset.tokenAddresses
+        this.supportedAltL1Chains = tokenAsset.altL1Chains
+      }
 
-      let addresses = {}
       // setting up all address;
       if (!!Network[network]) {
-        addresses = appService.fetchAddresses({
+        this.addresses = appService.fetchAddresses({
           network,
           networkType,
         })
       }
 
-      this.addresses = addresses
-
-      if (network === Network.ETHEREUM) {
-        // check only if selected network is ETHEREUM
-        if (
-          !this.getAddressCached(this.addresses, 'BobaMonsters', 'BobaMonsters')
-        ) {
-          return
-        }
+      // NOTE: should invoke for anchorage.
+      if (!this.isAnchorageEnabled() && this.network === Network.ETHEREUM) {
         if (
           !this.getAddressCached(
             this.addresses,
@@ -390,8 +404,9 @@ class NetworkService {
         }
       }
 
+      // Note: should bypass if limitedNetworkAvailability & anchorage not enabled.
       const isLimitedNetwork = networkLimitedAvailability(networkType, network)
-      if (!isLimitedNetwork) {
+      if (!isLimitedNetwork && !this.isAnchorageEnabled()) {
         if (
           !this.getAddressCached(
             this.addresses,
@@ -438,11 +453,24 @@ class NetworkService {
       )
 
       if (!isLimitedNetwork) {
-        this.L1StandardBridgeContract = new ethers.Contract(
-          this.addresses.L1StandardBridgeAddress,
-          L1StandardBridgeABI,
-          this.L1Provider
-        )
+        let L1StandardBridgeAddress
+
+        // todo remove once migrated to anchorage
+        if (this.addresses.L1StandardBridgeAddress) {
+          L1StandardBridgeAddress = this.addresses.L1StandardBridgeAddress
+        } else {
+          L1StandardBridgeAddress = this.addresses.L1StandardBridgeProxy
+            ? this.addresses.L1StandardBridgeProxy
+            : this.addresses.L1StandardBridge
+        }
+
+        if (L1StandardBridgeAddress) {
+          this.L1StandardBridgeContract = new ethers.Contract(
+            L1StandardBridgeAddress, // uses right addressed depending on ENABLE_ANCHORAGE
+            L1StandardBridgeABI,
+            this.L1Provider
+          )
+        }
 
         const tokenList = {}
 
@@ -478,18 +506,47 @@ class NetworkService {
         this.tokenAddresses = tokenList
         allTokens = tokenList
 
-        /*The test token*/
+        // /*The test token*/
         this.L1_TEST_Contract = new ethers.Contract(
-          allTokens.BOBA.L1, //this will get changed anyway when the contract is used
+          allTokens.BOBA?.L1, //this will get changed anyway when the contract is used
           L1ERC20ABI,
           this.L1Provider
         )
 
         this.L2_TEST_Contract = new ethers.Contract(
-          allTokens.BOBA.L2, //this will get changed anyway when the contract is used
+          allTokens.BOBA?.L2, //this will get changed anyway when the contract is used
           L2StandardERC20ABI,
           this.L2Provider
         )
+
+        if (
+          this.addresses.L2ToL1MessagePasserProxy ||
+          this.addresses.L2ToL1MessagePasser
+        ) {
+          this.L2ToL1MessagePasser = new ethers.Contract(
+            this.addresses.L2ToL1MessagePasser
+              ? this.addresses.L2ToL1MessagePasser
+              : this.addresses.L2ToL1MessagePasserProxy,
+            L2ToL1MessagePasserABI,
+            this.L2Provider
+          )
+        }
+
+        if (this.addresses.OptimismPortalProxy) {
+          this.OptimismPortal = new ethers.Contract(
+            this.addresses.OptimismPortalProxy,
+            OptimismPortalABI,
+            this.L1Provider
+          )
+        }
+
+        if (this.addresses.L2OutputOracleProxy) {
+          this.L2OutputOracle = new ethers.Contract(
+            this.addresses.L2OutputOracleProxy,
+            L2OutputOracleABI,
+            this.L1Provider
+          )
+        }
 
         // Liquidity pools
         // TODO: review and remove if it's not getting used.
@@ -504,24 +561,29 @@ class NetworkService {
           this.L2Provider
         )
 
-        this.watcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: false,
-        })
-        this.fastWatcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: true,
-        })
+        // @todo remove once fully migrated
+        if (!this.isAnchorageEnabled()) {
+          this.watcher = new CrossChainMessenger({
+            l1SignerOrProvider: this.L1Provider,
+            l2SignerOrProvider: this.L2Provider,
+            l1ChainId: chainId,
+            fastRelayer: false,
+          })
+          this.fastWatcher = new CrossChainMessenger({
+            l1SignerOrProvider: this.L1Provider,
+            l2SignerOrProvider: this.L2Provider,
+            l1ChainId: chainId,
+            fastRelayer: true,
+          })
+        }
       }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {
         this.L2StandardBridgeContract = new ethers.Contract(
           this.addresses.L2StandardBridgeAddress,
-          L2StandardBridgeABI,
+          this.isAnchorageEnabled()
+            ? L2StandardBridgeABIAnchorage
+            : L2StandardBridgeABI,
           this.L2Provider
         )
       }
@@ -615,7 +677,7 @@ class NetworkService {
 
       // defines the set of possible networks along with chainId for L1 and L2
       const networkDetail = getNetworkDetail({
-        network: this.networkGateway!,
+        network: this.network!,
         networkType: this.networkType!,
       })
 
@@ -623,7 +685,7 @@ class NetworkService {
       const L2ChainId = networkDetail['L2']['chainId']
 
       if (
-        !this.networkGateway ||
+        !this.network ||
         typeof chainId === 'undefined' ||
         typeof L1ChainId === 'undefined' ||
         typeof L2ChainId === 'undefined'
@@ -634,9 +696,9 @@ class NetworkService {
       // there are numerous possible chains we could be on also, either L1 or L2
       // at this point, we only know whether we want to be on which network etc
 
-      if (!!Network[this.networkGateway] && chainId === L2ChainId) {
+      if (!!Network[this.network] && chainId === L2ChainId) {
         this.L1orL2 = 'L2'
-      } else if (!!Network[this.networkGateway] && chainId === L1ChainId) {
+      } else if (!!Network[this.network] && chainId === L1ChainId) {
         this.L1orL2 = 'L1'
       } else {
         return 'wrongnetwork'
@@ -666,7 +728,7 @@ class NetworkService {
     }
 
     const networkDetail = getNetworkDetail({
-      network: this.networkGateway!,
+      network: this.network!,
       networkType: this.networkType!,
     })
     const targetIDHex = networkDetail[targetLayer].chainIdHex

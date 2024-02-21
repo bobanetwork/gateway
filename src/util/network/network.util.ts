@@ -14,6 +14,7 @@ import arbitrum from 'assets/arbitrum.svg'
 
 import ethIcon from 'assets/ethereum.svg'
 
+import { sepoliaConfig } from './config/ethereumSepolia'
 import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
 import { optimismConfig } from './config/optimism'
@@ -46,6 +47,7 @@ export enum NetworkType {
 
 export enum Network {
   ETHEREUM = 'ETHEREUM',
+  ETHEREUM_SEPOLIA = 'ETHEREUM_SEPOLIA',
   BNB = 'BNB',
   OPTIMISM = 'OPTIMISM',
   ARBITRUM = 'ARBITRUM',
@@ -69,6 +71,24 @@ export const CHAIN_ID_LIST = {
     icon: 'ethereum',
     siteName: 'Boba (Goerli)',
     imgSrc: bobaEth,
+  },
+  28882: {
+    networkType: NetworkType.TESTNET,
+    chain: Network.ETHEREUM_SEPOLIA,
+    layer: LAYER.L2,
+    name: 'Boba Sepolia',
+    icon: 'ethereum',
+    siteName: 'Boba (Sepolia)',
+    imgSrc: bobaEth,
+  },
+  11155111: {
+    networkType: NetworkType.TESTNET,
+    chain: Network.ETHEREUM_SEPOLIA,
+    layer: LAYER.L2,
+    name: 'Sepolia',
+    icon: 'ethereum',
+    siteName: 'Ethereum (Sepolia)',
+    imgSrc: ethIcon,
   },
   1: {
     networkType: NetworkType.MAINNET,
@@ -193,7 +213,12 @@ export const DEFAULT_NETWORK = {
   },
   chainId: { [Layer.L1]: '1', [Layer.L2]: '288' },
 }
-export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
+type NetworkLists = {
+  Mainnet: INetwork[]
+  Testnet: INetwork[]
+}
+
+export const NetworkList: NetworkLists = {
   Mainnet: [
     DEFAULT_NETWORK,
     {
@@ -211,6 +236,19 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
   Testnet: [
     {
       icon: 'ethereum',
+      chain: Network.ETHEREUM_SEPOLIA,
+      label: 'Ethereum (Sepolia) <> Boba (Sepolia)',
+      key: 'ethereum',
+      name: {
+        l1: 'Ethereum (Sepolia)',
+        l2: 'Boba (Sepolia)',
+      },
+      chainId: { [Layer.L1]: '11155111', [Layer.L2]: '28882' },
+      limitedAvailability: false,
+    },
+    {
+      //@todo remove on full migration to sepolia.
+      icon: 'ethereum',
       chain: Network.ETHEREUM,
       label: 'Ethereum (Goerli) <> Boba (Goerli)',
       key: 'ethereum',
@@ -219,6 +257,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
         l2: 'Boba (Goerli)',
       },
       chainId: { [Layer.L1]: '5', [Layer.L2]: '2888' },
+      limitedAvailability: false,
     },
     {
       icon: 'bnb',
@@ -231,7 +270,7 @@ export const NetworkList: { Mainnet: INetwork[]; Testnet: INetwork[] } = {
       },
       chainId: { [Layer.L1]: '97', [Layer.L2]: '9728' },
     },
-    // TODO Make sure they are only shown for light bridge
+    // Make sure they are only shown for light bridge
     {
       icon: 'optimism',
       chain: Network.OPTIMISM,
@@ -268,6 +307,7 @@ export const networkLimitedAvailability = (
 }
 
 export const AllNetworkConfigs: { [network in Network]: NetworkDetail } = {
+  [Network.ETHEREUM_SEPOLIA]: sepoliaConfig,
   [Network.ETHEREUM]: ethereumConfig,
   [Network.BNB]: bnbConfig,
   [Network.OPTIMISM]: optimismConfig,
@@ -308,4 +348,12 @@ export const pingRpcUrl = async (rpcUrl) => {
     console.log(`Error pinging Rpc Url: ${rpcUrl}`)
     return false
   }
+}
+
+export const chainNameMaps: Record<Network, string> = {
+  ETHEREUM: 'Ethereum',
+  ETHEREUM_SEPOLIA: 'Ethereum Sepolia',
+  BNB: 'Bnb',
+  OPTIMISM: 'Optimism',
+  ARBITRUM: 'Arbitrum',
 }

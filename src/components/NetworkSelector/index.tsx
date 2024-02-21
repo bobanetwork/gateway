@@ -5,12 +5,13 @@ import {
   selectLayer,
   selectBridgeType,
 } from 'selectors'
-import { NetworkList, CHAIN_ID_LIST } from 'util/network/network.util'
+import { NetworkList, CHAIN_ID_LIST, Network } from 'util/network/network.util'
 import { setNetwork } from 'actions/networkAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { NetworkSelectorDropdown } from './styles'
 import { IDropdownItem } from 'components/global/dropdown'
+import { setBridgeType } from 'actions/bridgeAction'
 
 const NetworkDropdownHeading = {
   label: 'Networks',
@@ -41,6 +42,9 @@ export const NetworkSelector = () => {
       return
     }
     const chainDetail = CHAIN_ID_LIST[Number(chainId)]
+    if (chainDetail.chain === Network.ETHEREUM_SEPOLIA) {
+      dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
+    }
     dispatch(
       setNetwork({
         network: chainDetail.chain,

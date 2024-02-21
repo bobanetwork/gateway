@@ -1,31 +1,32 @@
 import React, { FC } from 'react'
 
+import { closeModal } from 'actions/uiAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { closeModal } from 'actions/uiAction'
 import {
   selectActiveNetworkName,
   selectBridgeType,
-  selectLayer,
   selectDestChainIdTeleportation,
+  selectLayer,
 } from 'selectors'
 
+import { Button, Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
-import { Button, Heading, Typography } from 'components/global'
-import { CHAIN_ID_LIST } from '../../../util/network/network.util'
+import { CHAIN_ID_LIST } from 'util/network/network.util'
 
-import { LAYER } from 'util/constant'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { LAYER } from 'util/constant'
 import { ModalInterface } from '../types'
 
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import {
-  SuccessContainer,
-  SuccessCheck,
-  MutedText,
-  CircleOuter,
   CircleInner,
-  TitleText,
+  CircleOuter,
+  MutedText,
+  SuccessCheck,
+  SuccessContainer,
   SuccessContent,
+  TitleText,
 } from './styles'
 
 const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
@@ -34,6 +35,7 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   const layer = useSelector(selectLayer())
   const name = useSelector(selectActiveNetworkName())
   const bridgeType = useSelector(selectBridgeType())
+  const { isSepoliaNetwork } = useNetworkInfo()
 
   const destNetworkLightBridgeChainId = useSelector(
     selectDestChainIdTeleportation()
@@ -86,7 +88,7 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
           <Heading variant="h1">Bridge Successful</Heading>
           <TitleText>
             Your funds will arrive in {estimateTime()} at your wallet on{' '}
-            {destNetworkLightBridge && layer === LAYER.L1
+            {(destNetworkLightBridge && layer === LAYER.L1) || isSepoliaNetwork
               ? name['l2']
               : name['l1']}
             .

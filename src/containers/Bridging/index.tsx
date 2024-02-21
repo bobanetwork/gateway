@@ -1,27 +1,59 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectBridgeType } from 'selectors'
 import BridgeAction from './BridgeAction'
 import BridgeAlert from './BridgeAlert'
 import BridgeHeader from './BridgeHeader'
 import BridgeInput from './BridgeInput'
 import BridgeTypeSelector, { BRIDGE_TYPE } from './BridgeTypeSelector'
-import ThirdPartyBridges from './ThirdPartyBridges'
 import Chains from './chain'
 import { BridgeContent, BridgeWrapper, BridginContainer } from './styles'
+import ThirdPartyBridges from './ThirdPartyBridges'
 
+import { setReenterWithdrawalConfig } from 'actions/bridgeAction'
+import { openModal } from 'actions/uiAction'
+import ReenterWithdrawModal from 'containers/modals/ReenterWithdrawModal'
 import useBridgeAlerts from 'hooks/useBridgeAlerts'
 import useBridgeCleanUp from 'hooks/useBridgeCleanUp'
+import {
+  checkBridgeWithdrawalReenter,
+  IReenterWithdrawConfig,
+} from 'services/anchorage.service'
+import networkService from 'services/networkService'
 
 const Bridging = () => {
+  const dispatch = useDispatch<any>()
   useBridgeCleanUp()
   useBridgeAlerts()
 
+  const [reenterWithdrawConfig, setReenterWithdrawConfig] =
+    useState<IReenterWithdrawConfig | null>()
+
+  useEffect(() => {
+    const config = checkBridgeWithdrawalReenter()
+    if (config) {
+      dispatch(setReenterWithdrawalConfig(config))
+      openModal('ReenterWithdrawModal')
+    }
+  }, [networkService.account, networkService.networkConfig])
+
   const currentBridgeType = useSelector(selectBridgeType())
+
+  const handleClose = () => setReenterWithdrawConfig(null)
 
   return (
     <BridginContainer>
       <BridgeWrapper id="bridge">
+        {reenterWithdrawConfig && (
+          <ReenterWithdrawModal
+            handleClose={handleClose}
+            state={1}
+            onReenterWithdrawal={() => {
+              dispatch(setReenterWithdrawalConfig(reenterWithdrawConfig))
+              dispatch(openModal('bridgeMultiStepWithdrawal'))
+            }}
+          />
+        )}
         <BridgeContent>
           <BridgeHeader />
           <BridgeAlert />
