@@ -6,6 +6,6 @@ export const loadThirdPartyBridges = async () => {
     const response = await axios.get(THIRD_PARTY_BRIDGES_LIST)
     return response.data
   } catch (error) {
-    return error
+    throw error
   }
 }
