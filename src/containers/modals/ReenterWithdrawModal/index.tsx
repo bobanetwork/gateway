@@ -1,13 +1,12 @@
+import React, { FC } from 'react'
+import { CloseIcon } from 'components/ApplicationBanner/styles'
+import { FeeSwitcherIcon } from 'components/layout/Header/feeSwitcher/styles'
+import Tooltip from 'components/tooltip/Tooltip'
 import {
+  ConfirmActionButton,
   ConfirmLabel,
   ConfirmModalContainer,
-  ConfirmActionButton,
 } from './index.styles'
-import { useDispatch } from 'react-redux'
-import React, { FC } from 'react'
-import { FeeSwitcherIcon } from '../../../components/layout/Header/feeSwitcher/styles'
-import { CloseIcon } from '../../../components/ApplicationBanner/styles'
-import Tooltip from '../../../components/tooltip/Tooltip'
 
 interface Props {
   state?: 1 | 2

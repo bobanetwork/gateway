@@ -31,7 +31,7 @@ export const ValueStyle = styled.span`
 const BridgeHeader = () => {
   const dispatch = useDispatch<any>()
   const theme: any = useTheme()
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
   const isTestnet =
     useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
 
@@ -92,7 +92,7 @@ const BridgeHeader = () => {
     <BridgeHeaderWrapper>
       <Heading variant="h2">
         Bridge
-        {isSepoliaNetwork ? null : (
+        {isAnchorageEnabled ? null : (
           <Tooltip
             data-testid="tooltip-btn"
             title={

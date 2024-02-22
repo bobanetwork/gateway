@@ -470,7 +470,7 @@ class NetworkService {
       this.addresses = addresses
 
       // NOTE: should invoke for anchorage.
-      if (!this.isAnchorageEnabled()) {
+      if (!this.isAnchorageEnabled() && this.network === Network.ETHEREUM) {
         if (
           !(await this.getAddressCached(
             this.addresses,

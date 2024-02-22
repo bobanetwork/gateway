@@ -30,7 +30,7 @@ const BridgeTypeSelector = () => {
   const network = useSelector(selectNetwork())
   const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
   const activeNetworkType = useSelector(selectActiveNetworkType())
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   // Only show teleportation on testnet for now
   const isTestnet =
@@ -67,7 +67,7 @@ const BridgeTypeSelector = () => {
   // as sepolia doesn't support the fast / light bridge
   // note: remove conditional check once light bridge deployed to sepolia.
 
-  if (!!isSepoliaNetwork) {
+  if (!!isAnchorageEnabled) {
     return <></>
   }
 
