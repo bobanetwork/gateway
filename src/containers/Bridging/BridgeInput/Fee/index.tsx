@@ -38,14 +38,14 @@ const Fee = (props: Props) => {
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
 
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const { amount: amountToReceive } = useAmountToReceive()
 
   const [gasFee, setGasFee] = useState('')
 
   const estimateTime = () => {
-    if (isSepoliaNetwork) {
+    if (isAnchorageEnabled && layer === LAYER.L1) {
       return '~ 3mins'
     } else if (bridgeType === BRIDGE_TYPE.CLASSIC) {
       if (layer === LAYER.L1) {
@@ -108,7 +108,7 @@ const Fee = (props: Props) => {
         <Label>Destination gas fee</Label>
         <Label>{gasFee}</Label>
       </InfoRow>
-      {!isSepoliaNetwork &&
+      {!isAnchorageEnabled &&
       layer === LAYER.L2 &&
       bridgeType !== BRIDGE_TYPE.LIGHT ? (
         <InfoRow>

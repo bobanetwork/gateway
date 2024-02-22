@@ -41,7 +41,7 @@ export const useBridge = () => {
   const toL2Account = useSelector(selectBridgeDestinationAddress())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const activeNetwork = useSelector(selectActiveNetwork())
@@ -67,7 +67,7 @@ export const useBridge = () => {
   const triggerDeposit = async (amountWei: any) => {
     let receipt
     if (token.address === ethers.constants.AddressZero) {
-      if (!!isSepoliaNetwork) {
+      if (!!isAnchorageEnabled) {
         receipt = await dispatch(
           depositETHAnchorageL2({
             recipient: toL2Account || '',
@@ -83,7 +83,7 @@ export const useBridge = () => {
         )
       }
     } else {
-      if (!!isSepoliaNetwork) {
+      if (!!isAnchorageEnabled) {
         receipt = await dispatch(
           depositErc20Anchorage({
             recipient: toL2Account || '',
@@ -165,7 +165,7 @@ export const useBridge = () => {
     // @todo instead validate testnet with sepolia network.
     // as testnet sepoli only supports 2 step bridging.
     // NOTE: Anchorage has a separate withdrawal flow, once bedrock is fully rolled out, we might get rid of this if
-    if (!!isSepoliaNetwork) {
+    if (!!isAnchorageEnabled) {
       dispatch(openModal('bridgeMultiStepWithdrawal'))
     } else {
       return dispatch(exitBOBA(token.address, amountWei))

@@ -27,7 +27,7 @@ const Bridging = () => {
   useBridgeCleanUp()
   useBridgeAlerts()
   const accountEnabled = useSelector(selectAccountEnabled())
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const reenterWithdrawConfig = useSelector(selectReenterWithdrawalConfig())
 
@@ -38,10 +38,10 @@ const Bridging = () => {
         dispatch(setReenterWithdrawalConfig(config))
       }
     }
-    if (accountEnabled && isSepoliaNetwork) {
+    if (accountEnabled && isAnchorageEnabled) {
       triggerReenterCheck()
     }
-  }, [accountEnabled, isSepoliaNetwork])
+  }, [accountEnabled, isAnchorageEnabled])
 
   const currentBridgeType = useSelector(selectBridgeType())
 

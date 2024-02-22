@@ -49,12 +49,12 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const { triggerSubmit } = useBridge()
 
   const estimateTime = () => {
-    if (isSepoliaNetwork) {
+    if (isAnchorageEnabled) {
       return '~ 3mins.'
     } else if (bridgeType === BRIDGE_TYPE.CLASSIC) {
       if (layer === LAYER.L1) {
