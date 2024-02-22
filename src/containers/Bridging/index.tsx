@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectBridgeType } from 'selectors'
+import {
+  selectAccountEnabled,
+  selectBridgeType,
+  selectReenterWithdrawalConfig,
+} from 'selectors'
 import BridgeAction from './BridgeAction'
 import BridgeAlert from './BridgeAlert'
 import BridgeHeader from './BridgeHeader'
@@ -15,31 +19,35 @@ import { openModal } from 'actions/uiAction'
 import ReenterWithdrawModal from 'containers/modals/ReenterWithdrawModal'
 import useBridgeAlerts from 'hooks/useBridgeAlerts'
 import useBridgeCleanUp from 'hooks/useBridgeCleanUp'
-import {
-  checkBridgeWithdrawalReenter,
-  IReenterWithdrawConfig,
-} from 'services/anchorage.service'
-import networkService from 'services/networkService'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
+import { checkBridgeWithdrawalReenter } from 'services/anchorage.service'
 
 const Bridging = () => {
   const dispatch = useDispatch<any>()
   useBridgeCleanUp()
   useBridgeAlerts()
+  const accountEnabled = useSelector(selectAccountEnabled())
+  const { isAnchorageEnabled } = useNetworkInfo()
 
-  const [reenterWithdrawConfig, setReenterWithdrawConfig] =
-    useState<IReenterWithdrawConfig | null>()
+  const reenterWithdrawConfig = useSelector(selectReenterWithdrawalConfig())
 
   useEffect(() => {
-    const config = checkBridgeWithdrawalReenter()
-    if (config) {
-      dispatch(setReenterWithdrawalConfig(config))
-      openModal('ReenterWithdrawModal')
+    const triggerReenterCheck = async () => {
+      const config = await checkBridgeWithdrawalReenter()
+      if (config) {
+        dispatch(setReenterWithdrawalConfig(config))
+      }
     }
-  }, [networkService.account, networkService.networkConfig])
+    if (accountEnabled && isAnchorageEnabled) {
+      triggerReenterCheck()
+    }
+  }, [accountEnabled, isAnchorageEnabled])
 
   const currentBridgeType = useSelector(selectBridgeType())
 
-  const handleClose = () => setReenterWithdrawConfig(null)
+  const handleClose = () => {
+    dispatch(setReenterWithdrawalConfig(null))
+  }
 
   return (
     <BridginContainer>

@@ -25,6 +25,7 @@ import {
 import { SectionLabel } from '../chain/styles'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import EmergencySwap from './EmergencySwap'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 type Props = {}
 
@@ -33,6 +34,7 @@ const BridgeInput: FC<Props> = (props) => {
   const isAccountEnabled = useSelector(selectAccountEnabled())
   const token = useSelector(selectTokenToBridge())
   const { amount: receivableAmount } = useAmountToReceive()
+  const { isAnchorageEnabled } = useNetworkInfo()
   useBridgeSetup()
 
   const openTokenPicker = () => {
@@ -82,7 +84,7 @@ const BridgeInput: FC<Props> = (props) => {
       )}
       <BridgeToAddress />
       {token && <Fee />}
-      <EmergencySwap />
+      {!isAnchorageEnabled && <EmergencySwap />}
     </BridgeInputContainer>
   )
 }
