@@ -846,6 +846,9 @@ class AnchorageGraphQLService extends GraphQLService {
               withdrawalHash: event.withdrawalHash,
               blockNumber: transaction.blockNumber,
               blockHash: block.hash,
+              amount: event.amount || event.value,
+              token: event.l2Token,
+              originChainId: networkConfig.L2.chainId,
             },
     }
   }
