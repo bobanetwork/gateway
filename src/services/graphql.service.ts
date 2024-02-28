@@ -553,6 +553,7 @@ class AnchorageGraphQLService extends GraphQLService {
             contractId_
             from
             to
+            withdrawalHash
           }
         }
       `
@@ -854,42 +855,41 @@ class AnchorageGraphQLService extends GraphQLService {
     networkConfig: NetworkDetailChainConfig
   ) {
     const withdrawalsInitiated = await this.findWithdrawalsInitiated(address)
-    console.log(`withdrawalsInitiated`, withdrawalsInitiated)
     const messagesPassed = await this.findWithdrawalMessagesPassed(
       withdrawalsInitiated.map((wI) => wI.block_number)
     )
-    console.log(`messagesPassed`, messagesPassed)
     const withdrawalHashes = messagesPassed.map((mP) => mP.withdrawalHash)
-    console.log(`withdrawalHashes`, withdrawalHashes)
     const provenWithdrawals = await this.findWithdrawalsProven(withdrawalHashes)
-    console.log(`provenWithdrawals`, provenWithdrawals)
     const finalizedWithdrawals =
       await this.findWithdrawalsFinalized(withdrawalHashes)
-    console.log(`finalizedWithdrawals`, provenWithdrawals)
 
-    console.log({
-      withdrawalHashes,
-      provenWithdrawals,
-      finalizedWithdrawals,
-      withdrawalsInitiated,
-    })
     const withdrawalTransactions: any[] = []
     for (const withdrawalHashCandidate of withdrawalHashes) {
       const provenEvent = provenWithdrawals.find(
         (e) => e!.withdrawalHash === withdrawalHashCandidate
       )
-      console.log(`provenEvent`, provenEvent)
-      if (provenEvent) {
+
+      const messagePayload = messagesPassed.find(
+        (m) => m.withdrawalHash === withdrawalHashCandidate
+      )
+      const withdrawPayload = withdrawalsInitiated.find(
+        (w) => w.block_number === messagePayload?.block_number
+      )
+
+      const eventPayload = {
+        ...messagePayload,
+        ...withdrawPayload,
+      }
+      if (!!provenEvent) {
         const finalizedEvent = finalizedWithdrawals.find(
           (e) => e!.withdrawalHash === withdrawalHashCandidate
         )
-        console.log(`finalizedEvent`, finalizedEvent)
         if (finalizedEvent) {
           withdrawalTransactions.push(
             await this.mapWithdrawalToTransaction(
               networkService,
               networkConfig,
-              finalizedEvent,
+              { ...eventPayload, ...finalizedEvent },
               WithdrawState.finalized
             )
           )
@@ -898,33 +898,23 @@ class AnchorageGraphQLService extends GraphQLService {
             await this.mapWithdrawalToTransaction(
               networkService,
               networkConfig,
-              provenEvent,
+              { ...eventPayload, ...provenEvent },
               WithdrawState.proven
             )
           )
         }
       } else {
-        const messagePayload = messagesPassed.find(
-          (m) => m.withdrawalHash === withdrawalHashCandidate
-        )
-        const withdrawPayload = withdrawalsInitiated.find(
-          (w) => w.block_number === messagePayload?.block_number
-        )
         withdrawalTransactions.push(
           await this.mapWithdrawalToTransaction(
             networkService,
             networkConfig,
-            {
-              ...messagePayload,
-              ...withdrawPayload,
-            },
+            eventPayload,
             WithdrawState.initialized
           )
         )
       }
     }
 
-    console.log(`withdrawalTransactions`, withdrawalTransactions)
     return withdrawalTransactions
   }
 

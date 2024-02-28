@@ -269,8 +269,9 @@ export const checkBridgeWithdrawalReenter =
         networkService.networkConfig!
       )
       .then((events: any) => {
+        // we should skip all finalized events and only send the latest on bridge.
         const filterEvents = events.filter(
-          (e: any) => e.UserFacingStatus !== WithdrawState.finalized
+          (e: any) => e.UserFacingStatus !== WithdrawState.initialized
         )
         if (filterEvents?.length > 0 && filterEvents[0]?.actionRequired) {
           return filterEvents[0].actionRequired
