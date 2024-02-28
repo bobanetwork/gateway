@@ -560,7 +560,7 @@ class AnchorageGraphQLService extends GraphQLService {
         await this.conductQuery(
           qry,
           { withdrawalHash: withdrawalHashes },
-          28882,
+          11155111, // @todo make sure chain driven from connection
           EGraphQLService.AnchorageBridge
         )
       )?.data.withdrawalProvens
@@ -591,7 +591,7 @@ class AnchorageGraphQLService extends GraphQLService {
         await this.conductQuery(
           graphqlQuery,
           { withdrawalHash: withdrawalHashes },
-          28882,
+          11155111, // @todo make sure chain driven from connection
           EGraphQLService.AnchorageBridge
         )
       )?.data.withdrawalFinalizeds
@@ -854,22 +854,36 @@ class AnchorageGraphQLService extends GraphQLService {
     networkConfig: NetworkDetailChainConfig
   ) {
     const withdrawalsInitiated = await this.findWithdrawalsInitiated(address)
+    console.log(`withdrawalsInitiated`, withdrawalsInitiated)
     const messagesPassed = await this.findWithdrawalMessagesPassed(
       withdrawalsInitiated.map((wI) => wI.block_number)
     )
+    console.log(`messagesPassed`, messagesPassed)
     const withdrawalHashes = messagesPassed.map((mP) => mP.withdrawalHash)
+    console.log(`withdrawalHashes`, withdrawalHashes)
     const provenWithdrawals = await this.findWithdrawalsProven(withdrawalHashes)
+    console.log(`provenWithdrawals`, provenWithdrawals)
     const finalizedWithdrawals =
       await this.findWithdrawalsFinalized(withdrawalHashes)
+    console.log(`finalizedWithdrawals`, provenWithdrawals)
+
+    console.log({
+      withdrawalHashes,
+      provenWithdrawals,
+      finalizedWithdrawals,
+      withdrawalsInitiated,
+    })
     const withdrawalTransactions: any[] = []
     for (const withdrawalHashCandidate of withdrawalHashes) {
       const provenEvent = provenWithdrawals.find(
         (e) => e!.withdrawalHash === withdrawalHashCandidate
       )
+      console.log(`provenEvent`, provenEvent)
       if (provenEvent) {
         const finalizedEvent = finalizedWithdrawals.find(
           (e) => e!.withdrawalHash === withdrawalHashCandidate
         )
+        console.log(`finalizedEvent`, finalizedEvent)
         if (finalizedEvent) {
           withdrawalTransactions.push(
             await this.mapWithdrawalToTransaction(
@@ -910,6 +924,7 @@ class AnchorageGraphQLService extends GraphQLService {
       }
     }
 
+    console.log(`withdrawalTransactions`, withdrawalTransactions)
     return withdrawalTransactions
   }
 
