@@ -44,7 +44,8 @@ import networkService from 'services/networkService'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 import { L1_ETH_Address, L2_BOBA_Address } from 'services/app.service'
-import { lightBridgeGraphQLService } from '../../../services/graphql.service'
+import { lightBridgeGraphQLService } from 'services/graphql.service'
+import { bridgeConfig } from './config'
 // the L2 token which can not be exited so exclude from dropdown in case of L2
 const NON_EXITABLE_TOKEN = [
   'OLO',
@@ -77,21 +78,11 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
   const [balances, setBalance] = useState([])
 
   useEffect(() => {
-    if (bridgeType === BRIDGE_TYPE.LIGHT) {
-      const balances = layer === 'L2' ? l2Balance : l1Balance
-      getBridgeableTokens(balances).then((supportedTokens) => {
-        const supportedAddresses = supportedTokens.map((token) => token.token)
-        const supportedLightBridgeAssets = balances.filter((balance) =>
-          supportedAddresses.includes(balance.address)
-        )
-        setBalance(supportedLightBridgeAssets)
-      })
-    } else if (layer === 'L2') {
-      setBalance(l2Balance)
-    } else {
-      setBalance(l1Balance)
-    }
-  }, [l1Balance, layer])
+    const config = bridgeConfig[bridgeType] || bridgeConfig.default
+    config
+      .getBalance({ l1Balance, l2Balance, layer, getBridgeableTokens })
+      .then(setBalance)
+  }, [bridgeType, l1Balance, l2Balance, layer])
 
   const getBridgeableTokens = async (allTokens) => {
     if (!allTokens.length) {
