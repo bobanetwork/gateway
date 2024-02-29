@@ -3,7 +3,7 @@
 exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fPXMVe bmgsTt"
+    class="sc-fPXMVe iPVgPd"
   >
     <div
       class="sc-gFqAkR hXrRXV warning"
@@ -29,7 +29,7 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
           data-testid="close-icon-message-1"
         >
           <div
-            class="sc-hzhJZQ cpjsed"
+            class="sc-hzhJZQ cGxMqP"
           >
             <div>
               <div
@@ -62,7 +62,7 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
           data-testid="close-icon-message-2"
         >
           <div
-            class="sc-hzhJZQ cpjsed"
+            class="sc-hzhJZQ cGxMqP"
           >
             <div>
               <div

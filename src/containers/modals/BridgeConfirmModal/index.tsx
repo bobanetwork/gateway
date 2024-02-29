@@ -17,6 +17,8 @@ import {
   selectAmountToBridge,
   selectBridgeType,
   selectDestChainIdTeleportation,
+  selectL1FeeRateN,
+  selectL2FeeRateN,
   selectLayer,
   selectLookupPrice,
   selectTokenToBridge,
@@ -27,6 +29,7 @@ import useBridge from 'hooks/useBridge'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK, LAYER } from 'util/constant'
 import { CHAIN_ID_LIST } from '../../../util/network/network.util'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {
   open: boolean
@@ -34,6 +37,8 @@ interface Props {
 
 const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const dispatch = useDispatch<any>()
+  const l1FeeRateN = useSelector(selectL1FeeRateN)
+  const l2FeeRateN = useSelector(selectL2FeeRateN)
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
@@ -44,11 +49,14 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const { triggerSubmit } = useBridge()
 
   const estimateTime = () => {
-    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
+    if (isAnchorageEnabled) {
+      return '~ 3mins.'
+    } else if (bridgeType === BRIDGE_TYPE.CLASSIC) {
       if (layer === LAYER.L1) {
         return '13 ~ 14mins.'
       } else {
@@ -140,7 +148,12 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
         </Item>
         <Item>
           <ConfirmLabel>Gas Fee</ConfirmLabel>
-          <ConfirmValue>0.000038 ETH</ConfirmValue>
+          <ConfirmValue>
+            {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
+              ? l2FeeRateN
+              : l1FeeRateN) || 0}
+            %
+          </ConfirmValue>
         </Item>
         <Item>
           <ConfirmLabel>Time</ConfirmLabel>

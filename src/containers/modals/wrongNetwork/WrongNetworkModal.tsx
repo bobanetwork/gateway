@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Modal from 'components/modal/Modal'
@@ -8,6 +8,8 @@ import { closeModal } from 'actions/uiAction'
 
 import { Button } from 'components/global'
 import { selectActiveNetworkType, selectLayer, selectNetwork } from 'selectors'
+import { chainNameMaps } from 'util/network/network.util'
+import walletService from 'services/wallet.service'
 
 interface Props {
   open: boolean
@@ -21,6 +23,7 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
 
   const handleClose = () => {
     dispatch(setConnect(false))
+    walletService.resetValues()
     dispatch(closeModal('wrongNetworkModal'))
   }
 
@@ -33,14 +36,14 @@ const WrongNetworkModal: FC<Props> = ({ open }) => {
       transparent={false}
     >
       <Button
-        label={`Connect to the ${network} ${networkType} network`}
+        label={`Connect to the ${chainNameMaps[network]} ${networkType} network`}
         onClick={() => {
           if (layer === 'L2') {
             dispatch(setConnectBOBA(true))
           } else {
             dispatch(setConnectETH(true))
           }
-          dispatch(closeModal('settingsModal'))
+          dispatch(closeModal('wrongNetworkModal'))
         }}
       />
     </Modal>

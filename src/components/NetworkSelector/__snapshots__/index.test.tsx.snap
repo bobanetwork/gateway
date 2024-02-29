@@ -92,6 +92,20 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           Networks
         </div>
         <div
+          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+        >
+          <div
+            class="sc-feUZmu eYMtOB"
+          >
+            <img
+              alt="token"
+              src="bobaEth.svg"
+              width="20px"
+            />
+          </div>
+          Boba (Sepolia)
+        </div>
+        <div
           class="sc-hzhJZQ liKHdJ dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
         >
           <div

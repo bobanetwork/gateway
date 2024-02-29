@@ -1,3 +1,5 @@
+import { IReenterWithdrawConfig } from '../../services/anchorage.service'
+
 export enum TRANSACTION_FILTER_STATUS {
   Pending = 'Pending',
   Completed = 'Completed',
@@ -6,6 +8,9 @@ export enum TRANSACTION_FILTER_STATUS {
 }
 
 export enum TRANSACTION_STATUS {
+  WithdrawInitiated = 'initialized',
+  WithdrawProven = 'proven',
+  WithdrawFinalized = 'finalized',
   Succeeded = 'succeeded',
   Pending = 'pending',
   Failed = 'failed',
@@ -25,6 +30,8 @@ export enum CHAIN_NAME {
   Ethereum = 'Ethereum',
   Boba_Ethereum = 'Boba Ethereum',
   Goerli = 'Goerli',
+  Sepolia = 'Sepolia',
+  Boba_Sepolia = 'Boba Sepolia',
   Boba_Goerli = 'Boba Goerli',
   Optimism_Goerli = 'Optimism Goerli',
   Arbitrum_Goerli = 'Arbitrum Goerli',
@@ -97,6 +104,7 @@ export interface ITransaction {
   to: string
   UserFacingStatus: TRANSACTION_FILTER_STATUS
   isTeleportation?: boolean
+  actionRequired?: IReenterWithdrawConfig
 }
 
 export interface IProcessedTransaction {
@@ -110,6 +118,7 @@ export interface IProcessedTransaction {
   status: TRANSACTION_FILTER_STATUS // need to remove the undefined option
   originChainId: number
   destinationChainId: number
+  actionRequired?: IReenterWithdrawConfig
 }
 
 export interface ITransactionsResolverProps {

@@ -43,7 +43,7 @@ import { graphQLService } from './graphql.service'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
-import { isDevBuild, Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
+import { Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
 import {
   CHAIN_ID_LIST,
   getNetworkDetail,
@@ -67,8 +67,12 @@ import {
   L1StandardBridgeABI,
   L2BillingContractABI,
   L2LiquidityPoolABI,
+  L2OutputOracleABI,
   L2StandardBridgeABI,
+  L2StandardBridgeABIAnchorage,
   L2StandardERC20ABI,
+  L2ToL1MessagePasserABI,
+  OptimismPortalABI,
   OVM_GasPriceOracleABI,
   TeleportationABI,
 } from './abi'
@@ -132,6 +136,12 @@ class NetworkService {
   Teleportation?: Contract
   L1LPContract?: Contract
   L2LPContract?: Contract
+
+  //#region Anchorage specific
+  L2ToL1MessagePasser?: Contract
+  L2OutputOracle?: Contract
+  OptimismPortal?: Contract
+  //#endregion
   //#endregion
 
   tokenAddresses?: TokenAddresses
@@ -176,34 +186,47 @@ class NetworkService {
     this.walletService = walletService
   }
 
+  // NOTE: added check for anchorage to use in services
+  isAnchorageEnabled() {
+    if (
+      this.networkType === NetworkType.TESTNET &&
+      this.networkGateway === Network.ETHEREUM_SEPOLIA
+    ) {
+      return true
+    }
+    return false
+  }
+
   async getBobaFeeChoice() {
-    const bobaFeeContract = new ethers.Contract(
-      this.addresses.Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.L2Provider
-    )
+    if (!this.isAnchorageEnabled()) {
+      const bobaFeeContract = new ethers.Contract(
+        this.addresses.Boba_GasPriceOracle,
+        BobaGasPriceOracleABI,
+        this.L2Provider
+      )
 
-    try {
-      const priceRatio = await bobaFeeContract.priceRatio()
+      try {
+        const priceRatio = await bobaFeeContract.priceRatio()
 
-      let feeChoice
-      if (this.networkGateway === Network.ETHEREUM) {
-        feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
-      } else {
-        // this returns weather the secondary token getting use as tokenfee
-        feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
-        // if it's false which means boba is getting used as tokenfee which is default value.
-        feeChoice = !feeChoice
+        let feeChoice
+        if (this.networkGateway === Network.ETHEREUM) {
+          feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
+        } else {
+          // this returns weather the secondary token getting use as tokenfee
+          feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
+          // if it's false which means boba is getting used as tokenfee which is default value.
+          feeChoice = !feeChoice
+        }
+        const bobaFee = {
+          priceRatio: priceRatio.toString(),
+          feeChoice,
+        }
+        await addBobaFee(bobaFee)
+        return bobaFee
+      } catch (error) {
+        console.log(error)
+        return error
       }
-      const bobaFee = {
-        priceRatio: priceRatio.toString(),
-        feeChoice,
-      }
-      await addBobaFee(bobaFee)
-      return bobaFee
-    } catch (error) {
-      console.log(error)
-      return error
     }
   }
 
@@ -430,10 +453,11 @@ class NetworkService {
         network,
         networkType,
       })
-
-      this.supportedTokens = tokenAsset.tokens
-      this.supportedTokenAddresses = tokenAsset.tokenAddresses
-      this.supportedAltL1Chains = tokenAsset.altL1Chains
+      if (tokenAsset) {
+        this.supportedTokens = tokenAsset.tokens
+        this.supportedTokenAddresses = tokenAsset.tokenAddresses
+        this.supportedAltL1Chains = tokenAsset.altL1Chains
+      }
 
       let addresses = {}
       // setting up all address;
@@ -443,11 +467,10 @@ class NetworkService {
           networkType,
         })
       }
-
       this.addresses = addresses
 
-      if (network === Network.ETHEREUM) {
-        // check only if selected network is ETHEREUM
+      // NOTE: should invoke for anchorage.
+      if (!this.isAnchorageEnabled() && this.network === Network.ETHEREUM) {
         if (
           !(await this.getAddressCached(
             this.addresses,
@@ -486,8 +509,9 @@ class NetworkService {
         }
       }
 
+      // Note: should bypass if limitedNetworkAvailability & anchorage not enabled.
       const isLimitedNetwork = networkLimitedAvailability(networkType, network)
-      if (!isLimitedNetwork) {
+      if (!isLimitedNetwork && !this.isAnchorageEnabled()) {
         if (
           !(await this.getAddressCached(
             this.addresses,
@@ -534,11 +558,24 @@ class NetworkService {
       )
 
       if (!isLimitedNetwork) {
-        this.L1StandardBridgeContract = new ethers.Contract(
-          this.addresses.L1StandardBridgeAddress,
-          L1StandardBridgeABI,
-          this.L1Provider
-        )
+        let L1StandardBridgeAddress
+
+        // todo remove once migrated to anchorage
+        if (this.addresses.L1StandardBridgeAddress) {
+          L1StandardBridgeAddress = this.addresses.L1StandardBridgeAddress
+        } else {
+          L1StandardBridgeAddress = this.addresses.L1StandardBridgeProxy
+            ? this.addresses.L1StandardBridgeProxy
+            : this.addresses.L1StandardBridge
+        }
+
+        if (L1StandardBridgeAddress) {
+          this.L1StandardBridgeContract = new ethers.Contract(
+            L1StandardBridgeAddress, // uses right addressed depending on ENABLE_ANCHORAGE
+            L1StandardBridgeABI,
+            this.L1Provider
+          )
+        }
 
         const tokenList = {}
 
@@ -574,49 +611,87 @@ class NetworkService {
         this.tokenAddresses = tokenList
         allTokens = tokenList
 
-        /*The test token*/
+        // /*The test token*/
         this.L1_TEST_Contract = new ethers.Contract(
-          allTokens.BOBA.L1, //this will get changed anyway when the contract is used
+          allTokens.BOBA?.L1, //this will get changed anyway when the contract is used
           L1ERC20ABI,
           this.L1Provider
         )
 
         this.L2_TEST_Contract = new ethers.Contract(
-          allTokens.BOBA.L2, //this will get changed anyway when the contract is used
+          allTokens.BOBA?.L2, //this will get changed anyway when the contract is used
           L2StandardERC20ABI,
           this.L2Provider
         )
 
-        // Liquidity pools
-        this.L1LPContract = new ethers.Contract(
-          this.addresses.L1LPAddress,
-          L1LiquidityPoolABI,
-          this.L1Provider
-        )
-        this.L2LPContract = new ethers.Contract(
-          this.addresses.L2LPAddress,
-          L2LiquidityPoolABI,
-          this.L2Provider
-        )
+        if (
+          this.addresses.L2ToL1MessagePasserProxy ||
+          this.addresses.L2ToL1MessagePasser
+        ) {
+          this.L2ToL1MessagePasser = new ethers.Contract(
+            this.addresses.L2ToL1MessagePasser
+              ? this.addresses.L2ToL1MessagePasser
+              : this.addresses.L2ToL1MessagePasserProxy,
+            L2ToL1MessagePasserABI,
+            this.L2Provider
+          )
+        }
 
-        this.watcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: false,
-        })
-        this.fastWatcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: true,
-        })
+        if (this.addresses.OptimismPortalProxy) {
+          this.OptimismPortal = new ethers.Contract(
+            this.addresses.OptimismPortalProxy,
+            OptimismPortalABI,
+            this.L1Provider
+          )
+        }
+
+        if (this.addresses.L2OutputOracleProxy) {
+          this.L2OutputOracle = new ethers.Contract(
+            this.addresses.L2OutputOracleProxy,
+            L2OutputOracleABI,
+            this.L1Provider
+          )
+        }
+
+        // Liquidity pools
+        if (this.addresses.L1LPAddress) {
+          this.L1LPContract = new ethers.Contract(
+            this.addresses.L1LPAddress,
+            L1LiquidityPoolABI,
+            this.L1Provider
+          )
+        }
+        if (this.addresses.L1LPAddress) {
+          this.L2LPContract = new ethers.Contract(
+            this.addresses.L2LPAddress,
+            L2LiquidityPoolABI,
+            this.L2Provider
+          )
+        }
+
+        // @todo remove once fully migrated
+        if (!this.isAnchorageEnabled()) {
+          this.watcher = new CrossChainMessenger({
+            l1SignerOrProvider: this.L1Provider,
+            l2SignerOrProvider: this.L2Provider,
+            l1ChainId: chainId,
+            fastRelayer: false,
+          })
+          this.fastWatcher = new CrossChainMessenger({
+            l1SignerOrProvider: this.L1Provider,
+            l2SignerOrProvider: this.L2Provider,
+            l1ChainId: chainId,
+            fastRelayer: true,
+          })
+        }
       }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {
         this.L2StandardBridgeContract = new ethers.Contract(
           this.addresses.L2StandardBridgeAddress,
-          L2StandardBridgeABI,
+          this.isAnchorageEnabled()
+            ? L2StandardBridgeABIAnchorage
+            : L2StandardBridgeABI,
           this.L2Provider
         )
       }
@@ -837,7 +912,10 @@ class NetworkService {
     try {
       let layer1Balances
       let layer2Balances
-      if (this.network === Network.ETHEREUM) {
+      if (
+        this.network === Network.ETHEREUM ||
+        this.network === Network.ETHEREUM_SEPOLIA
+      ) {
         layer1Balances = [
           {
             address: this.addresses.L1_ETH_Address,
@@ -925,7 +1003,10 @@ class NetworkService {
         if (token.addressL2 === null) {
           return
         }
-        if (this.network === Network.ETHEREUM) {
+        if (
+          this.network === Network.ETHEREUM ||
+          this.network === Network.ETHEREUM_SEPOLIA
+        ) {
           if (token.addressL1 === this.addresses.L1_ETH_Address) {
             return
           }
@@ -1015,17 +1096,62 @@ class NetworkService {
     }
   }
 
+  /** @dev Once we fully migrated to Anchorage we might want to merge this function with depositETHL2. */
+  async depositETHAnchorage({ recipient = null, L1DepositAmountWei }) {
+    try {
+      setFetchDepositTxBlock(false)
+      let depositTX
+      // @todo make sure to evaluate and update the fallback logic.
+      const isFallback = false // TODO evaluate when to use fallback optimismportal
+
+      const signer = networkService.provider?.getSigner()
+
+      // deposit fallback via OptimismPortal
+      if (isFallback) {
+        if (recipient) {
+          depositTX = await networkService.OptimismPortal?.connect(
+            signer!
+          ).depositTransaction(recipient, L1DepositAmountWei, 100000, false, [])
+        } else {
+          depositTX = await signer!.sendTransaction({
+            to: this.OptimismPortal?.address,
+            value: L1DepositAmountWei,
+          })
+        }
+      } else {
+        // deposit preferred way via L1StandardBridge
+        if (recipient) {
+          depositTX = await this.L1StandardBridgeContract!.connect(
+            signer!
+          ).depositETHTo(recipient, 100000, [], { value: L1DepositAmountWei })
+        } else {
+          depositTX = await this.L1StandardBridgeContract!.connect(
+            signer!
+          ).depositETH(100000, [], { value: L1DepositAmountWei })
+        }
+      }
+
+      setFetchDepositTxBlock(true)
+      const received = await depositTX.wait()
+
+      return received
+    } catch (error) {
+      console.log('NS: depositETHL2 error:', error)
+      return error
+    }
+  }
+
   //Move ETH from L1 to L2 using the standard deposit system
   /******
    * Deposit ETH from L1 to L2.
    * Deposit ETH from L1 to another L2 account.
    * */
-
   async depositETHL2({ recipient = null, value_Wei_String }) {
     try {
       setFetchDepositTxBlock(false)
 
       let depositTX
+
       if (this.network === Network.ETHEREUM) {
         if (!recipient) {
           depositTX = await this.L1StandardBridgeContract!.connect(
@@ -1075,9 +1201,7 @@ class NetworkService {
       }
 
       setFetchDepositTxBlock(true)
-
       //at this point the tx has been submitted, and we are waiting...
-      await depositTX.wait()
 
       const opts = {
         fromBlock: -4000,
@@ -1122,55 +1246,6 @@ class NetworkService {
       return tx
     } catch (error) {
       console.log('NS: transfer error:', error)
-      return error
-    }
-  }
-
-  //Transfer funds from one account to another, on the L2
-  async transferEstimate(
-    recipient: string,
-    value_Wei_String: string,
-    currency: string
-  ) {
-    const gasPrice_BN = await this.L2Provider!.getGasPrice()
-
-    let cost_BN = BigNumber.from('0')
-    let gas_BN = BigNumber.from('0')
-
-    try {
-      if (currency === this.addresses.L2_ETH_Address) {
-        gas_BN = await this.provider!.getSigner().estimateGas({
-          from: this.account,
-          to: recipient,
-          value: value_Wei_String,
-        })
-
-        cost_BN = gas_BN.mul(gasPrice_BN)
-        console.log('ETH: Transfer cost in ETH:', utils.formatEther(cost_BN))
-      } else {
-        const ERC20Contract = new ethers.Contract(
-          currency,
-          L2StandardERC20ABI, // any old abi will do...
-          this.provider!.getSigner()
-        )
-
-        const tx = await ERC20Contract.populateTransaction.transfer(
-          recipient,
-          value_Wei_String
-        )
-
-        gas_BN = await this.L2Provider!.estimateGas(tx)
-
-        cost_BN = gas_BN.mul(gasPrice_BN)
-        console.log('ERC20: Transfer cost in ETH:', utils.formatEther(cost_BN))
-      }
-
-      const safety_margin = BigNumber.from('1000000000000')
-      console.log('ERC20: Safety margin:', utils.formatEther(safety_margin))
-
-      return cost_BN.add(safety_margin)
-    } catch (error) {
-      console.log('NS: transferEstimate error:', error)
       return error
     }
   }
@@ -1264,6 +1339,83 @@ class NetworkService {
     }
   }
 
+  /** @dev Once we fully migrated to Anchorage we might want to merge this function with depositERC20. */
+  async depositERC20Anchorage({
+    recipient = null,
+    L1DepositAmountWei,
+    currency,
+    currencyL2,
+  }): Promise<any> {
+    setFetchDepositTxBlock(false)
+    const signer = this.provider?.getSigner()
+    if (!signer) {
+      console.error('no signer!')
+    }
+
+    const L1_ERC20_Contract = this.L1_TEST_Contract!.attach(currency)
+    const L2_ERC20_Contract = this.L2_TEST_Contract!.attach(currencyL2)
+    const L1BOBABalance = await L1_ERC20_Contract.balanceOf(this.account)
+    const L2BOBABalance = await L2_ERC20_Contract.balanceOf(this.account)
+
+    if (L1BOBABalance.lt(L1DepositAmountWei)) {
+      console.error('Insufficient L1 token balance')
+      return
+    }
+
+    const allowance_BN = await L1_ERC20_Contract.allowance(
+      this.account,
+      this.addresses.L1StandardBridgeProxy
+    )
+
+    const allowed = allowance_BN.gte(BigNumber.from(L1DepositAmountWei))
+
+    if (!allowed) {
+      const L1ApproveTx = await L1_ERC20_Contract.connect(signer!).approve(
+        this.addresses.L1StandardBridgeProxy,
+        L1DepositAmountWei
+      )
+      await L1ApproveTx.wait()
+    }
+
+    let L1DepositTx
+    if (recipient) {
+      L1DepositTx = await this.L1StandardBridgeContract!.connect(
+        signer!
+      ).depositERC20To(
+        currency,
+        currencyL2,
+        recipient,
+        L1DepositAmountWei,
+        999999,
+        '0x'
+      )
+    } else {
+      L1DepositTx = await this.L1StandardBridgeContract!.connect(
+        signer!
+      ).depositERC20(currency, currencyL2, L1DepositAmountWei, 999999, '0x')
+    }
+    const depositReceipt = await L1DepositTx.wait()
+    console.log(
+      `Deposited ${ethers.utils.formatEther(
+        L1DepositAmountWei
+      )} tokens to L1 Standard Bridge`
+    )
+
+    setFetchDepositTxBlock(true)
+    while (true) {
+      const postL2BOBABalanceTmp = await L2_ERC20_Contract.balanceOf(
+        this.account
+      )
+      if (!L2BOBABalance.eq(postL2BOBABalanceTmp)) {
+        break
+      }
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
+
+    // TODO: Probably we want the l2Funds received tx receipt here
+    return depositReceipt
+  }
+
   //Used to move ERC20 Tokens from L1 to L2 using the classic deposit
   async depositErc20({
     recipient = null,
@@ -1271,19 +1423,19 @@ class NetworkService {
     currency,
     currencyL2,
   }) {
+    setFetchDepositTxBlock(false)
     const L1_TEST_Contract = this.L1_TEST_Contract!.attach(currency)
 
     let allowance_BN = await L1_TEST_Contract.allowance(
       this.account,
       this.addresses.L1StandardBridgeAddress
     )
-    setFetchDepositTxBlock(false)
     try {
       /*
-      OMG IS A SPECIAL CASE - allowance needs to be set to zero, and then
-      set to actual amount, unless current approval amount is equal to, or
-      bigger than, the current approval value
-      */
+        OMG IS A SPECIAL CASE - allowance needs to be set to zero, and then
+        set to actual amount, unless current approval amount is equal to, or
+        bigger than, the current approval value
+        */
       if (
         this.networkGateway === Network.ETHEREUM &&
         allowance_BN.lt(BigNumber.from(value_Wei_String)) &&
@@ -1915,9 +2067,10 @@ class NetworkService {
     L1orL2Pool: LiquidityPoolLayer
   ) {
     try {
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
+      const TX = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP
+          ? this.L1LPContract!
+          : this.L2LPContract!
       )
         .connect(this.provider!.getSigner())
         .withdrawReward(value_Wei_String, currencyAddress, this.account)
@@ -1939,9 +2092,10 @@ class NetworkService {
     L1orL2Pool: LiquidityPoolLayer
   ) {
     try {
-      const estimateGas = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
+      const estimateGas = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP
+          ? this.L1LPContract!
+          : this.L2LPContract!
       ).estimateGas.withdrawLiquidity(
         value_Wei_String,
         currency,
@@ -1949,9 +2103,10 @@ class NetworkService {
         { from: this.account }
       )
       const blockGasLimit = (await this.provider!.getBlock('latest')).gasLimit
-      const TX = await (L1orL2Pool === LiquidityPoolLayer.L1LP
-        ? this.L1LPContract!
-        : this.L2LPContract!
+      const TX = await (
+        L1orL2Pool === LiquidityPoolLayer.L1LP
+          ? this.L1LPContract!
+          : this.L2LPContract!
       )
         .connect(this.provider!.getSigner())
         .withdrawLiquidity(value_Wei_String, currency, this.account, {
@@ -2071,14 +2226,14 @@ class NetworkService {
           : this.addresses.Proxy__L2Teleportation
       const msgVal =
         currency === this.addresses.L1_ETH_Address ||
-        currency === this.addresses.NETWORK_NATIVE
+        currency === this.addresses.NETWORK_NATIVE_TOKEN
           ? { value: value_Wei_String }
           : {}
       const teleportationContract = this.Teleportation!.attach(
         teleportationAddr
       ).connect(this.provider!.getSigner())
       const tokenAddress =
-        currency === this.addresses.NETWORK_NATIVE
+        currency === this.addresses.NETWORK_NATIVE_TOKEN
           ? ethers.constants.AddressZero
           : currency
 
@@ -3045,13 +3200,13 @@ class NetworkService {
       })
 
       for (let i = 0; i < totalProposals; i++) {
-        const proposalRaw = descriptionList!.data.governorProposalCreateds[i]
+        const proposalRaw = descriptionList!.data.proposalCreateds[i]
 
         if (typeof proposalRaw === 'undefined') {
           continue
         }
 
-        const proposalID = proposalRaw.proposalId
+        const proposalID = proposalRaw.idParam
 
         //this is a number such as 2
         const proposalData = await delegateCheck.proposals(proposalID)
