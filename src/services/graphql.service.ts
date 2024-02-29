@@ -323,6 +323,39 @@ class TeleportationGraphQLService extends GraphQLService {
     }
     return undefined
   }
+
+  async querySupportedTokensBridge(
+    currentNetworkId: any,
+    tokens: Array<string>,
+    destChainId: BigNumberish
+  ) {
+    const query = gql(`
+      query GetSupportedTokens($tokens: [String!]!, $toChainId: BigInt!) {
+        tokenSupporteds(
+        where: { 
+          supported: true, 
+          token_in: $tokens, 
+          toChainId: $toChainId 
+        }) {
+          id
+          block_number
+          timestamp_
+          transactionHash_
+          contractId_
+          token
+          toChainId
+          supported
+        }
+      }
+    `)
+    const variables = {
+      tokens,
+      toChainId: destChainId,
+    }
+    return (
+      await this.conductQuery(query, variables, currentNetworkId, this.useLocal)
+    )?.data?.tokenSupporteds
+  }
 }
 
 const graphQLService = new GraphQLService()
