@@ -13,6 +13,7 @@ import {
   WithdrawProcessStep,
   WithdrawState,
 } from './anchorage.service'
+import { filterLatestGroupedSupportedTokens } from '../util/graphql.utils'
 
 //#region types
 export type LightBridgeDisbursementEvents =
@@ -491,6 +492,49 @@ class TeleportationGraphQLService extends GraphQLService {
       return events[0] // just first (should always just be one)
     }
     return undefined
+  }
+
+  async querySupportedTokensBridge(
+    currentNetworkId: any,
+    tokens: Array<string>,
+    destChainId: BigNumberish
+  ) {
+    const query = gql(`
+    query GetSupportedTokens($tokens: [String!]!, $toChainId: BigInt!) {
+      tokenSupporteds(
+        where: { 
+          token_in: $tokens, 
+          toChainId: $toChainId 
+        },
+        order_by: { block_number: desc }
+      ) {
+        id
+        block_number
+        timestamp_
+        transactionHash_
+        contractId_
+        token
+        toChainId
+        supported
+      }
+    }
+  `)
+    const variables = {
+      tokens,
+      toChainId: destChainId,
+    }
+
+    return filterLatestGroupedSupportedTokens(
+      (
+        await this.conductQuery(
+          query,
+          variables,
+          currentNetworkId,
+          EGraphQLService.LightBridge,
+          this.useLocal
+        )
+      )?.data?.tokenSupporteds
+    )
   }
 }
 
