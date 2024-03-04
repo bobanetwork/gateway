@@ -130,7 +130,7 @@
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
     "audit-ci": "^6.6.1",
-    "cypress": "12.17.3",
+    "cypress": "13.6.6",
     "env-cmd": "^10.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-cypress": "^2.14.0",
