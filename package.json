@@ -46,7 +46,7 @@
     "@mui/material": "^5.12.2",
     "@mui/styles": "^5.14.18",
     "@reduxjs/toolkit": "^1.9.7",
-    "@sentry/react": "^7.51.0",
+    "@sentry/react": "^7.104.0",
     "@sentry/tracing": "^7.99.0",
     "@walletconnect/ethereum-provider": "^2.10.5",
     "@walletconnect/modal": "^2.6.2",
