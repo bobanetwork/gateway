@@ -96,23 +96,25 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   }
 
   const claimWithdrawalStep = () => {
-    if (latestLogs) {
-      if (!withdrawalConfig?.withdrawalHash) {
+    if (!!withdrawalConfig) {
+      if (!withdrawalConfig?.withdrawalHash && latestLogs) {
         claimWithdrawal(latestLogs).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
           dispatch(openModal('transactionSuccess'))
         })
       } else {
-        anchorageGraphQLService.findWithdrawalMessagedPassed().then((logs) => {
-          logs = logs.filter(
-            (log) => log?.withdrawalHash === withdrawalConfig.withdrawalHash
-          )
-          claimWithdrawal(logs).then(() => {
-            setActiveStep(6)
-            dispatch(openModal('transactionSuccess'))
-            dispatch(closeModal('bridgeMultiStepWithdrawal'))
+        anchorageGraphQLService
+          .findWithdrawalMessagedPassed(withdrawalConfig?.withdrawalHash || '')
+          .then((logs) => {
+            logs = logs.filter(
+              (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
+            )
+            claimWithdrawal(logs).then(() => {
+              setActiveStep(6)
+              dispatch(openModal('transactionSuccess'))
+              dispatch(closeModal('bridgeMultiStepWithdrawal'))
+            })
           })
-        })
       }
     }
   }

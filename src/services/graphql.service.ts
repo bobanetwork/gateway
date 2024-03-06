@@ -635,7 +635,9 @@ class AnchorageGraphQLService extends GraphQLService {
     }
   }
 
-  async findWithdrawalMessagedPassed(): Promise<GQL2ToL1MessagePassedEvent[]> {
+  async findWithdrawalMessagedPassed(
+    withdrawalHash: string
+  ): Promise<GQL2ToL1MessagePassedEvent[]> {
     try {
       const qry = gql`
         query GetWithdrawalInitiateds($withdrawalHash: String!) {
@@ -656,7 +658,14 @@ class AnchorageGraphQLService extends GraphQLService {
         }
       `
       return (
-        await this.conductQuery(qry, {}, 28882, EGraphQLService.AnchorageBridge)
+        await this.conductQuery(
+          qry,
+          {
+            withdrawalHash,
+          },
+          28882,
+          EGraphQLService.AnchorageBridge
+        )
       )?.data.messagePasseds
     } catch (e) {
       return []
