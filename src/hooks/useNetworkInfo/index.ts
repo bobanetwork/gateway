@@ -4,23 +4,24 @@ import { selectActiveNetwork, selectActiveNetworkType } from 'selectors'
 import { Network, NetworkType } from 'util/network/network.util'
 
 export const useNetworkInfo = () => {
-  const [isSepoliaNetwork, setisSepoliaNetwork] = useState(false)
+  const [isAnchorageEnabled, setIsAnchorageEnabled] = useState(false)
 
   const network = useSelector(selectActiveNetwork())
   const networkType = useSelector(selectActiveNetworkType())
 
   useEffect(() => {
+    // @todo @note make sure to update based on the anchorage logic update for mainnet release.
     if (
       networkType === NetworkType.TESTNET &&
       network === Network.ETHEREUM_SEPOLIA
     ) {
-      setisSepoliaNetwork(true)
+      setIsAnchorageEnabled(true)
     } else {
-      setisSepoliaNetwork(false)
+      setIsAnchorageEnabled(false)
     }
   }, [network, networkType])
 
   return {
-    isSepoliaNetwork,
+    isAnchorageEnabled,
   }
 }

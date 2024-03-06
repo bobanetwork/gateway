@@ -13,6 +13,7 @@ import {
   WithdrawProcessStep,
   WithdrawState,
 } from './anchorage.service'
+import { filterLatestGroupedSupportedTokens } from '../util/graphql.utils'
 
 //#region types
 export type LightBridgeDisbursementEvents =
@@ -492,6 +493,49 @@ class TeleportationGraphQLService extends GraphQLService {
     }
     return undefined
   }
+
+  async querySupportedTokensBridge(
+    currentNetworkId: any,
+    tokens: Array<string>,
+    destChainId: BigNumberish
+  ) {
+    const query = gql(`
+    query GetSupportedTokens($tokens: [String!]!, $toChainId: BigInt!) {
+      tokenSupporteds(
+        where: { 
+          token_in: $tokens, 
+          toChainId: $toChainId 
+        },
+        order_by: { block_number: desc }
+      ) {
+        id
+        block_number
+        timestamp_
+        transactionHash_
+        contractId_
+        token
+        toChainId
+        supported
+      }
+    }
+  `)
+    const variables = {
+      tokens,
+      toChainId: destChainId,
+    }
+
+    return filterLatestGroupedSupportedTokens(
+      (
+        await this.conductQuery(
+          query,
+          variables,
+          currentNetworkId,
+          EGraphQLService.LightBridge,
+          this.useLocal
+        )
+      )?.data?.tokenSupporteds
+    )
+  }
 }
 
 class AnchorageGraphQLService extends GraphQLService {
@@ -778,14 +822,14 @@ class AnchorageGraphQLService extends GraphQLService {
         fast: 1,
       },
       contractName: '-',
-      from: event.from,
-      to: event.to,
+      from: event.sender,
+      to: event.target,
       action: {
-        amount: event.value,
-        sender: event.from,
+        amount: event.amount || event.value,
+        sender: event.sender,
         status: status === WithdrawState.finalized ? 'succeeded' : status,
-        to: event.to,
-        token: event.l1Token,
+        to: event.target,
+        token: event.l2Token,
       },
       isTeleportation: false,
       actionRequired:
@@ -799,8 +843,8 @@ class AnchorageGraphQLService extends GraphQLService {
                   ? WithdrawProcessStep.Initialized
                   : WithdrawProcessStep.Proven,
               withdrawalHash: event.withdrawalHash,
-              blockNumber: event.blockNumber,
-              blockHash: event.blockHash,
+              blockNumber: transaction.blockNumber,
+              blockHash: block.hash,
             },
     }
   }
@@ -846,13 +890,20 @@ class AnchorageGraphQLService extends GraphQLService {
           )
         }
       } else {
+        const messagePayload = messagesPassed.find(
+          (m) => m.withdrawalHash === withdrawalHashCandidate
+        )
+        const withdrawPayload = withdrawalsInitiated.find(
+          (w) => w.block_number === messagePayload?.block_number
+        )
         withdrawalTransactions.push(
           await this.mapWithdrawalToTransaction(
             networkService,
             networkConfig,
-            messagesPassed.find(
-              (message) => message.withdrawalHash === withdrawalHashCandidate
-            ),
+            {
+              ...messagePayload,
+              ...withdrawPayload,
+            },
             WithdrawState.initialized
           )
         )
