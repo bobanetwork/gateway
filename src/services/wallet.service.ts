@@ -175,7 +175,6 @@ export class WalletService {
               params: [{ chainId }],
             })
           } else {
-            console.log(`adding ethereum chain!`, chainInfo, this.account)
             await provider.request({
               method: 'wallet_addEthereumChain',
               params: [chainInfo, this.account],
