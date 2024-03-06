@@ -33,6 +33,7 @@ import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
 import { Layer, LAYER } from 'util/constant'
 import { INetwork, NetworkList } from '../../util/network/network.util'
+import teleportationService from 'services/teleportation.service'
 
 export const useBridge = () => {
   const dispatch = useDispatch<any>()
@@ -140,7 +141,8 @@ export const useBridge = () => {
       // step -1  approve token
       // step -2  deposit to Teleportation.
 
-      const { teleportationAddr } = networkService.getTeleportationAddress()
+      const { teleportationAddr } =
+        teleportationService.getTeleportationAddress()
       if (!teleportationAddr) {
         console.warn('Teleportation Address not available.')
         return

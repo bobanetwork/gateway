@@ -13,6 +13,13 @@ jest.mock('services/networkService', () => {
   return {
     getAllAddress: jest.fn(),
     getBalances: jest.fn(),
+    addresses: {},
+  }
+})
+
+jest.mock('services/balance.service', () => {
+  return {
+    getBalances: jest.fn(),
   }
 })
 

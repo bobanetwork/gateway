@@ -10,12 +10,12 @@ import addresses_Sepolia from '@bobanetwork/register/addresses/addressesBobaSepo
 import addresses_BobaBnbTestnet from '@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa.json'
 
 // mainnet address
-import addresses_Mainnet from '@bobanetwork/register/addresses/addressesMainnet_0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089.json'
 import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0xeb989B25597259cfa51Bd396cE1d4B085EC4c753.json'
+import addresses_Mainnet from '@bobanetwork/register/addresses/addressesMainnet_0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089.json'
 
 // layerzero addresses.
-import layerZeroTestnet from '@bobanetwork/register/addresses/layerZeroTestnet.json'
 import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.json'
+import layerZeroTestnet from '@bobanetwork/register/addresses/layerZeroTestnet.json'
 import store from 'store'
 
 // predeployed contracts.

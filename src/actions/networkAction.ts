@@ -17,9 +17,13 @@ import networkService from 'services/networkService'
 import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
+import balanceService from 'services/balance.service'
+import bridgingService from 'services/bridging.service'
+import teleportationService from 'services/teleportation.service'
+import apiService from 'services/api.service'
 
 export const fetchBalances = () =>
-  createAction('BALANCE/GET', () => networkService.getBalances())
+  createAction('BALANCE/GET', () => balanceService.getBalances())
 
 export const addTokenList = () =>
   createAction('TOKENLIST/GET', () => networkService.addTokenList())
@@ -34,12 +38,12 @@ export const fetchFastExits = () =>
   createAction('FASTEXITS/GETALL', () => transactionService.getFastExits())
 
 export const exitBOBA = (token: string, value: BigNumberish) =>
-  createAction('EXIT/CREATE', () => networkService.exitBOBA(token, value))
+  createAction('EXIT/CREATE', () => bridgingService.exitBOBA(token, value))
 
 //SWAP RELATED
 export const depositL1LP = (currency: string, value: BigNumberish) =>
   createAction('DEPOSIT/CREATE', () =>
-    networkService.depositL1LP(currency, value)
+    bridgingService.depositL1LP(currency, value)
   )
 
 export const isTeleportationOfAssetSupported = (
@@ -48,7 +52,11 @@ export const isTeleportationOfAssetSupported = (
   destChainId: string
 ) =>
   createAction('DEPOSIT/TELEPORTATION/TOKEN_SUPPORTED', () =>
-    networkService.isTeleportationOfAssetSupported(layer, asset, destChainId)
+    teleportationService.isTeleportationOfAssetSupported(
+      layer,
+      asset,
+      destChainId
+    )
   )
 
 export const depositWithLightBridge = (
@@ -58,17 +66,22 @@ export const depositWithLightBridge = (
   destChainId: BigNumberish
 ) =>
   createAction('DEPOSIT/CREATE', () =>
-    networkService.depositWithTeleporter(layer, currency, value, destChainId)
+    teleportationService.depositWithTeleporter(
+      layer,
+      currency,
+      value,
+      destChainId
+    )
   )
 
 //SWAP RELATED - Depositing into the L2LP triggers the swap-exit
 export const depositL2LP = (token: string, value: BigNumberish) =>
-  createAction('EXIT/CREATE', () => networkService.depositL2LP(token, value))
+  createAction('EXIT/CREATE', () => bridgingService.depositL2LP(token, value))
 
 //CLASSIC DEPOSIT ETH
 export const depositETHL2 = (payload) =>
   createAction('DEPOSIT/CREATE', () => {
-    return networkService.depositETHL2(payload)
+    return bridgingService.depositETHToL2(payload)
   })
 
 //CLASSIC DEPOSIT ETH
@@ -79,7 +92,7 @@ export const depositETHAnchorageL2 = (payload) =>
 
 //DEPOSIT ERC20
 export const depositErc20 = (payload) =>
-  createAction('DEPOSIT/CREATE', () => networkService.depositErc20(payload))
+  createAction('DEPOSIT/CREATE', () => bridgingService.depositErc20(payload))
 
 export const depositErc20Anchorage = (payload) =>
   createAction('DEPOSIT/CREATE', () =>
@@ -93,7 +106,7 @@ export const approveERC20 = (
   contractABI?
 ) =>
   createAction('APPROVE/CREATE', () =>
-    networkService.approveERC20(
+    bridgingService.approveERC20(
       value,
       currency,
       approveContractAddress,
@@ -107,11 +120,11 @@ export const transfer = (
   currency: string
 ) =>
   createAction('TRANSFER/CREATE', () =>
-    networkService.transfer(recipient, value, currency)
+    bridgingService.transfer(recipient, value, currency)
   )
 
 export const fetchLookUpPrice = (params) =>
-  createAction('PRICE/GET', () => networkService.fetchLookUpPrice(params))
+  createAction('PRICE/GET', () => apiService.fetchTokenPriceInUsd(params))
 
 export const clearLookupPrice = () => (dispatch) =>
   dispatch({ type: 'LOOKUP/PRICE/CLEAR' })

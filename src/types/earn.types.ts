@@ -50,3 +50,8 @@ export interface EarnListProps {
   lpChoice: LiquidityPoolLayer
   showMyStakeOnly: boolean
 }
+
+export interface ILpInfoResponse {
+  poolInfo: Record<string, IPoolItem>
+  userInfo: Record<string, Partial<IUserInfoItem>>
+}

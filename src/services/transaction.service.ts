@@ -15,6 +15,7 @@ import {
   lightBridgeGraphQLService,
 } from './graphql.service'
 import networkService from './networkService'
+import teleportationService from './teleportation.service'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -215,10 +216,10 @@ class TransactionService {
   ) {
     let rawTx = []
 
-    const contractL1 = networkService.getTeleportationContract(
+    const contractL1 = teleportationService.getTeleportationContract(
       networkConfig!.L1.chainId
     )
-    const contractL2 = networkService.getTeleportationContract(
+    const contractL2 = teleportationService.getTeleportationContract(
       networkConfig!.L2.chainId
     )
 

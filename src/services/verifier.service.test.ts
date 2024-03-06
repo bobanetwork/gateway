@@ -33,8 +33,8 @@ describe('VerifierService', () => {
     expect(status).toBeFalsy()
   })
 
-  // TODO: Reactivate test that is failing due to a CORS issue
-  test.skip('fetch verifier status when watcher instance defined', async () => {
+  // TODO: disabled to get the workflow pass as localhost is block by CORS
+  xtest('fetch verifier status when watcher instance defined', async () => {
     // prep
     networkService.networkConfig!.VERIFIER_WATCHER_URL =
       'https://api-verifier.mainnet.boba.network/'

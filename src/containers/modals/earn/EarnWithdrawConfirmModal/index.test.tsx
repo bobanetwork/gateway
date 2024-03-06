@@ -1,29 +1,33 @@
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import React from 'react'
-import {
-  render,
-  fireEvent,
-  getByLabelText,
-  act,
-  waitFor,
-} from '@testing-library/react'
 import { Provider } from 'react-redux'
-import CustomThemeProvider from 'themes'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import CustomThemeProvider from 'themes'
 
-import EarnWithdrawConfirmModal from './'
-import { mockedInitialState } from 'util/tests'
 import { BrowserRouter } from 'react-router-dom'
-import networkService from 'services/networkService'
+import earnService from 'services/earn.service'
+import { mockedInitialState } from 'util/tests'
+import EarnWithdrawConfirmModal from './'
 
 jest.mock('services/networkService', () => {
+  return {
+    getAllAddresses: jest.fn(),
+  }
+})
+
+jest.mock('services/earn.service', () => {
   return {
     withdrawLiquidity: jest.fn(),
     getL1LPInfo: jest.fn(),
     getL2LPInfo: jest.fn(),
-    getReward: jest.fn(),
+    withdrawReward: jest.fn(),
+  }
+})
+
+jest.mock('services/balance.service', () => {
+  return {
     getBalances: jest.fn(),
-    getAllAddresses: jest.fn(),
   }
 })
 
@@ -109,15 +113,15 @@ describe('EarnWithdrawConfirmModal', () => {
 
   test('Should dispatch sequence of actions on confirm with sucess', async () => {
     // @ts-ignore
-    networkService.getL1LPInfo.mockImplementation(() =>
+    earnService.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.getL2LPInfo.mockImplementation(() =>
+    earnService.getL2LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.withdrawLiquidity.mockImplementation(() =>
+    earnService.withdrawLiquidity.mockImplementation(() =>
       Promise.resolve(true)
     )
     const initialState = {
@@ -168,15 +172,15 @@ describe('EarnWithdrawConfirmModal', () => {
   })
   test('Should dispatch sequence of actions on confirm with sucess', async () => {
     // @ts-ignore
-    networkService.getL1LPInfo.mockImplementation(() =>
+    earnService.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.getL2LPInfo.mockImplementation(() =>
+    earnService.getL2LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
     )
     // @ts-ignore
-    networkService.withdrawLiquidity.mockImplementation(() =>
+    earnService.withdrawLiquidity.mockImplementation(() =>
       Promise.resolve(false)
     )
     const initialState = {
