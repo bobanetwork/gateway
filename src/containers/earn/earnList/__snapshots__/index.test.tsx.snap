@@ -113,7 +113,7 @@ exports[`EarnList  should match snapshot in case no data 1`] = `
     </div>
   </div>
   <div
-    class="sc-hmdomO bUdpmO"
+    class="sc-fHjqPf kAuoON"
   >
     <span
       class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
@@ -251,10 +251,10 @@ exports[`EarnList  should match snapshot with data 1`] = `
     </div>
   </div>
   <div
-    class="sc-fHjqPf kmRDXa"
+    class="sc-hzhJZQ jXgdnO"
   >
     <div
-      class="sc-feUZmu kfaySa"
+      class="sc-dAbbOL kfujas"
       data-testid="earn-list-item"
     >
       <div
@@ -265,7 +265,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
           style="max-width: 225px;"
         >
           <div
-            class="sc-fqkvVR fuyRCw sc-dAlyuH gnDYfH"
+            class="sc-fqkvVR fuyRCw sc-kpDqfm fYCSlX"
           >
             <div
               class="sc-dcJsrY jqXhqy"
@@ -276,33 +276,23 @@ exports[`EarnList  should match snapshot with data 1`] = `
                 <div>
                   <img
                     alt="logo"
-                    class="sc-kpDqfm hRpVeV"
+                    class="sc-dhKdcB ldcSKy"
                     src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/boba.svg"
                   />
                 </div>
                 <div>
                   <p
-                    class="sc-jXbUNg ciFwzW"
+                    class="sc-imWYAI lgSgkc"
                   >
                     BOBA
                   </p>
                   <p
-                    class="sc-dhKdcB cSXxCM"
+                    class="sc-jXbUNg iWjFhm"
                   >
                     Boba Token
                   </p>
                 </div>
               </div>
-            </div>
-            <div
-              class="sc-imWYAI bGMCaW metamask"
-            >
-              <img
-                alt="add To Metamask"
-                height="20px"
-                src="metamask.svg"
-                width="20px"
-              />
             </div>
           </div>
         </div>
@@ -361,11 +351,11 @@ exports[`EarnList  should match snapshot with data 1`] = `
           style="max-width: 75px;"
         >
           <div
-            class="sc-fUnMCh dYyQJH"
+            class="sc-feUZmu ceIvoQ"
             data-testid="action-btn"
           >
             <div
-              class="sc-hzhJZQ edzwjq"
+              class="sc-fUnMCh euYGlO"
             >
               <div>
                 <div
@@ -379,7 +369,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </div>
     </div>
     <div
-      class="sc-feUZmu kfaySa"
+      class="sc-dAbbOL kfujas"
       data-testid="earn-list-item"
     >
       <div
@@ -390,7 +380,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
           style="max-width: 225px;"
         >
           <div
-            class="sc-fqkvVR fuyRCw sc-dAlyuH gnDYfH"
+            class="sc-fqkvVR fuyRCw sc-kpDqfm fYCSlX"
           >
             <div
               class="sc-dcJsrY jqXhqy"
@@ -401,33 +391,23 @@ exports[`EarnList  should match snapshot with data 1`] = `
                 <div>
                   <img
                     alt="logo"
-                    class="sc-kpDqfm hRpVeV"
+                    class="sc-dhKdcB ldcSKy"
                     src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/eth.svg"
                   />
                 </div>
                 <div>
                   <p
-                    class="sc-jXbUNg ciFwzW"
+                    class="sc-imWYAI lgSgkc"
                   >
                     ETH
                   </p>
                   <p
-                    class="sc-dhKdcB cSXxCM"
+                    class="sc-jXbUNg iWjFhm"
                   >
                     ETH
                   </p>
                 </div>
               </div>
-            </div>
-            <div
-              class="sc-imWYAI bGMCaW metamask"
-            >
-              <img
-                alt="add To Metamask"
-                height="20px"
-                src="metamask.svg"
-                width="20px"
-              />
             </div>
           </div>
         </div>
@@ -486,11 +466,11 @@ exports[`EarnList  should match snapshot with data 1`] = `
           style="max-width: 75px;"
         >
           <div
-            class="sc-fUnMCh dYyQJH"
+            class="sc-feUZmu ceIvoQ"
             data-testid="action-btn"
           >
             <div
-              class="sc-hzhJZQ edzwjq"
+              class="sc-fUnMCh euYGlO"
             >
               <div>
                 <div
@@ -504,7 +484,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </div>
     </div>
     <div
-      class="sc-feUZmu kfaySa"
+      class="sc-dAbbOL kfujas"
       data-testid="earn-list-item"
     >
       <div
@@ -515,7 +495,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
           style="max-width: 225px;"
         >
           <div
-            class="sc-fqkvVR fuyRCw sc-dAlyuH gnDYfH"
+            class="sc-fqkvVR fuyRCw sc-kpDqfm fYCSlX"
           >
             <div
               class="sc-dcJsrY jqXhqy"
@@ -526,34 +506,24 @@ exports[`EarnList  should match snapshot with data 1`] = `
                 <div>
                   <img
                     alt="logo"
-                    class="sc-kpDqfm hRpVeV"
+                    class="sc-dhKdcB ldcSKy"
                     src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/omg.svg"
                   />
                 </div>
                 <div>
                   <p
-                    class="sc-jXbUNg ciFwzW"
+                    class="sc-imWYAI lgSgkc"
                   >
                     OMG
                   </p>
                   <p
-                    class="sc-dhKdcB cSXxCM"
+                    class="sc-jXbUNg iWjFhm"
                   >
                     OMG Token
                   </p>
                 </div>
               </div>
             </div>
-            <div
-              class="sc-imWYAI bGMCaW metamask"
-            >
-              <img
-                alt="add To Metamask"
-                height="20px"
-                src="metamask.svg"
-                width="20px"
-              />
-            </div>
           </div>
         </div>
         <div
@@ -611,11 +581,11 @@ exports[`EarnList  should match snapshot with data 1`] = `
           style="max-width: 75px;"
         >
           <div
-            class="sc-fUnMCh dYyQJH"
+            class="sc-feUZmu ceIvoQ"
             data-testid="action-btn"
           >
             <div
-              class="sc-hzhJZQ edzwjq"
+              class="sc-fUnMCh euYGlO"
             >
               <div>
                 <div
@@ -629,7 +599,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </div>
     </div>
     <div
-      class="sc-feUZmu kfaySa"
+      class="sc-dAbbOL kfujas"
       data-testid="earn-list-item"
     >
       <div
@@ -640,7 +610,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
           style="max-width: 225px;"
         >
           <div
-            class="sc-fqkvVR fuyRCw sc-dAlyuH gnDYfH"
+            class="sc-fqkvVR fuyRCw sc-kpDqfm fYCSlX"
           >
             <div
               class="sc-dcJsrY jqXhqy"
@@ -651,33 +621,23 @@ exports[`EarnList  should match snapshot with data 1`] = `
                 <div>
                   <img
                     alt="logo"
-                    class="sc-kpDqfm hRpVeV"
+                    class="sc-dhKdcB ldcSKy"
                     src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/usdc.svg"
                   />
                 </div>
                 <div>
                   <p
-                    class="sc-jXbUNg ciFwzW"
+                    class="sc-imWYAI lgSgkc"
                   >
                     USDC
                   </p>
                   <p
-                    class="sc-dhKdcB cSXxCM"
+                    class="sc-jXbUNg iWjFhm"
                   >
                     USD Coin
                   </p>
                 </div>
               </div>
-            </div>
-            <div
-              class="sc-imWYAI bGMCaW metamask"
-            >
-              <img
-                alt="add To Metamask"
-                height="20px"
-                src="metamask.svg"
-                width="20px"
-              />
             </div>
           </div>
         </div>
@@ -736,11 +696,11 @@ exports[`EarnList  should match snapshot with data 1`] = `
           style="max-width: 75px;"
         >
           <div
-            class="sc-fUnMCh dYyQJH"
+            class="sc-feUZmu ceIvoQ"
             data-testid="action-btn"
           >
             <div
-              class="sc-hzhJZQ edzwjq"
+              class="sc-fUnMCh euYGlO"
             >
               <div>
                 <div

@@ -3,20 +3,20 @@
 exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
 <DocumentFragment>
   <div
-    class="sc-eeDRCY bCYpHf"
+    class="sc-jsJBEP bMsNfn"
     data-testid="feeSwitcher"
   >
     <div
-      class="sc-iHGNWf hMJwVs"
+      class="sc-bmzYkS eJWQqt"
     >
       <p
-        class="sc-jXbUNg jCIOIT sc-dtBdUo zuBuN"
+        class="sc-imWYAI dZiXLh sc-iHGNWf gGjZnE"
       >
         Fee
       </p>
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-bmzYkS lbmjGV css-ptiqhd-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-koXPp fTnsXJ css-ptiqhd-MuiSvgIcon-root"
         data-mui-internal-clone-element="true"
         data-testid="HelpOutlineIcon"
         focusable="false"
@@ -28,17 +28,17 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
       </svg>
     </div>
     <div
-      class="sc-fPXMVe ceppIJ dropdown sc-kOHTFB gHYddX"
+      class="sc-eldPxv iwWLOO dropdown sc-dtBdUo dBsbYM"
       data-testid="dropdown-"
     >
       <div
-        class="sc-gFqAkR bIEbk dropdown sc-kOHTFB gHYddX"
+        class="sc-fPXMVe gdBXJA dropdown sc-dtBdUo dBsbYM"
       >
         <div
-          class="sc-feUZmu jZaohZ"
+          class="sc-dAbbOL cqwCvP"
         >
           <div
-            class="sc-ikkxIA cMogLc"
+            class="sc-gFqAkR fCKkBB"
           >
             <img
               alt="token"
@@ -47,10 +47,10 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
             />
           </div>
           <p
-            class="sc-jXbUNg jCIOIT"
+            class="sc-imWYAI dZiXLh"
           />
           <div
-            class="sc-bXCLTC cVmHtU dropdown sc-kOHTFB gHYddX"
+            class="sc-hmdomO kXTVvG dropdown sc-dtBdUo dBsbYM"
           >
             <div>
               <div
@@ -69,11 +69,11 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
 exports[`FeeSwitcher should match snapshot when account is not enabled  1`] = `
 <DocumentFragment>
   <div
-    class="sc-eeDRCY bCYpHf"
+    class="sc-jsJBEP bMsNfn"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-bmzYkS lbmjGV css-ptiqhd-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-koXPp fTnsXJ css-ptiqhd-MuiSvgIcon-root"
       data-mui-internal-clone-element="true"
       data-testid="HelpOutlineIcon"
       focusable="false"
@@ -84,7 +84,7 @@ exports[`FeeSwitcher should match snapshot when account is not enabled  1`] = `
       />
     </svg>
     <h5
-      class="sc-eldPxv jsmXlI sc-koXPp bYAwUU"
+      class="sc-eDPEul lkHkUy sc-eeDRCY bYqsCg"
     >
       Fee
     </h5>

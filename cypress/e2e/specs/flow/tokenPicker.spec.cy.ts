@@ -17,10 +17,6 @@ describe('Token Picker', () => {
     bridge.verifyTokenInTokenList('ETH')
     bridge.verifyTokenInTokenList('BOBA')
   })
-  it('Should add Boba Token to Metamask Wallet', () => {
-    bridge.addTokenWithTokenPicker('BOBA')
-    bridge.closeModal('token-picker-modal')
-  })
   it('Should select Boba token', () => {
     bridge.selectToken('BOBA')
   })

@@ -3,14 +3,14 @@
 exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fPXMVe iPVgPd"
+    class="sc-eldPxv gfNOpO"
   >
     <div
-      class="sc-gFqAkR hXrRXV warning"
+      class="sc-fPXMVe griVhV warning"
       data-testid="banner-item"
     >
       <div
-        class="sc-ikkxIA"
+        class="sc-gFqAkR"
       >
         <p>
           Message update 1 
@@ -22,14 +22,14 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
         </p>
       </div>
       <div
-        class="sc-dAbbOL bqUnLe"
+        class="sc-ikkxIA lkyGHt"
       >
         <div
-          class="sc-feUZmu kDoDsn"
+          class="sc-dAbbOL dbuxkF"
           data-testid="close-icon-message-1"
         >
           <div
-            class="sc-hzhJZQ cGxMqP"
+            class="sc-fUnMCh jLRXcX"
           >
             <div>
               <div
@@ -42,27 +42,27 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
       </div>
     </div>
     <div
-      class="sc-gFqAkR hXrRXV warning"
+      class="sc-fPXMVe griVhV warning"
       data-testid="banner-item"
     >
       <div
-        class="sc-ikkxIA"
+        class="sc-gFqAkR"
       >
         <p
-          class="sc-jXbUNg jCIOIT sc-fUnMCh iwiHIW"
+          class="sc-imWYAI dZiXLh sc-feUZmu ldHMux"
         >
           message two goes here
         </p>
       </div>
       <div
-        class="sc-dAbbOL bqUnLe"
+        class="sc-ikkxIA lkyGHt"
       >
         <div
-          class="sc-feUZmu kDoDsn"
+          class="sc-dAbbOL dbuxkF"
           data-testid="close-icon-message-2"
         >
           <div
-            class="sc-hzhJZQ cGxMqP"
+            class="sc-fUnMCh jLRXcX"
           >
             <div>
               <div

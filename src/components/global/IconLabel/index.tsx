@@ -5,7 +5,6 @@ import { getCoinImage } from 'util/coinImage'
 
 import { Text, Small } from 'components/global/text'
 import { Row, Column } from 'components/global/containers'
-import { AddToMetamask } from 'components/global/addToMetamask'
 
 const Icon = styled.img`
   display: flex;
@@ -43,7 +42,6 @@ export const IconLabel = (props: any) => {
           </div>
         </Row>
       </Column>
-      <AddToMetamask token={props.token} className="metamask" />
     </IconLabelContainer>
   )
 }

@@ -3,10 +3,10 @@
 exports[`BridgeAction AccountEnabled is false should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fUnMCh eCCEjf"
+    class="sc-feUZmu fKaVOM"
   >
     <button
-      class="sc-cwHptR iArmaO sc-hzhJZQ"
+      class="sc-jlZhew fFYrTq sc-fUnMCh"
       data-testid="connect-btn"
       label="[object Object]"
       style="width: 100%;"
@@ -14,7 +14,7 @@ exports[`BridgeAction AccountEnabled is false should match snapshot 1`] = `
     >
        
       <h3
-        class="sc-eldPxv eEspBv"
+        class="sc-eDPEul CjCmp"
       >
         Connect Wallet
       </h3>
@@ -26,10 +26,10 @@ exports[`BridgeAction AccountEnabled is false should match snapshot 1`] = `
 exports[`BridgeAction AccountEnabled is true should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fUnMCh eCCEjf"
+    class="sc-feUZmu fKaVOM"
   >
     <button
-      class="sc-cwHptR iArmaO sc-hzhJZQ"
+      class="sc-jlZhew fFYrTq sc-fUnMCh"
       data-testid="bridge-btn"
       label="[object Object]"
       style="width: 100%;"
@@ -37,7 +37,7 @@ exports[`BridgeAction AccountEnabled is true should match snapshot 1`] = `
     >
        
       <h3
-        class="sc-eldPxv eEspBv"
+        class="sc-eDPEul CjCmp"
       >
         Bridge
       </h3>

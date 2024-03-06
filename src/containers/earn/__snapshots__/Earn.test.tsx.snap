@@ -3,13 +3,13 @@
 exports[`Earn  should match snapshot & trigger action when accountEnabled with layer L2  1`] = `
 <DocumentFragment>
   <div
-    class="sc-kOHTFB dJklDn"
+    class="sc-dtBdUo iOIctv"
   >
     <div
-      class="sc-kOPcWz dCdfcT"
+      class="sc-dtInlm scBYX"
     >
       <p
-        class="sc-kpDqfm cBaeVm"
+        class="sc-dhKdcB bTTVOV"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -28,44 +28,44 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
     </div>
     <div>
       <div
-        class="sc-fhzFiK kIRwNU"
+        class="sc-dCFHLb ehwxST"
       >
         <div
-          class="sc-lcIPJg daEXEv"
+          class="sc-jxOSlx hDUlCC"
         >
           <div
-            class="sc-kdBSHD iXgKrp"
+            class="sc-lcIPJg qZZek"
             data-testid="tab-l1"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               ethereum Pools
             </p>
           </div>
           <div
-            class="sc-kdBSHD hmvvHY"
+            class="sc-lcIPJg wTpox"
             data-testid="tab-l2"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               boba Pools
             </p>
           </div>
         </div>
         <div
-          class="sc-dCFHLb dZBTFm"
+          class="sc-eBMEME edLRhm"
         >
           <div>
             <label
-              class="sc-bmzYkS iMHFUI"
+              class="sc-koXPp lisxhg"
             >
               <div
-                class="sc-iHGNWf kjCKde"
+                class="sc-bmzYkS iBbtzj"
               >
                 <input
-                  class="sc-dtBdUo jgEwTm"
+                  class="sc-iHGNWf jKttvr"
                   data-testid="my-stake-checkbox"
                   type="checkbox"
                 />
@@ -79,7 +79,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
                 </div>
               </div>
               <p
-                class="sc-kpDqfm ighqH"
+                class="sc-dhKdcB ibpgnY"
               >
                 My Stakes Only
               </p>
@@ -88,24 +88,24 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
         </div>
       </div>
       <div
-        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+        class="sc-fqkvVR fuyRCw sc-dAlyuH tTyrM"
       >
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 225px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Token
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 145px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Available Balance
           </p>
@@ -123,11 +123,11 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 115px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Total Staked
           </p>
@@ -145,11 +145,11 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 85px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             APR
           </p>
@@ -167,38 +167,38 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 90px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Your Stake
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 110px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Earned
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 75px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Actions
           </p>
         </div>
       </div>
       <div
-        class="sc-koXPp WyMlC"
+        class="sc-eeDRCY eKhOXu"
       >
         <span
           class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
@@ -228,13 +228,13 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
 exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
 <DocumentFragment>
   <div
-    class="sc-kOHTFB dJklDn"
+    class="sc-dtBdUo iOIctv"
   >
     <div
-      class="sc-kOPcWz dCdfcT"
+      class="sc-dtInlm scBYX"
     >
       <p
-        class="sc-kpDqfm cBaeVm"
+        class="sc-dhKdcB bTTVOV"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -252,10 +252,10 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
       </svg>
     </div>
     <div
-      class="sc-dtInlm bMNaUn"
+      class="sc-kOHTFB lnMGOp"
     >
       <div
-        class="sc-eBMEME eSaExz"
+        class="sc-cWSHoV iGcwTq"
       >
         <svg
           fill="none"
@@ -272,7 +272,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           />
         </svg>
         <p
-          class="sc-kpDqfm cBJJYe sc-cWSHoV cxbFzS"
+          class="sc-dhKdcB jSXfaR sc-kOPcWz EBJJW"
         >
           You are on L1. To transact on L2, SWITCH LAYER to L2
         </p>
@@ -294,44 +294,44 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
     </div>
     <div>
       <div
-        class="sc-fhzFiK kIRwNU"
+        class="sc-dCFHLb ehwxST"
       >
         <div
-          class="sc-lcIPJg daEXEv"
+          class="sc-jxOSlx hDUlCC"
         >
           <div
-            class="sc-kdBSHD iXgKrp"
+            class="sc-lcIPJg qZZek"
             data-testid="tab-l1"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               ethereum Pools
             </p>
           </div>
           <div
-            class="sc-kdBSHD hmvvHY"
+            class="sc-lcIPJg wTpox"
             data-testid="tab-l2"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               boba Pools
             </p>
           </div>
         </div>
         <div
-          class="sc-dCFHLb dZBTFm"
+          class="sc-eBMEME edLRhm"
         >
           <div>
             <label
-              class="sc-bmzYkS iMHFUI"
+              class="sc-koXPp lisxhg"
             >
               <div
-                class="sc-iHGNWf kjCKde"
+                class="sc-bmzYkS iBbtzj"
               >
                 <input
-                  class="sc-dtBdUo jgEwTm"
+                  class="sc-iHGNWf jKttvr"
                   data-testid="my-stake-checkbox"
                   type="checkbox"
                 />
@@ -345,7 +345,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
                 </div>
               </div>
               <p
-                class="sc-kpDqfm ighqH"
+                class="sc-dhKdcB ibpgnY"
               >
                 My Stakes Only
               </p>
@@ -354,24 +354,24 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
         </div>
       </div>
       <div
-        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+        class="sc-fqkvVR fuyRCw sc-dAlyuH tTyrM"
       >
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 225px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Token
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 145px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Available Balance
           </p>
@@ -389,11 +389,11 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 115px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Total Staked
           </p>
@@ -411,11 +411,11 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 85px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             APR
           </p>
@@ -433,38 +433,38 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 90px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Your Stake
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 110px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Earned
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 75px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Actions
           </p>
         </div>
       </div>
       <div
-        class="sc-koXPp WyMlC"
+        class="sc-eeDRCY eKhOXu"
       >
         <span
           class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
@@ -494,13 +494,13 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
 exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
 <DocumentFragment>
   <div
-    class="sc-kOHTFB dJklDn"
+    class="sc-dtBdUo iOIctv"
   >
     <div
-      class="sc-kOPcWz dCdfcT"
+      class="sc-dtInlm scBYX"
     >
       <p
-        class="sc-kpDqfm cBaeVm"
+        class="sc-dhKdcB bTTVOV"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -518,10 +518,10 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
       </svg>
     </div>
     <div
-      class="sc-dtInlm bMNaUn"
+      class="sc-kOHTFB lnMGOp"
     >
       <div
-        class="sc-eBMEME eSaExz"
+        class="sc-cWSHoV iGcwTq"
       >
         <svg
           fill="none"
@@ -538,7 +538,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           />
         </svg>
         <p
-          class="sc-kpDqfm cBJJYe sc-cWSHoV cxbFzS"
+          class="sc-dhKdcB jSXfaR sc-kOPcWz EBJJW"
         >
           You are on L2. To transact on L1, SWITCH LAYER to L1
         </p>
@@ -560,44 +560,44 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
     </div>
     <div>
       <div
-        class="sc-fhzFiK kIRwNU"
+        class="sc-dCFHLb ehwxST"
       >
         <div
-          class="sc-lcIPJg daEXEv"
+          class="sc-jxOSlx hDUlCC"
         >
           <div
-            class="sc-kdBSHD hmvvHY"
+            class="sc-lcIPJg wTpox"
             data-testid="tab-l1"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               ethereum Pools
             </p>
           </div>
           <div
-            class="sc-kdBSHD iXgKrp"
+            class="sc-lcIPJg qZZek"
             data-testid="tab-l2"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               boba Pools
             </p>
           </div>
         </div>
         <div
-          class="sc-dCFHLb dZBTFm"
+          class="sc-eBMEME edLRhm"
         >
           <div>
             <label
-              class="sc-bmzYkS iMHFUI"
+              class="sc-koXPp lisxhg"
             >
               <div
-                class="sc-iHGNWf kjCKde"
+                class="sc-bmzYkS iBbtzj"
               >
                 <input
-                  class="sc-dtBdUo jgEwTm"
+                  class="sc-iHGNWf jKttvr"
                   data-testid="my-stake-checkbox"
                   type="checkbox"
                 />
@@ -611,7 +611,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
                 </div>
               </div>
               <p
-                class="sc-kpDqfm ighqH"
+                class="sc-dhKdcB ibpgnY"
               >
                 My Stakes Only
               </p>
@@ -620,24 +620,24 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
         </div>
       </div>
       <div
-        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+        class="sc-fqkvVR fuyRCw sc-dAlyuH tTyrM"
       >
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 225px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Token
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 145px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Available Balance
           </p>
@@ -655,11 +655,11 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 115px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Total Staked
           </p>
@@ -677,11 +677,11 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 85px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             APR
           </p>
@@ -699,38 +699,38 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 90px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Your Stake
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 110px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Earned
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 75px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Actions
           </p>
         </div>
       </div>
       <div
-        class="sc-koXPp WyMlC"
+        class="sc-eeDRCY eKhOXu"
       >
         <span
           class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
@@ -760,13 +760,13 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
 exports[`Earn  should match snapshot when account is not enabled & layer is L1 1`] = `
 <DocumentFragment>
   <div
-    class="sc-kOHTFB dJklDn"
+    class="sc-dtBdUo iOIctv"
   >
     <div
-      class="sc-kOPcWz dCdfcT"
+      class="sc-dtInlm scBYX"
     >
       <p
-        class="sc-kpDqfm cBaeVm"
+        class="sc-dhKdcB bTTVOV"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -784,10 +784,10 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
       </svg>
     </div>
     <div
-      class="sc-fPXMVe edlhIL"
+      class="sc-eldPxv kYpeJc"
     >
       <div
-        class="sc-gFqAkR cnmDeA"
+        class="sc-fPXMVe kvZerU"
       >
         <svg
           fill="none"
@@ -804,13 +804,13 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           />
         </svg>
         <p
-          class="sc-kpDqfm cBJJYe sc-ikkxIA"
+          class="sc-dhKdcB jSXfaR sc-gFqAkR"
         >
           Connect to Wallet to see your balances and contribute to the liquidity pool 
         </p>
       </div>
       <div
-        class="sc-dAbbOL"
+        class="sc-ikkxIA"
       >
         <button
           class="sc-aXZVg eCPrBm"
@@ -823,44 +823,44 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
     </div>
     <div>
       <div
-        class="sc-fhzFiK kIRwNU"
+        class="sc-dCFHLb ehwxST"
       >
         <div
-          class="sc-lcIPJg daEXEv"
+          class="sc-jxOSlx hDUlCC"
         >
           <div
-            class="sc-kdBSHD hmvvHY"
+            class="sc-lcIPJg wTpox"
             data-testid="tab-l1"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               ethereum Pools
             </p>
           </div>
           <div
-            class="sc-kdBSHD iXgKrp"
+            class="sc-lcIPJg qZZek"
             data-testid="tab-l2"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               boba Pools
             </p>
           </div>
         </div>
         <div
-          class="sc-dCFHLb dZBTFm"
+          class="sc-eBMEME edLRhm"
         >
           <div>
             <label
-              class="sc-bmzYkS iMHFUI"
+              class="sc-koXPp lisxhg"
             >
               <div
-                class="sc-iHGNWf kjCKde"
+                class="sc-bmzYkS iBbtzj"
               >
                 <input
-                  class="sc-dtBdUo jgEwTm"
+                  class="sc-iHGNWf jKttvr"
                   data-testid="my-stake-checkbox"
                   type="checkbox"
                 />
@@ -874,7 +874,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
                 </div>
               </div>
               <p
-                class="sc-kpDqfm ighqH"
+                class="sc-dhKdcB ibpgnY"
               >
                 My Stakes Only
               </p>
@@ -883,24 +883,24 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
         </div>
       </div>
       <div
-        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+        class="sc-fqkvVR fuyRCw sc-dAlyuH tTyrM"
       >
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 225px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Token
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 145px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Available Balance
           </p>
@@ -918,11 +918,11 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 115px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Total Staked
           </p>
@@ -940,11 +940,11 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 85px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             APR
           </p>
@@ -962,38 +962,38 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 90px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Your Stake
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 110px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Earned
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 75px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Actions
           </p>
         </div>
       </div>
       <div
-        class="sc-koXPp WyMlC"
+        class="sc-eeDRCY eKhOXu"
       >
         <span
           class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
@@ -1023,13 +1023,13 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
 exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
 <DocumentFragment>
   <div
-    class="sc-kOHTFB dJklDn"
+    class="sc-dtBdUo iOIctv"
   >
     <div
-      class="sc-kOPcWz dCdfcT"
+      class="sc-dtInlm scBYX"
     >
       <p
-        class="sc-kpDqfm cBaeVm"
+        class="sc-dhKdcB bTTVOV"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -1048,44 +1048,44 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
     </div>
     <div>
       <div
-        class="sc-fhzFiK kIRwNU"
+        class="sc-dCFHLb ehwxST"
       >
         <div
-          class="sc-lcIPJg daEXEv"
+          class="sc-jxOSlx hDUlCC"
         >
           <div
-            class="sc-kdBSHD iXgKrp"
+            class="sc-lcIPJg qZZek"
             data-testid="tab-l1"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               ethereum Pools
             </p>
           </div>
           <div
-            class="sc-kdBSHD hmvvHY"
+            class="sc-lcIPJg wTpox"
             data-testid="tab-l2"
           >
             <p
-              class="sc-kpDqfm ighqH"
+              class="sc-dhKdcB ibpgnY"
             >
               boba Pools
             </p>
           </div>
         </div>
         <div
-          class="sc-dCFHLb dZBTFm"
+          class="sc-eBMEME edLRhm"
         >
           <div>
             <label
-              class="sc-bmzYkS iMHFUI"
+              class="sc-koXPp lisxhg"
             >
               <div
-                class="sc-iHGNWf kjCKde"
+                class="sc-bmzYkS iBbtzj"
               >
                 <input
-                  class="sc-dtBdUo jgEwTm"
+                  class="sc-iHGNWf jKttvr"
                   data-testid="my-stake-checkbox"
                   type="checkbox"
                 />
@@ -1099,7 +1099,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
                 </div>
               </div>
               <p
-                class="sc-kpDqfm ighqH"
+                class="sc-dhKdcB ibpgnY"
               >
                 My Stakes Only
               </p>
@@ -1108,24 +1108,24 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
         </div>
       </div>
       <div
-        class="sc-dcJsrY hPoMYL sc-jlZhew frgcMz"
+        class="sc-fqkvVR fuyRCw sc-dAlyuH tTyrM"
       >
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 225px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Token
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 145px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Available Balance
           </p>
@@ -1143,11 +1143,11 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 115px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Total Staked
           </p>
@@ -1165,11 +1165,11 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 85px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             APR
           </p>
@@ -1187,38 +1187,38 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           </svg>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 90px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Your Stake
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 110px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Earned
           </p>
         </div>
         <div
-          class="sc-dcJsrY hPoMYL sc-jEACwC ewnQkN"
+          class="sc-fqkvVR fuyRCw sc-cwHptR jMCgjO"
           style="max-width: 75px;"
         >
           <p
-            class="sc-kpDqfm cBJJYe sc-dAlyuH hjwebf"
+            class="sc-dhKdcB jSXfaR sc-kpDqfm igdFoj"
           >
             Actions
           </p>
         </div>
       </div>
       <div
-        class="sc-koXPp WyMlC"
+        class="sc-eeDRCY eKhOXu"
       >
         <span
           class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
