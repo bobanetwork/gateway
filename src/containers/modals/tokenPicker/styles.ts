@@ -83,7 +83,7 @@ export const TokenLabel = styled(Typography).attrs({
 })`
   flex: 1;
   color: ${({ theme: { colors, name } }) =>
-    name === 'light' ? colors.gray[700] : colors.gray[50]};
+    name === 'light' ? colors.gray[800] : colors.gray[50]};
 `
 
 export const TokenBalance = styled.span`
