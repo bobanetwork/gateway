@@ -161,7 +161,7 @@ export const NetworkList: FC<NetworkListProps> = ({
     <NetworkPickerList>
       {networks.map((chainDetail: INetwork) => {
         return (
-          <React.Fragment key={chainDetail.key + '_' + chainDetail.chainId}>
+          <React.Fragment key={chainDetail.key + '_' + chainDetail.name.l1}>
             {getNetworkItem(chainDetail, currentLayer)}
             {isLightBridge
               ? getNetworkItem(chainDetail, currentLayer === 'l1' ? 'l2' : 'l1')

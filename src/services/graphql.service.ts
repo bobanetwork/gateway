@@ -553,6 +553,7 @@ class AnchorageGraphQLService extends GraphQLService {
             contractId_
             from
             to
+            withdrawalHash
           }
         }
       `
@@ -560,7 +561,7 @@ class AnchorageGraphQLService extends GraphQLService {
         await this.conductQuery(
           qry,
           { withdrawalHash: withdrawalHashes },
-          28882,
+          11155111, // @todo make sure chain driven from connection
           EGraphQLService.AnchorageBridge
         )
       )?.data.withdrawalProvens
@@ -591,7 +592,7 @@ class AnchorageGraphQLService extends GraphQLService {
         await this.conductQuery(
           graphqlQuery,
           { withdrawalHash: withdrawalHashes },
-          28882,
+          11155111, // @todo make sure chain driven from connection
           EGraphQLService.AnchorageBridge
         )
       )?.data.withdrawalFinalizeds
@@ -634,7 +635,9 @@ class AnchorageGraphQLService extends GraphQLService {
     }
   }
 
-  async findWithdrawalMessagedPassed(): Promise<GQL2ToL1MessagePassedEvent[]> {
+  async findWithdrawalMessagedPassed(
+    withdrawalHash: string
+  ): Promise<GQL2ToL1MessagePassedEvent[]> {
     try {
       const qry = gql`
         query GetWithdrawalInitiateds($withdrawalHash: String!) {
@@ -655,7 +658,14 @@ class AnchorageGraphQLService extends GraphQLService {
         }
       `
       return (
-        await this.conductQuery(qry, {}, 28882, EGraphQLService.AnchorageBridge)
+        await this.conductQuery(
+          qry,
+          {
+            withdrawalHash,
+          },
+          28882,
+          EGraphQLService.AnchorageBridge
+        )
       )?.data.messagePasseds
     } catch (e) {
       return []
@@ -845,6 +855,9 @@ class AnchorageGraphQLService extends GraphQLService {
               withdrawalHash: event.withdrawalHash,
               blockNumber: transaction.blockNumber,
               blockHash: block.hash,
+              amount: event.amount || event.value,
+              token: event.l2Token,
+              originChainId: networkConfig.L2.chainId,
             },
     }
   }
@@ -861,12 +874,25 @@ class AnchorageGraphQLService extends GraphQLService {
     const provenWithdrawals = await this.findWithdrawalsProven(withdrawalHashes)
     const finalizedWithdrawals =
       await this.findWithdrawalsFinalized(withdrawalHashes)
+
     const withdrawalTransactions: any[] = []
     for (const withdrawalHashCandidate of withdrawalHashes) {
       const provenEvent = provenWithdrawals.find(
         (e) => e!.withdrawalHash === withdrawalHashCandidate
       )
-      if (provenEvent) {
+
+      const messagePayload = messagesPassed.find(
+        (m) => m.withdrawalHash === withdrawalHashCandidate
+      )
+      const withdrawPayload = withdrawalsInitiated.find(
+        (w) => w.block_number === messagePayload?.block_number
+      )
+
+      const eventPayload = {
+        ...messagePayload,
+        ...withdrawPayload,
+      }
+      if (!!provenEvent) {
         const finalizedEvent = finalizedWithdrawals.find(
           (e) => e!.withdrawalHash === withdrawalHashCandidate
         )
@@ -875,7 +901,7 @@ class AnchorageGraphQLService extends GraphQLService {
             await this.mapWithdrawalToTransaction(
               networkService,
               networkConfig,
-              finalizedEvent,
+              { ...eventPayload, ...finalizedEvent },
               WithdrawState.finalized
             )
           )
@@ -884,26 +910,17 @@ class AnchorageGraphQLService extends GraphQLService {
             await this.mapWithdrawalToTransaction(
               networkService,
               networkConfig,
-              provenEvent,
+              { ...eventPayload, ...provenEvent },
               WithdrawState.proven
             )
           )
         }
       } else {
-        const messagePayload = messagesPassed.find(
-          (m) => m.withdrawalHash === withdrawalHashCandidate
-        )
-        const withdrawPayload = withdrawalsInitiated.find(
-          (w) => w.block_number === messagePayload?.block_number
-        )
         withdrawalTransactions.push(
           await this.mapWithdrawalToTransaction(
             networkService,
             networkConfig,
-            {
-              ...messagePayload,
-              ...withdrawPayload,
-            },
+            eventPayload,
             WithdrawState.initialized
           )
         )
