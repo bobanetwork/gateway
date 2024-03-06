@@ -35,7 +35,7 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
   const layer = useSelector(selectLayer())
   const name = useSelector(selectActiveNetworkName())
   const bridgeType = useSelector(selectBridgeType())
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const destNetworkLightBridgeChainId = useSelector(
     selectDestChainIdTeleportation()
@@ -88,7 +88,8 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
           <Heading variant="h1">Bridge Successful</Heading>
           <TitleText>
             Your funds will arrive in {estimateTime()} at your wallet on{' '}
-            {(destNetworkLightBridge && layer === LAYER.L1) || isSepoliaNetwork
+            {(destNetworkLightBridge && layer === LAYER.L1) ||
+            isAnchorageEnabled
               ? name['l2']
               : name['l1']}
             .

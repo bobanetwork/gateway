@@ -19,6 +19,7 @@ import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import useAmountToReceive from 'hooks/useAmountToReceive'
 import networkService from 'services/networkService'
 import { useTheme } from 'styled-components'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {}
 
@@ -37,12 +38,16 @@ const Fee = (props: Props) => {
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
 
+  const { isAnchorageEnabled } = useNetworkInfo()
+
   const { amount: amountToReceive } = useAmountToReceive()
 
   const [gasFee, setGasFee] = useState('')
 
   const estimateTime = () => {
-    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
+    if (isAnchorageEnabled && layer === LAYER.L1) {
+      return '~ 3mins'
+    } else if (bridgeType === BRIDGE_TYPE.CLASSIC) {
       if (layer === LAYER.L1) {
         return '13 ~ 14mins.'
       } else {
@@ -103,7 +108,9 @@ const Fee = (props: Props) => {
         <Label>Destination gas fee</Label>
         <Label>{gasFee}</Label>
       </InfoRow>
-      {layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT ? (
+      {!isAnchorageEnabled &&
+      layer === LAYER.L2 &&
+      bridgeType !== BRIDGE_TYPE.LIGHT ? (
         <InfoRow>
           <Label>xChain Relay Fee</Label>
           <Label>{exitFee} BOBA</Label>

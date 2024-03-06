@@ -13,11 +13,11 @@ import { IAppAlert } from './types'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 // @todo disable banner for sepolia.
-// remove use of isSepoliaNetwork
+// remove use of isAnchorageEnabled
 const ApplicationBanner = () => {
   const [alerts, setAlerts] = useState<IAppAlert[]>([])
   const [storageChange, setStorageChange] = useState(false)
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   useEffect(() => {
     const appBanners = bannerAlerts().map((alert) => {
@@ -36,7 +36,7 @@ const ApplicationBanner = () => {
     setStorageChange(!storageChange)
   }
 
-  if (!!isSepoliaNetwork) {
+  if (!!isAnchorageEnabled) {
     return <></>
   }
 

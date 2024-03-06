@@ -3,18 +3,18 @@
 exports[`3rd Party Bridges should match snapshot when network is BNB Mainnet 1`] = `
 <DocumentFragment>
   <div
-    class="sc-iHGNWf jDvRrm"
+    class="sc-bmzYkS ihMHSD"
   >
     <p
-      class="sc-jXbUNg jCIOIT sc-jsJBEP hgyjkx"
+      class="sc-imWYAI dZiXLh sc-bXCLTC fHhPdD"
     >
       Third party bridges
     </p>
     <div
-      class="sc-dtBdUo lasFkC"
+      class="sc-iHGNWf beXtmb"
     >
       <p
-        class="sc-jXbUNg gzUJEq"
+        class="sc-imWYAI hMxxJk"
       >
         No bridges available
       </p>
@@ -26,25 +26,25 @@ exports[`3rd Party Bridges should match snapshot when network is BNB Mainnet 1`]
 exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`] = `
 <DocumentFragment>
   <div
-    class="sc-iHGNWf jDvRrm"
+    class="sc-bmzYkS ihMHSD"
   >
     <p
-      class="sc-jXbUNg jCIOIT sc-jsJBEP hgyjkx"
+      class="sc-imWYAI dZiXLh sc-bXCLTC fHhPdD"
     >
       Third party bridges
     </p>
     <div
-      class="sc-dtBdUo csjtne"
+      class="sc-iHGNWf gspyyn"
     >
       <a
-        class="sc-eeDRCY dndUuq"
+        class="sc-jsJBEP TReYa"
         data-testid="bridge-item"
         href="https://boba.banxa.com/"
         rel="noopener noreferrer"
         target="_blank"
       >
         <div
-          class="sc-koXPp fZGqGt"
+          class="sc-eeDRCY bhtPGt"
         >
           <img
             alt="Banxa logo"
@@ -54,7 +54,7 @@ exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`]
           />
         </div>
         <p
-          class="sc-jXbUNg hMVWVX sc-bmzYkS jfckxU"
+          class="sc-imWYAI cVkDut sc-koXPp bysAXE"
         >
           Banxa
         </p>

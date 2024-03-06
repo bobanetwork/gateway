@@ -32,7 +32,7 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
     selectBridgeDestinationAddressAvailable()
   )
 
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const handleClose = () => {
     dispatch(closeModal('bridgeInProgress'))
@@ -60,7 +60,7 @@ const BridgeInProgressModal: FC<Props> = ({ open }) => {
         <Heading variant="h1">Bridging...</Heading>
         {layer === LAYER.L1 &&
         bridgeType !== BRIDGE_TYPE.LIGHT &&
-        !isSepoliaNetwork ? (
+        !isAnchorageEnabled ? (
           <BlockConfirmation onClose={handleClose} />
         ) : (
           <>

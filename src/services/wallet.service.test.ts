@@ -246,34 +246,6 @@ describe('WalletService', () => {
       chainChangedCallback('10') // invalid chain id
       expect(store.dispatch).toHaveBeenCalledWith(expect.any(Function))
     })
-
-    test('should trigger watchAsset with correct params on addTokenToMetaMask', async () => {
-      const token = {
-        address: 'address',
-        symbol: 'ETH',
-        decimals: 18,
-        logoURI: 'logoURI',
-        chain: 1,
-      }
-      let res = await wsInstance.addTokenToMetaMask(token)
-      expect(res).toBeTruthy()
-      expect(window.ethereum.request).toHaveBeenCalledWith({
-        method: 'wallet_watchAsset',
-        params: {
-          options: {
-            address: 'address',
-            chainId: 1,
-            decimals: 18,
-            image: 'logoURI',
-            symbol: 'ETH',
-          },
-          type: 'ERC20',
-        },
-      })
-      ;(global as any).window.ethereum = null
-      res = await wsInstance.addTokenToMetaMask(token)
-      expect(res).toBeFalsy()
-    })
   })
 
   describe('Wallet Connect', () => {

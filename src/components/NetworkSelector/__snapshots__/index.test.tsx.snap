@@ -3,17 +3,17 @@
 exports[`NetworkSelector should match snapshot when account connected to Boba (Goerli) 1`] = `
 <DocumentFragment>
   <div
-    class="sc-ikkxIA hCYbic dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    class="sc-gFqAkR kUbaAB dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
     data-testid="dropdown-network-selector"
   >
     <div
-      class="sc-dAbbOL RcOpK dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+      class="sc-ikkxIA bvEfJd dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
     >
       <div
-        class="sc-hzhJZQ kDuYcO"
+        class="sc-fUnMCh jySLNu"
       >
         <div
-          class="sc-feUZmu eYMtOB"
+          class="sc-dAbbOL ACNsH"
         >
           <img
             alt="token"
@@ -22,12 +22,12 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           />
         </div>
         <p
-          class="sc-kpDqfm cBJJYe"
+          class="sc-dhKdcB jSXfaR"
         >
           Boba (Goerli)
         </p>
         <div
-          class="sc-eeDRCY gwpNMS dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-jsJBEP hOLTkK dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div>
             <div
@@ -45,17 +45,17 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
 exports[`NetworkSelector should match snapshot when account connected to Boba (Goerli) 2`] = `
 <DocumentFragment>
   <div
-    class="sc-ikkxIA hCYbic dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    class="sc-gFqAkR kUbaAB dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
     data-testid="dropdown-network-selector"
   >
     <div
-      class="sc-dAbbOL ezuarg dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+      class="sc-ikkxIA fydrhM dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
     >
       <div
-        class="sc-hzhJZQ kDuYcO"
+        class="sc-fUnMCh jySLNu"
       >
         <div
-          class="sc-feUZmu eYMtOB"
+          class="sc-dAbbOL ACNsH"
         >
           <img
             alt="token"
@@ -64,12 +64,12 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           />
         </div>
         <p
-          class="sc-kpDqfm cBJJYe"
+          class="sc-dhKdcB jSXfaR"
         >
           Boba (Goerli)
         </p>
         <div
-          class="sc-eeDRCY gwpNMS dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-jsJBEP hOLTkK dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div>
             <div
@@ -81,21 +81,21 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
       </div>
     </div>
     <div
-      class="sc-bXCLTC BGvxD"
+      class="sc-hmdomO iBZDnJ"
     >
       <div
-        class="sc-jsJBEP fuNUGg"
+        class="sc-bXCLTC cnZnBu"
       >
         <div
-          class="sc-fUnMCh kfvKvW dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-feUZmu cWlxKB dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           Networks
         </div>
         <div
-          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-fUnMCh jySLNu dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div
-            class="sc-feUZmu eYMtOB"
+            class="sc-dAbbOL ACNsH"
           >
             <img
               alt="token"
@@ -106,10 +106,10 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           Boba (Sepolia)
         </div>
         <div
-          class="sc-hzhJZQ liKHdJ dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-fUnMCh gRWBIx dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div
-            class="sc-feUZmu eYMtOB"
+            class="sc-dAbbOL ACNsH"
           >
             <img
               alt="token"
@@ -120,10 +120,10 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           Boba (Goerli)
         </div>
         <div
-          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-fUnMCh jySLNu dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div
-            class="sc-feUZmu eYMtOB"
+            class="sc-dAbbOL ACNsH"
           >
             <img
               alt="token"
@@ -134,10 +134,10 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           Boba BNB Testnet
         </div>
         <div
-          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-fUnMCh jySLNu dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div
-            class="sc-feUZmu eYMtOB"
+            class="sc-dAbbOL ACNsH"
           >
             <img
               alt="token"
@@ -148,10 +148,10 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           Optimism (Goerli)
         </div>
         <div
-          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-fUnMCh jySLNu dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div
-            class="sc-feUZmu eYMtOB"
+            class="sc-dAbbOL ACNsH"
           >
             <img
               alt="token"
@@ -170,17 +170,17 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
 exports[`NetworkSelector should match snapshot when account connected to Ethereum Mainnet 1`] = `
 <DocumentFragment>
   <div
-    class="sc-ikkxIA hCYbic dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    class="sc-gFqAkR kUbaAB dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
     data-testid="dropdown-network-selector"
   >
     <div
-      class="sc-dAbbOL RcOpK dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+      class="sc-ikkxIA bvEfJd dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
     >
       <div
-        class="sc-hzhJZQ kDuYcO"
+        class="sc-fUnMCh jySLNu"
       >
         <div
-          class="sc-feUZmu eYMtOB"
+          class="sc-dAbbOL ACNsH"
         >
           <img
             alt="token"
@@ -189,12 +189,12 @@ exports[`NetworkSelector should match snapshot when account connected to Ethereu
           />
         </div>
         <p
-          class="sc-kpDqfm cBJJYe"
+          class="sc-dhKdcB jSXfaR"
         >
           Ethereum
         </p>
         <div
-          class="sc-eeDRCY gwpNMS dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-jsJBEP hOLTkK dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div>
             <div
@@ -212,17 +212,17 @@ exports[`NetworkSelector should match snapshot when account connected to Ethereu
 exports[`NetworkSelector should match snapshot when account connected to Ethereum Mainnet 2`] = `
 <DocumentFragment>
   <div
-    class="sc-ikkxIA hCYbic dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+    class="sc-gFqAkR kUbaAB dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
     data-testid="dropdown-network-selector"
   >
     <div
-      class="sc-dAbbOL ezuarg dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+      class="sc-ikkxIA fydrhM dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
     >
       <div
-        class="sc-hzhJZQ kDuYcO"
+        class="sc-fUnMCh jySLNu"
       >
         <div
-          class="sc-feUZmu eYMtOB"
+          class="sc-dAbbOL ACNsH"
         >
           <img
             alt="token"
@@ -231,12 +231,12 @@ exports[`NetworkSelector should match snapshot when account connected to Ethereu
           />
         </div>
         <p
-          class="sc-kpDqfm cBJJYe"
+          class="sc-dhKdcB jSXfaR"
         >
           Ethereum
         </p>
         <div
-          class="sc-eeDRCY gwpNMS dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-jsJBEP hOLTkK dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div>
             <div
@@ -248,21 +248,21 @@ exports[`NetworkSelector should match snapshot when account connected to Ethereu
       </div>
     </div>
     <div
-      class="sc-bXCLTC BGvxD"
+      class="sc-hmdomO iBZDnJ"
     >
       <div
-        class="sc-jsJBEP fuNUGg"
+        class="sc-bXCLTC cnZnBu"
       >
         <div
-          class="sc-fUnMCh kfvKvW dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-feUZmu cWlxKB dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           Networks
         </div>
         <div
-          class="sc-hzhJZQ liKHdJ dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-fUnMCh gRWBIx dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div
-            class="sc-feUZmu eYMtOB"
+            class="sc-dAbbOL ACNsH"
           >
             <img
               alt="token"
@@ -273,10 +273,10 @@ exports[`NetworkSelector should match snapshot when account connected to Ethereu
           Ethereum
         </div>
         <div
-          class="sc-hzhJZQ kDuYcO dropdown sc-kOPcWz sc-cWSHoV hlVIQv hlkQsn"
+          class="sc-fUnMCh jySLNu dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
         >
           <div
-            class="sc-feUZmu eYMtOB"
+            class="sc-dAbbOL ACNsH"
           >
             <img
               alt="token"

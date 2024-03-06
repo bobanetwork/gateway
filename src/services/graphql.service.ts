@@ -13,6 +13,7 @@ import {
   WithdrawProcessStep,
   WithdrawState,
 } from './anchorage.service'
+import { filterLatestGroupedSupportedTokens } from '../util/graphql.utils'
 
 //#region types
 export type LightBridgeDisbursementEvents =
@@ -140,21 +141,52 @@ enum EGraphQLService {
 
 class GraphQLService {
   GRAPHQL_ENDPOINTS = {
+    // ETH Mainnet
+    1: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-mainnet/v1/gn',
+        local: '',
+      },
+    },
+    // Arbitrum One
+    42161: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-arbitrum-one/v1/gn',
+        local: '',
+      },
+    },
+    // Optimism Mainnet
+    10: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-optimism/v1/gn',
+        local: '',
+      },
+    },
     // Boba ETH
     288: {
       [EGraphQLService.DAO]: {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-eth/v1/gn',
         local: '',
       },
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-eth/v1/gn',
+        local: '',
+      },
     },
     // Boba BNB
     56288: {
       [EGraphQLService.LightBridge]: {
-        gql: '', // TODO
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-bnb/v1/gn',
         local: '',
       },
     },
-    // TODO: Add other mainnets
+    // BSC
+    56: {
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-bsc/v1/gn',
+        local: '',
+      },
+    },
     // Goerli
     5: {
       [EGraphQLService.LightBridge]: {
@@ -206,11 +238,19 @@ class GraphQLService {
       [EGraphQLService.AnchorageBridge]: {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-sepolia/v1/gn',
       },
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-sepolia/v1/gn',
+        local: '',
+      },
     },
     // Boba Sepolia
     28882: {
       [EGraphQLService.AnchorageBridge]: {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/anchorage-bridging-boba-sepolia/v1/gn',
+      },
+      [EGraphQLService.LightBridge]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-sepolia/v1/gn',
+        local: '',
       },
     },
   }
@@ -452,6 +492,49 @@ class TeleportationGraphQLService extends GraphQLService {
       return events[0] // just first (should always just be one)
     }
     return undefined
+  }
+
+  async querySupportedTokensBridge(
+    currentNetworkId: any,
+    tokens: Array<string>,
+    destChainId: BigNumberish
+  ) {
+    const query = gql(`
+    query GetSupportedTokens($tokens: [String!]!, $toChainId: BigInt!) {
+      tokenSupporteds(
+        where: { 
+          token_in: $tokens, 
+          toChainId: $toChainId 
+        },
+        order_by: { block_number: desc }
+      ) {
+        id
+        block_number
+        timestamp_
+        transactionHash_
+        contractId_
+        token
+        toChainId
+        supported
+      }
+    }
+  `)
+    const variables = {
+      tokens,
+      toChainId: destChainId,
+    }
+
+    return filterLatestGroupedSupportedTokens(
+      (
+        await this.conductQuery(
+          query,
+          variables,
+          currentNetworkId,
+          EGraphQLService.LightBridge,
+          this.useLocal
+        )
+      )?.data?.tokenSupporteds
+    )
   }
 }
 
@@ -739,14 +822,14 @@ class AnchorageGraphQLService extends GraphQLService {
         fast: 1,
       },
       contractName: '-',
-      from: event.from,
-      to: event.to,
+      from: event.sender,
+      to: event.target,
       action: {
-        amount: event.value,
-        sender: event.from,
+        amount: event.amount || event.value,
+        sender: event.sender,
         status: status === WithdrawState.finalized ? 'succeeded' : status,
-        to: event.to,
-        token: event.l1Token,
+        to: event.target,
+        token: event.l2Token,
       },
       isTeleportation: false,
       actionRequired:
@@ -760,8 +843,8 @@ class AnchorageGraphQLService extends GraphQLService {
                   ? WithdrawProcessStep.Initialized
                   : WithdrawProcessStep.Proven,
               withdrawalHash: event.withdrawalHash,
-              blockNumber: event.blockNumber,
-              blockHash: event.blockHash,
+              blockNumber: transaction.blockNumber,
+              blockHash: block.hash,
             },
     }
   }
@@ -807,13 +890,20 @@ class AnchorageGraphQLService extends GraphQLService {
           )
         }
       } else {
+        const messagePayload = messagesPassed.find(
+          (m) => m.withdrawalHash === withdrawalHashCandidate
+        )
+        const withdrawPayload = withdrawalsInitiated.find(
+          (w) => w.block_number === messagePayload?.block_number
+        )
         withdrawalTransactions.push(
           await this.mapWithdrawalToTransaction(
             networkService,
             networkConfig,
-            messagesPassed.find(
-              (message) => message.withdrawalHash === withdrawalHashCandidate
-            ),
+            {
+              ...messagePayload,
+              ...withdrawPayload,
+            },
             WithdrawState.initialized
           )
         )

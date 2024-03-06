@@ -63,14 +63,14 @@ const FeeSwitcher: FC = () => {
   const layer = useSelector(selectLayer())
 
   const { switchFeeUse } = useFeeSwitcher()
-  const { isSepoliaNetwork } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   useEffect(() => {
     dispatch(fetchBalances())
   }, [dispatch])
 
   // @todo remove check once goerli deprecated.
-  if (!!isSepoliaNetwork) {
+  if (!!isAnchorageEnabled) {
     return <></>
   }
 
