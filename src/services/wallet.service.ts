@@ -98,29 +98,6 @@ export class WalletService {
     })
   }
 
-  async addTokenToMetaMask(token: any) {
-    const { address, symbol, decimals, logoURI, chain } = token
-    try {
-      await window.ethereum.request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: {
-            address,
-            symbol,
-            decimals,
-            image: logoURI,
-            chainId: chain,
-          },
-        },
-      })
-      return true
-    } catch (error) {
-      console.log(`Error adding token to MM: ${error}`)
-      return false
-    }
-  }
-
   // wallet connect functions
 
   async connectWalletConnect() {
