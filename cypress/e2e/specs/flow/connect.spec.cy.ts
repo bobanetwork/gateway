@@ -2,7 +2,6 @@ import { Layer } from '../../../../src/util/constant'
 import {
   ArbitrumGoerliInfo,
   BobaGoerliInfo,
-  EthereumGoerliInfo,
   MainnetL1Networks,
   MainnetL2Networks,
   OptimismGoerliInfo,
