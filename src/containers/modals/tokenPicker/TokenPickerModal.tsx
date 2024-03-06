@@ -12,14 +12,14 @@ import Modal from 'components/modal/Modal'
 import { isEqual } from 'util/lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  selectLayer,
-  selectTokenToBridge,
-  selectlayer1Balance,
-  selectlayer2Balance,
   selectActiveNetwork,
   selectActiveNetworkType,
-  selectDestChainIdTeleportation,
   selectBridgeType,
+  selectDestChainIdTeleportation,
+  selectLayer,
+  selectlayer1Balance,
+  selectlayer2Balance,
+  selectTokenToBridge,
 } from 'selectors'
 import { getCoinImage } from 'util/coinImage'
 import { LAYER } from 'util/constant'
@@ -41,6 +41,8 @@ import { NetworkList } from '../../../util/network/network.util'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 
+import { lightBridgeGraphQLService } from 'services/graphql.service'
+import { bridgeConfig } from './config'
 // the L2 token which can not be exited so exclude from dropdown in case of L2
 const NON_EXITABLE_TOKEN = [
   'OLO',
@@ -70,11 +72,40 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
 
   const [isMyToken, setIsMyToken] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const [balances, setBalance] = useState([])
 
-  let balances = l1Balance
+  useEffect(() => {
+    const config = bridgeConfig[bridgeType] || bridgeConfig.default
+    config
+      .getBalance({ l1Balance, l2Balance, layer, getBridgeableTokens })
+      .then(setBalance)
+  }, [bridgeType, l1Balance, l2Balance, layer])
 
-  if (layer === 'L2') {
-    balances = l2Balance
+  const getBridgeableTokens = async (allTokens) => {
+    if (!allTokens.length) {
+      return allTokens
+    }
+
+    const destChainId =
+      destTeleportationChainId ??
+      NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
+        .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
+
+    try {
+      const res = await lightBridgeGraphQLService.querySupportedTokensBridge(
+        NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
+          .chainId[layer === LAYER.L1 ? LAYER.L1 : LAYER.L2],
+        allTokens.map((b) => b.address),
+        destChainId
+      )
+
+      if (res.length) {
+        return res
+      }
+      return allTokens
+    } catch (e) {
+      return allTokens
+    }
   }
 
   useEffect(() => {
