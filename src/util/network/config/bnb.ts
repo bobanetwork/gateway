@@ -31,7 +31,7 @@ export const bnbConfig: NetworkDetail = {
         `https://replica.testnet.bnb.boba.network`,
       ],
       blockExplorer: `https://bnb.testnet.bobascan.com/`,
-      transaction: `https://testnet.bobascan.com/tx/`,
+      transaction: `https://bnb.testnet.bobascan.com/tx/`,
       blockExplorerUrl: `https://bnb.testnet.bobascan.com/`,
       symbol: 'BOBA',
       tokenName: 'Boba Token',
