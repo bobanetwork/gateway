@@ -37,7 +37,7 @@ const ApplicationBanner = () => {
   useEffect(() => {
     const sliderInterval = setInterval(() => {
       setIndex(index + 1)
-    }, 3000)
+    }, 7000)
     return () => clearInterval(sliderInterval)
   }, [index])
 
