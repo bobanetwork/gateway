@@ -92,7 +92,7 @@ exports[`Home  should match snapshot 1`] = `
         class="sc-dUYLmH dgNwuf"
       >
         <div
-          class="sc-faUjhM dpIqYz warning activeSlide"
+          class="sc-faUjhM jwSoWH warning activeSlide"
           data-testid="banner-item"
         >
           <div
@@ -112,7 +112,7 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-faUjhM dpIqYz warning nextSlide"
+          class="sc-faUjhM jwSoWH warning nextSlide"
           data-testid="banner-item"
         >
           <div
@@ -126,7 +126,7 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-faUjhM dpIqYz warning lastSlide"
+          class="sc-faUjhM jwSoWH warning lastSlide"
           data-testid="banner-item"
         >
           <div
@@ -140,7 +140,7 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <button
-          class="sc-iLLODe khyORE prev"
+          class="sc-iLLODe bWKluA prev"
         >
           <svg
             aria-hidden="true"
@@ -155,7 +155,7 @@ exports[`Home  should match snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-iLLODe khyORE next"
+          class="sc-iLLODe bWKluA next"
         >
           <svg
             aria-hidden="true"
