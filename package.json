@@ -66,6 +66,7 @@
     "http-browserify": "^1.7.0",
     "https-browserify": "^1.0.0",
     "human-standard-token-abi": "^2.0.0",
+    "lodash.uniqwith": "^4.5.0",
     "lodash.flatten": "^4.4.0",
     "lodash.intersection": "^4.4.0",
     "lodash.isequal": "^4.5.0",
