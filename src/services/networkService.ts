@@ -2184,7 +2184,7 @@ class NetworkService {
     return { teleportationAddr, networkConfig }
   }
 
-  getTeleportationContract(chainId) {
+  getLightBridgeContract(chainId) {
     const { teleportationAddr, networkConfig } =
       this.getTeleportationAddress(chainId)
     if (!teleportationAddr || !this.Teleportation) {

@@ -1248,6 +1248,14 @@
     "@ethersproject/abstract-signer" "^5.5.0"
     "@ethersproject/hardware-wallets" "^5.5.0"
 
+"@bobanetwork/light-bridge-chains@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/light-bridge-chains/-/light-bridge-chains-1.0.9.tgz#e99d9a3147e1442dbaaae20d1e88ddc2b8e95647"
+  integrity sha512-La1/89Yq5e5nhhkgK6c5H//qKf9OXVUgQB6zMmz6U0PtMtWvU3GkI9KPY/ucWRtu2bTA1u3HlUhCprxCGIwsSg==
+  dependencies:
+    dotenv "^8.6.0"
+    ethers "^5.5.4"
+
 "@bobanetwork/register@^0.0.18":
   version "0.0.18"
   resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.18.tgz#647be2183285ed660a1480cf2b244093be417218"
@@ -8854,7 +8862,7 @@ dotenv@^16.0.0, dotenv@^16.3.1:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.2.tgz#7ca798f89ae2011846bbdbf6470785307754120d"
   integrity sha512-rZSSFxke7d9nYQ5NeMIwp5PP+f8wXgKNljpOb7KtH6SKW1cEqcXAz9VSJYVLKe7Jhup/gUYOkaeSVyK8GJ+nBg==
 
-dotenv@^8.2.0:
+dotenv@^8.2.0, dotenv@^8.6.0:
   version "8.6.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
   integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==

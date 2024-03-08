@@ -1,7 +1,7 @@
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import { TRANSACTION_STATUS } from 'containers/history/types'
 import { Contract, ethers, providers } from 'ethers'
-import { BobaChains } from 'util/chainConfig'
+import { BobaChains } from '@bobanetwork/light-bridge-chains'
 import { sepoliaConfig } from 'util/network/config/ethereumSepolia'
 import {
   AllNetworkConfigs,
@@ -197,7 +197,7 @@ class TransactionService {
           this.fetchAnchorageTransactions(config),
           this.fetchL2Tx(config),
           this.fetchL1PendingTx(config),
-          this.fetchTeleportationTransactions(config),
+          this.fetchLightBridgeTransactions(config),
         ]
       })
     )
@@ -210,15 +210,15 @@ class TransactionService {
     return filteredResults.filter((transaction) => transaction?.hash)
   }
 
-  async fetchTeleportationTransactions(
+  async fetchLightBridgeTransactions(
     networkConfig = networkService.networkConfig
   ) {
     let rawTx = []
 
-    const contractL1 = networkService.getTeleportationContract(
+    const contractL1 = networkService.getLightBridgeContract(
       networkConfig!.L1.chainId
     )
-    const contractL2 = networkService.getTeleportationContract(
+    const contractL2 = networkService.getLightBridgeContract(
       networkConfig!.L2.chainId
     )
 
@@ -263,7 +263,7 @@ class TransactionService {
             : TRANSACTION_STATUS.Failed
         if (
           status === TRANSACTION_STATUS.Succeeded &&
-          disburseEvent.__typename === 'TeleportationDisbursementFailedEvent'
+          disburseEvent.__typename === 'DisbursementFailed'
         ) {
           // won't go in here if already retried
           status = TRANSACTION_STATUS.Failed // TODO: but can be retried
@@ -300,7 +300,7 @@ class TransactionService {
       }
     }
 
-    const _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr = (
+    const _getLightBridgeSupportedDestChainTokenAddrBySourceChainTokenAddr = (
       sourceChainTokenAddr: string,
       sourceChainId: string,
       destChainId: string
@@ -349,7 +349,7 @@ class TransactionService {
                 networkService.account!,
                 sendEvent.sourceChainId,
                 sendEvent.toChainId,
-                _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(
+                _getLightBridgeSupportedDestChainTokenAddrBySourceChainTokenAddr(
                   sendEvent.token,
                   sendEvent.sourceChainId,
                   sendEvent.toChainId
