@@ -15,6 +15,7 @@ import {
   lightBridgeGraphQLService,
 } from './graphql.service'
 import networkService from './networkService'
+import { uniqWith } from '../util/lodash'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -191,7 +192,7 @@ class TransactionService {
       return [network.Testnet, network.Mainnet]
     })
 
-    const allNetworksTransactions: any[] = await Promise.all(
+    const allNetworksTransactions = await Promise.all(
       networkConfigsArray.flatMap((config) => {
         return [
           this.fetchAnchorageTransactions(config),
@@ -202,10 +203,11 @@ class TransactionService {
       })
     )
 
-    const filteredResults = allNetworksTransactions.reduce(
-      (acc, res) => [...acc, ...res],
-      []
-    )
+    let filteredResults = allNetworksTransactions.reduce((acc, res) => [...acc, ...res], [])
+    // Filter for uniqueness, this is needed due to our tight network coupling and the re-occuring nature of certain networks (e.g. Goerli being used for Optimism, Arbitrum & Boba Eth)
+    filteredResults = uniqWith(
+      filteredResults,
+      (arrVal, othVal) => arrVal.transactionHash === othVal.transactionHash)
 
     return filteredResults.filter((transaction) => transaction?.hash)
   }
