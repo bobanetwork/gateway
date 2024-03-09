@@ -34,6 +34,7 @@
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@bobanetwork/light-bridge-chains": "^1.0.9",
     "@bobanetwork/register": "^0.0.18",
     "@bobanetwork/sdk": "1.0.7",
     "@cfx-kit/wallet-avatar": "^0.0.5",
@@ -65,6 +66,7 @@
     "http-browserify": "^1.7.0",
     "https-browserify": "^1.0.0",
     "human-standard-token-abi": "^2.0.0",
+    "lodash.uniqwith": "^4.5.0",
     "lodash.flatten": "^4.4.0",
     "lodash.intersection": "^4.4.0",
     "lodash.isequal": "^4.5.0",

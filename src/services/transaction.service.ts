@@ -1,7 +1,7 @@
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import { TRANSACTION_STATUS } from 'containers/history/types'
 import { Contract, ethers, providers } from 'ethers'
-import { BobaChains } from 'util/chainConfig'
+import { BobaChains } from '@bobanetwork/light-bridge-chains'
 import { sepoliaConfig } from 'util/network/config/ethereumSepolia'
 import {
   AllNetworkConfigs,
@@ -15,6 +15,7 @@ import {
   lightBridgeGraphQLService,
 } from './graphql.service'
 import networkService from './networkService'
+import { uniqWith } from '../util/lodash'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -191,34 +192,35 @@ class TransactionService {
       return [network.Testnet, network.Mainnet]
     })
 
-    const allNetworksTransactions: any[] = await Promise.all(
+    const allNetworksTransactions = await Promise.all(
       networkConfigsArray.flatMap((config) => {
         return [
           this.fetchAnchorageTransactions(config),
           this.fetchL2Tx(config),
           this.fetchL1PendingTx(config),
-          this.fetchTeleportationTransactions(config),
+          this.fetchLightBridgeTransactions(config),
         ]
       })
     )
 
-    const filteredResults = allNetworksTransactions.reduce(
-      (acc, res) => [...acc, ...res],
-      []
-    )
+    let filteredResults = allNetworksTransactions.reduce((acc, res) => [...acc, ...res], [])
+    // Filter for uniqueness, this is needed due to our tight network coupling and the re-occuring nature of certain networks (e.g. Goerli being used for Optimism, Arbitrum & Boba Eth)
+    filteredResults = uniqWith(
+      filteredResults,
+      (arrVal, othVal) => arrVal.transactionHash === othVal.transactionHash)
 
     return filteredResults.filter((transaction) => transaction?.hash)
   }
 
-  async fetchTeleportationTransactions(
+  async fetchLightBridgeTransactions(
     networkConfig = networkService.networkConfig
   ) {
     let rawTx = []
 
-    const contractL1 = networkService.getTeleportationContract(
+    const contractL1 = networkService.getLightBridgeContract(
       networkConfig!.L1.chainId
     )
-    const contractL2 = networkService.getTeleportationContract(
+    const contractL2 = networkService.getLightBridgeContract(
       networkConfig!.L2.chainId
     )
 
@@ -263,7 +265,7 @@ class TransactionService {
             : TRANSACTION_STATUS.Failed
         if (
           status === TRANSACTION_STATUS.Succeeded &&
-          disburseEvent.__typename === 'TeleportationDisbursementFailedEvent'
+          disburseEvent.__typename === 'DisbursementFailed'
         ) {
           // won't go in here if already retried
           status = TRANSACTION_STATUS.Failed // TODO: but can be retried
@@ -300,7 +302,7 @@ class TransactionService {
       }
     }
 
-    const _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr = (
+    const _getLightBridgeSupportedDestChainTokenAddrBySourceChainTokenAddr = (
       sourceChainTokenAddr: string,
       sourceChainId: string,
       destChainId: string
@@ -349,7 +351,7 @@ class TransactionService {
                 networkService.account!,
                 sendEvent.sourceChainId,
                 sendEvent.toChainId,
-                _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(
+                _getLightBridgeSupportedDestChainTokenAddrBySourceChainTokenAddr(
                   sendEvent.token,
                   sendEvent.sourceChainId,
                   sendEvent.toChainId

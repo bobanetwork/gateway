@@ -21,7 +21,7 @@ export type LightBridgeDisbursementEvents =
   | LightBridgeDisbursementFailedEvent
   | LightBridgeDisbursementRetrySuccessEvent
 export type LightBridgeAssetReceivedEvent = {
-  __typename: 'TeleportationAssetReceivedEvent'
+  __typename: 'AssetReceived'
   token: string
   sourceChainId: string
   toChainId: string
@@ -34,7 +34,7 @@ export type LightBridgeAssetReceivedEvent = {
 }
 
 export type LightBridgeDisbursementSuccessEvent = {
-  __typename: 'TeleportationDisbursementSuccessEvent'
+  __typename: 'DisbursementSuccess'
   depositId: string
   to: string
   token: string
@@ -46,7 +46,7 @@ export type LightBridgeDisbursementSuccessEvent = {
 }
 
 export type LightBridgeDisbursementFailedEvent = {
-  __typename: 'TeleportationDisbursementFailedEvent'
+  __typename: 'DisbursementFailed'
   depositId: string
   to: string
   amount: BigNumberish
@@ -57,7 +57,7 @@ export type LightBridgeDisbursementFailedEvent = {
 }
 
 export type LightBridgeDisbursementRetrySuccessEvent = {
-  __typename: 'TeleportationDisbursementRetrySuccessEvent'
+  __typename: 'DisbursementRetrySuccess'
   depositId: string
   to: string
   amount: BigNumberish
