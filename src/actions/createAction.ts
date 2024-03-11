@@ -64,12 +64,13 @@ export const createAction =
         response.hasOwnProperty('code')
       ) {
         Sentry.captureMessage(response.reason)
-        if (response.hasOwnProperty('reason')) {
-          console.log('Error reason:', response.reason)
-        }
-
         // the basic error message
         let errorMessage = response.message
+
+        if (response.hasOwnProperty('reason')) {
+          console.log('Error reason:', response.reason)
+          errorMessage = response.reason
+        }
 
         // provide more information in special cases
         // MetaMask user rejected sig - throw up a banner
