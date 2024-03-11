@@ -279,7 +279,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
       </div>
       <span>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd css-vsfgff-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd MuiButton-colorPrimary css-vsfgff-MuiButtonBase-root-MuiButton-root"
           data-testid="connect-btn"
           style="min-width: 103px; border-radius: 12px;"
           tabindex="0"
@@ -545,7 +545,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
       </div>
       <span>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd css-vsfgff-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMd MuiButton-containedSizeMd MuiButton-colorPrimary css-vsfgff-MuiButtonBase-root-MuiButton-root"
           data-testid="connect-btn"
           style="min-width: 103px; border-radius: 12px;"
           tabindex="0"
