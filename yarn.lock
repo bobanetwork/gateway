@@ -1267,10 +1267,10 @@
     dotenv "^8.6.0"
     ethers "^5.5.4"
 
-"@bobanetwork/register@^0.0.18":
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.18.tgz#647be2183285ed660a1480cf2b244093be417218"
-  integrity sha512-4jFSySQ4zMvg2rBy2howZgsrRpIS4yZE02lLrOo6Ma7trbVe7Ac/dv+w+PBpZQsI8qrdtW4BUQhE2RjWI9wSXw==
+"@bobanetwork/register@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.19.tgz#8cc03881b11f1fe142503d6e70dc825d36eafe08"
+  integrity sha512-nd+CTm75JrgvQu4Et6DGBpDXLeGFBRb4mAoQ0rnE7IptOR3FiXZjL8pD5wS7aBDBRxpNXrY9j5s0z8olHuP8DA==
 
 "@bobanetwork/sdk@1.0.7":
   version "1.0.7"
