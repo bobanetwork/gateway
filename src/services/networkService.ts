@@ -133,7 +133,7 @@ class NetworkService {
   gasOracleContract?: Contract
   L1StandardBridgeContract?: Contract
   L2StandardBridgeContract?: Contract
-  Teleportation?: Contract
+  LightBridge?: Contract
   L1LPContract?: Contract
   L2LPContract?: Contract
 
@@ -704,7 +704,7 @@ class NetworkService {
 
       // Teleportation
       // not deployed on mainnets yet
-      this.Teleportation = new ethers.Contract(
+      this.LightBridge = new ethers.Contract(
         // correct one is used accordingly, thus as last resort we use a wrong/dummy address to have this constant defined
         this.addresses.Proxy__L1Teleportation ??
           this.addresses.Proxy__L2Teleportation ??
@@ -2160,12 +2160,12 @@ class NetworkService {
     }
   }
 
-  getTeleportationAddress(chainId?: number) {
+  getLightBridgeAddress(chainId?: number) {
     if (!chainId) {
       chainId = this.chainId
     }
     const networkConfig = CHAIN_ID_LIST[chainId!]
-    let teleportationAddr
+    let lightBridgeAddr
     if (!networkConfig) {
       console.error(
         `Unknown chainId to retrieve teleportation contract from: ${chainId}`
@@ -2177,17 +2177,17 @@ class NetworkService {
       network: networkConfig.chain,
     })
     if (networkConfig.layer === LAYER.L1) {
-      teleportationAddr = addresses.Proxy__L1Teleportation
+      lightBridgeAddr = addresses.Proxy__L1Teleportation
     } else if (networkConfig.layer === LAYER.L2) {
-      teleportationAddr = addresses.Proxy__L2Teleportation
+      lightBridgeAddr = addresses.Proxy__L2Teleportation
     }
-    return { teleportationAddr, networkConfig }
+    return { lightBridgeAddr, networkConfig }
   }
 
   getLightBridgeContract(chainId) {
-    const { teleportationAddr, networkConfig } =
-      this.getTeleportationAddress(chainId)
-    if (!teleportationAddr || !this.Teleportation) {
+    const { lightBridgeAddr, networkConfig } =
+      this.getLightBridgeAddress(chainId)
+    if (!lightBridgeAddr || !this.LightBridge) {
       return
     }
 
@@ -2198,7 +2198,7 @@ class NetworkService {
     })
     const provider = new ethers.providers.StaticJsonRpcProvider(rpc)
 
-    return this.Teleportation!.attach(teleportationAddr).connect(provider)
+    return this.LightBridge!.attach(lightBridgeAddr).connect(provider)
   }
 
   async isTeleportationOfAssetSupported(layer, token, destChainId) {
@@ -2209,7 +2209,7 @@ class NetworkService {
     if (!teleportationAddr) {
       return { supported: false }
     }
-    const contract = this.Teleportation!.attach(teleportationAddr).connect(
+    const contract = this.LightBridge!.attach(teleportationAddr).connect(
       this.provider!.getSigner()
     )
     return contract.supportedTokens(token, destChainId)
@@ -2229,7 +2229,7 @@ class NetworkService {
         currency === this.addresses.NETWORK_NATIVE_TOKEN
           ? { value: value_Wei_String }
           : {}
-      const teleportationContract = this.Teleportation!.attach(
+      const teleportationContract = this.LightBridge!.attach(
         teleportationAddr
       ).connect(this.provider!.getSigner())
       const tokenAddress =

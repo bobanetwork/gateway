@@ -433,7 +433,7 @@ describe('UseBridge Hooks', () => {
 
     describe('Light Bridge Teleporter', () => {
       beforeEach(() => {
-        ;(networkService.getTeleportationAddress as jest.Mock).mockReturnValue({
+        ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
           teleportationAddr: 'teleportationAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
@@ -491,7 +491,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getTeleportationAddress as jest.Mock).mock.calls
+          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
@@ -525,7 +525,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getTeleportationAddress as jest.Mock).mock.calls
+          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
@@ -685,7 +685,7 @@ describe('UseBridge Hooks', () => {
 
     describe('Light Bridge Teleporter', () => {
       beforeEach(() => {
-        ;(networkService.getTeleportationAddress as jest.Mock).mockReturnValue({
+        ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
           teleportationAddr: 'teleportationAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
@@ -743,7 +743,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getTeleportationAddress as jest.Mock).mock.calls
+          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
@@ -777,7 +777,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getTeleportationAddress as jest.Mock).mock.calls
+          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
