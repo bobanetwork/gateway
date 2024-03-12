@@ -62,10 +62,11 @@ const Toast = ({
         sx={{
           wordWrap: 'break-word',
           borderRadius: '10px',
+          maxWidth: '80vw',
         }}
         iconMapping={{
           error: <Error sx={{ color: '#FFD88D' }} />,
-          success: <CheckCircle sx={{ color: '#FFD88D' }} />,
+          success: <CheckCircle sx={{ color: '#FFFFFF' }} />,
         }}
       >
         {children}
