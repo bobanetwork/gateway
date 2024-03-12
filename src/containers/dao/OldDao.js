@@ -72,7 +72,7 @@ const OldDao = () => {
   const dispatch = useDispatch()
 
   const accountEnabled = useSelector(selectAccountEnabled())
-  const basedEnable = useSelector(selectBaseEnabled())
+  const basedEnabled = useSelector(selectBaseEnabled())
   const activeNetwork = useSelector(selectActiveNetwork());
 
   const layer = useSelector(selectLayer());
@@ -90,11 +90,11 @@ const OldDao = () => {
   const [ selectedState, setSelectedState ] = useState(PROPOSAL_STATES[ 0 ])
 
   useEffect(() => {
-    if (basedEnable && activeNetwork === Network.ETHEREUM) {
+    if (basedEnabled && activeNetwork === Network.ETHEREUM) {
       dispatch(getProposalThreshold());
       dispatch(fetchDaoProposals());
     }
-  }, [ dispatch, basedEnable, activeNetwork ])
+  },[dispatch,basedEnabled,activeNetwork])
 
 
   useInterval(() => {
@@ -105,17 +105,16 @@ const OldDao = () => {
       dispatch(fetchDaoVotesX())       // account specific
     }
 
-    if (basedEnable && activeNetwork === Network.ETHEREUM) {
+    if (basedEnabled && activeNetwork === Network.ETHEREUM) {
       dispatch(fetchDaoProposals());
     }
   }, POLL_INTERVAL)
-
 
   const handleNewProposal = () => {
     if (Number(votes + votesX) < Number(proposalThreshold)) {
       dispatch(
         openError(
-          `Insufficient BOBA to create a new proposal. You need at least ${proposalThreshold} BOBA + xBOBA to create a proposal.`
+          `Your balance is insufficient to initiate a new proposal. To create a proposal, you must have a minimum of ${proposalThreshold} BOBA + xBOBA.`
         )
       )
     } else {
@@ -132,72 +131,63 @@ const OldDao = () => {
         layer={layer}
       />
       <S.DaoPageContent>
-        <S.DaoWalletContainer>
-          <Box sx={{ paddingTop: '24px' }}>
-            <Typography variant="h4">Balance</Typography>
-            <Box
-              sx={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                gap: '10px',
-                paddingTop: '24px',
-              }}
-            >
-              <Box sx={{ padding: '5px', gap: '10px 0px' }}>
-                <Typography variant="body3" style={{ opacity: '0.5' }}>
-                  BOBA:
-                </Typography>
-                <Typography
-                  variant="head"
-                  style={{ marginTop: '8px', color: 'rgba(144, 180, 6, 1)' }}
-                >
-                  {!!layer ? Math.round(Number(balance)) : '--'}
-                </Typography>
-              </Box>
-              <S.VerticalDivisor />
-              <Box sx={{ padding: '5px' }}>
-                <Typography variant="body3" style={{ opacity: '0.5' }}>
-                  xBOBA:
-                </Typography>
-                <Typography
-                  variant="head"
-                  style={{ marginTop: '8px', color: 'rgba(144, 180, 6, 1)' }}
-                >
-                  {!!layer ? Math.round(Number(balanceX)) : '--'}
-                </Typography>
+        {accountEnabled && layer === 'L2' &&
+          <S.DaoWalletContainer>
+            <Box sx={{paddingTop: '24px'}}>
+              <Typography variant="h4">Balance</Typography>
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  paddingTop: '24px',
+                }}
+              >
+                <Box sx={{padding: '5px',gap: '10px 0px'}}>
+                  <Typography variant="body3" style={{opacity: '0.5'}}>
+                    BOBA:
+                  </Typography>
+                  <Typography
+                    variant="head"
+                    style={{marginTop: '8px',color: 'rgba(144, 180, 6, 1)'}}
+                  >
+                    {!!layer ? Math.round(Number(balance)) : '--'}
+                  </Typography>
+                </Box>
+                <S.VerticalDivisor />
+                <Box sx={{padding: '5px'}}>
+                  <Typography variant="body3" style={{opacity: '0.5'}}>
+                    xBOBA:
+                  </Typography>
+                  <Typography
+                    variant="head"
+                    style={{marginTop: '8px',color: 'rgba(144, 180, 6, 1)'}}
+                  >
+                    {!!layer ? Math.round(Number(balanceX)) : '--'}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
 
-          <Box
-            sx={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              padding: '24px 0px',
-            }}>
-            {layer === 'L2' &&
+            <S.DaoWalletAction>
               <Button
                 onClick={() => {
                   dispatch(openModal('delegateDaoModal'))
                 }}
-                disabled={!accountEnabled}
-              label="Delegate Vote"
+                disabled={!(Number(balance) + Number(balanceX))}
+                label="Delegate Vote"
               />
-            }
-            {accountEnabled &&
               <Button
-                disabled={!accountEnabled}
+                disabled={!(Number(balance) + Number(balanceX))}
                 onClick={() => handleNewProposal()}
                 label="Create proposal"
                 outline
               />
-            }
-          </Box>
-        </S.DaoWalletContainer>
+            </S.DaoWalletAction>
+          </S.DaoWalletContainer>
+        }
 
         <S.DaoProposalContainer>
           <TabHeader
@@ -214,10 +204,10 @@ const OldDao = () => {
                 }
                 return selectedState.value === p.state;
               })
-              .map((p, index) => {
+              .map((proposal,index) => {
                 return (
                   <React.Fragment key={index}>
-                    <ListProposal proposal={p} />
+                    <ListProposal proposal={proposal} />
                   </React.Fragment>
                 )
               })}

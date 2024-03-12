@@ -37,6 +37,7 @@ export const DaoWalletContainer = styled.div`
   padding: 0px 20px;
   width: 30%;
   min-width: 330px;
+  border-radius: 12px;
   gap: 10px;
   background: ${(props)=> props.theme.colors.box.background};
 
@@ -53,8 +54,8 @@ export const VerticalDivisor =  styled.div`
 `
 
 export const DaoProposalContainer = styled.div`
-  width: 70%;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: flex-start;
   padding: 0;
@@ -101,4 +102,8 @@ export const DaoWalletAction = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
+  width: 100%;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 0px;
 `

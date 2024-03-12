@@ -28,13 +28,14 @@ import { Button } from 'components/global/button'
 
 import { CastVoteModalInterface } from './types'
 import { VoteOptions } from './CONST'
-import { Container } from './styles'
+import { Container, StyledDescription } from './styles'
 
 const CastVoteModal: React.FC<CastVoteModalInterface> = ({
   open,
   proposalId,
 }) => {
   const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(false)
   const [selectedVoteType, setselectedVoteType] =
     useState<IDropdownItem | null>(null)
 
@@ -49,15 +50,18 @@ const CastVoteModal: React.FC<CastVoteModalInterface> = ({
   }
 
   const submit = async () => {
-    const res = await dispatch(
-      castProposalVote({
-        id: Number(proposalId),
-        userVote: selectedVoteType ? selectedVoteType.value : null,
-      })
-    )
-
-    if (res) {
-      dispatch(openAlert(`Your vote has been submitted successfully.`))
+    if (selectedVoteType) {
+      setIsLoading(true)
+      const res = await dispatch(
+        castProposalVote({
+          id: Number(proposalId),
+          userVote: selectedVoteType ? selectedVoteType.value : null,
+        })
+      )
+      setIsLoading(false)
+      if (res) {
+        dispatch(openAlert(`Your vote has been submitted successfully.`))
+      }
     }
     handleClose()
   }
@@ -67,25 +71,28 @@ const CastVoteModal: React.FC<CastVoteModalInterface> = ({
       open={open}
       onClose={handleClose}
       maxWidth="sm"
-      title={`Cast Vote on proposal ${proposalId}`}
+      title={`Cast Your Vote on Proposal #${proposalId}`}
       testId="castvote-proposal-modal"
     >
-      <div>
-        <Container>
-          <Dropdown
-            style={{ zIndex: 2 }}
-            onItemSelected={(option) => onVoteTypeChange(option)}
-            defaultItem={{
+      <Container>
+        <StyledDescription>
+          Select your stance on Proposal #${proposalId}:
+        </StyledDescription>
+        <Dropdown
+          style={{ zIndex: 2 }}
+          onItemSelected={(option) => onVoteTypeChange(option)}
+          defaultItem={
+            selectedVoteType || {
               label: 'Select a Vote type',
-            }}
-            items={VoteOptions}
-          />
-        </Container>
-      </div>
+            }
+          }
+          items={VoteOptions}
+        />
+      </Container>
       <Button
         onClick={async () => submit()}
-        loading={loading}
-        disabled={!selectedVoteType}
+        loading={isLoading}
+        disabled={!selectedVoteType || isLoading}
         label="Submit"
       />
     </Modal>
