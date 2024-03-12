@@ -80,7 +80,8 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         })
       })
       .catch((err) => {
-        console.error('ERROR: ', err)
+        dispatch(openError(`Failed to initiate withdrwal!`))
+        props.handleClose()
       })
   }
 
@@ -91,7 +92,8 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         setLatestLogs(res)
       })
       .catch((error) => {
-        console.log(error)
+        dispatch(openError(`Failed to prove withdrwal!`))
+        props.handleClose()
       })
   }
 
@@ -155,7 +157,6 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           loading={!steps[activeStep].btnLbl}
           disabled={!steps[activeStep].btnLbl}
           onClick={() => {
-            console.log('Clicked on: ', activeStep)
             switch (activeStep) {
               case 0:
                 initWithdrawalStep()
