@@ -26,7 +26,7 @@ jest.mock('services/networkService', () => {
     depositL2LP: jest.fn(),
     depositWithTeleporter: jest.fn(),
     exitBOBA: jest.fn(),
-    getTeleportationAddress: jest.fn(),
+    getLightBridgeAddress: jest.fn(),
   }
 })
 
@@ -434,7 +434,7 @@ describe('UseBridge Hooks', () => {
     describe('Light Bridge Teleporter', () => {
       beforeEach(() => {
         ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
-          teleportationAddr: 'teleportationAddr',
+          lightBridgeAddr: 'lightBridgeAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
         ;(networkService.depositWithTeleporter as jest.Mock).mockResolvedValue({
@@ -498,7 +498,7 @@ describe('UseBridge Hooks', () => {
         ).toEqual([
           '1255000000000000000',
           '0x0000000000000000000000000000000000000006',
-          'teleportationAddr',
+          'lightBridgeAddr',
           undefined,
         ])
         expect(actions).toEqual(successActionsFast)
@@ -532,7 +532,7 @@ describe('UseBridge Hooks', () => {
         ).toEqual([
           '1255000000000000000',
           '0x0000000000000000000000000000000000000006',
-          'teleportationAddr',
+          'lightBridgeAddr',
           undefined,
         ])
         expect(actions).toEqual([
@@ -686,7 +686,7 @@ describe('UseBridge Hooks', () => {
     describe('Light Bridge Teleporter', () => {
       beforeEach(() => {
         ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
-          teleportationAddr: 'teleportationAddr',
+          lightBridgeAddr: 'lightBridgeAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
         ;(networkService.depositWithTeleporter as jest.Mock).mockResolvedValue({
@@ -750,7 +750,7 @@ describe('UseBridge Hooks', () => {
         ).toEqual([
           '1255000000000000000',
           '0x0000000000000000000000000000000000000006',
-          'teleportationAddr',
+          'lightBridgeAddr',
           undefined,
         ])
         expect(actions).toEqual(successActionsFast)
@@ -784,7 +784,7 @@ describe('UseBridge Hooks', () => {
         ).toEqual([
           '1255000000000000000',
           '0x0000000000000000000000000000000000000006',
-          'teleportationAddr',
+          'lightBridgeAddr',
           undefined,
         ])
         expect(actions).toEqual([

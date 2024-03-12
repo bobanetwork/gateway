@@ -2170,7 +2170,7 @@ class NetworkService {
       console.error(
         `Unknown chainId to retrieve teleportation contract from: ${chainId}`
       )
-      return { teleportationAddr: null, networkConfig: null }
+      return { lightBridgeAddr: null, networkConfig: null }
     }
     const addresses = appService.fetchAddresses({
       networkType: networkConfig.networkType,
@@ -2202,14 +2202,14 @@ class NetworkService {
   }
 
   async isTeleportationOfAssetSupported(layer, token, destChainId) {
-    const teleportationAddr =
+    const lightBridgeAddr =
       layer === Layer.L1
         ? this.addresses.Proxy__L1Teleportation
         : this.addresses.Proxy__L2Teleportation
-    if (!teleportationAddr) {
+    if (!lightBridgeAddr) {
       return { supported: false }
     }
-    const contract = this.LightBridge!.attach(teleportationAddr).connect(
+    const contract = this.LightBridge!.attach(lightBridgeAddr).connect(
       this.provider!.getSigner()
     )
     return contract.supportedTokens(token, destChainId)
@@ -2220,7 +2220,7 @@ class NetworkService {
       updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
 
-      const teleportationAddr =
+      const lightBridgeAddr =
         layer === Layer.L1
           ? this.addresses.Proxy__L1Teleportation
           : this.addresses.Proxy__L2Teleportation
@@ -2230,7 +2230,7 @@ class NetworkService {
           ? { value: value_Wei_String }
           : {}
       const teleportationContract = this.LightBridge!.attach(
-        teleportationAddr
+        lightBridgeAddr
       ).connect(this.provider!.getSigner())
       const tokenAddress =
         currency === this.addresses.NETWORK_NATIVE_TOKEN
