@@ -62,7 +62,7 @@ export const createAction =
         ) {
           errorMessage = 'Transaction Rejected: Signature denied by user!'
         } else {
-          console.log(`capture error for response failed`, response)
+          errorMessage = response.reason
           Sentry.captureMessage(response.reason || '')
         }
 
