@@ -64,12 +64,14 @@ const useGasWatcher = () => {
       const l1SecurityFee = await networkService.estimateL1SecurityFee()
       const l2Fee = await networkService.estimateL2Fee()
 
-      const gasSavings =
+      const gasSavings: any =
         (Number(gas.gasL1) * l2Fee) /
         Number(gas.gasL2) /
         (l2Fee + l1SecurityFee)
 
-      setSavings(gasSavings ? gasSavings : 0)
+      setSavings(
+        gasSavings && gasSavings.toString() !== 'Infinity' ? gasSavings : 0
+      )
     }
     // Load gas savings only in case of ETHEREUM MAINNET
     if (
