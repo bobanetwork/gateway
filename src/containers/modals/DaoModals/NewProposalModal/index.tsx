@@ -24,7 +24,11 @@ import Modal from 'components/modal/Modal'
 
 import { createDaoProposal } from 'actions/daoAction'
 import { Dropdown } from 'components/global/dropdown'
-import { selectDaoBalance, selectProposalThreshold } from 'selectors'
+import {
+  selectDaoBalance,
+  selectDaoBalanceX,
+  selectProposalThreshold,
+} from 'selectors'
 
 import { ModalInterface } from '../../types'
 import { options } from './CONST'
@@ -36,6 +40,7 @@ import { LPFeeSection, TextProposalSection, ThresholdSection } from './views'
 const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch()
   const balance = useSelector(selectDaoBalance)
+  const balanceX = useSelector(selectDaoBalanceX)
   const [action, setAction] = useState('')
   const [selectedAction, setSelectedAction] = useState<any>(null)
   const [tokens, setTokens] = useState<TokenTypes[]>([] as TokenTypes[])
@@ -54,7 +59,7 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
   const proposalThreshold = useSelector(selectProposalThreshold)
 
   useEffect(() => {
-    if (Number(balance) < Number(proposalThreshold)) {
+    if (Number(balance) + Number(balanceX) < Number(proposalThreshold)) {
       setErrorText(
         `Your balance is insufficient to initiate a new proposal. To create a proposal, you must have a minimum of ${proposalThreshold} BOBA.`
       )
