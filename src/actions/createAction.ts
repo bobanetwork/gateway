@@ -63,11 +63,6 @@ export const createAction =
         response.hasOwnProperty('message') &&
         response.hasOwnProperty('code')
       ) {
-        Sentry.captureMessage(response.reason)
-        if (response.hasOwnProperty('reason')) {
-          console.log('Error reason:', response.reason)
-        }
-
         // the basic error message
         let errorMessage = response.message
 
@@ -77,10 +72,16 @@ export const createAction =
           (response.code === 4001 || response.hasOwnProperty('reason')) &&
           response?.reason?.includes('user rejected transaction')
         ) {
-          console.log('MetaMask: user denied signature')
-          errorMessage =
-            'MetaMask: Transaction was rejected by user - signature denied'
+          errorMessage = 'Transaction Rejected: Signature Denied by User'
+        } else {
+          Sentry.captureMessage(response.reason)
         }
+
+        if (response.hasOwnProperty('reason')) {
+          console.log('Error reason:', response.reason)
+          errorMessage = response.reason
+        }
+
         // No internet case - throw up a banner
         else if (
           response.hasOwnProperty('reason') &&

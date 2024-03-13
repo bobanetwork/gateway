@@ -3162,6 +3162,9 @@ class NetworkService {
 
   /***********************************************/
   async getExitFeeFromBillingContract() {
+    if (!this.addresses.Proxy__BobaBillingContract) {
+      return 0
+    }
     const L2BillingContract = new ethers.Contract(
       this.addresses.Proxy__BobaBillingContract,
       L2BillingContractABI,

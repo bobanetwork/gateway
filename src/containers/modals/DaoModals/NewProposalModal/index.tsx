@@ -24,7 +24,7 @@ import Modal from 'components/modal/Modal'
 
 import { createDaoProposal } from 'actions/daoAction'
 import { Dropdown } from 'components/global/dropdown'
-import { selectProposalThreshold } from 'selectors'
+import { selectDaoBalance, selectProposalThreshold } from 'selectors'
 
 import { ModalInterface } from '../../types'
 import { options } from './CONST'
@@ -35,13 +35,14 @@ import { LPFeeSection, TextProposalSection, ThresholdSection } from './views'
 
 const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch()
-
+  const balance = useSelector(selectDaoBalance)
   const [action, setAction] = useState('')
-  const [selectedAction, setSelectedAction] = useState('')
+  const [selectedAction, setSelectedAction] = useState<any>(null)
   const [tokens, setTokens] = useState<TokenTypes[]>([] as TokenTypes[])
   const [votingThreshold, setVotingThreshold] = useState('')
 
   const [errorText, setErrorText] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const [LPfeeMin, setLPfeeMin] = useState('')
   const [LPfeeMax, setLPfeeMax] = useState('')
@@ -50,20 +51,17 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
   const [proposeText, setProposeText] = useState('')
   const [proposalUri, setProposalUri] = useState('')
 
-  const loading = false
-
   const proposalThreshold = useSelector(selectProposalThreshold)
 
   useEffect(() => {
-    const tokensSum: any = tokens.reduce((c, i) => c + Number(i.balance), 0)
-    if (tokensSum < proposalThreshold) {
+    if (Number(balance) < Number(proposalThreshold)) {
       setErrorText(
-        `Insufficient govBOBA to create a new proposal. You need at least ${proposalThreshold} govBOBA to create a proposal.`
+        `Your balance is insufficient to initiate a new proposal. To create a proposal, you must have a minimum of ${proposalThreshold} BOBA.`
       )
     } else {
       setErrorText('')
     }
-  }, [tokens, proposalThreshold])
+  }, [balance, proposalThreshold])
 
   const resetState = () => {
     setVotingThreshold('')
@@ -113,9 +111,11 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
     const actionParams = actionConfig[action] || { text: '' }
 
     try {
+      setIsLoading(true)
       res = await dispatch(
         createDaoProposal({ action, tokenIds, ...actionParams })
       )
+      setIsLoading(false)
     } catch (error) {
       console.error('Error submitting proposal:', error)
     }
@@ -176,9 +176,11 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
           <Dropdown
             style={{ zIndex: 1 }}
             onItemSelected={onActionChange}
-            defaultItem={{
-              label: 'Select Proposal type',
-            }}
+            defaultItem={
+              selectedAction || {
+                label: 'Select Proposal type',
+              }
+            }
             items={options}
           />
 
@@ -219,12 +221,12 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
           color="primary"
           variant="outlined"
           tooltip={
-            loading
+            isLoading
               ? 'Your transaction is still pending. Please wait for confirmation.'
               : 'Click here to submit a new proposal'
           }
-          loading={loading}
-          disabled={disabled() || !!errorText}
+          loading={isLoading}
+          disabled={disabled() || !!errorText || isLoading}
           fullWidth={true}
           size="large"
         >
