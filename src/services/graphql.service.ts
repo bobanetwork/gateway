@@ -194,7 +194,7 @@ class GraphQLService {
         local: '',
       },
       [EGraphQLService.DAO]: {
-        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-goerli/v1/gn',
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-goerli/v2/gn',
         local: '',
       },
     },
