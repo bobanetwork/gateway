@@ -25,6 +25,8 @@ import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK } from 'util/constant'
 import { VerticalStepper } from './VerticalStepper'
 import { setReenterWithdrawalConfig } from '../../../actions/bridgeAction'
+import { utils } from 'ethers'
+import { TokenInfo } from 'containers/history/tokenInfo'
 
 interface Props {
   open: boolean
@@ -51,7 +53,17 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
     if (!amountToBridge) {
       setAmountToBridge(_amountToBridge)
     }
-  }, [_token, _amountToBridge])
+
+    if (withdrawalConfig && withdrawalConfig.amount) {
+      const token =
+        TokenInfo[withdrawalConfig.originChainId.toString()]?.[
+          withdrawalConfig.token?.toLowerCase()
+        ]
+      const amount = withdrawalConfig.amount
+      setAmountToBridge(utils.formatEther(amount))
+      setToken({ ...token, address: withdrawalConfig.token })
+    }
+  }, [_token, _amountToBridge, withdrawalConfig])
 
   const handleClose = () => {
     dispatch(setReenterWithdrawalConfig(null))

@@ -12,7 +12,7 @@ const linesColor = (theme: string) => {
 
 const gradientColor = (theme: string) => {
   if (theme === 'light') {
-    return 'radial-gradient(60% 90% at 50% 50%,rgba(174,219,1,0.1) 19.79%,rgba(174,219,1,0.125) 50%,rgba(174,219,1,0) 50%);'
+    return 'radial-gradient(90% 80% at 50% 50%,rgba(199,219,1,0.9) 26%,rgba(216,243,1,0.01) 70%,rgba(174,219,1,0) 0%);'
   } else {
     return 'radial-gradient(55.87% 55.87% at 50.00% 50.00%, rgba(174, 219, 1, 0.24) 19.79%, rgba(174, 219, 1, 0.08) 62.50%, rgba(174, 219, 1, 0.00) 91.67%);'
   }
@@ -41,6 +41,7 @@ export const GridFade = styled.div<BackgroundProps>`
   height: 100%;
   max-height: 870px;
   position: absolute;
+  opacity: ${({ theme }) => (theme.name === 'light' ? '50%' : 'unset')};
   z-index: 1;
   left: 50%;
   top: 50%;

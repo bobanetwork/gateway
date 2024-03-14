@@ -3,89 +3,89 @@
 exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fPXMVe ktmBcq"
+    class="sc-eldPxv RcgwZ"
     id="gasDetails"
   >
     <div
-      class="sc-gFqAkR emfUQK"
+      class="sc-fPXMVe fYeija"
     >
       <p
-        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
+        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
       >
         Ethereum
       </p>
       <p
-        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
+        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
       >
         10 Gwei
       </p>
     </div>
     <div
-      class="sc-gFqAkR emfUQK"
+      class="sc-fPXMVe fYeija"
     >
       <p
-        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
+        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
       >
         Boba ETH
       </p>
       <p
-        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
+        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
       >
         20 Gwei
       </p>
     </div>
     <div
-      class="sc-gFqAkR emfUQK"
+      class="sc-fPXMVe fYeija"
     >
       <p
-        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
+        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
       >
         Savings
       </p>
       <p
-        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
+        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
       >
         1x
       </p>
     </div>
     <div
-      class="sc-gFqAkR emfUQK"
+      class="sc-fPXMVe fYeija"
     >
       <p
-        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
+        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
       >
         L1
       </p>
       <p
-        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
+        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
       >
         110000
       </p>
     </div>
     <div
-      class="sc-gFqAkR emfUQK"
+      class="sc-fPXMVe fYeija"
     >
       <p
-        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
+        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
       >
         L2
       </p>
       <p
-        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
+        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
       >
         220000
       </p>
     </div>
     <div
-      class="sc-gFqAkR emfUQK"
+      class="sc-fPXMVe fYeija"
     >
       <p
-        class="sc-jXbUNg jCIOIT sc-ikkxIA bNNvzA"
+        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
       >
         Last Verified Block
       </p>
       <p
-        class="sc-jXbUNg jCIOIT sc-dAbbOL nalzD"
+        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
       >
         0
       </p>

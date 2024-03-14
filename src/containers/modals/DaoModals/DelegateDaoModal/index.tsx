@@ -28,10 +28,11 @@ import { ModalInterface } from '../../types'
 
 const DelegateDaoModal: React.FC<ModalInterface> = ({ open }) => {
   const [recipient, setRecipient] = useState('')
+  const [isDelegating, setIsDelegating] = useState(false)
   const [selectedToken, setSelectedToken] = useState<IDropdownItem | null>(null)
+
   const dispatch = useDispatch()
   const wAddress = networkService.account || ''
-  const loading = false // ToDo: useSelector(selectLoading(['DELEGATE_DAO/CREATE']))
 
   const handleClose = () => {
     setRecipient('')
@@ -45,12 +46,15 @@ const DelegateDaoModal: React.FC<ModalInterface> = ({ open }) => {
 
     const recipientAddress = isSelfDelegation ? wAddress : recipient
 
+    setIsDelegating(true)
+
     const res = await dispatch(
       selectedToken?.value === 'xboba'
         ? delegateVotesX({ recipient: recipientAddress })
-        : delegateVotes({ recipient })
+        : delegateVotes({ recipient: recipientAddress })
     )
 
+    setIsDelegating(false)
     if (res) {
       dispatch(
         openAlert(
@@ -100,8 +104,8 @@ const DelegateDaoModal: React.FC<ModalInterface> = ({ open }) => {
       <ButtonContainer>
         <Button
           onClick={async () => submit(isSelfDelegation)}
-          loading={loading}
-          disabled={!isSelfDelegation && !recipient}
+          loading={isDelegating}
+          disabled={(!isSelfDelegation && !recipient) || isDelegating}
           label="Delegate"
         />
         <Button onClick={() => handleClose()} transparent label="Cancel" />

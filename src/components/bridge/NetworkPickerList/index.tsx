@@ -73,9 +73,6 @@ export const NetworkList: FC<NetworkListProps> = ({
         setTeleportationDestChainId(chainDetail.chainId[layer?.toUpperCase()])
       )
     } else {
-      if (chainDetail.chain === Network.ETHEREUM_SEPOLIA) {
-        dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
-      }
       dispatch(
         setNetwork({
           network: chainDetail.chain,
@@ -161,7 +158,7 @@ export const NetworkList: FC<NetworkListProps> = ({
     <NetworkPickerList>
       {networks.map((chainDetail: INetwork) => {
         return (
-          <React.Fragment key={chainDetail.key + '_' + chainDetail.chainId}>
+          <React.Fragment key={chainDetail.key + '_' + chainDetail.name.l1}>
             {getNetworkItem(chainDetail, currentLayer)}
             {isLightBridge
               ? getNetworkItem(chainDetail, currentLayer === 'l1' ? 'l2' : 'l1')

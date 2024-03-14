@@ -3,10 +3,10 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-iLLODe gqEZFu"
+    class="sc-hGMjit aucDE"
   >
     <div
-      class="sc-fPXMVe ftesQA"
+      class="sc-eldPxv dmoUXT"
       id="header"
     >
       <a
@@ -14,42 +14,42 @@ exports[`Home  should match snapshot 1`] = `
         href="/bridge"
       >
         <div
-          class="sc-gFqAkR jmtPti"
+          class="sc-fPXMVe chGoFa"
         />
       </a>
       <div
-        class="sc-hzhJZQ eTHxzX"
+        class="sc-fUnMCh foZnaf"
       >
         <a
-          class="sc-fHjqPf frKNMc"
+          class="sc-hzhJZQ bhCELU"
           href="/bridge"
         >
           Bridge
         </a>
         <a
-          class="sc-fHjqPf frKNMc"
+          class="sc-hzhJZQ bhCELU"
           href="/history"
         >
           History
         </a>
         <a
-          class="sc-fHjqPf frKNMc"
+          class="sc-hzhJZQ bhCELU"
           href="/stake"
         >
           Stake
         </a>
         <a
-          class="sc-fHjqPf frKNMc"
+          class="sc-hzhJZQ bhCELU"
           href="/dao"
         >
           Dao
         </a>
       </div>
       <div
-        class="sc-ikkxIA fOPkmS"
+        class="sc-gFqAkR Ovepb"
       >
         <button
-          class="sc-cwHptR gLbuCq"
+          class="sc-jlZhew bkAwRq"
           label="Connect Wallet"
           style="white-space: nowrap;"
           type="button"
@@ -57,10 +57,10 @@ exports[`Home  should match snapshot 1`] = `
            Connect Wallet
         </button>
         <div
-          class="sc-dAbbOL cvqTyF"
+          class="sc-ikkxIA hLJCQi"
         >
           <div
-            class="sc-feUZmu jPLZfu"
+            class="sc-dAbbOL khXVos"
           >
             <div>
               <div
@@ -71,7 +71,7 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-fUnMCh lmwSPa"
+          class="sc-feUZmu dPKxQJ"
           title="light-icon"
         >
           <div>
@@ -86,107 +86,136 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-dUYLmH hgBpkU"
+      class="sc-dUYLmH jKwpnE"
     >
       <div
-        class="sc-faUjhM TBPSM warning"
-        data-testid="banner-item"
+        class="sc-faUjhM iGclxT"
       >
         <div
-          class="sc-cezyBN"
-        >
-          <p
-            class="sc-jXbUNg jCIOIT sc-edKZPI itxrZo"
-          >
-            In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
-            <a
-              href="/earn"
-              target="blank"
-            >
-              CLICK HERE
-            </a>
-          </p>
-        </div>
-      </div>
-      <div
-        class="sc-faUjhM TBPSM warning"
-        data-testid="banner-item"
-      >
-        <div
-          class="sc-cezyBN"
-        >
-          <p
-            class="sc-jXbUNg jCIOIT sc-edKZPI itxrZo"
-          >
-            Due to the Anchorage upgrade, relayers will no longer be available.
-          </p>
-        </div>
-        <div
-          class="sc-fUkmAC cYpNwH"
+          class="sc-cezyBN bNGhlP warning activeSlide"
+          data-testid="banner-item"
         >
           <div
-            class="sc-cXPBUD gFgxJD"
-            data-testid="close-icon-relayer-banner-deprecation"
+            class="sc-fUkmAC"
           >
-            <div
-              class="sc-bhqpjJ blUDGP"
+            <p
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
             >
-              <div>
-                <div
-                  data-src="close.svg"
-                  src=""
-                />
-              </div>
-            </div>
+              In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
+              <a
+                href="/earn"
+                target="blank"
+              >
+                CLICK HERE
+              </a>
+            </p>
           </div>
         </div>
+        <div
+          class="sc-cezyBN bNGhlP warning nextSlide"
+          data-testid="banner-item"
+        >
+          <div
+            class="sc-fUkmAC"
+          >
+            <p
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
+            >
+              Due to the Anchorage upgrade, relayers will no longer be available.
+            </p>
+          </div>
+        </div>
+        <div
+          class="sc-cezyBN bNGhlP warning lastSlide"
+          data-testid="banner-item"
+        >
+          <div
+            class="sc-fUkmAC"
+          >
+            <p
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
+            >
+              The Goerli L2 will be deprecated in March 2024. Please use Sepolia L2 for testing.
+            </p>
+          </div>
+        </div>
+        <button
+          class="sc-fPrdXf joMWqJ prev"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ChevronRightIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+            />
+          </svg>
+        </button>
+        <button
+          class="sc-fPrdXf joMWqJ next"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ChevronLeftIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+            />
+          </svg>
+        </button>
       </div>
     </div>
     <div
-      class="sc-fPrdXf glfuqR"
+      class="sc-ezreuY itCRgP"
     />
     <div
-      class="sc-hIUJlX wSeVU"
+      class="sc-fxwrCY epbVer"
     >
       <div
-        class="sc-dZoequ iGLOZR"
+        class="sc-jnOGJG gOMVdk"
       >
         <div
-          class="sc-jGKxIK facrBS"
+          class="sc-ibQAlb cEEvmr"
         >
           <div
-            class="sc-hwdzOV hbbWUx"
+            class="sc-krNlru ewhRbN"
             id="footerLinks"
           >
             <a
-              class="sc-guJBdh gUUVJI"
+              class="sc-jGKxIK iBVZnW"
               href="https://docs.boba.network/faq"
               target="_blank"
             >
               FAQs
             </a>
             <a
-              class="sc-guJBdh gUUVJI"
+              class="sc-jGKxIK iBVZnW"
               href="https://docs.boba.network/for-developers"
               target="_blank"
             >
               Dev Tools
             </a>
             <a
-              class="sc-hZDyAQ eYyabZ"
+              class="sc-guJBdh gUUVJI"
               href="/bobascope"
             >
               Bobascope
             </a>
             <a
-              class="sc-guJBdh gUUVJI"
+              class="sc-jGKxIK iBVZnW"
               href="https://boba.network"
               target="_blank"
             >
               Boba Network Website
             </a>
             <a
-              class="sc-guJBdh gUUVJI"
+              class="sc-jGKxIK iBVZnW"
               href="https://boba.network/terms-of-use/"
               target="_blank"
             >
@@ -194,10 +223,10 @@ exports[`Home  should match snapshot 1`] = `
             </a>
           </div>
           <div
-            class="sc-jaXxmE bmOJaZ"
+            class="sc-hwdzOV izqvFC"
           >
             <div
-              class="sc-ihgnxF kiLWpI"
+              class="sc-bBeLUv fSyuEA"
             >
               Block explorers
             </div>
@@ -205,32 +234,32 @@ exports[`Home  should match snapshot 1`] = `
         </div>
       </div>
       <hr
-        class="sc-jnOGJG dZoxgK"
+        class="sc-hIUJlX cMdOah"
       />
       <div
-        class="sc-iMWBiJ dyeQUu"
+        class="sc-brPLxw cQhhhH"
         id="socialLinks"
       >
         <div
-          class="sc-gFVvzn fqwZcT"
+          class="sc-kAkpmW immrrx"
         >
           <p
-            class="sc-jXbUNg jCIOIT sc-brPLxw bNowoQ"
+            class="sc-imWYAI dZiXLh sc-gFVvzn VtWau"
           >
             ©2023 Enya Labs
           </p>
           <p
-            class="sc-jXbUNg jCIOIT sc-brPLxw bNowoQ"
+            class="sc-imWYAI dZiXLh sc-gFVvzn VtWau"
           >
             v0.9.1
           </p>
         </div>
         <div
-          class="sc-fvtFIe cfccWf"
+          class="sc-iMWBiJ fWFfsb"
         >
           <a
             aria-label="bobadocs"
-            class="sc-bBeLUv lfXfeY"
+            class="sc-fvtFIe kpKPOM"
             href="https://docs.boba.network"
             target="_blank"
           >
@@ -276,7 +305,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="twitter"
-            class="sc-bBeLUv lfXfeY"
+            class="sc-fvtFIe kpKPOM"
             href="https://boba.eco/twitter"
             target="_blank"
           >
@@ -293,7 +322,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="discord"
-            class="sc-bBeLUv lfXfeY"
+            class="sc-fvtFIe kpKPOM"
             href="https://boba.eco/discord"
             target="_blank"
           >
@@ -312,7 +341,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="telegram"
-            class="sc-bBeLUv lfXfeY"
+            class="sc-fvtFIe kpKPOM"
             href="https://boba.eco/telegram"
             target="_blank"
           >

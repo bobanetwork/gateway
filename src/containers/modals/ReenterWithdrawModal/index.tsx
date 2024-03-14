@@ -7,9 +7,10 @@ import {
   ConfirmLabel,
   ConfirmModalContainer,
 } from './index.styles'
+import { WithdrawState } from 'services/anchorage.service'
 
 interface Props {
-  state?: 1 | 2
+  state?: WithdrawState
   onReenterWithdrawal: () => any
   handleClose: () => any
 }
@@ -21,9 +22,9 @@ const ReenterWithdrawModal: FC<Props> = ({
 }) => {
   const getState = () => {
     switch (state) {
-      case 1:
+      case WithdrawState.initialized:
         return 'Prove Withdrawal'
-      case 2:
+      case WithdrawState.proven:
         return 'Claim your Withdrawal'
     }
   }

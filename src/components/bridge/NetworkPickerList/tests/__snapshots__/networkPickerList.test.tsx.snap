@@ -3,14 +3,14 @@
 exports[`NetworkList Component renders NetworkList correctly 1`] = `
 <DocumentFragment>
   <div
-    class="sc-dAbbOL dwnDuf"
+    class="sc-ikkxIA jVsqAY"
   >
     <div
-      class="sc-feUZmu bpKugT"
+      class="sc-dAbbOL hKpqkV"
       id="networkItem"
     >
       <div
-        class="sc-fUnMCh jRyhYO"
+        class="sc-feUZmu dYqRNZ"
       >
         <svg
           fill="none"
@@ -66,17 +66,17 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
         </svg>
       </div>
       <p
-        class="sc-kpDqfm ighqH sc-hzhJZQ jiUQmp"
+        class="sc-dhKdcB ibpgnY sc-fUnMCh hFwnBZ"
       >
         Boba (Sepolia)
       </p>
     </div>
     <div
-      class="sc-feUZmu bpKugT"
+      class="sc-dAbbOL hKpqkV"
       id="networkItem"
     >
       <div
-        class="sc-fUnMCh jRyhYO"
+        class="sc-feUZmu dYqRNZ"
       >
         <svg
           fill="none"
@@ -132,17 +132,17 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
         </svg>
       </div>
       <p
-        class="sc-kpDqfm ighqH sc-hzhJZQ jiUQmp"
+        class="sc-dhKdcB ibpgnY sc-fUnMCh hFwnBZ"
       >
         Boba (Goerli)
       </p>
     </div>
     <div
-      class="sc-feUZmu bpKugT"
+      class="sc-dAbbOL hKpqkV"
       id="networkItem"
     >
       <div
-        class="sc-fUnMCh jRyhYO"
+        class="sc-feUZmu dYqRNZ"
       >
         <svg
           fill="none"
@@ -178,7 +178,7 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
         </svg>
       </div>
       <p
-        class="sc-kpDqfm ighqH sc-hzhJZQ jiUQmp"
+        class="sc-dhKdcB ibpgnY sc-fUnMCh hFwnBZ"
       >
         Boba BNB Testnet
       </p>

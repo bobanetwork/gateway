@@ -3,24 +3,24 @@
 exports[`Bridging Component should match snapshot on when bridge type is CLASSIC 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fPXMVe fXWPkv"
+    class="sc-eldPxv hZupJI"
   >
     <div
-      class="sc-gFqAkR dYzmiN"
+      class="sc-fPXMVe dUoduF"
       id="bridge"
     >
       <div
-        class="sc-ikkxIA dvOaZp"
+        class="sc-gFqAkR bGXBoY"
       >
         <div
-          class="sc-bmzYkS iTUUaR"
+          class="sc-koXPp ejMtSJ"
         >
           <h2
-            class="sc-eldPxv gktDtz"
+            class="sc-eDPEul jXgUQt"
           >
             Bridge
             <div
-              class="sc-iHGNWf sopvd"
+              class="sc-bmzYkS dMUwNo"
               data-mui-internal-clone-element="true"
               data-testid="tooltip-btn"
               style="margin-left: 5px;"
@@ -39,11 +39,11 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             </div>
           </h2>
           <div
-            class="sc-iHGNWf hnULIB"
+            class="sc-bmzYkS JFHbA"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-dtBdUo jZPMWs css-1g4na4e-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-iHGNWf fwjtTZ css-1g4na4e-MuiSvgIcon-root"
               data-testid="setting-btn"
               focusable="false"
               viewBox="0 0 24 24"
@@ -55,43 +55,43 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
           </div>
         </div>
         <div
-          class="sc-kOPcWz bZhcnR"
+          class="sc-dtInlm hzapnV"
         >
           <div
-            class="sc-cWSHoV iTrJFd"
+            class="sc-kOPcWz gfXFER"
             data-testid="classic-btn"
           >
             Classic
           </div>
           <div
-            class="sc-cWSHoV hiDYBr"
+            class="sc-kOPcWz hxKNaX"
             data-testid="fast-btn"
           >
             Fast
           </div>
           <div
-            class="sc-cWSHoV hiDYBr"
+            class="sc-kOPcWz hxKNaX"
             data-testid="third-party-btn"
           >
             Third Party
           </div>
         </div>
         <div
-          class="sc-gFAWRd QnBQi"
+          class="sc-cfxfcM icLxWe"
         >
           <div
-            class="sc-gmPhUn cIwRtl"
+            class="sc-gFAWRd jXlJGV"
           >
             <p
-              class="sc-jXbUNg jCIOIT sc-jnOGJG bDgTzg"
+              class="sc-imWYAI dZiXLh sc-hIUJlX fFfgEP"
             >
               From
             </p>
             <div
-              class="sc-iHbSHJ iRcwTS"
+              class="sc-hRJfrW gQTHzT"
             >
               <div
-                class="sc-klVQfs cAHiEw"
+                class="sc-iHbSHJ cMMGQH"
               >
                 <svg
                   fill="none"
@@ -133,15 +133,15 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
                 </svg>
               </div>
               <p
-                class="sc-jXbUNg gzUJEq sc-bypJrT cTFYQM"
+                class="sc-imWYAI hMxxJk sc-klVQfs eaiVHy"
               >
                 ethereum
               </p>
               <div
-                class="sc-ddjGPC hbwbmB"
+                class="sc-bypJrT jpBGQA"
               >
                 <div
-                  class="sc-dSCufp kQSfUj"
+                  class="sc-ddjGPC ipgvoq"
                 >
                   <div>
                     <div
@@ -154,11 +154,11 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             </div>
           </div>
           <div
-            class="sc-fxwrCY dZjzaQ"
+            class="sc-dSCufp dvHzRa"
             id="switchBridgeDirection"
           >
             <div
-              class="sc-hIUJlX fFlRC"
+              class="sc-fxwrCY beyRDV"
             >
               <div>
                 <div
@@ -169,18 +169,18 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             </div>
           </div>
           <div
-            class="sc-gmPhUn cIwRtl"
+            class="sc-gFAWRd jXlJGV"
           >
             <p
-              class="sc-jXbUNg jCIOIT sc-jnOGJG bDgTzg"
+              class="sc-imWYAI dZiXLh sc-hIUJlX fFfgEP"
             >
               To
             </p>
             <div
-              class="sc-iHbSHJ iRcwTS"
+              class="sc-hRJfrW gQTHzT"
             >
               <div
-                class="sc-klVQfs cAHiEw"
+                class="sc-iHbSHJ cMMGQH"
               >
                 <svg
                   fill="none"
@@ -236,15 +236,15 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
                 </svg>
               </div>
               <p
-                class="sc-jXbUNg gzUJEq sc-bypJrT cTFYQM"
+                class="sc-imWYAI hMxxJk sc-klVQfs eaiVHy"
               >
                 boba
               </p>
               <div
-                class="sc-ddjGPC hbwbmB"
+                class="sc-bypJrT jpBGQA"
               >
                 <div
-                  class="sc-dSCufp kQSfUj"
+                  class="sc-ddjGPC ipgvoq"
                 >
                   <div>
                     <div
@@ -259,10 +259,10 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
         </div>
       </div>
       <div
-        class="sc-fUnMCh eCCEjf"
+        class="sc-feUZmu fKaVOM"
       >
         <button
-          class="sc-cwHptR iArmaO sc-hzhJZQ"
+          class="sc-jlZhew fFYrTq sc-fUnMCh"
           data-testid="connect-btn"
           label="[object Object]"
           style="width: 100%;"
@@ -270,7 +270,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
         >
            
           <h3
-            class="sc-eldPxv eEspBv"
+            class="sc-eDPEul CjCmp"
           >
             Connect Wallet
           </h3>
@@ -284,24 +284,24 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
 exports[`Bridging Component should match snapshot on when bridge type is THIRD_PARTY 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fPXMVe fXWPkv"
+    class="sc-eldPxv hZupJI"
   >
     <div
-      class="sc-gFqAkR dYzmiN"
+      class="sc-fPXMVe dUoduF"
       id="bridge"
     >
       <div
-        class="sc-ikkxIA dvOaZp"
+        class="sc-gFqAkR bGXBoY"
       >
         <div
-          class="sc-bmzYkS iTUUaR"
+          class="sc-koXPp ejMtSJ"
         >
           <h2
-            class="sc-eldPxv gktDtz"
+            class="sc-eDPEul jXgUQt"
           >
             Bridge
             <div
-              class="sc-iHGNWf sopvd"
+              class="sc-bmzYkS dMUwNo"
               data-mui-internal-clone-element="true"
               data-testid="tooltip-btn"
               style="margin-left: 5px;"
@@ -320,11 +320,11 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
             </div>
           </h2>
           <div
-            class="sc-iHGNWf hnULIB"
+            class="sc-bmzYkS JFHbA"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-dtBdUo jZPMWs css-1g4na4e-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-iHGNWf fwjtTZ css-1g4na4e-MuiSvgIcon-root"
               data-testid="setting-btn"
               focusable="false"
               viewBox="0 0 24 24"
@@ -336,40 +336,40 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
           </div>
         </div>
         <div
-          class="sc-kOPcWz bZhcnR"
+          class="sc-dtInlm hzapnV"
         >
           <div
-            class="sc-cWSHoV hiDYBr"
+            class="sc-kOPcWz hxKNaX"
             data-testid="classic-btn"
           >
             Classic
           </div>
           <div
-            class="sc-cWSHoV hiDYBr"
+            class="sc-kOPcWz hxKNaX"
             data-testid="fast-btn"
           >
             Fast
           </div>
           <div
-            class="sc-cWSHoV iTrJFd"
+            class="sc-kOPcWz gfXFER"
             data-testid="third-party-btn"
           >
             Third Party
           </div>
         </div>
         <div
-          class="sc-brPLxw dMWhfw"
+          class="sc-gFVvzn cJRSzO"
         >
           <p
-            class="sc-jXbUNg jCIOIT sc-jnOGJG bDgTzg"
+            class="sc-imWYAI dZiXLh sc-hIUJlX fFfgEP"
           >
             Third party bridges
           </p>
           <div
-            class="sc-iMWBiJ jJdZFk"
+            class="sc-brPLxw cRoaAp"
           >
             <p
-              class="sc-jXbUNg gzUJEq"
+              class="sc-imWYAI hMxxJk"
             >
               Loading ...
             </p>

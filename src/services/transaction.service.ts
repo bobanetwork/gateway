@@ -1,7 +1,7 @@
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import { TRANSACTION_STATUS } from 'containers/history/types'
 import { Contract, ethers, providers } from 'ethers'
-import { BobaChains } from 'util/chainConfig'
+import { BobaChains } from '@bobanetwork/light-bridge-chains'
 import { sepoliaConfig } from 'util/network/config/ethereumSepolia'
 import {
   AllNetworkConfigs,
@@ -15,6 +15,7 @@ import {
   lightBridgeGraphQLService,
 } from './graphql.service'
 import networkService from './networkService'
+import { uniqWith } from '../util/lodash'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -191,13 +192,13 @@ class TransactionService {
       return [network.Testnet, network.Mainnet]
     })
 
-    const allNetworksTransactions: any[] = await Promise.all(
+    const allNetworksTransactions = await Promise.all(
       networkConfigsArray.flatMap((config) => {
         return [
           this.fetchAnchorageTransactions(config),
           this.fetchL2Tx(config),
           this.fetchL1PendingTx(config),
-          this.fetchTeleportationTransactions(config),
+          this.fetchLightBridgeTransactions(config),
         ]
       })
     )
@@ -210,15 +211,13 @@ class TransactionService {
     return filteredResults.filter((transaction) => transaction?.hash)
   }
 
-  async fetchTeleportationTransactions(
+  async fetchLightBridgeTransactions(
     networkConfig = networkService.networkConfig
   ) {
-    let rawTx = []
-
-    const contractL1 = networkService.getTeleportationContract(
+    const contractL1 = networkService.getLightBridgeContract(
       networkConfig!.L1.chainId
     )
-    const contractL2 = networkService.getTeleportationContract(
+    const contractL2 = networkService.getLightBridgeContract(
       networkConfig!.L2.chainId
     )
 
@@ -263,7 +262,7 @@ class TransactionService {
             : TRANSACTION_STATUS.Failed
         if (
           status === TRANSACTION_STATUS.Succeeded &&
-          disburseEvent.__typename === 'TeleportationDisbursementFailedEvent'
+          disburseEvent.__typename === 'DisbursementFailed'
         ) {
           // won't go in here if already retried
           status = TRANSACTION_STATUS.Failed // TODO: but can be retried
@@ -300,7 +299,7 @@ class TransactionService {
       }
     }
 
-    const _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr = (
+    const _getLightBridgeSupportedDestChainTokenAddrBySourceChainTokenAddr = (
       sourceChainTokenAddr: string,
       sourceChainId: string,
       destChainId: string
@@ -326,14 +325,16 @@ class TransactionService {
 
     const getEventsForTeleportation = async (
       contract,
-      sourceChainId
+      sourceChainId,
+      targetChainId
     ): Promise<any> => {
       if (contract) {
         let sentEvents: LightBridgeAssetReceivedEvent[] = []
         try {
           sentEvents = await lightBridgeGraphQLService.queryAssetReceivedEvent(
             networkService.account!,
-            sourceChainId
+            sourceChainId,
+            targetChainId
           )
         } catch (err: any) {
           console.log(err?.message)
@@ -349,7 +350,7 @@ class TransactionService {
                 networkService.account!,
                 sendEvent.sourceChainId,
                 sendEvent.toChainId,
-                _getTeleportationSupportedDestChainTokenAddrBySourceChainTokenAddr(
+                _getLightBridgeSupportedDestChainTokenAddrBySourceChainTokenAddr(
                   sendEvent.token,
                   sendEvent.sourceChainId,
                   sendEvent.toChainId
@@ -393,12 +394,18 @@ class TransactionService {
       return []
     }
 
-    rawTx = rawTx.concat(
-      await getEventsForTeleportation(contractL1, networkConfig!.L1.chainId)
+    const L1Txs = await getEventsForTeleportation(
+      contractL1,
+      networkConfig!.L1.chainId,
+      networkConfig!.L2.chainId
     )
-    return rawTx.concat(
-      await getEventsForTeleportation(contractL2, networkConfig!.L2.chainId)
+    const L2Txs = await getEventsForTeleportation(
+      contractL2,
+      networkConfig!.L2.chainId,
+      networkConfig!.L1.chainId
     )
+
+    return [...L1Txs, ...L2Txs]
   }
 }
 

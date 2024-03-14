@@ -3,76 +3,110 @@
 exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fPXMVe iPVgPd"
+    class="sc-eldPxv gUXUgi"
   >
     <div
-      class="sc-gFqAkR hXrRXV warning"
-      data-testid="banner-item"
+      class="sc-fPXMVe hfLOQC"
     >
       <div
-        class="sc-ikkxIA"
-      >
-        <p>
-          Message update 1 
-          <a
-            href="/update"
-          >
-            CLICK HERE
-          </a>
-        </p>
-      </div>
-      <div
-        class="sc-dAbbOL bqUnLe"
+        class="sc-gFqAkR fsTZwS warning activeSlide"
+        data-testid="banner-item"
       >
         <div
-          class="sc-feUZmu kDoDsn"
-          data-testid="close-icon-message-1"
+          class="sc-ikkxIA"
+        >
+          <p>
+            Message update 1 
+            <a
+              href="/update"
+            >
+              CLICK HERE
+            </a>
+          </p>
+        </div>
+        <div
+          class="sc-dAbbOL bqUnLe"
         >
           <div
-            class="sc-hzhJZQ cGxMqP"
+            class="sc-feUZmu kDoDsn"
+            data-testid="close-icon-message-1"
           >
-            <div>
-              <div
-                data-src="close.svg"
-                src=""
-              />
+            <div
+              class="sc-hzhJZQ cGxMqP"
+            >
+              <div>
+                <div
+                  data-src="close.svg"
+                  src=""
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="sc-gFqAkR hXrRXV warning"
-      data-testid="banner-item"
-    >
       <div
-        class="sc-ikkxIA"
-      >
-        <p
-          class="sc-jXbUNg jCIOIT sc-fUnMCh iwiHIW"
-        >
-          message two goes here
-        </p>
-      </div>
-      <div
-        class="sc-dAbbOL bqUnLe"
+        class="sc-gFqAkR fsTZwS warning lastSlide"
+        data-testid="banner-item"
       >
         <div
-          class="sc-feUZmu kDoDsn"
-          data-testid="close-icon-message-2"
+          class="sc-ikkxIA"
+        >
+          <p
+            class="sc-imWYAI dZiXLh sc-fUnMCh iwiHIW"
+          >
+            message two goes here
+          </p>
+        </div>
+        <div
+          class="sc-dAbbOL bqUnLe"
         >
           <div
-            class="sc-hzhJZQ cGxMqP"
+            class="sc-feUZmu kDoDsn"
+            data-testid="close-icon-message-2"
           >
-            <div>
-              <div
-                data-src="close.svg"
-                src=""
-              />
+            <div
+              class="sc-hzhJZQ cGxMqP"
+            >
+              <div>
+                <div
+                  data-src="close.svg"
+                  src=""
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <button
+        class="sc-fHjqPf cKowaE prev"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ChevronRightIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+          />
+        </svg>
+      </button>
+      <button
+        class="sc-fHjqPf cKowaE next"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ChevronLeftIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+          />
+        </svg>
+      </button>
     </div>
   </div>
 </DocumentFragment>

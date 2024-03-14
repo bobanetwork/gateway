@@ -1,8 +1,8 @@
 import { MetamaskNetwork, NetworkTestInfo } from './types'
 
 export const Binance: MetamaskNetwork = {
-  networkName: 'Binance Mainnet',
-  rpcUrl: 'https://bsc-dataseed.binance.org/',
+  networkName: 'BNB Smart Chain Mainnet',
+  rpcUrl: 'https://bsc-dataseed1.binance.org/',
   chainId: '56',
   symbol: 'BNB',
   blockExplorer: 'https://bscscan.com',
@@ -10,7 +10,7 @@ export const Binance: MetamaskNetwork = {
 }
 
 export const BinanceTestnet: MetamaskNetwork = {
-  networkName: 'BNB Testnet',
+  networkName: 'BNB Smart Chain Testnet',
   rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545',
   chainId: '97',
   symbol: 'BNB',
@@ -25,7 +25,7 @@ export const EthereumInfo: NetworkTestInfo = {
 }
 
 export const BinanceInfo: NetworkTestInfo = {
-  networkName: 'Binance Smart Chain',
+  networkName: 'BNB Smart Chain Mainnet',
   networkAbbreviation: 'BNB',
   isTestnet: false,
 }

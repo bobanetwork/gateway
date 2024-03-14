@@ -13,6 +13,7 @@ import {
   WithdrawProcessStep,
   WithdrawState,
 } from './anchorage.service'
+import { filterLatestGroupedSupportedTokens } from '../util/graphql.utils'
 
 //#region types
 export type LightBridgeDisbursementEvents =
@@ -20,7 +21,7 @@ export type LightBridgeDisbursementEvents =
   | LightBridgeDisbursementFailedEvent
   | LightBridgeDisbursementRetrySuccessEvent
 export type LightBridgeAssetReceivedEvent = {
-  __typename: 'TeleportationAssetReceivedEvent'
+  __typename: 'AssetReceived'
   token: string
   sourceChainId: string
   toChainId: string
@@ -33,7 +34,7 @@ export type LightBridgeAssetReceivedEvent = {
 }
 
 export type LightBridgeDisbursementSuccessEvent = {
-  __typename: 'TeleportationDisbursementSuccessEvent'
+  __typename: 'DisbursementSuccess'
   depositId: string
   to: string
   token: string
@@ -45,7 +46,7 @@ export type LightBridgeDisbursementSuccessEvent = {
 }
 
 export type LightBridgeDisbursementFailedEvent = {
-  __typename: 'TeleportationDisbursementFailedEvent'
+  __typename: 'DisbursementFailed'
   depositId: string
   to: string
   amount: BigNumberish
@@ -56,7 +57,7 @@ export type LightBridgeDisbursementFailedEvent = {
 }
 
 export type LightBridgeDisbursementRetrySuccessEvent = {
-  __typename: 'TeleportationDisbursementRetrySuccessEvent'
+  __typename: 'DisbursementRetrySuccess'
   depositId: string
   to: string
   amount: BigNumberish
@@ -193,7 +194,7 @@ class GraphQLService {
         local: '',
       },
       [EGraphQLService.DAO]: {
-        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-goerli/v1/gn',
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-goerli/v2/gn',
         local: '',
       },
     },
@@ -206,6 +207,10 @@ class GraphQLService {
     },
     // Boba Goerli
     2888: {
+      [EGraphQLService.DAO]: {
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-goerli/v2/gn',
+        local: '',
+      },
       [EGraphQLService.LightBridge]: {
         gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/light-bridge-boba-goerli/v1/gn',
         local: 'http://127.0.0.1:8000/subgraphs/name/boba/Bridges',
@@ -314,12 +319,15 @@ class TeleportationGraphQLService extends GraphQLService {
 
   async queryAssetReceivedEvent(
     walletAddress: string,
-    sourceChainId: BigNumberish
+    sourceChainId: BigNumberish,
+    targetChainId: BigNumberish
   ): Promise<LightBridgeAssetReceivedEvent[]> {
-    const query =
-      gql(`query Teleportation($wallet: String!, $sourceChainId: BigInt!) {
+    const query = gql(`query Teleportation($wallet: String!, 
+        $sourceChainId: BigInt!,
+        $targetChainId: BigInt!
+        ) {
             assetReceiveds(
-              where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }]}
+              where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }, { toChainId: $targetChainId }]}
             ) {
               token
               sourceChainId
@@ -336,6 +344,7 @@ class TeleportationGraphQLService extends GraphQLService {
     const variables = {
       wallet: walletAddress,
       sourceChainId: sourceChainId.toString(),
+      targetChainId: targetChainId.toString(),
     }
 
     return (
@@ -492,6 +501,49 @@ class TeleportationGraphQLService extends GraphQLService {
     }
     return undefined
   }
+
+  async querySupportedTokensBridge(
+    currentNetworkId: any,
+    tokens: Array<string>,
+    destChainId: BigNumberish
+  ) {
+    const query = gql(`
+    query GetSupportedTokens($tokens: [String!]!, $toChainId: BigInt!) {
+      tokenSupporteds(
+        where: { 
+          token_in: $tokens, 
+          toChainId: $toChainId 
+        },
+        order_by: { block_number: desc }
+      ) {
+        id
+        block_number
+        timestamp_
+        transactionHash_
+        contractId_
+        token
+        toChainId
+        supported
+      }
+    }
+  `)
+    const variables = {
+      tokens,
+      toChainId: destChainId,
+    }
+
+    return filterLatestGroupedSupportedTokens(
+      (
+        await this.conductQuery(
+          query,
+          variables,
+          currentNetworkId,
+          EGraphQLService.LightBridge,
+          this.useLocal
+        )
+      )?.data?.tokenSupporteds
+    )
+  }
 }
 
 class AnchorageGraphQLService extends GraphQLService {
@@ -509,6 +561,7 @@ class AnchorageGraphQLService extends GraphQLService {
             contractId_
             from
             to
+            withdrawalHash
           }
         }
       `
@@ -516,7 +569,7 @@ class AnchorageGraphQLService extends GraphQLService {
         await this.conductQuery(
           qry,
           { withdrawalHash: withdrawalHashes },
-          28882,
+          11155111, // @todo make sure chain driven from connection
           EGraphQLService.AnchorageBridge
         )
       )?.data.withdrawalProvens
@@ -547,7 +600,7 @@ class AnchorageGraphQLService extends GraphQLService {
         await this.conductQuery(
           graphqlQuery,
           { withdrawalHash: withdrawalHashes },
-          28882,
+          11155111, // @todo make sure chain driven from connection
           EGraphQLService.AnchorageBridge
         )
       )?.data.withdrawalFinalizeds
@@ -590,7 +643,9 @@ class AnchorageGraphQLService extends GraphQLService {
     }
   }
 
-  async findWithdrawalMessagedPassed(): Promise<GQL2ToL1MessagePassedEvent[]> {
+  async findWithdrawalMessagedPassed(
+    withdrawalHash: string
+  ): Promise<GQL2ToL1MessagePassedEvent[]> {
     try {
       const qry = gql`
         query GetWithdrawalInitiateds($withdrawalHash: String!) {
@@ -611,7 +666,14 @@ class AnchorageGraphQLService extends GraphQLService {
         }
       `
       return (
-        await this.conductQuery(qry, {}, 28882, EGraphQLService.AnchorageBridge)
+        await this.conductQuery(
+          qry,
+          {
+            withdrawalHash,
+          },
+          28882,
+          EGraphQLService.AnchorageBridge
+        )
       )?.data.messagePasseds
     } catch (e) {
       return []
@@ -801,6 +863,9 @@ class AnchorageGraphQLService extends GraphQLService {
               withdrawalHash: event.withdrawalHash,
               blockNumber: transaction.blockNumber,
               blockHash: block.hash,
+              amount: event.amount || event.value,
+              token: event.l2Token,
+              originChainId: networkConfig.L2.chainId,
             },
     }
   }
@@ -817,12 +882,25 @@ class AnchorageGraphQLService extends GraphQLService {
     const provenWithdrawals = await this.findWithdrawalsProven(withdrawalHashes)
     const finalizedWithdrawals =
       await this.findWithdrawalsFinalized(withdrawalHashes)
+
     const withdrawalTransactions: any[] = []
     for (const withdrawalHashCandidate of withdrawalHashes) {
       const provenEvent = provenWithdrawals.find(
         (e) => e!.withdrawalHash === withdrawalHashCandidate
       )
-      if (provenEvent) {
+
+      const messagePayload = messagesPassed.find(
+        (m) => m.withdrawalHash === withdrawalHashCandidate
+      )
+      const withdrawPayload = withdrawalsInitiated.find(
+        (w) => w.block_number === messagePayload?.block_number
+      )
+
+      const eventPayload = {
+        ...messagePayload,
+        ...withdrawPayload,
+      }
+      if (!!provenEvent) {
         const finalizedEvent = finalizedWithdrawals.find(
           (e) => e!.withdrawalHash === withdrawalHashCandidate
         )
@@ -831,7 +909,7 @@ class AnchorageGraphQLService extends GraphQLService {
             await this.mapWithdrawalToTransaction(
               networkService,
               networkConfig,
-              finalizedEvent,
+              { ...eventPayload, ...finalizedEvent },
               WithdrawState.finalized
             )
           )
@@ -840,26 +918,17 @@ class AnchorageGraphQLService extends GraphQLService {
             await this.mapWithdrawalToTransaction(
               networkService,
               networkConfig,
-              provenEvent,
+              { ...eventPayload, ...provenEvent },
               WithdrawState.proven
             )
           )
         }
       } else {
-        const messagePayload = messagesPassed.find(
-          (m) => m.withdrawalHash === withdrawalHashCandidate
-        )
-        const withdrawPayload = withdrawalsInitiated.find(
-          (w) => w.block_number === messagePayload?.block_number
-        )
         withdrawalTransactions.push(
           await this.mapWithdrawalToTransaction(
             networkService,
             networkConfig,
-            {
-              ...messagePayload,
-              ...withdrawPayload,
-            },
+            eventPayload,
             WithdrawState.initialized
           )
         )

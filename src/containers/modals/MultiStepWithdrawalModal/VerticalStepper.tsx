@@ -80,7 +80,8 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         })
       })
       .catch((err) => {
-        console.error('ERROR: ', err)
+        dispatch(openError(`The withdrawal initiation failed!`))
+        props.handleClose()
       })
   }
 
@@ -91,28 +92,31 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         setLatestLogs(res)
       })
       .catch((error) => {
-        console.log(error)
+        dispatch(openError(`The withdrawal verification failed!`))
+        props.handleClose()
       })
   }
 
   const claimWithdrawalStep = () => {
-    if (latestLogs) {
-      if (!withdrawalConfig?.withdrawalHash) {
+    if (!!withdrawalConfig) {
+      if (!withdrawalConfig?.withdrawalHash && latestLogs) {
         claimWithdrawal(latestLogs).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
           dispatch(openModal('transactionSuccess'))
         })
       } else {
-        anchorageGraphQLService.findWithdrawalMessagedPassed().then((logs) => {
-          logs = logs.filter(
-            (log) => log?.withdrawalHash === withdrawalConfig.withdrawalHash
-          )
-          claimWithdrawal(logs).then(() => {
-            setActiveStep(6)
-            dispatch(openModal('transactionSuccess'))
-            dispatch(closeModal('bridgeMultiStepWithdrawal'))
+        anchorageGraphQLService
+          .findWithdrawalMessagedPassed(withdrawalConfig?.withdrawalHash || '')
+          .then((logs) => {
+            logs = logs.filter(
+              (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
+            )
+            claimWithdrawal(logs).then(() => {
+              setActiveStep(6)
+              dispatch(openModal('transactionSuccess'))
+              dispatch(closeModal('bridgeMultiStepWithdrawal'))
+            })
           })
-        })
       }
     }
   }
@@ -153,7 +157,6 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           loading={!steps[activeStep].btnLbl}
           disabled={!steps[activeStep].btnLbl}
           onClick={() => {
-            console.log('Clicked on: ', activeStep)
             switch (activeStep) {
               case 0:
                 initWithdrawalStep()
