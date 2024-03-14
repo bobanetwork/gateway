@@ -207,22 +207,13 @@ class TransactionService {
       (acc, res) => [...acc, ...res],
       []
     )
-    // Filter for uniqueness, this is needed due to our tight network coupling and the re-occuring nature of certain networks (e.g. Goerli being used for Optimism, Arbitrum & Boba Eth)
-    // console.log(`filteredResults`, filteredResults)
-    // filteredResults = uniqWith(
-    //   filteredResults,
-    //   (arrVal, othVal) => arrVal.transactionHash === othVal.transactionHash
-    // )
 
-    // console.log(`filteredResults unique`, filteredResults)
     return filteredResults.filter((transaction) => transaction?.hash)
   }
 
   async fetchLightBridgeTransactions(
     networkConfig = networkService.networkConfig
   ) {
-    let rawTx = []
-
     const contractL1 = networkService.getLightBridgeContract(
       networkConfig!.L1.chainId
     )
@@ -334,14 +325,16 @@ class TransactionService {
 
     const getEventsForTeleportation = async (
       contract,
-      sourceChainId
+      sourceChainId,
+      targetChainId
     ): Promise<any> => {
       if (contract) {
         let sentEvents: LightBridgeAssetReceivedEvent[] = []
         try {
           sentEvents = await lightBridgeGraphQLService.queryAssetReceivedEvent(
             networkService.account!,
-            sourceChainId
+            sourceChainId,
+            targetChainId
           )
         } catch (err: any) {
           console.log(err?.message)
@@ -401,12 +394,18 @@ class TransactionService {
       return []
     }
 
-    rawTx = rawTx.concat(
-      await getEventsForTeleportation(contractL1, networkConfig!.L1.chainId)
+    const L1Txs = await getEventsForTeleportation(
+      contractL1,
+      networkConfig!.L1.chainId,
+      networkConfig!.L2.chainId
     )
-    return rawTx.concat(
-      await getEventsForTeleportation(contractL2, networkConfig!.L2.chainId)
+    const L2Txs = await getEventsForTeleportation(
+      contractL2,
+      networkConfig!.L2.chainId,
+      networkConfig!.L1.chainId
     )
+
+    return [...L1Txs, ...L2Txs]
   }
 }
 
