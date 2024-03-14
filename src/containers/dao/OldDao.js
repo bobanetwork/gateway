@@ -111,7 +111,8 @@ const OldDao = () => {
   }, POLL_INTERVAL)
 
   const handleNewProposal = () => {
-    if (Number(votes + votesX) < Number(proposalThreshold)) {
+    const totalVotes = Number(votes) + Number(votesX);
+    if (totalVotes < Number(proposalThreshold)) {
       dispatch(
         openError(
           `Your voting power is insufficient to initiate a new proposal. To create a proposal, you must have a minimum of ${proposalThreshold} BOBA + xBOBA voting power`
