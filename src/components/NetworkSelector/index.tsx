@@ -58,7 +58,10 @@ export const NetworkSelector = () => {
 
   useEffect(() => {
     if (networkChainIds) {
-      const chainId = Number(networkChainIds[layer])
+      const chainId =
+        typeof networkChainIds === 'object'
+          ? Number(networkChainIds[layer])
+          : networkChainIds
       setCurrentOption({
         label: CHAIN_ID_LIST[chainId].siteName,
         value: String(chainId),
