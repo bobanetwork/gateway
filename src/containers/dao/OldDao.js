@@ -114,7 +114,7 @@ const OldDao = () => {
     if (Number(votes + votesX) < Number(proposalThreshold)) {
       dispatch(
         openError(
-          `Your balance is insufficient to initiate a new proposal. To create a proposal, you must have a minimum of ${proposalThreshold} BOBA + xBOBA.`
+          `Your voting power is insufficient to initiate a new proposal. To create a proposal, you must have a minimum of ${proposalThreshold} BOBA + xBOBA voting power`
         )
       )
     } else {
@@ -180,7 +180,7 @@ const OldDao = () => {
                 label="Delegate Vote"
               />
               <Button
-                disabled={!(Number(balance) + Number(balanceX))}
+                disabled={!(Number(votes) + Number(votesX))}
                 onClick={() => handleNewProposal()}
                 label="Create proposal"
                 outline

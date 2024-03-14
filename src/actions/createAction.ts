@@ -57,21 +57,21 @@ export const createAction =
         let errorMessage = response.message
 
         if (
-          (response.code === 4001 || response.hasOwnProperty('reason')) &&
+          response.hasOwnProperty('reason') &&
           response.reason?.includes('user rejected transaction')
         ) {
-          errorMessage = 'Transaction Rejected: Signature denied by user!'
+          // no error log needed for user rejection
+          if (response.code === 4001) {
+            errorMessage = 'Transaction Rejected: Signature denied by user!'
+          } else {
+            errorMessage = 'Transaction rejected by user!'
+          }
         } else {
           errorMessage = response.reason
           Sentry.captureMessage(response.reason || '')
         }
 
-        if (
-          response.hasOwnProperty('reason') &&
-          response.reason?.includes('user rejected transaction')
-        ) {
-          errorMessage = 'Transaction rejected by user!'
-        } else if (response.reason?.includes('could not detect network')) {
+        if (response.reason?.includes('could not detect network')) {
           console.log('Gateway error: No network')
           errorMessage = 'Gateway: No internet'
         } else if (

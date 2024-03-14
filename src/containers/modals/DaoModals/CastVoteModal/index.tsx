@@ -15,20 +15,18 @@ limitations under the License. */
 
 import React, { useState } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { closeModal, openAlert } from 'actions/uiAction'
 import { castProposalVote } from 'actions/daoAction'
+import { closeModal, openAlert } from 'actions/uiAction'
 
-import { selectLoading } from 'selectors'
-
-import Modal from 'components/modal/Modal'
-import { Dropdown, IDropdownItem } from 'components/global/dropdown'
 import { Button } from 'components/global/button'
+import { Dropdown, IDropdownItem } from 'components/global/dropdown'
+import Modal from 'components/modal/Modal'
 
-import { CastVoteModalInterface } from './types'
 import { VoteOptions } from './CONST'
 import { Container, StyledDescription } from './styles'
+import { CastVoteModalInterface } from './types'
 
 const CastVoteModal: React.FC<CastVoteModalInterface> = ({
   open,
@@ -38,8 +36,6 @@ const CastVoteModal: React.FC<CastVoteModalInterface> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [selectedVoteType, setselectedVoteType] =
     useState<IDropdownItem | null>(null)
-
-  const loading = useSelector(selectLoading(['PROPOSAL/CAST/VOTE']))
 
   const onVoteTypeChange = (voteType) => {
     setselectedVoteType(voteType)
