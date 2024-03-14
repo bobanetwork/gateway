@@ -80,7 +80,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         })
       })
       .catch((err) => {
-        dispatch(openError(`Failed to initiate withdrwal!`))
+        dispatch(openError(`The withdrawal initiation failed!`))
         props.handleClose()
       })
   }
@@ -92,7 +92,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         setLatestLogs(res)
       })
       .catch((error) => {
-        dispatch(openError(`Failed to prove withdrwal!`))
+        dispatch(openError(`The withdrawal verification failed!`))
         props.handleClose()
       })
   }
