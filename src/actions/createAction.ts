@@ -23,106 +23,76 @@ export const createAction =
     try {
       const response = await asyncAction()
 
-      if (response === false) {
+      if (!response) {
         return false
       }
 
-      if (
-        response &&
-        typeof response === 'string' &&
-        response?.includes('execution reverted: ERC20Permit')
-      ) {
-        const errorMessage = JSON.parse(response)
-        dispatch({
-          type: `UI/ERROR/UPDATE`,
-          payload: errorMessage.error.message,
-        })
-        dispatch({ type: `${key}/ERROR` })
-        Sentry.captureMessage(errorMessage.error.message)
-        return false
+      if (typeof response === 'string') {
+        if (response.includes('execution reverted: ERC20Permit')) {
+          const errorMessage = JSON.parse(response)
+          dispatch({
+            type: `UI/ERROR/UPDATE`,
+            payload: errorMessage.error.message,
+          })
+          dispatch({ type: `${key}/ERROR` })
+          Sentry.captureMessage(errorMessage.error.message)
+          return false
+        }
+
+        if (response.includes('Insufficient balance')) {
+          dispatch({
+            type: `UI/ERROR/UPDATE`,
+            payload: 'Insufficient BOBA balance for emergency swap',
+          })
+          dispatch({ type: `${key}/ERROR` })
+          Sentry.captureMessage('Insufficient BOBA balance for emergency swap')
+          return false
+        }
       }
 
       if (
-        response &&
-        typeof response === 'string' &&
-        response?.includes('Insufficient balance')
-      ) {
-        //let errorMessage = JSON.parse(response)
-        dispatch({
-          type: `UI/ERROR/UPDATE`,
-          payload: 'Insufficient BOBA balance for emergency swap',
-        })
-        dispatch({ type: `${key}/ERROR` })
-        Sentry.captureMessage('Insufficient BOBA balance for emergency swap')
-        return false
-      }
-
-      //deal with metamask errors - they will have a 'code' field so we can detect those
-      if (
-        response &&
         response.hasOwnProperty('message') &&
         response.hasOwnProperty('code')
       ) {
-        // the basic error message
         let errorMessage = response.message
 
-        // provide more information in special cases
-        // MetaMask user rejected sig - throw up a banner
         if (
-          (response.code === 4001 || response.hasOwnProperty('reason')) &&
-          response?.reason?.includes('user rejected transaction')
-        ) {
-          errorMessage = 'Transaction Rejected: Signature Denied by User'
-        } else {
-          Sentry.captureMessage(response.reason)
-        }
-
-        if (response.hasOwnProperty('reason')) {
-          console.log('Error reason:', response.reason)
-          errorMessage = response.reason
-        }
-
-        // No internet case - throw up a banner
-        else if (
           response.hasOwnProperty('reason') &&
-          response?.reason?.includes('could not detect network')
+          response.reason?.includes('user rejected transaction')
         ) {
+          // no error log needed for user rejection
+          if (response.code === 4001) {
+            errorMessage = 'Transaction Rejected: Signature denied by user!'
+          } else {
+            errorMessage = 'Transaction rejected by user!'
+          }
+        } else {
+          errorMessage = response.reason
+          Sentry.captureMessage(response.reason || '')
+        }
+
+        if (response.reason?.includes('could not detect network')) {
           console.log('Gateway error: No network')
           errorMessage = 'Gateway: No internet'
-        }
-        // ethers error
-        else if (
-          response.hasOwnProperty('reason') &&
+        } else if (
           response.reason?.includes('missing revert data in call exception')
         ) {
           console.log('Slow network or rate throttling - code 1')
-          // intercept error
           return false
-        }
-        // ethers error
-        else if (
-          response.hasOwnProperty('reason') &&
+        } else if (
           response.reason?.includes(
             'resolver or addr is not configured for ENS name'
           )
         ) {
           console.log('Slow network or rate throttling - code 2')
-          // intercept error
           return false
-        }
-        // ethers error
-        else if (
-          response.hasOwnProperty('reason') &&
-          response.reason?.includes('missing response')
-        ) {
+        } else if (response.reason?.includes('missing response')) {
           console.log('Slow network or rate throttling - code 3')
-          // intercept error
           return false
         }
 
         dispatch({ type: `UI/ERROR/UPDATE`, payload: errorMessage })
         dispatch({ type: `${key}/ERROR` })
-
         return false
       }
 
@@ -130,7 +100,6 @@ export const createAction =
       return response || true
     } catch (error) {
       console.log('Unhandled error RAW:', { error, key, asyncAction })
-
       Sentry.captureException(error)
       return false
     }
