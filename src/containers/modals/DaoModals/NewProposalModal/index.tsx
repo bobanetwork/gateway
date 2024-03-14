@@ -24,21 +24,24 @@ import Modal from 'components/modal/Modal'
 
 import { createDaoProposal } from 'actions/daoAction'
 import { Dropdown } from 'components/global/dropdown'
-import { selectDaoBalance, selectProposalThreshold } from 'selectors'
+import {
+  selectDaoVotes,
+  selectDaoVotesX,
+  selectProposalThreshold,
+} from 'selectors'
 
 import { ModalInterface } from '../../types'
 import { options } from './CONST'
 import { BoxContainer, ButtonContainer, StyledDescription } from './styles'
-import { TokenTypes } from './types'
 
 import { LPFeeSection, TextProposalSection, ThresholdSection } from './views'
 
 const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
   const dispatch = useDispatch()
-  const balance = useSelector(selectDaoBalance)
+  const votes = useSelector(selectDaoVotes)
+  const votesX = useSelector(selectDaoVotesX)
   const [action, setAction] = useState('')
   const [selectedAction, setSelectedAction] = useState<any>(null)
-  const [tokens, setTokens] = useState<TokenTypes[]>([] as TokenTypes[])
   const [votingThreshold, setVotingThreshold] = useState('')
 
   const [errorText, setErrorText] = useState('')
@@ -54,14 +57,15 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
   const proposalThreshold = useSelector(selectProposalThreshold)
 
   useEffect(() => {
-    if (Number(balance) < Number(proposalThreshold)) {
+    const totalVotes = Number(votes) + Number(votesX)
+    if (totalVotes < Number(proposalThreshold)) {
       setErrorText(
-        `Your balance is insufficient to initiate a new proposal. To create a proposal, you must have a minimum of ${proposalThreshold} BOBA.`
+        `Your voting power is insufficient to initiate a new proposal. To create a proposal, you must have a minimum of ${proposalThreshold} BOBA + xBOBA voting power`
       )
     } else {
       setErrorText('')
     }
-  }, [balance, proposalThreshold])
+  }, [votes, votesX, proposalThreshold])
 
   const resetState = () => {
     setVotingThreshold('')
@@ -86,7 +90,6 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
 
   const submit = async () => {
     let res = null
-    const tokenIds = tokens.map((t) => t.value)
     const roundValues = (min, max, own) => [
       Math.round(Number(min) * 10),
       Math.round(Number(max) * 10),
@@ -112,16 +115,16 @@ const NewProposalModal: React.FC<ModalInterface> = ({ open }) => {
 
     try {
       setIsLoading(true)
-      res = await dispatch(
-        createDaoProposal({ action, tokenIds, ...actionParams })
-      )
+      res = await dispatch(createDaoProposal({ action, ...actionParams }))
       setIsLoading(false)
     } catch (error) {
       console.error('Error submitting proposal:', error)
     }
 
     if (res) {
-      dispatch(openAlert(`Proposal has been submitted. It will be listed soon`))
+      dispatch(
+        openAlert(`The proposal has been submitted and will be listed shortly!`)
+      )
     }
 
     handleClose()

@@ -594,33 +594,23 @@ describe('UseBridge Hooks', () => {
         ])
         expect(actions).toEqual([
           {
-            type: 'UI/MODAL/OPEN',
+            destNetworkSelection: undefined,
+            fast: undefined,
+            lock: undefined,
             payload: 'bridgeInProgress',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
             proposalId: undefined,
             selectionLayer: undefined,
-            destNetworkSelection: undefined,
-          },
-          { type: 'EXIT/CREATE/REQUEST' },
-          { type: 'EXIT/CREATE/SUCCESS', payload: undefined },
-          { type: 'UI/MODAL/CLOSE', payload: 'bridgeInProgress' },
-          {
+            token: undefined,
+            tokenIndex: undefined,
             type: 'UI/MODAL/OPEN',
-            payload: 'transactionSuccess',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
-            proposalId: undefined,
-            selectionLayer: undefined,
-            destNetworkSelection: undefined,
           },
-          { type: 'BRIDGE/TOKEN/RESET' },
-          { type: 'BRIDGE/ALERT/PURGE', payload: undefined },
-          { type: 'BRIDGE/AMOUNT/RESET' },
+          {
+            type: 'EXIT/CREATE/REQUEST',
+          },
+          {
+            payload: 'bridgeInProgress',
+            type: 'UI/MODAL/CLOSE',
+          },
         ])
       })
     })
@@ -652,33 +642,23 @@ describe('UseBridge Hooks', () => {
         )
         expect(actions).toEqual([
           {
-            type: 'UI/MODAL/OPEN',
+            destNetworkSelection: undefined,
+            fast: undefined,
+            lock: undefined,
             payload: 'bridgeInProgress',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
             proposalId: undefined,
             selectionLayer: undefined,
-            destNetworkSelection: undefined,
-          },
-          { type: 'EXIT/CREATE/REQUEST' },
-          { type: 'EXIT/CREATE/SUCCESS', payload: undefined },
-          { type: 'UI/MODAL/CLOSE', payload: 'bridgeInProgress' },
-          {
+            token: undefined,
+            tokenIndex: undefined,
             type: 'UI/MODAL/OPEN',
-            payload: 'transactionSuccess',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
-            proposalId: undefined,
-            selectionLayer: undefined,
-            destNetworkSelection: undefined,
           },
-          { type: 'BRIDGE/TOKEN/RESET' },
-          { type: 'BRIDGE/ALERT/PURGE', payload: undefined },
-          { type: 'BRIDGE/AMOUNT/RESET' },
+          {
+            type: 'EXIT/CREATE/REQUEST',
+          },
+          {
+            payload: 'bridgeInProgress',
+            type: 'UI/MODAL/CLOSE',
+          },
         ])
       })
     })

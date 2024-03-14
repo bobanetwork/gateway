@@ -2906,7 +2906,8 @@ class NetworkService {
       const delegateCheck = this.delegateContract
         .connect(this.provider!.getSigner())
         .attach(this.addresses.GovernorBravoDelegator)
-      return delegateCheck.queue(Number(proposalID))
+
+      return await delegateCheck.queue(Number(proposalID))
     } catch (error) {
       console.log('NS: queueProposal error:', error)
       return error
@@ -2927,7 +2928,8 @@ class NetworkService {
       const delegateCheck = this.delegateContract
         .connect(this.provider!.getSigner())
         .attach(this.addresses.GovernorBravoDelegator)
-      return delegateCheck.execute(Number(proposalID))
+
+      return await delegateCheck.execute(Number(proposalID))
     } catch (error) {
       console.log('NS: executeProposal error:', error)
       return error

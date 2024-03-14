@@ -3,7 +3,7 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fPrdXf cBGrVn"
+    class="sc-hGMjit aucDE"
   >
     <div
       class="sc-eldPxv dmoUXT"
@@ -86,20 +86,20 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-gRtvSG iTsZde"
+      class="sc-dUYLmH jKwpnE"
     >
       <div
-        class="sc-dUYLmH dgNwuf"
+        class="sc-faUjhM iGclxT"
       >
         <div
-          class="sc-faUjhM jwSoWH warning activeSlide"
+          class="sc-cezyBN bNGhlP warning activeSlide"
           data-testid="banner-item"
         >
           <div
-            class="sc-cezyBN"
+            class="sc-fUkmAC"
           >
             <p
-              class="sc-imWYAI dZiXLh sc-edKZPI itxrZo"
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
             >
               In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
               <a
@@ -112,35 +112,35 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-faUjhM jwSoWH warning nextSlide"
+          class="sc-cezyBN bNGhlP warning nextSlide"
           data-testid="banner-item"
         >
           <div
-            class="sc-cezyBN"
+            class="sc-fUkmAC"
           >
             <p
-              class="sc-imWYAI dZiXLh sc-edKZPI itxrZo"
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
             >
               Due to the Anchorage upgrade, relayers will no longer be available.
             </p>
           </div>
         </div>
         <div
-          class="sc-faUjhM jwSoWH warning lastSlide"
+          class="sc-cezyBN bNGhlP warning lastSlide"
           data-testid="banner-item"
         >
           <div
-            class="sc-cezyBN"
+            class="sc-fUkmAC"
           >
             <p
-              class="sc-imWYAI dZiXLh sc-edKZPI itxrZo"
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
             >
               The Goerli L2 will be deprecated in March 2024. Please use Sepolia L2 for testing.
             </p>
           </div>
         </div>
         <button
-          class="sc-iLLODe bWKluA prev"
+          class="sc-fPrdXf joMWqJ prev"
         >
           <svg
             aria-hidden="true"
@@ -155,7 +155,7 @@ exports[`Home  should match snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-iLLODe bWKluA next"
+          class="sc-fPrdXf joMWqJ next"
         >
           <svg
             aria-hidden="true"
@@ -172,7 +172,7 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-hGMjit bfOdTm"
+      class="sc-ezreuY itCRgP"
     />
     <div
       class="sc-fxwrCY epbVer"
