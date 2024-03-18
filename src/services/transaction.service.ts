@@ -13,7 +13,7 @@ import {
   LightBridgeDisbursementEvents,
   anchorageGraphQLService,
   lightBridgeGraphQLService,
-} from './graphql.service'
+} from '@bobanetwork/graphql-utils'
 import networkService from './networkService'
 import { uniqWith } from '../util/lodash'
 

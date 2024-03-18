@@ -39,7 +39,7 @@ import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
 
 import { sortRawTokens } from 'util/common'
-import { graphQLService } from './graphql.service'
+import { graphQLService } from '@bobanetwork/graphql-utils'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
