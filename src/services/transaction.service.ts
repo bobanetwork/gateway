@@ -66,12 +66,15 @@ class TransactionService {
     try {
       const withdrawalTransactions =
         await anchorageGraphQLService.queryWithdrawalTransactionsHistory(
+          networkService.L1Provider,
+          networkService.L2Provider,
           address,
           networkConfig!
         )
 
       const depositTransactions =
         await anchorageGraphQLService.queryDepositTransactions(
+          networkService.L2Provider,
           address,
           networkConfig!
         )
