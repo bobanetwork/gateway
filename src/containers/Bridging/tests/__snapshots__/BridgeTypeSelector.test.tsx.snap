@@ -13,9 +13,9 @@ exports[`Testing BridgeTypeSelector Test BridgeTypeSelector renders 1`] = `
     </div>
     <div
       class="sc-gEvEer gnXggf"
-      data-testid="fast-btn"
+      data-testid="light-btn"
     >
-      Fast
+      Light
     </div>
     <div
       class="sc-gEvEer gnXggf"

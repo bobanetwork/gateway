@@ -140,13 +140,13 @@ export const useBridge = () => {
       // step -1  approve token
       // step -2  deposit to Teleportation.
 
-      const { teleportationAddr } = networkService.getTeleportationAddress()
-      if (!teleportationAddr) {
+      const { lightBridgeAddr } = networkService.getLightBridgeAddress()
+      if (!lightBridgeAddr) {
         console.warn('Teleportation Address not available.')
         return
       }
       const approvalReceipt = await dispatch(
-        approveERC20(amountWei, token.address, teleportationAddr)
+        approveERC20(amountWei, token.address, lightBridgeAddr)
       )
 
       if (approvalReceipt === false) {
