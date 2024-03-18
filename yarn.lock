@@ -1230,10 +1230,10 @@
     "@ethersproject/abstract-signer" "^5.5.0"
     "@ethersproject/hardware-wallets" "^5.5.0"
 
-"@bobanetwork/graphql-utils@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.npmjs.org/@bobanetwork/graphql-utils/-/graphql-utils-1.0.9.tgz"
-  integrity sha512-Ak/zwClv5bTnlZt5fbERv2Weumh2dq2IMT4zrbMAOYja+j2mP+RHeN+N8m2a72+WmgjQHm3oU1353gGX6uUdpw==
+"@bobanetwork/graphql-utils@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.npmjs.org/@bobanetwork/graphql-utils/-/graphql-utils-1.0.11.tgz"
+  integrity sha512-j+wBj22AZKPiZr966c0hvzd7ebSrEcGtW+4U9nJgFf98vmuNfzBcSd4fOxO3QQmm3+V0n0VE4AmoWisazXx2Dw==
   dependencies:
     "@apollo/client" "3.5.10"
     "@ethersproject/providers" "^5.7.2"
