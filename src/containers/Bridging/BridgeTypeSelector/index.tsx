@@ -62,14 +62,6 @@ const BridgeTypeSelector = () => {
     dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
   }, [activeNetworkType])
 
-  // @todo return <></> for the testnet with sepolia connection.
-  // as sepolia doesn't support the fast / light bridge
-  // note: remove conditional check once light bridge deployed to sepolia.
-
-  if (!!isAnchorageEnabled) {
-    return <></>
-  }
-
   return (
     <BridgeTabs>
       <BridgeTabItem

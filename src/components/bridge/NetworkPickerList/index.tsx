@@ -73,9 +73,6 @@ export const NetworkList: FC<NetworkListProps> = ({
         setTeleportationDestChainId(chainDetail.chainId[layer?.toUpperCase()])
       )
     } else {
-      if (chainDetail.chain === Network.ETHEREUM_SEPOLIA) {
-        dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
-      }
       dispatch(
         setNetwork({
           network: chainDetail.chain,

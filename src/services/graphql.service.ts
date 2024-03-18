@@ -194,7 +194,7 @@ class GraphQLService {
         local: '',
       },
       [EGraphQLService.DAO]: {
-        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-goerli/v1/gn',
+        gql: 'https://api.goldsky.com/api/public/project_clq6jph4q9t2p01uja7p1f0c3/subgraphs/dao-boba-goerli/v2/gn',
         local: '',
       },
     },
@@ -319,12 +319,15 @@ class TeleportationGraphQLService extends GraphQLService {
 
   async queryAssetReceivedEvent(
     walletAddress: string,
-    sourceChainId: BigNumberish
+    sourceChainId: BigNumberish,
+    targetChainId: BigNumberish
   ): Promise<LightBridgeAssetReceivedEvent[]> {
-    const query =
-      gql(`query Teleportation($wallet: String!, $sourceChainId: BigInt!) {
+    const query = gql(`query Teleportation($wallet: String!, 
+        $sourceChainId: BigInt!,
+        $targetChainId: BigInt!
+        ) {
             assetReceiveds(
-              where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }]}
+              where: {and: [{emitter_contains_nocase: $wallet}, { sourceChainId: $sourceChainId }, { toChainId: $targetChainId }]}
             ) {
               token
               sourceChainId
@@ -341,6 +344,7 @@ class TeleportationGraphQLService extends GraphQLService {
     const variables = {
       wallet: walletAddress,
       sourceChainId: sourceChainId.toString(),
+      targetChainId: targetChainId.toString(),
     }
 
     return (
