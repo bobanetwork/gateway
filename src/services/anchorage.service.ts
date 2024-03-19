@@ -285,6 +285,8 @@ export const checkBridgeWithdrawalReenter =
   async (): Promise<IReenterWithdrawConfig | null> => {
     return anchorageGraphQLService
       .queryWithdrawalTransactionsHistory(
+        networkService.L1Provider,
+        networkService.L2Provider,
         networkService.account,
         networkService.networkConfig!
       )

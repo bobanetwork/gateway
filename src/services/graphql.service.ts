@@ -5,7 +5,6 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client'
-import networkService from './networkService'
 import { BigNumberish } from 'ethers'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
 import {
@@ -14,6 +13,7 @@ import {
   WithdrawState,
 } from './anchorage.service'
 import { filterLatestGroupedSupportedTokens } from '../util/graphql.utils'
+import { JsonRpcProvider } from '@ethersproject/providers'
 
 //#region types
 export type LightBridgeDisbursementEvents =
@@ -716,6 +716,7 @@ class AnchorageGraphQLService extends GraphQLService {
   }
 
   async queryDepositTransactions(
+    provider: JsonRpcProvider | undefined,
     address: string,
     networkConfig: NetworkDetailChainConfig
   ) {
@@ -751,7 +752,7 @@ class AnchorageGraphQLService extends GraphQLService {
       return Promise.all(
         depositsFinalized.map((event) => {
           return this.mapDepositToTransaction(
-            networkService.L2Provider,
+            provider,
             networkConfig,
             event,
             'status'
@@ -808,15 +809,14 @@ class AnchorageGraphQLService extends GraphQLService {
   }
 
   async mapWithdrawalToTransaction(
-    service,
+    l1Provider,
+    l2Provider,
     networkConfig: NetworkDetailChainConfig,
     event: any,
     status: WithdrawState
   ) {
     const provider =
-      status !== WithdrawState.initialized
-        ? service.L1Provider
-        : service.L2Provider
+      status !== WithdrawState.initialized ? l1Provider : l2Provider
 
     const transaction = await provider!.getTransaction(event.transactionHash_)
     const block = await provider!.getBlock(transaction.blockNumber)
@@ -871,6 +871,8 @@ class AnchorageGraphQLService extends GraphQLService {
   }
 
   async queryWithdrawalTransactionsHistory(
+    l1Provider,
+    l2Provider,
     address,
     networkConfig: NetworkDetailChainConfig
   ) {
@@ -907,7 +909,8 @@ class AnchorageGraphQLService extends GraphQLService {
         if (finalizedEvent) {
           withdrawalTransactions.push(
             await this.mapWithdrawalToTransaction(
-              networkService,
+              l1Provider,
+              l2Provider,
               networkConfig,
               { ...eventPayload, ...finalizedEvent },
               WithdrawState.finalized
@@ -916,7 +919,8 @@ class AnchorageGraphQLService extends GraphQLService {
         } else {
           withdrawalTransactions.push(
             await this.mapWithdrawalToTransaction(
-              networkService,
+              l1Provider,
+              l2Provider,
               networkConfig,
               { ...eventPayload, ...provenEvent },
               WithdrawState.proven
@@ -926,7 +930,8 @@ class AnchorageGraphQLService extends GraphQLService {
       } else {
         withdrawalTransactions.push(
           await this.mapWithdrawalToTransaction(
-            networkService,
+            l1Provider,
+            l2Provider,
             networkConfig,
             eventPayload,
             WithdrawState.initialized
