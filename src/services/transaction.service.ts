@@ -335,9 +335,9 @@ class TransactionService {
         let sentEvents: LightBridgeAssetReceivedEvent[] = []
         try {
           sentEvents = await lightBridgeGraphQLService.queryAssetReceivedEvent(
-            networkService.account!,
             sourceChainId,
-            targetChainId
+            targetChainId,
+            networkService.account!,
           )
         } catch (err: any) {
           console.log(err?.message)
