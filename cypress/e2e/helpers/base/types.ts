@@ -11,6 +11,8 @@ export type NetworkTestInfo = {
   networkName: string
   networkAbbreviation: string
   isTestnet: boolean
+  isDefault: boolean
+  reduxName?: string
 }
 
 export enum BridgeType {

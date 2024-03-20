@@ -28,6 +28,7 @@ describe('Fee Switching', () => {
     bridge.switchBridgeDirection(Layer.L2)
   })
   it('Use Fee Switcher to switch fee to BOBA', () => {
+    bridge.openTokenPicker()
     bridge.selectToken('BOBA')
     bridge.header.switchFees('ETH', 'BOBA')
   })

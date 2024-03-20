@@ -30,14 +30,17 @@ const ReenterWithdrawModal: FC<Props> = ({
   }
 
   return (
-    <ConfirmModalContainer>
+    <ConfirmModalContainer data-testid="confirm-modal-container">
       <Tooltip
         title={`We've identified, that one of your withdrawal transactions is still ongoing. Tap on 'Continue' to complete the withdrawal process.`}
       >
         <FeeSwitcherIcon fontSize="small" />
       </Tooltip>{' '}
       <ConfirmLabel>Continue withdrawal transaction: {getState()}</ConfirmLabel>
-      <ConfirmActionButton onClick={onReenterWithdrawal}>
+      <ConfirmActionButton
+        data-testid="confirm-modal-container-confirm-button"
+        onClick={onReenterWithdrawal}
+      >
         Confirm
       </ConfirmActionButton>
       <CloseIcon onClick={handleClose} />

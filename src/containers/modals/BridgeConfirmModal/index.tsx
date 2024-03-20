@@ -112,6 +112,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
       onClose={handleClose}
       minHeight="180px"
       title="Bridge Confirmation"
+      data-testid="bridge-confirmation-modal"
       transparent={false}
     >
       <ConfirmModalContainer>

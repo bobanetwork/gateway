@@ -210,7 +210,7 @@ export default class Page extends Base {
       .find(
         `button[label="Switch to ${networkAbbreviation} ${
           isTestnet ? 'Testnet' : ''
-        } network"]`,
+        } Network"]`,
         { timeout: 90000 }
       )
       .should('exist')
@@ -232,7 +232,10 @@ export default class Page extends Base {
   }
 
   checkNetworkSwitchSuccessful(networkAbbreviation: string) {
-    this.store.verifyReduxStoreNetwork('activeNetwork', networkAbbreviation)
+    this.store.verifyReduxStoreNetwork(
+      'activeNetwork',
+      networkAbbreviation.toUpperCase()
+    )
 
     this.store.verifyReduxStoreSetup('accountEnabled', true)
     this.store.verifyReduxStoreSetup('baseEnabled', true)

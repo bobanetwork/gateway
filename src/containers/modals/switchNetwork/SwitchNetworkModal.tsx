@@ -39,7 +39,7 @@ const SwitchNetworkModal: React.FC<ModalInterface> = ({ open }) => {
       <Button
         label={`Switch to ${chainNameMaps[network]} ${
           networkType === 'Testnet' ? networkType : ''
-        } network`}
+        } Network`}
         onClick={() => onClick()}
       />
     </Modal>
