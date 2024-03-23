@@ -11,8 +11,8 @@ import {
   claimWithdrawal,
   handleInitiateWithdrawal,
   handleProveWithdrawal,
-} from 'services/anchorage.service'
-import { anchorageGraphQLService } from 'services/graphql.service'
+  anchorageGraphQLService, MinimalNetworkService,
+} from '@bobanetwork/graphql-utils'
 import networkService from 'services/networkService'
 import { steps } from './config'
 import {
@@ -23,6 +23,7 @@ import {
   SecondaryActionButton,
   StepContainer,
 } from './index.styles'
+import { L2StandardERC20ABI } from '../../../services/abi'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -42,7 +43,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
 
   useEffect(() => {
     if (activeStep === 0 && props.token) {
-      approvalRequired(props.token, props.amountToBridge).then((res) => {
+      approvalRequired(networkService as MinimalNetworkService, L2StandardERC20ABI, props.token, props.amountToBridge).then((res) => {
         setApprovalNeeded(res)
       })
     }
@@ -63,6 +64,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
     selectModalState('transactionSuccess')
     handleInitiateWithdrawal(
+      networkService as MinimalNetworkService,
       ethers.utils.parseEther(props.amountToBridge!.toString()).toString(),
       isNativeWithdrawal ? null : props.token
     )
@@ -86,7 +88,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   }
 
   const proofWithdrawalStep = () => {
-    handleProveWithdrawal(withdrawalConfig!)
+    handleProveWithdrawal(networkService as MinimalNetworkService, withdrawalConfig!)
       .then((res: any) => {
         setActiveStep(5)
         setLatestLogs(res)
@@ -100,7 +102,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const claimWithdrawalStep = () => {
     if (!!withdrawalConfig) {
       if (!withdrawalConfig?.withdrawalHash && latestLogs) {
-        claimWithdrawal(latestLogs).then(() => {
+        claimWithdrawal(networkService as MinimalNetworkService, latestLogs).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
           dispatch(openModal('transactionSuccess'))
         })
@@ -111,7 +113,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             logs = logs.filter(
               (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
             )
-            claimWithdrawal(logs).then(() => {
+            claimWithdrawal(networkService as MinimalNetworkService, logs).then(() => {
               setActiveStep(6)
               dispatch(openModal('transactionSuccess'))
               dispatch(closeModal('bridgeMultiStepWithdrawal'))

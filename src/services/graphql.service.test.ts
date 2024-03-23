@@ -1,8 +1,9 @@
 import {
   anchorageGraphQLService,
+  DepositState,
   GQLDepositFinalizedEvent,
-} from './graphql.service'
-import { DepositState, WithdrawState } from './anchorage.service'
+  WithdrawState,
+} from '@bobanetwork/graphql-utils'
 
 describe('GraphQLService', () => {
   let mockProvider
