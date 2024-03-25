@@ -2,6 +2,7 @@ import { Layer } from '../../../../src/util/constant'
 import {
   EthereumGoerliInfo,
   BinanceTestnetInfo,
+  EthereumInfo,
 } from '../../helpers/base/constants'
 import Bridge from '../../helpers/bridge'
 
@@ -59,7 +60,7 @@ describe('Fee Switching', () => {
       true,
       false
     )
-    bridge.switchToMainnet()
+    bridge.switchToMainnet(EthereumInfo.networkAbbreviation, false, false)
     bridge.disconnectWallet()
   })
 })

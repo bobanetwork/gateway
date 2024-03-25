@@ -6,6 +6,7 @@ import {
   ConfirmActionButton,
   ConfirmLabel,
   ConfirmModalContainer,
+  CloseIconWrapper,
 } from './index.styles'
 import { WithdrawState } from 'services/anchorage.service'
 
@@ -43,7 +44,9 @@ const ReenterWithdrawModal: FC<Props> = ({
       >
         Confirm
       </ConfirmActionButton>
-      <CloseIcon onClick={handleClose} />
+      <CloseIconWrapper data-testid="close-modal-confirm-modal-container">
+        <CloseIcon onClick={handleClose} />
+      </CloseIconWrapper>
     </ConfirmModalContainer>
   )
 }

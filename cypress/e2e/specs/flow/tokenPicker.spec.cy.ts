@@ -1,3 +1,4 @@
+import { EthereumInfo } from '../../helpers/base/constants'
 import Bridge from '../../helpers/bridge'
 
 const bridge = new Bridge()
@@ -21,6 +22,6 @@ describe('Token Picker', () => {
     bridge.selectToken('BOBA')
   })
   after(() => {
-    bridge.switchToMainnet()
+    bridge.switchToMainnet(EthereumInfo.networkAbbreviation, false, false)
   })
 })

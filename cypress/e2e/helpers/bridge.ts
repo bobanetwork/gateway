@@ -1,6 +1,6 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
-import { Layer } from '../../../src/util/constant'
+import { LAYER, Layer } from '../../../src/util/constant'
 import { BridgeType, NetworkTestInfo } from './base/types'
 import { EthereumGoerliInfo, EthereumInfo } from './base/constants'
 
@@ -23,12 +23,20 @@ export default class Bridge extends Page {
 
   switchToMainnet(
     networkAbbreviation: string = EthereumInfo.networkAbbreviation,
-    newNetwork: boolean = false
+    newNetwork: boolean = false,
+    closeConfirmModal: boolean = true
   ) {
+    if (closeConfirmModal) {
+      this.closeConfirmModal()
+    }
+
     this.switchNetworkType(networkAbbreviation, false, newNetwork)
   }
 
-  openSettings() {
+  openSettings(closeConfirmModal: boolean = false) {
+    if (closeConfirmModal) {
+      this.closeConfirmModal()
+    }
     this.withinPage()
       .find('[data-testid="setting-btn"]')
       .should('exist')
@@ -36,6 +44,13 @@ export default class Bridge extends Page {
   }
   closeSettings() {
     this.closeModal('settings-modal')
+  }
+  verticleStepperConfirm() {
+    this.getModal()
+      .find('[data-testid="confirm-action-vertical-stepper"]')
+      .should('exist')
+      .scrollIntoView()
+      .click({ force: true })
   }
 
   toggleShowTestnets() {
@@ -112,6 +127,12 @@ export default class Bridge extends Page {
     this.store.verifyReduxStoreSetup('netLayer', newOriginLayer)
   }
 
+  closeConfirmModal() {
+    cy.get('[data-testid="close-modal-confirm-modal-container"]')
+      .should('exist')
+      .click()
+  }
+
   selectToken(tokenSymbol: string) {
     this.getModal()
       .find('div[title="tokenList"]')
@@ -135,10 +156,11 @@ export default class Bridge extends Page {
     tokenSymbol: string,
     amount: string,
     destinationLayer: Layer,
-    destinationAddress: string = ''
+    destinationAddress: string = '',
+    closeConfirmModal: boolean = false
   ) {
     if (destinationAddress && destinationLayer === Layer.L2) {
-      this.openSettings()
+      this.openSettings(closeConfirmModal)
       this.toggleAddDestinationAddress()
       this.closeModal('settings-modal')
       this.withinPage()
@@ -174,12 +196,20 @@ export default class Bridge extends Page {
     cy.contains(`${amount} ${tokenSymbol}`, { timeout: 60000 }).should('exist')
     cy.get('button').contains('Confirm').should('exist').click()
     if (destinationLayer === Layer.L1) {
-      this.allowMetamaskToSpendToken('10')
+      this.handleAnchorageProof()
+      return
     }
 
     this.confirmTransactionOnMetamask()
     this.getModal().contains('Bridge Successful').should('exist')
     this.closeModal('transactionSuccess-modal')
+  }
+
+  handleAnchorageProof() {
+    this.verticleStepperConfirm()
+    this.confirmTransactionOnMetamask()
+    this.verticleStepperConfirm()
+    this.allowNetworkSwitch(false)
   }
 
   checkThirdPartyTabInETH() {
