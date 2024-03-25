@@ -32,7 +32,7 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "@apollo/client": "^3.5.10",
+    "@apollo/client": "^3.9.9",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@bobanetwork/light-bridge-chains": "^1.0.9",
     "@bobanetwork/register": "^0.0.19",
