@@ -100,7 +100,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.9",
-    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-react": "^7.24.1",
     "@babel/preset-typescript": "^7.21.5",
     "@sentry/types": "^7.100.1",
     "@storybook/addon-essentials": "^7.0.15",
