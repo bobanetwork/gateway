@@ -1,6 +1,7 @@
 import { Layer } from '../../../../src/util/constant'
 import {
   EthereumGoerliInfo,
+  EthereumInfo,
   EthereumSepoliaInfo,
 } from '../../helpers/base/constants'
 import Bridge from '../../helpers/bridge'
@@ -14,11 +15,11 @@ describe('Testing General Bridging flow on Goerli', () => {
     bridge.changeMetamaskNetwork('ethereum')
   })
   after(() => {
-    bridge.switchToMainnet()
+    bridge.switchToMainnet(EthereumInfo.networkAbbreviation, false, false)
+    bridge.disconnectWallet()
   })
   it('Should connect to metamask', () => {
     bridge.requestMetamaskConnect()
-    bridge.connectMetamask()
     bridge.verifyAccountConnected()
   })
   it('Should switch to testnet', () => {
@@ -45,7 +46,7 @@ describe('Testing General Bridging flow on Goerli', () => {
     )
   })
   it('Should switch to L2', () => {
-    bridge.switchBridgeDirection(Layer.L2, true)
+    bridge.switchBridgeDirection(Layer.L2, false)
   })
   it.skip('Should bridge back to L1', () => {
     bridge.bridgeToken('ETH', '0.0001', Layer.L1)
