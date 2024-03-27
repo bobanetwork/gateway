@@ -32,9 +32,8 @@ const BridgeTypeSelector = () => {
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const { isAnchorageEnabled } = useNetworkInfo()
 
-  // Only show teleportation on testnet for now
-  const isTestnet =
-    useSelector(selectActiveNetworkType()) === NetworkType.TESTNET
+  const isMainnet =
+    useSelector(selectActiveNetworkType()) === NetworkType.MAINNET
 
   const switchToFullySupportedNetwork = () => {
     // change network back to fully supported network when leaving light bridge
@@ -63,14 +62,6 @@ const BridgeTypeSelector = () => {
     dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
   }, [activeNetworkType])
 
-  // @todo return <></> for the testnet with sepolia connection.
-  // as sepolia doesn't support the fast / light bridge
-  // note: remove conditional check once light bridge deployed to sepolia.
-
-  if (!!isAnchorageEnabled) {
-    return <></>
-  }
-
   return (
     <BridgeTabs>
       <BridgeTabItem
@@ -80,23 +71,16 @@ const BridgeTypeSelector = () => {
       >
         Classic
       </BridgeTabItem>
+
       <BridgeTabItem
-        data-testid="fast-btn"
-        active={bridgeType === BRIDGE_TYPE.FAST}
-        onClick={() => onTabClick(BRIDGE_TYPE.FAST)}
+        data-testid="light-btn"
+        active={bridgeType === BRIDGE_TYPE.LIGHT}
+        onClick={() => onTabClick(BRIDGE_TYPE.LIGHT)}
       >
-        Fast
+        Light
       </BridgeTabItem>
 
-      {isTestnet ? (
-        <BridgeTabItem
-          data-testid="light-btn"
-          active={bridgeType === BRIDGE_TYPE.LIGHT}
-          onClick={() => onTabClick(BRIDGE_TYPE.LIGHT)}
-        >
-          Light
-        </BridgeTabItem>
-      ) : (
+      {isMainnet ? (
         <BridgeTabItem
           data-testid="third-party-btn"
           active={bridgeType === BRIDGE_TYPE.THIRD_PARTY}
@@ -104,7 +88,7 @@ const BridgeTypeSelector = () => {
         >
           Third Party
         </BridgeTabItem>
-      )}
+      ) : null}
     </BridgeTabs>
   )
 }

@@ -26,7 +26,7 @@ jest.mock('services/networkService', () => {
     depositL2LP: jest.fn(),
     depositWithTeleporter: jest.fn(),
     exitBOBA: jest.fn(),
-    getTeleportationAddress: jest.fn(),
+    getLightBridgeAddress: jest.fn(),
   }
 })
 
@@ -433,8 +433,8 @@ describe('UseBridge Hooks', () => {
 
     describe('Light Bridge Teleporter', () => {
       beforeEach(() => {
-        ;(networkService.getTeleportationAddress as jest.Mock).mockReturnValue({
-          teleportationAddr: 'teleportationAddr',
+        ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
+          lightBridgeAddr: 'lightBridgeAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
         ;(networkService.depositWithTeleporter as jest.Mock).mockResolvedValue({
@@ -491,14 +491,14 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getTeleportationAddress as jest.Mock).mock.calls
+          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
         ).toEqual([
           '1255000000000000000',
           '0x0000000000000000000000000000000000000006',
-          'teleportationAddr',
+          'lightBridgeAddr',
           undefined,
         ])
         expect(actions).toEqual(successActionsFast)
@@ -525,14 +525,14 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getTeleportationAddress as jest.Mock).mock.calls
+          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
         ).toEqual([
           '1255000000000000000',
           '0x0000000000000000000000000000000000000006',
-          'teleportationAddr',
+          'lightBridgeAddr',
           undefined,
         ])
         expect(actions).toEqual([
@@ -594,33 +594,23 @@ describe('UseBridge Hooks', () => {
         ])
         expect(actions).toEqual([
           {
-            type: 'UI/MODAL/OPEN',
+            destNetworkSelection: undefined,
+            fast: undefined,
+            lock: undefined,
             payload: 'bridgeInProgress',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
             proposalId: undefined,
             selectionLayer: undefined,
-            destNetworkSelection: undefined,
-          },
-          { type: 'EXIT/CREATE/REQUEST' },
-          { type: 'EXIT/CREATE/SUCCESS', payload: undefined },
-          { type: 'UI/MODAL/CLOSE', payload: 'bridgeInProgress' },
-          {
+            token: undefined,
+            tokenIndex: undefined,
             type: 'UI/MODAL/OPEN',
-            payload: 'transactionSuccess',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
-            proposalId: undefined,
-            selectionLayer: undefined,
-            destNetworkSelection: undefined,
           },
-          { type: 'BRIDGE/TOKEN/RESET' },
-          { type: 'BRIDGE/ALERT/PURGE', payload: undefined },
-          { type: 'BRIDGE/AMOUNT/RESET' },
+          {
+            type: 'EXIT/CREATE/REQUEST',
+          },
+          {
+            payload: 'bridgeInProgress',
+            type: 'UI/MODAL/CLOSE',
+          },
         ])
       })
     })
@@ -652,41 +642,31 @@ describe('UseBridge Hooks', () => {
         )
         expect(actions).toEqual([
           {
-            type: 'UI/MODAL/OPEN',
+            destNetworkSelection: undefined,
+            fast: undefined,
+            lock: undefined,
             payload: 'bridgeInProgress',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
             proposalId: undefined,
             selectionLayer: undefined,
-            destNetworkSelection: undefined,
-          },
-          { type: 'EXIT/CREATE/REQUEST' },
-          { type: 'EXIT/CREATE/SUCCESS', payload: undefined },
-          { type: 'UI/MODAL/CLOSE', payload: 'bridgeInProgress' },
-          {
+            token: undefined,
+            tokenIndex: undefined,
             type: 'UI/MODAL/OPEN',
-            payload: 'transactionSuccess',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
-            proposalId: undefined,
-            selectionLayer: undefined,
-            destNetworkSelection: undefined,
           },
-          { type: 'BRIDGE/TOKEN/RESET' },
-          { type: 'BRIDGE/ALERT/PURGE', payload: undefined },
-          { type: 'BRIDGE/AMOUNT/RESET' },
+          {
+            type: 'EXIT/CREATE/REQUEST',
+          },
+          {
+            payload: 'bridgeInProgress',
+            type: 'UI/MODAL/CLOSE',
+          },
         ])
       })
     })
 
     describe('Light Bridge Teleporter', () => {
       beforeEach(() => {
-        ;(networkService.getTeleportationAddress as jest.Mock).mockReturnValue({
-          teleportationAddr: 'teleportationAddr',
+        ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
+          lightBridgeAddr: 'lightBridgeAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
         ;(networkService.depositWithTeleporter as jest.Mock).mockResolvedValue({
@@ -743,14 +723,14 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getTeleportationAddress as jest.Mock).mock.calls
+          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
         ).toEqual([
           '1255000000000000000',
           '0x0000000000000000000000000000000000000006',
-          'teleportationAddr',
+          'lightBridgeAddr',
           undefined,
         ])
         expect(actions).toEqual(successActionsFast)
@@ -777,14 +757,14 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getTeleportationAddress as jest.Mock).mock.calls
+          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
         ).toEqual([
           '1255000000000000000',
           '0x0000000000000000000000000000000000000006',
-          'teleportationAddr',
+          'lightBridgeAddr',
           undefined,
         ])
         expect(actions).toEqual([

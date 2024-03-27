@@ -15,30 +15,27 @@ limitations under the License. */
 
 import React, { useState } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { closeModal, openAlert } from 'actions/uiAction'
 import { castProposalVote } from 'actions/daoAction'
+import { closeModal, openAlert } from 'actions/uiAction'
 
-import { selectLoading } from 'selectors'
-
-import Modal from 'components/modal/Modal'
-import { Dropdown, IDropdownItem } from 'components/global/dropdown'
 import { Button } from 'components/global/button'
+import { Dropdown, IDropdownItem } from 'components/global/dropdown'
+import Modal from 'components/modal/Modal'
 
-import { CastVoteModalInterface } from './types'
 import { VoteOptions } from './CONST'
-import { Container } from './styles'
+import { Container, StyledDescription } from './styles'
+import { CastVoteModalInterface } from './types'
 
 const CastVoteModal: React.FC<CastVoteModalInterface> = ({
   open,
   proposalId,
 }) => {
   const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(false)
   const [selectedVoteType, setselectedVoteType] =
     useState<IDropdownItem | null>(null)
-
-  const loading = useSelector(selectLoading(['PROPOSAL/CAST/VOTE']))
 
   const onVoteTypeChange = (voteType) => {
     setselectedVoteType(voteType)
@@ -49,15 +46,18 @@ const CastVoteModal: React.FC<CastVoteModalInterface> = ({
   }
 
   const submit = async () => {
-    const res = await dispatch(
-      castProposalVote({
-        id: Number(proposalId),
-        userVote: selectedVoteType ? selectedVoteType.value : null,
-      })
-    )
-
-    if (res) {
-      dispatch(openAlert(`Your vote has been submitted successfully.`))
+    if (selectedVoteType) {
+      setIsLoading(true)
+      const res = await dispatch(
+        castProposalVote({
+          id: Number(proposalId),
+          userVote: selectedVoteType ? selectedVoteType.value : null,
+        })
+      )
+      setIsLoading(false)
+      if (res) {
+        dispatch(openAlert(`Your vote has been submitted successfully.`))
+      }
     }
     handleClose()
   }
@@ -67,25 +67,28 @@ const CastVoteModal: React.FC<CastVoteModalInterface> = ({
       open={open}
       onClose={handleClose}
       maxWidth="sm"
-      title={`Cast Vote on proposal ${proposalId}`}
+      title={`Cast Your Vote on Proposal #${proposalId}`}
       testId="castvote-proposal-modal"
     >
-      <div>
-        <Container>
-          <Dropdown
-            style={{ zIndex: 2 }}
-            onItemSelected={(option) => onVoteTypeChange(option)}
-            defaultItem={{
+      <Container>
+        <StyledDescription>
+          Select your stance on Proposal #${proposalId}:
+        </StyledDescription>
+        <Dropdown
+          style={{ zIndex: 2 }}
+          onItemSelected={(option) => onVoteTypeChange(option)}
+          defaultItem={
+            selectedVoteType || {
               label: 'Select a Vote type',
-            }}
-            items={VoteOptions}
-          />
-        </Container>
-      </div>
+            }
+          }
+          items={VoteOptions}
+        />
+      </Container>
       <Button
         onClick={async () => submit()}
-        loading={loading}
-        disabled={!selectedVoteType}
+        loading={isLoading}
+        disabled={!selectedVoteType || isLoading}
         label="Submit"
       />
     </Modal>

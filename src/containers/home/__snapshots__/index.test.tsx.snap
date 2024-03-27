@@ -3,7 +3,7 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-bhqpjJ gLLBhG"
+    class="sc-hGMjit aucDE"
   >
     <div
       class="sc-eldPxv dmoUXT"
@@ -86,64 +86,93 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-gRtvSG eljQBO"
+      class="sc-dUYLmH jKwpnE"
     >
       <div
-        class="sc-dUYLmH cvxTnM warning"
-        data-testid="banner-item"
+        class="sc-faUjhM iGclxT"
       >
         <div
-          class="sc-faUjhM"
-        >
-          <p
-            class="sc-imWYAI dZiXLh sc-cXPBUD ikRaId"
-          >
-            In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
-            <a
-              href="/earn"
-              target="blank"
-            >
-              CLICK HERE
-            </a>
-          </p>
-        </div>
-      </div>
-      <div
-        class="sc-dUYLmH cvxTnM warning"
-        data-testid="banner-item"
-      >
-        <div
-          class="sc-faUjhM"
-        >
-          <p
-            class="sc-imWYAI dZiXLh sc-cXPBUD ikRaId"
-          >
-            Due to the Anchorage upgrade, relayers will no longer be available.
-          </p>
-        </div>
-        <div
-          class="sc-cezyBN oXIHd"
+          class="sc-cezyBN bNGhlP warning activeSlide"
+          data-testid="banner-item"
         >
           <div
-            class="sc-fUkmAC bunFeM"
-            data-testid="close-icon-relayer-banner-deprecation"
+            class="sc-fUkmAC"
           >
-            <div
-              class="sc-edKZPI hSxyJF"
+            <p
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
             >
-              <div>
-                <div
-                  data-src="close.svg"
-                  src=""
-                />
-              </div>
-            </div>
+              In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
+              <a
+                href="/earn"
+                target="blank"
+              >
+                CLICK HERE
+              </a>
+            </p>
           </div>
         </div>
+        <div
+          class="sc-cezyBN bNGhlP warning nextSlide"
+          data-testid="banner-item"
+        >
+          <div
+            class="sc-fUkmAC"
+          >
+            <p
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
+            >
+              Due to the Anchorage upgrade, relayers will no longer be available.
+            </p>
+          </div>
+        </div>
+        <div
+          class="sc-cezyBN bNGhlP warning lastSlide"
+          data-testid="banner-item"
+        >
+          <div
+            class="sc-fUkmAC"
+          >
+            <p
+              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
+            >
+              The Goerli L2 will be deprecated in March 2024. Please use Sepolia L2 for testing.
+            </p>
+          </div>
+        </div>
+        <button
+          class="sc-fPrdXf joMWqJ prev"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ChevronRightIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+            />
+          </svg>
+        </button>
+        <button
+          class="sc-fPrdXf joMWqJ next"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ChevronLeftIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+            />
+          </svg>
+        </button>
       </div>
     </div>
     <div
-      class="sc-iLLODe gSqdok"
+      class="sc-ezreuY itCRgP"
     />
     <div
       class="sc-fxwrCY epbVer"

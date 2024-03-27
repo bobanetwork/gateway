@@ -228,8 +228,8 @@ export const handleProveWithdrawal = async (
     await proveTx.wait()
     return logs
   } catch (error) {
-    console.log(`Error while prove withdrawal`, error)
-    return []
+    console.log(`Err: proveWithdrwal`, error)
+    throw new Error('Failed to prove withdrawal!')
   }
 }
 

@@ -16,6 +16,11 @@ type IconType = {
 type NetworkIconsType = Record<string, IconType>
 
 export const NETWORK_ICONS: NetworkIconsType = {
+  // reset back to ethereum once goerli is gone
+  ethereum_sepolia: {
+    L1: EthereumIcon,
+    L2: BobaIcon,
+  },
   ethereum: {
     L1: EthereumIcon,
     L2: BobaIcon,

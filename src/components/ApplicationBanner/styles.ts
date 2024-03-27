@@ -10,10 +10,30 @@ export const BannerWrapper = styled('div')`
   flex-direction: column;
   justify-content: flex-start;
   gap: 2px;
+  background: ${({ theme: { colors } }) => colors.green[300]};
+  color: ${(props) => props.theme.primaryfg};
 `
-export const BannerContainer = styled('div')`
+
+export const BannerCenter = styled('div')`
+  margin: 0 auto;
+  width: 90vw;
+  height: 60px;
+  max-width: 900px;
+  text-align: center;
   position: relative;
-  transition: max-height 0.4s;
+  display: flex;
+  overflow: hidden;
+`
+
+export const BannerContainer = styled('div')`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: var(--transition);
+  // transition: max-height 0.4s;
   padding: 5px 10px;
   overflow: hidden;
   display: flex;
@@ -21,8 +41,17 @@ export const BannerContainer = styled('div')`
   align-items: center;
   gap: 10px;
   width: 100%;
-  background: ${({ theme: { colors } }) => colors.green[300]};
-  color: ${(props) => props.theme.primaryfg};
+
+  &.activeSlide {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  &.lastSlide {
+    transform: translateX(-100%);
+  }
+  &.nextSlide {
+    transform: translateX(100%);
+  }
 
   &.open {
     max-height: 60px;
@@ -97,5 +126,37 @@ export const CloseIcon = styled(Svg).attrs({
     min-width: 10px;
     height: auto;
     stroke: #000;
+  }
+`
+
+export const ArrowBtn = styled('button')`
+  position: absolute;
+  top: 30px;
+  transform: translateY(-50%);
+  background: var(--clr-grey-5);
+  color: var(--clr-white);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1;
+  border-color: transparent;
+  font-size: 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  &.next {
+    left: 0;
+  }
+
+  &.prev {
+    right: 0;
   }
 `
