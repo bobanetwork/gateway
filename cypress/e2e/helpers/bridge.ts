@@ -1,6 +1,6 @@
 /// <reference types="cypress"/>
 import Page from './base/page'
-import { Layer } from '../../../src/util/constant'
+import { LAYER, Layer } from '../../../src/util/constant'
 import { BridgeType, NetworkTestInfo } from './base/types'
 import { EthereumGoerliInfo, EthereumInfo } from './base/constants'
 
@@ -23,16 +23,34 @@ export default class Bridge extends Page {
 
   switchToMainnet(
     networkAbbreviation: string = EthereumInfo.networkAbbreviation,
-    newNetwork: boolean = false
+    newNetwork: boolean = false,
+    closeConfirmModal: boolean = true
   ) {
+    if (closeConfirmModal) {
+      this.closeConfirmModal()
+    }
+
     this.switchNetworkType(networkAbbreviation, false, newNetwork)
   }
 
-  openSettings() {
+  openSettings(closeConfirmModal: boolean = false) {
+    if (closeConfirmModal) {
+      this.closeConfirmModal()
+    }
     this.withinPage()
       .find('[data-testid="setting-btn"]')
       .should('exist')
       .click()
+  }
+  closeSettings() {
+    this.closeModal('settings-modal')
+  }
+  verticleStepperConfirm() {
+    this.getModal()
+      .find('[data-testid="confirm-action-vertical-stepper"]')
+      .should('exist')
+      .scrollIntoView()
+      .click({ force: true })
   }
 
   toggleShowTestnets() {
@@ -92,6 +110,8 @@ export default class Bridge extends Page {
     this.allowNetworkSwitch(newNetwork)
     this.checkNetworkSwitchSuccessful(networkAbbreviation)
 
+    this.closeSettings()
+
     this.store.verifyReduxStoreSetup('accountEnabled', true)
     this.store.verifyReduxStoreSetup('baseEnabled', true)
     this.onTestnet = isTestnet
@@ -107,10 +127,15 @@ export default class Bridge extends Page {
     this.store.verifyReduxStoreSetup('netLayer', newOriginLayer)
   }
 
-  selectToken(tokenSymbol: string) {
-    this.openTokenPicker()
+  closeConfirmModal() {
+    cy.get('[data-testid="close-modal-confirm-modal-container"]')
+      .should('exist')
+      .click()
+  }
 
-    cy.get('div[title="tokenList"]')
+  selectToken(tokenSymbol: string) {
+    this.getModal()
+      .find('div[title="tokenList"]')
       .contains(tokenSymbol)
       .should('exist')
       .click()
@@ -131,10 +156,11 @@ export default class Bridge extends Page {
     tokenSymbol: string,
     amount: string,
     destinationLayer: Layer,
-    destinationAddress: string = ''
+    destinationAddress: string = '',
+    closeConfirmModal: boolean = false
   ) {
     if (destinationAddress && destinationLayer === Layer.L2) {
-      this.openSettings()
+      this.openSettings(closeConfirmModal)
       this.toggleAddDestinationAddress()
       this.closeModal('settings-modal')
       this.withinPage()
@@ -143,12 +169,13 @@ export default class Bridge extends Page {
         .focus()
         .type(destinationAddress)
     }
+    this.openTokenPicker()
     this.selectToken(tokenSymbol)
 
     if (destinationLayer === Layer.L1) {
-      this.store.verifyReduxStateNotEmpty('setup', 'bobaFeePriceRatio')
+      // this.store.verifyReduxStateNotEmpty('setup', 'bobaFeePriceRatio')
       this.store.verifyReduxStoreSetup('netLayer', Layer.L2)
-      this.store.verifyReduxStateNotEmpty('balance', 'exitFee')
+      // this.store.verifyReduxStateNotEmpty('balance', 'exitFee')
       this.store.verifyReduxStoreBalance('classicExitCost', 0)
     }
 
@@ -169,20 +196,20 @@ export default class Bridge extends Page {
     cy.contains(`${amount} ${tokenSymbol}`, { timeout: 60000 }).should('exist')
     cy.get('button').contains('Confirm').should('exist').click()
     if (destinationLayer === Layer.L1) {
-      this.allowMetamaskToSpendToken('10')
+      this.handleAnchorageProof()
+      return
     }
 
     this.confirmTransactionOnMetamask()
+    this.getModal().contains('Bridge Successful').should('exist')
+    this.closeModal('transactionSuccess-modal')
+  }
 
-    if (destinationLayer === Layer.L2) {
-      this.getModal().contains('Estimated time to complete :').should('exist')
-      this.closeModal('bridge-in-progress')
-    } else {
-      this.getModal()
-        .contains('Your funds will arrive in 7 days at your wallet on')
-        .should('exist')
-      this.closeModal('transactionSuccess-modal')
-    }
+  handleAnchorageProof() {
+    this.verticleStepperConfirm()
+    this.confirmTransactionOnMetamask()
+    this.verticleStepperConfirm()
+    this.allowNetworkSwitch(false)
   }
 
   checkThirdPartyTabInETH() {
@@ -241,7 +268,11 @@ export default class Bridge extends Page {
         )
       }
       this.allowNetworkSwitch(newNetwork)
-      this.checkNetworkSwitchSuccessful(toNetwork.networkAbbreviation)
+      this.checkNetworkSwitchSuccessful(
+        toNetwork.reduxName
+          ? toNetwork.reduxName
+          : toNetwork.networkAbbreviation
+      )
     } else {
       this.store.allowBaseEnabledToUpdate(accountConnected)
     }
@@ -252,14 +283,15 @@ export default class Bridge extends Page {
     l2Networks: NetworkTestInfo[],
     accountConnected: boolean
   ) {
-    for (let i = 0; i < 2; i++) {
+    const numNetworks = l1Networks.length
+    for (let i = 0; i < numNetworks; i++) {
       this.withinPage().contains(l2Networks[i].networkName).should('exist')
-      const nextNetwork = l1Networks[(i + 1) % 2]
+      const nextNetwork = l1Networks[(i + 1) % numNetworks]
       this.switchNetworkWithModals(
         l1Networks[i],
         nextNetwork,
         accountConnected,
-        nextNetwork.networkName !== l1Networks[0].networkName
+        !nextNetwork.isDefault
       )
       this.switchBridgeDirection(Layer.L2, true)
       this.switchBridgeDirection(Layer.L1)

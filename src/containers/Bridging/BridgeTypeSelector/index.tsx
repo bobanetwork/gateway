@@ -80,7 +80,7 @@ const BridgeTypeSelector = () => {
         Light
       </BridgeTabItem>
 
-      {isMainnet ?
+      {isMainnet ? (
         <BridgeTabItem
           data-testid="third-party-btn"
           active={bridgeType === BRIDGE_TYPE.THIRD_PARTY}
@@ -88,7 +88,7 @@ const BridgeTypeSelector = () => {
         >
           Third Party
         </BridgeTabItem>
-      : null}
+      ) : null}
     </BridgeTabs>
   )
 }

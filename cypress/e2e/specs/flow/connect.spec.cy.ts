@@ -1,6 +1,7 @@
 import { Layer } from '../../../../src/util/constant'
 import {
   ArbitrumGoerliInfo,
+  BinanceTestnetInfo,
   BobaGoerliInfo,
   MainnetL1Networks,
   MainnetL2Networks,
@@ -55,7 +56,8 @@ describe('Connect flow', () => {
       bridge.switchBridgeDirection(Layer.L2, false)
     })
 
-    it('Should switch to Optimism', () => {
+    // Skipping while we determine what to do with optimism goerli
+    it.skip('Should switch to Optimism', () => {
       bridge.switchNetworkWithModals(
         BobaGoerliInfo,
         OptimismGoerliInfo,
@@ -66,16 +68,25 @@ describe('Connect flow', () => {
 
     it('Should switch to Arbitrum', () => {
       bridge.switchNetworkWithModals(
-        OptimismGoerliInfo,
+        BobaGoerliInfo,
         ArbitrumGoerliInfo,
         true,
         true
       )
     })
 
-    it('Should switch back to classic bridge', () => {
+    it('Should switch to BNB', () => {
       bridge.switchNetworkWithModals(
         ArbitrumGoerliInfo,
+        BinanceTestnetInfo,
+        true,
+        false
+      )
+    })
+
+    it('Should switch back to classic bridge', () => {
+      bridge.switchNetworkWithModals(
+        BinanceTestnetInfo,
         BobaGoerliInfo,
         true,
         false

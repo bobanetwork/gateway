@@ -353,7 +353,7 @@ export const pingRpcUrl = async (rpcUrl) => {
 export const chainNameMaps: Record<Network, string> = {
   ETHEREUM: 'Ethereum',
   ETHEREUM_SEPOLIA: 'Ethereum Sepolia',
-  BNB: 'Bnb',
+  BNB: 'BNB',
   OPTIMISM: 'Optimism',
   ARBITRUM: 'Arbitrum',
 }

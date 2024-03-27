@@ -154,6 +154,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         )}
         <ConfirmActionButton
           style={{ marginTop: '12px' }}
+          data-testid="confirm-action-vertical-stepper"
           loading={!steps[activeStep].btnLbl}
           disabled={!steps[activeStep].btnLbl}
           onClick={() => {

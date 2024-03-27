@@ -22,6 +22,9 @@ export const ConfirmModalContainer = styled.div`
     color: ${name === 'light' ? colors.blue[500] : colors.blue[100]};
   `}
 `
+
+export const CloseIconWrapper = styled.div``
+
 export const ConfirmActionButton = styled.button`
   padding: 4px;
   border-radius: 5px;
