@@ -188,13 +188,12 @@ class NetworkService {
 
   // NOTE: added check for anchorage to use in services
   isAnchorageEnabled() {
-    if (
+    return (
       this.networkType === NetworkType.TESTNET &&
-      this.networkGateway === Network.ETHEREUM_SEPOLIA
-    ) {
-      return true
-    }
-    return false
+      (this.networkGateway === Network.ETHEREUM_SEPOLIA ||
+        this.networkGateway === Network.OPTIMISM ||
+        this.networkGateway === Network.ARBITRUM)
+    )
   }
 
   async getBobaFeeChoice() {
@@ -702,8 +701,6 @@ class NetworkService {
         this.L2Provider
       )
 
-      // Teleportation
-      // not deployed on mainnets yet
       this.LightBridge = new ethers.Contract(
         // correct one is used accordingly, thus as last resort we use a wrong/dummy address to have this constant defined
         this.addresses.Proxy__L1Teleportation ??
@@ -914,7 +911,9 @@ class NetworkService {
       let layer2Balances
       if (
         this.network === Network.ETHEREUM ||
-        this.network === Network.ETHEREUM_SEPOLIA
+        this.network === Network.ETHEREUM_SEPOLIA ||
+        this.network === Network.OPTIMISM ||
+        this.network === Network.ARBITRUM
       ) {
         layer1Balances = [
           {
@@ -1005,7 +1004,9 @@ class NetworkService {
         }
         if (
           this.network === Network.ETHEREUM ||
-          this.network === Network.ETHEREUM_SEPOLIA
+          this.network === Network.ETHEREUM_SEPOLIA ||
+          this.network === Network.ARBITRUM ||
+          this.network === Network.OPTIMISM
         ) {
           if (token.addressL1 === this.addresses.L1_ETH_Address) {
             return

@@ -63,9 +63,9 @@
     zen-observable-ts "^1.2.0"
 
 "@apollo/client@^3.5.10":
-  version "3.9.7"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.9.7.tgz#e2b6f2d0240a6420753fb658a021dfd0637f2a56"
-  integrity sha512-OEEwt55bkFhqihCT5d75KUxZt50JZ9MuIYwG7VZlyPPIAb9K+qzVWlXWlf3tB5DaV43yXkUSLQfNpdIBFOB55Q==
+  version "3.9.9"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.9.9.tgz#38f983a1ad24e2687abfced0a9c1c3bef8d32616"
+  integrity sha512-/sMecU/M0WK9knrguts1lSLV8xFKzIgOMVb4mi6MOxgJXjliDB8PvOtmXhTqh2cVMMR4TzXgOnb+af/690zlQw==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     "@wry/caches" "^1.0.0"
@@ -1362,20 +1362,20 @@
     "@ethersproject/abstract-signer" "^5.5.0"
     "@ethersproject/hardware-wallets" "^5.5.0"
 
-"@bobanetwork/graphql-utils@^1.0.20":
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/@bobanetwork/graphql-utils/-/graphql-utils-1.0.20.tgz#4c720c30fcfadbc7d5100aa444c80b4e4074b48a"
-  integrity sha512-HYQ6y+mVKUuaGfZVRLGcBhBFf6SUXnJ2gsINC8oI/VP6TxbvrluRR5XeQUPrssFxcB7B9IItnHrvMmrfdgQqdg==
+"@bobanetwork/graphql-utils@^1.0.41":
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/graphql-utils/-/graphql-utils-1.0.41.tgz#f6ce61f176c4cd0dfd2c3095a1d3a4c0b049260c"
+  integrity sha512-K3tBdTKANolknyhi39OFrGYf/yG0Kz0PMjFIETIKCYaFc+mA2DyyK5acv2bY7qsiGAQfYJcjXYfuOYchN+n5Dw==
   dependencies:
     "@apollo/client" "3.5.10"
     "@ethersproject/providers" "^5.7.2"
     ethers "^5.5.4"
-    node-fetch "^3.3.2"
+    node-fetch "^2.6.1"
 
-"@bobanetwork/light-bridge-chains@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.npmjs.org/@bobanetwork/light-bridge-chains/-/light-bridge-chains-1.0.9.tgz"
-  integrity sha512-La1/89Yq5e5nhhkgK6c5H//qKf9OXVUgQB6zMmz6U0PtMtWvU3GkI9KPY/ucWRtu2bTA1u3HlUhCprxCGIwsSg==
+"@bobanetwork/light-bridge-chains@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/light-bridge-chains/-/light-bridge-chains-1.0.12.tgz#1ce53fe1f0d9294104b948ff43bc6adfb7f1a4e9"
+  integrity sha512-HKQ1be6hYp7FrZhas1ntrEvIuJjqWGT6YxfFxzDX/F4VyUzrCXp+++G8PSfp1VbAk3apQSfS5ndlpEx9/DJD8Q==
   dependencies:
     dotenv "^8.6.0"
     ethers "^5.5.4"
@@ -8483,11 +8483,6 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-data-uri-to-buffer@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/data-uri-to-buffer/-/data-uri-to-buffer-4.0.1.tgz"
-  integrity sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==
-
 data-urls@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/data-urls/-/data-urls-2.0.0.tgz"
@@ -10297,14 +10292,6 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
-fetch-blob@^3.1.2, fetch-blob@^3.1.4:
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/fetch-blob/-/fetch-blob-3.2.0.tgz"
-  integrity sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==
-  dependencies:
-    node-domexception "^1.0.0"
-    web-streams-polyfill "^3.0.3"
-
 fetch-retry@^5.0.2:
   version "5.0.6"
   resolved "https://registry.npmjs.org/fetch-retry/-/fetch-retry-5.0.6.tgz"
@@ -10631,13 +10618,6 @@ form-data@~2.3.2:
     asynckit "^0.4.0"
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
-
-formdata-polyfill@^4.0.10:
-  version "4.0.10"
-  resolved "https://registry.npmjs.org/formdata-polyfill/-/formdata-polyfill-4.0.10.tgz"
-  integrity sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==
-  dependencies:
-    fetch-blob "^3.1.2"
 
 forwarded@0.2.0:
   version "0.2.0"
@@ -14213,11 +14193,6 @@ node-dir@^0.1.17:
   dependencies:
     minimatch "^3.0.2"
 
-node-domexception@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/node-domexception/-/node-domexception-1.0.0.tgz"
-  integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
-
 node-fetch-native@^1.4.0, node-fetch-native@^1.4.1, node-fetch-native@^1.6.1:
   version "1.6.2"
   resolved "https://registry.npmjs.org/node-fetch-native/-/node-fetch-native-1.6.2.tgz"
@@ -14229,15 +14204,6 @@ node-fetch@^2.0.0, node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.7:
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
   dependencies:
     whatwg-url "^5.0.0"
-
-node-fetch@^3.3.2:
-  version "3.3.2"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-3.3.2.tgz"
-  integrity sha512-dRB78srN/l6gqWulah9SrxeYnxeddIG30+GOqK/9OlLVyLg3HPnr6SqOWTWOXKRwC2eGYCkZ59NNuSgvSrpgOA==
-  dependencies:
-    data-uri-to-buffer "^4.0.0"
-    fetch-blob "^3.1.4"
-    formdata-polyfill "^4.0.10"
 
 node-forge@^1, node-forge@^1.3.1:
   version "1.3.1"
@@ -19184,11 +19150,6 @@ wcwidth@^1.0.1:
   integrity sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==
   dependencies:
     defaults "^1.0.3"
-
-web-streams-polyfill@^3.0.3:
-  version "3.3.3"
-  resolved "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.3.3.tgz"
-  integrity sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==
 
 web3-utils@^1.3.4:
   version "1.10.4"

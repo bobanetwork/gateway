@@ -37,7 +37,7 @@ module.exports = (config, env) => {
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
       process: 'process',
-    })
+    }),
   );
   if (process.env.REACT_APP_ENV === 'dev') {
     config.plugins.push(new BundleAnalyzerPlugin({

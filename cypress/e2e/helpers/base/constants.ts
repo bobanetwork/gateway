@@ -66,13 +66,13 @@ export const BobaBNBTestnetInfo: NetworkTestInfo = {
   isTestnet: true,
 }
 
-export const OptimismGoerliInfo: NetworkTestInfo = {
-  networkName: 'Optimism (Goerli)',
+export const OptimismSepoliaInfo: NetworkTestInfo = {
+  networkName: 'Optimism (Sepolia)',
   networkAbbreviation: 'OPTIMISM',
   isTestnet: true,
 }
-export const ArbitrumGoerliInfo: NetworkTestInfo = {
-  networkName: 'Arbitrum (Goerli)',
+export const ArbitrumSepoliaInfo: NetworkTestInfo = {
+  networkName: 'Arbitrum (Sepolia)',
   networkAbbreviation: 'ARBITRUM',
   isTestnet: true,
 }
@@ -94,6 +94,6 @@ export const TestnetL2Networks: NetworkTestInfo[] = [
 export const TestnetLightBridgeNetworks: NetworkTestInfo[] = [
   BobaGoerliInfo,
   BobaBNBTestnetInfo,
-  OptimismGoerliInfo,
-  ArbitrumGoerliInfo,
+  OptimismSepoliaInfo,
+  ArbitrumSepoliaInfo,
 ]

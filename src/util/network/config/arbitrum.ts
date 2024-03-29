@@ -1,30 +1,20 @@
 import { NetworkDetail } from './network-details.types'
+import { SepoliaTestnet } from './ethereumSepolia'
 
 export const arbitrumConfig: NetworkDetail = {
   Testnet: {
-    addressManager: `0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148`,
-    MM_Label: `Goerli`,
-    L1: {
-      name: 'Goerli',
-      chainId: 5,
-      chainIdHex: '0x5',
-      rpcUrl: [
-        `https://goerli.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
-        `https://rpc.ankr.com/eth_goerli`,
-      ],
-      transaction: `https://goerli.etherscan.io/tx/`,
-      blockExplorerUrl: `https://goerli.etherscan.io/`,
-      symbol: 'ETH',
-      tokenName: 'ETH',
-    },
+    ...SepoliaTestnet,
     L2: {
-      name: 'Arbitrum Goerli',
-      chainId: 421613,
-      chainIdHex: '0x66EED',
-      rpcUrl: [`https://goerli-rollup.arbitrum.io/rpc`],
-      blockExplorer: `https://goerli.arbiscan.io/`,
-      transaction: `https://goerli.arbiscan.io/tx/`,
-      blockExplorerUrl: `https://goerli.arbiscan.io/`,
+      name: 'Arbitrum Sepolia',
+      chainId: 421614,
+      chainIdHex: '0x66eee',
+      rpcUrl: [
+        `https://arbitrum-sepolia.gateway.tenderly.co/3SOVnngE1EdDjNfxX8LC4V`,
+        `https://arbitrum-sepolia.blockpi.network/v1/rpc/public`,
+      ],
+      blockExplorer: `https://sepolia.arbiscan.io/`,
+      transaction: `https://sepolia.arbiscan.io/tx/`,
+      blockExplorerUrl: `https://sepolia.arbiscan.io/`,
       symbol: 'ETH',
       tokenName: 'ETH',
     },

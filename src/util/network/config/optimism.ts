@@ -1,30 +1,20 @@
 import { NetworkDetail } from './network-details.types'
+import { SepoliaTestnet } from './ethereumSepolia'
 
 export const optimismConfig: NetworkDetail = {
   Testnet: {
-    MM_Label: `optimismTestnet`,
-    addressManager: `0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148`,
-    L1: {
-      name: 'Goerli',
-      chainId: 5,
-      chainIdHex: '0x5',
-      rpcUrl: [
-        `https://goerli.gateway.tenderly.co/1clfZoq7qEGyF4SQvF8gvI`,
-        `https://rpc.ankr.com/eth_goerli`,
-      ],
-      transaction: `https://goerli.etherscan.io/tx/`,
-      blockExplorerUrl: `https://goerli.etherscan.io/`,
-      symbol: 'ETH',
-      tokenName: 'ETH',
-    },
+    ...SepoliaTestnet,
     L2: {
-      name: 'Optimism Goerli',
-      chainId: 420,
-      chainIdHex: '0x1A4',
-      rpcUrl: [`https://goerli.optimism.io`],
-      blockExplorer: `https://goerli-explorer.optimism.io/`,
-      transaction: `https://goerli-explorer.optimism.io/tx/`,
-      blockExplorerUrl: `https://goerli-explorer.optimism.io/`,
+      name: 'Optimism Sepolia',
+      chainId: 11155420,
+      chainIdHex: '0xaa37dc',
+      rpcUrl: [
+        `https://optimism-sepolia.gateway.tenderly.co/3SOVnngE1EdDjNfxX8LC4V`,
+        `https://sepolia.optimism.io`,
+      ],
+      blockExplorer: `https://sepolia-optimism.etherscan.io/`,
+      transaction: `https://sepolia-optimism.etherscan.io/tx/`,
+      blockExplorerUrl: `https://sepolia-optimism.etherscan.io/`,
       symbol: 'ETH',
       tokenName: 'ETH',
     },
