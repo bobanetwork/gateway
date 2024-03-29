@@ -90,7 +90,7 @@ describe('NetworkSelector', () => {
     })
   })
 
-  test('should match snapshot when account connected to Boba (Sepolia)', async () => {
+  test('should match snapshot when account connected to Boba (Goerli)', async () => {
     store = mockStore({
       ...store,
       bridge: {
@@ -106,7 +106,7 @@ describe('NetworkSelector', () => {
         activeNetwork: 'ETHEREUM',
         activeNetworkType: 'Testnet',
         activeNetworkIcon: 'ethereum',
-        chainIds: { L1: '11155111', L2: '11155420' },
+        chainIds: { L1: '5', L2: '2888' },
       },
       setup: {
         netLayer: 'L2',
@@ -116,9 +116,9 @@ describe('NetworkSelector', () => {
     const { asFragment, getByText } = renderNetworkSelector({
       store,
     })
-    expect(getByText('Boba (Sepolia)')).toBeInTheDocument()
+    expect(getByText('Boba (Goerli)')).toBeInTheDocument()
     expect(asFragment()).toMatchSnapshot()
-    const header = getByText('Boba (Sepolia)')
+    const header = getByText('Boba (Goerli)')
     await fireEvent.click(header)
     const binanceOption = getByText('Optimism (Sepolia)')
     expect(binanceOption).toBeInTheDocument()
