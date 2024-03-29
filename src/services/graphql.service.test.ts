@@ -1,8 +1,9 @@
 import {
   anchorageGraphQLService,
+  DepositState,
   GQLDepositFinalizedEvent,
-} from './graphql.service'
-import { DepositState, WithdrawState } from './anchorage.service'
+  WithdrawState,
+} from '@bobanetwork/graphql-utils'
 
 describe('GraphQLService', () => {
   let mockProvider
@@ -141,7 +142,8 @@ describe('GraphQLService', () => {
       }
 
       const res = await anchorageGraphQLService.mapWithdrawalToTransaction(
-        mockNetworkService as any,
+        (mockNetworkService as any)?.L1Provider,
+        (mockNetworkService as any)?.L2Provider,
         mockNetworkConfig as any,
         event as any,
         WithdrawState.initialized
@@ -170,7 +172,8 @@ describe('GraphQLService', () => {
       }
 
       const res = await anchorageGraphQLService.mapWithdrawalToTransaction(
-        mockNetworkService as any,
+        (mockNetworkService as any)?.L1Provider,
+        (mockNetworkService as any)?.L2Provider,
         mockNetworkConfig as any,
         event as any,
         WithdrawState.proven

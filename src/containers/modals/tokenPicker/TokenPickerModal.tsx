@@ -41,7 +41,7 @@ import { NetworkList } from '../../../util/network/network.util'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 
-import { lightBridgeGraphQLService } from 'services/graphql.service'
+import { lightBridgeGraphQLService } from '@bobanetwork/graphql-utils'
 import { bridgeConfig } from './config'
 // the L2 token which can not be exited so exclude from dropdown in case of L2
 const NON_EXITABLE_TOKEN = [
