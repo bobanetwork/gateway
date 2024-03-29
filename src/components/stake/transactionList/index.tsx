@@ -82,7 +82,7 @@ const TransactionList = ({ stakeInfo }: TransactionListInterface) => {
             Next unstake window:{' '}
           </ModalTypography>
           <Typography variant="body2">
-            {` ${dayjs(unlocktimeNextBegin).format('DD')}-${dayjs(
+            {` ${dayjs(unlocktimeNextBegin).format('DD MMM')} - ${dayjs(
               unlocktimeNextEnd
             ).format('DD MMM YYYY hh:mm A')}`}
           </Typography>
