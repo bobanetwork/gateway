@@ -1,4 +1,4 @@
-import { IReenterWithdrawConfig } from '../../services/anchorage.service'
+import { IReenterWithdrawConfig } from '@bobanetwork/graphql-utils'
 
 export enum TRANSACTION_FILTER_STATUS {
   Pending = 'Pending',

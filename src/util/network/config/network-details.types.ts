@@ -1,4 +1,5 @@
 import { BigNumberish } from 'ethers'
+import { MinimalNetworkConfig } from '@bobanetwork/graphql-utils'
 
 export type TxPayload = {
   from: string
@@ -7,7 +8,7 @@ export type TxPayload = {
   data: string
 }
 
-export type NetworkDetailChainConfig = {
+export interface NetworkDetailChainConfig extends MinimalNetworkConfig {
   OMGX_WATCHER_URL?: string
   VERIFIER_WATCHER_URL?: string
   META_TRANSACTION?: string

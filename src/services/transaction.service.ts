@@ -13,7 +13,7 @@ import {
   LightBridgeDisbursementEvents,
   anchorageGraphQLService,
   lightBridgeGraphQLService,
-} from './graphql.service'
+} from '@bobanetwork/graphql-utils'
 import networkService from './networkService'
 import { uniqWith } from '../util/lodash'
 
@@ -66,12 +66,15 @@ class TransactionService {
     try {
       const withdrawalTransactions =
         await anchorageGraphQLService.queryWithdrawalTransactionsHistory(
+          networkService.L1Provider,
+          networkService.L2Provider,
           address,
           networkConfig!
         )
 
       const depositTransactions =
         await anchorageGraphQLService.queryDepositTransactions(
+          networkService.L2Provider,
           address,
           networkConfig!
         )
@@ -332,9 +335,9 @@ class TransactionService {
         let sentEvents: LightBridgeAssetReceivedEvent[] = []
         try {
           sentEvents = await lightBridgeGraphQLService.queryAssetReceivedEvent(
-            networkService.account!,
             sourceChainId,
-            targetChainId
+            targetChainId,
+            networkService.account!,
           )
         } catch (err: any) {
           console.log(err?.message)

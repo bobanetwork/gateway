@@ -7,7 +7,7 @@ import {
   ConfirmLabel,
   ConfirmModalContainer,
 } from './index.styles'
-import { WithdrawState } from 'services/anchorage.service'
+import { WithdrawState } from '@bobanetwork/graphql-utils'
 
 interface Props {
   state?: WithdrawState
