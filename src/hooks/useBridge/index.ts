@@ -41,7 +41,7 @@ export const useBridge = () => {
   const toL2Account = useSelector(selectBridgeDestinationAddress())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-  const { isAnchorageEnabled } = useNetworkInfo()
+  const { isAnchorageEnabled, isClassicWithdrawalDisabled } = useNetworkInfo()
 
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const activeNetwork = useSelector(selectActiveNetwork())
@@ -168,9 +168,11 @@ export const useBridge = () => {
     if (!!isAnchorageEnabled) {
       dispatch(openModal('bridgeMultiStepWithdrawal'))
     } else {
+      if (!!isClassicWithdrawalDisabled) {
+        return false
+      }
       // @todo clean up this once anchorage migration done on mainnet.
-      // return dispatch(exitBOBA(token.address, amountWei))
-      return false
+      return dispatch(exitBOBA(token.address, amountWei))
     }
   }
 

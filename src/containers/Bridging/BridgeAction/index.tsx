@@ -1,19 +1,16 @@
 import { setConnect } from 'actions/setupAction'
 import { openModal } from 'actions/uiAction'
 import { Heading } from 'components/global'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectAccountEnabled,
   selectAmountToBridge,
   selectBridgeAlerts,
-  selectBridgeType,
-  selectLayer,
   selectTokenToBridge,
 } from 'selectors'
 import { BridgeActionButton, BridgeActionContainer } from '../styles'
-import { BRIDGE_TYPE } from '../BridgeTypeSelector'
-import { Layer } from 'util/constant'
 
 const BridgeAction = () => {
   const dispatch = useDispatch<any>()
@@ -21,14 +18,11 @@ const BridgeAction = () => {
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
   const bridgeAlerts = useSelector(selectBridgeAlerts())
-  const bridgeType = useSelector(selectBridgeType())
-  const layer = useSelector(selectLayer())
+  const { isClassicWithdrawalDisabled } = useNetworkInfo()
 
   const isBridgeActionDisabled = () => {
-    // NOTE: temporarily disable classic withdrawal till 16th april
-    // change back once anchorage update is done.
-    if (bridgeType === BRIDGE_TYPE.CLASSIC && layer === Layer.L2) {
-      return true
+    if (isClassicWithdrawalDisabled) {
+      return isClassicWithdrawalDisabled
     }
     const hasError = bridgeAlerts.find((alert: any) => alert.type === 'error')
     return !token || !amountToBridge || hasError
