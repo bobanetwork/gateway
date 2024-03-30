@@ -337,7 +337,7 @@ class TransactionService {
           sentEvents = await lightBridgeGraphQLService.queryAssetReceivedEvent(
             sourceChainId,
             targetChainId,
-            networkService.account!,
+            networkService.account!
           )
         } catch (err: any) {
           console.log(err?.message)
