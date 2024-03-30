@@ -206,7 +206,7 @@ exports[`Home  should match snapshot 1`] = `
             </a>
             <a
               class="sc-jGKxIK iBVZnW"
-              href="https://docs.boba.network/for-developers"
+              href="https://docs.boba.network/developer"
               target="_blank"
             >
               Dev Tools
