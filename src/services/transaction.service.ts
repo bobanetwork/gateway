@@ -242,9 +242,9 @@ class TransactionService {
         crossDomainMessage: disburseEvent?.depositId?.toString(),
         crossDomainMessageEstimateFinalizedTime:
           crossDomainMessageFinalize ??
-          parseInt(sendEvent.timestamp_?.toString(), 10) + 180, // should never take longer than a few minutes
+          parseInt(sendEvent.timestamp_.toString(), 10) + 180, // should never take longer than a few minutes
         crossDomainMessageFinalize,
-        crossDomainMessageSendTime: sendEvent.timestamp_?.toString(),
+        crossDomainMessageSendTime: sendEvent.timestamp_.toString(),
         fromHash: sendEvent.transactionHash_,
         toHash: undefined,
       }
@@ -280,8 +280,7 @@ class TransactionService {
         to: sendEvent.emitter,
         token: sendEvent.token,
       }
-      const networkConfigForChainId =
-        CHAIN_ID_LIST[sendEvent.sourceChainId.toNumber()]
+      const networkConfigForChainId = CHAIN_ID_LIST[sendEvent.sourceChainId.toString()]
       return {
         ...sendEvent,
         ...txReceipt,
@@ -352,15 +351,15 @@ class TransactionService {
             let receiveEvent =
               await lightBridgeGraphQLService.queryDisbursementSuccessEvent(
                 networkService.account!,
-                sendEvent.sourceChainId?.toString(),
-                sendEvent.toChainId?.toString(),
+                sendEvent.sourceChainId.toString(),
+                sendEvent.toChainId.toString(),
                 _getLightBridgeSupportedDestChainTokenAddrBySourceChainTokenAddr(
                   sendEvent.token,
-                  sendEvent.sourceChainId?.toString(),
-                  sendEvent.toChainId?.toString()
+                  sendEvent.sourceChainId.toString(),
+                  sendEvent.toChainId.toString()
                 ) ?? '0',
-                sendEvent.amount?.toString(),
-                sendEvent.depositId?.toString()
+                sendEvent.amount.toString(),
+                sendEvent.depositId.toString()
               )
             if (
               !receiveEvent &&
@@ -370,20 +369,20 @@ class TransactionService {
               receiveEvent =
                 await lightBridgeGraphQLService.queryDisbursementFailedEvent(
                   networkService.account!,
-                  sendEvent.sourceChainId?.toString(),
-                  sendEvent.toChainId?.toString(),
-                  sendEvent.amount?.toString(),
-                  sendEvent.depositId?.toString()
+                  sendEvent.sourceChainId.toString(),
+                  sendEvent.toChainId.toString(),
+                  sendEvent.amount.toString(),
+                  sendEvent.depositId.toString()
                 )
               if (receiveEvent) {
                 // check if successfully retried
                 receiveEvent =
                   await lightBridgeGraphQLService.queryDisbursementRetrySuccessEvent(
                     networkService.account!,
-                    sendEvent.sourceChainId?.toString(),
-                    sendEvent.toChainId?.toString(),
-                    sendEvent.amount?.toString(),
-                    sendEvent.depositId?.toString()
+                    sendEvent.sourceChainId.toString(),
+                    sendEvent.toChainId.toString(),
+                    sendEvent.amount.toString(),
+                    sendEvent.depositId.toString()
                   )
               }
               if (receiveEvent) {

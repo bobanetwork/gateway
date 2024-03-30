@@ -892,6 +892,10 @@ class NetworkService {
 
   async getL2BalanceBOBA() {
     try {
+      if (this.networkGateway === Network.ARBITRUM || this.networkGateway === Network.OPTIMISM) {
+        console.log('No BOBA token available on network')
+        return '0'
+      }
       const ERC20Contract = new ethers.Contract(
         this.tokenAddresses!['BOBA'].L2,
         L2StandardERC20ABI, //any old abi will do...
@@ -2207,6 +2211,10 @@ class NetworkService {
       layer === Layer.L1
         ? this.addresses.Proxy__L1Teleportation
         : this.addresses.Proxy__L2Teleportation
+
+    // native is defined as zeroAddress in LightBridge
+    token = token === '0x4200000000000000000000000000000000000006' ? ethers.constants.AddressZero : token
+
     if (!lightBridgeAddr) {
       return { supported: false }
     }
@@ -2216,7 +2224,7 @@ class NetworkService {
     return contract.supportedTokens(token, destChainId)
   }
 
-  async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
+  async depositWithLightBridge(layer, currency, value_Wei_String, destChainId) {
     try {
       updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)

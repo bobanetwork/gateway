@@ -1,9 +1,9 @@
 import { NetworkDetail } from './network-details.types'
-import { SepoliaTestnet } from './ethereumSepolia'
+import { SepoliaTestnets } from './ethereumSepolia'
 
 export const optimismConfig: NetworkDetail = {
   Testnet: {
-    ...SepoliaTestnet,
+    ...SepoliaTestnets,
     L2: {
       name: 'Optimism Sepolia',
       chainId: 11155420,

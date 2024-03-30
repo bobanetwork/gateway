@@ -437,7 +437,7 @@ describe('UseBridge Hooks', () => {
           lightBridgeAddr: 'lightBridgeAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
-        ;(networkService.depositWithTeleporter as jest.Mock).mockResolvedValue({
+        ;(networkService.depositWithLightBridge as jest.Mock).mockResolvedValue({
           message: 'success!',
         })
 
@@ -461,7 +461,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.depositWithTeleporter as jest.Mock).mock.calls[0]
+          (networkService.depositWithLightBridge as jest.Mock).mock.calls[0]
         ).toEqual([
           'L1',
           '0x0000000000000000000000000000000000000000',
@@ -669,7 +669,7 @@ describe('UseBridge Hooks', () => {
           lightBridgeAddr: 'lightBridgeAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
-        ;(networkService.depositWithTeleporter as jest.Mock).mockResolvedValue({
+        ;(networkService.depositWithLightBridge as jest.Mock).mockResolvedValue({
           message: 'success!',
         })
 
@@ -693,7 +693,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.depositWithTeleporter as jest.Mock).mock.calls[0]
+          (networkService.depositWithLightBridge as jest.Mock).mock.calls[0]
         ).toEqual([
           'L2',
           '0x0000000000000000000000000000000000000000',

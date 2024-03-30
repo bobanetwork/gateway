@@ -1,7 +1,7 @@
 import { NetworkDetail } from './network-details.types'
 
 // Anchorage
-export const SepoliaTestnet = {
+export const SepoliaTestnets = {
   OMGX_WATCHER_URL: '',
   VERIFIER_WATCHER_URL: `https://api-verifier.goerli.boba.network/`,
   META_TRANSACTION: `https://api-meta-transaction.goerli.boba.network/`,
@@ -44,7 +44,7 @@ export const SepoliaTestnet = {
 }
 
 export const sepoliaConfig: NetworkDetail = {
-  Testnet: SepoliaTestnet,
+  Testnet: SepoliaTestnets,
   Mainnet: {
     OMGX_WATCHER_URL: `https://api-watcher.mainnet.boba.network/`,
     VERIFIER_WATCHER_URL: `https://api-verifier.mainnet.boba.network/`,

@@ -27,12 +27,12 @@ const blockExplorerLinks = {
       l2: `https://testnet.bobascan.com`,
     },
     [Network.ARBITRUM]: {
-      l1: `https://goerli.etherscan.io`,
-      l2: `https://goerli.arbiscan.io`,
+      l1: `https://sepolia.etherscan.io`,
+      l2: `https://sepolia.arbiscan.io`,
     },
     [Network.OPTIMISM]: {
-      l1: `https://goerli.etherscan.io`,
-      l2: `https://goerli-explorer.optimism.io`,
+      l1: `https://sepolia.etherscan.io`,
+      l2: `https://sepolia-optimism.etherscan.io`,
     },
   },
   [NetworkType.MAINNET]: {

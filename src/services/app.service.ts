@@ -8,10 +8,14 @@ import {
 import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
 import addresses_Sepolia from '@bobanetwork/register/addresses/addressesBobaSepolia_0xC62C429390B7bCE9960fa647d5556CA7238168AB.json'
 import addresses_BobaBnbTestnet from '@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa.json'
+import addresses_OptimismSepolia from '@bobanetwork/register/addresses/addressesOptimismSepolia_0x.json'
+import addresses_ArbitrumSepolia from '@bobanetwork/register/addresses/addressesArbitrumSepolia_0x.json'
 
 // mainnet address
 import addresses_Mainnet from '@bobanetwork/register/addresses/addressesMainnet_0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089.json'
 import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0xeb989B25597259cfa51Bd396cE1d4B085EC4c753.json'
+import addresses_OptimismMainnet from '@bobanetwork/register/addresses/addressesOptimismMainnet_0x.json'
+import addresses_ArbitrumMainnet from '@bobanetwork/register/addresses/addressesArbitrumMainnet_0x.json'
 
 // layerzero addresses.
 import layerZeroTestnet from '@bobanetwork/register/addresses/layerZeroTestnet.json'
@@ -28,6 +32,12 @@ const L2_SECONDARYFEETOKEN_ADDRESS =
 
 const ADDRESS_CONFIG = {
   [NetworkType.MAINNET]: {
+    [Network.OPTIMISM]: {
+      ...addresses_OptimismMainnet,
+    },
+    [Network.ARBITRUM]: {
+      ...addresses_ArbitrumMainnet,
+    },
     [Network.ETHEREUM]: {
       ...addresses_Mainnet,
       ...layerZeroMainnet.BOBA_Bridges.Mainnet,
@@ -44,6 +54,12 @@ const ADDRESS_CONFIG = {
     },
   },
   [NetworkType.TESTNET]: {
+    [Network.OPTIMISM]: {
+      ...addresses_OptimismSepolia,
+    },
+    [Network.ARBITRUM]: {
+      ...addresses_ArbitrumSepolia
+    },
     [Network.ETHEREUM_SEPOLIA]: {
       ...addresses_Sepolia,
       ...layerZeroTestnet.BOBA_Bridges.Testnet,

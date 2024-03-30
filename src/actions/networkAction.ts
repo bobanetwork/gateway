@@ -58,7 +58,7 @@ export const depositWithLightBridge = (
   destChainId: BigNumberish
 ) =>
   createAction('DEPOSIT/CREATE', () =>
-    networkService.depositWithTeleporter(layer, currency, value, destChainId)
+    networkService.depositWithLightBridge(layer, currency, value, destChainId)
   )
 
 //SWAP RELATED - Depositing into the L2LP triggers the swap-exit

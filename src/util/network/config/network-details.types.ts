@@ -20,6 +20,7 @@ export interface NetworkDetailChainConfig extends MinimalNetworkConfig {
     chainIdHex: string
     rpcUrl: string[]
     transaction: string
+    blockExplorer?: string
     blockExplorerUrl: string
     symbol: string
     tokenName: string
@@ -29,7 +30,7 @@ export interface NetworkDetailChainConfig extends MinimalNetworkConfig {
     chainId: number
     chainIdHex: string
     rpcUrl: string[]
-    blockExplorer: string
+    blockExplorer?: string
     transaction: string
     blockExplorerUrl: string
     symbol: string
