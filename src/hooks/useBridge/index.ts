@@ -168,7 +168,9 @@ export const useBridge = () => {
     if (!!isAnchorageEnabled) {
       dispatch(openModal('bridgeMultiStepWithdrawal'))
     } else {
-      return dispatch(exitBOBA(token.address, amountWei))
+      // @todo clean up this once anchorage migration done on mainnet.
+      // return dispatch(exitBOBA(token.address, amountWei))
+      return false
     }
   }
 
