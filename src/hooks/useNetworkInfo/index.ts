@@ -43,7 +43,7 @@ export const useNetworkInfo = () => {
     } else {
       setIsClassicWithdrawalDisabled(false)
     }
-  }, [network, networkType])
+  }, [network, networkType, bridgeType, layer])
 
   return {
     isAnchorageEnabled,
