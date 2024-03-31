@@ -20,7 +20,11 @@ import ReenterWithdrawModal from 'containers/modals/ReenterWithdrawModal'
 import useBridgeAlerts from 'hooks/useBridgeAlerts'
 import useBridgeCleanUp from 'hooks/useBridgeCleanUp'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
-import { checkBridgeWithdrawalReenter } from 'services/anchorage.service'
+import {
+  checkBridgeWithdrawalReenter,
+  MinimalNetworkService,
+} from '@bobanetwork/graphql-utils'
+import networkService from '../../services/networkService'
 
 const Bridging = () => {
   const dispatch = useDispatch<any>()
@@ -33,7 +37,9 @@ const Bridging = () => {
 
   useEffect(() => {
     const triggerReenterCheck = async () => {
-      const config = await checkBridgeWithdrawalReenter()
+      const config = await checkBridgeWithdrawalReenter(
+        networkService as MinimalNetworkService
+      )
       if (config) {
         dispatch(setReenterWithdrawalConfig(config))
       }

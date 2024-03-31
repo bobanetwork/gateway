@@ -3,6 +3,16 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
+    class="sc-gmgFlS bitDto open "
+  >
+    <p
+      class="sc-imWYAI dZiXLh sc-kMkxaj ifmrU"
+      data-testid="message"
+    >
+      Note: Classic withdrawals will be temporarily suspended for a duration of 10 days beginning April 6th in preparation for our Anchorage update! Light bridging will remain available throughout the period.
+    </p>
+  </div>
+  <div
     class="sc-hGMjit aucDE"
   >
     <div
@@ -196,7 +206,7 @@ exports[`Home  should match snapshot 1`] = `
             </a>
             <a
               class="sc-jGKxIK iBVZnW"
-              href="https://docs.boba.network/for-developers"
+              href="https://docs.boba.network/developer"
               target="_blank"
             >
               Dev Tools

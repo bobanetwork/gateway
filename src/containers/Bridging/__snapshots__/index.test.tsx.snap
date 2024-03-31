@@ -65,9 +65,9 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
           </div>
           <div
             class="sc-kOPcWz hxKNaX"
-            data-testid="fast-btn"
+            data-testid="light-btn"
           >
-            Fast
+            Light
           </div>
           <div
             class="sc-kOPcWz hxKNaX"
@@ -346,9 +346,9 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
           </div>
           <div
             class="sc-kOPcWz hxKNaX"
-            data-testid="fast-btn"
+            data-testid="light-btn"
           >
-            Fast
+            Light
           </div>
           <div
             class="sc-kOPcWz gfXFER"

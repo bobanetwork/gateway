@@ -68,11 +68,11 @@ describe('Bridge Type Selector', () => {
   test('should update state on click of each tab', () => {
     renderBridgeTypeSelector({ store })
     const classicBtn = screen.getByTestId('classic-btn')
-    const fastBtn = screen.getByTestId('fast-btn')
+    const lightBtn = screen.getByTestId('light-btn')
     const thirdPartyBtn = screen.getByTestId('third-party-btn')
 
     fireEvent.click(classicBtn)
-    fireEvent.click(fastBtn)
+    fireEvent.click(lightBtn)
     fireEvent.click(thirdPartyBtn)
     const actions = store.getActions()
     expect(actions).toEqual([
@@ -85,7 +85,7 @@ describe('Bridge Type Selector', () => {
         type: 'BRIDGE/TYPE/SELECT',
       },
       {
-        payload: 'FAST',
+        payload: 'LIGHT',
         type: 'BRIDGE/TYPE/SELECT',
       },
       {

@@ -1,6 +1,6 @@
 {
   "name": "@bobanetwork/gateway",
-  "version": "0.13.3",
+  "version": "0.14.0",
   "private": true,
   "scripts": {
     "audit-check": "audit-ci --moderate",
@@ -34,6 +34,7 @@
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@bobanetwork/graphql-utils": "^1.0.20",
     "@bobanetwork/light-bridge-chains": "^1.0.9",
     "@bobanetwork/register": "^0.0.19",
     "@bobanetwork/sdk": "1.0.7",
@@ -131,7 +132,7 @@
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
     "audit-ci": "^6.6.1",
-    "cypress": "12.17.3",
+    "cypress": "13.7.0",
     "env-cmd": "^10.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-cypress": "^2.14.0",
