@@ -186,6 +186,18 @@ export const NETWORK_L2_OPTIONS = [
     imgSrc: arbitrum,
     headerName: NetworkType.TESTNET,
   },
+  {
+    value: '10',
+    label: 'Optimism',
+    imgSrc: optimism,
+    headerName: NetworkType.MAINNET,
+  },
+  {
+    value: '42161',
+    label: 'Arbitrum',
+    imgSrc: arbitrum,
+    headerName: NetworkType.MAINNET,
+  },
 ]
 
 export const FILTER_OPTIONS: IFilterDropdownItem[] = [
