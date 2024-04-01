@@ -913,6 +913,8 @@ class NetworkService {
       let layer1Balances
       let layer2Balances
       if (
+        this.network === Network.ARBITRUM ||
+        this.network === Network.OPTIMISM ||
         this.network === Network.ETHEREUM ||
         this.network === Network.ETHEREUM_SEPOLIA
       ) {
