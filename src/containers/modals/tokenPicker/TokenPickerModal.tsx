@@ -40,6 +40,7 @@ import { formatTokenAmount } from 'util/common'
 import { NetworkList } from '../../../util/network/network.util'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
+import { constants } from 'ethers'
 
 import { lightBridgeGraphQLService } from '@bobanetwork/graphql-utils'
 import { bridgeConfig } from './config'
@@ -75,6 +76,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
   const [balances, setBalance] = useState([])
 
   useEffect(() => {
+    console.log('getting..', l1Balance, l2Balance, layer)
     const config = bridgeConfig[bridgeType] || bridgeConfig.default
     config
       .getBalance({ l1Balance, l2Balance, layer, getBridgeableTokens })
@@ -91,14 +93,20 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
       NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
         .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
 
+    const tokens = allTokens.map((b) => {
+      if (b.address === '0x4200000000000000000000000000000000000006') {
+        return constants.AddressZero
+      }
+      b.address
+    })
+
     try {
       const res = await lightBridgeGraphQLService.querySupportedTokensBridge(
         NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
           .chainId[layer === LAYER.L1 ? LAYER.L1 : LAYER.L2],
-        allTokens.map((b) => b.address),
+        tokens,
         destChainId
       )
-
       if (res.length) {
         return res
       }

@@ -31,8 +31,8 @@ describe('OP/ARB network configuration', () => {
     expect(config.Mainnet.L1.chainIdHex).toEqual('0x1')
     expect(config.Mainnet.L2.chainIdHex).toEqual('0xA4B1')
     expect(config.Testnet.L1.chainId).toEqual(5)
-    expect(config.Testnet.L2.chainId).toEqual(421613)
-    expect(config.Testnet.L1.chainIdHex).toEqual('0x5')
+    expect(config.Testnet.L2.chainId).toEqual(421614)
+    expect(config.Testnet.L1.chainIdHex).toEqual('0x11155111')
     expect(config.Testnet.L2.chainIdHex).toEqual('0x66EED')
   })
 
@@ -50,21 +50,21 @@ describe('OP/ARB network configuration', () => {
       (chain) => chain.chain === Network.OPTIMISM
     )
     expect(OP).toBeDefined()
-    expect(OP?.chainId.L1).toEqual('5')
-    expect(OP?.chainId.L2).toEqual('420')
+    expect(OP?.chainId.L1).toEqual('11155111')
+    expect(OP?.chainId.L2).toEqual('11155420')
     const AR = networkList.Testnet.find(
       (chain) => chain.chain === Network.ARBITRUM
     )
     expect(AR).toBeDefined()
-    expect(AR?.chainId.L1).toEqual('5')
-    expect(AR?.chainId.L2).toEqual('421613')
+    expect(AR?.chainId.L1).toEqual('11155111')
+    expect(AR?.chainId.L2).toEqual('421614')
   })
 
   it('should contain op/arb inside CHAIN_ID_LIST', () => {
-    expect(CHAIN_ID_LIST[420].chain).toEqual(Network.OPTIMISM)
-    expect(CHAIN_ID_LIST[420].networkType).toEqual(NetworkType.TESTNET)
-    expect(CHAIN_ID_LIST[421613].chain).toEqual(Network.ARBITRUM)
-    expect(CHAIN_ID_LIST[421613].networkType).toEqual(NetworkType.TESTNET)
+    expect(CHAIN_ID_LIST[11155420].chain).toEqual(Network.OPTIMISM)
+    expect(CHAIN_ID_LIST[11155420].networkType).toEqual(NetworkType.TESTNET)
+    expect(CHAIN_ID_LIST[421614].chain).toEqual(Network.ARBITRUM)
+    expect(CHAIN_ID_LIST[421614].networkType).toEqual(NetworkType.TESTNET)
   })
 
   it('should list op/arb inside L1/L2 Icons', () => {

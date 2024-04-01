@@ -8,9 +8,13 @@ import {
 import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
 import addresses_Sepolia from '@bobanetwork/register/addresses/addressesBobaSepolia_0xC62C429390B7bCE9960fa647d5556CA7238168AB.json'
 import addresses_BobaBnbTestnet from '@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa.json'
+import addresses_Sepolia_Arb from '@bobanetwork/register/addresses/addressesArbitrumSepolia_0x.json'
+import addresses_Sepolia_Op from '@bobanetwork/register/addresses/addressesOptimismSepolia_0x.json'
 
 // mainnet address
 import addresses_Mainnet from '@bobanetwork/register/addresses/addressesMainnet_0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089.json'
+import addresses_Mainnet_Arb from '@bobanetwork/register/addresses/addressesArbitrumMainnet_0x.json'
+import addresses_Mainnet_Op from '@bobanetwork/register/addresses/addressesOptimismMainnet_0x.json'
 import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0xeb989B25597259cfa51Bd396cE1d4B085EC4c753.json'
 
 // layerzero addresses.
@@ -42,8 +46,20 @@ const ADDRESS_CONFIG = {
       layerZeroTargetChainID:
         layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
+    [Network.ARBITRUM]: {
+      ...addresses_Mainnet_Arb,
+    },
+    [Network.OPTIMISM]: {
+      ...addresses_Mainnet_Op,
+    },
   },
   [NetworkType.TESTNET]: {
+    [Network.ARBITRUM]: {
+      ...addresses_Sepolia_Arb,
+    },
+    [Network.OPTIMISM]: {
+      ...addresses_Sepolia_Op,
+    },
     [Network.ETHEREUM_SEPOLIA]: {
       ...addresses_Sepolia,
       ...layerZeroTestnet.BOBA_Bridges.Testnet,

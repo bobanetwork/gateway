@@ -895,6 +895,13 @@ class NetworkService {
 
   async getL2BalanceBOBA() {
     try {
+      if (
+        this.networkGateway === Network.OPTIMISM ||
+        this.networkGateway === Network.ARBITRUM
+      ) {
+        return BigNumber.from(0)
+      }
+
       const ERC20Contract = new ethers.Contract(
         this.tokenAddresses!['BOBA'].L2,
         L2StandardERC20ABI, //any old abi will do...
@@ -2214,7 +2221,13 @@ class NetworkService {
     const contract = this.LightBridge!.attach(lightBridgeAddr).connect(
       this.provider!.getSigner()
     )
-    return contract.supportedTokens(token, destChainId)
+    return contract.supportedTokens(
+      token.replace(
+        '0x4200000000000000000000000000000000000006',
+        ethers.constants.AddressZero
+      ),
+      destChainId
+    )
   }
 
   async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
