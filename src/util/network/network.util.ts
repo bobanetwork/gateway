@@ -232,6 +232,30 @@ export const NetworkList: NetworkLists = {
       },
       chainId: { [Layer.L1]: '56', [Layer.L2]: '56288' },
     },
+    {
+      icon: 'optimism',
+      chain: Network.OPTIMISM,
+      label: 'Ethereum <> Optimism',
+      key: 'optimism',
+      name: {
+        l1: 'Ethereum',
+        l2: 'Optimism',
+      },
+      chainId: { [Layer.L1]: '1', [Layer.L2]: '10' },
+      limitedAvailability: true,
+    },
+    {
+      icon: 'arbitrum',
+      chain: Network.ARBITRUM,
+      label: 'Ethereum <> Arbitrum',
+      key: 'arbitrum',
+      name: {
+        l1: 'Ethereum',
+        l2: 'Arbitrum',
+      },
+      chainId: { [Layer.L1]: '1', [Layer.L2]: '42161' },
+      limitedAvailability: true,
+    },
   ],
   Testnet: [
     {
