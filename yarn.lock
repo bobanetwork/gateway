@@ -4026,10 +4026,15 @@
     sass-loader "^13.2.2"
     style-loader "^3.3.2"
 
-"@storybook/addon-toolbars@7.6.17", "@storybook/addon-toolbars@^7.0.17":
+"@storybook/addon-toolbars@7.6.17":
   version "7.6.17"
   resolved "https://registry.yarnpkg.com/@storybook/addon-toolbars/-/addon-toolbars-7.6.17.tgz#98c1cee88a8f5f61464d28a09648994884d7bd0a"
   integrity sha512-UMrchbUHiyWrh6WuGnpy34Jqzkx/63B+MSgb3CW7YsQaXz64kE0Rol0TNSznnB+mYXplcqH+ndI4r4kFsmgwDg==
+
+"@storybook/addon-toolbars@^8.0.5":
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-toolbars/-/addon-toolbars-8.0.5.tgz#93625e39f31327199eb9bed78261c5ab4ac52895"
+  integrity sha512-1QrvHtsQI1RNzDrkTMUFaEzZRRKHYrkj/rYpf6B2QyFvaZ6XY4urxSrmssLENuPsoDF4ABU2j6j4BAUgWjIe4A==
 
 "@storybook/addon-viewport@7.6.17":
   version "7.6.17"
