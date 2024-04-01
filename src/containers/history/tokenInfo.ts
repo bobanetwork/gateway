@@ -480,4 +480,18 @@ export const TokenInfo: TokenInfoMap = {
       decimals: 18,
     },
   },
+  '10': {
+    '0x0000000000000000000000000000000000000000': {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+  },
+  '41261': {
+    '0x0000000000000000000000000000000000000000': {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+  },
 }

@@ -145,7 +145,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
               width="20px"
             />
           </div>
-          Optimism (Goerli)
+          Optimism (Sepolia)
         </div>
         <div
           class="sc-fUnMCh jySLNu dropdown sc-dtInlm sc-kOPcWz iSOFgg fGzgLC"
@@ -159,7 +159,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
               width="20px"
             />
           </div>
-          Arbitrum (Goerli)
+          Arbitrum (Sepolia)
         </div>
       </div>
     </div>

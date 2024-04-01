@@ -67,12 +67,12 @@ export const BobaBNBTestnetInfo: NetworkTestInfo = {
 }
 
 export const OptimismGoerliInfo: NetworkTestInfo = {
-  networkName: 'Optimism (Goerli)',
+  networkName: 'Optimism (Sepolia)',
   networkAbbreviation: 'OPTIMISM',
   isTestnet: true,
 }
 export const ArbitrumGoerliInfo: NetworkTestInfo = {
-  networkName: 'Arbitrum (Goerli)',
+  networkName: 'Arbitrum (Sepolia)',
   networkAbbreviation: 'ARBITRUM',
   isTestnet: true,
 }

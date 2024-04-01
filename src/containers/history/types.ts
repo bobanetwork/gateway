@@ -33,8 +33,8 @@ export enum CHAIN_NAME {
   Sepolia = 'Sepolia',
   Boba_Sepolia = 'Boba Sepolia',
   Boba_Goerli = 'Boba Goerli',
-  Optimism_Goerli = 'Optimism Goerli',
-  Arbitrum_Goerli = 'Arbitrum Goerli',
+  Optimism_Sepolia = 'Optimism Sepolia',
+  Arbitrum_Sepolia = 'Arbitrum Sepolia',
 }
 
 export enum LAYER {
