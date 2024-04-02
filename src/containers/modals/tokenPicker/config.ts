@@ -6,16 +6,16 @@ export const bridgeConfig = {
     getBalance: ({ l1Balance, l2Balance, layer, getBridgeableTokens }) => {
       const balances = layer === 'L2' ? l2Balance : l1Balance
       return getBridgeableTokens(balances).then((supportedTokens) => {
-        const supportedAddresses = supportedTokens
-          .map((token) => {
-            return token.token === ethers.constants.AddressZero
-              ? '0x4200000000000000000000000000000000000006'
-              : token.token
-          })
-          .filter((b) => b !== undefined)
-        return balances.filter((balance) =>
-          supportedAddresses.includes(balance.address)
-        )
+        return balances.filter((balance) => {
+          return supportedTokens
+            .map((b) => b.token)
+            .includes(
+              balance.address.replace(
+                '0x4200000000000000000000000000000000000006',
+                ethers.constants.AddressZero
+              )
+            )
+        })
       })
     },
   },

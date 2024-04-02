@@ -348,7 +348,7 @@ class TransactionService {
         }
         return Promise.all(
           sentEvents.map(async (sendEvent) => {
-            let receiveEvent =
+            let receiveEvent: any =
               await lightBridgeGraphQLService.queryDisbursementSuccessEvent(
                 networkService.account!,
                 sendEvent.sourceChainId,
