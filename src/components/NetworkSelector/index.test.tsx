@@ -120,13 +120,13 @@ describe('NetworkSelector', () => {
     expect(asFragment()).toMatchSnapshot()
     const header = getByText('Boba (Goerli)')
     await fireEvent.click(header)
-    const binanceOption = getByText('Optimism (Goerli)')
+    const binanceOption = getByText('Optimism (Sepolia)')
     expect(binanceOption).toBeInTheDocument()
     expect(asFragment()).toMatchSnapshot()
     await fireEvent.click(binanceOption)
     expect(setNetwork).toHaveBeenCalledWith({
       network: Network.OPTIMISM,
-      name: 'Optimism Goerli',
+      name: 'Optimism Sepolia',
       networkIcon: 'optimism',
       chainIds: undefined,
       networkType: NetworkType.TESTNET,

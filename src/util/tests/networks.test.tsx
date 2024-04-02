@@ -20,7 +20,7 @@ describe('OP/ARB network configuration', () => {
     expect(config.Mainnet.L2.chainIdHex).toEqual('0xA')
     expect(config.Testnet.L1.chainId).toEqual(11155111)
     expect(config.Testnet.L2.chainId).toEqual(11155420)
-    expect(config.Testnet.L1.chainIdHex).toEqual('0xAA37DC')
+    expect(config.Testnet.L1.chainIdHex).toEqual('0x11155111')
     expect(config.Testnet.L2.chainIdHex).toEqual('0x1A4')
   })
 
@@ -30,7 +30,7 @@ describe('OP/ARB network configuration', () => {
     expect(config.Mainnet.L2.chainId).toEqual(42161)
     expect(config.Mainnet.L1.chainIdHex).toEqual('0x1')
     expect(config.Mainnet.L2.chainIdHex).toEqual('0xA4B1')
-    expect(config.Testnet.L1.chainId).toEqual(5)
+    expect(config.Testnet.L1.chainId).toEqual(11155111)
     expect(config.Testnet.L2.chainId).toEqual(421614)
     expect(config.Testnet.L1.chainIdHex).toEqual('0x11155111')
     expect(config.Testnet.L2.chainIdHex).toEqual('0x66EEE')
