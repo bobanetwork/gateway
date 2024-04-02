@@ -21,7 +21,7 @@ describe('OP/ARB network configuration', () => {
     expect(config.Testnet.L1.chainId).toEqual(11155111)
     expect(config.Testnet.L2.chainId).toEqual(11155420)
     expect(config.Testnet.L1.chainIdHex).toEqual('0x11155111')
-    expect(config.Testnet.L2.chainIdHex).toEqual('0x1A4')
+    expect(config.Testnet.L2.chainIdHex).toEqual('0xaa37dc')
   })
 
   it('should define arbitrum configuration', () => {
