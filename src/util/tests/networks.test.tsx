@@ -33,7 +33,7 @@ describe('OP/ARB network configuration', () => {
     expect(config.Testnet.L1.chainId).toEqual(5)
     expect(config.Testnet.L2.chainId).toEqual(421614)
     expect(config.Testnet.L1.chainIdHex).toEqual('0x11155111')
-    expect(config.Testnet.L2.chainIdHex).toEqual('0x66EED')
+    expect(config.Testnet.L2.chainIdHex).toEqual('0x66EEE')
   })
 
   it('should list op/arb inside all network configurations', () => {

@@ -37,13 +37,16 @@ import {
   TokenSymbol,
 } from './styles'
 import { formatTokenAmount } from 'util/common'
-import { NetworkList } from '../../../util/network/network.util'
+import { Network, NetworkList } from '../../../util/network/network.util'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 import { constants } from 'ethers'
 
 import { lightBridgeGraphQLService } from '@bobanetwork/graphql-utils'
 import { bridgeConfig } from './config'
+import { NETWORK_L2_OPTIONS } from '../../history/constants'
+import { optimismConfig } from '../../../util/network/config/optimism'
+import { arbitrumConfig } from '../../../util/network/config/arbitrum'
 // the L2 token which can not be exited so exclude from dropdown in case of L2
 const NON_EXITABLE_TOKEN = [
   'OLO',
@@ -76,8 +79,8 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
   const [balances, setBalance] = useState([])
 
   useEffect(() => {
-    console.log('getting..', l1Balance, l2Balance, layer)
     const config = bridgeConfig[bridgeType] || bridgeConfig.default
+    console.log('l1, l2, layer', l1Balance, l2Balance, layer)
     config
       .getBalance({ l1Balance, l2Balance, layer, getBridgeableTokens })
       .then(setBalance)
@@ -93,25 +96,43 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
       NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
         .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
 
-    const tokens = allTokens.map((b) => {
-      if (b.address === '0x4200000000000000000000000000000000000006') {
-        return constants.AddressZero
-      }
-      b.address
-    })
+    const tokens = allTokens
+      .map((b) => {
+        if (b.address === '0x4200000000000000000000000000000000000006') {
+          return constants.AddressZero
+        }
+        b.address
+      })
+      .filter((b) => b !== undefined)
+
+    console.log('AVAILABLE TOKENS ===', tokens)
 
     try {
-      const res = await lightBridgeGraphQLService.querySupportedTokensBridge(
-        NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
-          .chainId[layer === LAYER.L1 ? LAYER.L1 : LAYER.L2],
-        tokens,
-        destChainId
-      )
+      const res = (
+        await lightBridgeGraphQLService.querySupportedTokensBridge(
+          NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
+            .chainId[layer === LAYER.L1 ? LAYER.L1 : LAYER.L2],
+          tokens,
+          destChainId
+        )
+      ).filter((res) => {
+        console.log('before filtering: ', res)
+        console.log('destChainId', destChainId)
+        return ![
+          optimismConfig.Testnet.L2.chainId,
+          arbitrumConfig.Testnet.L2.chainId,
+          optimismConfig.Mainnet.L2.chainId,
+          arbitrumConfig.Mainnet.L2.chainId,
+        ].includes(destChainId)
+      })
+      console.log('gold sky returned: ', res)
+
       if (res.length) {
         return res
       }
       return allTokens
     } catch (e) {
+      console.log('error!: ', e)
       return allTokens
     }
   }
