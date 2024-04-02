@@ -15,7 +15,7 @@ import Button from 'components/button/Button'
 import { useDispatch } from 'react-redux'
 import truncate from 'truncate-middle'
 import { logAmount } from 'util/amountConvert'
-import { orderBy } from 'util/lodash'
+import { orderBy, uniqBy } from 'util/lodash'
 import {
   Icon,
   IconContainer,
@@ -157,14 +157,14 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     return true
   }
   // const filteredTransactions = orderedTransactions
-  const filteredTransactions = orderedTransactions.filter((transaction) => {
+  const filteredTransactions = uniqBy(orderedTransactions.filter((transaction) => {
     return (
       crossDomainFilter(transaction) &&
       networkFilter(transaction) &&
       statusFilter(transaction) &&
       dateFilter(transaction)
     )
-  })
+  }), 'hash')
 
   const process_transaction = (transaction: ITransaction) => {
     const chain = transaction.layer === 'L1pending' ? 'L1' : transaction.layer

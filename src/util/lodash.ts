@@ -3,6 +3,6 @@ import intersection from 'lodash.intersection'
 import orderBy from 'lodash.orderby'
 import keyBy from 'lodash.keyby'
 import flatten from 'lodash.flatten'
-import uniqWith from 'lodash.uniqwith'
+import uniqBy from 'lodash.uniqby'
 
-export { isEqual, intersection, orderBy, keyBy, flatten, uniqWith }
+export { isEqual, intersection, orderBy, keyBy, flatten, uniqBy }
