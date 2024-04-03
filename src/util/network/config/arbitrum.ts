@@ -17,7 +17,7 @@ export const arbitrumConfig: NetworkDetail = {
     L2: {
       name: 'Arbitrum Sepolia',
       chainId: 421614,
-      chainIdHex: '0x66EED',
+      chainIdHex: '0x66EEE',
       rpcUrl: [
         `https://arbitrum-sepolia.gateway.tenderly.co/3SOVnngE1EdDjNfxX8LC4V`,
       ],

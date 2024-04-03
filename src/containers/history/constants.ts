@@ -105,6 +105,18 @@ export const Chains: ChainMap = {
     symbol: 'ETH',
     imgSrc: bobaEth,
   },
+  '10': {
+    name: CHAIN_NAME.Optimism,
+    transactionUrlPrefix: 'https://optimistic.etherscan.io//tx/',
+    symbol: 'ETH',
+    imgSrc: optimism,
+  },
+  '42161': {
+    name: CHAIN_NAME.Arbitrum,
+    transactionUrlPrefix: 'https://arbiscan.io/tx/',
+    symbol: 'ETH',
+    imgSrc: arbitrum,
+  },
 }
 
 export const ALL_NETWORKS: IDropdownItem = {
