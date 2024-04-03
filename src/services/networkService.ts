@@ -246,7 +246,7 @@ class NetworkService {
     }
   }
 
-  async switchFee(targetFee) {
+  async switchFeeToken(targetFee) {
     if (this.L1orL2 !== 'L2') {
       return
     }
@@ -270,10 +270,7 @@ class NetworkService {
         tx = await bobaFeeContract.useSecondaryFeeTokenAsFeeToken()
         await tx.wait()
       } else {
-        console.error(
-          `NetworkService:switchFee: Unknown targetFee selected: ${targetFee}`
-        )
-        return
+        return false
       }
 
       await this.getBobaFeeChoice()

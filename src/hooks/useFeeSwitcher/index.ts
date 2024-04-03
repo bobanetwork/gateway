@@ -1,4 +1,4 @@
-import { switchFee } from 'actions/setupAction'
+import { doSwitchFeeToken } from 'actions/setupAction'
 import { openAlert, openError } from 'actions/uiAction'
 import BN from 'bignumber.js'
 import { isEqual } from 'util/lodash'
@@ -74,7 +74,7 @@ const useFeeSwitcher = () => {
             )
           )
         } else {
-          res = await dispatch(switchFee(targetFee))
+          res = await dispatch(doSwitchFeeToken(targetFee))
         }
       } else if (
         feeUseBoba &&
@@ -88,7 +88,7 @@ const useFeeSwitcher = () => {
             )
           )
         } else {
-          res = await dispatch(switchFee(targetFee))
+          res = await dispatch(doSwitchFeeToken(targetFee))
         }
       }
 
