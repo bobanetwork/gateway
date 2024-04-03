@@ -135,7 +135,10 @@ export const useBridge = () => {
     amountWei: BigNumberish,
     destChainId: BigNumberish
   ) => {
-    if (token.address !== ethers.constants.AddressZero && token.address !== '0x4200000000000000000000000000000000000006') {
+    if (
+      token.address !== ethers.constants.AddressZero &&
+      token.address !== '0x4200000000000000000000000000000000000006'
+    ) {
       // ERC20 token fast bridging.
       // step -1  approve token
       // step -2  deposit to Teleportation.

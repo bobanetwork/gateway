@@ -60,7 +60,7 @@ export const toWei_String = (amount: number, decimals: number) => {
   return calculated.toFixed(0)
 }
 
-const amountToUseConfig = {
+const lookupMap = {
   ETH: { provider: 'ethereum' },
   BOBA: { provider: 'boba-network' },
   OLO: { provider: 'oolongswap' },
@@ -72,7 +72,7 @@ const amountToUseConfig = {
 
 export const amountToUsd = (amount: number, lookupPrice, token) => {
   const { symbol } = token
-  const currencyInfo = amountToUseConfig[symbol]
+  const currencyInfo = lookupMap[symbol]
   if (!!currencyInfo && !!lookupPrice[currencyInfo.provider]) {
     return amount * lookupPrice[currencyInfo.provider].usd
   } else if (!!lookupPrice[symbol.toLowerCase()]) {

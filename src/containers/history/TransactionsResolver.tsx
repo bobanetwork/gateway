@@ -157,14 +157,17 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     return true
   }
   // const filteredTransactions = orderedTransactions
-  const filteredTransactions = uniqBy(orderedTransactions.filter((transaction) => {
-    return (
-      crossDomainFilter(transaction) &&
-      networkFilter(transaction) &&
-      statusFilter(transaction) &&
-      dateFilter(transaction)
-    )
-  }), 'hash')
+  const filteredTransactions = uniqBy(
+    orderedTransactions.filter((transaction) => {
+      return (
+        crossDomainFilter(transaction) &&
+        networkFilter(transaction) &&
+        statusFilter(transaction) &&
+        dateFilter(transaction)
+      )
+    }),
+    'hash'
+  )
 
   const process_transaction = (transaction: ITransaction) => {
     const chain = transaction.layer === 'L1pending' ? 'L1' : transaction.layer
