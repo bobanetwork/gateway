@@ -5,6 +5,7 @@ import { Network, NetworkType } from 'util/network/network.util'
 
 export const useNetworkInfo = () => {
   const [isAnchorageEnabled, setIsAnchorageEnabled] = useState(false)
+  const [isActiveNetworkBnb, setIsActiveNetworkBnb] = useState(false)
 
   const network = useSelector(selectActiveNetwork())
   const networkType = useSelector(selectActiveNetworkType())
@@ -19,9 +20,21 @@ export const useNetworkInfo = () => {
     } else {
       setIsAnchorageEnabled(false)
     }
+
+    if (network === Network.BNB) {
+      setIsActiveNetworkBnb(true)
+    } else {
+      setIsActiveNetworkBnb(false)
+    }
+
+    return () => {
+      setIsAnchorageEnabled(false)
+      setIsActiveNetworkBnb(false)
+    }
   }, [network, networkType])
 
   return {
     isAnchorageEnabled,
+    isActiveNetworkBnb,
   }
 }

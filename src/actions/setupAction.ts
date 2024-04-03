@@ -32,8 +32,8 @@ export const setWalletAddress = (account) => (dispatch) =>
 export const switchFee = (targetFee) =>
   createAction('SETUP/SWITCHFEE', () => networkService.switchFee(targetFee))
 
-export const getETHMetaTransaction = () =>
-  createAction('SETUP/GETETH', () => networkService.getETHMetaTransaction())
+export const doSwapToken = () =>
+  createAction('SETUP/GETETH', () => networkService.swapToken())
 
 export const addBobaFee = async (bobaFee) => {
   store.dispatch({ type: 'BOBAFEE/ADD/SUCCESS', payload: bobaFee })

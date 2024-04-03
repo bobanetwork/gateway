@@ -285,71 +285,55 @@ class NetworkService {
     }
   }
 
-  async getETHMetaTransaction() {
-    const EIP712Domain = [
-      { name: 'name', type: 'string' },
-      { name: 'version', type: 'string' },
-      { name: 'chainId', type: 'uint256' },
-      { name: 'verifyingContract', type: 'address' },
-    ]
-    const Permit = [
-      { name: 'owner', type: 'address' },
-      { name: 'spender', type: 'address' },
-      { name: 'value', type: 'uint256' },
-      { name: 'nonce', type: 'uint256' },
-      { name: 'deadline', type: 'uint256' },
-    ]
-
-    const owner = this.account
-    const spender = this.addresses.Proxy__Boba_GasPriceOracle
-
-    const Boba_GasPriceOracle = new ethers.Contract(
-      this.addresses.Proxy__Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.provider!.getSigner()
-    )
-
-    let rawValue
-    if (this.networkGateway === Network.ETHEREUM) {
-      rawValue = await Boba_GasPriceOracle.getBOBAForSwap()
-    } else {
-      rawValue = await Boba_GasPriceOracle.getSecondaryFeeTokenForSwap()
-    }
-
-    const value = rawValue.toString()
-
-    const nonce = (await this.BobaContract!.nonces(this.account)).toNumber()
-    const deadline = Math.floor(Date.now() / 1000) + 300
-    const verifyingContract = this.BobaContract!.address
-
-    const name = await this.BobaContract!.name()
-    const version = '1'
-    const chainId = (await this.L2Provider!.getNetwork()).chainId
-
-    const data = {
-      primaryType: 'Permit',
-      types: { EIP712Domain, Permit },
-      domain: { name, version, chainId, verifyingContract },
-      message: { owner, spender, value, nonce, deadline },
-    }
-
-    let signature
-
+  async swapToken() {
     try {
-      signature = await this.provider!.send('eth_signTypedData_v4', [
+      const EIP712Domain = [
+        { name: 'name', type: 'string' },
+        { name: 'version', type: 'string' },
+        { name: 'chainId', type: 'uint256' },
+        { name: 'verifyingContract', type: 'address' },
+      ]
+      const Permit = [
+        { name: 'owner', type: 'address' },
+        { name: 'spender', type: 'address' },
+        { name: 'value', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+        { name: 'deadline', type: 'uint256' },
+      ]
+
+      const owner = this.account
+      const spender = this.addresses.Proxy__Boba_GasPriceOracle
+
+      const Boba_GasPriceOracle = new ethers.Contract(
+        spender,
+        BobaGasPriceOracleABI,
+        this.provider!.getSigner()
+      )
+
+      const rawValue = await Boba_GasPriceOracle.getSecondaryFeeTokenForSwap()
+      const value = rawValue.toString()
+
+      const nonce = (await this.BobaContract!.nonces(this.account)).toNumber()
+      const deadline = Math.floor(Date.now() / 1000) + 300
+      const verifyingContract = this.BobaContract!.address
+
+      const name = await this.BobaContract!.name()
+      const version = '1'
+      const chainId = (await this.L2Provider!.getNetwork()).chainId
+
+      const data = {
+        primaryType: 'Permit',
+        types: { EIP712Domain, Permit },
+        domain: { name, version, chainId, verifyingContract },
+        message: { owner, spender, value, nonce, deadline },
+      }
+
+      const signature = await this.provider!.send('eth_signTypedData_v4', [
         this.account,
         JSON.stringify(data),
       ])
-    } catch (error) {
-      return error
-    }
 
-    try {
-      // change url if network is ethereum
-      const swapUrl =
-        this.networkGateway === Network.ETHEREUM
-          ? '/send.swapBOBAForETH'
-          : '/send.swapSecondaryFeeToken'
+      const swapUrl = '/send.swapSecondaryFeeToken'
       await metaTransactionAxiosInstance(this.networkConfig).post(swapUrl, {
         owner,
         spender,
@@ -359,6 +343,7 @@ class NetworkService {
         data,
       })
       await this.getBobaFeeChoice()
+      return true
     } catch (error: any) {
       let errorData = error.response.data.error
       if (errorData.hasOwnProperty('error')) {
