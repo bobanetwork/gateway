@@ -72,6 +72,9 @@ const lookupMap = {
 
 export const amountToUsd = (amount: number, lookupPrice, token) => {
   const { symbol } = token
+  if (!symbol) {
+    return 0
+  }
   const currencyInfo = lookupMap[symbol]
   if (!!currencyInfo && !!lookupPrice[currencyInfo.provider]) {
     return amount * lookupPrice[currencyInfo.provider].usd
