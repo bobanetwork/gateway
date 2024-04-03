@@ -42,14 +42,16 @@ const ApplicationBanner = () => {
   }, [index])
 
   useEffect(() => {
-    const appBanners = bannerAlerts().map((alert) => {
-      return {
-        ...alert,
-        isHidden: JSON.parse(
-          localStorage.getItem(`appBanner__${alert.key}`) as string
-        ),
-      }
-    })
+    const appBanners = bannerAlerts()
+      .map((alert) => {
+        return {
+          ...alert,
+          isHidden: JSON.parse(
+            localStorage.getItem(`appBanner__${alert.key}`) as string
+          ),
+        }
+      })
+      .filter((banner) => !banner.isHidden)
     setAlerts(appBanners)
   }, [storageChange])
 
