@@ -28,12 +28,6 @@ import { getToken } from 'actions/tokenAction'
 
 import { addBobaFee } from 'actions/setupAction'
 
-import {
-  updateSignatureStatus_depositLP,
-  updateSignatureStatus_exitLP,
-  updateSignatureStatus_exitTRAD,
-} from 'actions/signAction'
-
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
@@ -1490,8 +1484,6 @@ class NetworkService {
 
   //Standard 7 day exit from BOBA
   async exitBOBA(currencyAddress, value_Wei_String) {
-    await updateSignatureStatus_exitTRAD(false)
-
     try {
       const L2BillingContract = new ethers.Contract(
         this.addresses.Proxy__BobaBillingContract,
@@ -1578,10 +1570,6 @@ class NetworkService {
 
       //everything submitted... waiting
       await tx.wait()
-
-      //can close window now
-      await updateSignatureStatus_exitTRAD(true)
-
       return tx
     } catch (error) {
       console.log('NS: exitBOBA error:', error)
@@ -2104,9 +2092,7 @@ class NetworkService {
   /***********************************************************/
   async depositL1LP(currency, value_Wei_String) {
     try {
-      await updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
-
       const depositTX = await this.L1LPContract!.connect(
         this.provider!.getSigner()
       ).clientDepositL1(
@@ -2121,7 +2107,6 @@ class NetworkService {
 
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()
-      await updateSignatureStatus_depositLP(true)
 
       const opts = {
         fromBlock: -4000,
@@ -2199,7 +2184,6 @@ class NetworkService {
 
   async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
     try {
-      updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
 
       const lightBridgeAddr =
@@ -2246,7 +2230,6 @@ class NetworkService {
 
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()
-      updateSignatureStatus_depositLP(true)
 
       const opts = {
         fromBlock: -4000,
@@ -2510,8 +2493,6 @@ class NetworkService {
 
   /**************************************************************/
   async depositL2LP(currencyAddress: string, value_Wei_String: BigNumberish) {
-    await updateSignatureStatus_exitLP(false)
-
     console.log('depositL2LP currencyAddress', currencyAddress)
 
     const L2BillingContract = new ethers.Contract(
@@ -2605,10 +2586,6 @@ class NetworkService {
 
       const block = await this.L2Provider!.getTransaction(depositTX.hash)
       console.log(' block:', block)
-
-      //closes the modal
-      await updateSignatureStatus_exitLP(true)
-
       return depositTX
     } catch (error) {
       console.log('NS: depositL2LP error:', error)
