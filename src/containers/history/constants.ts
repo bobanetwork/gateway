@@ -82,13 +82,13 @@ export const Chains: ChainMap = {
     imgSrc: bobaEth,
   },
   '420': {
-    name: CHAIN_NAME.Optimism_Goerli,
+    name: CHAIN_NAME.Optimism_Sepolia,
     transactionUrlPrefix: 'https://goerli-optimism.etherscan.io/tx/',
     symbol: 'ETH',
     imgSrc: optimism,
   },
-  '421613': {
-    name: CHAIN_NAME.Arbitrum_Goerli,
+  '421614': {
+    name: CHAIN_NAME.Arbitrum_Sepolia,
     transactionUrlPrefix: 'https://goerli.arbiscan.io/tx/',
     symbol: 'ETH',
     imgSrc: arbitrum,
@@ -104,6 +104,18 @@ export const Chains: ChainMap = {
     transactionUrlPrefix: 'https://testnet.bobascan.com/tx/',
     symbol: 'ETH',
     imgSrc: bobaEth,
+  },
+  '10': {
+    name: CHAIN_NAME.Optimism,
+    transactionUrlPrefix: 'https://optimistic.etherscan.io//tx/',
+    symbol: 'ETH',
+    imgSrc: optimism,
+  },
+  '42161': {
+    name: CHAIN_NAME.Arbitrum,
+    transactionUrlPrefix: 'https://arbiscan.io/tx/',
+    symbol: 'ETH',
+    imgSrc: arbitrum,
   },
 }
 
@@ -175,16 +187,28 @@ export const NETWORK_L2_OPTIONS = [
     headerName: NetworkType.TESTNET,
   },
   {
-    value: '420',
-    label: 'Optimism Goerli',
+    value: '11155420',
+    label: 'Optimism Sepolia',
     imgSrc: optimism,
     headerName: NetworkType.TESTNET,
   },
   {
-    value: '421613',
-    label: 'Arbitrum Goerli',
+    value: '421614',
+    label: 'Arbitrum Sepolia',
     imgSrc: arbitrum,
     headerName: NetworkType.TESTNET,
+  },
+  {
+    value: '10',
+    label: 'Optimism',
+    imgSrc: optimism,
+    headerName: NetworkType.MAINNET,
+  },
+  {
+    value: '42161',
+    label: 'Arbitrum',
+    imgSrc: arbitrum,
+    headerName: NetworkType.MAINNET,
   },
 ]
 

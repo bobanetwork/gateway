@@ -15,7 +15,7 @@ import {
   lightBridgeGraphQLService,
 } from '@bobanetwork/graphql-utils'
 import networkService from './networkService'
-import { uniqWith } from '../util/lodash'
+import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -206,6 +206,13 @@ class TransactionService {
       })
     )
 
+    /** @DEV additional network pairs that are cross L1-L2 configuration */
+    for (const additionalNetworkConfig of this.lightbridgeAdditionalNetworkPairs()) {
+      allNetworksTransactions.push(
+        await this.fetchLightBridgeTransactions(additionalNetworkConfig)
+      )
+    }
+
     const filteredResults = allNetworksTransactions.reduce(
       (acc, res) => [...acc, ...res],
       []
@@ -215,13 +222,13 @@ class TransactionService {
   }
 
   async fetchLightBridgeTransactions(
-    networkConfig = networkService.networkConfig
+    networkConfig: Partial<NetworkDetailChainConfig>
   ) {
     const contractL1 = networkService.getLightBridgeContract(
-      networkConfig!.L1.chainId
+      networkConfig!.L1!.chainId
     )
     const contractL2 = networkService.getLightBridgeContract(
-      networkConfig!.L2.chainId
+      networkConfig!.L2!.chainId
     )
 
     const mapEventToTransaction = async (
@@ -348,7 +355,7 @@ class TransactionService {
         }
         return Promise.all(
           sentEvents.map(async (sendEvent) => {
-            let receiveEvent =
+            let receiveEvent: any =
               await lightBridgeGraphQLService.queryDisbursementSuccessEvent(
                 networkService.account!,
                 sendEvent.sourceChainId,
@@ -358,7 +365,7 @@ class TransactionService {
                   sendEvent.sourceChainId,
                   sendEvent.toChainId
                 ) ?? '0',
-                sendEvent.amount,
+                sendEvent.amount.toString(),
                 sendEvent.depositId
               )
             if (
@@ -371,7 +378,7 @@ class TransactionService {
                   networkService.account!,
                   sendEvent.sourceChainId,
                   sendEvent.toChainId,
-                  sendEvent.amount,
+                  sendEvent.amount.toString(),
                   sendEvent.depositId
                 )
               if (receiveEvent) {
@@ -381,7 +388,7 @@ class TransactionService {
                     networkService.account!,
                     sendEvent.sourceChainId,
                     sendEvent.toChainId,
-                    sendEvent.amount,
+                    sendEvent.amount.toString(),
                     sendEvent.depositId
                   )
               }
@@ -396,19 +403,33 @@ class TransactionService {
       }
       return []
     }
-
     const L1Txs = await getEventsForTeleportation(
       contractL1,
-      networkConfig!.L1.chainId,
-      networkConfig!.L2.chainId
+      networkConfig!.L1!.chainId,
+      networkConfig!.L2!.chainId
     )
     const L2Txs = await getEventsForTeleportation(
       contractL2,
-      networkConfig!.L2.chainId,
-      networkConfig!.L1.chainId
+      networkConfig!.L2!.chainId,
+      networkConfig!.L1!.chainId
     )
 
     return [...L1Txs, ...L2Txs]
+  }
+
+  /** @DEV additional network pairs that are cross L1-L2 */
+  private lightbridgeAdditionalNetworkPairs(): Partial<NetworkDetailChainConfig>[] {
+    return [
+      [42161, 288],
+      [10, 288],
+    ].map((p) => ({
+      L1: {
+        chainId: p[0],
+      },
+      L2: {
+        chainId: p[1],
+      },
+    })) as Partial<NetworkDetailChainConfig>[]
   }
 }
 
