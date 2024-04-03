@@ -1226,39 +1226,6 @@ class NetworkService {
     }
   }
 
-  //Transfer funds from one account to another, on the L2
-  async transfer(
-    address: string,
-    value_Wei_String: BigNumberish,
-    currency: string
-  ) {
-    let tx: TransactionResponse
-
-    try {
-      if (currency === this.addresses.L2_ETH_Address) {
-        //we are sending ETH
-
-        const wei = BigNumber.from(value_Wei_String)
-
-        tx = await this.provider!.getSigner().sendTransaction({
-          to: address,
-          value: ethers.utils.hexlify(wei),
-        })
-      } else {
-        //any ERC20 json will do....
-        tx = await this.L2_TEST_Contract!.connect(this.provider!.getSigner())
-          .attach(currency)
-          .transfer(address, value_Wei_String)
-        await tx.wait()
-      }
-
-      return tx
-    } catch (error) {
-      console.log('NS: transfer error:', error)
-      return error
-    }
-  }
-
   async checkAllowance(currencyAddress: string, targetContract: string) {
     console.log('currencyAddress', currencyAddress)
     console.log('targetContract', targetContract)
