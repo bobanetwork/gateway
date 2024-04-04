@@ -193,7 +193,7 @@ export default class Page extends Base {
     this.header
       .getNetworkSwitcher()
       .click()
-      .should('have.text', 'Ethereum (Goerli)')
+      .should('have.text', 'Ethereum (Sepolia)')
       .should('have.text', 'BNB Testnet')
   }
 

@@ -101,26 +101,26 @@ export default class History extends Page {
       .should('equal', 'L2Networks')
 
     // properly filters transactions by chosen 'from' network
-    this.changeFromNetwork(CHAIN_NAME.Goerli)
+    this.changeFromNetwork(CHAIN_NAME.Sepolia)
     this.verifyFilteredTransactionsByColumn(
       'transactionOriginDetails',
-      CHAIN_NAME.Goerli
+      CHAIN_NAME.Sepolia
     )
 
     this.changeFromNetwork('All Networks')
 
     // properly filters transactions by chosen 'to' network
-    this.changeToNetwork(CHAIN_NAME.Boba_Goerli)
+    this.changeToNetwork(CHAIN_NAME.Boba_Sepolia)
     this.verifyFilteredTransactionsByColumn(
       'transactionDestinationDetails',
-      CHAIN_NAME.Boba_Goerli
+      CHAIN_NAME.Boba_Sepolia
     )
 
     // test network switch
     this.switchNetworkDropdowns()
     this.verifyFilteredTransactionsByColumn(
       'transactionOriginDetails',
-      CHAIN_NAME.Boba_Goerli
+      CHAIN_NAME.Boba_Sepolia
     )
 
     this.switchNetworkDropdowns()
@@ -280,7 +280,7 @@ export default class History extends Page {
     this.changeStatusFilter(TRANSACTION_FILTER_STATUS.Completed)
 
     // use network dropdowns to filter by network
-    this.changeFromNetwork(CHAIN_NAME.Goerli)
+    this.changeFromNetwork(CHAIN_NAME.Sepolia)
 
     // verify transactions
     this.verifyTransactionsByDate(this.fromDate, this.toDate)
@@ -292,7 +292,7 @@ export default class History extends Page {
 
     this.verifyFilteredTransactionsByColumn(
       'transactionOriginDetails',
-      CHAIN_NAME.Goerli
+      CHAIN_NAME.Sepolia
     )
 
     this.changeDatePicker(true, orignalFromDate)
