@@ -14,7 +14,7 @@ import {
 
 const blockExplorerLinks = {
   [NetworkType.TESTNET]: {
-    [Network.ETHEREUM_SEPOLIA]: {
+    [Network.ETHEREUM]: {
       l1: `https://sepolia.etherscan.io`,
       l2: `https://testnet.bobascan.com`,
     },
@@ -100,11 +100,19 @@ const FooterLinks = () => {
               onClick: () => onLinkClick(Network.ETHEREUM, 'l2'),
             },
             {
-              label: 'BNB Block Explorer L1',
+              label: 'Optimism',
+              onClick: () => onLinkClick(Network.OPTIMISM, 'l1'),
+            },
+            {
+              label: 'Arbitrum',
+              onClick: () => onLinkClick(Network.ARBITRUM, 'l2'),
+            },
+            {
+              label: 'Binance Smart Chain',
               onClick: () => onLinkClick(Network.BNB, 'l1'),
             },
             {
-              label: 'BNB Block Explorer L2',
+              label: 'Boba BNB',
               onClick: () => onLinkClick(Network.BNB, 'l2'),
             },
           ]}

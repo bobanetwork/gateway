@@ -103,7 +103,7 @@ describe('NetworkSelector', () => {
           l1: 'ethereum',
           l2: 'boba',
         },
-        activeNetwork: 'ETHEREUM_SEPOLIA',
+        activeNetwork: 'ETHEREUM',
         activeNetworkType: 'Testnet',
         activeNetworkIcon: 'ethereum',
         chainIds: { L1: '11155111', L2: '28882' },

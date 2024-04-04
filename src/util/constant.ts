@@ -48,14 +48,13 @@ export const ROUTES_PATH: RoutesPathType = {
   DEV_TOOLS: '/devtools',
 }
 
-type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum' | 'ethereum_sepolia' //we move this to global network type once we define this
+type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum'
 type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
-  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
+  ethereum: ['Bridge', 'History'], // @note update list back with stake, dao, earn once supported on sepolia.
   bnb: ['Bridge', 'Earn', 'History'],
-  ethereum_sepolia: ['Bridge', 'History'],
   optimism: ['Bridge', 'History'],
   arbitrum: ['Bridge', 'History'],
 }

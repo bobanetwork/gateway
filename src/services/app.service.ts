@@ -59,7 +59,7 @@ const ADDRESS_CONFIG = {
     [Network.OPTIMISM]: {
       ...addresses_Sepolia_Op,
     },
-    [Network.ETHEREUM_SEPOLIA]: {
+    [Network.ETHEREUM]: {
       ...addresses_Sepolia,
       ...layerZeroTestnet.BOBA_Bridges.Testnet,
       ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
@@ -178,7 +178,7 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
     },
   },
   [NetworkType.TESTNET]: {
-    [Network.ETHEREUM_SEPOLIA]: {
+    [Network.ETHEREUM]: {
       tokenAddresses: {
         BOBA: {
           L1: '0x33faF65b3DfcC6A1FccaD4531D9ce518F0FDc896',
@@ -186,11 +186,6 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
         },
       },
       tokens: ['BOBA'],
-      altL1Chains: ['BNB'],
-    },
-    [Network.ETHEREUM]: {
-      tokenAddresses: {},
-      tokens: ['BOBA', 'USDC', 'OMG', 'xBOBA'],
       altL1Chains: ['BNB'],
     },
     [Network.BNB]: {

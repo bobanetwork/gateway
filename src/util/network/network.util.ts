@@ -46,7 +46,6 @@ export enum NetworkType {
 
 export enum Network {
   ETHEREUM = 'ETHEREUM',
-  ETHEREUM_SEPOLIA = 'ETHEREUM_SEPOLIA',
   BNB = 'BNB',
   OPTIMISM = 'OPTIMISM',
   ARBITRUM = 'ARBITRUM',
@@ -55,7 +54,7 @@ export enum Network {
 export const CHAIN_ID_LIST = {
   28882: {
     networkType: NetworkType.TESTNET,
-    chain: Network.ETHEREUM_SEPOLIA,
+    chain: Network.ETHEREUM,
     layer: LAYER.L2,
     name: 'Boba Sepolia',
     icon: 'ethereum',
@@ -64,7 +63,7 @@ export const CHAIN_ID_LIST = {
   },
   11155111: {
     networkType: NetworkType.TESTNET,
-    chain: Network.ETHEREUM_SEPOLIA,
+    chain: Network.ETHEREUM,
     layer: LAYER.L2,
     name: 'Sepolia',
     icon: 'ethereum',
@@ -300,7 +299,6 @@ export const networkLimitedAvailability = (
 }
 
 export const AllNetworkConfigs: { [network in Network]: NetworkDetail } = {
-  [Network.ETHEREUM_SEPOLIA]: ethereumConfig, // @todo review back fix it.
   [Network.ETHEREUM]: ethereumConfig,
   [Network.BNB]: bnbConfig,
   [Network.OPTIMISM]: optimismConfig,
@@ -345,7 +343,6 @@ export const pingRpcUrl = async (rpcUrl) => {
 
 export const chainNameMaps: Record<Network, string> = {
   ETHEREUM: 'Ethereum',
-  ETHEREUM_SEPOLIA: 'Ethereum Sepolia',
   BNB: 'Bnb',
   OPTIMISM: 'Optimism',
   ARBITRUM: 'Arbitrum',

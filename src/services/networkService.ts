@@ -180,11 +180,11 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  // NOTE: added check for anchorage to use in services
+  // NOTE: added check for anchorage currently available on sepolia to use in services
   isAnchorageEnabled() {
     if (
       this.networkType === NetworkType.TESTNET &&
-      this.networkGateway === Network.ETHEREUM_SEPOLIA
+      this.networkGateway === Network.ETHEREUM
     ) {
       return true
     }
@@ -898,8 +898,7 @@ class NetworkService {
       if (
         this.network === Network.ARBITRUM ||
         this.network === Network.OPTIMISM ||
-        this.network === Network.ETHEREUM ||
-        this.network === Network.ETHEREUM_SEPOLIA
+        this.network === Network.ETHEREUM
       ) {
         layer1Balances = [
           {
@@ -988,10 +987,7 @@ class NetworkService {
         if (token.addressL2 === null) {
           return
         }
-        if (
-          this.network === Network.ETHEREUM ||
-          this.network === Network.ETHEREUM_SEPOLIA
-        ) {
+        if (this.network === Network.ETHEREUM) {
           if (token.addressL1 === this.addresses.L1_ETH_Address) {
             return
           }
