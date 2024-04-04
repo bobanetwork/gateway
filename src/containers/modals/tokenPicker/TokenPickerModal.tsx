@@ -37,12 +37,16 @@ import {
   TokenSymbol,
 } from './styles'
 import { formatTokenAmount } from 'util/common'
-import { NetworkList } from '../../../util/network/network.util'
+import { Network, NetworkList } from '../../../util/network/network.util'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
+import { constants, ethers } from 'ethers'
 
 import { lightBridgeGraphQLService } from '@bobanetwork/graphql-utils'
 import { bridgeConfig } from './config'
+import { NETWORK_L2_OPTIONS } from '../../history/constants'
+import { optimismConfig } from '../../../util/network/config/optimism'
+import { arbitrumConfig } from '../../../util/network/config/arbitrum'
 // the L2 token which can not be exited so exclude from dropdown in case of L2
 const NON_EXITABLE_TOKEN = [
   'OLO',
@@ -78,7 +82,9 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
     const config = bridgeConfig[bridgeType] || bridgeConfig.default
     config
       .getBalance({ l1Balance, l2Balance, layer, getBridgeableTokens })
-      .then(setBalance)
+      .then((res) => {
+        setBalance(res)
+      })
   }, [bridgeType, l1Balance, l2Balance, layer])
 
   const getBridgeableTokens = async (allTokens) => {
@@ -92,18 +98,30 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
         .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
 
     try {
-      const res = await lightBridgeGraphQLService.querySupportedTokensBridge(
-        NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
-          .chainId[layer === LAYER.L1 ? LAYER.L1 : LAYER.L2],
-        allTokens.map((b) => b.address),
-        destChainId
-      )
+      const networkId = NetworkList[activeNetworkType].find(
+        (n) => n.chain === activeNetwork
+      ).chainId[layer === LAYER.L1 ? LAYER.L1 : LAYER.L2]
 
+      const res = (
+        await lightBridgeGraphQLService.querySupportedTokensBridge(
+          networkId,
+          destChainId
+        )
+      ).filter(() => {
+        return ![
+          optimismConfig.Testnet.L2.chainId,
+          arbitrumConfig.Testnet.L2.chainId,
+          optimismConfig.Mainnet.L2.chainId,
+          arbitrumConfig.Mainnet.L2.chainId,
+        ].includes(Number(destChainId))
+      })
       if (res.length) {
         return res
+      } else {
+        return allTokens
       }
-      return allTokens
     } catch (e) {
+      console.log('error!: ', e)
       return allTokens
     }
   }

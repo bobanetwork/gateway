@@ -10,7 +10,7 @@ export const BridginContainer = styled.div`
   margin: 32px auto;
 
   ${mobile(css`
-    max-width: 360px;
+    max-width: 400px;
     margin: 24px auto;
   `)}
 `

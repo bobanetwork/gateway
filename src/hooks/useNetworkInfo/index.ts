@@ -14,6 +14,7 @@ export const useNetworkInfo = () => {
   const [isAnchorageEnabled, setIsAnchorageEnabled] = useState(false)
   const [isClassicWithdrawalDisabled, setIsClassicWithdrawalDisabled] =
     useState(false)
+  const [isActiveNetworkBnb, setIsActiveNetworkBnb] = useState(false)
 
   const network = useSelector(selectActiveNetwork())
   const networkType = useSelector(selectActiveNetworkType())
@@ -43,10 +44,22 @@ export const useNetworkInfo = () => {
     } else {
       setIsClassicWithdrawalDisabled(false)
     }
-  }, [network, networkType, bridgeType, layer])
+
+    if (network === Network.BNB) {
+      setIsActiveNetworkBnb(true)
+    } else {
+      setIsActiveNetworkBnb(false)
+    }
+
+    return () => {
+      setIsAnchorageEnabled(false)
+      setIsActiveNetworkBnb(false)
+    }
+  }, [network, networkType])
 
   return {
     isAnchorageEnabled,
+    isActiveNetworkBnb,
     isClassicWithdrawalDisabled,
   }
 }

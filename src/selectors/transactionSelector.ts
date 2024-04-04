@@ -11,9 +11,3 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 export const selectTransactions = (state) => Object.values(state.transaction)
-
-export const selectCDMType = (state) => state.transaction.CDMType
-
-export const selectCDMMessage = (state) => state.transaction.CDMMessage
-
-export const selectCDMTransaction = (state) => state.transaction.CDMTransaction

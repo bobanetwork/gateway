@@ -45,7 +45,6 @@ export const createAction =
             payload: 'Insufficient BOBA balance for emergency swap',
           })
           dispatch({ type: `${key}/ERROR` })
-          Sentry.captureMessage('Insufficient BOBA balance for emergency swap')
           return false
         }
       }
