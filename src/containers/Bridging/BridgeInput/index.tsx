@@ -34,7 +34,7 @@ const BridgeInput: FC<Props> = (props) => {
   const isAccountEnabled = useSelector(selectAccountEnabled())
   const token = useSelector(selectTokenToBridge())
   const { amount: receivableAmount } = useAmountToReceive()
-  const { isAnchorageEnabled } = useNetworkInfo()
+  const { isActiveNetworkBnb } = useNetworkInfo()
   useBridgeSetup()
 
   const openTokenPicker = () => {
@@ -84,7 +84,7 @@ const BridgeInput: FC<Props> = (props) => {
       )}
       <BridgeToAddress />
       {token && <Fee />}
-      {!isAnchorageEnabled && <EmergencySwap />}
+      {!!isActiveNetworkBnb && <EmergencySwap />}
     </BridgeInputContainer>
   )
 }

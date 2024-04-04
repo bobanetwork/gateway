@@ -77,7 +77,7 @@ const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
           <ConfirmValueWithIcon>
             {isLayerL1 && <L1Icon selected />}
             {!isLayerL1 && <L2Icon selected />}
-            {activeNetworkName[layer.toLowerCase()]}
+            {activeNetworkName[layer?.toLowerCase()]}
           </ConfirmValueWithIcon>
         </Item>
         <Item>
