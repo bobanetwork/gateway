@@ -32,7 +32,7 @@ import { LAYER } from 'util/constant'
 import BN from 'bignumber.js'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { Network } from 'util/network/network.util'
-import { BigNumberish, ethers } from 'ethers'
+import { BigNumber, BigNumberish, ethers } from 'ethers'
 
 enum ALERT_KEYS {
   OMG_INFO = 'OMG_INFO',
@@ -40,6 +40,7 @@ enum ALERT_KEYS {
   VALUE_BALANCE_TOO_LARGE = 'VALUE_BALANCE_TOO_LARGE',
   VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT = 'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
   VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT = 'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
+  MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED = 'MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED',
   FAST_EXIT_ERROR = 'FAST_EXIT_ERROR',
   FAST_DEPOSIT_ERROR = 'FAST_DEPOSIT_ERROR',
   DEPRECATION_WARNING = 'DEPRECATION_WARNING',
@@ -110,6 +111,7 @@ const useBridgeAlerts = () => {
               ALERT_KEYS.TELEPORTATION_ASSET_NOT_SUPPORTED,
               ALERT_KEYS.VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT,
               ALERT_KEYS.VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT,
+              ALERT_KEYS.MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED,
             ],
           })
         )
@@ -120,6 +122,42 @@ const useBridgeAlerts = () => {
             text: `This bridge doesn't support smart-contract wallets that use a costly fallback method.`,
           })
         )
+
+        if (
+          (tokenForTeleportationSupported.transferredAmount as BigNumber).eq(
+            tokenForTeleportationSupported.maxTransferAmountPerDay
+          )
+        ) {
+          dispatch(
+            setBridgeAlert({
+              meta: ALERT_KEYS.MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED,
+              type: 'error',
+              text: `The maximum daily bridgeable amount of ${ethers.utils.formatEther(tokenForTeleportationSupported.maxTransferAmountPerDay)} has been reached.`,
+            })
+          )
+        } else if (
+          ethers.utils.formatEther(
+            tokenForTeleportationSupported.transferredAmount
+          ) +
+            amountToBridge >
+          ethers.utils.formatEther(
+            tokenForTeleportationSupported.maxTransferAmountPerDay
+          )
+        ) {
+          const maxAmount =
+            tokenForTeleportationSupported.maxTransferAmountPerDay as BigNumber
+          const remainingAmount =
+            tokenForTeleportationSupported.transferredAmount as BigNumber
+          const allowedAmount = maxAmount.sub(remainingAmount)
+
+          dispatch(
+            setBridgeAlert({
+              meta: ALERT_KEYS.MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED,
+              type: 'error',
+              text: `Your chosen amount exceeds the daily limit. Maximum remaining amount for this asset is: ${allowedAmount}`,
+            })
+          )
+        }
 
         if (
           amountToBridge &&
