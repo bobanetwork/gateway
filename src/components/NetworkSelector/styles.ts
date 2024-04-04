@@ -5,8 +5,12 @@ import {
   DropdownContent,
   Option,
 } from 'components/global/dropdown/styles'
+import { mobile } from 'themes/screens'
 
 export const NetworkSelectorDropdown = styled(FeeSwitchterDropdown)`
+  ${mobile(css`
+    display: none;
+  `)}
   ${Header} {
     width: 200px;
     height: 40px;

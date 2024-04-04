@@ -16,7 +16,8 @@ const NotificationBannerContainer = styled('div')`
   color: ${(props) => props.theme.primaryfg};
 
   &.open {
-    max-height: 60px;
+    max-height: unset;
+    text-align: left;
   }
 
   @media ${(props) => props.theme.screen.tablet} {
