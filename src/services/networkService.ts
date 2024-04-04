@@ -1121,7 +1121,7 @@ class NetworkService {
 
       return received
     } catch (error) {
-      console.log('NS: depositETHL2 error:', error)
+      console.log('NS: depositETHAnchorage error:', error)
       return error
     }
   }
