@@ -14,7 +14,6 @@ import arbitrum from 'assets/arbitrum.svg'
 
 import ethIcon from 'assets/ethereum.svg'
 
-import { sepoliaConfig } from './config/ethereumSepolia'
 import { ethereumConfig } from './config/ethereum'
 import { bnbConfig } from './config/bnb'
 import { optimismConfig } from './config/optimism'
@@ -54,24 +53,6 @@ export enum Network {
 }
 
 export const CHAIN_ID_LIST = {
-  5: {
-    networkType: NetworkType.TESTNET,
-    chain: Network.ETHEREUM,
-    layer: LAYER.L1,
-    name: 'Goerli',
-    icon: 'ethereum',
-    siteName: 'Ethereum (Goerli)',
-    imgSrc: ethIcon,
-  },
-  2888: {
-    networkType: NetworkType.TESTNET,
-    chain: Network.ETHEREUM,
-    layer: LAYER.L2,
-    name: 'Boba Goerli',
-    icon: 'ethereum',
-    siteName: 'Boba (Goerli)',
-    imgSrc: bobaEth,
-  },
   28882: {
     networkType: NetworkType.TESTNET,
     chain: Network.ETHEREUM_SEPOLIA,
@@ -213,6 +194,7 @@ export const DEFAULT_NETWORK = {
   },
   chainId: { [Layer.L1]: '1', [Layer.L2]: '288' },
 }
+
 type NetworkLists = {
   Mainnet: INetwork[]
   Testnet: INetwork[]
@@ -260,7 +242,7 @@ export const NetworkList: NetworkLists = {
   Testnet: [
     {
       icon: 'ethereum',
-      chain: Network.ETHEREUM_SEPOLIA,
+      chain: Network.ETHEREUM,
       label: 'Ethereum (Sepolia) <> Boba (Sepolia)',
       key: 'ethereum',
       name: {
@@ -268,19 +250,6 @@ export const NetworkList: NetworkLists = {
         l2: 'Boba (Sepolia)',
       },
       chainId: { [Layer.L1]: '11155111', [Layer.L2]: '28882' },
-      limitedAvailability: false,
-    },
-    {
-      //@todo remove on full migration to sepolia.
-      icon: 'ethereum',
-      chain: Network.ETHEREUM,
-      label: 'Ethereum (Goerli) <> Boba (Goerli)',
-      key: 'ethereum',
-      name: {
-        l1: 'Ethereum (Goerli)',
-        l2: 'Boba (Goerli)',
-      },
-      chainId: { [Layer.L1]: '5', [Layer.L2]: '2888' },
       limitedAvailability: false,
     },
     {
@@ -331,7 +300,7 @@ export const networkLimitedAvailability = (
 }
 
 export const AllNetworkConfigs: { [network in Network]: NetworkDetail } = {
-  [Network.ETHEREUM_SEPOLIA]: sepoliaConfig,
+  [Network.ETHEREUM_SEPOLIA]: ethereumConfig, // @todo review back fix it.
   [Network.ETHEREUM]: ethereumConfig,
   [Network.BNB]: bnbConfig,
   [Network.OPTIMISM]: optimismConfig,
