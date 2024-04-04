@@ -12,8 +12,8 @@ const NotificationBannerContainer = styled('div')`
   transition: max-height 0.4s;
   padding: 0 40px;
   overflow: hidden;
-  background: ${(props) => props.theme.primarybg};
-  color: ${(props) => props.theme.primaryfg};
+  background: #bae21a;
+  color: #000000;
 
   &.open {
     max-height: unset;

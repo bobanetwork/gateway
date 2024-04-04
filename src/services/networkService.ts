@@ -698,7 +698,7 @@ class NetworkService {
         this.L2Provider
       )
 
-      if (Network.ETHEREUM === network) {
+      if (Network.ETHEREUM === network && networkType === NetworkType.MAINNET) {
         this.xBobaContract = new ethers.Contract(
           allTokens.xBOBA.L2,
           BOBAABI,
