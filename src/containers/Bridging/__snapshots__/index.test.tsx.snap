@@ -3,7 +3,7 @@
 exports[`Bridging Component should match snapshot on when bridge type is CLASSIC 1`] = `
 <DocumentFragment>
   <div
-    class="sc-eldPxv hZupJI"
+    class="sc-eldPxv dcLceF"
   >
     <div
       class="sc-fPXMVe dUoduF"
@@ -284,7 +284,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
 exports[`Bridging Component should match snapshot on when bridge type is THIRD_PARTY 1`] = `
 <DocumentFragment>
   <div
-    class="sc-eldPxv hZupJI"
+    class="sc-eldPxv dcLceF"
   >
     <div
       class="sc-fPXMVe dUoduF"
