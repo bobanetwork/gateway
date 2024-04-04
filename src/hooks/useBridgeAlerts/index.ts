@@ -36,8 +36,10 @@ import { BigNumberish, ethers } from 'ethers'
 
 enum ALERT_KEYS {
   OMG_INFO = 'OMG_INFO',
-  VALUE_TOO_SMALL = 'VALUE_TOO_SMALL',
-  VALUE_TOO_LARGE = 'VALUE_TOO_LARGE',
+  VALUE_BALANCE_TOO_SMALL = 'VALUE_BALANCE_TOO_SMALL',
+  VALUE_BALANCE_TOO_LARGE = 'VALUE_BALANCE_TOO_LARGE',
+  VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT = 'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
+  VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT = 'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
   FAST_EXIT_ERROR = 'FAST_EXIT_ERROR',
   FAST_DEPOSIT_ERROR = 'FAST_DEPOSIT_ERROR',
   DEPRECATION_WARNING = 'DEPRECATION_WARNING',
@@ -88,7 +90,10 @@ const useBridgeAlerts = () => {
       if (!tokenForTeleportationSupported.supported) {
         dispatch(
           clearBridgeAlert({
-            keys: [ALERT_KEYS.VALUE_TOO_LARGE, ALERT_KEYS.VALUE_TOO_SMALL],
+            keys: [
+              ALERT_KEYS.VALUE_BALANCE_TOO_LARGE,
+              ALERT_KEYS.VALUE_BALANCE_TOO_SMALL,
+            ],
           })
         )
         dispatch(
@@ -101,7 +106,11 @@ const useBridgeAlerts = () => {
       } else {
         dispatch(
           clearBridgeAlert({
-            keys: [ALERT_KEYS.TELEPORTATION_ASSET_NOT_SUPPORTED],
+            keys: [
+              ALERT_KEYS.TELEPORTATION_ASSET_NOT_SUPPORTED,
+              ALERT_KEYS.VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT,
+              ALERT_KEYS.VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT,
+            ],
           })
         )
         dispatch(
@@ -114,11 +123,14 @@ const useBridgeAlerts = () => {
 
         if (
           amountToBridge &&
-          amountToBridge < tokenForTeleportationSupported.minDepositAmount
+          amountToBridge <
+            ethers.utils.formatEther(
+              tokenForTeleportationSupported.minDepositAmount
+            )
         ) {
           dispatch(
             setBridgeAlert({
-              meta: ALERT_KEYS.VALUE_TOO_SMALL,
+              meta: ALERT_KEYS.VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT,
               type: 'error',
               text: `For this asset you need to bridge at least ${ethers.utils.formatEther(
                 tokenForTeleportationSupported.minDepositAmount
@@ -126,11 +138,14 @@ const useBridgeAlerts = () => {
             })
           )
         } else if (
-          amountToBridge > tokenForTeleportationSupported.maxDepositAmount
+          amountToBridge >
+          ethers.utils.formatEther(
+            tokenForTeleportationSupported.maxDepositAmount
+          )
         ) {
           dispatch(
             setBridgeAlert({
-              meta: ALERT_KEYS.VALUE_TOO_LARGE,
+              meta: ALERT_KEYS.VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT,
               type: 'error',
               text: `For this asset you are allowed to bridge at maximum ${ethers.utils.formatEther(
                 tokenForTeleportationSupported.maxDepositAmount
@@ -140,7 +155,7 @@ const useBridgeAlerts = () => {
         }
       }
     }
-  }, [tokenForTeleportationSupported, bridgeType])
+  }, [tokenForTeleportationSupported, bridgeType, amountToBridge])
 
   // show infor to user about to OMG token when
   // connected to layer 1 ETH as token is specific to ethereum only.
@@ -178,13 +193,16 @@ const useBridgeAlerts = () => {
 
     dispatch(
       clearBridgeAlert({
-        keys: [ALERT_KEYS.VALUE_TOO_LARGE, ALERT_KEYS.VALUE_TOO_SMALL],
+        keys: [
+          ALERT_KEYS.VALUE_BALANCE_TOO_LARGE,
+          ALERT_KEYS.VALUE_BALANCE_TOO_SMALL,
+        ],
       })
     )
     if ((underZero || amountToBridge <= 0) && amountToBridge) {
       dispatch(
         setBridgeAlert({
-          meta: ALERT_KEYS.VALUE_TOO_SMALL,
+          meta: ALERT_KEYS.VALUE_BALANCE_TOO_SMALL,
           type: 'error',
           text: `Value too small: the value must be greater than 0`,
         })
@@ -192,7 +210,7 @@ const useBridgeAlerts = () => {
     } else if (overMax) {
       dispatch(
         setBridgeAlert({
-          meta: ALERT_KEYS.VALUE_TOO_LARGE,
+          meta: ALERT_KEYS.VALUE_BALANCE_TOO_LARGE,
           type: 'error',
           text: `Value too large: the value must be smaller than ${Number(
             maxValue
