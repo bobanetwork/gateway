@@ -76,7 +76,14 @@ describe('useBridgeAlerts', () => {
 
     const actions = store.getActions()
     expect(actions).toContainEqual({
-      payload: { keys: ['TELEPORTER_ASSET_NOT_SUPPORTED'] },
+      payload: {
+        keys: [
+          'TELEPORTER_ASSET_NOT_SUPPORTED',
+          'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
+          'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
+          'MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED',
+        ],
+      },
       type: 'BRIDGE/ALERT/CLEAR',
     })
     expect(actions).toContainEqual({
@@ -128,14 +135,29 @@ describe('useBridgeAlerts', () => {
 
     const actions = store.getActions()
 
-    expect(actions).toContainEqual({
-      payload: {
-        meta: 'VALUE_TOO_LARGE',
-        text: 'For this asset you are allowed to bridge at maximum 0.000000000000000001 per transaction.',
-        type: 'error',
+    expect(actions).toContainEqual([
+      {
+        payload: {
+          keys: [
+            'TELEPORTER_ASSET_NOT_SUPPORTED',
+            'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
+            'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
+            'MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED',
+          ],
+        },
+        type: 'BRIDGE/ALERT/CLEAR',
       },
-      type: 'BRIDGE/ALERT/SET',
-    })
+      {
+        payload: {
+          meta: 'TELEPORTATION_NO_UNCONVENTIONAL_WALLETS',
+          text: "This bridge doesn't support smart-contract wallets that use a costly fallback method.",
+          type: 'info',
+        },
+        type: 'BRIDGE/ALERT/SET',
+      },
+      { payload: { keys: ['OMG_INFO'] }, type: 'BRIDGE/ALERT/CLEAR' },
+      { payload: undefined, type: 'BRIDGE/ALERT/PURGE' },
+    ])
   })
 
   test('If bridgeType Light and amountToBridge < minDepositAmount (Value too Low)', async () => {
@@ -170,14 +192,29 @@ describe('useBridgeAlerts', () => {
 
     const actions = store.getActions()
 
-    expect(actions).toContainEqual({
-      payload: {
-        meta: 'VALUE_TOO_SMALL',
-        text: 'For this asset you need to bridge at least 0.000000000000000001.',
-        type: 'error',
+    expect(actions).toContainEqual([
+      {
+        payload: {
+          keys: [
+            'TELEPORTER_ASSET_NOT_SUPPORTED',
+            'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
+            'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
+            'MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED',
+          ],
+        },
+        type: 'BRIDGE/ALERT/CLEAR',
       },
-      type: 'BRIDGE/ALERT/SET',
-    })
+      {
+        payload: {
+          meta: 'TELEPORTATION_NO_UNCONVENTIONAL_WALLETS',
+          text: "This bridge doesn't support smart-contract wallets that use a costly fallback method.",
+          type: 'info',
+        },
+        type: 'BRIDGE/ALERT/SET',
+      },
+      { payload: { keys: ['OMG_INFO'] }, type: 'BRIDGE/ALERT/CLEAR' },
+      { payload: undefined, type: 'BRIDGE/ALERT/PURGE' },
+    ])
   })
 
   test('L1 and Token and Token Symbol is not OMG should clear omg_info', async () => {
@@ -419,14 +456,26 @@ describe('useBridgeAlerts', () => {
 
     const actions = store.getActions()
 
-    expect(actions).toContainEqual({
-      payload: {
-        meta: 'VALUE_TOO_LARGE',
-        text: 'Value too large: the value must be smaller than 0.00000',
-        type: 'error',
+    expect(actions).toContainEqual([
+      { payload: { keys: ['OMG_INFO'] }, type: 'BRIDGE/ALERT/CLEAR' },
+      {
+        payload: {
+          keys: ['VALUE_BALANCE_TOO_LARGE', 'VALUE_BALANCE_TOO_SMALL'],
+        },
+        type: 'BRIDGE/ALERT/CLEAR',
       },
-      type: 'BRIDGE/ALERT/SET',
-    })
+      {
+        payload: {
+          meta: 'VALUE_BALANCE_TOO_LARGE',
+          text: 'Value too large: the value must be smaller than 0.00000',
+          type: 'error',
+        },
+        type: 'BRIDGE/ALERT/SET',
+      },
+      { payload: { keys: ['FAST_EXIT_ERROR'] }, type: 'BRIDGE/ALERT/CLEAR' },
+      { payload: { keys: ['FAST_DEPOSIT_ERROR'] }, type: 'BRIDGE/ALERT/CLEAR' },
+      { payload: undefined, type: 'BRIDGE/ALERT/PURGE' },
+    ])
   })
 
   test('L1 and Token and Token Symbol is not OMG and tooLow bridge', async () => {
@@ -465,14 +514,26 @@ describe('useBridgeAlerts', () => {
 
     const actions = store.getActions()
 
-    expect(actions).toContainEqual({
-      payload: {
-        meta: 'VALUE_TOO_SMALL',
-        text: `Value too small: the value must be greater than 0`,
-        type: 'error',
+    expect(actions).toContainEqual([
+      { payload: { keys: ['OMG_INFO'] }, type: 'BRIDGE/ALERT/CLEAR' },
+      {
+        payload: {
+          keys: ['VALUE_BALANCE_TOO_LARGE', 'VALUE_BALANCE_TOO_SMALL'],
+        },
+        type: 'BRIDGE/ALERT/CLEAR',
       },
-      type: 'BRIDGE/ALERT/SET',
-    })
+      {
+        payload: {
+          meta: 'VALUE_BALANCE_TOO_SMALL',
+          text: 'Value too small: the value must be greater than 0',
+          type: 'error',
+        },
+        type: 'BRIDGE/ALERT/SET',
+      },
+      { payload: { keys: ['FAST_EXIT_ERROR'] }, type: 'BRIDGE/ALERT/CLEAR' },
+      { payload: { keys: ['FAST_DEPOSIT_ERROR'] }, type: 'BRIDGE/ALERT/CLEAR' },
+      { payload: undefined, type: 'BRIDGE/ALERT/PURGE' },
+    ])
   })
 
   test('L2 and BridgeType is not Light & exitFee is bigger than Boba Balance should error', async () => {
