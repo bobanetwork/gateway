@@ -101,15 +101,6 @@ export const approveERC20 = (
     )
   )
 
-export const transfer = (
-  recipient: string,
-  value: BigNumberish,
-  currency: string
-) =>
-  createAction('TRANSFER/CREATE', () =>
-    networkService.transfer(recipient, value, currency)
-  )
-
 export const fetchLookUpPrice = (params) =>
   createAction('PRICE/GET', () => networkService.fetchLookUpPrice(params))
 

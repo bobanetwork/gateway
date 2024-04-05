@@ -580,7 +580,8 @@ describe('UseBridge Hooks', () => {
           },
         }
       })
-      test('should trigger exitBoba correctly and reset state on success', async () => {
+      // @note enable test once anchorage based exit enabled.
+      xtest('should trigger exitBoba correctly and reset state on success', async () => {
         store = mockStore(store)
         const { result } = renderHook(() => useBridge(), { wrapper })
         let actions = store.getActions()

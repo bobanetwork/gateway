@@ -26,43 +26,47 @@ export const Router = () => {
       (m) =>
         intersection([m.key], PAGES_BY_NETWORK[network.toLowerCase()]).length
     )
-    const { path, ...indexRoute } = fRoutes[0]
-    const _routes = [
-      {
-        ...indexRoute,
-        index: true,
-      },
-      ...fRoutes,
-      ...COMMON_ROUTES,
-    ].filter((r) => !(r as any).disable)
 
-    if (
-      isOnLimitedNetwork &&
-      routeList[0].path !== '/' &&
-      routeList[0].path !== ROUTES_PATH.BRIDGE
-    ) {
-      const defaultChainDetail = NetworkList[networkType].find(
-        (n) => n.chain === Network.ETHEREUM
-      )
+    if (fRoutes.length > 0) {
+      const { path, ...indexRoute } = fRoutes[0]
+      const _routes = [
+        {
+          ...indexRoute,
+          index: true,
+        },
+        ...fRoutes,
+        ...COMMON_ROUTES,
+      ].filter((r) => !(r as any).disable)
 
-      // switch network when switching page for limited networks
-      dispatch(
-        setNetwork({
-          network: defaultChainDetail.chain,
-          name: defaultChainDetail.name,
-          networkIcon: defaultChainDetail.icon,
-          chainIds: defaultChainDetail.chainId,
-          networkType,
-        }) as any
-      )
+      if (
+        isOnLimitedNetwork &&
+        routeList[0].path !== '/' &&
+        routeList[0].path !== ROUTES_PATH.BRIDGE
+      ) {
+        const defaultChainDetail = NetworkList[networkType].find(
+          (n) => n.chain === Network.ETHEREUM
+        )
+
+        // switch network when switching page for limited networks
+        dispatch(
+          setNetwork({
+            network: defaultChainDetail.chain,
+            name: defaultChainDetail.name,
+            networkIcon: defaultChainDetail.icon,
+            chainIds: defaultChainDetail.chainId,
+            networkType,
+          }) as any
+        )
+      }
+
+      setRoutes([
+        {
+          ...routeList[0],
+          children: _routes,
+        },
+      ])
     }
 
-    setRoutes([
-      {
-        ...routeList[0],
-        children: _routes,
-      },
-    ])
     return () => {
       setRoutes([])
     }

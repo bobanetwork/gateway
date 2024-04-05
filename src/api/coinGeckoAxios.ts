@@ -1,9 +1,8 @@
 import axios from 'axios'
-
-import { getBaseServices } from 'util/masterConfig'
+import { COIN_GECKO_URL } from 'util/constant'
 
 const _coinGeckoAxiosInstance = axios.create({
-  baseURL: getBaseServices().COIN_GECKO_URL,
+  baseURL: COIN_GECKO_URL,
 })
 
 _coinGeckoAxiosInstance.interceptors.request.use((config) => {

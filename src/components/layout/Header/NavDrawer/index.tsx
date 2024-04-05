@@ -75,7 +75,13 @@ const NavDrawer: FC<Props> = ({ onClose, open }) => {
           <ActionItem>
             <ActionIcon />
             <ActionLabel>Account</ActionLabel>
-            <ActionValue onClick={() => setUserDrawer(true)}>
+            <ActionValue
+              onClick={() => {
+                if (accountEnabled) {
+                  setUserDrawer(true)
+                }
+              }}
+            >
               {networkService?.account
                 ? truncateMiddle(networkService.account, 5, 5, '...')
                 : null}

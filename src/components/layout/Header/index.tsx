@@ -12,20 +12,20 @@ import ThemeSwitcher from './ThemeSwitcher'
 import Navigation from './Navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { setConnect } from 'actions/setupAction'
-import { selectAccountEnabled, selectLayer } from 'selectors'
+import { selectAccountEnabled } from 'selectors'
 import { WalletAddress } from './WalletAddress'
-import { LAYER, ROUTES_PATH } from 'util/constant'
+import { ROUTES_PATH } from 'util/constant'
 import FeeSwitcher from './feeSwitcher'
 import NavDrawer from './NavDrawer'
 import { NetworkSelector } from 'components/NetworkSelector'
 import { NavLink } from 'react-router-dom'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 export const Header: FC<HeaderProps> = () => {
   const dispatch = useDispatch<any>()
-  const layer = useSelector<any>(selectLayer())
   const accountEnabled = useSelector<any>(selectAccountEnabled())
   const [showDrawer, setShowDrawer] = useState(false)
-
+  const { isActiveNetworkBnb } = useNetworkInfo()
   const onConnect = () => {
     dispatch(setConnect(true))
   }
@@ -40,7 +40,7 @@ export const Header: FC<HeaderProps> = () => {
       <HeaderAction>
         {accountEnabled ? (
           <>
-            {layer === LAYER.L2 ? <FeeSwitcher /> : null}
+            {isActiveNetworkBnb && <FeeSwitcher />}
             <NetworkSelector />
             <WalletAddress />
           </>
