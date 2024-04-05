@@ -1,6 +1,7 @@
 import { setConnect } from 'actions/setupAction'
 import { openModal } from 'actions/uiAction'
 import { Heading } from 'components/global'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -17,8 +18,12 @@ const BridgeAction = () => {
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
   const bridgeAlerts = useSelector(selectBridgeAlerts())
+  const { isClassicWithdrawalDisabled } = useNetworkInfo()
 
   const isBridgeActionDisabled = () => {
+    if (isClassicWithdrawalDisabled) {
+      return isClassicWithdrawalDisabled
+    }
     const hasError = bridgeAlerts.find((alert: any) => alert.type === 'error')
     return !token || !amountToBridge || hasError
   }

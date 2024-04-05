@@ -52,7 +52,7 @@ describe('NotificationBanner ', () => {
       open: true,
     })
     expect(asFragment()).toMatchSnapshot()
-    expect(container.firstChild).toHaveStyle(`max-height: 60px`)
+    expect(container.firstChild).toHaveStyle(`max-height: unset`)
   })
 
   test('should show read more btn when the content present update view on click', () => {

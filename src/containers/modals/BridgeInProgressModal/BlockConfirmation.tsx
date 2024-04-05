@@ -12,7 +12,7 @@ interface Props {
   onClose: () => void
 }
 
-// Notes: show block confirmation in case of classic bridge L1 -> L2 ethereum / goerli / bnb
+// Notes: show block confirmation in case of classic bridge L1 -> L2 ethereum / sepolia / bnb
 
 const BlockConfirmation: FC<Props> = ({ onClose }) => {
   const [initialBlock, setInitialBlock] = useState<any>(0)

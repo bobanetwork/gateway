@@ -29,11 +29,13 @@ export const setLayer = (layer) => (dispatch) =>
 export const setWalletAddress = (account) => (dispatch) =>
   dispatch({ type: 'SETUP/WALLETADDRESS/SET', payload: account })
 
-export const switchFee = (targetFee) =>
-  createAction('SETUP/SWITCHFEE', () => networkService.switchFee(targetFee))
+export const doSwitchFeeToken = (targetFee) =>
+  createAction('SETUP/SWITCHFEE', () =>
+    networkService.switchFeeToken(targetFee)
+  )
 
-export const getETHMetaTransaction = () =>
-  createAction('SETUP/GETETH', () => networkService.getETHMetaTransaction())
+export const doSwapToken = () =>
+  createAction('SETUP/GETETH', () => networkService.swapToken())
 
 export const addBobaFee = async (bobaFee) => {
   store.dispatch({ type: 'BOBAFEE/ADD/SUCCESS', payload: bobaFee })

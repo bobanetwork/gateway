@@ -29,6 +29,8 @@ import networkService from 'services/networkService'
 import { useSelector } from 'react-redux'
 import {
   selectAccountEnabled,
+  selectActiveNetwork,
+  selectActiveNetworkType,
   selectBobaFeeChoice,
   selectLayer,
 } from 'selectors'
@@ -36,6 +38,7 @@ import AccountDrawer from './AccountDrawer'
 import FeeSwitcherDrawer from './FeeSwitcherDrawer'
 
 import BobaLogoPng from 'assets/images/Boba_Logo_White_Circle.png'
+import { Network, NetworkType } from 'util/network/network.util'
 
 interface Props {
   onClose: () => void
@@ -57,6 +60,8 @@ const NavDrawer: FC<Props> = ({ onClose, open }) => {
   const [userDrawer, setUserDrawer] = useState<boolean>(false)
   const [feeSwitcherDrawer, setFeeSwitcherDrawer] = useState<boolean>(false)
 
+  const activeNetworkType = useSelector(selectActiveNetworkType())
+  const activeNetwork = useSelector(selectActiveNetwork())
   const layer = useSelector(selectLayer())
   const accountEnabled = useSelector(selectAccountEnabled())
   const feeUseBoba = useSelector(selectBobaFeeChoice())
@@ -75,7 +80,13 @@ const NavDrawer: FC<Props> = ({ onClose, open }) => {
           <ActionItem>
             <ActionIcon />
             <ActionLabel>Account</ActionLabel>
-            <ActionValue onClick={() => setUserDrawer(true)}>
+            <ActionValue
+              onClick={() => {
+                if (accountEnabled) {
+                  setUserDrawer(true)
+                }
+              }}
+            >
               {networkService?.account
                 ? truncateMiddle(networkService.account, 5, 5, '...')
                 : null}
@@ -115,6 +126,13 @@ const NavDrawer: FC<Props> = ({ onClose, open }) => {
         <HeaderDivider />
         <NavList>
           {MENU_LIST.map((menu) => {
+            if (
+              activeNetwork === Network.ETHEREUM &&
+              activeNetworkType === NetworkType.TESTNET &&
+              ['Stake', 'Dao'].includes(menu.label)
+            ) {
+              return null
+            }
             return (
               <NavLinkItem key={menu.label} to={menu.path} onClick={onClose}>
                 {menu.label}

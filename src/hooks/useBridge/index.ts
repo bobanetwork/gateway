@@ -41,7 +41,7 @@ export const useBridge = () => {
   const toL2Account = useSelector(selectBridgeDestinationAddress())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-  const { isAnchorageEnabled } = useNetworkInfo()
+  const { isAnchorageEnabled, isClassicWithdrawalDisabled } = useNetworkInfo()
 
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const activeNetwork = useSelector(selectActiveNetwork())
@@ -135,7 +135,10 @@ export const useBridge = () => {
     amountWei: BigNumberish,
     destChainId: BigNumberish
   ) => {
-    if (token.address !== ethers.constants.AddressZero && token.address !== '0x4200000000000000000000000000000000000006') {
+    if (
+      token.address !== ethers.constants.AddressZero &&
+      token.address !== '0x4200000000000000000000000000000000000006'
+    ) {
       // ERC20 token fast bridging.
       // step -1  approve token
       // step -2  deposit to Teleportation.
@@ -168,6 +171,10 @@ export const useBridge = () => {
     if (!!isAnchorageEnabled) {
       dispatch(openModal('bridgeMultiStepWithdrawal'))
     } else {
+      if (!!isClassicWithdrawalDisabled) {
+        return false
+      }
+      // @todo clean up this once anchorage migration done on mainnet.
       return dispatch(exitBOBA(token.address, amountWei))
     }
   }

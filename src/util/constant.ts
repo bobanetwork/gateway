@@ -32,9 +32,7 @@ type RoutesPathType = {
   EARN: string
   LOCK: string
   STAKE: string
-  HELP: string
   BOBASCOPE: string
-  VOTE_DAO: string
   DAO: string
   DEV_TOOLS: string
 }
@@ -45,21 +43,18 @@ export const ROUTES_PATH: RoutesPathType = {
   EARN: '/earn',
   LOCK: '/lock',
   STAKE: '/stake',
-  HELP: '/help',
   BOBASCOPE: '/bobascope',
-  VOTE_DAO: '/votedao',
   DAO: '/dao',
   DEV_TOOLS: '/devtools',
 }
 
-type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum' | 'ethereum_sepolia' //we move this to global network type once we define this
-type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO' | 'Monster'
+type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum'
+type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
-  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
+  ethereum: ['Bridge', 'History'], // @note update list back with stake, dao, earn once supported on sepolia.
   bnb: ['Bridge', 'Earn', 'History'],
-  ethereum_sepolia: ['Bridge', 'History'],
   optimism: ['Bridge', 'History'],
   arbitrum: ['Bridge', 'History'],
 }
@@ -68,6 +63,7 @@ export enum Layer {
   L1 = 'L1',
   L2 = 'L2',
 }
+
 export const LAYER: { [key: string]: Layer } = Layer
 
 type NetworkIconType = 'ethereum' | 'boba'
@@ -99,3 +95,5 @@ export const MM_EXTENTION_URL: string =
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
 
 export const THIRD_PARTY_BRIDGES_LIST = `https://raw.githubusercontent.com/bobanetwork/gateway-data/${GATEWAY_DATA_BRANCH}/bridges/list.json`
+
+export const COIN_GECKO_URL = `https://api.coingecko.com/api/v3/`

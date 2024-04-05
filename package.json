@@ -1,6 +1,6 @@
 {
   "name": "@bobanetwork/gateway",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "private": true,
   "scripts": {
     "audit-check": "audit-ci --moderate",
@@ -102,7 +102,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
-    "@babel/preset-typescript": "^7.21.5",
+    "@babel/preset-typescript": "^7.24.1",
     "@sentry/types": "^7.100.1",
     "@storybook/addon-essentials": "^7.0.15",
     "@storybook/addon-interactions": "^7.0.15",

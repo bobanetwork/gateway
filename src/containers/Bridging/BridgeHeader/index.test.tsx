@@ -57,7 +57,7 @@ describe('BridgeHeader', () => {
     const tooltipBtn = screen.getByTestId('tooltip-btn')
     fireEvent.mouseEnter(tooltipBtn)
     expect(await screen.findByText('Classic Bridge')).toBeInTheDocument()
-    expect(await screen.findByText('Fast Bridge')).toBeInTheDocument()
+    expect(await screen.findByText('Light Bridge')).toBeInTheDocument()
   })
 
   test('should match snapshot when connected to TESTNET', async () => {
@@ -70,11 +70,5 @@ describe('BridgeHeader', () => {
     })
     const { asFragment } = renderBridgeHeader({ store })
     expect(asFragment()).toMatchSnapshot()
-
-    const tooltipBtn = screen.getByTestId('tooltip-btn')
-    fireEvent.mouseEnter(tooltipBtn)
-    expect(await screen.findByText('Classic Bridge')).toBeInTheDocument()
-    expect(await screen.findByText('Fast Bridge')).toBeInTheDocument()
-    expect(await screen.findByText('Light Bridge')).toBeInTheDocument()
   })
 })

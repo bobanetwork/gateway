@@ -40,7 +40,7 @@ import {
 
 import BobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import { fetchBalances } from 'actions/networkAction'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
+import { Layer } from 'util/constant'
 
 const OptionBoba = () => ({
   value: 'BOBA',
@@ -63,18 +63,12 @@ const FeeSwitcher: FC = () => {
   const layer = useSelector(selectLayer())
 
   const { switchFeeUse } = useFeeSwitcher()
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   useEffect(() => {
     dispatch(fetchBalances())
   }, [dispatch])
 
-  // @todo remove check once goerli deprecated.
-  if (!!isAnchorageEnabled) {
-    return <></>
-  }
-
-  if (!accountEnabled && layer !== 'L2') {
+  if (accountEnabled && layer !== Layer.L2) {
     return (
       <FeeSwitcherWrapper>
         <Tooltip
@@ -85,26 +79,29 @@ const FeeSwitcher: FC = () => {
         <FeeSwitcherLabel>Fee</FeeSwitcherLabel>
       </FeeSwitcherWrapper>
     )
+  } else if (layer === Layer.L2) {
+    return (
+      <FeeSwitcherWrapper data-testid={'feeSwitcher'}>
+        <FeeSwitcherLabelWrapper>
+          <FeeLabel>Fee</FeeLabel>
+          <Tooltip
+            title={`BOBA or ${networkService.L1NativeTokenSymbol} will be used across ${networkName['l2']} according to your choice.`}
+          >
+            <FeeSwitcherIcon fontSize="small" />
+          </Tooltip>
+        </FeeSwitcherLabelWrapper>
+        <FeeSwitchterDropdown
+          items={[OptionBoba(), OptionNativeToken()]}
+          defaultItem={feeUseBoba ? OptionBoba() : OptionNativeToken()}
+          onItemSelected={(option: any) => switchFeeUse(option.value)}
+          setSelectedOnClick={false}
+          error={true}
+        />
+      </FeeSwitcherWrapper>
+    )
   }
-  return (
-    <FeeSwitcherWrapper data-testid={'feeSwitcher'}>
-      <FeeSwitcherLabelWrapper>
-        <FeeLabel>Fee</FeeLabel>
-        <Tooltip
-          title={`BOBA or ${networkService.L1NativeTokenSymbol} will be used across ${networkName['l2']} according to your choice.`}
-        >
-          <FeeSwitcherIcon fontSize="small" />
-        </Tooltip>
-      </FeeSwitcherLabelWrapper>
-      <FeeSwitchterDropdown
-        items={[OptionBoba(), OptionNativeToken()]}
-        defaultItem={feeUseBoba ? OptionBoba() : OptionNativeToken()}
-        onItemSelected={(option: any) => switchFeeUse(option.value)}
-        setSelectedOnClick={false}
-        error={true}
-      />
-    </FeeSwitcherWrapper>
-  )
+
+  return null
 }
 
 export default FeeSwitcher

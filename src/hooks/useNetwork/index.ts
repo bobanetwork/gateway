@@ -27,7 +27,7 @@ const useNetwork = () => {
   useEffect(() => {
     const { name, icon, chainId, chain } = (NetworkList as any)[
       activeNetworkType as any
-    ].filter((n: any) => activeNetwork.indexOf(n.chain) > -1)[0] /// note: need to update the logic to handle the ethereum_sepolia.
+    ].filter((n: any) => activeNetwork.indexOf(n.chain) > -1)[0]
 
     dispatch(
       setNetwork({

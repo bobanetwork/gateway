@@ -20,11 +20,6 @@
 import networkService from 'services/networkService'
 import { createAction } from './createAction'
 
-/***********************************************/
-/*****           DAO Action                *****/
-/***********************************************/
-
-/*****           DAO Action                *****/
 export const fetchDaoBalance = () =>
   createAction('BALANCE/DAO/GET', () => networkService.getDaoBalance())
 

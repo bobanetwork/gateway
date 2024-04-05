@@ -24,7 +24,6 @@ import uiReducer from './uiReducer'
 import setupReducer from './setupReducer'
 import earnReduer from './earnReducer'
 import lookupReducer from './lookupReducer'
-import signatureReducer from './signatureReducer'
 import daoReducer from './daoReducer'
 import fixedReducer from './fixedReducer'
 import verifierReducer from './verifierReducer'
@@ -38,7 +37,6 @@ const rootReducer = combineReducers({
   deposit: depositReducer,
   transaction: transactionReducer,
   data: dataReducer,
-  signature: signatureReducer,
   balance: balanceReducer,
   tokenList: tokenReducer,
   nft: nftReducer,

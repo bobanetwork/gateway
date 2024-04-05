@@ -28,12 +28,6 @@ import { getToken } from 'actions/tokenAction'
 
 import { addBobaFee } from 'actions/setupAction'
 
-import {
-  updateSignatureStatus_depositLP,
-  updateSignatureStatus_exitLP,
-  updateSignatureStatus_exitTRAD,
-} from 'actions/signAction'
-
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
@@ -186,11 +180,11 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  // NOTE: added check for anchorage to use in services
+  // NOTE: added check for anchorage currently available on sepolia to use in services
   isAnchorageEnabled() {
     if (
       this.networkType === NetworkType.TESTNET &&
-      this.networkGateway === Network.ETHEREUM_SEPOLIA
+      this.networkGateway === Network.ETHEREUM
     ) {
       return true
     }
@@ -252,7 +246,7 @@ class NetworkService {
     }
   }
 
-  async switchFee(targetFee) {
+  async switchFeeToken(targetFee) {
     if (this.L1orL2 !== 'L2') {
       return
     }
@@ -276,10 +270,7 @@ class NetworkService {
         tx = await bobaFeeContract.useSecondaryFeeTokenAsFeeToken()
         await tx.wait()
       } else {
-        console.error(
-          `NetworkService:switchFee: Unknown targetFee selected: ${targetFee}`
-        )
-        return
+        return false
       }
 
       await this.getBobaFeeChoice()
@@ -291,71 +282,55 @@ class NetworkService {
     }
   }
 
-  async getETHMetaTransaction() {
-    const EIP712Domain = [
-      { name: 'name', type: 'string' },
-      { name: 'version', type: 'string' },
-      { name: 'chainId', type: 'uint256' },
-      { name: 'verifyingContract', type: 'address' },
-    ]
-    const Permit = [
-      { name: 'owner', type: 'address' },
-      { name: 'spender', type: 'address' },
-      { name: 'value', type: 'uint256' },
-      { name: 'nonce', type: 'uint256' },
-      { name: 'deadline', type: 'uint256' },
-    ]
-
-    const owner = this.account
-    const spender = this.addresses.Proxy__Boba_GasPriceOracle
-
-    const Boba_GasPriceOracle = new ethers.Contract(
-      this.addresses.Proxy__Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.provider!.getSigner()
-    )
-
-    let rawValue
-    if (this.networkGateway === Network.ETHEREUM) {
-      rawValue = await Boba_GasPriceOracle.getBOBAForSwap()
-    } else {
-      rawValue = await Boba_GasPriceOracle.getSecondaryFeeTokenForSwap()
-    }
-
-    const value = rawValue.toString()
-
-    const nonce = (await this.BobaContract!.nonces(this.account)).toNumber()
-    const deadline = Math.floor(Date.now() / 1000) + 300
-    const verifyingContract = this.BobaContract!.address
-
-    const name = await this.BobaContract!.name()
-    const version = '1'
-    const chainId = (await this.L2Provider!.getNetwork()).chainId
-
-    const data = {
-      primaryType: 'Permit',
-      types: { EIP712Domain, Permit },
-      domain: { name, version, chainId, verifyingContract },
-      message: { owner, spender, value, nonce, deadline },
-    }
-
-    let signature
-
+  async swapToken() {
     try {
-      signature = await this.provider!.send('eth_signTypedData_v4', [
+      const EIP712Domain = [
+        { name: 'name', type: 'string' },
+        { name: 'version', type: 'string' },
+        { name: 'chainId', type: 'uint256' },
+        { name: 'verifyingContract', type: 'address' },
+      ]
+      const Permit = [
+        { name: 'owner', type: 'address' },
+        { name: 'spender', type: 'address' },
+        { name: 'value', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+        { name: 'deadline', type: 'uint256' },
+      ]
+
+      const owner = this.account
+      const spender = this.addresses.Proxy__Boba_GasPriceOracle
+
+      const Boba_GasPriceOracle = new ethers.Contract(
+        spender,
+        BobaGasPriceOracleABI,
+        this.provider!.getSigner()
+      )
+
+      const rawValue = await Boba_GasPriceOracle.getSecondaryFeeTokenForSwap()
+      const value = rawValue.toString()
+
+      const nonce = (await this.BobaContract!.nonces(this.account)).toNumber()
+      const deadline = Math.floor(Date.now() / 1000) + 300
+      const verifyingContract = this.BobaContract!.address
+
+      const name = await this.BobaContract!.name()
+      const version = '1'
+      const chainId = (await this.L2Provider!.getNetwork()).chainId
+
+      const data = {
+        primaryType: 'Permit',
+        types: { EIP712Domain, Permit },
+        domain: { name, version, chainId, verifyingContract },
+        message: { owner, spender, value, nonce, deadline },
+      }
+
+      const signature = await this.provider!.send('eth_signTypedData_v4', [
         this.account,
         JSON.stringify(data),
       ])
-    } catch (error) {
-      return error
-    }
 
-    try {
-      // change url if network is ethereum
-      const swapUrl =
-        this.networkGateway === Network.ETHEREUM
-          ? '/send.swapBOBAForETH'
-          : '/send.swapSecondaryFeeToken'
+      const swapUrl = '/send.swapSecondaryFeeToken'
       await metaTransactionAxiosInstance(this.networkConfig).post(swapUrl, {
         owner,
         spender,
@@ -365,6 +340,7 @@ class NetworkService {
         data,
       })
       await this.getBobaFeeChoice()
+      return true
     } catch (error: any) {
       let errorData = error.response.data.error
       if (errorData.hasOwnProperty('error')) {
@@ -393,8 +369,8 @@ class NetworkService {
 
   async initializeBase({ networkGateway: network, networkType }) {
     this.network = network //// refer this in other services and clean up iteratively.
-    this.networkGateway = network // e.g. mainnet | goerli | ...
-    this.networkType = networkType // e.g. mainnet | goerli | ...
+    this.networkGateway = network // e.g. mainnet | sepolia | ...
+    this.networkType = networkType // e.g. mainnet | sepolia | ...
     // defines the set of possible networks along with chainId for L1 and L2
     const networkDetail = getNetworkDetail({
       network,
@@ -722,7 +698,7 @@ class NetworkService {
         this.L2Provider
       )
 
-      if (Network.ETHEREUM === network) {
+      if (Network.ETHEREUM === network && networkType === NetworkType.MAINNET) {
         this.xBobaContract = new ethers.Contract(
           allTokens.xBOBA.L2,
           BOBAABI,
@@ -922,8 +898,7 @@ class NetworkService {
       if (
         this.network === Network.ARBITRUM ||
         this.network === Network.OPTIMISM ||
-        this.network === Network.ETHEREUM ||
-        this.network === Network.ETHEREUM_SEPOLIA
+        this.network === Network.ETHEREUM
       ) {
         layer1Balances = [
           {
@@ -1012,10 +987,7 @@ class NetworkService {
         if (token.addressL2 === null) {
           return
         }
-        if (
-          this.network === Network.ETHEREUM ||
-          this.network === Network.ETHEREUM_SEPOLIA
-        ) {
+        if (this.network === Network.ETHEREUM) {
           if (token.addressL1 === this.addresses.L1_ETH_Address) {
             return
           }
@@ -1145,7 +1117,7 @@ class NetworkService {
 
       return received
     } catch (error) {
-      console.log('NS: depositETHL2 error:', error)
+      console.log('NS: depositETHAnchorage error:', error)
       return error
     }
   }
@@ -1222,39 +1194,6 @@ class NetworkService {
       return txReceipt
     } catch (error) {
       console.log('NS: depositETHL2 error:', error)
-      return error
-    }
-  }
-
-  //Transfer funds from one account to another, on the L2
-  async transfer(
-    address: string,
-    value_Wei_String: BigNumberish,
-    currency: string
-  ) {
-    let tx: TransactionResponse
-
-    try {
-      if (currency === this.addresses.L2_ETH_Address) {
-        //we are sending ETH
-
-        const wei = BigNumber.from(value_Wei_String)
-
-        tx = await this.provider!.getSigner().sendTransaction({
-          to: address,
-          value: ethers.utils.hexlify(wei),
-        })
-      } else {
-        //any ERC20 json will do....
-        tx = await this.L2_TEST_Contract!.connect(this.provider!.getSigner())
-          .attach(currency)
-          .transfer(address, value_Wei_String)
-        await tx.wait()
-      }
-
-      return tx
-    } catch (error) {
-      console.log('NS: transfer error:', error)
       return error
     }
   }
@@ -1523,8 +1462,6 @@ class NetworkService {
 
   //Standard 7 day exit from BOBA
   async exitBOBA(currencyAddress, value_Wei_String) {
-    await updateSignatureStatus_exitTRAD(false)
-
     try {
       const L2BillingContract = new ethers.Contract(
         this.addresses.Proxy__BobaBillingContract,
@@ -1611,10 +1548,6 @@ class NetworkService {
 
       //everything submitted... waiting
       await tx.wait()
-
-      //can close window now
-      await updateSignatureStatus_exitTRAD(true)
-
       return tx
     } catch (error) {
       console.log('NS: exitBOBA error:', error)
@@ -2137,9 +2070,7 @@ class NetworkService {
   /***********************************************************/
   async depositL1LP(currency, value_Wei_String) {
     try {
-      await updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
-
       const depositTX = await this.L1LPContract!.connect(
         this.provider!.getSigner()
       ).clientDepositL1(
@@ -2154,7 +2085,6 @@ class NetworkService {
 
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()
-      await updateSignatureStatus_depositLP(true)
 
       const opts = {
         fromBlock: -4000,
@@ -2232,7 +2162,6 @@ class NetworkService {
 
   async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
     try {
-      updateSignatureStatus_depositLP(false)
       setFetchDepositTxBlock(false)
 
       const lightBridgeAddr =
@@ -2279,7 +2208,6 @@ class NetworkService {
 
       //at this point the tx has been submitted, and we are waiting...
       await depositTX.wait()
-      updateSignatureStatus_depositLP(true)
 
       const opts = {
         fromBlock: -4000,
@@ -2543,8 +2471,6 @@ class NetworkService {
 
   /**************************************************************/
   async depositL2LP(currencyAddress: string, value_Wei_String: BigNumberish) {
-    await updateSignatureStatus_exitLP(false)
-
     console.log('depositL2LP currencyAddress', currencyAddress)
 
     const L2BillingContract = new ethers.Contract(
@@ -2638,10 +2564,6 @@ class NetworkService {
 
       const block = await this.L2Provider!.getTransaction(depositTX.hash)
       console.log(' block:', block)
-
-      //closes the modal
-      await updateSignatureStatus_exitLP(true)
-
       return depositTX
     } catch (error) {
       console.log('NS: depositL2LP error:', error)

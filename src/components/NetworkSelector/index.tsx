@@ -42,9 +42,6 @@ export const NetworkSelector = () => {
       return
     }
     const chainDetail = CHAIN_ID_LIST[Number(chainId)]
-    if (chainDetail.chain === Network.ETHEREUM_SEPOLIA) {
-      dispatch(setBridgeType(BRIDGE_TYPE.CLASSIC))
-    }
     dispatch(
       setNetwork({
         network: chainDetail.chain,

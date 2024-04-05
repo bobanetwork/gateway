@@ -3,8 +3,8 @@ import { StyledNav, NavLinkItem } from './style'
 import { MENU_LIST } from './constant'
 import { MenuProps } from './types'
 import { useSelector } from 'react-redux'
-import { selectActiveNetwork } from 'selectors'
-import { Network } from 'util/network/network.util'
+import { selectActiveNetwork, selectActiveNetworkType } from 'selectors'
+import { Network, NetworkType } from 'util/network/network.util'
 
 /**
  *
@@ -28,12 +28,14 @@ import { Network } from 'util/network/network.util'
 
 const Navigation: FC<MenuProps> = ({ isOpen }) => {
   const activeNetwork = useSelector(selectActiveNetwork())
+  const activeNetworkType = useSelector(selectActiveNetworkType())
 
   return (
     <StyledNav>
       {MENU_LIST.map((menu) => {
         if (
-          activeNetwork !== Network.ETHEREUM &&
+          activeNetwork === Network.ETHEREUM &&
+          activeNetworkType === NetworkType.TESTNET &&
           ['Stake', 'Dao'].includes(menu.label)
         ) {
           return null
