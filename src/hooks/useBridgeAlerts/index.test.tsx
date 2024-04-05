@@ -6,6 +6,7 @@ import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
 import { Provider } from 'react-redux'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { ethers } from 'ethers'
 
 describe('useBridgeAlerts', () => {
   const middlewares = [thunk]
@@ -57,10 +58,10 @@ describe('useBridgeAlerts', () => {
         bridgeType: BRIDGE_TYPE.LIGHT,
         isTeleportationOfAssetSupported: {
           supported: true,
-          minDepositAmount: 0,
-          maxDepositAmount: 0,
-          maxTransferAmountPerDay: 0,
-          transferredAmount: 0,
+          minDepositAmount: 0.01,
+          maxDepositAmount: 2.0,
+          maxTransferAmountPerDay: 6,
+          transferredAmount: 0.4,
         },
       },
     }
@@ -76,7 +77,14 @@ describe('useBridgeAlerts', () => {
 
     const actions = store.getActions()
     expect(actions).toContainEqual({
-      payload: { keys: ['TELEPORTER_ASSET_NOT_SUPPORTED'] },
+      payload: {
+        keys: [
+          'TELEPORTER_ASSET_NOT_SUPPORTED',
+          'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
+          'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
+          'MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED',
+        ],
+      },
       type: 'BRIDGE/ALERT/CLEAR',
     })
     expect(actions).toContainEqual({
@@ -106,13 +114,13 @@ describe('useBridgeAlerts', () => {
       },
       bridge: {
         bridgeType: BRIDGE_TYPE.LIGHT,
-        amountToBridge: 2,
+        amountToBridge: 3,
         isTeleportationOfAssetSupported: {
           supported: true,
-          minDepositAmount: 0,
-          maxDepositAmount: 1,
-          maxTransferAmountPerDay: 0,
-          transferredAmount: 0,
+          minDepositAmount: ethers.utils.parseEther('0.01'),
+          maxDepositAmount: ethers.utils.parseEther('2'),
+          maxTransferAmountPerDay: ethers.utils.parseEther('6'),
+          transferredAmount: ethers.utils.parseEther('0.4'),
         },
       },
     }
@@ -131,7 +139,7 @@ describe('useBridgeAlerts', () => {
     expect(actions).toContainEqual({
       payload: {
         meta: 'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
-        text: 'For this asset you are allowed to bridge at maximum 0.000000000000000001 per transaction.',
+        text: 'For this asset you are allowed to bridge at maximum 2.0 per transaction.',
         type: 'error',
       },
       type: 'BRIDGE/ALERT/SET',
@@ -151,10 +159,10 @@ describe('useBridgeAlerts', () => {
         amountToBridge: 0.5,
         isTeleportationOfAssetSupported: {
           supported: true,
-          minDepositAmount: 1,
-          maxDepositAmount: 0,
-          maxTransferAmountPerDay: 0,
-          transferredAmount: 0,
+          minDepositAmount: ethers.utils.parseEther('0.6'),
+          maxDepositAmount: ethers.utils.parseEther('2'),
+          maxTransferAmountPerDay: ethers.utils.parseEther('6'),
+          transferredAmount: ethers.utils.parseEther('0.4'),
         },
       },
     }
@@ -173,7 +181,7 @@ describe('useBridgeAlerts', () => {
     expect(actions).toContainEqual({
       payload: {
         meta: 'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
-        text: 'For this asset you need to bridge at least 0.000000000000000001.',
+        text: 'For this asset you need to bridge at least 0.6.',
         type: 'error',
       },
       type: 'BRIDGE/ALERT/SET',
