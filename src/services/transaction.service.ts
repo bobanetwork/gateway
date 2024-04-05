@@ -2,7 +2,7 @@ import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import { TRANSACTION_STATUS } from 'containers/history/types'
 import { Contract, ethers, providers } from 'ethers'
 import { BobaChains } from '@bobanetwork/light-bridge-chains'
-import { sepoliaConfig } from 'util/network/config/ethereumSepolia'
+import { ethereumConfig } from 'util/network/config/ethereum'
 import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
@@ -58,7 +58,7 @@ class TransactionService {
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
     if (
-      networkConfig?.L1.chainId !== sepoliaConfig.Testnet.L1.chainId ||
+      networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId ||
       !address
     ) {
       return []

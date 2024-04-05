@@ -51,13 +51,15 @@ const useGasWatcher = () => {
       }
 
       fetchGas()
-      if (activeNetwork === Network.ETHEREUM) {
-        dispatch(fetchVerifierStatus())
-      } else {
-        dispatch(resetVerifierStatus())
+      if (activeNetworkType === NetworkType.MAINNET) {
+        if (activeNetwork === Network.ETHEREUM) {
+          dispatch(fetchVerifierStatus())
+        } else {
+          dispatch(resetVerifierStatus())
+        }
       }
     }
-  }, [networkName, baseEnabled, dispatch])
+  }, [networkName, baseEnabled, dispatch, activeNetworkType])
 
   useEffect(() => {
     const getGasSavings = async () => {

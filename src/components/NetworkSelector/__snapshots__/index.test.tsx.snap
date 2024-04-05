@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NetworkSelector should match snapshot when account connected to Boba (Goerli) 1`] = `
+exports[`NetworkSelector should match snapshot when account connected to Boba (Sepolia) 1`] = `
 <DocumentFragment>
   <div
     class="sc-gFqAkR kUbaAB dropdown sc-dtInlm sc-kOPcWz iSOFgg kDoMup"
@@ -24,7 +24,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
         <p
           class="sc-dhKdcB jSXfaR"
         >
-          Boba (Goerli)
+          Boba (Sepolia)
         </p>
         <div
           class="sc-jsJBEP hOLTkK dropdown sc-dtInlm sc-kOPcWz iSOFgg kDoMup"
@@ -42,7 +42,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
 </DocumentFragment>
 `;
 
-exports[`NetworkSelector should match snapshot when account connected to Boba (Goerli) 2`] = `
+exports[`NetworkSelector should match snapshot when account connected to Boba (Sepolia) 2`] = `
 <DocumentFragment>
   <div
     class="sc-gFqAkR kUbaAB dropdown sc-dtInlm sc-kOPcWz iSOFgg kDoMup"
@@ -66,7 +66,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
         <p
           class="sc-dhKdcB jSXfaR"
         >
-          Boba (Goerli)
+          Boba (Sepolia)
         </p>
         <div
           class="sc-jsJBEP hOLTkK dropdown sc-dtInlm sc-kOPcWz iSOFgg kDoMup"
@@ -92,20 +92,6 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
           Networks
         </div>
         <div
-          class="sc-fUnMCh jySLNu dropdown sc-dtInlm sc-kOPcWz iSOFgg kDoMup"
-        >
-          <div
-            class="sc-dAbbOL ACNsH"
-          >
-            <img
-              alt="token"
-              src="bobaEth.svg"
-              width="20px"
-            />
-          </div>
-          Boba (Sepolia)
-        </div>
-        <div
           class="sc-fUnMCh gRWBIx dropdown sc-dtInlm sc-kOPcWz iSOFgg kDoMup"
         >
           <div
@@ -117,7 +103,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (G
               width="20px"
             />
           </div>
-          Boba (Goerli)
+          Boba (Sepolia)
         </div>
         <div
           class="sc-fUnMCh jySLNu dropdown sc-dtInlm sc-kOPcWz iSOFgg kDoMup"

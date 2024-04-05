@@ -2,7 +2,7 @@
 import Page from './base/page'
 import { Layer } from '../../../src/util/constant'
 import { BridgeType, NetworkTestInfo } from './base/types'
-import { EthereumGoerliInfo, EthereumInfo } from './base/constants'
+import { EthereumSepoliaInfo, EthereumInfo } from './base/constants'
 
 export default class Bridge extends Page {
   type: string
@@ -15,7 +15,7 @@ export default class Bridge extends Page {
   }
 
   switchToTestnet(
-    networkAbbreviation: string = EthereumGoerliInfo.networkAbbreviation,
+    networkAbbreviation: string = EthereumSepoliaInfo.networkAbbreviation,
     newNetwork: boolean = false
   ) {
     this.switchNetworkType(networkAbbreviation, true, newNetwork)
@@ -268,13 +268,13 @@ export default class Bridge extends Page {
 
   switchBridgeType(
     bridgeType: BridgeType,
-    currentNetwork: NetworkTestInfo = EthereumGoerliInfo
+    currentNetwork: NetworkTestInfo = EthereumSepoliaInfo
   ) {
     this.withinPage().contains(bridgeType).should('exist').click()
     this.store.verifyReduxStoreBridge('bridgeType', bridgeType.toUpperCase())
     if (
       this.type === BridgeType.Light &&
-      currentNetwork !== EthereumGoerliInfo
+      currentNetwork !== EthereumSepoliaInfo
     ) {
       this.getModal()
         .find(

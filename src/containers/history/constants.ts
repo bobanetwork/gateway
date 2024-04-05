@@ -57,39 +57,21 @@ export const Chains: ChainMap = {
     symbol: 'ETH',
     imgSrc: ethIcon,
   },
-  '901': {
-    name: CHAIN_NAME.Boba_Goerli,
-    transactionUrlPrefix: 'https://bobascan.com/tx/',
-    symbol: 'BOBA',
-    imgSrc: bobaEth,
-  },
   '288': {
     name: CHAIN_NAME.Boba_Ethereum,
     transactionUrlPrefix: 'https://bobascan.com/tx/',
     symbol: 'BOBA',
     imgSrc: bobaEth,
   },
-  '5': {
-    name: CHAIN_NAME.Goerli,
-    transactionUrlPrefix: 'https://goerli.etherscan.io/tx/',
-    symbol: 'ETH',
-    imgSrc: ethIcon,
-  },
-  '2888': {
-    name: CHAIN_NAME.Boba_Goerli,
-    transactionUrlPrefix: 'https://testnet.bobascan.com/tx/',
-    symbol: 'BOBA',
-    imgSrc: bobaEth,
-  },
   '420': {
     name: CHAIN_NAME.Optimism_Sepolia,
-    transactionUrlPrefix: 'https://goerli-optimism.etherscan.io/tx/',
+    transactionUrlPrefix: 'https://sepolia-optimism.etherscan.io/tx',
     symbol: 'ETH',
     imgSrc: optimism,
   },
   '421614': {
     name: CHAIN_NAME.Arbitrum_Sepolia,
-    transactionUrlPrefix: 'https://goerli.arbiscan.io/tx/',
+    transactionUrlPrefix: 'https://sepolia.arbiscan.io/tx/',
     symbol: 'ETH',
     imgSrc: arbitrum,
   },
@@ -141,12 +123,6 @@ export const NETWORK_L1_OPTIONS: IDropdownItem[] = [
     headerName: NetworkType.MAINNET,
   },
   {
-    value: '5',
-    label: 'Goerli',
-    imgSrc: ethIcon,
-    headerName: NetworkType.TESTNET,
-  },
-  {
     value: '11155111',
     label: 'Sepolia',
     imgSrc: ethIcon,
@@ -167,12 +143,6 @@ export const NETWORK_L2_OPTIONS = [
     label: 'Boba BNB',
     imgSrc: bobaBnb,
     headerName: NetworkType.MAINNET,
-  },
-  {
-    value: '2888',
-    label: 'Boba Goerli',
-    imgSrc: bobaEth,
-    headerName: NetworkType.TESTNET,
   },
   {
     value: '28882',

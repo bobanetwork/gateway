@@ -180,11 +180,11 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  // NOTE: added check for anchorage to use in services
+  // NOTE: added check for anchorage currently available on sepolia to use in services
   isAnchorageEnabled() {
     if (
       this.networkType === NetworkType.TESTNET &&
-      this.networkGateway === Network.ETHEREUM_SEPOLIA
+      this.networkGateway === Network.ETHEREUM
     ) {
       return true
     }
@@ -369,8 +369,8 @@ class NetworkService {
 
   async initializeBase({ networkGateway: network, networkType }) {
     this.network = network //// refer this in other services and clean up iteratively.
-    this.networkGateway = network // e.g. mainnet | goerli | ...
-    this.networkType = networkType // e.g. mainnet | goerli | ...
+    this.networkGateway = network // e.g. mainnet | sepolia | ...
+    this.networkType = networkType // e.g. mainnet | sepolia | ...
     // defines the set of possible networks along with chainId for L1 and L2
     const networkDetail = getNetworkDetail({
       network,
@@ -698,7 +698,7 @@ class NetworkService {
         this.L2Provider
       )
 
-      if (Network.ETHEREUM === network) {
+      if (Network.ETHEREUM === network && networkType === NetworkType.MAINNET) {
         this.xBobaContract = new ethers.Contract(
           allTokens.xBOBA.L2,
           BOBAABI,
@@ -898,8 +898,7 @@ class NetworkService {
       if (
         this.network === Network.ARBITRUM ||
         this.network === Network.OPTIMISM ||
-        this.network === Network.ETHEREUM ||
-        this.network === Network.ETHEREUM_SEPOLIA
+        this.network === Network.ETHEREUM
       ) {
         layer1Balances = [
           {
@@ -988,10 +987,7 @@ class NetworkService {
         if (token.addressL2 === null) {
           return
         }
-        if (
-          this.network === Network.ETHEREUM ||
-          this.network === Network.ETHEREUM_SEPOLIA
-        ) {
+        if (this.network === Network.ETHEREUM) {
           if (token.addressL1 === this.addresses.L1_ETH_Address) {
             return
           }

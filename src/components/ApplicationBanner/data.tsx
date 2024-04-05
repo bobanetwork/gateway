@@ -28,17 +28,6 @@ export const bannerAlerts = (): IAppAlert[] => [
       </BannerText>
     ),
   },
-  {
-    key: 'goerli-banner-deprecation',
-    type: 'warning',
-    canClose: false,
-    Component: () => (
-      <BannerText>
-        The Goerli L2 will be deprecated in March 2024. Please use Sepolia L2
-        for testing.
-      </BannerText>
-    ),
-  },
 ]
 
 export default bannerAlerts
