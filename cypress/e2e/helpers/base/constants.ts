@@ -42,8 +42,8 @@ export const BobaBNBInfo: NetworkTestInfo = {
   isTestnet: false,
 }
 
-export const EthereumGoerliInfo: NetworkTestInfo = {
-  networkName: 'Ethereum (Goerli)',
+export const EthereumSepoliaInfo: NetworkTestInfo = {
+  networkName: 'Ethereum (Sepolia)',
   networkAbbreviation: 'ETHEREUM',
   isTestnet: true,
 }
@@ -54,8 +54,8 @@ export const BinanceTestnetInfo: NetworkTestInfo = {
   isTestnet: true,
 }
 
-export const BobaGoerliInfo: NetworkTestInfo = {
-  networkName: 'Boba (Goerli)',
+export const BobaSepoliaInfo: NetworkTestInfo = {
+  networkName: 'Boba (Sepolia)',
   networkAbbreviation: 'ETHEREUM',
   isTestnet: true,
 }
@@ -66,12 +66,12 @@ export const BobaBNBTestnetInfo: NetworkTestInfo = {
   isTestnet: true,
 }
 
-export const OptimismGoerliInfo: NetworkTestInfo = {
+export const OptimismSepoliaInfo: NetworkTestInfo = {
   networkName: 'Optimism (Sepolia)',
   networkAbbreviation: 'OPTIMISM',
   isTestnet: true,
 }
-export const ArbitrumGoerliInfo: NetworkTestInfo = {
+export const ArbitrumSepoliaInfo: NetworkTestInfo = {
   networkName: 'Arbitrum (Sepolia)',
   networkAbbreviation: 'ARBITRUM',
   isTestnet: true,
@@ -82,18 +82,18 @@ export const MainnetL1Networks: NetworkTestInfo[] = [EthereumInfo, BinanceInfo]
 export const MainnetL2Networks: NetworkTestInfo[] = [BobaEthInfo, BobaBNBInfo]
 
 export const TestnetL1Networks: NetworkTestInfo[] = [
-  EthereumGoerliInfo,
+  EthereumSepoliaInfo,
   BinanceTestnetInfo,
 ]
 
 export const TestnetL2Networks: NetworkTestInfo[] = [
-  BobaGoerliInfo,
+  BobaSepoliaInfo,
   BobaBNBTestnetInfo,
 ]
 
 export const TestnetLightBridgeNetworks: NetworkTestInfo[] = [
-  BobaGoerliInfo,
+  BobaSepoliaInfo,
   BobaBNBTestnetInfo,
-  OptimismGoerliInfo,
-  ArbitrumGoerliInfo,
+  OptimismSepoliaInfo,
+  ArbitrumSepoliaInfo,
 ]

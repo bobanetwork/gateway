@@ -1,10 +1,10 @@
 import { Layer } from '../../../../src/util/constant'
 import {
-  ArbitrumGoerliInfo,
-  BobaGoerliInfo,
+  ArbitrumSepoliaInfo,
+  BobaSepoliaInfo,
   MainnetL1Networks,
   MainnetL2Networks,
-  OptimismGoerliInfo,
+  OptimismSepoliaInfo,
   TestnetL1Networks,
   TestnetL2Networks,
 } from '../../helpers/base/constants'
@@ -57,8 +57,8 @@ describe('Connect flow', () => {
 
     it('Should switch to Optimism', () => {
       bridge.switchNetworkWithModals(
-        BobaGoerliInfo,
-        OptimismGoerliInfo,
+        BobaSepoliaInfo,
+        OptimismSepoliaInfo,
         true,
         true
       )
@@ -66,8 +66,8 @@ describe('Connect flow', () => {
 
     it('Should switch to Arbitrum', () => {
       bridge.switchNetworkWithModals(
-        OptimismGoerliInfo,
-        ArbitrumGoerliInfo,
+        OptimismSepoliaInfo,
+        ArbitrumSepoliaInfo,
         true,
         true
       )
@@ -75,8 +75,8 @@ describe('Connect flow', () => {
 
     it('Should switch back to classic bridge', () => {
       bridge.switchNetworkWithModals(
-        ArbitrumGoerliInfo,
-        BobaGoerliInfo,
+        ArbitrumSepoliaInfo,
+        BobaSepoliaInfo,
         true,
         false
       )

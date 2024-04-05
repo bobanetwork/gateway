@@ -3,7 +3,7 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-gmgFlS XTzYi open "
+    class="sc-gmgFlS lbHGMm open "
   >
     <p
       class="sc-imWYAI dZiXLh sc-kMkxaj ifmrU"
@@ -122,20 +122,6 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-cezyBN bNGhlP warning nextSlide"
-          data-testid="banner-item"
-        >
-          <div
-            class="sc-fUkmAC"
-          >
-            <p
-              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
-            >
-              Due to the Anchorage upgrade, relayers will no longer be available.
-            </p>
-          </div>
-        </div>
-        <div
           class="sc-cezyBN bNGhlP warning lastSlide"
           data-testid="banner-item"
         >
@@ -145,7 +131,7 @@ exports[`Home  should match snapshot 1`] = `
             <p
               class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
             >
-              The Goerli L2 will be deprecated in March 2024. Please use Sepolia L2 for testing.
+              Due to the Anchorage upgrade, relayers will no longer be available.
             </p>
           </div>
         </div>

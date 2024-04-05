@@ -70,8 +70,8 @@ describe('Testing history page', () => {
   })
 
   const filter: ITransactionFilter = {
-    fromNetworkChainId: CHAIN_NAME.Boba_Goerli,
-    toNetworkChainId: CHAIN_NAME.Goerli,
+    fromNetworkChainId: CHAIN_NAME.Boba_Sepolia,
+    toNetworkChainId: CHAIN_NAME.Sepolia,
     status: TRANSACTION_FILTER_STATUS.All,
     targetHash: '',
   }

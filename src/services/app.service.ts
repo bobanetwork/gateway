@@ -5,7 +5,6 @@ import {
 } from '../util/network/network.util'
 
 // testnet addresss
-import addresses_Goerli from '@bobanetwork/register/addresses/addressesGoerli_0x6FF9c8FF8F0B6a0763a3030540c21aFC721A9148.json'
 import addresses_Sepolia from '@bobanetwork/register/addresses/addressesBobaSepolia_0xC62C429390B7bCE9960fa647d5556CA7238168AB.json'
 import addresses_BobaBnbTestnet from '@bobanetwork/register/addresses/addressBobaBnbTestnet_0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa.json'
 import addresses_Sepolia_Arb from '@bobanetwork/register/addresses/addressesArbitrumSepolia_0x.json'
@@ -60,15 +59,8 @@ const ADDRESS_CONFIG = {
     [Network.OPTIMISM]: {
       ...addresses_Sepolia_Op,
     },
-    [Network.ETHEREUM_SEPOLIA]: {
-      ...addresses_Sepolia,
-      ...layerZeroTestnet.BOBA_Bridges.Testnet,
-      ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
-      layerZeroTargetChainID:
-        layerZeroTestnet.Layer_Zero_Protocol.Testnet.Layer_Zero_ChainId,
-    },
     [Network.ETHEREUM]: {
-      ...addresses_Goerli,
+      ...addresses_Sepolia,
       ...layerZeroTestnet.BOBA_Bridges.Testnet,
       ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
       layerZeroTargetChainID:
@@ -186,7 +178,7 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
     },
   },
   [NetworkType.TESTNET]: {
-    [Network.ETHEREUM_SEPOLIA]: {
+    [Network.ETHEREUM]: {
       tokenAddresses: {
         BOBA: {
           L1: '0x33faF65b3DfcC6A1FccaD4531D9ce518F0FDc896',
@@ -194,11 +186,6 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
         },
       },
       tokens: ['BOBA'],
-      altL1Chains: ['BNB'],
-    },
-    [Network.ETHEREUM]: {
-      tokenAddresses: {},
-      tokens: ['BOBA', 'USDC', 'OMG', 'xBOBA'],
       altL1Chains: ['BNB'],
     },
     [Network.BNB]: {

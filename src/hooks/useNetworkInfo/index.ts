@@ -23,11 +23,8 @@ export const useNetworkInfo = () => {
 
   useEffect(() => {
     // @todo @note make sure to update based on the anchorage logic update for mainnet release.
-    // @todo remove check for sepolia & testnet to release anchorage for mainnet.
-    if (
-      networkType === NetworkType.TESTNET &&
-      network === Network.ETHEREUM_SEPOLIA
-    ) {
+    // @todo remove check testnet (sepolia now) to release anchorage for mainnet.
+    if (networkType === NetworkType.TESTNET && network === Network.ETHEREUM) {
       setIsAnchorageEnabled(true)
     } else {
       setIsAnchorageEnabled(false)

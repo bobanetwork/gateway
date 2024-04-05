@@ -1,8 +1,4 @@
 import { Layer } from '../../../../src/util/constant'
-import {
-  EthereumGoerliInfo,
-  BinanceTestnetInfo,
-} from '../../helpers/base/constants'
 import Bridge from '../../helpers/bridge'
 
 const bridge = new Bridge()
@@ -35,29 +31,9 @@ describe('Fee Switching', () => {
     bridge.header.switchFees('BOBA', 'ETH')
     bridge.switchBridgeDirection(Layer.L1)
   })
-  it('Fee switcher should not appear when switching to BNB Testnet', () => {
-    bridge.switchNetworkWithModals(
-      EthereumGoerliInfo,
-      BinanceTestnetInfo,
-      true,
-      false
-    )
-    bridge.header.getFeeSwitcher().should('not.exist')
-  })
-
-  it('Fee Switcher should appear when switching to Boba BNB Testnet', () => {
-    bridge.switchBridgeDirection(Layer.L2)
-    bridge.header.getFeeSwitcher().should('exist')
-  })
 
   after(() => {
     bridge.switchBridgeDirection(Layer.L1)
-    bridge.switchNetworkWithModals(
-      BinanceTestnetInfo,
-      EthereumGoerliInfo,
-      true,
-      false
-    )
     bridge.switchToMainnet()
     bridge.disconnectWallet()
   })

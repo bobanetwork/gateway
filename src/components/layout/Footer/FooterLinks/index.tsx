@@ -14,12 +14,8 @@ import {
 
 const blockExplorerLinks = {
   [NetworkType.TESTNET]: {
-    [Network.ETHEREUM_SEPOLIA]: {
-      l1: `https://sepolia.etherscan.io`,
-      l2: `https://testnet.bobascan.com`,
-    },
     [Network.ETHEREUM]: {
-      l1: `https://goerli.etherscan.io`,
+      l1: `https://sepolia.etherscan.io`,
       l2: `https://testnet.bobascan.com`,
     },
     [Network.BNB]: {
@@ -27,12 +23,12 @@ const blockExplorerLinks = {
       l2: `https://testnet.bobascan.com`,
     },
     [Network.ARBITRUM]: {
-      l1: `https://goerli.etherscan.io`,
-      l2: `https://goerli.arbiscan.io`,
+      l1: `https://sepolia.etherscan.io`,
+      l2: `https://sepolia.arbiscan.io`,
     },
     [Network.OPTIMISM]: {
-      l1: `https://goerli.etherscan.io`,
-      l2: `https://goerli-explorer.optimism.io`,
+      l1: `https://sepolia.etherscan.io`,
+      l2: `https://sepolia-optimism.etherscan.io`,
     },
   },
   [NetworkType.MAINNET]: {
@@ -104,11 +100,19 @@ const FooterLinks = () => {
               onClick: () => onLinkClick(Network.ETHEREUM, 'l2'),
             },
             {
-              label: 'BNB Block Explorer L1',
+              label: 'Optimism',
+              onClick: () => onLinkClick(Network.OPTIMISM, 'l1'),
+            },
+            {
+              label: 'Arbitrum',
+              onClick: () => onLinkClick(Network.ARBITRUM, 'l2'),
+            },
+            {
+              label: 'Binance Smart Chain',
               onClick: () => onLinkClick(Network.BNB, 'l1'),
             },
             {
-              label: 'BNB Block Explorer L2',
+              label: 'Boba BNB',
               onClick: () => onLinkClick(Network.BNB, 'l2'),
             },
           ]}
