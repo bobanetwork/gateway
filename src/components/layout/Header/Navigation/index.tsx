@@ -33,12 +33,13 @@ const Navigation: FC<MenuProps> = ({ isOpen }) => {
   return (
     <StyledNav>
       {MENU_LIST.map((menu) => {
-        if (
-          activeNetwork === Network.ETHEREUM &&
-          activeNetworkType === NetworkType.TESTNET &&
-          ['Stake', 'Dao'].includes(menu.label)
-        ) {
-          return null
+        if (['Stake', 'Dao'].includes(menu.label)) {
+          if (
+            activeNetworkType === NetworkType.TESTNET ||
+            activeNetwork !== Network.ETHEREUM
+          ) {
+            return null
+          }
         }
 
         return (
