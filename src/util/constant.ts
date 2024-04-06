@@ -53,7 +53,7 @@ type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
-  ethereum: ['Bridge', 'History'], // @note update list back with stake, dao, earn once supported on sepolia.
+  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
   bnb: ['Bridge', 'Earn', 'History'],
   optimism: ['Bridge', 'History'],
   arbitrum: ['Bridge', 'History'],
