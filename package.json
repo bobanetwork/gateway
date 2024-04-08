@@ -143,7 +143,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-storybook": "^0.6.12",
     "eslint-plugin-testing-library": "^6.2.0",
-    "eslint-plugin-unicorn": "^50.0.1",
+    "eslint-plugin-unicorn": "^52.0.0",
     "husky": "^8.0.3",
     "jest-styled-components": "^7.1.1",
     "lint-staged": "^14.0.1",
