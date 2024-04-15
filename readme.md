@@ -78,12 +78,6 @@ Copy `.env.example` file and name by excluding `.example` and populate the varia
 $ yarn start
 ```
 
-### To start the storybook server for previwing demo page
-
-```bash
-$ yarn start
-```
-
 ### To fix formating
 
 ```bash
@@ -150,9 +144,7 @@ $ yarn test:integration
 
 ```
 ┌── .github/workflows          # Settings for GitHub Actions
-├── .storybook                 # Storybook settings
 ├── .vscode                    # VSCode settings for ESLint auto-fix function
-├── demo                       # Storybook static file
 ├── build                      # Bundled JS and TS declaration file for deployed npm package
 ├── public                     # Public file which
 ├── src                        # All source code
@@ -169,7 +161,6 @@ $ yarn test:integration
 │    ├── src/selectors         # Redux selectors
 │    ├── src/services          # React services
 │    ├── src/store             # Redux Store
-│    ├── src/stories           # React Stories
 │    ├── src/themes            # Application theme
 │    ├── src/types             # Custom typings for js modules if corresponding types are not found
 │    ├── src/util              # Util files

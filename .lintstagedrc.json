@@ -3,7 +3,7 @@
     "yarn format:fix",
     "yarn lint:fix"
   ],
-  "!(__tests__|*stories|*test|styles).{ts,tsx}": [
+  "!(__tests__|*test|styles).{ts,tsx}": [
     "yarn test --passWithNoTests"
   ]
 }
