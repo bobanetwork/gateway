@@ -4,8 +4,6 @@ import { selectModalState } from 'selectors'
 import CastVoteModal from './DaoModals/CastVoteModal'
 import NewProposalModal from './DaoModals/NewProposalModal'
 import DelegateDaoModal from './DaoModals/DelegateDaoModal'
-
-// import EarnWithdrawModal from './earn/EarnWithdrawModal'
 import EarnWithdrawModal from './earn'
 import EarnWithdrawConfirmModal from './earn/EarnWithdrawConfirmModal'
 import EarnWithdrawModalSuccessModal from './earn/EarnWithdrawSuccess'
