@@ -1,3 +1,4 @@
+// TODO: cleanup mui
 import { Box } from '@mui/material'
 import styled, { css } from 'styled-components'
 import ModalUnstyled from '@mui/base/ModalUnstyled'
@@ -69,7 +70,6 @@ export const Style = styled.div<StyleProps>`
     ${props.shouldForwardProp(props)}
   `}
 `
-
 export const WrapperActionsModal = styled(Box)<{ $fullWidth?: boolean }>`
   display: flex;
   flex-direction: column;
