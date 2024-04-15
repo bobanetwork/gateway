@@ -72,7 +72,6 @@ class TransactionService {
     }
   }
 
-  // fetch L2 transactions from omgxWatcherAxiosInstance
   async fetchL2Tx(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
@@ -106,7 +105,7 @@ class TransactionService {
     }
   }
 
-  // fetch L0 transactions from omgxWatcherAxiosInstance
+  // fetch L0 transactions
   async fetchL0Tx(networkConfig = networkService.networkConfig) {
     let L0Txs = []
     try {
@@ -138,7 +137,7 @@ class TransactionService {
     }
   }
 
-  // fetch L1 pending transactions from omgxWatcherAxiosInstance
+  // fetch L1 pending transactions
   async fetchL1PendingTx(networkConfig = networkService.networkConfig) {
     let txL1pending = []
     if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {

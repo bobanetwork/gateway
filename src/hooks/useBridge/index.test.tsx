@@ -12,18 +12,12 @@ import networkService from 'services/networkService'
 
 import useBridge from '.'
 
-const L1LPAddress = 'L1LPAddress'
-
 jest.mock('services/networkService', () => {
   return {
     getAllAddresses: jest.fn(),
-    estimateL1SecurityFee: jest.fn(),
-    estimateL2Fee: jest.fn(),
     approveERC20: jest.fn(),
     depositErc20: jest.fn(),
     depositETHL2: jest.fn(),
-    depositL1LP: jest.fn(),
-    depositL2LP: jest.fn(),
     depositWithTeleporter: jest.fn(),
     exitBOBA: jest.fn(),
     getLightBridgeAddress: jest.fn(),
@@ -428,10 +422,6 @@ describe('UseBridge Hooks', () => {
       ;(networkService.exitBOBA as jest.Mock).mockResolvedValue({
         message: 'success!',
       })
-      ;(networkService.depositL2LP as jest.Mock).mockResolvedValue({
-        message: 'success!',
-      })
-
       beforeEach(() => {
         store = {
           ...mockedInitialState,

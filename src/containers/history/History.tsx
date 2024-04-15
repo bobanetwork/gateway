@@ -160,7 +160,7 @@ const History = () => {
       />
     )
   }
-  // @todo @note review and try to refactor as it seems multiple call to same function!
+  // TODO: @note review and try to refactor as it seems multiple call to same function!
   const syncTransactions = async () => {
     if (accountEnabled) {
       const newTransactions = await transactionService.getTransactions()

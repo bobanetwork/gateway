@@ -15,7 +15,6 @@ import { IAppAlert } from './types'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { ChevronLeft, ChevronRight } from '@mui/icons-material'
 
-// @todo disable banner for sepolia.
 // remove use of isAnchorageEnabled
 const ApplicationBanner = () => {
   const [alerts, setAlerts] = useState<IAppAlert[]>([])

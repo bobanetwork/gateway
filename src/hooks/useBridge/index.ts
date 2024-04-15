@@ -139,7 +139,7 @@ export const useBridge = () => {
   }
 
   const triggerExit = async (amountWei: any) => {
-    // @todo instead validate testnet with sepolia network.
+    // TODO: instead validate testnet with sepolia network.
     // as testnet sepoli only supports 2 step bridging.
     // NOTE: Anchorage has a separate withdrawal flow, once bedrock is fully rolled out, we might get rid of this if
     if (!!isAnchorageEnabled) {
@@ -148,7 +148,7 @@ export const useBridge = () => {
       if (!!isClassicWithdrawalDisabled) {
         return false
       }
-      // @todo clean up this once anchorage migration done on mainnet.
+      // TODO: clean up this once anchorage migration done on mainnet.
       return dispatch(exitBOBA(token.address, amountWei))
     }
   }

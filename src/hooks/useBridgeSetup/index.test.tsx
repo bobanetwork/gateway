@@ -10,20 +10,12 @@ import { LAYER } from 'util/constant'
 
 jest.mock('services/networkService', () => {
   return {
-    L1LPBalance: jest.fn(),
     L2LPBalance: jest.fn(),
     L1LPPending: jest.fn(),
     L2LPPending: jest.fn(),
-    L1LPLiquidity: jest.fn(),
-    L2LPLiquidity: jest.fn(),
     fetchLookUpPrice: jest.fn(),
     getL1TotalFeeRate: jest.fn(),
-    getL2TotalFeeRate: jest.fn(),
-    getL1UserRewardFeeRate: jest.fn(),
-    getL2UserRewardFeeRate: jest.fn(),
-    getFastExitCost: jest.fn(),
     getExitCost: jest.fn(),
-    getFastDepositCost: jest.fn(),
     getL1FeeBalance: jest.fn(),
     getL2BalanceETH: jest.fn(),
     getL2BalanceBOBA: jest.fn(),
