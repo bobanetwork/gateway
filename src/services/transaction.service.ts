@@ -40,19 +40,6 @@ class TransactionService {
     }
   }
 
-  async getFastExits(networkConfig = networkService.networkConfig) {
-    const response = await omgxWatcherAxiosInstance(networkConfig).get(
-      'get.l2.pendingexits'
-    )
-
-    if (response.status === 201) {
-      const data = response.data
-      return data.filter((i) => i.fastRelay === 1 && i.status === 'pending')
-    } else {
-      return []
-    }
-  }
-
   async fetchAnchorageTransactions(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {

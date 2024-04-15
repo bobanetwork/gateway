@@ -12,11 +12,7 @@ import {
   selectBobaPriceRatio,
   selectBridgeType,
   selectExitFee,
-  selectFastExitCost,
   selectIsTeleportationOfAssetSupported,
-  selectL1LPBalanceString,
-  selectL1LPLiquidity,
-  selectL1LPPendingString,
   selectL2BalanceBOBA,
   selectL2BalanceETH,
   selectLayer,
@@ -69,10 +65,6 @@ const useBridgeAlerts = () => {
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
-  const fastExitCost = useSelector(selectFastExitCost)
-  const LPBalance = useSelector(selectL1LPBalanceString)
-  const LPPending = useSelector(selectL1LPPendingString)
-  const LPLiquidity = useSelector(selectL1LPLiquidity)
 
   useEffect(() => {
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
@@ -277,7 +269,7 @@ const useBridgeAlerts = () => {
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))
       // @note review and test once for classic bridge.
-      const ethCost = Number(fastExitCost) * 1.04 // 1.04 == safety margin on the cost.
+      const ethCost = 1.04 // 1.04 == safety margin on the cost.
       const bobaCost = ethCost * feePriceRatio
 
       if (exitFee > feeBalanceBOBA) {
@@ -328,10 +320,6 @@ const useBridgeAlerts = () => {
     feePriceRatio,
     feeUseBoba,
     exitFee,
-    fastExitCost,
-    LPLiquidity,
-    LPBalance,
-    LPPending,
   ])
 
   // on changing bridgeType and active network cleanup alerts

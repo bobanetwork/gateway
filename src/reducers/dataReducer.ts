@@ -17,7 +17,6 @@ import { keyBy } from 'util/lodash'
 
 const initialState = {
   sevens: {},
-  fastExits: {},
 }
 
 const dataReducer = (state = initialState, action) => {
@@ -26,14 +25,6 @@ const dataReducer = (state = initialState, action) => {
       return {
         ...state,
         sevens: {
-          ...keyBy(action.payload, 'blockNumber'),
-          ...keyBy(action.payload, 'hash'),
-        },
-      }
-    case 'FASTEXITS/GETALL/SUCCESS':
-      return {
-        ...state,
-        fastExits: {
           ...keyBy(action.payload, 'blockNumber'),
           ...keyBy(action.payload, 'hash'),
         },

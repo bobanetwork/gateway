@@ -40,7 +40,12 @@ import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
 
 import useInterval from 'hooks/useInterval'
-import { selectBalance, selectFixed, selectLayer, selectSetup } from 'selectors'
+import {
+  selectFixed,
+  selectLayer,
+  selectlayer2Balance,
+  selectSetup,
+} from 'selectors'
 import styled from 'styled-components'
 import { POLL_INTERVAL } from 'util/constant'
 
@@ -64,8 +69,7 @@ const Save = () => {
   const { stakeInfo } = useSelector(selectFixed())
   const { accountEnabled, netLayer, bobaFeeChoice, bobaFeePriceRatio } =
     useSelector(selectSetup())
-  const balance = useSelector(selectBalance())
-  const { layer2 } = balance
+  const layer2 = useSelector(selectlayer2Balance)
 
   const dispatch = useDispatch<any>()
 

@@ -15,6 +15,5 @@ export type NetworkTestInfo = {
 
 export enum BridgeType {
   Classic = 'Classic',
-  Fast = 'Fast',
   Light = 'Light',
 }
