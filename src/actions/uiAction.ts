@@ -18,6 +18,7 @@ export const setTheme =
   (dispatch) =>
     dispatch({ type: 'UI/THEME/UPDATE', payload: theme })
 
+// TODO: fix this and make it working with object.
 export const openModal =
   (
     modal?,
