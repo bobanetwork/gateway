@@ -18,7 +18,6 @@ import { BridgeTabItem, BridgeTabs } from './style'
 
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
-  FAST = 'FAST',
   LIGHT = 'LIGHT',
   THIRD_PARTY = 'THIRD_PARTY',
 }
@@ -30,7 +29,6 @@ const BridgeTypeSelector = () => {
   const network = useSelector(selectNetwork())
   const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
   const activeNetworkType = useSelector(selectActiveNetworkType())
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const isMainnet =
     useSelector(selectActiveNetworkType()) === NetworkType.MAINNET
