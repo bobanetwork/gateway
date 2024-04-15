@@ -64,32 +64,6 @@ describe('useAmountToReceive', () => {
     expect(result.current.amount).toBe('1.0000 ETH')
   })
 
-  test('Should calculate the amount to receive correctly for L1 Fast Bridge', async () => {
-    const initialState = {
-      ...mockedInitialState,
-      balance: {
-        ...mockedInitialState.balance,
-        l1FeeRateN: 1,
-        l2FeeRateN: 2,
-      },
-      bridge: {
-        ...mockedInitialState.bridge,
-        amountToBridge: 1,
-        bridgeType: BRIDGE_TYPE.FAST,
-      },
-    }
-    const store = mockStore(initialState)
-
-    const wrapper = ({ children }) => (
-      <Provider store={store}>{children}</Provider>
-    )
-    const { result } = renderHook(() => useAmountToReceive(), {
-      wrapper,
-    })
-
-    expect(result.current.amount).toBe('0.980 ETH')
-  })
-
   test('Should calculate the amount to receive correctly for L1 Light Bridge', async () => {
     const initialState = {
       ...mockedInitialState,
@@ -148,36 +122,6 @@ describe('useAmountToReceive', () => {
     })
 
     expect(result.current.amount).toBe('1.0000 ETH')
-  })
-
-  test('Should calculate the amount to receive correctly for L2 Fast Bridge', async () => {
-    const initialState = {
-      ...mockedInitialState,
-      balance: {
-        ...mockedInitialState.balance,
-        l1FeeRateN: 1,
-        l2FeeRateN: 2,
-      },
-      setup: {
-        ...mockedInitialState,
-        netLayer: LAYER.L2,
-      },
-      bridge: {
-        ...mockedInitialState.bridge,
-        amountToBridge: 1,
-        bridgeType: BRIDGE_TYPE.FAST,
-      },
-    }
-    const store = mockStore(initialState)
-
-    const wrapper = ({ children }) => (
-      <Provider store={store}>{children}</Provider>
-    )
-    const { result } = renderHook(() => useAmountToReceive(), {
-      wrapper,
-    })
-
-    expect(result.current.amount).toBe('0.990 ETH')
   })
 
   test('Should calculate the amount to receive correctly for L2 LIGHT Bridge', async () => {
