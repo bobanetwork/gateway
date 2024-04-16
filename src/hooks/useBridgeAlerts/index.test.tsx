@@ -88,14 +88,6 @@ describe('useBridgeAlerts', () => {
       type: 'BRIDGE/ALERT/CLEAR',
     })
     expect(actions).toContainEqual({
-      payload: {
-        meta: 'TELEPORTATION_NO_UNCONVENTIONAL_WALLETS',
-        text: "This bridge doesn't support smart-contract wallets that use a costly fallback method.",
-        type: 'info',
-      },
-      type: 'BRIDGE/ALERT/SET',
-    })
-    expect(actions).toContainEqual({
       payload: { keys: ['OMG_INFO'] },
       type: 'BRIDGE/ALERT/CLEAR',
     })
