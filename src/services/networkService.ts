@@ -114,8 +114,6 @@ class NetworkService {
   networkGateway?: Network
   networkType?: NetworkType
   watcher?: CrossChainMessenger
-  fastWatcher?: CrossChainMessenger
-
   //#region contract_members
   L1_TEST_Contract?: Contract
   L2_TEST_Contract?: Contract
@@ -651,12 +649,6 @@ class NetworkService {
             l2SignerOrProvider: this.L2Provider,
             l1ChainId: chainId,
             fastRelayer: false,
-          })
-          this.fastWatcher = new CrossChainMessenger({
-            l1SignerOrProvider: this.L1Provider,
-            l2SignerOrProvider: this.L2Provider,
-            l1ChainId: chainId,
-            fastRelayer: true,
           })
         }
       }

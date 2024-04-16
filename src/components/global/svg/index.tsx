@@ -3,7 +3,7 @@ import { ReactSVG } from 'react-svg'
 import { SvgTypes } from './types'
 
 export const Svg: React.FC<SvgTypes> = ({
-  src,
+  src = '',
   fill = 'current',
   stroke = 'current',
   onClick,
