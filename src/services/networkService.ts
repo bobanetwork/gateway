@@ -538,7 +538,7 @@ class NetworkService {
         let L1StandardBridgeAddress
 
         // todo remove once migrated to anchorage
-        if (this.addresses.L1StandardBridgeAddress) {
+        if (!this.isAnchorageEnabled()) {
           L1StandardBridgeAddress = this.addresses.L1StandardBridgeAddress
         } else {
           L1StandardBridgeAddress = this.addresses.L1StandardBridgeProxy
@@ -546,6 +546,7 @@ class NetworkService {
             : this.addresses.L1StandardBridge
         }
 
+        console.log(`L1StandardBridgeAddress`, L1StandardBridgeAddress)
         if (L1StandardBridgeAddress) {
           this.L1StandardBridgeContract = new ethers.Contract(
             L1StandardBridgeAddress, // uses right addressed depending on ENABLE_ANCHORAGE
@@ -1295,6 +1296,7 @@ class NetworkService {
     currency,
     currencyL2,
   }): Promise<any> {
+    console.log(`calling anchorage erc 20 deposit`)
     setFetchDepositTxBlock(false)
     const signer = this.provider?.getSigner()
     if (!signer) {
