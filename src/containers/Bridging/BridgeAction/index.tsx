@@ -1,7 +1,6 @@
 import { setConnect } from 'actions/setupAction'
 import { openModal } from 'actions/uiAction'
 import { Heading } from 'components/global'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {

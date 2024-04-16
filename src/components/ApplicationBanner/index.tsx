@@ -12,15 +12,11 @@ import {
 } from './styles'
 import { bannerAlerts } from './data'
 import { IAppAlert } from './types'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { ChevronLeft, ChevronRight } from '@mui/icons-material'
 
-// @todo disable banner for sepolia.
-// remove use of isAnchorageEnabled
 const ApplicationBanner = () => {
   const [alerts, setAlerts] = useState<IAppAlert[]>([])
   const [storageChange, setStorageChange] = useState(false)
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const [index, setIndex] = useState(0)
 
@@ -58,10 +54,6 @@ const ApplicationBanner = () => {
   const onClose = (alertKey: string) => {
     localStorage.setItem(`appBanner__${alertKey}`, JSON.stringify(true))
     setStorageChange(!storageChange)
-  }
-
-  if (!!isAnchorageEnabled) {
-    return <></>
   }
 
   if (alerts && !alerts.length) {
