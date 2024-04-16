@@ -62,7 +62,7 @@ const useBridgeAlerts = () => {
   const layer = useSelector(selectLayer())
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
-  const amountToBridge = useSelector(selectAmountToBridge())
+  let amountToBridge = useSelector(selectAmountToBridge())
   // network
   const activeNetwork = useSelector(selectActiveNetwork())
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
@@ -87,6 +87,8 @@ const useBridgeAlerts = () => {
   const LPLiquidity = useSelector(selectL1LPLiquidity)
 
   useEffect(() => {
+    amountToBridge = Number(amountToBridge)
+
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
       if (!tokenForTeleportationSupported.supported) {
         dispatch(
@@ -115,6 +117,28 @@ const useBridgeAlerts = () => {
             ],
           })
         )
+
+        const maxDepositAmount = Number(
+          ethers.utils.formatEther(
+            tokenForTeleportationSupported.maxDepositAmount
+          )
+        )
+        const minDepositAmount = Number(
+          ethers.utils.formatEther(
+            tokenForTeleportationSupported.minDepositAmount
+          )
+        )
+        const transferredAmount = Number(
+          ethers.utils.formatEther(
+            tokenForTeleportationSupported.transferredAmount
+          )
+        )
+        const maxTransferAmount = Number(
+          ethers.utils.formatEther(
+            tokenForTeleportationSupported.maxTransferAmountPerDay
+          )
+        )
+
         dispatch(
           setBridgeAlert({
             meta: ALERT_KEYS.TELEPORTATION_NO_UNCONVENTIONAL_WALLETS,
@@ -124,6 +148,7 @@ const useBridgeAlerts = () => {
         )
 
         if (
+          amountToBridge > 0 &&
           (tokenForTeleportationSupported.transferredAmount as BigNumber).eq(
             tokenForTeleportationSupported.maxTransferAmountPerDay
           )
@@ -136,13 +161,8 @@ const useBridgeAlerts = () => {
             })
           )
         } else if (
-          ethers.utils.formatEther(
-            tokenForTeleportationSupported.transferredAmount
-          ) +
-            amountToBridge >
-          ethers.utils.formatEther(
-            tokenForTeleportationSupported.maxTransferAmountPerDay
-          )
+          amountToBridge > 0 &&
+          transferredAmount + amountToBridge > maxTransferAmount
         ) {
           const maxAmount =
             tokenForTeleportationSupported.maxTransferAmountPerDay as BigNumber
@@ -159,13 +179,7 @@ const useBridgeAlerts = () => {
           )
         }
 
-        if (
-          amountToBridge &&
-          amountToBridge <
-            ethers.utils.formatEther(
-              tokenForTeleportationSupported.minDepositAmount
-            )
-        ) {
+        if (amountToBridge && amountToBridge < minDepositAmount) {
           dispatch(
             setBridgeAlert({
               meta: ALERT_KEYS.VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT,
@@ -175,12 +189,7 @@ const useBridgeAlerts = () => {
               )}.`,
             })
           )
-        } else if (
-          amountToBridge >
-          ethers.utils.formatEther(
-            tokenForTeleportationSupported.maxDepositAmount
-          )
-        ) {
+        } else if (amountToBridge > maxDepositAmount) {
           dispatch(
             setBridgeAlert({
               meta: ALERT_KEYS.VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT,
