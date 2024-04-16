@@ -1,14 +1,9 @@
-import { Heading } from 'components/global'
-import {
-  ConfirmModalContainer,
-  ConfirmLabel,
-  ConfirmValue,
-  ConfirmActionButton,
-  Item,
-  LayerNames,
-} from './index.styles'
 import { closeModal } from 'actions/uiAction'
+import { Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
+import useBridge from 'hooks/useBridge'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -24,12 +19,16 @@ import {
   selectTokenToBridge,
 } from 'selectors'
 import { amountToUsd } from 'util/amountConvert'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
-import useBridge from 'hooks/useBridge'
-import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK, LAYER } from 'util/constant'
 import { CHAIN_ID_LIST } from '../../../util/network/network.util'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
+import {
+  ConfirmActionButton,
+  ConfirmLabel,
+  ConfirmModalContainer,
+  ConfirmValue,
+  Item,
+  LayerNames,
+} from './index.styles'
 
 interface Props {
   open: boolean
@@ -49,18 +48,15 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const { triggerSubmit } = useBridge()
 
   const estimateTime = () => {
-    if (isAnchorageEnabled) {
-      return '~ 3mins.'
-    } else if (bridgeType === BRIDGE_TYPE.CLASSIC) {
+    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
       if (layer === LAYER.L1) {
         return '13 ~ 14mins.'
       } else {
-        return '1 ~ 5min.'
+        return '7 days'
       }
     } else if (bridgeType === BRIDGE_TYPE.FAST) {
       if (layer === LAYER.L1) {

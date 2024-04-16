@@ -29,7 +29,6 @@ export const ValueStyle = styled.span`
 const BridgeHeader = () => {
   const dispatch = useDispatch<any>()
   const theme: any = useTheme()
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const iconColor =
     theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[100]

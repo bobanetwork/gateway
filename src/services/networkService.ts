@@ -180,19 +180,16 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  // NOTE: added check for anchorage currently available on sepolia to use in services
+  // NOTE: added check for anchorage for ethereum network.
   isAnchorageEnabled() {
-    if (
-      this.networkType === NetworkType.TESTNET &&
-      this.networkGateway === Network.ETHEREUM
-    ) {
+    if (this.networkGateway === Network.ETHEREUM) {
       return true
     }
     return false
   }
 
   async getBobaFeeChoice() {
-    if (!this.isAnchorageEnabled()) {
+    if (this.addresses.Boba_GasPriceOracle) {
       const bobaFeeContract = new ethers.Contract(
         this.addresses.Boba_GasPriceOracle,
         BobaGasPriceOracleABI,
@@ -445,8 +442,12 @@ class NetworkService {
       }
       this.addresses = addresses
 
-      // NOTE: should invoke for anchorage.
-      if (!this.isAnchorageEnabled() && this.network === Network.ETHEREUM) {
+      // as we don't have contract address for sepolia so added check to avoid calling it.
+      if (
+        this.networkType !== NetworkType.TESTNET &&
+        this.network === Network.ETHEREUM
+      ) {
+        // TODO: remove monster related codes as we are not using.
         if (
           !(await this.getAddressCached(
             this.addresses,
@@ -485,9 +486,9 @@ class NetworkService {
         }
       }
 
-      // Note: should bypass if limitedNetworkAvailability & anchorage not enabled.
+      // NOTE: should bypass if limitedNetworkAvailability & sepolia it's not enabled.
       const isLimitedNetwork = networkLimitedAvailability(networkType, network)
-      if (!isLimitedNetwork && !this.isAnchorageEnabled()) {
+      if (!isLimitedNetwork && this.networkType !== NetworkType.TESTNET) {
         if (
           !(await this.getAddressCached(
             this.addresses,
