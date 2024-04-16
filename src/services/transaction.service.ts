@@ -422,6 +422,8 @@ class TransactionService {
     return [
       [42161, 288],
       [10, 288],
+      [288, 56288],
+      [56288, 288],
     ].map((p) => ({
       L1: {
         chainId: p[0],
