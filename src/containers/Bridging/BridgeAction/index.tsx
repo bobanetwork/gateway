@@ -18,12 +18,8 @@ const BridgeAction = () => {
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
   const bridgeAlerts = useSelector(selectBridgeAlerts())
-  const { isClassicWithdrawalDisabled } = useNetworkInfo()
 
   const isBridgeActionDisabled = () => {
-    if (isClassicWithdrawalDisabled) {
-      return isClassicWithdrawalDisabled
-    }
     const hasError = bridgeAlerts.find((alert: any) => alert.type === 'error')
     return !token || !amountToBridge || hasError
   }
