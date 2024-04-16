@@ -29,6 +29,7 @@ import {
   Item,
   LayerNames,
 } from './index.styles'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {
   open: boolean
@@ -50,6 +51,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const L2Icon = icons['L2']
 
   const { triggerSubmit } = useBridge()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const estimateTime = () => {
     if (bridgeType === BRIDGE_TYPE.CLASSIC) {
@@ -142,15 +144,17 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
             {amountToUsd(amountToBridge, lookupPrice, token).toFixed(2)})
           </ConfirmValue>
         </Item>
-        <Item>
-          <ConfirmLabel>Gas Fee</ConfirmLabel>
-          <ConfirmValue>
-            {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
-              ? l2FeeRateN
-              : l1FeeRateN) || 0}
-            %
-          </ConfirmValue>
-        </Item>
+        {isAnchorageEnabled ? null : (
+          <Item>
+            <ConfirmLabel>Gas Fee</ConfirmLabel>
+            <ConfirmValue>
+              {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
+                ? l2FeeRateN
+                : l1FeeRateN) || 0}
+              %
+            </ConfirmValue>
+          </Item>
+        )}
         <Item>
           <ConfirmLabel>Time</ConfirmLabel>
           <ConfirmValue>{estimateTime()}</ConfirmValue>

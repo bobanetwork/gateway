@@ -38,7 +38,7 @@ const Fee = (props: Props) => {
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
 
-  const { isAnchorageEnabled } = useNetworkInfo()
+  const { isAnchorageEnabled, isActiveNetworkBnb } = useNetworkInfo()
 
   const { amount: amountToReceive } = useAmountToReceive()
 
@@ -102,11 +102,13 @@ const Fee = (props: Props) => {
         <Label>Estimated time</Label>
         <Label>{estimateTime()}</Label>
       </InfoRow>
-      <InfoRow>
-        <Label>Gas fee</Label>
-        <Label>{gasFee}</Label>
-      </InfoRow>
-      {!isAnchorageEnabled &&
+      {isAnchorageEnabled ? null : (
+        <InfoRow>
+          <Label>Gas fee</Label>
+          <Label>{gasFee}</Label>
+        </InfoRow>
+      )}
+      {isActiveNetworkBnb &&
       layer === LAYER.L2 &&
       bridgeType !== BRIDGE_TYPE.LIGHT ? (
         <InfoRow>
