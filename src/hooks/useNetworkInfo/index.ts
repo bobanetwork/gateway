@@ -22,9 +22,8 @@ export const useNetworkInfo = () => {
   const bridgeType = useSelector(selectBridgeType())
 
   useEffect(() => {
-    // @todo @note make sure to update based on the anchorage logic update for mainnet release.
-    // @todo remove check testnet (sepolia now) to release anchorage for mainnet.
-    if (networkType === NetworkType.TESTNET && network === Network.ETHEREUM) {
+    // NOTE: as anchorage has been shiped to ETHEREUM & SEPOLIA both.
+    if (network === Network.ETHEREUM) {
       setIsAnchorageEnabled(true)
     } else {
       setIsAnchorageEnabled(false)
