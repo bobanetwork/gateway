@@ -17,7 +17,7 @@
     "pre-commit": "lint-staged",
     "prebuild": "./bin/release.sh",
     "prepare": "husky install",
-    "start": "GENERATE_SOURCEMAP=false react-scripts start",
+    "start": "GENERATE_SOURCEMAP=false react-app-rewired start",
     "test": "TZ=utc react-scripts test --watchAll=false",
     "test:coverage": "yarn test --coverage",
     "test:u": "yarn test -u",
