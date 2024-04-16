@@ -39,6 +39,7 @@ import FeeSwitcherDrawer from './FeeSwitcherDrawer'
 
 import BobaLogoPng from 'assets/images/Boba_Logo_White_Circle.png'
 import { Network, NetworkType } from 'util/network/network.util'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {
   onClose: () => void
@@ -56,6 +57,7 @@ const useStyles = makeStyles({
 const NavDrawer: FC<Props> = ({ onClose, open }) => {
   const classes = (useStyles as any)()
   const { currentTheme, setThemeDark, setThemeLight } = useThemeSwitcher()
+  const { isActiveNetworkBnb } = useNetworkInfo()
   const theme: any = useTheme()
   const [userDrawer, setUserDrawer] = useState<boolean>(false)
   const [feeSwitcherDrawer, setFeeSwitcherDrawer] = useState<boolean>(false)
@@ -147,12 +149,14 @@ const NavDrawer: FC<Props> = ({ onClose, open }) => {
             setUserDrawer(false)
           }}
         />
-        <FeeSwitcherDrawer
-          open={feeSwitcherDrawer}
-          onClose={() => {
-            setFeeSwitcherDrawer(false)
-          }}
-        />
+        {isActiveNetworkBnb && (
+          <FeeSwitcherDrawer
+            open={feeSwitcherDrawer}
+            onClose={() => {
+              setFeeSwitcherDrawer(false)
+            }}
+          />
+        )}
       </StyleDrawer>
     </Drawer>
   )
