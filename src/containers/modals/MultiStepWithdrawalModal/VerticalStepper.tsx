@@ -71,6 +71,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     selectModalState('transactionSuccess')
     handleInitiateWithdrawal(
       networkService as MinimalNetworkService,
+      L2StandardERC20ABI,
       ethers.utils.parseEther(props.amountToBridge!.toString()).toString(),
       isNativeWithdrawal ? null : props.token
     )

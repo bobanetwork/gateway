@@ -546,7 +546,6 @@ class NetworkService {
             : this.addresses.L1StandardBridge
         }
 
-        console.log(`L1StandardBridgeAddress`, L1StandardBridgeAddress)
         if (L1StandardBridgeAddress) {
           this.L1StandardBridgeContract = new ethers.Contract(
             L1StandardBridgeAddress, // uses right addressed depending on ENABLE_ANCHORAGE
