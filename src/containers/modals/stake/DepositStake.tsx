@@ -33,6 +33,7 @@ const DepositStake = (props: any) => {
     fee: '0',
     stakeValue: '0.0',
     value_Wei_String: '',
+    loading: false,
   })
 
   useEffect(() => {
@@ -199,8 +200,8 @@ const DepositStake = (props: any) => {
         {netLayer === 'L2' && (
           <Button
             onClick={() => handleConfirm()}
-            loading={props.loading}
-            disabled={!accountEnabled}
+            loading={state.loading}
+            disabled={!accountEnabled || state.loading}
             label="Stake"
           />
         )}

@@ -33,6 +33,7 @@ import BN from 'bignumber.js'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { Network } from 'util/network/network.util'
 import { BigNumber, BigNumberish, ethers } from 'ethers'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 enum ALERT_KEYS {
   OMG_INFO = 'OMG_INFO',
@@ -68,6 +69,7 @@ const useBridgeAlerts = () => {
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
     useSelector(selectIsTeleportationOfAssetSupported())
 
+  const { isActiveNetworkBnb } = useNetworkInfo()
   // fast input layer 1
   const L1LPBalance = useSelector(selectL2LPBalanceString)
   const L1LPPending = useSelector(selectL2LPPendingString)
@@ -293,7 +295,11 @@ const useBridgeAlerts = () => {
         keys: [ALERT_KEYS.FAST_EXIT_ERROR],
       })
     )
-    if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
+    if (
+      layer === LAYER.L2 &&
+      bridgeType !== BRIDGE_TYPE.LIGHT &&
+      !!isActiveNetworkBnb
+    ) {
       // trigger only when withdrawing funds.
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))
