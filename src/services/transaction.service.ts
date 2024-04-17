@@ -266,17 +266,21 @@ class TransactionService {
         const disburseTxReceipt = await rpc.getTransactionReceipt(
           disburseEvent.transactionHash_
         )
-        status =
-          disburseTxReceipt.status === 1
-            ? TRANSACTION_STATUS.Succeeded
-            : TRANSACTION_STATUS.Failed
-        if (
-          status === TRANSACTION_STATUS.Succeeded &&
-          disburseEvent.__typename === 'DisbursementFailed'
-        ) {
-          // won't go in here if already retried
-          status = TRANSACTION_STATUS.Failed // TODO: but can be retried
+        if (disburseTxReceipt) {
+          status =
+            disburseTxReceipt.status === 1
+              ? TRANSACTION_STATUS.Succeeded
+              : TRANSACTION_STATUS.Failed
+          if (
+            status &&
+            status === TRANSACTION_STATUS.Succeeded &&
+            disburseEvent.__typename === 'DisbursementFailed'
+          ) {
+            // won't go in here if already retried
+            status = TRANSACTION_STATUS.Failed // TODO: but can be retried
+          }
         }
+
         crossDomainMessage.toHash = disburseEvent.transactionHash_
       }
 

@@ -646,21 +646,18 @@ class NetworkService {
           )
         }
 
-        // @todo remove once fully migrated
-        if (!this.isAnchorageEnabled()) {
-          this.watcher = new CrossChainMessenger({
-            l1SignerOrProvider: this.L1Provider,
-            l2SignerOrProvider: this.L2Provider,
-            l1ChainId: chainId,
-            fastRelayer: false,
-          })
-          this.fastWatcher = new CrossChainMessenger({
-            l1SignerOrProvider: this.L1Provider,
-            l2SignerOrProvider: this.L2Provider,
-            l1ChainId: chainId,
-            fastRelayer: true,
-          })
-        }
+        this.watcher = new CrossChainMessenger({
+          l1SignerOrProvider: this.L1Provider,
+          l2SignerOrProvider: this.L2Provider,
+          l1ChainId: chainId,
+          fastRelayer: false,
+        })
+        this.fastWatcher = new CrossChainMessenger({
+          l1SignerOrProvider: this.L1Provider,
+          l2SignerOrProvider: this.L2Provider,
+          l1ChainId: chainId,
+          fastRelayer: true,
+        })
       }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {
