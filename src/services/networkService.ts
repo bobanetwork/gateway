@@ -646,18 +646,25 @@ class NetworkService {
           )
         }
 
-        this.watcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: false,
-        })
-        this.fastWatcher = new CrossChainMessenger({
-          l1SignerOrProvider: this.L1Provider,
-          l2SignerOrProvider: this.L2Provider,
-          l1ChainId: chainId,
-          fastRelayer: true,
-        })
+        if (
+          !(
+            this.networkType === NetworkType.TESTNET &&
+            this.network === Network.ETHEREUM
+          )
+        ) {
+          this.watcher = new CrossChainMessenger({
+            l1SignerOrProvider: this.L1Provider,
+            l2SignerOrProvider: this.L2Provider,
+            l1ChainId: chainId,
+            fastRelayer: false,
+          })
+          this.fastWatcher = new CrossChainMessenger({
+            l1SignerOrProvider: this.L1Provider,
+            l2SignerOrProvider: this.L2Provider,
+            l1ChainId: chainId,
+            fastRelayer: true,
+          })
+        }
       }
 
       if (this.addresses.L2StandardBridgeAddress !== null) {
