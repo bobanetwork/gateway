@@ -121,7 +121,10 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         })
       } else {
         anchorageGraphQLService
-          .findWithdrawalMessagedPassed(withdrawalConfig?.withdrawalHash || '')
+          .findWithdrawalMessagedPassed(
+            withdrawalConfig?.withdrawalHash || '',
+            networkService.networkConfig?.L2.chainId || ''
+          )
           .then((logs) => {
             logs = logs.filter(
               (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash

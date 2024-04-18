@@ -7,6 +7,8 @@ import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
+  Network,
+  NetworkType,
 } from 'util/network/network.util'
 import {
   LightBridgeAssetReceivedEvent,
@@ -58,7 +60,10 @@ class TransactionService {
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
     if (
-      networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId ||
+      (networkService.networkType === NetworkType.TESTNET &&
+        networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId) ||
+      (networkService.networkType === NetworkType.MAINNET &&
+        networkConfig?.L1.chainId !== ethereumConfig.Mainnet.L1.chainId) ||
       !address
     ) {
       return []
@@ -78,9 +83,9 @@ class TransactionService {
           address,
           networkConfig!
         )
-
       return [...depositTransactions, ...withdrawalTransactions]
     } catch (e) {
+      console.log(`Crash: Anchorage TX`, e)
       return []
     }
   }
