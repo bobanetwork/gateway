@@ -122,6 +122,9 @@ class TransactionService {
   // fetch L0 transactions from omgxWatcherAxiosInstance
   async fetchL0Tx(networkConfig = networkService.networkConfig) {
     let L0Txs = []
+    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
+      return L0Txs
+    }
     try {
       const responseL0 = await omgxWatcherAxiosInstance(networkConfig).post(
         'get.layerzero.transactions',
