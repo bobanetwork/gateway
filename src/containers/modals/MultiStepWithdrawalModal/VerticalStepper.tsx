@@ -38,7 +38,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const layer = useSelector(selectLayer())
   const [withdrawalConfig, setWithdrawalConfig] =
     useState<IHandleProveWithdrawalConfig>()
-  const [latestLogs, setLatestLogs] = useState(null)
+  const [latestLogs, setLatestLogs] = useState<null | []>(null)
   const [activeStep, setActiveStep] = React.useState(0)
   const [approvalNeeded, setApprovalNeeded] = useState(false)
 
@@ -111,7 +111,11 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
 
   const claimWithdrawalStep = () => {
     if (!!withdrawalConfig) {
-      if (!withdrawalConfig?.withdrawalHash && latestLogs) {
+      if (
+        !withdrawalConfig?.withdrawalHash &&
+        !!latestLogs &&
+        !!latestLogs?.length
+      ) {
         claimWithdrawal(
           networkService as MinimalNetworkService,
           latestLogs
