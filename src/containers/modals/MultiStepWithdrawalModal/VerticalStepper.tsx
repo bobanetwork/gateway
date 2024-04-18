@@ -26,6 +26,7 @@ import {
 import { L2StandardERC20ABI } from '../../../services/abi'
 import {
   addDaysToDate,
+  addHoursToDate,
   formatDate,
   isBeforeDate,
   isSameOrBeforeDate,
@@ -61,10 +62,13 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   }
 
   const isButtonDisabled = () => {
-    if (activeStep === 3) {
+    if (activeStep === 3 && props.reenterWithdrawConfig) {
       // can prove only if tx intiated 1 day before
-      const txWithDay = addDaysToDate(props.reenterWithdrawConfig.timeStamp, 1)
-      return !Number(props.amountToBridge) || !isBeforeDate(txWithDay)
+      const txWith1Hour = addHoursToDate(
+        props.reenterWithdrawConfig.timeStamp,
+        1
+      )
+      return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
     } else if (activeStep === 5) {
       // can claim only if tx intiated 7 day before
       const txWith7Day = addDaysToDate(props.reenterWithdrawConfig.timeStamp, 7)

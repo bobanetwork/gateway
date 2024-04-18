@@ -49,6 +49,10 @@ export const addDaysToDate = (timestamp, day) => {
   return dayjs.unix(timestamp).add(day, 'day').unix()
 }
 
+export const addHoursToDate = (timestamp, hour) => {
+  return dayjs.unix(timestamp).add(hour, 'hour').unix()
+}
+
 export const diffBetweenTimeStamp = (time1: number, time2: number) => {
   const date1 = dayjs.unix(time1)
   const date2 = dayjs.unix(time2)
