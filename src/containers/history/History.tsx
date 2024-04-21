@@ -160,21 +160,10 @@ const History = () => {
       />
     )
   }
-  // @todo @note review and try to refactor as it seems multiple call to same function!
+
   const syncTransactions = async () => {
     if (accountEnabled) {
-      const newTransactions = await transactionService.getTransactions()
-      if (newTransactions.length === 0) {
-        setTransactionsFound(false)
-      } else {
-        setTransactionsFound(true)
-      }
-      if (
-        new Set(ValidValuesFromArray(transactions)).size !==
-        new Set(newTransactions).size
-      ) {
-        dispatch(fetchTransactions())
-      }
+      dispatch(fetchTransactions())
     }
   }
 
