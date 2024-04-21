@@ -80,6 +80,7 @@ const Save = () => {
       dispatch(getFS_Saves())
       dispatch(getFS_Info())
       getMaxTransferValue()
+      dispatch(fetchBalances())
     }
   }, [accountEnabled])
 
