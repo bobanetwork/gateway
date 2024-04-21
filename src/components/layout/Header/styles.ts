@@ -12,7 +12,7 @@ export const HeaderContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   backdrop-filter: blur(7.5px);
-  z-index: 9999;
+  z-index: 10;
   background: ${({ theme: { name, colors } }) =>
     name === 'light' ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.05)'};
 
