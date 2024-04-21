@@ -1586,7 +1586,6 @@ class NetworkService {
           from: this.gasEstimateAccount,
         })
         approvalCost_BN = approvalGas_BN.mul(gasPrice)
-        console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
       }
 
       const DiscretionaryExitFeeContract = new ethers.Contract(
@@ -2373,7 +2372,6 @@ class NetworkService {
         from: this.gasEstimateAccount,
       })
       approvalCost_BN = approvalGas_BN.mul(gasPrice)
-      console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
     }
 
     const L2BillingContract = new ethers.Contract(
@@ -2450,7 +2448,6 @@ class NetworkService {
 
       const approvalGas_BN = await this.L1Provider!.estimateGas(tx)
       approvalCost_BN = approvalGas_BN.mul(gasPrice)
-      console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
     }
 
     //in some cases zero not allowed
@@ -2955,7 +2952,6 @@ class NetworkService {
       const allowance_BN = await this.BobaContract!.connect(
         this.provider!
       ).allowance(this.gasEstimateAccount, this.addresses.BobaFixedSavings)
-      console.log('benchmarkAllowance_BN', allowance_BN.toString())
 
       // second, we need the approval cost
       const tx1 = await this.BobaContract!.connect(
@@ -2967,7 +2963,6 @@ class NetworkService {
 
       const approvalGas_BN = await this.provider!.estimateGas(tx1)
       approvalCost_BN = approvalGas_BN.mul(gasPrice_BN)
-      console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
 
       // third, we need the stake cost
       const FixedSavings = new ethers.Contract(
@@ -2982,10 +2977,8 @@ class NetworkService {
       )
       const stakeGas_BN = await this.provider!.estimateGas(tx2)
       stakeCost_BN = stakeGas_BN.mul(gasPrice_BN)
-      console.log('Stake cost in ETH:', utils.formatEther(stakeCost_BN))
 
       const safety_margin_BN = BigNumber.from('1000000000000')
-      console.log('Stake safety margin:', utils.formatEther(safety_margin_BN))
 
       return approvalCost_BN.add(stakeCost_BN).add(safety_margin_BN)
     } catch (error) {

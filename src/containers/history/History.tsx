@@ -160,6 +160,7 @@ const History = () => {
       />
     )
   }
+
   const syncTransactions = async () => {
     if (accountEnabled) {
       dispatch(fetchTransactions())

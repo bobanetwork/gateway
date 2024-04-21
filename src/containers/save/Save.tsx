@@ -79,6 +79,7 @@ const Save = () => {
     if (accountEnabled) {
       dispatch(getFS_Saves())
       dispatch(getFS_Info())
+      getMaxTransferValue()
       dispatch(fetchBalances())
     }
   }, [accountEnabled])
@@ -87,6 +88,7 @@ const Save = () => {
     if (accountEnabled) {
       dispatch(getFS_Info())
       dispatch(getFS_Saves())
+      dispatch(fetchBalances())
     }
   }, POLL_INTERVAL)
 
