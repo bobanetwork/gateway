@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { openAlert, closeModal } from 'actions/uiAction'
 
@@ -33,6 +33,7 @@ const DepositStake = (props: any) => {
     fee: '0',
     stakeValue: '0.0',
     value_Wei_String: '',
+    loading: false,
   })
 
   useEffect(() => {
@@ -199,7 +200,7 @@ const DepositStake = (props: any) => {
         {netLayer === 'L2' && (
           <Button
             onClick={() => handleConfirm()}
-            loading={props.loading}
+            loading={state.loading}
             disabled={!accountEnabled}
             label="Stake"
           />
