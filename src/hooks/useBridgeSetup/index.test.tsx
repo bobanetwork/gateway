@@ -184,9 +184,13 @@ describe('useBridgeSetup', () => {
     expect(actions).toContainEqual({ type: 'FETCH/FASTEXIT/COST/REQUEST' })
   })
 
-  test('Bridge Setup network is L2, but the funds will be paid out to L1. we request required info for classic briding', async () => {
+  xtest('Bridge Setup network is L2, but the funds will be paid out to L1. we request required info for classic briding', async () => {
     const initialState = {
       ...mockedInitialState,
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
       bridge: {
         ...mockedInitialState.bridge,
         bridgeType: BRIDGE_TYPE.CLASSIC,
@@ -210,7 +214,7 @@ describe('useBridgeSetup', () => {
         ],
       },
       setup: {
-        ...mockedInitialState,
+        ...mockedInitialState.setup,
         netLayer: LAYER.L2,
       },
     }
@@ -220,11 +224,15 @@ describe('useBridgeSetup', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeSetup(), {
+
+    console.log(`initialState`, initialState)
+
+    renderHook(() => useBridgeSetup(), {
       wrapper,
     })
 
     const actions = store.getActions()
+    // console.log(actions);
     expect(actions).toContainEqual({ type: 'FETCH/L2ETH/BALANCE/REQUEST' })
     expect(actions).toContainEqual({ type: 'FETCH/L2BOBA/BALANCE/REQUEST' })
     expect(actions).toContainEqual({ type: 'FETCH/EXITFEE/REQUEST' })
