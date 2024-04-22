@@ -24,14 +24,7 @@ import {
   StepContainer,
 } from './index.styles'
 import { L2StandardERC20ABI } from '../../../services/abi'
-import {
-  addDaysToDate,
-  addHoursToDate,
-  formatDate,
-  isBeforeDate,
-  isSameOrBeforeDate,
-} from 'util/dates'
-import dayjs from 'dayjs'
+import { addDaysToDate, addHoursToDate, isBeforeDate } from 'util/dates'
 
 interface IVerticalStepperProps {
   handleClose: () => void

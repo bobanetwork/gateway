@@ -1266,10 +1266,10 @@
     "@ethersproject/abstract-signer" "^5.5.0"
     "@ethersproject/hardware-wallets" "^5.5.0"
 
-"@bobanetwork/graphql-utils@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@bobanetwork/graphql-utils/-/graphql-utils-1.1.5.tgz#14f774f1462c6020610f6596ce72df4643d9422f"
-  integrity sha512-TWVV9jw7pTYh3PDxeyoTR+nWIe/OHr1Azt3WCrlizY4aMZabMb2w2IcLhRtafpt1TKeZqpM+YCQc20OL8D36JA==
+"@bobanetwork/graphql-utils@^1.1.9":
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/graphql-utils/-/graphql-utils-1.1.9.tgz#c2a762a5afa7b160bfb53f79a87fc96426522cce"
+  integrity sha512-BbQr1CNKIVvNty7DYmVpvGcmVxsbsuw7io5b+pG8AKTwiOpPs49BMFoDUbYJDI8702BEbI0em2tNw3SKWS6FWA==
   dependencies:
     "@apollo/client" "3.5.10"
     "@ethersproject/providers" "^5.7.2"
@@ -1286,10 +1286,10 @@
     dotenv "^8.6.0"
     ethers "^5.5.4"
 
-"@bobanetwork/register@^0.0.24":
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.24.tgz#5e443fa0c5611244f0a4d1b086ac0bac8c4329e9"
-  integrity sha512-WTWSdhuimYJeftBcxT3oeDgxQ8gdkqGKBhuSL7iihU4w1Tykp/WDuatif7iaQlcAIhUOJkt0SvG5cJm2M0T6+w==
+"@bobanetwork/register@^0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/register/-/register-0.0.25.tgz#584e3bbb094a21a95e05d269510c7f3271fbc3e7"
+  integrity sha512-fFSttqVZsjG3ovX4fExNxwYEiVr4sybULrv08mBIIG4shyd3XPVJ6nI+Jy+Dh+jwlW69lHeQ6i20TmIKmixQeQ==
 
 "@bobanetwork/sdk@1.0.7":
   version "1.0.7"
@@ -8971,12 +8971,12 @@ dotenv@^10.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
-dotenv@^16.0.0, dotenv@^16.3.1, dotenv@^16.4.5:
+dotenv@^16.0.0, dotenv@^16.3.1:
   version "16.4.5"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
   integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
 
-dotenv@^8.6.0:
+dotenv@^8.2.0, dotenv@^8.6.0:
   version "8.6.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
   integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
@@ -9598,7 +9598,7 @@ eslint-plugin-testing-library@^5.0.1:
   dependencies:
     "@typescript-eslint/utils" "^5.58.0"
 
-eslint-plugin-testing-library@^6.2.2:
+eslint-plugin-testing-library@^6.2.0:
   version "6.2.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-6.2.2.tgz#67e84ff891a2b3a8078ced0afa95ee6f343c00c1"
   integrity sha512-1E94YOTUDnOjSLyvOwmbVDzQi/WkKm3WVrMXu6SmBr6DN95xTGZmI6HJ/eOkSXh/DlheRsxaPsJvZByDBhWLVQ==
