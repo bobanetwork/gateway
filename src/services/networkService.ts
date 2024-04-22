@@ -181,19 +181,16 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  // NOTE: added check for anchorage currently available on sepolia to use in services
+  // NOTE: added check for anchorage for ethereum network.
   isAnchorageEnabled() {
-    if (
-      this.networkType === NetworkType.TESTNET &&
-      this.networkGateway === Network.ETHEREUM
-    ) {
+    if (this.networkGateway === Network.ETHEREUM) {
       return true
     }
     return false
   }
 
   async getBobaFeeChoice() {
-    if (!this.isAnchorageEnabled()) {
+    if (this.addresses.Boba_GasPriceOracle) {
       const bobaFeeContract = new ethers.Contract(
         this.addresses.Boba_GasPriceOracle,
         BobaGasPriceOracleABI,
@@ -446,8 +443,12 @@ class NetworkService {
       }
       this.addresses = addresses
 
-      // NOTE: should invoke for anchorage.
-      if (!this.isAnchorageEnabled() && this.network === Network.ETHEREUM) {
+      // as we don't have contract address for sepolia so added check to avoid calling it.
+      if (
+        this.networkType !== NetworkType.TESTNET &&
+        this.network === Network.ETHEREUM
+      ) {
+        // TODO: remove monster related codes as we are not using.
         if (
           !(await this.getAddressCached(
             this.addresses,
@@ -486,9 +487,9 @@ class NetworkService {
         }
       }
 
-      // Note: should bypass if limitedNetworkAvailability & anchorage not enabled.
+      // NOTE: should bypass if limitedNetworkAvailability & sepolia it's not enabled.
       const isLimitedNetwork = networkLimitedAvailability(networkType, network)
-      if (!isLimitedNetwork && !this.isAnchorageEnabled()) {
+      if (!isLimitedNetwork && this.networkType !== NetworkType.TESTNET) {
         if (
           !(await this.getAddressCached(
             this.addresses,
@@ -538,7 +539,7 @@ class NetworkService {
         let L1StandardBridgeAddress
 
         // todo remove once migrated to anchorage
-        if (this.addresses.L1StandardBridgeAddress) {
+        if (!this.isAnchorageEnabled()) {
           L1StandardBridgeAddress = this.addresses.L1StandardBridgeAddress
         } else {
           L1StandardBridgeAddress = this.addresses.L1StandardBridgeProxy
@@ -646,8 +647,12 @@ class NetworkService {
           )
         }
 
-        // @todo remove once fully migrated
-        if (!this.isAnchorageEnabled()) {
+        if (
+          !(
+            this.networkType === NetworkType.TESTNET &&
+            this.network === Network.ETHEREUM
+          )
+        ) {
           this.watcher = new CrossChainMessenger({
             l1SignerOrProvider: this.L1Provider,
             l2SignerOrProvider: this.L2Provider,
@@ -1295,6 +1300,7 @@ class NetworkService {
     currency,
     currencyL2,
   }): Promise<any> {
+    console.log(`calling anchorage erc 20 deposit`)
     setFetchDepositTxBlock(false)
     const signer = this.provider?.getSigner()
     if (!signer) {
@@ -1581,7 +1587,6 @@ class NetworkService {
           from: this.gasEstimateAccount,
         })
         approvalCost_BN = approvalGas_BN.mul(gasPrice)
-        console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
       }
 
       const DiscretionaryExitFeeContract = new ethers.Contract(
@@ -2387,7 +2392,6 @@ class NetworkService {
         from: this.gasEstimateAccount,
       })
       approvalCost_BN = approvalGas_BN.mul(gasPrice)
-      console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
     }
 
     const L2BillingContract = new ethers.Contract(
@@ -2464,7 +2468,6 @@ class NetworkService {
 
       const approvalGas_BN = await this.L1Provider!.estimateGas(tx)
       approvalCost_BN = approvalGas_BN.mul(gasPrice)
-      console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
     }
 
     //in some cases zero not allowed
@@ -2969,7 +2972,6 @@ class NetworkService {
       const allowance_BN = await this.BobaContract!.connect(
         this.provider!
       ).allowance(this.gasEstimateAccount, this.addresses.BobaFixedSavings)
-      console.log('benchmarkAllowance_BN', allowance_BN.toString())
 
       // second, we need the approval cost
       const tx1 = await this.BobaContract!.connect(
@@ -2981,7 +2983,6 @@ class NetworkService {
 
       const approvalGas_BN = await this.provider!.estimateGas(tx1)
       approvalCost_BN = approvalGas_BN.mul(gasPrice_BN)
-      console.log('Approve cost in ETH:', utils.formatEther(approvalCost_BN))
 
       // third, we need the stake cost
       const FixedSavings = new ethers.Contract(
@@ -2996,10 +2997,8 @@ class NetworkService {
       )
       const stakeGas_BN = await this.provider!.estimateGas(tx2)
       stakeCost_BN = stakeGas_BN.mul(gasPrice_BN)
-      console.log('Stake cost in ETH:', utils.formatEther(stakeCost_BN))
 
       const safety_margin_BN = BigNumber.from('1000000000000')
-      console.log('Stake safety margin:', utils.formatEther(safety_margin_BN))
 
       return approvalCost_BN.add(stakeCost_BN).add(safety_margin_BN)
     } catch (error) {

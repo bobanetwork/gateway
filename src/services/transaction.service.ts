@@ -7,6 +7,8 @@ import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
+  Network,
+  NetworkType,
 } from 'util/network/network.util'
 import {
   LightBridgeAssetReceivedEvent,
@@ -58,7 +60,10 @@ class TransactionService {
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
     if (
-      networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId ||
+      (networkService.networkType === NetworkType.TESTNET &&
+        networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId) ||
+      (networkService.networkType === NetworkType.MAINNET &&
+        networkConfig?.L1.chainId !== ethereumConfig.Mainnet.L1.chainId) ||
       !address
     ) {
       return []
@@ -78,9 +83,9 @@ class TransactionService {
           address,
           networkConfig!
         )
-
       return [...depositTransactions, ...withdrawalTransactions]
     } catch (e) {
+      console.log(`Crash: Anchorage TX`, e)
       return []
     }
   }
@@ -122,6 +127,9 @@ class TransactionService {
   // fetch L0 transactions from omgxWatcherAxiosInstance
   async fetchL0Tx(networkConfig = networkService.networkConfig) {
     let L0Txs = []
+    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
+      return L0Txs
+    }
     try {
       const responseL0 = await omgxWatcherAxiosInstance(networkConfig).post(
         'get.layerzero.transactions',
@@ -256,9 +264,10 @@ class TransactionService {
         toHash: undefined,
       }
 
-      let status = txReceipt?.status
-        ? TRANSACTION_STATUS.Pending
-        : TRANSACTION_STATUS.Failed
+      let status =
+        txReceipt && txReceipt?.status
+          ? TRANSACTION_STATUS.Pending
+          : TRANSACTION_STATUS.Failed
       if (disburseEvent && status === TRANSACTION_STATUS.Pending) {
         const rpc = new providers.JsonRpcProvider(
           getRpcUrlByChainId(sendEvent.toChainId)
@@ -267,7 +276,7 @@ class TransactionService {
           disburseEvent.transactionHash_
         )
         status =
-          disburseTxReceipt.status === 1
+          disburseTxReceipt && disburseTxReceipt.status === 1
             ? TRANSACTION_STATUS.Succeeded
             : TRANSACTION_STATUS.Failed
         if (
@@ -277,6 +286,7 @@ class TransactionService {
           // won't go in here if already retried
           status = TRANSACTION_STATUS.Failed // TODO: but can be retried
         }
+
         crossDomainMessage.toHash = disburseEvent.transactionHash_
       }
 

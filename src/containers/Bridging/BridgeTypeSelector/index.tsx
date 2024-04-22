@@ -1,6 +1,5 @@
 import { setBridgeType } from 'actions/bridgeAction'
 import { setNetwork } from 'actions/networkAction'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -30,7 +29,6 @@ const BridgeTypeSelector = () => {
   const network = useSelector(selectNetwork())
   const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
   const activeNetworkType = useSelector(selectActiveNetworkType())
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const isMainnet =
     useSelector(selectActiveNetworkType()) === NetworkType.MAINNET
