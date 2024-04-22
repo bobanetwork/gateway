@@ -21,8 +21,6 @@ const expectedActions = [
     },
     type: 'BRIDGE/ALERT/SET',
   },
-  { payload: { keys: ['FAST_EXIT_ERROR'] }, type: 'BRIDGE/ALERT/CLEAR' },
-  { payload: { keys: ['FAST_DEPOSIT_ERROR'] }, type: 'BRIDGE/ALERT/CLEAR' },
   { payload: undefined, type: 'BRIDGE/ALERT/PURGE' },
 ]
 
