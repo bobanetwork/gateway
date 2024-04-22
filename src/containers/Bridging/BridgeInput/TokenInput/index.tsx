@@ -18,6 +18,7 @@ import { InputContainer, InputContainerLabel } from './index.styles'
 import { purgeBridgeAlert, setAmountToBridge } from 'actions/bridgeAction'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import networkService from 'services/networkService'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {}
 
@@ -31,6 +32,7 @@ const TokenInput = (props: Props) => {
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
+  const { isActiveNetworkBnb } = useNetworkInfo()
 
   const [tokenAmount, setTokenAmount] = useState('')
   const [maxBalance, setMaxBalance] = useState<any>()
@@ -55,7 +57,11 @@ const TokenInput = (props: Props) => {
       setZeroBalanceError(false)
     }
 
-    if (layer === LAYER.L2 && bridgeType !== BRIDGE_TYPE.LIGHT) {
+    if (
+      layer === LAYER.L2 &&
+      bridgeType !== BRIDGE_TYPE.LIGHT &&
+      !!isActiveNetworkBnb
+    ) {
       let cost = classicExitCost || 0
       if (bridgeType === BRIDGE_TYPE.FAST) {
         cost = fastExitCost || 0

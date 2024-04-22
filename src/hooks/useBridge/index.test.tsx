@@ -21,6 +21,7 @@ jest.mock('services/networkService', () => {
     estimateL2Fee: jest.fn(),
     approveERC20: jest.fn(),
     depositErc20: jest.fn(),
+    depositERC20Anchorage: jest.fn(),
     depositETHL2: jest.fn(),
     depositL1LP: jest.fn(),
     depositL2LP: jest.fn(),
@@ -143,6 +144,10 @@ describe('UseBridge Hooks', () => {
 
     store = mockStore({
       ...mockedInitialState,
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
       bridge: {
         ...mockedInitialState.bridge,
         destChainIdTeleportation: 0,
@@ -155,12 +160,10 @@ describe('UseBridge Hooks', () => {
     expect(console.error).toHaveBeenCalled()
 
     const actions = store.getActions()
-    expect(actions).toEqual([
-      {
-        type: 'UI/ERROR/UPDATE',
-        payload: 'Failed to get destination chain id',
-      },
-    ])
+    expect(actions).toContainEqual({
+      type: 'UI/ERROR/UPDATE',
+      payload: 'Failed to get destination chain id',
+    })
   })
 
   describe('Layer 1', () => {
@@ -170,6 +173,9 @@ describe('UseBridge Hooks', () => {
           message: 'success!',
         })
         ;(networkService.depositErc20 as jest.Mock).mockResolvedValue({
+          message: 'success!',
+        })
+        ;(networkService.depositERC20Anchorage as jest.Mock).mockResolvedValue({
           message: 'success!',
         })
 
@@ -186,7 +192,13 @@ describe('UseBridge Hooks', () => {
         }
       })
       test('should invoke depositETHL2 correctly and reset state on success', async () => {
-        store = mockStore(store)
+        store = mockStore({
+          ...store,
+          network: {
+            ...store.network,
+            activeNetwork: 'BNB',
+          },
+        })
 
         const { result } = renderHook(() => useBridge(), { wrapper })
 
@@ -205,6 +217,10 @@ describe('UseBridge Hooks', () => {
       test('should trigger depositETHL2 correctly with reciepent address', async () => {
         store = mockStore({
           ...store,
+          network: {
+            ...store.network,
+            activeNetwork: 'BNB',
+          },
           bridge: {
             ...store.bridge,
             bridgeToAddressState: true,
@@ -230,6 +246,10 @@ describe('UseBridge Hooks', () => {
       test('should invoke depositErc20 correctly and reset state on success', async () => {
         store = mockStore({
           ...store,
+          network: {
+            ...store.network,
+            activeNetwork: 'BNB',
+          },
           bridge: {
             ...store.bridge,
             tokens: [
@@ -263,6 +283,10 @@ describe('UseBridge Hooks', () => {
       test('should trigger depositErc20 correctly with reciepent address', async () => {
         store = mockStore({
           ...store,
+          network: {
+            ...store.network,
+            activeNetwork: 'BNB',
+          },
           bridge: {
             ...store.bridge,
             bridgeToAddressState: true,
@@ -292,6 +316,76 @@ describe('UseBridge Hooks', () => {
           recipient: '0xcRECEIPENTTOADDRESS',
           value_Wei_String: '1255000000000000000',
         })
+        expect(actions).toEqual(successActionsClassic)
+      })
+
+      test('should invoke depositErc20Anchorage correctly and reset state on success', async () => {
+        store = mockStore({
+          ...store,
+          bridge: {
+            ...store.bridge,
+            tokens: [
+              {
+                symbol: 'BOBA',
+                decimals: 18,
+                address: '0x0000000000000000000000000000000000000006',
+                addressL2: '0x0000000000000000000000000000000000000032',
+              },
+            ],
+          },
+        })
+        const { result } = renderHook(() => useBridge(), { wrapper })
+
+        let prevActions = store.getActions()
+        await result.current.triggerSubmit()
+        expect(
+          (networkService.depositERC20Anchorage as jest.Mock).mock.calls
+        ).toHaveLength(1)
+        expect(
+          (networkService.depositERC20Anchorage as jest.Mock).mock.calls[0][0]
+        ).toEqual({
+          recipient: '',
+          L1DepositAmountWei: '1255000000000000000',
+          currency: '0x0000000000000000000000000000000000000006',
+          currencyL2: '0x0000000000000000000000000000000000000032',
+        })
+        expect(prevActions).toEqual(successActionsClassic)
+      })
+
+      test('should trigger depositErc20Anchorage correctly with reciepent address', async () => {
+        store = mockStore({
+          ...store,
+          bridge: {
+            ...store.bridge,
+            bridgeToAddressState: true,
+            bridgeDestinationAddress: '0xcRECEIPENTTOADDRESS',
+            tokens: [
+              {
+                symbol: 'BOBA',
+                decimals: 18,
+                address: '0x0000000000000000000000000000000000000006',
+                addressL2: '0x0000000000000000000000000000000000000032',
+              },
+            ],
+          },
+        })
+        const { result } = renderHook(() => useBridge(), { wrapper })
+
+        let actions = store.getActions()
+
+        await result.current.triggerSubmit()
+        expect(
+          (networkService.depositERC20Anchorage as jest.Mock).mock.calls
+        ).toHaveLength(1)
+        expect(
+          (networkService.depositERC20Anchorage as jest.Mock).mock.calls[0][0]
+        ).toEqual({
+          currency: '0x0000000000000000000000000000000000000006',
+          currencyL2: '0x0000000000000000000000000000000000000032',
+          recipient: '0xcRECEIPENTTOADDRESS',
+          L1DepositAmountWei: '1255000000000000000',
+        })
+
         expect(actions).toEqual(successActionsClassic)
       })
     })

@@ -13,7 +13,7 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
         data-testid="banner-item"
       >
         <div
-          class="sc-ikkxIA"
+          class="sc-ikkxIA kkCcKf"
         >
           <p>
             Message update 1 
@@ -49,7 +49,7 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
         data-testid="banner-item"
       >
         <div
-          class="sc-ikkxIA"
+          class="sc-ikkxIA kkCcKf"
         >
           <p
             class="sc-imWYAI dZiXLh sc-fUnMCh iwiHIW"

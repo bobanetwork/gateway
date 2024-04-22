@@ -3,16 +3,6 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-gmgFlS lbHGMm open "
-  >
-    <p
-      class="sc-imWYAI dZiXLh sc-kMkxaj ifmrU"
-      data-testid="message"
-    >
-      Note: Classic withdrawals will be temporarily suspended for a duration of 10 days beginning April 6th in preparation for our Anchorage update! Light bridging will remain available throughout the period.
-    </p>
-  </div>
-  <div
     class="sc-hGMjit aucDE"
   >
     <div
@@ -106,12 +96,12 @@ exports[`Home  should match snapshot 1`] = `
           data-testid="banner-item"
         >
           <div
-            class="sc-fUkmAC"
+            class="sc-fUkmAC egMIAt"
           >
             <p
               class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
             >
-              In preparation for the release of Boba Light Bridge, the Earn program is being sunset. To withdraw funds, 
+              The earn program is being phased out as we introduce the Boba Light Bridge. To initiate a withdrawal of funds from the liquidity pool, To withdraw funds 
               <a
                 href="/earn"
                 target="blank"
@@ -126,7 +116,7 @@ exports[`Home  should match snapshot 1`] = `
           data-testid="banner-item"
         >
           <div
-            class="sc-fUkmAC"
+            class="sc-fUkmAC egMIAt"
           >
             <p
               class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
