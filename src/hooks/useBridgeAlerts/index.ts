@@ -11,6 +11,7 @@ import {
   selectBobaFeeChoice,
   selectBobaPriceRatio,
   selectBridgeType,
+  selectTeleportationDisburserBalance,
   selectExitFee,
   selectFastDepositCost,
   selectFastExitCost,
@@ -33,6 +34,7 @@ import BN from 'bignumber.js'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { Network } from 'util/network/network.util'
 import { BigNumber, BigNumberish, ethers } from 'ethers'
+import { formatEther } from '@ethersproject/units'
 
 enum ALERT_KEYS {
   OMG_INFO = 'OMG_INFO',
@@ -46,6 +48,7 @@ enum ALERT_KEYS {
   DEPRECATION_WARNING = 'DEPRECATION_WARNING',
   TELEPORTATION_ASSET_NOT_SUPPORTED = 'TELEPORTER_ASSET_NOT_SUPPORTED',
   TELEPORTATION_NO_UNCONVENTIONAL_WALLETS = 'TELEPORTATION_NO_UNCONVENTIONAL_WALLETS',
+  TELEPORTATION_DISBURSER_OUT_OF_FUNDS = 'TELEPORTATION_DISBURSER_OUT_OF_FUNDS',
 }
 
 interface ITeleportationTokenSupport {
@@ -67,6 +70,9 @@ const useBridgeAlerts = () => {
   const activeNetwork = useSelector(selectActiveNetwork())
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
     useSelector(selectIsTeleportationOfAssetSupported())
+  const disburserBalance: BigNumber | undefined = useSelector(
+    selectTeleportationDisburserBalance()
+  )
 
   // fast input layer 1
   const L1LPBalance = useSelector(selectL2LPBalanceString)
@@ -114,9 +120,20 @@ const useBridgeAlerts = () => {
               ALERT_KEYS.VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT,
               ALERT_KEYS.VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT,
               ALERT_KEYS.MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED,
+              ALERT_KEYS.TELEPORTATION_DISBURSER_OUT_OF_FUNDS,
             ],
           })
         )
+
+        if (disburserBalance && disburserBalance.lt(amountToBridge)) {
+          dispatch(
+            setBridgeAlert({
+              meta: ALERT_KEYS.TELEPORTATION_DISBURSER_OUT_OF_FUNDS,
+              type: 'error',
+              text: `LightBridge has not enough funds for destination network left.`,
+            })
+          )
+        }
 
         const maxDepositAmount = Number(
           ethers.utils.formatEther(

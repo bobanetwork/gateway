@@ -35,6 +35,7 @@ interface IBridgeReducerState {
   amountToBridge: number
   destChainIdBridge: number
   isFetchTxBlockNumber: boolean
+  teleportationDisburserBalance: BigNumberish
   isTeleportationOfAssetSupported: {
     supported: boolean
     minDepositAmount: number
@@ -57,6 +58,7 @@ const initialState: IBridgeReducerState = {
   amountToBridge: 0,
   destChainIdBridge: 0,
   isFetchTxBlockNumber: false,
+  teleportationDisburserBalance: 0,
   isTeleportationOfAssetSupported: {
     supported: false,
     minDepositAmount: 0,
