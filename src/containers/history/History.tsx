@@ -16,13 +16,11 @@ limitations under the License. */
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEqual } from 'util/lodash'
-import { ValidValuesFromArray } from 'util/objectManipulation'
 
 import { useTheme } from 'styled-components'
 
 import { Button } from 'components/global'
 
-import transactionService from 'services/transaction.service'
 import {
   Network,
   NetworkType,
@@ -160,21 +158,10 @@ const History = () => {
       />
     )
   }
-  // TODO: @note review and try to refactor as it seems multiple call to same function!
+
   const syncTransactions = async () => {
     if (accountEnabled) {
-      const newTransactions = await transactionService.getTransactions()
-      if (newTransactions.length === 0) {
-        setTransactionsFound(false)
-      } else {
-        setTransactionsFound(true)
-      }
-      if (
-        new Set(ValidValuesFromArray(transactions)).size !==
-        new Set(newTransactions).size
-      ) {
-        dispatch(fetchTransactions())
-      }
+      dispatch(fetchTransactions())
     }
   }
 

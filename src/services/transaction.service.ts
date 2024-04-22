@@ -242,9 +242,10 @@ class TransactionService {
         toHash: undefined,
       }
 
-      let status = txReceipt?.status
-        ? TRANSACTION_STATUS.Pending
-        : TRANSACTION_STATUS.Failed
+      let status =
+        txReceipt && txReceipt?.status
+          ? TRANSACTION_STATUS.Pending
+          : TRANSACTION_STATUS.Failed
       if (disburseEvent && status === TRANSACTION_STATUS.Pending) {
         const rpc = new providers.JsonRpcProvider(
           getRpcUrlByChainId(sendEvent.toChainId)
@@ -253,7 +254,7 @@ class TransactionService {
           disburseEvent.transactionHash_
         )
         status =
-          disburseTxReceipt.status === 1
+          disburseTxReceipt && disburseTxReceipt.status === 1
             ? TRANSACTION_STATUS.Succeeded
             : TRANSACTION_STATUS.Failed
         if (

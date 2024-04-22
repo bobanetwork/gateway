@@ -48,6 +48,7 @@ import {
 } from 'selectors'
 import styled from 'styled-components'
 import { POLL_INTERVAL } from 'util/constant'
+import { fetchBalances } from 'actions/networkAction'
 
 export const OutputLabel = styled(Typography).attrs({
   variant: 'title',
@@ -83,6 +84,7 @@ const Save = () => {
       dispatch(getFS_Saves())
       dispatch(getFS_Info())
       getMaxTransferValue()
+      dispatch(fetchBalances())
     }
   }, [accountEnabled])
 
@@ -90,6 +92,7 @@ const Save = () => {
     if (accountEnabled) {
       dispatch(getFS_Info())
       dispatch(getFS_Saves())
+      dispatch(fetchBalances())
     }
   }, POLL_INTERVAL)
 
