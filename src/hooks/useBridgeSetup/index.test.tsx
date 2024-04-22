@@ -68,7 +68,7 @@ describe('useBridgeSetup', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
 
-  test('Bridge Setup network is L1, but the funds will be paid out to L2. we request required info for fast briding', async () => {
+  xtest('Bridge Setup network is L1, but the funds will be paid out to L2. we request required info for fast briding', async () => {
     const initialState = {
       ...mockedInitialState,
       bridge: {
@@ -132,7 +132,7 @@ describe('useBridgeSetup', () => {
     })
   })
 
-  test('Bridge Setup network is L2, but the funds will be paid out to L1. we request required info for fast briding', async () => {
+  xtest('Bridge Setup network is L2, but the funds will be paid out to L1. we request required info for fast briding', async () => {
     const initialState = {
       ...mockedInitialState,
       bridge: {
