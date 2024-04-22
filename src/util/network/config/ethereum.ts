@@ -45,7 +45,7 @@ export const ethereumConfig: NetworkDetail = {
     gasEstimateAccount: `0xdb5a187FED81c735ddB1F6E47F28f2A5F74639b2`,
   },
   Mainnet: {
-    OMGX_WATCHER_URL: `https://api-watcher.mainnet.boba.network/`,
+    OMGX_WATCHER_URL: ``,
     VERIFIER_WATCHER_URL: `https://api-verifier.mainnet.boba.network/`,
     META_TRANSACTION: `https://api-meta-transaction.mainnet.boba.network/`,
     MM_Label: `Mainnet`,

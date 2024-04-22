@@ -11,7 +11,8 @@ import addresses_Sepolia_Arb from '@bobanetwork/register/addresses/addressesArbi
 import addresses_Sepolia_Op from '@bobanetwork/register/addresses/addressesOptimismSepolia_0x.json'
 
 // mainnet address
-import addresses_Mainnet from '@bobanetwork/register/addresses/addressesMainnet_0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089.json'
+
+import addresses_Mainnet from '@bobanetwork/register/addresses/addressesMainnetAnchorage_0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089.json'
 import addresses_Mainnet_Arb from '@bobanetwork/register/addresses/addressesArbitrumMainnet_0x.json'
 import addresses_Mainnet_Op from '@bobanetwork/register/addresses/addressesOptimismMainnet_0x.json'
 import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0xeb989B25597259cfa51Bd396cE1d4B085EC4c753.json'

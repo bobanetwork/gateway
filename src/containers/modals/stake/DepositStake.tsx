@@ -200,7 +200,7 @@ const DepositStake = (props: any) => {
           <Button
             onClick={() => handleConfirm()}
             loading={state.loading}
-            disabled={!accountEnabled}
+            disabled={!accountEnabled || state.loading}
             label="Stake"
           />
         )}

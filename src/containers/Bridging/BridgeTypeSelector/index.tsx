@@ -1,6 +1,5 @@
 import { setBridgeType } from 'actions/bridgeAction'
 import { setNetwork } from 'actions/networkAction'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {

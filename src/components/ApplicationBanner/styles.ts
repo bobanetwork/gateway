@@ -64,7 +64,9 @@ export const BannerContainer = styled('div')`
     }
   }
 `
-export const BannerContent = styled('div')``
+export const BannerContent = styled('div')`
+  padding: 0px 20px;
+`
 
 export const BannerAction = styled('div')`
   cursor: pointer;

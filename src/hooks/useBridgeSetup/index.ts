@@ -6,6 +6,7 @@ import {
 } from 'actions/balanceAction'
 import { clearLookupPrice, fetchLookUpPrice } from 'actions/networkAction'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -25,7 +26,7 @@ const useBridgeSetup = () => {
   const layer = useSelector(selectLayer())
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
-
+  const { isActiveNetworkBnb } = useNetworkInfo()
   useEffect(() => {
     if (layer === LAYER.L2 && token) {
       dispatch(fetchL2BalanceETH())

@@ -7,6 +7,8 @@ import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
+  Network,
+  NetworkType,
 } from 'util/network/network.util'
 import {
   LightBridgeAssetReceivedEvent,
@@ -45,7 +47,10 @@ class TransactionService {
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
     if (
-      networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId ||
+      (networkService.networkType === NetworkType.TESTNET &&
+        networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId) ||
+      (networkService.networkType === NetworkType.MAINNET &&
+        networkConfig?.L1.chainId !== ethereumConfig.Mainnet.L1.chainId) ||
       !address
     ) {
       return []
@@ -65,9 +70,9 @@ class TransactionService {
           address,
           networkConfig!
         )
-
       return [...depositTransactions, ...withdrawalTransactions]
     } catch (e) {
+      console.log(`Crash: Anchorage TX`, e)
       return []
     }
   }
@@ -108,6 +113,9 @@ class TransactionService {
   // fetch L0 transactions
   async fetchL0Tx(networkConfig = networkService.networkConfig) {
     let L0Txs = []
+    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
+      return L0Txs
+    }
     try {
       const responseL0 = await omgxWatcherAxiosInstance(networkConfig).post(
         'get.layerzero.transactions',
@@ -264,6 +272,7 @@ class TransactionService {
           // won't go in here if already retried
           status = TRANSACTION_STATUS.Failed // TODO: but can be retried
         }
+
         crossDomainMessage.toHash = disburseEvent.transactionHash_
       }
 

@@ -158,7 +158,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   }
   // const filteredTransactions = orderedTransactions
   const filteredTransactions = uniqBy(
-    orderedTransactions.filter((transaction) => {
+    [...orderedTransactions].filter((transaction) => {
       return (
         crossDomainFilter(transaction) &&
         networkFilter(transaction) &&
