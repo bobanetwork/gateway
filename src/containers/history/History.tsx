@@ -82,6 +82,7 @@ import DatePicker from './DatePicker'
 const History = () => {
   const [toNetwork, setToNetwork] = useState(ALL_NETWORKS)
   const [fromNetwork, setFromNetwork] = useState(ALL_NETWORKS)
+  // TODO: cleanup as it's unused
   const [transactionsFound, setTransactionsFound] = useState(true)
   const [switched, setSwitched] = useState(false)
 
