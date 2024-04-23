@@ -29,7 +29,6 @@ export const ValueStyle = styled.span`
 const BridgeHeader = () => {
   const dispatch = useDispatch<any>()
   const theme: any = useTheme()
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const iconColor =
     theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[100]
@@ -38,6 +37,7 @@ const BridgeHeader = () => {
     dispatch(openModal('settingsModal'))
   }
 
+  // TODO: update the copy when the anchorage bridge is enabled.
   const ClassicBridgeInfo = () => {
     return (
       <>
@@ -71,24 +71,22 @@ const BridgeHeader = () => {
     <BridgeHeaderWrapper>
       <Heading variant="h2">
         Bridge
-        {isAnchorageEnabled ? null : (
-          <Tooltip
-            data-testid="tooltip-btn"
-            title={
-              <>
-                <ClassicBridgeInfo />
-                <LightBridgeInfo />
-              </>
-            }
-          >
-            <IconWrapper inline={true} style={{ marginLeft: '5px' }}>
-              <HelpOutlineOutlined
-                fontSize="small"
-                sx={{ cursor: 'pointer', color: iconColor }}
-              />
-            </IconWrapper>
-          </Tooltip>
-        )}
+        <Tooltip
+          data-testid="tooltip-btn"
+          title={
+            <>
+              <ClassicBridgeInfo />
+              <LightBridgeInfo />
+            </>
+          }
+        >
+          <IconWrapper inline={true} style={{ marginLeft: '5px' }}>
+            <HelpOutlineOutlined
+              fontSize="small"
+              sx={{ cursor: 'pointer', color: iconColor }}
+            />
+          </IconWrapper>
+        </Tooltip>
       </Heading>
       <IconWrapper>
         <GearIcon

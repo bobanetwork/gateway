@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectLayer, selectModalState } from 'selectors'
 import {
   IHandleProveWithdrawalConfig,
-  approvalRequired,
   claimWithdrawal,
   handleInitiateWithdrawal,
   handleProveWithdrawal,
@@ -25,6 +24,12 @@ import {
   StepContainer,
 } from './index.styles'
 import { L2StandardERC20ABI } from '../../../services/abi'
+import {
+  addDaysToDate,
+  addHoursToDate,
+  dayNowUnix,
+  isBeforeDate,
+} from 'util/dates'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -38,22 +43,12 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const layer = useSelector(selectLayer())
   const [withdrawalConfig, setWithdrawalConfig] =
     useState<IHandleProveWithdrawalConfig>()
-  const [latestLogs, setLatestLogs] = useState(null)
+  const [latestLogs, setLatestLogs] = useState<null | []>(null)
   const [activeStep, setActiveStep] = React.useState(0)
-  const [approvalNeeded, setApprovalNeeded] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [txInitTime, setTxInitTime] = useState<null | Number>(null)
 
   useEffect(() => {
-    if (activeStep === 0 && props.token) {
-      approvalRequired(
-        networkService as MinimalNetworkService,
-        L2StandardERC20ABI,
-        props.token,
-        props.amountToBridge
-      ).then((res) => {
-        setApprovalNeeded(res)
-      })
-    }
-
     if (props.reenterWithdrawConfig) {
       dispatch(setConnectETH(true))
       setWithdrawalConfig(props.reenterWithdrawConfig)
@@ -65,12 +60,38 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
+  const isButtonDisabled = () => {
+    if (activeStep === 3) {
+      if (txInitTime) {
+        // can prove only if tx intiated 1 hour before
+        const txWith1Hour = addHoursToDate(txInitTime, 1)
+        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
+      } else if (props.reenterWithdrawConfig) {
+        // can prove only if tx intiated 1 hour before
+        const txWith1Hour = addHoursToDate(
+          props.reenterWithdrawConfig.timeStamp,
+          1
+        )
+        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
+      }
+      return true
+    } else if (activeStep === 5) {
+      // can claim only if tx intiated 7 day before
+      const txWith7Day = addDaysToDate(props.reenterWithdrawConfig.timeStamp, 7)
+      return !Number(props.amountToBridge) || !isBeforeDate(txWith7Day)
+    }
+
+    return !Number(props.amountToBridge)
+  }
+
   const initWithdrawalStep = () => {
+    setLoading(true)
     const isNativeWithdrawal =
       props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
     selectModalState('transactionSuccess')
     handleInitiateWithdrawal(
       networkService as MinimalNetworkService,
+      L2StandardERC20ABI,
       ethers.utils.parseEther(props.amountToBridge!.toString()).toString(),
       isNativeWithdrawal ? null : props.token
     )
@@ -83,17 +104,21 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           return
         }
         setActiveStep(2)
+        setTxInitTime(dayNowUnix())
         setWithdrawalConfig({
           blockNumber: res,
         })
+        setLoading(false)
       })
       .catch((err) => {
+        setLoading(false)
         dispatch(openError(`The withdrawal initiation failed!`))
         props.handleClose()
       })
   }
 
   const proofWithdrawalStep = () => {
+    setLoading(true)
     handleProveWithdrawal(
       networkService as MinimalNetworkService,
       withdrawalConfig!
@@ -101,26 +126,37 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       .then((res: any) => {
         setActiveStep(5)
         setLatestLogs(res)
+        setLoading(false)
       })
       .catch((error) => {
         dispatch(openError(`The withdrawal verification failed!`))
+        setLoading(false)
         props.handleClose()
       })
   }
 
   const claimWithdrawalStep = () => {
     if (!!withdrawalConfig) {
-      if (!withdrawalConfig?.withdrawalHash && latestLogs) {
+      setLoading(true)
+      if (
+        !withdrawalConfig?.withdrawalHash &&
+        !!latestLogs &&
+        !!latestLogs?.length
+      ) {
         claimWithdrawal(
           networkService as MinimalNetworkService,
           latestLogs
         ).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
           dispatch(openModal('transactionSuccess'))
+          setLoading(false)
         })
       } else {
         anchorageGraphQLService
-          .findWithdrawalMessagedPassed(withdrawalConfig?.withdrawalHash || '')
+          .findWithdrawalMessagedPassed(
+            withdrawalConfig?.withdrawalHash || '',
+            networkService.networkConfig?.L2.chainId || ''
+          )
           .then((logs) => {
             logs = logs.filter(
               (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
@@ -130,6 +166,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
                 setActiveStep(6)
                 dispatch(openModal('transactionSuccess'))
                 dispatch(closeModal('bridgeMultiStepWithdrawal'))
+                setLoading(false)
               }
             )
           })
@@ -170,8 +207,8 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         )}
         <ConfirmActionButton
           style={{ marginTop: '12px' }}
-          loading={!steps[activeStep].btnLbl}
-          disabled={!steps[activeStep].btnLbl}
+          loading={loading}
+          disabled={!!loading || isButtonDisabled()}
           onClick={() => {
             switch (activeStep) {
               case 0:
@@ -189,13 +226,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             }
             handleNext()
           }}
-          label={
-            <Heading variant="h3">
-              {activeStep === 0 && approvalNeeded
-                ? 'Approve'
-                : steps[activeStep].btnLbl}
-            </Heading>
-          }
+          label={<Heading variant="h3">{steps[activeStep].btnLbl}</Heading>}
         />
         <SecondaryActionButton
           onClick={props.handleClose}

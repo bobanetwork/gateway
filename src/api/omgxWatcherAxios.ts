@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+// TODO: remove once BNB migrated to anchorage.
 export default (networkConfig) => {
   const watcherUrl = networkConfig['OMGX_WATCHER_URL']
 

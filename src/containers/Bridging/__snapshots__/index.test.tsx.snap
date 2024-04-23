@@ -3,24 +3,24 @@
 exports[`Bridging Component should match snapshot on when bridge type is CLASSIC 1`] = `
 <DocumentFragment>
   <div
-    class="sc-gFqAkR jZdsOu"
+    class="sc-eldPxv dcLceF"
   >
     <div
-      class="sc-ikkxIA exEqLs"
+      class="sc-fPXMVe dUoduF"
       id="bridge"
     >
       <div
-        class="sc-dAbbOL cgbWLW"
+        class="sc-gFqAkR bGXBoY"
       >
         <div
-          class="sc-iHGNWf evOFCg"
+          class="sc-koXPp ejMtSJ"
         >
           <h2
             class="sc-eDPEul jXgUQt"
           >
             Bridge
             <div
-              class="sc-dtBdUo hPhhgA"
+              class="sc-bmzYkS dMUwNo"
               data-mui-internal-clone-element="true"
               data-testid="tooltip-btn"
               style="margin-left: 5px;"
@@ -39,11 +39,11 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             </div>
           </h2>
           <div
-            class="sc-dtBdUo iwjgpA"
+            class="sc-bmzYkS JFHbA"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-kOHTFB feqURM css-1g4na4e-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-iHGNWf fwjtTZ css-1g4na4e-MuiSvgIcon-root"
               data-testid="setting-btn"
               focusable="false"
               viewBox="0 0 24 24"
@@ -55,22 +55,22 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
           </div>
         </div>
         <div
-          class="sc-eldPxv iMWQQE"
+          class="sc-dtInlm hzapnV"
         >
           <div
-            class="sc-fPXMVe gWnUeP"
+            class="sc-kOPcWz gfXFER"
             data-testid="classic-btn"
           >
             Classic
           </div>
           <div
-            class="sc-fPXMVe dSlDjN"
+            class="sc-kOPcWz hxKNaX"
             data-testid="light-btn"
           >
             Light
           </div>
           <div
-            class="sc-fPXMVe dSlDjN"
+            class="sc-kOPcWz hxKNaX"
             data-testid="third-party-btn"
           >
             Third Party
@@ -259,10 +259,10 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
         </div>
       </div>
       <div
-        class="sc-hzhJZQ crgmVn"
+        class="sc-feUZmu fKaVOM"
       >
         <button
-          class="sc-jlZhew fFYrTq sc-fHjqPf"
+          class="sc-jlZhew fFYrTq sc-fUnMCh"
           data-testid="connect-btn"
           label="[object Object]"
           style="width: 100%;"
@@ -284,24 +284,24 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
 exports[`Bridging Component should match snapshot on when bridge type is THIRD_PARTY 1`] = `
 <DocumentFragment>
   <div
-    class="sc-gFqAkR jZdsOu"
+    class="sc-eldPxv dcLceF"
   >
     <div
-      class="sc-ikkxIA exEqLs"
+      class="sc-fPXMVe dUoduF"
       id="bridge"
     >
       <div
-        class="sc-dAbbOL cgbWLW"
+        class="sc-gFqAkR bGXBoY"
       >
         <div
-          class="sc-iHGNWf evOFCg"
+          class="sc-koXPp ejMtSJ"
         >
           <h2
             class="sc-eDPEul jXgUQt"
           >
             Bridge
             <div
-              class="sc-dtBdUo hPhhgA"
+              class="sc-bmzYkS dMUwNo"
               data-mui-internal-clone-element="true"
               data-testid="tooltip-btn"
               style="margin-left: 5px;"
@@ -320,11 +320,11 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
             </div>
           </h2>
           <div
-            class="sc-dtBdUo iwjgpA"
+            class="sc-bmzYkS JFHbA"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-kOHTFB feqURM css-1g4na4e-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sc-iHGNWf fwjtTZ css-1g4na4e-MuiSvgIcon-root"
               data-testid="setting-btn"
               focusable="false"
               viewBox="0 0 24 24"
@@ -336,22 +336,22 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
           </div>
         </div>
         <div
-          class="sc-eldPxv iMWQQE"
+          class="sc-dtInlm hzapnV"
         >
           <div
-            class="sc-fPXMVe dSlDjN"
+            class="sc-kOPcWz hxKNaX"
             data-testid="classic-btn"
           >
             Classic
           </div>
           <div
-            class="sc-fPXMVe dSlDjN"
+            class="sc-kOPcWz hxKNaX"
             data-testid="light-btn"
           >
             Light
           </div>
           <div
-            class="sc-fPXMVe gWnUeP"
+            class="sc-kOPcWz gfXFER"
             data-testid="third-party-btn"
           >
             Third Party

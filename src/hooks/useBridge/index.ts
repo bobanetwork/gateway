@@ -41,7 +41,7 @@ export const useBridge = () => {
   const toL2Account = useSelector(selectBridgeDestinationAddress())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-  const { isAnchorageEnabled, isClassicWithdrawalDisabled } = useNetworkInfo()
+  const { isAnchorageEnabled } = useNetworkInfo()
 
   const activeNetworkType = useSelector(selectActiveNetworkType())
   const activeNetwork = useSelector(selectActiveNetwork())
@@ -165,16 +165,10 @@ export const useBridge = () => {
   }
 
   const triggerExit = async (amountWei: any) => {
-    // @todo instead validate testnet with sepolia network.
-    // as testnet sepoli only supports 2 step bridging.
-    // NOTE: Anchorage has a separate withdrawal flow, once bedrock is fully rolled out, we might get rid of this if
+    // As anchorage is release to mainnet & sepolia supports 2 step bridging.
     if (!!isAnchorageEnabled) {
       dispatch(openModal('bridgeMultiStepWithdrawal'))
     } else {
-      if (!!isClassicWithdrawalDisabled) {
-        return false
-      }
-      // @todo clean up this once anchorage migration done on mainnet.
       return dispatch(exitBOBA(token.address, amountWei))
     }
   }

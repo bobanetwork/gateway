@@ -38,16 +38,14 @@ const Fee = (props: Props) => {
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
 
-  const { isAnchorageEnabled } = useNetworkInfo()
+  const { isAnchorageEnabled, isActiveNetworkBnb } = useNetworkInfo()
 
   const { amount: amountToReceive } = useAmountToReceive()
 
   const [gasFee, setGasFee] = useState('')
 
   const estimateTime = () => {
-    if (isAnchorageEnabled && layer === LAYER.L1) {
-      return '~ 3mins'
-    } else if (bridgeType === BRIDGE_TYPE.CLASSIC) {
+    if (bridgeType === BRIDGE_TYPE.CLASSIC) {
       if (layer === LAYER.L1) {
         return '13 ~ 14mins.'
       } else {
@@ -104,11 +102,13 @@ const Fee = (props: Props) => {
         <Label>Estimated time</Label>
         <Label>{estimateTime()}</Label>
       </InfoRow>
-      <InfoRow>
-        <Label>Destination gas fee</Label>
-        <Label>{gasFee}</Label>
-      </InfoRow>
-      {!isAnchorageEnabled &&
+      {isAnchorageEnabled ? null : (
+        <InfoRow>
+          <Label>Gas fee</Label>
+          <Label>{gasFee}</Label>
+        </InfoRow>
+      )}
+      {isActiveNetworkBnb &&
       layer === LAYER.L2 &&
       bridgeType !== BRIDGE_TYPE.LIGHT ? (
         <InfoRow>
@@ -116,15 +116,6 @@ const Fee = (props: Props) => {
           <Label>{exitFee} BOBA</Label>
         </InfoRow>
       ) : null}
-      <InfoRow>
-        <Label>Bridge Fee</Label>
-        <Label>
-          {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
-            ? l2FeeRateN
-            : l1FeeRateN) || 0}
-          %
-        </Label>
-      </InfoRow>
       <InfoRow>
         <Label
           color={`${
