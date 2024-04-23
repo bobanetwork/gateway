@@ -59,3 +59,7 @@ export const diffBetweenTimeStamp = (time1: number, time2: number) => {
 
   return date1.diff(date2, 'seconds')
 }
+
+export const dayNowUnix = () => {
+  return dayjs().unix()
+}
