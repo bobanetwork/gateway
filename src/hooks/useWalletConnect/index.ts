@@ -47,10 +47,10 @@ export const useWalletConnect = () => {
     const initAccount = async () => {
       const initialized = await networkService.initializeAccount()
       if (initialized === 'nometamask') {
-        dispatch(openModal('noMetaMaskModal'))
+        dispatch(openModal({ modal: 'noMetaMaskModal' }))
         return false
       } else if (initialized === 'wrongnetwork') {
-        dispatch(openModal('wrongNetworkModal'))
+        dispatch(openModal({ modal: 'wrongNetworkModal' }))
         return false
       } else if (initialized === false) {
         dispatch(setEnableAccount(false))
@@ -110,7 +110,7 @@ export const useWalletConnect = () => {
               }
             } else {
               resetConnectChain()
-              dispatch(openModal('walletSelectorModal'))
+              dispatch(openModal({ modal: 'walletSelectorModal' }))
             }
           }
         } catch (err) {
@@ -150,7 +150,7 @@ export const useWalletConnect = () => {
       if (DISABLE_WALLETCONNECT) {
         triggerInit()
       } else {
-        dispatch(openModal('walletSelectorModal'))
+        dispatch(openModal({ modal: 'walletSelectorModal' }))
       }
     }
   }, [dispatch, connectRequest, triggerInit])

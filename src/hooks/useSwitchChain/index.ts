@@ -79,7 +79,7 @@ const useSwitchChain = () => {
         }
       }
     } else {
-      dispatch(openModal('walletSelectorModal'))
+      dispatch(openModal({ modal: 'walletSelectorModal' }))
     }
   }
 

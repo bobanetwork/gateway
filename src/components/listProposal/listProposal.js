@@ -55,7 +55,7 @@ const ListProposal = ({ proposal }) => {
   }, [proposal])
 
   const onVote = (id) => {
-    dispatch(openModal('castVoteModal', null, null, null, null, id))
+    dispatch(openModal({modal: 'castVoteModal',proposalId: id}))
   }
 
   const doQueueProposal = async () => {
