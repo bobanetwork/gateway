@@ -23,6 +23,7 @@ interface IOpenModalProps {
   proposalId?: any
   selectionLayer?: any
   destNetworkSelection?: any
+  isNewTx?: Boolean
 }
 
 export const openModal =
@@ -31,6 +32,7 @@ export const openModal =
     proposalId,
     selectionLayer,
     destNetworkSelection,
+    isNewTx,
   }: IOpenModalProps): any =>
   (dispatch) =>
     dispatch({
@@ -39,6 +41,7 @@ export const openModal =
       proposalId,
       selectionLayer,
       destNetworkSelection,
+      isNewTx,
     })
 
 export const closeModal =

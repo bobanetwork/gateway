@@ -32,7 +32,7 @@ interface IUiReducerState {
   walletSelectorModal: boolean
   switchNetworkModal: boolean
   UnsupportedNetwork: boolean
-
+  isNewTx: boolean
   ledger: boolean
   alert?: string
   error?: string
@@ -61,7 +61,7 @@ const initialState: IUiReducerState = {
   walletSelectorModal: false,
   switchNetworkModal: false,
   UnsupportedNetwork: false,
-
+  isNewTx: false,
   ledger: false,
   alert: undefined,
   error: undefined,
@@ -86,6 +86,7 @@ const uiReducer = (state: IUiReducerState = initialState, action) => {
         proposalId: action.proposalId, // incase of vote on proposal
         selectionLayer: action.selectionLayer, // use incase of new chain/network picker.
         destNetworkSelection: action.destNetworkSelection,
+        isNewTx: action.isNewTx, // use to check the multi step withdrawal modal tx
       }
     case 'UI/MODAL/CLOSE':
       return { ...state, [action.payload]: false }

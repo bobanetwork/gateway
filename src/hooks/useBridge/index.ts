@@ -167,7 +167,7 @@ export const useBridge = () => {
   const triggerExit = async (amountWei: any) => {
     // As anchorage is release to mainnet & sepolia supports 2 step bridging.
     if (!!isAnchorageEnabled) {
-      dispatch(openModal({ modal: 'bridgeMultiStepWithdrawal' }))
+      dispatch(openModal({ modal: 'bridgeMultiStepWithdrawal', isNewTx: true }))
     } else {
       return dispatch(exitBOBA(token.address, amountWei))
     }

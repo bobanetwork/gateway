@@ -90,6 +90,8 @@ const ModalContainer = () => {
     selectModalState('bridgeMultiStepWithdrawal')
   )
 
+  const isNewTx = useSelector(selectModalState('isNewTx'))
+
   const bridgeInProgressModalState = useSelector(
     selectModalState('bridgeInProgress')
   )
@@ -163,7 +165,10 @@ const ModalContainer = () => {
       )}
 
       {!!bridgeMultiStepModalState && (
-        <MultiStepWithdrawalModal open={bridgeMultiStepModalState} />
+        <MultiStepWithdrawalModal
+          open={bridgeMultiStepModalState}
+          isNewTx={isNewTx}
+        />
       )}
 
       {!!bridgeInProgressModalState && (
