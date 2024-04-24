@@ -49,16 +49,11 @@ const Chains = (props: Props) => {
       sLayer = inputLayer === 'l1' ? 'l2' : 'l1'
     }
     dispatch(
-      openModal(
-        'networkPicker',
-        null,
-        null,
-        null,
-        null,
-        null,
-        sLayer,
-        destNetworkSelection
-      )
+      openModal({
+        modal: 'networkPicker',
+        selectionLayer: sLayer,
+        destNetworkSelection,
+      })
     )
   }
 

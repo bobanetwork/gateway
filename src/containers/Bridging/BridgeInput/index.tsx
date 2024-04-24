@@ -38,7 +38,7 @@ const BridgeInput: FC<Props> = (props) => {
   useBridgeSetup()
 
   const openTokenPicker = () => {
-    dispatch(openModal('tokenPicker'))
+    dispatch(openModal({ modal: 'tokenPicker' }))
   }
 
   if (!isAccountEnabled) {
