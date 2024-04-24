@@ -34,7 +34,7 @@ const BridgeHeader = () => {
     theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[100]
 
   const openSettingModal = () => {
-    dispatch(openModal('settingsModal'))
+    dispatch(openModal({ modal: 'settingsModal' }))
   }
 
   // TODO: update the copy when the anchorage bridge is enabled.

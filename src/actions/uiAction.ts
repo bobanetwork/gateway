@@ -18,25 +18,24 @@ export const setTheme =
   (dispatch) =>
     dispatch({ type: 'UI/THEME/UPDATE', payload: theme })
 
+interface IOpenModalProps {
+  modal?: string
+  proposalId?: any
+  selectionLayer?: any
+  destNetworkSelection?: any
+}
+
 export const openModal =
-  (
-    modal?,
-    token?,
-    fast?,
-    tokenIndex?,
-    lock?,
-    proposalId?,
-    selectionLayer?,
-    destNetworkSelection?
-  ): any =>
+  ({
+    modal,
+    proposalId,
+    selectionLayer,
+    destNetworkSelection,
+  }: IOpenModalProps): any =>
   (dispatch) =>
     dispatch({
       type: 'UI/MODAL/OPEN',
       payload: modal,
-      token,
-      fast,
-      tokenIndex,
-      lock,
       proposalId,
       selectionLayer,
       destNetworkSelection,

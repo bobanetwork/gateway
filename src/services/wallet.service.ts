@@ -93,7 +93,7 @@ export class WalletService {
         this.userTriggeredSwitchChain = false
         this.networkId = chainId
       } else {
-        store.dispatch(openModal('UnsupportedNetwork'))
+        store.dispatch(openModal({ modal: 'UnsupportedNetwork' }))
       }
     })
   }

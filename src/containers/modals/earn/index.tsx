@@ -104,7 +104,7 @@ const EarnWithdrawModal = ({ open }: EarnWithdrwaModalProps) => {
     )
 
     dispatch(closeModal('EarnWithdrawModal'))
-    dispatch(openModal('EarnWithdrawConfirmModal'))
+    dispatch(openModal({ modal: 'EarnWithdrawConfirmModal' }))
   }
 
   const setAmount = (userEnteredValue: any, userEnteredValueInWei: string) => {

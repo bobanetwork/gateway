@@ -150,7 +150,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           latestLogs
         ).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
-          dispatch(openModal('transactionSuccess'))
+          dispatch(openModal({ modal: 'transactionSuccess' }))
           setLoading(false)
         })
       } else {
@@ -166,7 +166,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             claimWithdrawal(networkService as MinimalNetworkService, logs).then(
               () => {
                 setActiveStep(6)
-                dispatch(openModal('transactionSuccess'))
+                dispatch(openModal({ modal: 'transactionSuccess' }))
                 dispatch(closeModal('bridgeMultiStepWithdrawal'))
                 setLoading(false)
               }

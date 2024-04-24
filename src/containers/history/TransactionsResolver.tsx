@@ -302,7 +302,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     switch (transaction.actionRequired.type) {
       case 'reenterWithdraw': {
         dispatch(setReenterWithdrawalConfig(transaction.actionRequired))
-        dispatch(openModal('bridgeMultiStepWithdrawal'))
+        dispatch(openModal({ modal: 'bridgeMultiStepWithdrawal' }))
       }
     }
   }

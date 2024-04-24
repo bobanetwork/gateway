@@ -29,7 +29,7 @@ const BridgeAction = () => {
 
   const onBridge = () => {
     if (!isBridgeActionDisabled()) {
-      dispatch(openModal('bridgeConfirmModal'))
+      dispatch(openModal({ modal: 'bridgeConfirmModal' }))
     }
   }
 
