@@ -30,8 +30,6 @@ import {
   dayNowUnix,
   isBeforeDate,
 } from 'util/dates'
-import { toWei_String } from 'util/amountConvert'
-import { parseUnits } from '@ethersproject/units'
 
 interface IVerticalStepperProps {
   handleClose: () => void
