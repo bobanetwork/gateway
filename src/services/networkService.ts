@@ -42,6 +42,7 @@ import {
   CHAIN_ID_LIST,
   getNetworkDetail,
   getRpcUrl,
+  getRpcUrlByChainId,
   Network,
   networkLimitedAvailability,
   NetworkType,
@@ -2007,6 +2008,7 @@ class NetworkService {
   // FIXME: move this to separate service of earn.
   /***********************************************/
   /*****           Get Reward                *****/
+
   /***********************************************/
   async getReward(
     currencyAddress,
@@ -2143,6 +2145,24 @@ class NetworkService {
     const provider = new ethers.providers.StaticJsonRpcProvider(rpc)
 
     return this.LightBridge!.attach(lightBridgeAddr).connect(provider)
+  }
+
+  async getNativeDisburserBalance(destChainId, token) {
+    // not just simply L2/L1 as also L2<>L2 supported, ..
+    const destProvider = new ethers.providers.StaticJsonRpcProvider(
+      getRpcUrlByChainId(destChainId)
+    )
+    const isNative =
+      token === ethers.constants.AddressZero ||
+      token === this.addresses.L2_ETH_Address
+
+    const disburserAddr =
+      await this.getLightBridgeContract(destChainId)?.disburser()
+    if (!disburserAddr || !isNative) {
+      return
+    }
+    // TODO: Add token support later on (proper token mapping, avoid code duplication & maintenance overhead)
+    return destProvider.getBalance(disburserAddr)
   }
 
   async isTeleportationOfAssetSupported(layer, token, destChainId) {
