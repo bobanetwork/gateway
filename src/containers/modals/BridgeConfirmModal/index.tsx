@@ -131,7 +131,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
           <ConfirmLabel>Amount to bridge</ConfirmLabel>
           <ConfirmValue>
             {amountToBridge} {token.symbol} ($
-            {amountToUsd(amountToBridge, lookupPrice, token).toFixed(2)})
+            {amountToUsd(amountToBridge, lookupPrice, token).toFixed(4)})
           </ConfirmValue>
         </Item>
         <Item>

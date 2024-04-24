@@ -24,7 +24,12 @@ import {
   StepContainer,
 } from './index.styles'
 import { L2StandardERC20ABI } from '../../../services/abi'
-import { addDaysToDate, addHoursToDate, isBeforeDate } from 'util/dates'
+import {
+  addDaysToDate,
+  addHoursToDate,
+  dayNowUnix,
+  isBeforeDate,
+} from 'util/dates'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -41,6 +46,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const [latestLogs, setLatestLogs] = useState<null | []>(null)
   const [activeStep, setActiveStep] = React.useState(0)
   const [loading, setLoading] = useState(false)
+  const [txInitTime, setTxInitTime] = useState<null | Number>(null)
 
   useEffect(() => {
     if (props.reenterWithdrawConfig) {
@@ -55,13 +61,20 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   }
 
   const isButtonDisabled = () => {
-    if (activeStep === 3 && props.reenterWithdrawConfig) {
-      // can prove only if tx intiated 1 day before
-      const txWith1Hour = addHoursToDate(
-        props.reenterWithdrawConfig.timeStamp,
-        1
-      )
-      return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
+    if (activeStep === 3) {
+      if (txInitTime) {
+        // can prove only if tx intiated 1 hour before
+        const txWith1Hour = addHoursToDate(txInitTime, 1)
+        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
+      } else if (props.reenterWithdrawConfig) {
+        // can prove only if tx intiated 1 hour before
+        const txWith1Hour = addHoursToDate(
+          props.reenterWithdrawConfig.timeStamp,
+          1
+        )
+        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
+      }
+      return true
     } else if (activeStep === 5) {
       // can claim only if tx intiated 7 day before
       const txWith7Day = addDaysToDate(props.reenterWithdrawConfig.timeStamp, 7)
@@ -91,6 +104,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           return
         }
         setActiveStep(2)
+        setTxInitTime(dayNowUnix())
         setWithdrawalConfig({
           blockNumber: res,
         })
