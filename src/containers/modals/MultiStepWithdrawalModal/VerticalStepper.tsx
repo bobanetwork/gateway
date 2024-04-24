@@ -30,11 +30,13 @@ import {
   dayNowUnix,
   isBeforeDate,
 } from 'util/dates'
+import { toWei_String } from 'util/amountConvert'
+import { parseUnits } from '@ethersproject/units'
 
 interface IVerticalStepperProps {
   handleClose: () => void
   token?: any
-  amountToBridge?: number
+  amountToBridge: number
   reenterWithdrawConfig?: any
 }
 
@@ -89,10 +91,22 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     const isNativeWithdrawal =
       props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
     selectModalState('transactionSuccess')
+    console.log(
+      `usdt amount`,
+      toWei_String(props.amountToBridge, props.token.decimals)
+    )
+    console.log(
+      `usdt amount p`,
+      parseUnits(props.amountToBridge.toString(), props.token.decimals)
+    )
+    const value = parseUnits(
+      props.amountToBridge.toString(),
+      props.token.decimals
+    )
     handleInitiateWithdrawal(
       networkService as MinimalNetworkService,
       L2StandardERC20ABI,
-      ethers.utils.parseEther(props.amountToBridge!.toString()).toString(),
+      value.toString(),
       isNativeWithdrawal ? null : props.token
     )
       .then((res) => {
