@@ -148,8 +148,10 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
       const isSupported = await dispatch(
         isTeleportationOfAssetSupported(layer, token.address, destChainId)
       )
+      const sourceChainId = NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
+        .chainId[layer]
       const disburserBalance = await dispatch(
-        getDisburserBalance(layer, token.address)
+        getDisburserBalance(sourceChainId, destChainId, token.address)
       )
       dispatch(setTeleportationOfAssetSupported(isSupported))
       dispatch(setTeleportationDisburserBalance(disburserBalance))
