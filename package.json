@@ -1,6 +1,6 @@
 {
   "name": "@bobanetwork/gateway",
-  "version": "0.14.6",
+  "version": "0.14.7",
   "private": true,
   "scripts": {
     "audit-check": "audit-ci --moderate",
@@ -35,7 +35,7 @@
     "@apollo/client": "^3.5.10",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@bobanetwork/graphql-utils": "^1.1.9",
-    "@bobanetwork/light-bridge-chains": "^1.0.9",
+    "@bobanetwork/light-bridge-chains": "^1.1.0",
     "@bobanetwork/register": "^0.0.25",
     "@bobanetwork/sdk": "1.0.7",
     "@cfx-kit/wallet-avatar": "^0.0.5",

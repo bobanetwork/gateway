@@ -33,7 +33,7 @@ import { LAYER } from 'util/constant'
 import BN from 'bignumber.js'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { Network } from 'util/network/network.util'
-import { BigNumber, BigNumberish, ethers } from 'ethers'
+import { BigNumber, BigNumberish, ethers, utils } from 'ethers'
 import { formatEther } from '@ethersproject/units'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
@@ -71,9 +71,9 @@ const useBridgeAlerts = () => {
   const activeNetwork = useSelector(selectActiveNetwork())
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
     useSelector(selectIsTeleportationOfAssetSupported())
-  const disburserBalance: BigNumber | undefined = useSelector(
+  const disburserBalance: string | undefined = useSelector(
     selectTeleportationDisburserBalance()
-  )
+  )?.toString()
 
   const { isActiveNetworkBnb } = useNetworkInfo()
   // fast input layer 1
@@ -127,7 +127,10 @@ const useBridgeAlerts = () => {
           })
         )
 
-        if (disburserBalance && disburserBalance.lt(amountToBridge)) {
+        if (
+          disburserBalance !== undefined &&
+          BigNumber.from(disburserBalance).lt(amountToBridge)
+        ) {
           dispatch(
             setBridgeAlert({
               meta: ALERT_KEYS.TELEPORTATION_DISBURSER_OUT_OF_FUNDS,
@@ -193,7 +196,7 @@ const useBridgeAlerts = () => {
             setBridgeAlert({
               meta: ALERT_KEYS.MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED,
               type: 'error',
-              text: `Your chosen amount exceeds the daily limit. Maximum remaining amount for this asset is: ${allowedAmount}`,
+              text: `Your chosen amount exceeds the daily limit. Maximum remaining amount for this asset is: ${utils.formatEther(allowedAmount)}`,
             })
           )
         }
