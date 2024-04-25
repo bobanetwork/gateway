@@ -64,7 +64,12 @@ const Bridging = () => {
             state={reenterWithdrawConfig?.state}
             onReenterWithdrawal={() => {
               dispatch(setReenterWithdrawalConfig(reenterWithdrawConfig))
-              dispatch(openModal('bridgeMultiStepWithdrawal'))
+              dispatch(
+                openModal({
+                  modal: 'bridgeMultiStepWithdrawal',
+                  isNewTx: false,
+                })
+              )
             }}
           />
         )}

@@ -19,7 +19,7 @@ const NoMetaMaskModal: React.FC<ModalInterface> = ({ open }) => {
 
   const handleAddMetaMask = () => {
     window.open(MM_EXTENTION_URL, '_blank')
-    dispatch(openModal('installMetaMaskModal'))
+    dispatch(openModal({ modal: 'installMetaMaskModal' }))
     handleClose()
   }
 

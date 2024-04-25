@@ -120,7 +120,7 @@ const OldDao = () => {
         )
       )
     } else {
-      dispatch(openModal('newProposalModal'))
+      dispatch(openModal({modal: 'newProposalModal'}))
     }
   }
 
@@ -176,7 +176,7 @@ const OldDao = () => {
             <S.DaoWalletAction>
               <Button
                 onClick={() => {
-                  dispatch(openModal('delegateDaoModal'))
+                  dispatch(openModal({modal: 'delegateDaoModal'}))
                 }}
                 disabled={!(Number(balance) + Number(balanceX))}
                 label="Delegate Vote"

@@ -70,6 +70,13 @@ export const setTeleportationOfAssetSupported =
       payload,
     })
 
+export const setTeleportationDisburserBalance =
+  (payload: string) => (dispatch) =>
+    dispatch({
+      type: 'BRIDGE/TELEPORTER/DISBURSER_BALANCE',
+      payload,
+    })
+
 export const setTeleportationDestChainId =
   (payload: BigNumberish) => (dispatch) =>
     dispatch({

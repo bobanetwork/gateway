@@ -41,6 +41,7 @@ import {
   CHAIN_ID_LIST,
   getNetworkDetail,
   getRpcUrl,
+  getRpcUrlByChainId,
   Network,
   networkLimitedAvailability,
   NetworkType,
@@ -78,6 +79,7 @@ import {
   TxPayload,
 } from '../util/network/config/network-details.types'
 import { LiquidityPoolLayer } from 'types/earn.types'
+import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -1907,6 +1909,7 @@ class NetworkService {
 
   /***********************************************/
   /*****           Get Reward                *****/
+
   /***********************************************/
   async getReward(
     currencyAddress,
@@ -2008,6 +2011,34 @@ class NetworkService {
     const provider = new ethers.providers.StaticJsonRpcProvider(rpc)
 
     return this.LightBridge!.attach(lightBridgeAddr).connect(provider)
+  }
+
+  async getDisburserBalance(sourceChainId, destChainId, token) {
+    // not just simply L2/L1 as also L2<>L2 supported, ..
+    const destProvider = new ethers.providers.StaticJsonRpcProvider(
+      getRpcUrlByChainId(destChainId)
+    )
+    const destTokenAddr = getDestinationTokenAddress(
+      token,
+      sourceChainId,
+      destChainId
+    )
+    const isNative =
+      destTokenAddr === ethers.constants.AddressZero ||
+      destTokenAddr === this.addresses.L2_ETH_Address
+
+    const disburserAddr =
+      await this.getLightBridgeContract(destChainId)?.disburser()
+    if (!disburserAddr) {
+      return
+    }
+    if (isNative) {
+      return destProvider.getBalance(disburserAddr)
+    } else {
+      const destToken =
+        this.L1_TEST_Contract!.attach(destTokenAddr).connect(destProvider)
+      return destToken.balanceOf(disburserAddr)
+    }
   }
 
   async isTeleportationOfAssetSupported(layer, token, destChainId) {

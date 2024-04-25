@@ -34,7 +34,7 @@ import {
 interface IVerticalStepperProps {
   handleClose: () => void
   token?: any
-  amountToBridge?: number
+  amountToBridge: number
   reenterWithdrawConfig?: any
 }
 
@@ -92,7 +92,9 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     handleInitiateWithdrawal(
       networkService as MinimalNetworkService,
       L2StandardERC20ABI,
-      ethers.utils.parseEther(props.amountToBridge!.toString()).toString(),
+      ethers.utils
+        .parseUnits(props.amountToBridge!.toString(), props.token.decimals)
+        .toString(),
       isNativeWithdrawal ? null : props.token
     )
       .then((res) => {
@@ -148,7 +150,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           latestLogs
         ).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
-          dispatch(openModal('transactionSuccess'))
+          dispatch(openModal({ modal: 'transactionSuccess' }))
           setLoading(false)
         })
       } else {
@@ -164,7 +166,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             claimWithdrawal(networkService as MinimalNetworkService, logs).then(
               () => {
                 setActiveStep(6)
-                dispatch(openModal('transactionSuccess'))
+                dispatch(openModal({ modal: 'transactionSuccess' }))
                 dispatch(closeModal('bridgeMultiStepWithdrawal'))
                 setLoading(false)
               }

@@ -17,8 +17,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEqual } from 'util/lodash'
 
-import { useTheme } from 'styled-components'
-
 import { Button } from 'components/global'
 
 import {
@@ -92,8 +90,6 @@ const History = () => {
     networkType,
     network
   )
-
-  const theme: any = useTheme()
 
   const dispatch = useDispatch<any>()
 

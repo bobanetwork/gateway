@@ -29,10 +29,11 @@ import { utils } from 'ethers'
 import { TokenInfo } from 'containers/history/tokenInfo'
 
 interface Props {
-  open: boolean
+  open: Boolean
+  isNewTx: Boolean
 }
 
-export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
+export const MultiStepWithdrawalModal: FC<Props> = ({ open, isNewTx }) => {
   const withdrawalConfig = useSelector(selectReenterWithdrawalConfig())
   const dispatch = useDispatch<any>()
   const _token = useSelector(selectTokenToBridge()) // is undefined on network change
@@ -54,16 +55,18 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
       setAmountToBridge(_amountToBridge)
     }
 
-    if (withdrawalConfig && withdrawalConfig.amount) {
+    if (!isNewTx && withdrawalConfig && withdrawalConfig.amount) {
       const token =
         TokenInfo[withdrawalConfig.originChainId.toString()]?.[
           withdrawalConfig.token?.toLowerCase()
         ]
-      const amount = withdrawalConfig.amount
-      setAmountToBridge(utils.formatEther(amount))
+      const amount = utils
+        .formatUnits(withdrawalConfig.amount, token.decimals)
+        .toString()
+      setAmountToBridge(amount)
       setToken({ ...token, address: withdrawalConfig.token })
     }
-  }, [_token, _amountToBridge, withdrawalConfig])
+  }, [_token, _amountToBridge, withdrawalConfig, isNewTx])
 
   const handleClose = () => {
     dispatch(setReenterWithdrawalConfig(null))
@@ -104,7 +107,7 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open }) => {
         <Separator />
 
         <VerticalStepper
-          reenterWithdrawConfig={withdrawalConfig}
+          reenterWithdrawConfig={isNewTx ? null : withdrawalConfig}
           handleClose={handleClose}
           token={token}
           amountToBridge={amountToBridge}

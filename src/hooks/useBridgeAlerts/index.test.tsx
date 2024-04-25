@@ -99,6 +99,7 @@ describe('useBridgeAlerts', () => {
           'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
           'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
           'MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED',
+          'TELEPORTATION_DISBURSER_OUT_OF_FUNDS',
         ],
       },
       type: 'BRIDGE/ALERT/CLEAR',

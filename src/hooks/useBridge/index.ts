@@ -141,7 +141,7 @@ export const useBridge = () => {
   const triggerExit = async (amountWei: any) => {
     // As anchorage is release to mainnet & sepolia supports 2 step bridging.
     if (!!isAnchorageEnabled) {
-      dispatch(openModal('bridgeMultiStepWithdrawal'))
+      dispatch(openModal({ modal: 'bridgeMultiStepWithdrawal', isNewTx: true }))
     } else {
       return dispatch(exitBOBA(token.address, amountWei))
     }
@@ -151,7 +151,7 @@ export const useBridge = () => {
     const amountWei = toWei_String(amountToBridge, token.decimals)
 
     let receipt
-    dispatch(openModal('bridgeInProgress'))
+    dispatch(openModal({ modal: 'bridgeInProgress' }))
     if (layer === LAYER.L1) {
       if (bridgeType === BRIDGE_TYPE.CLASSIC) {
         receipt = await triggerDeposit(amountWei)
@@ -168,7 +168,7 @@ export const useBridge = () => {
     }
     dispatch(closeModal('bridgeInProgress'))
     if (receipt) {
-      dispatch(openModal('transactionSuccess'))
+      dispatch(openModal({ modal: 'transactionSuccess' }))
       dispatch(resetToken())
       dispatch(purgeBridgeAlert())
       dispatch(resetBridgeAmount())

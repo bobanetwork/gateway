@@ -126,7 +126,7 @@ const EarnListItem = ({
         decimals: poolInfo.decimals,
       })
     )
-    dispatch(openModal('EarnWithdrawModal'))
+    dispatch(openModal({ modal: 'EarnWithdrawModal' }))
   }
 
   let enableReward = false

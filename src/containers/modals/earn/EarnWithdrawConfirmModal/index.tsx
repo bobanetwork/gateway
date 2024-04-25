@@ -54,7 +54,7 @@ const EarnWithdrawConfirmModal = ({ open }: EarnWithdrawConfirmModalProps) => {
     )
 
     if (withdrawLiquidityTX) {
-      dispatch(openModal('EarnWithdrawModalSuccess'))
+      dispatch(openModal({ modal: 'EarnWithdrawModalSuccess' }))
       dispatch(getEarnInfo())
     } else {
       dispatch(openError(`Failed to withdraw ${withdrawPayload.symbol}`))

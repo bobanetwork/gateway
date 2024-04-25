@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from 'react'
 import {
   setTeleportationOfAssetSupported,
+  setTeleportationDisburserBalance,
   updateToken,
 } from 'actions/bridgeAction'
 import {
   fetchBalances,
+  getDisburserBalance,
   isTeleportationOfAssetSupported,
 } from 'actions/networkAction'
 import { closeModal } from 'actions/uiAction'
@@ -146,7 +148,14 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
       const isSupported = await dispatch(
         isTeleportationOfAssetSupported(layer, token.address, destChainId)
       )
+      const sourceChainId = NetworkList[activeNetworkType].find(
+        (n) => n.chain === activeNetwork
+      ).chainId[layer]
+      const disburserBalance = await dispatch(
+        getDisburserBalance(sourceChainId, destChainId, token.address)
+      )
       dispatch(setTeleportationOfAssetSupported(isSupported))
+      dispatch(setTeleportationDisburserBalance(disburserBalance))
     }
     handleClose()
   }

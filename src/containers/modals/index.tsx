@@ -4,6 +4,7 @@ import { selectModalState } from 'selectors'
 import CastVoteModal from './DaoModals/CastVoteModal'
 import NewProposalModal from './DaoModals/NewProposalModal'
 import DelegateDaoModal from './DaoModals/DelegateDaoModal'
+
 import EarnWithdrawModal from './earn'
 import EarnWithdrawConfirmModal from './earn/EarnWithdrawConfirmModal'
 import EarnWithdrawModalSuccessModal from './earn/EarnWithdrawSuccess'
@@ -56,7 +57,6 @@ const ModalContainer = () => {
     selectModalState('switchNetworkModal')
   )
   const SettingsModalState = useSelector(selectModalState('settingsModal'))
-
   const tokenIndex = useSelector(selectModalState('tokenIndex'))
   const proposalId = useSelector(selectModalState('proposalId'))
   const destNetworkSelection = useSelector(
@@ -89,6 +89,8 @@ const ModalContainer = () => {
   const bridgeMultiStepModalState = useSelector(
     selectModalState('bridgeMultiStepWithdrawal')
   )
+
+  const isNewTx = useSelector(selectModalState('isNewTx'))
 
   const bridgeInProgressModalState = useSelector(
     selectModalState('bridgeInProgress')
@@ -163,7 +165,10 @@ const ModalContainer = () => {
       )}
 
       {!!bridgeMultiStepModalState && (
-        <MultiStepWithdrawalModal open={bridgeMultiStepModalState} />
+        <MultiStepWithdrawalModal
+          open={bridgeMultiStepModalState}
+          isNewTx={isNewTx}
+        />
       )}
 
       {!!bridgeInProgressModalState && (
