@@ -71,9 +71,9 @@ const useBridgeAlerts = () => {
   const activeNetwork = useSelector(selectActiveNetwork())
   const tokenForTeleportationSupported: ITeleportationTokenSupport =
     useSelector(selectIsTeleportationOfAssetSupported())
-  const disburserBalance: BigNumber | undefined = useSelector(
+  const disburserBalance: string | undefined = useSelector(
     selectTeleportationDisburserBalance()
-  )
+  )?.toString()
 
   const { isActiveNetworkBnb } = useNetworkInfo()
   // fast input layer 1
@@ -127,7 +127,8 @@ const useBridgeAlerts = () => {
           })
         )
 
-        if (disburserBalance && disburserBalance.lt(amountToBridge)) {
+        console.log("DISBBBBBBBB", disburserBalance, amountToBridge, disburserBalance !== undefined && BigNumber.from(disburserBalance).lt(amountToBridge))
+        if (disburserBalance !== undefined && BigNumber.from(disburserBalance).lt(amountToBridge)) {
           dispatch(
             setBridgeAlert({
               meta: ALERT_KEYS.TELEPORTATION_DISBURSER_OUT_OF_FUNDS,

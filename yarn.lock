@@ -1278,10 +1278,10 @@
     node-fetch "^2.6.1"
     ts-jest "^29.1.2"
 
-"@bobanetwork/light-bridge-chains@^1.0.9":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@bobanetwork/light-bridge-chains/-/light-bridge-chains-1.0.12.tgz#1ce53fe1f0d9294104b948ff43bc6adfb7f1a4e9"
-  integrity sha512-HKQ1be6hYp7FrZhas1ntrEvIuJjqWGT6YxfFxzDX/F4VyUzrCXp+++G8PSfp1VbAk3apQSfS5ndlpEx9/DJD8Q==
+"@bobanetwork/light-bridge-chains@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/light-bridge-chains/-/light-bridge-chains-1.1.0.tgz#511b860bc25a5cea6b7c112503e15322cd47577f"
+  integrity sha512-YQ/WNTT2g11q8KLSHd+9IGvIYA8XJGhZtmQqilftOWeOkPzhd1rYU8xEe9PCOCqRIzBfZGqVTwUoDyl+lQlA0A==
   dependencies:
     dotenv "^8.6.0"
     ethers "^5.5.4"
