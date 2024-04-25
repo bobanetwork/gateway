@@ -2153,7 +2153,11 @@ class NetworkService {
     const destProvider = new ethers.providers.StaticJsonRpcProvider(
       getRpcUrlByChainId(destChainId)
     )
-    const destTokenAddr = getDestinationTokenAddress(token, sourceChainId, destChainId)
+    const destTokenAddr = getDestinationTokenAddress(
+      token,
+      sourceChainId,
+      destChainId
+    )
     const isNative =
       destTokenAddr === ethers.constants.AddressZero ||
       destTokenAddr === this.addresses.L2_ETH_Address
@@ -2166,7 +2170,8 @@ class NetworkService {
     if (isNative) {
       return destProvider.getBalance(disburserAddr)
     } else {
-      const destToken = this.L1_TEST_Contract!.attach(destTokenAddr).connect(destProvider)
+      const destToken =
+        this.L1_TEST_Contract!.attach(destTokenAddr).connect(destProvider)
       return destToken.balanceOf(disburserAddr)
     }
   }
