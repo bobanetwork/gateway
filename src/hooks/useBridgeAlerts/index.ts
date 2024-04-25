@@ -127,13 +127,6 @@ const useBridgeAlerts = () => {
           })
         )
 
-        console.log(
-          'DISBBBBBBBB',
-          disburserBalance,
-          amountToBridge,
-          disburserBalance !== undefined &&
-            BigNumber.from(disburserBalance).lt(amountToBridge)
-        )
         if (
           disburserBalance !== undefined &&
           BigNumber.from(disburserBalance).lt(amountToBridge)
