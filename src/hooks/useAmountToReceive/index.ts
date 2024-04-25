@@ -69,7 +69,7 @@ export const useAmountToReceive = () => {
       } else if (bridgeType === BRIDGE_TYPE.LIGHT && isLightBridgeExitToL1) {
         // lightbridge exit fee to L1 only
         const value = Number(amount) * ((100 - Number(l1LightBridgeFeeRateN)) / 100)
-        setAmountToReceive(value.toFixed(3))
+        setAmountToReceive(value.toFixed(4))
       } else {
         // Teleportation, no fees as of now
         setAmountToReceive(amount)
