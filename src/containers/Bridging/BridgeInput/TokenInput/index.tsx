@@ -60,10 +60,7 @@ const TokenInput = (props: Props) => {
       bridgeType !== BRIDGE_TYPE.LIGHT &&
       !!isActiveNetworkBnb
     ) {
-      let cost = classicExitCost || 0
-      if (bridgeType === BRIDGE_TYPE.FAST) {
-        cost = fastExitCost || 0
-      }
+      const cost = classicExitCost || 0
 
       const safeCost = Number(cost) * 1.04 // 1.04 == safety margin on cost
       if (token.symbol === networkService.L1NativeTokenSymbol) {
