@@ -51,7 +51,11 @@ export const isTeleportationOfAssetSupported = (
     networkService.isTeleportationOfAssetSupported(layer, asset, destChainId)
   )
 
-export const getDisburserBalance = (sourceChainId: string, destChainId: string, asset: string) =>
+export const getDisburserBalance = (
+  sourceChainId: string,
+  destChainId: string,
+  asset: string
+) =>
   createAction('DEPOSIT/TELEPORTATION/DISBURSER_BALANCE', () =>
     networkService.getDisburserBalance(sourceChainId, destChainId, asset)
   )

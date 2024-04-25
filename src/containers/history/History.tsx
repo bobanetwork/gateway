@@ -16,13 +16,9 @@ limitations under the License. */
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEqual } from 'util/lodash'
-import { ValidValuesFromArray } from 'util/objectManipulation'
-
-import { useTheme } from 'styled-components'
 
 import { Button } from 'components/global'
 
-import transactionService from 'services/transaction.service'
 import {
   Network,
   NetworkType,
@@ -93,8 +89,6 @@ const History = () => {
     networkType,
     network
   )
-
-  const theme: any = useTheme()
 
   const dispatch = useDispatch<any>()
 

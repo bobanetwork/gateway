@@ -127,8 +127,10 @@ const useBridgeAlerts = () => {
           })
         )
 
-        console.log("DISBBBBBBBB", disburserBalance, amountToBridge, disburserBalance !== undefined && BigNumber.from(disburserBalance).lt(amountToBridge))
-        if (disburserBalance !== undefined && BigNumber.from(disburserBalance).lt(amountToBridge)) {
+        if (
+          disburserBalance !== undefined &&
+          BigNumber.from(disburserBalance).lt(amountToBridge)
+        ) {
           dispatch(
             setBridgeAlert({
               meta: ALERT_KEYS.TELEPORTATION_DISBURSER_OUT_OF_FUNDS,
