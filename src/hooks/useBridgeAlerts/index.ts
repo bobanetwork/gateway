@@ -98,7 +98,10 @@ const useBridgeAlerts = () => {
     amountToBridge = Number(amountToBridge)
 
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
-      if (!tokenForTeleportationSupported.supported) {
+      if (
+        !tokenForTeleportationSupported.supported &&
+        typeof token !== 'undefined'
+      ) {
         dispatch(
           clearBridgeAlert({
             keys: [
@@ -126,10 +129,14 @@ const useBridgeAlerts = () => {
             ],
           })
         )
-
         if (
-          disburserBalance !== undefined &&
-          BigNumber.from(disburserBalance).lt(amountToBridge)
+          typeof disburserBalance !== 'undefined' &&
+          BigNumber.from(disburserBalance).lt(
+            ethers.utils.parseUnits(
+              amountToBridge.toString(),
+              typeof token === 'undefined' ? 18 : token.decimals
+            )
+          )
         ) {
           dispatch(
             setBridgeAlert({
