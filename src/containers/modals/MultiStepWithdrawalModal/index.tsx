@@ -25,7 +25,7 @@ import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK } from 'util/constant'
 import { VerticalStepper } from './VerticalStepper'
 import { setReenterWithdrawalConfig } from '../../../actions/bridgeAction'
-import { utils } from 'ethers'
+import { constants, utils } from 'ethers'
 import { TokenInfo } from 'containers/history/tokenInfo'
 
 interface Props {
@@ -56,10 +56,15 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open, isNewTx }) => {
     }
 
     if (!isNewTx && withdrawalConfig && withdrawalConfig.amount) {
+      let withdrawalToken = withdrawalConfig.token?.toLowerCase()
+      if (
+        withdrawalToken === '0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000' &&
+        Number(withdrawalConfig.timeStamp) < 1714546800
+      ) {
+        withdrawalToken = '0x4200000000000000000000000000000000000006'
+      }
       const token =
-        TokenInfo[withdrawalConfig.originChainId.toString()]?.[
-          withdrawalConfig.token?.toLowerCase()
-        ]
+        TokenInfo[withdrawalConfig.originChainId.toString()]?.[withdrawalToken]
       const amount = utils
         .formatUnits(withdrawalConfig.amount, token.decimals)
         .toString()
