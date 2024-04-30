@@ -25,7 +25,6 @@ import BN from 'bignumber.js'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { Network } from 'util/network/network.util'
 import { BigNumber, BigNumberish, ethers, utils } from 'ethers'
-import { formatEther } from '@ethersproject/units'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 enum ALERT_KEYS {
@@ -35,7 +34,7 @@ enum ALERT_KEYS {
   VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT = 'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
   VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT = 'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
   MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED = 'MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED',
-  FAST_EXIT_ERROR = 'FAST_EXIT_ERROR',
+  EXIT_ERROR = 'EXIT_ERROR',
   FAST_DEPOSIT_ERROR = 'FAST_DEPOSIT_ERROR',
   DEPRECATION_WARNING = 'DEPRECATION_WARNING',
   TELEPORTATION_ASSET_NOT_SUPPORTED = 'TELEPORTER_ASSET_NOT_SUPPORTED',
@@ -300,7 +299,7 @@ const useBridgeAlerts = () => {
 
     dispatch(
       clearBridgeAlert({
-        keys: [ALERT_KEYS.FAST_EXIT_ERROR],
+        keys: [ALERT_KEYS.EXIT_ERROR],
       })
     )
     if (
@@ -345,7 +344,7 @@ const useBridgeAlerts = () => {
       if (warning) {
         dispatch(
           setBridgeAlert({
-            meta: ALERT_KEYS.FAST_EXIT_ERROR,
+            meta: ALERT_KEYS.EXIT_ERROR,
             type: 'error',
             text: warning,
           })
