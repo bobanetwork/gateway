@@ -9,8 +9,6 @@ import {
   selectExitFee,
   selectFastDepositCost,
   selectFastExitCost,
-  selectL1FeeRateN,
-  selectL2FeeRateN,
   selectLayer,
 } from 'selectors'
 import { useSelector } from 'react-redux'
@@ -21,17 +19,12 @@ import networkService from 'services/networkService'
 import { useTheme } from 'styled-components'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
-interface Props {}
-
-const Fee = (props: Props) => {
+const Fee = () => {
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())
-  const l2FeeRateN = useSelector(selectL2FeeRateN)
   const theme: any = useTheme()
   const depositFee = useSelector(selectFastDepositCost)
 
-  // required on L2 layer
-  const l1FeeRateN = useSelector(selectL1FeeRateN)
   const classicExitCost = useSelector(selectClassicExitCost)
   const fastExitCost = useSelector(selectFastExitCost)
   const feeUseBoba = useSelector(selectBobaFeeChoice())
@@ -40,7 +33,7 @@ const Fee = (props: Props) => {
 
   const { isAnchorageEnabled, isActiveNetworkBnb } = useNetworkInfo()
 
-  const { amount: amountToReceive } = useAmountToReceive()
+  const { amount: amountToReceive, lightBridgeExitFee } = useAmountToReceive()
 
   const [gasFee, setGasFee] = useState('')
 
@@ -108,6 +101,12 @@ const Fee = (props: Props) => {
           <Label>{gasFee}</Label>
         </InfoRow>
       )}
+      {bridgeType === BRIDGE_TYPE.LIGHT && layer === LAYER.L2 ? (
+        <InfoRow>
+          <Label>Bridge fee</Label>
+          <Label>{lightBridgeExitFee}</Label>
+        </InfoRow>
+      ) : null}
       {isActiveNetworkBnb &&
       layer === LAYER.L2 &&
       bridgeType !== BRIDGE_TYPE.LIGHT ? (

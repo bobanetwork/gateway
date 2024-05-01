@@ -25,7 +25,7 @@ import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK } from 'util/constant'
 import { VerticalStepper } from './VerticalStepper'
 import { setReenterWithdrawalConfig } from '../../../actions/bridgeAction'
-import { constants, utils } from 'ethers'
+import { utils } from 'ethers'
 import { TokenInfo } from 'containers/history/tokenInfo'
 
 interface Props {
