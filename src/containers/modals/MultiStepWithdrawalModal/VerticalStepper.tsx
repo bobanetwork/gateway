@@ -24,12 +24,7 @@ import {
   StepContainer,
 } from './index.styles'
 import { L2StandardERC20ABI } from '../../../services/abi'
-import {
-  addDaysToDate,
-  addHoursToDate,
-  dayNowUnix,
-  isBeforeDate,
-} from 'util/dates'
+import { addDaysToDate, isBeforeDate } from 'util/dates'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -46,7 +41,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const [latestLogs, setLatestLogs] = useState<null | []>(null)
   const [activeStep, setActiveStep] = React.useState(0)
   const [loading, setLoading] = useState(false)
-  const [txInitTime, setTxInitTime] = useState<null | Number>(null)
+  const [canProoveTx, setCanProoveTx] = useState(false)
 
   useEffect(() => {
     if (props.reenterWithdrawConfig) {
@@ -56,25 +51,45 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     }
   }, [layer])
 
+  useEffect(() => {
+    let isMounted = true // Flag to track component mount state
+
+    const checkAndEnableButton = async () => {
+      if (activeStep === 3 && withdrawalConfig?.blockNumber) {
+        try {
+          let latestBlockOnL1
+          do {
+            latestBlockOnL1 =
+              await networkService?.L2OutputOracle?.latestBlockNumber()
+            await new Promise((resolve) => setTimeout(resolve, 12000))
+          } while (
+            isMounted &&
+            Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
+          )
+          if (isMounted) {
+            setCanProoveTx(true)
+          }
+        } catch (error) {
+          console.log(`Error while checking blocknumber`, error)
+        }
+      }
+    }
+    if (withdrawalConfig && activeStep === 3) {
+      checkAndEnableButton()
+    }
+
+    return () => {
+      isMounted = false // Update mount state on unmount
+    }
+  }, [activeStep])
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
   const isButtonDisabled = () => {
     if (activeStep === 3) {
-      if (txInitTime) {
-        // can prove only if tx intiated 1 hour before
-        const txWith1Hour = addHoursToDate(txInitTime, 1)
-        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
-      } else if (props.reenterWithdrawConfig) {
-        // can prove only if tx intiated 1 hour before
-        const txWith1Hour = addHoursToDate(
-          props.reenterWithdrawConfig.timeStamp,
-          1
-        )
-        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
-      }
-      return true
+      return !canProoveTx
     } else if (activeStep === 5) {
       // can claim only if tx intiated 7 day before
       const txWith7Day = addDaysToDate(props.reenterWithdrawConfig.timeStamp, 7)
@@ -106,7 +121,6 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           return
         }
         setActiveStep(2)
-        setTxInitTime(dayNowUnix())
         setWithdrawalConfig({
           blockNumber: res,
         })
