@@ -10,12 +10,13 @@ import {
   selectActiveNetwork,
   selectActiveNetworkType,
   selectVerifierStatus,
+  selectLayer,
 } from 'selectors'
 import networkService from 'services/networkService'
 import { Network, NetworkType } from 'util/network/network.util'
 import { fetchGasDetail } from 'services/gas.service'
 import useInterval from './useInterval'
-import { GAS_POLL_INTERVAL } from 'util/constant'
+import { GAS_POLL_INTERVAL, LAYER } from 'util/constant'
 
 /**
  *
@@ -42,6 +43,7 @@ const useGasWatcher = () => {
   const networkName = useSelector(selectActiveNetworkName())
   const activeNetwork = useSelector(selectActiveNetwork())
   const activeNetworkType = useSelector(selectActiveNetworkType())
+  const layer = useSelector(selectLayer())
 
   const loadGasDetail = useCallback(() => {
     if (baseEnabled) {
@@ -52,14 +54,14 @@ const useGasWatcher = () => {
 
       fetchGas()
       if (activeNetworkType === NetworkType.MAINNET) {
-        if (activeNetwork === Network.ETHEREUM) {
+        if (activeNetwork === Network.ETHEREUM && layer !== LAYER.L2) {
           dispatch(fetchVerifierStatus())
         } else {
           dispatch(resetVerifierStatus())
         }
       }
     }
-  }, [networkName, baseEnabled, dispatch, activeNetworkType])
+  }, [networkName, baseEnabled, dispatch, activeNetworkType, layer])
 
   useEffect(() => {
     const getGasSavings = async () => {
