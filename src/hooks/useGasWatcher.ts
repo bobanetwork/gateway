@@ -1,7 +1,3 @@
-import {
-  fetchVerifierStatus,
-  resetVerifierStatus,
-} from 'actions/verifierAction'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -9,8 +5,6 @@ import {
   selectActiveNetworkName,
   selectActiveNetwork,
   selectActiveNetworkType,
-  selectVerifierStatus,
-  selectLayer,
 } from 'selectors'
 import networkService from 'services/networkService'
 import { Network, NetworkType } from 'util/network/network.util'
@@ -38,12 +32,10 @@ const useGasWatcher = () => {
   const [gas, setGas] = useState<any>()
   const [savings, setSavings] = useState<number>(1)
 
-  const verifierStatus = useSelector(selectVerifierStatus)
   const baseEnabled = useSelector(selectBaseEnabled())
   const networkName = useSelector(selectActiveNetworkName())
   const activeNetwork = useSelector(selectActiveNetwork())
   const activeNetworkType = useSelector(selectActiveNetworkType())
-  const layer = useSelector(selectLayer())
 
   const loadGasDetail = useCallback(() => {
     if (baseEnabled) {
@@ -53,15 +45,8 @@ const useGasWatcher = () => {
       }
 
       fetchGas()
-      if (activeNetworkType === NetworkType.MAINNET) {
-        if (activeNetwork === Network.ETHEREUM && layer !== LAYER.L2) {
-          dispatch(fetchVerifierStatus())
-        } else {
-          dispatch(resetVerifierStatus())
-        }
-      }
     }
-  }, [networkName, baseEnabled, dispatch, activeNetworkType, layer])
+  }, [networkName, baseEnabled, dispatch, activeNetworkType])
 
   useEffect(() => {
     const getGasSavings = async () => {
@@ -97,7 +82,7 @@ const useGasWatcher = () => {
     loadGasDetail()
   }, GAS_POLL_INTERVAL)
 
-  return { savings, gas, verifierStatus }
+  return { savings, gas }
 }
 
 export default useGasWatcher
