@@ -4,7 +4,7 @@ import { Heading } from 'components/global'
 import { ethers } from 'ethers'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectLayer, selectModalState } from 'selectors'
+import { selectLayer } from 'selectors'
 import {
   IHandleProveWithdrawalConfig,
   claimWithdrawal,
@@ -88,7 +88,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     setLoading(true)
     const isNativeWithdrawal =
       props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
-    selectModalState('transactionSuccess')
+
     handleInitiateWithdrawal(
       networkService as MinimalNetworkService,
       L2StandardERC20ABI,
@@ -150,7 +150,12 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           latestLogs
         ).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
-          dispatch(openModal({ modal: 'transactionSuccess' }))
+          dispatch(
+            openModal({
+              modal: 'transactionSuccess',
+              isAnchorageWithdrawal: true,
+            })
+          )
           setLoading(false)
         })
       } else {
@@ -166,7 +171,12 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             claimWithdrawal(networkService as MinimalNetworkService, logs).then(
               () => {
                 setActiveStep(6)
-                dispatch(openModal({ modal: 'transactionSuccess' }))
+                dispatch(
+                  openModal({
+                    modal: 'transactionSuccess',
+                    isAnchorageWithdrawal: true,
+                  })
+                )
                 dispatch(closeModal('bridgeMultiStepWithdrawal'))
                 setLoading(false)
               }
