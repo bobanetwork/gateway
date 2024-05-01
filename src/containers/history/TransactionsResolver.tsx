@@ -133,12 +133,12 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     return TRANSACTION_FILTER_STATUS.Canceled
   }
   const statusFilter = (transaction: ITransaction) => {
-    transaction.UserFacingStatus = getTransactionStatus(transaction)
+    const userFacingStatus = getTransactionStatus(transaction)
     if (
       transactionsFilter.status &&
       transactionsFilter.status !== TRANSACTION_FILTER_STATUS.All
     ) {
-      return transactionsFilter.status === transaction.UserFacingStatus
+      return transactionsFilter.status === userFacingStatus
     }
 
     return true
@@ -208,15 +208,17 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
       toHash = transaction.crossDomainMessage.l2Hash
     }
 
+    const status = getTransactionStatus(transaction)
+
     const processedTransaction: IProcessedTransaction = {
       timeStamp: transaction.timeStamp,
       from: transaction.from,
       fromHash,
       toHash,
+      status,
       to: transaction.to,
       tokenSymbol: symbol,
       amount: amountString,
-      status: transaction.UserFacingStatus,
       originChainId: transaction.originChainId,
       destinationChainId: transaction.destinationChainId,
       actionRequired: transaction.actionRequired,
