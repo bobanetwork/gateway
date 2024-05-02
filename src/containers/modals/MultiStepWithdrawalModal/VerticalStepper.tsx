@@ -24,7 +24,7 @@ import {
   StepContainer,
 } from './index.styles'
 import { L2StandardERC20ABI } from '../../../services/abi'
-import { addDaysToDate, isBeforeDate } from 'util/dates'
+import { addDaysToDate, dayNowUnix, isBeforeDate } from 'util/dates'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -92,7 +92,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       return !canProoveTx
     } else if (activeStep === 5) {
       // can claim only if tx intiated 7 day before
-      const txWith7Day = addDaysToDate(props.reenterWithdrawConfig.timeStamp, 7)
+      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
       return !Number(props.amountToBridge) || !isBeforeDate(txWith7Day)
     }
 
@@ -142,6 +142,10 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       .then((res: any) => {
         setActiveStep(5)
         setLatestLogs(res)
+        setWithdrawalConfig({
+          blockNumber: res[0].blockNumber,
+          timeStamp: dayNowUnix(),
+        })
         setLoading(false)
       })
       .catch((error) => {
