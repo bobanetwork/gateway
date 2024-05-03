@@ -21,6 +21,7 @@ import {
   IconContainer,
   Image,
   IncompleteTransactionHash,
+  NoAction,
   NoHistory,
   Status,
   TransactionAmount,
@@ -356,6 +357,10 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                       width: 80,
                     },
                     {
+                      content: <Status>{transaction.status}</Status>,
+                      width: 80,
+                    },
+                    {
                       content: transaction.actionRequired ? (
                         <Button
                           color="primary"
@@ -363,10 +368,10 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                           size="small"
                           onClick={() => handleAction(transaction)}
                         >
-                          Reenter
+                          Continue
                         </Button>
                       ) : (
-                        <Status>{transaction.status}</Status>
+                        <NoAction>-</NoAction>
                       ),
                       width: 88,
                     },

@@ -162,10 +162,8 @@ const History = () => {
   }, [accountEnabled])
 
   useEffect(() => {
-    if (accountEnabled) {
-      dispatch(fetchTransactions())
-    }
-  }, [accountEnabled])
+    syncTransactions()
+  }, [])
 
   useInterval(syncTransactions, POLL_INTERVAL)
 
