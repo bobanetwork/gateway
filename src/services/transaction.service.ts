@@ -69,7 +69,6 @@ class TransactionService {
       return []
     }
     try {
-      console.log(`loading ANCHORAGE tx`)
       const withdrawalTransactions =
         await anchorageGraphQLService.queryWithdrawalTransactionsHistory(
           networkService.L1Provider,
