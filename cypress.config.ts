@@ -15,7 +15,7 @@ export default defineConfig({
     setupNodeEvents: (on, config) => {
       synpressPlugins(on, config)
     },
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://staging.gateway.boba.network',
     supportFile: 'cypress/support/e2e.ts',
     specPattern: [
       `cypress/e2e/specs/history.spec.cy.ts`,
