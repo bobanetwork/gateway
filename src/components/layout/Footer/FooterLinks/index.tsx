@@ -80,7 +80,7 @@ const FooterLinks = () => {
       </StyledLinks>
       <ScanContainer>
         <Menu
-          name="block explorer"
+          name="blockexplorer"
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'center',

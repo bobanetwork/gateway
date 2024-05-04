@@ -31,8 +31,8 @@
     "types/custom.d.ts",
   ],
   "include": [
-    "src"
-,
-"bin/abiCompressor.ts"
-]
+    "src",
+    "bin/abiCompressor.ts",
+    "**/*.ts"
+  ]
 }
