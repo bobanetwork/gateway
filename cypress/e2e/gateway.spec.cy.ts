@@ -99,6 +99,43 @@ describe('Gateway View', () => {
       })
     })
 
+    describe('Banner Test', () => {
+      it('should display the banner items correctly', () => {
+        cy.get('[data-testid="banner-item"]')
+          .first()
+          .should(
+            'contain.text',
+            'The earn program is being phased out as we introduce the Boba Light Bridge.'
+          )
+
+        cy.get('[data-testid="banner-item"]')
+          .eq(1)
+          .should(
+            'contain.text',
+            'Due to the Anchorage upgrade, relayers will no longer be available.'
+          )
+      })
+
+      it('should open the correct URL in a new tab when "CLICK HERE" link is clicked', () => {
+        // Click on the "CLICK HERE" link
+        cy.contains('[data-testid="banner-item"] a', 'CLICK HERE')
+          .invoke('removeAttr', 'target')
+          .click()
+
+        // Wait for a new tab to open
+        cy.wait(1000)
+
+        // Switch to the newly opened tab
+        cy.window().then((window) => {
+          const newTabUrl = window.location.href
+          cy.visit(newTabUrl)
+
+          // Assert that the URL of the new tab matches the expected URL
+          cy.url().should('include', '/earn')
+        })
+      })
+    })
+
     describe('Footer', () => {
       describe('FooterLinks', () => {
         it('should contain the correct links', () => {
