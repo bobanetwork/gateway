@@ -100,6 +100,10 @@ const ModalContainer = () => {
     selectModalState('transactionSuccess')
   )
 
+  const isAnchorageWithdrawal = useSelector(
+    selectModalState('isAnchorageWithdrawal')
+  )
+
   return (
     <>
       {!!UnsupportedNetworkModalState && (
@@ -176,7 +180,10 @@ const ModalContainer = () => {
       )}
 
       {!!transactionSuccessModalState && (
-        <TransactionSuccessModal open={transactionSuccessModalState} />
+        <TransactionSuccessModal
+          open={transactionSuccessModalState}
+          anchorageWithdraw={isAnchorageWithdrawal}
+        />
       )}
     </>
   )

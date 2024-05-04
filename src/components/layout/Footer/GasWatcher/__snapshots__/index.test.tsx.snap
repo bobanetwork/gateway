@@ -76,20 +76,6 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
         220000
       </p>
     </div>
-    <div
-      class="sc-fPXMVe fYeija"
-    >
-      <p
-        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
-      >
-        Last Verified Block
-      </p>
-      <p
-        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
-      >
-        0
-      </p>
-    </div>
   </div>
 </DocumentFragment>
 `;

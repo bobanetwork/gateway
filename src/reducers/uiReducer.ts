@@ -33,6 +33,7 @@ interface IUiReducerState {
   switchNetworkModal: boolean
   UnsupportedNetwork: boolean
   isNewTx: boolean
+  isAnchorageWithdrawal?: boolean
   ledger: boolean
   alert?: string
   error?: string
@@ -62,6 +63,7 @@ const initialState: IUiReducerState = {
   switchNetworkModal: false,
   UnsupportedNetwork: false,
   isNewTx: false,
+  isAnchorageWithdrawal: false,
   ledger: false,
   alert: undefined,
   error: undefined,
@@ -86,6 +88,7 @@ const uiReducer = (state: IUiReducerState = initialState, action) => {
         selectionLayer: action.selectionLayer, // use incase of new chain/network picker.
         destNetworkSelection: action.destNetworkSelection,
         isNewTx: action.isNewTx, // use to check the multi step withdrawal modal tx
+        isAnchorageWithdrawal: action.isAnchorageWithdrawal,
       }
     case 'UI/MODAL/CLOSE':
       return { ...state, [action.payload]: false }

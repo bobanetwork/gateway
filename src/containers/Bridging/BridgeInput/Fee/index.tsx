@@ -17,9 +17,7 @@ import networkService from 'services/networkService'
 import { useTheme } from 'styled-components'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
-interface Props {}
-
-const Fee = (props: Props) => {
+const Fee = () => {
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())
   const theme: any = useTheme()
@@ -31,7 +29,7 @@ const Fee = (props: Props) => {
 
   const { isAnchorageEnabled, isActiveNetworkBnb } = useNetworkInfo()
 
-  const { amount: amountToReceive } = useAmountToReceive()
+  const { amount: amountToReceive, lightBridgeExitFee } = useAmountToReceive()
 
   const [gasFee, setGasFee] = useState('')
 
@@ -77,6 +75,12 @@ const Fee = (props: Props) => {
           <Label>{gasFee}</Label>
         </InfoRow>
       )}
+      {bridgeType === BRIDGE_TYPE.LIGHT && layer === LAYER.L2 ? (
+        <InfoRow>
+          <Label>Bridge fee</Label>
+          <Label>{lightBridgeExitFee}</Label>
+        </InfoRow>
+      ) : null}
       {isActiveNetworkBnb &&
       layer === LAYER.L2 &&
       bridgeType !== BRIDGE_TYPE.LIGHT ? (

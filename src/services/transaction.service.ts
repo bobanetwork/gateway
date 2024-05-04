@@ -182,21 +182,38 @@ class TransactionService {
    * loads L1Txs, l2Txs, l0Txs, L1PendingTxs
    *
    */
-  async getTransactions(networkConfig = networkService.networkConfig) {
+  async getTransactions() {
+    console.log(`loading tx`)
     const networksArray = Array.from(Object.values(AllNetworkConfigs))
-
     const networkConfigsArray = networksArray.flatMap((network) => {
       return [network.Testnet, network.Mainnet]
     })
 
     const allNetworksTransactions = await Promise.all(
       networkConfigsArray.flatMap((config) => {
-        return [
-          this.fetchAnchorageTransactions(config),
-          this.fetchL2Tx(config),
-          this.fetchL1PendingTx(config),
+        // light bridge available for all networks fetch for all.
+        const promiseCalls: Promise<any>[] = [
           this.fetchLightBridgeTransactions(config),
         ]
+
+        // check for ethereum and invoke anchorage data.
+        if (
+          [11155111, 28882, 1, 288].includes(config.L1.chainId) ||
+          [11155111, 28882, 1, 288].includes(config.L1.chainId)
+        ) {
+          promiseCalls.push(this.fetchAnchorageTransactions(config))
+        }
+
+        // check for bnb and invoke watcher
+        if (
+          [97, 9728, 56, 56288].includes(config.L1.chainId) ||
+          [97, 9728, 56, 56288].includes(config.L1.chainId)
+        ) {
+          promiseCalls.push(this.fetchL2Tx(config))
+          promiseCalls.push(this.fetchL1PendingTx(config))
+        }
+
+        return promiseCalls
       })
     )
 

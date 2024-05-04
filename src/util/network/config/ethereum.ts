@@ -5,7 +5,6 @@ import { NetworkDetail } from './network-details.types'
 export const ethereumConfig: NetworkDetail = {
   Testnet: {
     OMGX_WATCHER_URL: '',
-    VERIFIER_WATCHER_URL: ``,
     META_TRANSACTION: ``,
     MM_Label: `Sepolia`,
     addressManager: `0x9bFE9c5609311DF1c011c47642253B78a4f33F4B`,
@@ -46,7 +45,6 @@ export const ethereumConfig: NetworkDetail = {
   },
   Mainnet: {
     OMGX_WATCHER_URL: ``,
-    VERIFIER_WATCHER_URL: `https://api-verifier.mainnet.boba.network/`,
     META_TRANSACTION: `https://api-meta-transaction.mainnet.boba.network/`,
     MM_Label: `Mainnet`,
     addressManager: `0x8376ac6C3f73a25Dd994E0b0669ca7ee0C02F089`,

@@ -48,7 +48,6 @@ describe('Footer GasWatcher', () => {
     mockUseGasWatcher.mockReturnValue({
       gas: null,
       savings: 1,
-      verifierStatus: 231223,
     })
     const { asFragment } = renderGasWatcher({})
     expect(asFragment()).toMatchSnapshot()
@@ -63,50 +62,8 @@ describe('Footer GasWatcher', () => {
         blockL2: 220000,
       },
       savings: 1,
-      verifierStatus: 231223,
     })
     const { asFragment } = renderGasWatcher({})
     expect(asFragment()).toMatchSnapshot()
-  })
-
-  test('should show last verified block in case of ethereum network', () => {
-    mockUseGasWatcher.mockReturnValue({
-      gas: {
-        gasL1: 10,
-        gasL2: 20,
-        blockL1: 110000,
-        blockL2: 220000,
-      },
-      savings: 1,
-      verifierStatus: 231223,
-    })
-    renderGasWatcher({})
-    expect(screen.getByText('Last Verified Block')).toBeInTheDocument()
-  })
-
-  test('should remove last verified block from dom incase of BNB network', () => {
-    mockUseGasWatcher.mockReturnValue({
-      gas: {
-        gasL1: 10,
-        gasL2: 20,
-        blockL1: 110000,
-        blockL2: 220000,
-      },
-      savings: 1,
-      verifierStatus: 231223,
-    })
-    renderGasWatcher({
-      options: {
-        network: {
-          activeNetwork: Network.BNB,
-          activeNetworkType: NetworkType.MAINNET,
-          activeNetworkName: {
-            l1: 'Binance',
-            l2: 'Boba BNB',
-          },
-        },
-      },
-    })
-    expect(screen.queryByText('Last Verified Block')).not.toBeInTheDocument()
   })
 })

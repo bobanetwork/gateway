@@ -24,6 +24,7 @@ interface IOpenModalProps {
   selectionLayer?: any
   destNetworkSelection?: any
   isNewTx?: Boolean
+  isAnchorageWithdrawal?: Boolean
 }
 
 export const openModal =
@@ -33,6 +34,7 @@ export const openModal =
     selectionLayer,
     destNetworkSelection,
     isNewTx,
+    isAnchorageWithdrawal,
   }: IOpenModalProps): any =>
   (dispatch) =>
     dispatch({
@@ -42,7 +44,11 @@ export const openModal =
       selectionLayer,
       destNetworkSelection,
       isNewTx,
+      isAnchorageWithdrawal,
     })
+
+export const resetAnchorageWithdrawalStatus = (): any => (dispatch) =>
+  dispatch({ type: 'UI/MODAL/CLOSE', isAnchorageWithdrawal: false })
 
 export const closeModal =
   (modal): any =>

@@ -9,11 +9,8 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { fetchGasDetail } from 'services/gas.service'
 import networkService from 'services/networkService'
-import verifierService from 'services/verifier.service'
 
 jest.mock('services/gas.service')
-
-jest.mock('services/verifier.service')
 
 jest.mock('services/networkService', () => {
   return {
@@ -47,7 +44,6 @@ describe('UseGasWatcher', () => {
       blockL1: 110000,
       blockL2: 220000,
     })
-    ;(verifierService.getVerifierStatus as jest.Mock).mockResolvedValue(322232)
     ;(networkService.estimateL1SecurityFee as jest.Mock).mockResolvedValue(10)
     ;(networkService.estimateL2Fee as jest.Mock).mockResolvedValue(20)
   })
@@ -57,7 +53,6 @@ describe('UseGasWatcher', () => {
       ui: {
         theme: 'dark',
       },
-      verifier: {},
       setup: {
         baseEnabled: true,
       },
@@ -70,13 +65,6 @@ describe('UseGasWatcher', () => {
     // validate initial state
     expect(result.current.gas).toBeUndefined()
     expect(result.current.savings).toBe(1)
-    expect(result.current.verifierStatus).toEqual({})
-    let actions = store.getActions()
-
-    expect(actions).toEqual([
-      { type: 'VERIFIER/GET/REQUEST' },
-      { type: 'VERIFIER/GET/REQUEST' },
-    ])
 
     await waitForNextUpdate()
 
@@ -88,15 +76,6 @@ describe('UseGasWatcher', () => {
     })
 
     expect(result.current.savings.toFixed(2)).toEqual('1.33')
-    expect(result.current.verifierStatus).toEqual({})
-
-    actions = store.getActions()
-    expect(actions).toEqual([
-      { type: 'VERIFIER/GET/REQUEST' },
-      { type: 'VERIFIER/GET/REQUEST' },
-      { type: 'VERIFIER/GET/SUCCESS', payload: 322232 },
-      { type: 'VERIFIER/GET/SUCCESS', payload: 322232 },
-    ])
     store.clearActions()
   })
 
@@ -114,7 +93,6 @@ describe('UseGasWatcher', () => {
       ui: {
         theme: 'dark',
       },
-      verifier: {},
       setup: {
         baseEnabled: true,
       },
@@ -127,13 +105,6 @@ describe('UseGasWatcher', () => {
     // validate initial state
     expect(result.current.gas).toBeUndefined()
     expect(result.current.savings).toBe(1)
-    expect(result.current.verifierStatus).toEqual({})
-    let actions = store.getActions()
-    expect(actions).toEqual([
-      { type: 'VERIFIER/RESET' },
-      { type: 'VERIFIER/RESET' },
-    ])
-
     await waitForNextUpdate()
 
     expect(result.current.gas).toEqual({
@@ -144,13 +115,6 @@ describe('UseGasWatcher', () => {
     })
 
     expect(result.current.savings).toBe(1)
-    expect(result.current.verifierStatus).toEqual({})
-
-    actions = store.getActions()
-    expect(actions).toEqual([
-      { type: 'VERIFIER/RESET' },
-      { type: 'VERIFIER/RESET' },
-    ])
     store.clearActions()
   })
   test('should work as expected when bansedEnabled is false', async () => {
@@ -167,7 +131,6 @@ describe('UseGasWatcher', () => {
       ui: {
         theme: 'dark',
       },
-      verifier: {},
       setup: {
         baseEnabled: false,
       },
@@ -180,7 +143,6 @@ describe('UseGasWatcher', () => {
     // validate initial state
     expect(result.current.gas).toBeUndefined()
     expect(result.current.savings).toBe(1)
-    expect(result.current.verifierStatus).toEqual({})
     let actions = store.getActions()
     expect(actions).toEqual([])
     store.clearActions()

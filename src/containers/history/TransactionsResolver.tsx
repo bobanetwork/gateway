@@ -21,6 +21,7 @@ import {
   IconContainer,
   Image,
   IncompleteTransactionHash,
+  NoAction,
   NoHistory,
   Status,
   TransactionAmount,
@@ -133,12 +134,12 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     return TRANSACTION_FILTER_STATUS.Canceled
   }
   const statusFilter = (transaction: ITransaction) => {
-    transaction.UserFacingStatus = getTransactionStatus(transaction)
+    const userFacingStatus = getTransactionStatus(transaction)
     if (
       transactionsFilter.status &&
       transactionsFilter.status !== TRANSACTION_FILTER_STATUS.All
     ) {
-      return transactionsFilter.status === transaction.UserFacingStatus
+      return transactionsFilter.status === userFacingStatus
     }
 
     return true
@@ -208,15 +209,17 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
       toHash = transaction.crossDomainMessage.l2Hash
     }
 
+    const status = getTransactionStatus(transaction)
+
     const processedTransaction: IProcessedTransaction = {
       timeStamp: transaction.timeStamp,
       from: transaction.from,
       fromHash,
       toHash,
+      status,
       to: transaction.to,
       tokenSymbol: symbol,
       amount: amountString,
-      status: transaction.UserFacingStatus,
       originChainId: transaction.originChainId,
       destinationChainId: transaction.destinationChainId,
       actionRequired: transaction.actionRequired,
@@ -354,6 +357,10 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                       width: 80,
                     },
                     {
+                      content: <Status>{transaction.status}</Status>,
+                      width: 80,
+                    },
+                    {
                       content: transaction.actionRequired ? (
                         <Button
                           color="primary"
@@ -361,10 +368,10 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                           size="small"
                           onClick={() => handleAction(transaction)}
                         >
-                          Reenter
+                          Continue
                         </Button>
                       ) : (
-                        <Status>{transaction.status}</Status>
+                        <NoAction>-</NoAction>
                       ),
                       width: 88,
                     },

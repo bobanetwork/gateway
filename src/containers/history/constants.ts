@@ -211,5 +211,6 @@ export const TableOptions: TableHeaderOptionType[] = [
     tooltip: '',
   },
   { name: 'Amount', width: 80, tooltip: '' },
-  { name: 'Status', width: 88, tooltip: '' },
+  { name: 'Status', width: 80, tooltip: '' },
+  { name: 'Action', width: 88, tooltip: '' },
 ]

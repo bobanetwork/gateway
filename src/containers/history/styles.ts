@@ -281,6 +281,15 @@ export const TransactionAmount = styled.div`
   `)}
 `
 
+export const NoAction = styled.div`
+  font-size: 14px;
+  width: 80px;
+  text-align: center;
+  ${mobile(css`
+    font-size: 10px;
+  `)}
+`
+
 export const Status = styled.div`
   font-size: 14px;
   width: 88px;
