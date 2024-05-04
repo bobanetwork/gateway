@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { NetworkSelectorDropdown } from './styles'
 import { IDropdownItem } from 'components/global/dropdown'
-import { setBridgeType } from 'actions/bridgeAction'
 
 const NetworkDropdownHeading = {
   label: 'Networks',

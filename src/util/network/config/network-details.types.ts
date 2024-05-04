@@ -10,7 +10,6 @@ export type TxPayload = {
 
 export interface NetworkDetailChainConfig extends MinimalNetworkConfig {
   OMGX_WATCHER_URL?: string
-  VERIFIER_WATCHER_URL?: string
   META_TRANSACTION?: string
   MM_Label: string
   addressManager: string

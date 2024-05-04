@@ -56,10 +56,18 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open, isNewTx }) => {
     }
 
     if (!isNewTx && withdrawalConfig && withdrawalConfig.amount) {
+      let withdrawalToken = withdrawalConfig.token?.toLowerCase()
+      // Since the contract previously emitted the event with LEGACY_ERC20_TOKEN,
+      // we now need to utilize the following logic to accurately retrieve ETH token data for
+      // all transactions made before the contract update.
+      if (
+        withdrawalToken === '0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000' &&
+        Number(withdrawalConfig.timeStamp) < 1714546800
+      ) {
+        withdrawalToken = '0x4200000000000000000000000000000000000006'
+      }
       const token =
-        TokenInfo[withdrawalConfig.originChainId.toString()]?.[
-          withdrawalConfig.token?.toLowerCase()
-        ]
+        TokenInfo[withdrawalConfig.originChainId.toString()]?.[withdrawalToken]
       const amount = utils
         .formatUnits(withdrawalConfig.amount, token.decimals)
         .toString()

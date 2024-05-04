@@ -4,7 +4,7 @@ import { Heading } from 'components/global'
 import { ethers } from 'ethers'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectLayer, selectModalState } from 'selectors'
+import { selectLayer } from 'selectors'
 import {
   IHandleProveWithdrawalConfig,
   claimWithdrawal,
@@ -24,12 +24,7 @@ import {
   StepContainer,
 } from './index.styles'
 import { L2StandardERC20ABI } from '../../../services/abi'
-import {
-  addDaysToDate,
-  addHoursToDate,
-  dayNowUnix,
-  isBeforeDate,
-} from 'util/dates'
+import { addDaysToDate, dayNowUnix, isBeforeDate } from 'util/dates'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -46,7 +41,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const [latestLogs, setLatestLogs] = useState<null | []>(null)
   const [activeStep, setActiveStep] = React.useState(0)
   const [loading, setLoading] = useState(false)
-  const [txInitTime, setTxInitTime] = useState<null | Number>(null)
+  const [canProoveTx, setCanProoveTx] = useState(false)
 
   useEffect(() => {
     if (props.reenterWithdrawConfig) {
@@ -56,28 +51,48 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     }
   }, [layer])
 
+  useEffect(() => {
+    let isMounted = true // Flag to track component mount state
+
+    const checkAndEnableButton = async () => {
+      if (activeStep === 3 && withdrawalConfig?.blockNumber) {
+        try {
+          let latestBlockOnL1
+          do {
+            latestBlockOnL1 =
+              await networkService?.L2OutputOracle?.latestBlockNumber()
+            await new Promise((resolve) => setTimeout(resolve, 12000))
+          } while (
+            isMounted &&
+            Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
+          )
+          if (isMounted) {
+            setCanProoveTx(true)
+          }
+        } catch (error) {
+          console.log(`Error while checking blocknumber`, error)
+        }
+      }
+    }
+    if (withdrawalConfig && activeStep === 3) {
+      checkAndEnableButton()
+    }
+
+    return () => {
+      isMounted = false // Update mount state on unmount
+    }
+  }, [activeStep])
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
   const isButtonDisabled = () => {
     if (activeStep === 3) {
-      if (txInitTime) {
-        // can prove only if tx intiated 1 hour before
-        const txWith1Hour = addHoursToDate(txInitTime, 1)
-        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
-      } else if (props.reenterWithdrawConfig) {
-        // can prove only if tx intiated 1 hour before
-        const txWith1Hour = addHoursToDate(
-          props.reenterWithdrawConfig.timeStamp,
-          1
-        )
-        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
-      }
-      return true
+      return !canProoveTx
     } else if (activeStep === 5) {
       // can claim only if tx intiated 7 day before
-      const txWith7Day = addDaysToDate(props.reenterWithdrawConfig.timeStamp, 7)
+      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
       return !Number(props.amountToBridge) || !isBeforeDate(txWith7Day)
     }
 
@@ -88,7 +103,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     setLoading(true)
     const isNativeWithdrawal =
       props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
-    selectModalState('transactionSuccess')
+
     handleInitiateWithdrawal(
       networkService as MinimalNetworkService,
       L2StandardERC20ABI,
@@ -106,7 +121,6 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           return
         }
         setActiveStep(2)
-        setTxInitTime(dayNowUnix())
         setWithdrawalConfig({
           blockNumber: res,
         })
@@ -128,6 +142,10 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       .then((res: any) => {
         setActiveStep(5)
         setLatestLogs(res)
+        setWithdrawalConfig({
+          blockNumber: res[0].blockNumber,
+          timeStamp: dayNowUnix(),
+        })
         setLoading(false)
       })
       .catch((error) => {
@@ -150,7 +168,12 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           latestLogs
         ).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
-          dispatch(openModal({ modal: 'transactionSuccess' }))
+          dispatch(
+            openModal({
+              modal: 'transactionSuccess',
+              isAnchorageWithdrawal: true,
+            })
+          )
           setLoading(false)
         })
       } else {
@@ -166,7 +189,12 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             claimWithdrawal(networkService as MinimalNetworkService, logs).then(
               () => {
                 setActiveStep(6)
-                dispatch(openModal({ modal: 'transactionSuccess' }))
+                dispatch(
+                  openModal({
+                    modal: 'transactionSuccess',
+                    isAnchorageWithdrawal: true,
+                  })
+                )
                 dispatch(closeModal('bridgeMultiStepWithdrawal'))
                 setLoading(false)
               }
