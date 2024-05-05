@@ -187,6 +187,18 @@ describe('Gateway View', () => {
         })
       })
 
+      describe('Gas watcher', () => {
+        it('should check if gas details labels and values are present and not null / NaN / Undefined', () => {
+          // TODO: update the test to check for null undefined & Nan.
+          cy.get('#gasDetails div').each(($gasDetail) => {
+            cy.wrap($gasDetail).within(() => {
+              cy.get('p').eq(0).should('not.be.empty') // Check if the first paragraph has text
+              cy.get('p').eq(1).should('not.be.empty') // Check if the second paragraph has text
+            })
+          })
+        })
+      })
+
       describe('Block Explorer', () => {
         it('should open modal on click block expolorer with correct labels and closes menu on backdrop click', () => {
           cy.get('[data-testid="Block explorers"]').should('be.visible').click()
