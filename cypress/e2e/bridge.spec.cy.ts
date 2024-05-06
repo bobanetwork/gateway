@@ -34,6 +34,7 @@ describe('Bridge Page', () => {
     describe('Settings Modal', () => {
       it('Should display correct switch labels and descriptions', () => {
         cy.get('[data-testid="setting-btn"]').should('exist').click()
+        cy.get('[data-testid="settings-modal"]').should('be.visible')
         // Check the first setting item
         cy.get('.setting-item')
           .eq(0)
@@ -100,6 +101,207 @@ describe('Bridge Page', () => {
           .eq(1)
           .find('[data-testid="switch-label"]')
           .click()
+      })
+
+      it('should close modal on click of close icon', () => {
+        cy.get('[data-testid="close-modal-settings-modal"]')
+          .should('be.visible')
+          .click()
+
+        cy.get('[data-testid="settings-modal"]').should('not.exist')
+      })
+    })
+
+    describe('Bridge Type', () => {
+      it('should update state on click', () => {
+        let value = getBridgeStoreValue('bridgeType')
+        value.should('equal', 'CLASSIC')
+
+        cy.get('[data-testid="light-btn"]').click()
+        value = getBridgeStoreValue('bridgeType')
+        value.should('equal', 'LIGHT')
+
+        cy.get('[data-testid="third-party-btn"]').click()
+        value = getBridgeStoreValue('bridgeType')
+        value.should('equal', 'THIRD_PARTY')
+
+        cy.get('[data-testid="classic-btn"]').click()
+        value = getBridgeStoreValue('bridgeType')
+        value.should('equal', 'CLASSIC')
+      })
+      describe('Classic', () => {
+        it('should have correct list of network in form network option', () => {
+          // check form network.
+          cy.get('[data-testid="from-network-picker"]')
+            .should('be.visible')
+            .click()
+
+          cy.get('[data-testid="network-picker-modal"]')
+            .should('exist')
+            .should('be.visible')
+
+          cy.get('[data-testid="network-picker-modal"] h2').should(
+            'contain',
+            'Select Network'
+          )
+
+          cy.get('.networkItem')
+            .should('have.length', 2)
+            .and((networkItem) => {
+              expect(networkItem).to.have.length(2)
+
+              const labels = networkItem.map((i, el) => {
+                return Cypress.$(el).text()
+              })
+
+              expect(labels.get()).to.deep.eq([
+                'Ethereum',
+                'Binance Smart Chain',
+              ])
+            })
+
+          cy.get('[data-testid="close-modal-network-picker-modal"]')
+            .should('be.visible')
+            .click()
+        })
+        it('should have correct list of network in to network option', () => {
+          // check to network.
+          cy.get('[data-testid="to-network-picker"]')
+            .should('be.visible')
+            .click()
+
+          cy.get('[data-testid="network-picker-modal"]')
+            .should('exist')
+            .should('be.visible')
+
+          cy.get('[data-testid="network-picker-modal"] h2').should(
+            'contain',
+            'Select Network'
+          )
+
+          cy.get('.networkItem')
+            .should('have.length', 2)
+            .and((networkItem) => {
+              expect(networkItem).to.have.length(2)
+
+              const labels = networkItem.map((i, el) => {
+                return Cypress.$(el).text()
+              })
+
+              expect(labels.get()).to.deep.eq(['Boba ETH', 'Boba BNB'])
+            })
+          cy.get('[data-testid="close-modal-network-picker-modal"]')
+            .should('be.visible')
+            .click()
+        })
+      })
+      describe('Light', () => {
+        before(() => {
+          cy.get('[data-testid="light-btn"]').click()
+        })
+        it('should have correct list of network in form network option', () => {
+          // check from network.
+          cy.get('[data-testid="from-network-picker"]')
+            .should('be.visible')
+            .click()
+
+          cy.get('[data-testid="network-picker-modal"]')
+            .should('exist')
+            .should('be.visible')
+
+          cy.get('[data-testid="network-picker-modal"] h2').should(
+            'contain',
+            'Select Network'
+          )
+
+          cy.get('.networkItem')
+            .should('have.length', 6)
+            .and((networkItem) => {
+              expect(networkItem).to.have.length(6)
+
+              const labels = networkItem.map((i, el) => {
+                return Cypress.$(el).text()
+              })
+
+              expect(labels.get()).to.deep.eq([
+                'Ethereum',
+                'Boba ETH',
+                'Binance Smart Chain',
+                'Boba BNB',
+                'Optimism',
+                'Arbitrum',
+              ])
+            })
+
+          cy.get('[data-testid="close-modal-network-picker-modal"]')
+            .should('be.visible')
+            .click()
+        })
+        it('should have correct list of network in to network option', () => {
+          // check to network.
+          cy.get('[data-testid="to-network-picker"]')
+            .should('be.visible')
+            .click()
+
+          cy.get('[data-testid="network-picker-modal"]')
+            .should('exist')
+            .should('be.visible')
+
+          cy.get('[data-testid="network-picker-modal"] h2').should(
+            'contain',
+            'Select Network'
+          )
+
+          cy.get('.networkItem')
+            .should('have.length', 5)
+            .and((networkItem) => {
+              expect(networkItem).to.have.length(5)
+
+              const labels = networkItem.map((i, el) => {
+                return Cypress.$(el).text()
+              })
+
+              expect(labels.get()).to.deep.eq([
+                'Boba ETH',
+                'Boba BNB',
+                'Binance Smart Chain',
+                'Optimism',
+                'Arbitrum',
+              ])
+            })
+
+          cy.get('[data-testid="close-modal-network-picker-modal"]')
+            .should('be.visible')
+            .click()
+        })
+      })
+      describe('Third Party', () => {
+        before(() => {
+          cy.get('[data-testid="third-party-btn"]').click()
+        })
+        it('should have show correct list of 3rd party bridge', () => {
+          cy.contains('Third party bridges').should('be.visible')
+          cy.get('a[data-testid="bridge-item"]')
+            .should('not.be.empty')
+            .and((bridgeItems) => {
+              expect(bridgeItems).to.have.length(2)
+
+              const links = bridgeItems.map((i, el) => {
+                return Cypress.$(el).attr('href')
+              })
+
+              expect(links.get()).to.deep.eq([
+                'https://boba.banxa.com/',
+                'https://app.symbiosis.finance/swap?chainIn=Ethereum&chainOut=Boba%20Ethereum&tokenIn=ETH&tokenOut=ETH',
+              ])
+
+              const labels = bridgeItems.map((i, el) => {
+                return Cypress.$(el).text()
+              })
+
+              expect(labels.get()).to.deep.eq(['Banxa', 'Symbiosis'])
+            })
+        })
       })
     })
   })

@@ -120,7 +120,10 @@ const Chains = (props: Props) => {
     <ChainContainer>
       <ChainPickerContainer>
         <SectionLabel>From</SectionLabel>
-        <ChainPicker onClick={() => openNetworkPicker('l1', false)}>
+        <ChainPicker
+          onClick={() => openNetworkPicker('l1', false)}
+          data-testid="from-network-picker"
+        >
           {!layer || layer === LAYER.L1 ? <L1ChainInfo /> : <L2ChainInfo />}
           <ChainPickerIcon>
             <DownArrow />
@@ -133,6 +136,7 @@ const Chains = (props: Props) => {
       <ChainPickerContainer>
         <SectionLabel>To</SectionLabel>
         <ChainPicker
+          data-testid="to-network-picker"
           onClick={() =>
             openNetworkPicker('l2', bridgeType === BRIDGE_TYPE.LIGHT)
           }
