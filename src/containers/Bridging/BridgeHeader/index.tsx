@@ -41,8 +41,9 @@ const BridgeHeader = () => {
   const ClassicBridgeInfo = () => {
     return (
       <>
-        <LabelStyle>Classic Bridge</LabelStyle> <br />
-        <ValueStyle>
+        <LabelStyle data-testid="tooltip-cb-t">Classic Bridge</LabelStyle>{' '}
+        <br />
+        <ValueStyle data-testid="tooltip-cb-d">
           Although this option is always available, it takes 7 days to receive
           your funds when withdrawing from L2 to L1.
         </ValueStyle>
@@ -56,9 +57,9 @@ const BridgeHeader = () => {
     return (
       <>
         {' '}
-        <LabelStyle>Light Bridge</LabelStyle>
+        <LabelStyle data-testid="tooltip-lb-t">Light Bridge</LabelStyle>
         <br />
-        <ValueStyle>
+        <ValueStyle data-testid="tooltip-lb-d">
           Bridge is an easy, fast, and cheap bridging solution that quickly gets
           your funds to your destination chain only available for a few selected
           assets (BOBA, ETH, BNB).
