@@ -23,6 +23,7 @@
     "types": [
       "node",
       "jest",
+      "testing-library__jest-dom",
       "cypress"
     ],
   },
@@ -31,8 +32,6 @@
     "types/custom.d.ts",
   ],
   "include": [
-    "src",
-    "bin/abiCompressor.ts",
-    "**/*.ts"
+    "src"
   ]
 }
