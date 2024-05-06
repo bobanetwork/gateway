@@ -15,14 +15,7 @@ export default defineConfig({
       synpressPlugins(on, config)
     },
     baseUrl: 'http://localhost:3000',
-    // baseUrl: 'https://staging.gateway.boba.network',
     supportFile: 'cypress/support/e2e.ts',
-    specPattern: [
-      'cypress/e2e/bridge.spec.cy.ts',
-      // 'cypress/e2e/**/*.spec.cy.ts',
-    ],
+    specPattern: ['cypress/e2e/bridge.spec.cy.ts'],
   },
-  // env: {
-  //   target_hash: process.env.CYPRESS_TEST_HASH,
-  // },
 })
