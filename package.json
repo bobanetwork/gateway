@@ -97,7 +97,7 @@
     "truncate-middle": "^1.0.6",
     "ts-md5": "^1.2.11",
     "typescript": "^5.3.3",
-    "webpack-bundle-analyzer": "^4.10.1"
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.9",
