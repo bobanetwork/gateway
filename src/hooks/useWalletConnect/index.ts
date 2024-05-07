@@ -61,9 +61,7 @@ export const useWalletConnect = () => {
         dispatch(setLayer(initialized))
         dispatch(
           setBlockTime(
-            await networkService.getBlockTime(
-              await networkService.getLatestBlockNumber()
-            )
+            (await networkService.provider!.getBlock('latest')).timestamp
           )
         )
         dispatch(setEnableAccount(true))
