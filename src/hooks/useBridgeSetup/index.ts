@@ -44,9 +44,7 @@ const useBridgeSetup = () => {
   useEffect(() => {
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
       networkService.getLatestBlockTime().then((blockTime) => {
-        dispatch(
-          setBlockTime(blockTime)
-        )
+        dispatch(setBlockTime(blockTime))
       })
     }
     if (layer === LAYER.L1) {
