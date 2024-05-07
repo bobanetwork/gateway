@@ -42,11 +42,6 @@ const useBridgeSetup = () => {
   const token = useSelector(selectTokenToBridge())
   const { isActiveNetworkBnb } = useNetworkInfo()
   useEffect(() => {
-    if (bridgeType === BRIDGE_TYPE.LIGHT) {
-      networkService.getLatestBlockTime().then((blockTime) => {
-        dispatch(setBlockTime(blockTime))
-      })
-    }
     if (layer === LAYER.L1) {
       if (token && bridgeType === BRIDGE_TYPE.FAST) {
         /**
@@ -127,12 +122,18 @@ const useBridgeSetup = () => {
   useEffect(() => {
     if (isAccountEnabled) {
       getLookupPrice()
+
+      if (bridgeType === BRIDGE_TYPE.LIGHT) {
+        networkService.getLatestBlockTime().then((blockTime) => {
+          dispatch(setBlockTime(blockTime))
+        })
+      }
     }
 
     return () => {
       dispatch(clearLookupPrice())
     }
-  }, [getLookupPrice, isAccountEnabled])
+  }, [getLookupPrice, isAccountEnabled, bridgeType])
 
   return { getLookupPrice }
 }

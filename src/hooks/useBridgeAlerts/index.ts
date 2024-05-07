@@ -181,6 +181,7 @@ const useBridgeAlerts = () => {
           })
         )
 
+        console.log(`currBlockTime`, currBlockTime)
         if (
           // LightBridge has a hardcoded 24h limit which is reset on the first transfer of the day
           currBlockTime - transferTimestampCheckPoint > 86400 &&
@@ -238,7 +239,12 @@ const useBridgeAlerts = () => {
         }
       }
     }
-  }, [tokenForTeleportationSupported, bridgeType, amountToBridge])
+  }, [
+    tokenForTeleportationSupported,
+    bridgeType,
+    amountToBridge,
+    currBlockTime,
+  ])
 
   // show infor to user about to OMG token when
   // connected to layer 1 ETH as token is specific to ethereum only.
