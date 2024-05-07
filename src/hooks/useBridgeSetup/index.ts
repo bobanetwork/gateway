@@ -31,6 +31,7 @@ import {
 } from 'selectors'
 import networkService from 'services/networkService'
 import { LAYER } from 'util/constant'
+import { setBlockTime } from '../../actions/setupAction'
 
 const useBridgeSetup = () => {
   const dispatch = useDispatch<any>()
@@ -41,6 +42,13 @@ const useBridgeSetup = () => {
   const token = useSelector(selectTokenToBridge())
   const { isActiveNetworkBnb } = useNetworkInfo()
   useEffect(() => {
+    if (bridgeType === BRIDGE_TYPE.LIGHT) {
+      networkService.getLatestBlockTime().then((blockTime) => {
+        dispatch(
+          setBlockTime(blockTime)
+        )
+      })
+    }
     if (layer === LAYER.L1) {
       if (token && bridgeType === BRIDGE_TYPE.FAST) {
         /**

@@ -59,11 +59,6 @@ export const useWalletConnect = () => {
       } else if (initialized === LAYER.L1 || initialized === LAYER.L2) {
         dispatch(closeModal('wrongNetworkModal'))
         dispatch(setLayer(initialized))
-        dispatch(
-          setBlockTime(
-            (await networkService.provider!.getBlock('latest')).timestamp
-          )
-        )
         dispatch(setEnableAccount(true))
         dispatch(setWalletAddress(networkService.account))
         dispatch(addTokenList())
