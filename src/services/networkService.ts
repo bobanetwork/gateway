@@ -3341,6 +3341,10 @@ class NetworkService {
   async getBlockTime(blockNumber) {
     return (await this.provider!.getBlock(blockNumber)).timestamp
   }
+
+  async getLatestBlockTime() {
+    return (await this.provider!.getBlock('latest')).timestamp
+  }
 }
 
 const networkService = new NetworkService()

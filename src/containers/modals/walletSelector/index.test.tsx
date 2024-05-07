@@ -9,6 +9,12 @@ import WalletSelectorModal from './'
 import { mockedInitialState } from 'util/tests'
 
 describe('WalletSelectorModal', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {
+      return
+    })
+  })
+
   test('Should be visible', () => {
     const initialState = {
       ...mockedInitialState,
