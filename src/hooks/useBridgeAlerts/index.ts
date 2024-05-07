@@ -181,7 +181,6 @@ const useBridgeAlerts = () => {
           })
         )
 
-        console.log(`currBlockTime`, currBlockTime)
         if (
           // LightBridge has a hardcoded 24h limit which is reset on the first transfer of the day
           currBlockTime - transferTimestampCheckPoint > 86400 &&
