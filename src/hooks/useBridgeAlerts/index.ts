@@ -27,6 +27,7 @@ import {
   selectL2LPPendingString,
   selectLayer,
   selectTokenToBridge,
+  selectBlockTime,
 } from 'selectors'
 import { logAmount } from 'util/amountConvert'
 import { LAYER } from 'util/constant'
@@ -63,6 +64,7 @@ interface ITeleportationTokenSupport {
 
 const useBridgeAlerts = () => {
   const dispatch = useDispatch<any>()
+  const currBlockTime: number = useSelector(selectBlockTime())
   const layer = useSelector(selectLayer())
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
@@ -167,6 +169,9 @@ const useBridgeAlerts = () => {
             tokenForTeleportationSupported.maxTransferAmountPerDay
           )
         )
+        const transferTimestampCheckPoint = Number(
+          tokenForTeleportationSupported.transferTimestampCheckPoint
+        )
 
         dispatch(
           setBridgeAlert({
@@ -177,6 +182,8 @@ const useBridgeAlerts = () => {
         )
 
         if (
+          // LightBridge has a hardcoded 24h limit which is reset on the first transfer of the day
+          currBlockTime - transferTimestampCheckPoint > 86400 &&
           amountToBridge > 0 &&
           (tokenForTeleportationSupported.transferredAmount as BigNumber).eq(
             tokenForTeleportationSupported.maxTransferAmountPerDay

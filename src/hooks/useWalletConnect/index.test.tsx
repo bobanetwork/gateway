@@ -238,7 +238,7 @@ describe('useWalletConnect', () => {
     })
 
     const actions = store.getActions()
-    expect(actions).toHaveLength(5)
+    expect(actions).toHaveLength(6)
     const expectedActions = [
       { payload: 'wrongNetworkModal', type: 'UI/MODAL/CLOSE' },
       { payload: 'L1', type: 'SETUP/LAYER/SET' },

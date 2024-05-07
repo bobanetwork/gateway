@@ -26,6 +26,9 @@ export const setBaseState = (enabled) => (dispatch) =>
 export const setLayer = (layer) => (dispatch) =>
   dispatch({ type: 'SETUP/LAYER/SET', payload: layer })
 
+export const setBlockTime = (blockTime: number) => (dispatch) =>
+  dispatch({ type: 'SETUP/BLOCKTIME/SET', payload: blockTime })
+
 export const setWalletAddress = (account) => (dispatch) =>
   dispatch({ type: 'SETUP/WALLETADDRESS/SET', payload: account })
 

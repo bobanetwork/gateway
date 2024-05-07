@@ -1,5 +1,6 @@
 import { addTokenList } from 'actions/networkAction'
 import {
+  setBlockTime,
   setConnect,
   setConnectBOBA,
   setConnectETH,
@@ -58,6 +59,13 @@ export const useWalletConnect = () => {
       } else if (initialized === LAYER.L1 || initialized === LAYER.L2) {
         dispatch(closeModal('wrongNetworkModal'))
         dispatch(setLayer(initialized))
+        dispatch(
+          setBlockTime(
+            await networkService.getBlockTime(
+              await networkService.getLatestBlockNumber()
+            )
+          )
+        )
         dispatch(setEnableAccount(true))
         dispatch(setWalletAddress(networkService.account))
         dispatch(addTokenList())
