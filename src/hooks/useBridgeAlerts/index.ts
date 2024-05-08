@@ -183,7 +183,7 @@ const useBridgeAlerts = () => {
 
         if (
           // LightBridge has a hardcoded 24h limit which is reset on the first transfer of the day
-          currBlockTime - transferTimestampCheckPoint > 86400 &&
+          currBlockTime - transferTimestampCheckPoint < 86400 &&
           amountToBridge > 0 &&
           (tokenForTeleportationSupported.transferredAmount as BigNumber).eq(
             tokenForTeleportationSupported.maxTransferAmountPerDay
