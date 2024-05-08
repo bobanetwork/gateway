@@ -181,6 +181,7 @@ const useBridgeAlerts = () => {
           })
         )
 
+        console.log("currBlocktim", currBlockTime, transferTimestampCheckPoint, currBlockTime - transferTimestampCheckPoint < 86400)
         if (
           // LightBridge has a hardcoded 24h limit which is reset on the first transfer of the day
           currBlockTime - transferTimestampCheckPoint < 86400 &&
@@ -194,23 +195,6 @@ const useBridgeAlerts = () => {
               meta: ALERT_KEYS.MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED,
               type: 'error',
               text: `The maximum daily bridgeable amount of ${ethers.utils.formatEther(tokenForTeleportationSupported.maxTransferAmountPerDay)} has been reached.`,
-            })
-          )
-        } else if (
-          amountToBridge > 0 &&
-          transferredAmount + amountToBridge > maxTransferAmount
-        ) {
-          const maxAmount =
-            tokenForTeleportationSupported.maxTransferAmountPerDay as BigNumber
-          const remainingAmount =
-            tokenForTeleportationSupported.transferredAmount as BigNumber
-          const allowedAmount = maxAmount.sub(remainingAmount)
-
-          dispatch(
-            setBridgeAlert({
-              meta: ALERT_KEYS.MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED,
-              type: 'error',
-              text: `Your chosen amount exceeds the daily limit. Maximum remaining amount for this asset is: ${utils.formatEther(allowedAmount)}`,
             })
           )
         }

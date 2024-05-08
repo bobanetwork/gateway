@@ -3343,6 +3343,9 @@ class NetworkService {
   }
 
   async getLatestBlockTime() {
+    if (!this.provider) {
+      return;
+    }
     return (await this.provider!.getBlock('latest')).timestamp
   }
 }
