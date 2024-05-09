@@ -42,6 +42,8 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const [activeStep, setActiveStep] = React.useState(0)
   const [loading, setLoading] = useState(false)
   const [canProoveTx, setCanProoveTx] = useState(false)
+  const [latestBlock, setLatestBlock] = useState(false)
+  const [txBlock, setTxBlock] = useState(0)
 
   useEffect(() => {
     if (props.reenterWithdrawConfig) {
@@ -58,9 +60,11 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       if (activeStep === 3 && withdrawalConfig?.blockNumber) {
         try {
           let latestBlockOnL1
+          setTxBlock(withdrawalConfig?.blockNumber)
           do {
             latestBlockOnL1 =
               await networkService?.L2OutputOracle?.latestBlockNumber()
+            setLatestBlock(latestBlockOnL1)
             await new Promise((resolve) => setTimeout(resolve, 12000))
           } while (
             isMounted &&
@@ -108,7 +112,10 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       networkService as MinimalNetworkService,
       L2StandardERC20ABI,
       ethers.utils
-        .parseUnits(props.amountToBridge!.toString(), props.token.decimals)
+        .parseUnits(
+          props.amountToBridge!.toString(),
+          props.token ? props.token.decimals : null
+        )
         .toString(),
       isNativeWithdrawal ? null : props.token
     )
@@ -204,6 +211,14 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     }
   }
 
+  const prepareDesc = (desc) => {
+    if (!canProoveTx) {
+      return `${desc} The current L2 block submitted to L1 is ${latestBlock} and your block is ${txBlock}.`
+    }
+
+    return desc
+  }
+
   return (
     <>
       <div>
@@ -222,7 +237,9 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
                   </ActiveStepNumberIndicator>
                   {step.label}
                   <Description active={activeStep >= index}>
-                    {step.description}
+                    {step.label === 'Prove Withdrawal'
+                      ? prepareDesc(step.description)
+                      : step.description}
                   </Description>
                 </StepContainer>
               )}

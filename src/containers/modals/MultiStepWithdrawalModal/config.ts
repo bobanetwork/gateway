@@ -14,7 +14,7 @@ export const steps = [
   {
     label: 'Prove Withdrawal',
     description:
-      'Submit the proof in advance. This additional step is part of the new Anchorage specification.',
+      'You will be able to submit your proof once your transaction is submitted to L1.',
     passiveStep: false,
     btnLbl: 'Prove Withdrawal',
   },
