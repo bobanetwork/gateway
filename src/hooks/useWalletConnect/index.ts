@@ -1,5 +1,6 @@
 import { addTokenList } from 'actions/networkAction'
 import {
+  setBlockTime,
   setConnect,
   setConnectBOBA,
   setConnectETH,

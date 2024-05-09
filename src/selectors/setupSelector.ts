@@ -20,6 +20,8 @@ export const selectAccountEnabled = () => (state) =>
 // do we have basic providers?
 export const selectBaseEnabled = () => (state) => state.setup?.['baseEnabled']
 
+export const selectBlockTime = () => (state) => state.setup?.['blockTime']
+
 export const selectLayer = () => (state) => state.setup?.['netLayer']
 
 export const selectConnectETH = () => (state) => state.setup['connectETH']
