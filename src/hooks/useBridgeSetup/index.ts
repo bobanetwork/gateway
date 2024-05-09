@@ -125,6 +125,9 @@ const useBridgeSetup = () => {
 
       if (bridgeType === BRIDGE_TYPE.LIGHT) {
         networkService.getLatestBlockTime().then((blockTime) => {
+          if (!blockTime) {
+            return
+          }
           dispatch(setBlockTime(blockTime))
         })
       }
