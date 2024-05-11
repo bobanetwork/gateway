@@ -1,6 +1,6 @@
 {
   "name": "@bobanetwork/gateway",
-  "version": "0.14.7",
+  "version": "0.14.8",
   "private": true,
   "scripts": {
     "audit-check": "audit-ci --moderate",
