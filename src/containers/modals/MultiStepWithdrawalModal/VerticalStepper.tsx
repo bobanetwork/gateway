@@ -56,20 +56,26 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   useEffect(() => {
     let isMounted = true // Flag to track component mount state
 
-    const checkAndEnableButton = async () => {
+    const validateBlockNumberAndEnableProov = async () => {
       if (activeStep === 3 && withdrawalConfig?.blockNumber) {
         try {
-          let latestBlockOnL1
           setTxBlock(withdrawalConfig?.blockNumber)
-          do {
+          let latestBlockOnL1 =
+            await networkService?.L2OutputOracle?.latestBlockNumber()
+          setLatestBlock(latestBlockOnL1)
+
+          while (
+            isMounted &&
+            Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
+          ) {
+            // Update the latest block number
             latestBlockOnL1 =
               await networkService?.L2OutputOracle?.latestBlockNumber()
             setLatestBlock(latestBlockOnL1)
+            // Wait for 12 seconds before checking again
             await new Promise((resolve) => setTimeout(resolve, 12000))
-          } while (
-            isMounted &&
-            Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
-          )
+          }
+
           if (isMounted) {
             setCanProoveTx(true)
           }
@@ -79,7 +85,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       }
     }
     if (withdrawalConfig && activeStep === 3) {
-      checkAndEnableButton()
+      validateBlockNumberAndEnableProov()
     }
 
     return () => {
@@ -95,7 +101,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     if (activeStep === 3) {
       return !canProoveTx
     } else if (activeStep === 5) {
-      // can claim only if tx intiated 7 day before
+      // can claim only if tx proove 7 day before
       const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
       return !Number(props.amountToBridge) || !isBeforeDate(txWith7Day)
     }
@@ -211,9 +217,25 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     }
   }
 
-  const prepareDesc = (desc) => {
-    if (!canProoveTx) {
-      return `${desc} The current L2 block submitted to L1 is ${latestBlock} and your block is ${txBlock}.`
+  const prepareDesc = (desc?: string, step?: string) => {
+    if (!desc) {
+      return ''
+    }
+
+    if (activeStep === 3 && step === 'Prove Withdrawal') {
+      if (!canProoveTx) {
+        return `${desc} The current L2 block submitted to L1 is ${latestBlock} and your block is ${txBlock}.`
+      }
+    }
+
+    if (activeStep === 5 && step === 'Claim Withdrawal') {
+      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
+      const canClaim = !Number(props.amountToBridge) || isBeforeDate(txWith7Day)
+      if (!canClaim) {
+        return `The proof has been submitted. Please wait 7 days to claim your withdrawal`
+      } else {
+        return `The proof has been submitted and the 7-day window has passed`
+      }
     }
 
     return desc
@@ -237,9 +259,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
                   </ActiveStepNumberIndicator>
                   {step.label}
                   <Description active={activeStep >= index}>
-                    {step.label === 'Prove Withdrawal'
-                      ? prepareDesc(step.description)
-                      : step.description}
+                    {prepareDesc(step.description, step.label)}
                   </Description>
                 </StepContainer>
               )}

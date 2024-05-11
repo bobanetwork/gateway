@@ -89,6 +89,7 @@ const setupReducer = (state: ISetupReducerState = initialState, action) => {
         connectBOBA: action.payload,
       }
     case 'SETUP/CONNECT':
+      console.log(`trigger connect!`)
       return {
         ...state,
         connect: action.payload,
