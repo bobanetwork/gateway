@@ -42,7 +42,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const [activeStep, setActiveStep] = React.useState(0)
   const [loading, setLoading] = useState(false)
   const [canProoveTx, setCanProoveTx] = useState(false)
-  const [latestBlock, setLatestBlock] = useState(false)
+  const [latestBlock, setLatestBlock] = useState(0)
   const [txBlock, setTxBlock] = useState(0)
 
   useEffect(() => {
@@ -68,6 +68,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             isMounted &&
             Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
           ) {
+            // @todo: check why block number is not getting updated.
             // Update the latest block number
             latestBlockOnL1 =
               await networkService?.L2OutputOracle?.latestBlockNumber()
