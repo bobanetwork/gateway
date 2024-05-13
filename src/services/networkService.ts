@@ -2153,11 +2153,24 @@ class NetworkService {
     const destProvider = new ethers.providers.StaticJsonRpcProvider(
       getRpcUrlByChainId(destChainId)
     )
-    const destTokenAddr = getDestinationTokenAddress(
-      token,
-      sourceChainId,
-      destChainId
-    )
+    let destTokenAddr
+    try {
+      destTokenAddr = getDestinationTokenAddress(
+        token,
+        sourceChainId,
+        destChainId
+      )
+    } catch (err) {
+      if (
+        (err as string)
+          .toString()
+          .includes(
+            'Token 0x4200000000000000000000000000000000000006 not supported on source chain 288'
+          )
+      ) {
+        destTokenAddr = ethers.constants.AddressZero
+      }
+    }
     const isNative =
       destTokenAddr === ethers.constants.AddressZero ||
       destTokenAddr === this.addresses.L2_ETH_Address
@@ -3327,6 +3340,13 @@ class NetworkService {
 
   async getBlockTime(blockNumber) {
     return (await this.provider!.getBlock(blockNumber)).timestamp
+  }
+
+  async getLatestBlockTime() {
+    if (!this.provider) {
+      return
+    }
+    return (await this.provider!.getBlock('latest')).timestamp
   }
 }
 

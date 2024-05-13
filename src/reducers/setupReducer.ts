@@ -26,6 +26,7 @@ interface ISetupReducerState {
   connect: boolean
   walletConnected: boolean
   chainIdChanged?: number
+  blockTime?: number
   networkChanged: boolean
   userTriggeredChainSwitch: boolean
 }
@@ -88,6 +89,7 @@ const setupReducer = (state: ISetupReducerState = initialState, action) => {
         connectBOBA: action.payload,
       }
     case 'SETUP/CONNECT':
+      console.log(`trigger connect!`)
       return {
         ...state,
         connect: action.payload,
@@ -135,6 +137,11 @@ const setupReducer = (state: ISetupReducerState = initialState, action) => {
       return {
         ...state,
         userTriggeredChainSwitch: action.payload,
+      }
+    case 'SETUP/BLOCKTIME/SET':
+      return {
+        ...state,
+        blockTime: action.payload,
       }
     case 'SETUP/DISCONNECT':
       return {

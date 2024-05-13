@@ -201,6 +201,13 @@ const bridgeReducer = (state = initialState, action) => {
       }
     }
 
+    case 'DEPOSIT/TELEPORTATION/DISBURSER_BALANCE/SUCCESS': {
+      return {
+        ...state,
+        teleportationDisburserBalance: action.payload,
+      }
+    }
+
     default:
       return state
   }

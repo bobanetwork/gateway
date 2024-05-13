@@ -14,14 +14,14 @@ export const steps = [
   {
     label: 'Prove Withdrawal',
     description:
-      'Submit the proof in advance. This additional step is part of the new Anchorage specification.',
+      'You will be able to submit your proof once your transaction is submitted to L1.',
     passiveStep: false,
     btnLbl: 'Prove Withdrawal',
   },
   { label: 'Wait about 7 days', passiveStep: true },
   {
     label: 'Claim Withdrawal',
-    description: `Claim your funds. This is the final step.`,
+    description: `The proof has been submitted. Please wait 7 days to claim your withdrawal`,
     passiveStep: false,
     btnLbl: 'Claim Withdrawal',
   },

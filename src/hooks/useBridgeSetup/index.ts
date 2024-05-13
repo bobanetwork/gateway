@@ -31,6 +31,7 @@ import {
 } from 'selectors'
 import networkService from 'services/networkService'
 import { LAYER } from 'util/constant'
+import { setBlockTime } from '../../actions/setupAction'
 
 const useBridgeSetup = () => {
   const dispatch = useDispatch<any>()
@@ -121,12 +122,21 @@ const useBridgeSetup = () => {
   useEffect(() => {
     if (isAccountEnabled) {
       getLookupPrice()
+
+      if (bridgeType === BRIDGE_TYPE.LIGHT) {
+        networkService.getLatestBlockTime().then((blockTime) => {
+          if (!blockTime) {
+            return
+          }
+          dispatch(setBlockTime(blockTime))
+        })
+      }
     }
 
     return () => {
       dispatch(clearLookupPrice())
     }
-  }, [getLookupPrice, isAccountEnabled])
+  }, [getLookupPrice, isAccountEnabled, bridgeType])
 
   return { getLookupPrice }
 }

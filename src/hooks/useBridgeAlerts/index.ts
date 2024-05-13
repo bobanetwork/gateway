@@ -27,6 +27,7 @@ import {
   selectL2LPPendingString,
   selectLayer,
   selectTokenToBridge,
+  selectBlockTime,
 } from 'selectors'
 import { logAmount } from 'util/amountConvert'
 import { LAYER } from 'util/constant'
@@ -63,6 +64,7 @@ interface ITeleportationTokenSupport {
 
 const useBridgeAlerts = () => {
   const dispatch = useDispatch<any>()
+  const currBlockTime: number = useSelector(selectBlockTime())
   const layer = useSelector(selectLayer())
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
@@ -98,7 +100,10 @@ const useBridgeAlerts = () => {
     amountToBridge = Number(amountToBridge)
 
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
-      if (!tokenForTeleportationSupported.supported) {
+      if (
+        !tokenForTeleportationSupported.supported &&
+        typeof token !== 'undefined'
+      ) {
         dispatch(
           clearBridgeAlert({
             keys: [
@@ -126,10 +131,14 @@ const useBridgeAlerts = () => {
             ],
           })
         )
-
         if (
-          disburserBalance !== undefined &&
-          BigNumber.from(disburserBalance).lt(amountToBridge)
+          typeof disburserBalance !== 'undefined' &&
+          BigNumber.from(disburserBalance).lt(
+            ethers.utils.parseUnits(
+              amountToBridge.toString(),
+              typeof token === 'undefined' ? 18 : token.decimals
+            )
+          )
         ) {
           dispatch(
             setBridgeAlert({
@@ -160,6 +169,9 @@ const useBridgeAlerts = () => {
             tokenForTeleportationSupported.maxTransferAmountPerDay
           )
         )
+        const transferTimestampCheckPoint = Number(
+          tokenForTeleportationSupported.transferTimestampCheckPoint
+        )
 
         dispatch(
           setBridgeAlert({
@@ -170,6 +182,8 @@ const useBridgeAlerts = () => {
         )
 
         if (
+          // LightBridge has a hardcoded 24h limit which is reset on the first transfer of the day
+          currBlockTime - transferTimestampCheckPoint < 86400 &&
           amountToBridge > 0 &&
           (tokenForTeleportationSupported.transferredAmount as BigNumber).eq(
             tokenForTeleportationSupported.maxTransferAmountPerDay
@@ -182,25 +196,7 @@ const useBridgeAlerts = () => {
               text: `The maximum daily bridgeable amount of ${ethers.utils.formatEther(tokenForTeleportationSupported.maxTransferAmountPerDay)} has been reached.`,
             })
           )
-        } else if (
-          amountToBridge > 0 &&
-          transferredAmount + amountToBridge > maxTransferAmount
-        ) {
-          const maxAmount =
-            tokenForTeleportationSupported.maxTransferAmountPerDay as BigNumber
-          const remainingAmount =
-            tokenForTeleportationSupported.transferredAmount as BigNumber
-          const allowedAmount = maxAmount.sub(remainingAmount)
-
-          dispatch(
-            setBridgeAlert({
-              meta: ALERT_KEYS.MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED,
-              type: 'error',
-              text: `Your chosen amount exceeds the daily limit. Maximum remaining amount for this asset is: ${utils.formatEther(allowedAmount)}`,
-            })
-          )
         }
-
         if (amountToBridge && amountToBridge < minDepositAmount) {
           dispatch(
             setBridgeAlert({
@@ -224,7 +220,12 @@ const useBridgeAlerts = () => {
         }
       }
     }
-  }, [tokenForTeleportationSupported, bridgeType, amountToBridge])
+  }, [
+    tokenForTeleportationSupported,
+    bridgeType,
+    amountToBridge,
+    currBlockTime,
+  ])
 
   // show infor to user about to OMG token when
   // connected to layer 1 ETH as token is specific to ethereum only.

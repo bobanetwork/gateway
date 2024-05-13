@@ -7,13 +7,11 @@ import {
 } from './style'
 import useGasWatcher from 'hooks/useGasWatcher'
 import { useSelector } from 'react-redux'
-import { selectActiveNetwork, selectActiveNetworkName } from 'selectors'
-import { Network } from 'util/network/network.util'
+import { selectActiveNetworkName } from 'selectors'
 
 const GasWatcher: FC = () => {
-  const { gas, savings, verifierStatus } = useGasWatcher()
+  const { gas, savings } = useGasWatcher()
   const networkName = useSelector(selectActiveNetworkName())
-  const activeNetwork = useSelector(selectActiveNetwork())
 
   if (!gas) {
     return null
@@ -41,14 +39,6 @@ const GasWatcher: FC = () => {
         <GasListItemLabel>L2</GasListItemLabel>
         <GasListItemValue>{gas?.blockL2}</GasListItemValue>
       </GasListItem>
-      {activeNetwork === Network.ETHEREUM ? (
-        <GasListItem>
-          <GasListItemLabel>Last Verified Block</GasListItemLabel>
-          <GasListItemValue>
-            {Number(verifierStatus?.matchedBlock || 0)}
-          </GasListItemValue>
-        </GasListItem>
-      ) : null}
     </GasListContainer>
   )
 }

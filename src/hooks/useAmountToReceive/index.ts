@@ -37,6 +37,10 @@ export const useAmountToReceive = () => {
     string | null | number
   >(0)
 
+  const [lightBridgeExitFee, setLightBridgeExitFee] = useState<
+    string | null | number
+  >(0)
+
   useEffect(() => {
     if (!token) {
       return
@@ -69,9 +73,10 @@ export const useAmountToReceive = () => {
         const value = Number(amount) * ((100 - Number(l1FeeRateN)) / 100)
         setAmountToReceive(value.toFixed(3))
       } else if (bridgeType === BRIDGE_TYPE.LIGHT && isLightBridgeExitToL1) {
-        // lightbridge exit fee to L1 only
-        const value =
-          Number(amount) * ((100 - Number(l1LightBridgeFeeRateN)) / 100)
+        const lightBridgeExitFeeRaw = Number(l1LightBridgeFeeRateN) / 100
+        const value = Number(amount) * (1 - lightBridgeExitFeeRaw)
+        const bridgeFee = Number(amount) * lightBridgeExitFeeRaw
+        setLightBridgeExitFee(bridgeFee)
         setAmountToReceive(value.toFixed(4))
       } else {
         // Teleportation, no fees as of now
@@ -82,6 +87,7 @@ export const useAmountToReceive = () => {
 
   return {
     amount: `${amountToReceive} ${token?.symbol}`,
+    lightBridgeExitFee,
   }
 }
 

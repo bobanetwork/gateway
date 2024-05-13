@@ -4,7 +4,7 @@ import { Heading } from 'components/global'
 import { ethers } from 'ethers'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectLayer, selectModalState } from 'selectors'
+import { selectLayer } from 'selectors'
 import {
   IHandleProveWithdrawalConfig,
   claimWithdrawal,
@@ -24,12 +24,7 @@ import {
   StepContainer,
 } from './index.styles'
 import { L2StandardERC20ABI } from '../../../services/abi'
-import {
-  addDaysToDate,
-  addHoursToDate,
-  dayNowUnix,
-  isBeforeDate,
-} from 'util/dates'
+import { addDaysToDate, dayNowUnix, isBeforeDate } from 'util/dates'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -46,7 +41,9 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const [latestLogs, setLatestLogs] = useState<null | []>(null)
   const [activeStep, setActiveStep] = React.useState(0)
   const [loading, setLoading] = useState(false)
-  const [txInitTime, setTxInitTime] = useState<null | Number>(null)
+  const [canProoveTx, setCanProoveTx] = useState(false)
+  const [latestBlock, setLatestBlock] = useState(0)
+  const [txBlock, setTxBlock] = useState(0)
 
   useEffect(() => {
     if (props.reenterWithdrawConfig) {
@@ -56,28 +53,57 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     }
   }, [layer])
 
+  useEffect(() => {
+    let isMounted = true // Flag to track component mount state
+
+    const validateBlockNumberAndEnableProov = async () => {
+      if (activeStep === 3 && withdrawalConfig?.blockNumber) {
+        try {
+          setTxBlock(withdrawalConfig?.blockNumber)
+          let latestBlockOnL1 =
+            await networkService?.L2OutputOracle?.latestBlockNumber()
+          setLatestBlock(latestBlockOnL1)
+
+          while (
+            isMounted &&
+            Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
+          ) {
+            // @todo: check why block number is not getting updated.
+            // Update the latest block number
+            latestBlockOnL1 =
+              await networkService?.L2OutputOracle?.latestBlockNumber()
+            setLatestBlock(latestBlockOnL1)
+            // Wait for 12 seconds before checking again
+            await new Promise((resolve) => setTimeout(resolve, 12000))
+          }
+
+          if (isMounted) {
+            setCanProoveTx(true)
+          }
+        } catch (error) {
+          console.log(`Error while checking blocknumber`, error)
+        }
+      }
+    }
+    if (withdrawalConfig && activeStep === 3) {
+      validateBlockNumberAndEnableProov()
+    }
+
+    return () => {
+      isMounted = false // Update mount state on unmount
+    }
+  }, [activeStep])
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
   const isButtonDisabled = () => {
     if (activeStep === 3) {
-      if (txInitTime) {
-        // can prove only if tx intiated 1 hour before
-        const txWith1Hour = addHoursToDate(txInitTime, 1)
-        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
-      } else if (props.reenterWithdrawConfig) {
-        // can prove only if tx intiated 1 hour before
-        const txWith1Hour = addHoursToDate(
-          props.reenterWithdrawConfig.timeStamp,
-          1
-        )
-        return !Number(props.amountToBridge) || !isBeforeDate(txWith1Hour)
-      }
-      return true
+      return !canProoveTx
     } else if (activeStep === 5) {
-      // can claim only if tx intiated 7 day before
-      const txWith7Day = addDaysToDate(props.reenterWithdrawConfig.timeStamp, 7)
+      // can claim only if tx proove 7 day before
+      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
       return !Number(props.amountToBridge) || !isBeforeDate(txWith7Day)
     }
 
@@ -88,12 +114,15 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     setLoading(true)
     const isNativeWithdrawal =
       props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
-    selectModalState('transactionSuccess')
+
     handleInitiateWithdrawal(
       networkService as MinimalNetworkService,
       L2StandardERC20ABI,
       ethers.utils
-        .parseUnits(props.amountToBridge!.toString(), props.token.decimals)
+        .parseUnits(
+          props.amountToBridge!.toString(),
+          props.token ? props.token.decimals : null
+        )
         .toString(),
       isNativeWithdrawal ? null : props.token
     )
@@ -106,7 +135,6 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           return
         }
         setActiveStep(2)
-        setTxInitTime(dayNowUnix())
         setWithdrawalConfig({
           blockNumber: res,
         })
@@ -128,6 +156,10 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       .then((res: any) => {
         setActiveStep(5)
         setLatestLogs(res)
+        setWithdrawalConfig({
+          blockNumber: res[0].blockNumber,
+          timeStamp: dayNowUnix(),
+        })
         setLoading(false)
       })
       .catch((error) => {
@@ -150,7 +182,12 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           latestLogs
         ).then(() => {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
-          dispatch(openModal({ modal: 'transactionSuccess' }))
+          dispatch(
+            openModal({
+              modal: 'transactionSuccess',
+              isAnchorageWithdrawal: true,
+            })
+          )
           setLoading(false)
         })
       } else {
@@ -166,7 +203,12 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             claimWithdrawal(networkService as MinimalNetworkService, logs).then(
               () => {
                 setActiveStep(6)
-                dispatch(openModal({ modal: 'transactionSuccess' }))
+                dispatch(
+                  openModal({
+                    modal: 'transactionSuccess',
+                    isAnchorageWithdrawal: true,
+                  })
+                )
                 dispatch(closeModal('bridgeMultiStepWithdrawal'))
                 setLoading(false)
               }
@@ -174,6 +216,30 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           })
       }
     }
+  }
+
+  const prepareDesc = (desc?: string, step?: string) => {
+    if (!desc) {
+      return ''
+    }
+
+    if (activeStep === 3 && step === 'Prove Withdrawal') {
+      if (!canProoveTx) {
+        return `${desc} The current L2 block submitted to L1 is ${latestBlock} and your block is ${txBlock}.`
+      }
+    }
+
+    if (activeStep === 5 && step === 'Claim Withdrawal') {
+      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
+      const canClaim = !Number(props.amountToBridge) || isBeforeDate(txWith7Day)
+      if (!canClaim) {
+        return `The proof has been submitted. Please wait 7 days to claim your withdrawal`
+      } else {
+        return `The proof has been submitted and the 7-day window has passed`
+      }
+    }
+
+    return desc
   }
 
   return (
@@ -194,7 +260,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
                   </ActiveStepNumberIndicator>
                   {step.label}
                   <Description active={activeStep >= index}>
-                    {step.description}
+                    {prepareDesc(step.description, step.label)}
                   </Description>
                 </StepContainer>
               )}

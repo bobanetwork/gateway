@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-import { closeModal } from 'actions/uiAction'
+import { closeModal, resetAnchorageWithdrawalStatus } from 'actions/uiAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -29,7 +29,9 @@ import {
   TitleText,
 } from './styles'
 
-const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
+const TransactionSuccessModal: FC<
+  ModalInterface & { anchorageWithdraw?: boolean }
+> = ({ open, anchorageWithdraw }) => {
   const dispatch = useDispatch<any>()
   const navigate = useNavigate()
   const layer = useSelector(selectLayer())
@@ -68,6 +70,7 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
 
   const handleClose = () => {
     dispatch(closeModal('transactionSuccess'))
+    dispatch(resetAnchorageWithdrawalStatus())
   }
 
   return (
@@ -88,10 +91,12 @@ const TransactionSuccessModal: FC<ModalInterface> = ({ open }) => {
           <Heading variant="h1">Bridge Successful</Heading>
           <TitleText>
             Your funds will arrive in {estimateTime()} at your wallet on{' '}
-            {(destNetworkLightBridge && layer === LAYER.L1) ||
-            isAnchorageEnabled
-              ? name['l2']
-              : name['l1']}
+            {anchorageWithdraw
+              ? name['l1']
+              : (destNetworkLightBridge && layer === LAYER.L1) ||
+                  isAnchorageEnabled
+                ? name['l2']
+                : name['l1']}
             .
           </TitleText>
           <MutedText>To monitor progress, go to History page.</MutedText>
