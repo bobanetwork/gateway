@@ -117,7 +117,7 @@
     "@synthetixio/synpress": "^3.7.2-beta.10",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^12.1.2",
+    "@testing-library/react": "^15.0.7",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.5.1",
     "@types/lodash.flatten": "^4.4.9",
