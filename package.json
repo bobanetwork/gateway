@@ -105,7 +105,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@sentry/types": "^7.100.1",
     "@storybook/addon-essentials": "^7.0.15",
-    "@storybook/addon-interactions": "^7.0.15",
+    "@storybook/addon-interactions": "^8.1.1",
     "@storybook/addon-links": "^7.5.2",
     "@storybook/addon-styling": "^1.0.8",
     "@storybook/addon-toolbars": "^7.0.17",
