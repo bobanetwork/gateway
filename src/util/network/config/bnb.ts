@@ -14,7 +14,6 @@ export const bnbConfig: NetworkDetail = {
         `https://data-seed-prebsc-1-s1.bnbchain.org:8545/`,
         `https://bsc-testnet.publicnode.com/`,
         `https://data-seed-prebsc-2-s1.binance.org:8545/`,
-        `https://bsc-testnet.public.blastapi.io/`,
       ],
       transaction: `https://testnet.bscscan.com/tx/`,
       blockExplorerUrl: `https://testnet.bscscan.com/`,

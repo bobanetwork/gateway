@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://gateway.boba.network/">
-    <img alt="boba-logo" src="./boba-logo.svg" width="50%"/>
+    <img alt="boba-logo" src="./boba-logo.png" width="200px"/>
   </a>
 </p>
 
