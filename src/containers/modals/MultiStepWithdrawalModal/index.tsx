@@ -63,6 +63,7 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open, isNewTx }) => {
       if (withdrawalToken === '0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000') {
         withdrawalToken = '0x4200000000000000000000000000000000000006'
       }
+      console.log(`tokenInfo`, TokenInfo)
       const token =
         TokenInfo[withdrawalConfig.originChainId.toString()]?.[withdrawalToken]
       const amount = utils
