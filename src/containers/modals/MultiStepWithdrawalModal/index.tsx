@@ -60,6 +60,8 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open, isNewTx }) => {
       // Since the contract previously emitted the event with LEGACY_ERC20_TOKEN,
       // we now need to utilize the following logic to accurately retrieve ETH token data for
       // all transactions made before the contract update.
+      // NOTE: `0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000` it's id belong to WETH so in future
+      // the logic needs to be change by adding check for timestamp or blocknumber incase if it's getting supported on L2.
       if (withdrawalToken === '0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000') {
         withdrawalToken = '0x4200000000000000000000000000000000000006'
       }
