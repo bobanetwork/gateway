@@ -17,7 +17,6 @@ import { BridgeTabItem, BridgeTabs } from './style'
 
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
-  FAST = 'FAST',
   LIGHT = 'LIGHT',
   THIRD_PARTY = 'THIRD_PARTY',
 }

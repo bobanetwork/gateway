@@ -81,7 +81,6 @@ const uiReducer = (state: IUiReducerState = initialState, action) => {
       return {
         ...state,
         [action.payload]: true,
-        fast: action.fast,
         token: action.token,
         tokenIndex: action.tokenIndex,
         lock: action.lock, // incase of lock record

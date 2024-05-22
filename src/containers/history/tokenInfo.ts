@@ -198,11 +198,6 @@ export const TokenInfo: TokenInfoMap = {
       symbol: 'BOBA',
       decimals: 18,
     },
-    '0x02ed46aa41fcb4a6f06a5f2d43a958f1e8c0a4e6': {
-      name: 'Meta Token Test',
-      symbol: 'MTT',
-      decimals: 18,
-    },
   },
   '900': {
     '0x67d269191c92caf3cd7723f116c85e6e9bf55933': {
@@ -443,11 +438,6 @@ export const TokenInfo: TokenInfoMap = {
     '0x4200000000000000000000000000000000000023': {
       name: 'tBNB',
       symbol: 'BNB',
-      decimals: 18,
-    },
-    '0xb3be5c928e3ec6b11985753f7b3c43a8bb12bc03': {
-      name: 'Meta Token Test',
-      symbol: 'MTT',
       decimals: 18,
     },
   },

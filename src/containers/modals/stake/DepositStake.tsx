@@ -17,14 +17,13 @@ import { BigNumber, utils } from 'ethers'
 import { MaxInput } from 'components/global/InputMax'
 
 import { ModalTypography } from 'components/global/modalTypography'
-import { selectFixed, selectSetup, selectBalance } from 'selectors'
+import { selectFixed, selectSetup, selectlayer2Balance } from 'selectors'
 
 const DepositStake = (props: any) => {
   const { stakeInfo } = useSelector(selectFixed())
   const { accountEnabled, netLayer, bobaFeeChoice, bobaFeePriceRatio } =
     useSelector(selectSetup())
-  const balance = useSelector(selectBalance())
-  const { layer2 } = balance
+  const layer2 = useSelector(selectlayer2Balance)
 
   const dispatch = useDispatch<any>()
 

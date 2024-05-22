@@ -7,7 +7,6 @@ import {
   selectBridgeType,
   selectClassicExitCost,
   selectExitFee,
-  selectFastExitCost,
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
@@ -28,7 +27,6 @@ const TokenInput = (props: Props) => {
   const token = useSelector(selectTokenToBridge())
   const bridgeType = useSelector(selectBridgeType())
   const classicExitCost = useSelector(selectClassicExitCost)
-  const fastExitCost = useSelector(selectFastExitCost)
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
@@ -62,10 +60,7 @@ const TokenInput = (props: Props) => {
       bridgeType !== BRIDGE_TYPE.LIGHT &&
       !!isActiveNetworkBnb
     ) {
-      let cost = classicExitCost || 0
-      if (bridgeType === BRIDGE_TYPE.FAST) {
-        cost = fastExitCost || 0
-      }
+      const cost = classicExitCost || 0
 
       const safeCost = Number(cost) * 1.04 // 1.04 == safety margin on cost
       if (token.symbol === networkService.L1NativeTokenSymbol) {

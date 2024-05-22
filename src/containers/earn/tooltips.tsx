@@ -8,16 +8,6 @@ export const BridgeTooltip = () => (
     increase by 10 BOBA.
     <br />
     <br />
-    <span style={{ fontWeight: '700' }}>Fast Bridge example</span>. When a user
-    bridges 10 BOBA from L1 to L2 using the fast bridge, they send 10 BOBA to
-    the L1 pool, increasing its balance by 10 BOBA. Next, 9.99 BOBA flow out
-    from the L2 pool to the user's L2 wallet, completing the bridge. Note that
-    bridge operations do not change the pool's liquidity, but only its balance.
-    The difference between what was deposited into the L1 pool (10 BOBA) and
-    what was sent to the user on the L2 (9.99 BOBA), equal to 0.01 BOBA, is sent
-    to the reward pool, for harvesting by stakers.
-    <br />
-    <br />
     <span style={{ fontWeight: '700' }}>Pool rebalancing</span>. In some
     circumstances, excess balances can accumulate on one chain. For example, if
     many people bridge from L1 to L2, then L1 pool balances will increase, while

@@ -5,7 +5,7 @@ module.exports = {
     es6: true,
   },
   ignorePatterns: ['dist', 'coverage', 'packages/contracts/hardhat'],
-  extends: ['plugin:prettier/recommended', 'plugin:storybook/recommended'],
+  extends: ['plugin:prettier/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     es6: true,

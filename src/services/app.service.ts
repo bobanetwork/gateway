@@ -17,9 +17,6 @@ import addresses_Mainnet_Arb from '@bobanetwork/register/addresses/addressesArbi
 import addresses_Mainnet_Op from '@bobanetwork/register/addresses/addressesOptimismMainnet_0x.json'
 import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0xeb989B25597259cfa51Bd396cE1d4B085EC4c753.json'
 
-// layerzero addresses.
-import layerZeroTestnet from '@bobanetwork/register/addresses/layerZeroTestnet.json'
-import layerZeroMainnet from '@bobanetwork/register/addresses/layerZeroMainnet.json'
 import store from 'store'
 
 // predeployed contracts.
@@ -34,17 +31,9 @@ const ADDRESS_CONFIG = {
   [NetworkType.MAINNET]: {
     [Network.ETHEREUM]: {
       ...addresses_Mainnet,
-      ...layerZeroMainnet.BOBA_Bridges.Mainnet,
-      ...layerZeroMainnet.Layer_Zero_Protocol.Mainnet,
-      layerZeroTargetChainID:
-        layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
     [Network.BNB]: {
       ...addresses_BobaBnb,
-      ...layerZeroMainnet.BOBA_Bridges.BNB,
-      ...layerZeroMainnet.Layer_Zero_Protocol.BNB,
-      layerZeroTargetChainID:
-        layerZeroMainnet.Layer_Zero_Protocol.Mainnet.Layer_Zero_ChainId,
     },
     [Network.ARBITRUM]: {
       ...addresses_Mainnet_Arb,
@@ -62,17 +51,9 @@ const ADDRESS_CONFIG = {
     },
     [Network.ETHEREUM]: {
       ...addresses_Sepolia,
-      ...layerZeroTestnet.BOBA_Bridges.Testnet,
-      ...layerZeroTestnet.Layer_Zero_Protocol.Testnet,
-      layerZeroTargetChainID:
-        layerZeroTestnet.Layer_Zero_Protocol.Testnet.Layer_Zero_ChainId,
     },
     [Network.BNB]: {
       ...addresses_BobaBnbTestnet,
-      ...layerZeroTestnet.BOBA_Bridges.BNB,
-      ...layerZeroTestnet.Layer_Zero_Protocol.BNB,
-      layerZeroTargetChainID:
-        layerZeroTestnet.Layer_Zero_Protocol.BNB.Layer_Zero_ChainId,
     },
   },
 }
@@ -191,7 +172,7 @@ const SUPPORTED_ASSETS: NetworkTypeConfigs = {
     },
     [Network.BNB]: {
       tokenAddresses: {},
-      tokens: ['BOBA', 'tBNB', 'MTT'],
+      tokens: ['BOBA', 'tBNB'],
       altL1Chains: ['BNB'],
     },
     [Network.OPTIMISM]: {

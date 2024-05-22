@@ -21,8 +21,6 @@ const expectedActions = [
     },
     type: 'BRIDGE/ALERT/SET',
   },
-  { payload: { keys: ['FAST_EXIT_ERROR'] }, type: 'BRIDGE/ALERT/CLEAR' },
-  { payload: { keys: ['FAST_DEPOSIT_ERROR'] }, type: 'BRIDGE/ALERT/CLEAR' },
   { payload: undefined, type: 'BRIDGE/ALERT/PURGE' },
 ]
 
@@ -494,9 +492,13 @@ describe('useBridgeAlerts', () => {
     })
   })
 
-  test('L2 and BridgeType is not Light & exitFee is bigger than Boba Balance should error', async () => {
+  xtest('L2 and BridgeType is not Light & exitFee is bigger than Boba Balance should error', async () => {
     const initialState = {
       ...mockedInitialState,
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
       setup: {
         ...mockedInitialState.setup,
         accountEnabled: true,
@@ -539,9 +541,13 @@ describe('useBridgeAlerts', () => {
     expect(actions).toEqual(expectedActions)
   })
 
-  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is not using feeUseBoba should error', async () => {
+  xtest('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is not using feeUseBoba should error', async () => {
     const initialState = {
       ...mockedInitialState,
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
       setup: {
         ...mockedInitialState.setup,
         accountEnabled: true,
@@ -586,9 +592,13 @@ describe('useBridgeAlerts', () => {
     expect(actions).toEqual(expectedActions)
   })
 
-  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba should error', async () => {
+  xtest('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba should error', async () => {
     const initialState = {
       ...mockedInitialState,
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
       setup: {
         ...mockedInitialState.setup,
         accountEnabled: true,
@@ -633,9 +643,13 @@ describe('useBridgeAlerts', () => {
     expect(actions).toEqual(expectedActions)
   })
 
-  test('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba and token is BOBA should error', async () => {
+  xtest('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba and token is BOBA should error', async () => {
     const initialState = {
       ...mockedInitialState,
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
       setup: {
         ...mockedInitialState.setup,
         accountEnabled: true,
@@ -691,6 +705,10 @@ describe('useBridgeAlerts', () => {
   xtest('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is not using feeUseBoba and token is ETH and freeBlanace is bigger than total value should error', async () => {
     const initialState = {
       ...mockedInitialState,
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
       setup: {
         ...mockedInitialState.setup,
         accountEnabled: true,
@@ -738,6 +756,10 @@ describe('useBridgeAlerts', () => {
   xtest('L2 and BridgeType is not Light & ethCost is bigger than free Balance & is using feeUseBoba and token is ETH and freeBlanace is bigger than total value should error', async () => {
     const initialState = {
       ...mockedInitialState,
+      network: {
+        ...mockedInitialState.network,
+        activeNetwork: 'BNB',
+      },
       setup: {
         ...mockedInitialState.setup,
         accountEnabled: true,

@@ -42,19 +42,6 @@ class TransactionService {
     }
   }
 
-  async getFastExits(networkConfig = networkService.networkConfig) {
-    const response = await omgxWatcherAxiosInstance(networkConfig).get(
-      'get.l2.pendingexits'
-    )
-
-    if (response.status === 201) {
-      const data = response.data
-      return data.filter((i) => i.fastRelay === 1 && i.status === 'pending')
-    } else {
-      return []
-    }
-  }
-
   async fetchAnchorageTransactions(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
@@ -90,7 +77,6 @@ class TransactionService {
     }
   }
 
-  // fetch L2 transactions from omgxWatcherAxiosInstance
   async fetchL2Tx(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
@@ -124,7 +110,7 @@ class TransactionService {
     }
   }
 
-  // fetch L0 transactions from omgxWatcherAxiosInstance
+  // fetch L0 transactions
   async fetchL0Tx(networkConfig = networkService.networkConfig) {
     let L0Txs = []
     if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
@@ -159,7 +145,7 @@ class TransactionService {
     }
   }
 
-  // fetch L1 pending transactions from omgxWatcherAxiosInstance
+  // fetch L1 pending transactions
   async fetchL1PendingTx(networkConfig = networkService.networkConfig) {
     let txL1pending = []
     if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
