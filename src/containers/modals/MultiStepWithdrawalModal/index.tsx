@@ -8,7 +8,7 @@ import {
   Separator,
   WithdrawalNetworkContainer,
 } from './index.styles'
-import { closeModal } from 'actions/uiAction'
+import { closeModal, openError } from 'actions/uiAction'
 import Modal from 'components/modal/Modal'
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -68,11 +68,16 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open, isNewTx }) => {
       }
       const token =
         TokenInfo[withdrawalConfig.originChainId.toString()]?.[withdrawalToken]
-      const amount = utils
-        .formatUnits(withdrawalConfig.amount, token ? token?.decimals : 18)
-        .toString()
-      setAmountToBridge(amount)
-      setToken({ ...token, address: withdrawalConfig.token })
+      if (!token) {
+        dispatch(openError('Invalid token!'))
+        handleClose()
+      } else {
+        const amount = utils
+          .formatUnits(withdrawalConfig.amount, token ? token?.decimals : 18)
+          .toString()
+        setAmountToBridge(amount)
+        setToken({ ...token, address: withdrawalConfig.token })
+      }
     }
   }, [_token, _amountToBridge, withdrawalConfig, isNewTx])
 
