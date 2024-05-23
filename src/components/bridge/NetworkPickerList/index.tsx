@@ -141,7 +141,7 @@ export const NetworkList: FC<NetworkListProps> = ({
 
     return (
       <NetworkItem
-        id={'networkItem'}
+        className={'networkItem'}
         selected={selected}
         key={`${chainDetail.label}_${layer}_${chainDetail.key}`}
         onClick={() => onChainChange(chainDetail, layer)}

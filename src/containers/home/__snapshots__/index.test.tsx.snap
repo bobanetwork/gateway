@@ -213,6 +213,7 @@ exports[`Home  should match snapshot 1`] = `
           >
             <div
               class="sc-bBeLUv fSyuEA"
+              data-testid="Block explorers"
             >
               Block explorers
             </div>
@@ -237,7 +238,7 @@ exports[`Home  should match snapshot 1`] = `
           <p
             class="sc-imWYAI dZiXLh sc-gFVvzn VtWau"
           >
-            v0.14.4
+            v0.14.8
           </p>
         </div>
         <div

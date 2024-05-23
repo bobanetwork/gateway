@@ -46,11 +46,11 @@ jobs:
         env:
           REACT_APP_POLL_INTERVAL: 15000
           SKIP_PREFLIGHT_CHECK: true
-          REACT_APP_WALLET_VERSION: 0.9.1
+          REACT_APP_WALLET_VERSION: 0.14.8
           REACT_APP_ENV: prod
           REACT_APP_STATUS: normal
           CYPRESS_REMOTE_DEBUGGING_PORT: 9222
-          NETWORK_NAME: 'goerli'
+          NETWORK_NAME: 'sepolia'
           SECRET_WORDS: ${{secrets.SECRET_WORDS}}
           DISPLAY: :0.0
           CYPRESS_ENABLE_VIDEO: true
