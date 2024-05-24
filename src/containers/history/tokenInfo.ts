@@ -413,6 +413,26 @@ export const TokenInfo: TokenInfoMap = {
       symbol: 'BOBA',
       decimals: 18,
     },
+    '0x4200000000000000000000000000000000000006': {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    '0x429582bde1b0e011c48d883354050938f194743f': {
+      name: 'USD Coin',
+      symbol: 'USDC',
+      decimals: 6,
+    },
+    '0x080bf38b43a1441873116002d36ccb583464cf45': {
+      name: 'OMG Token',
+      symbol: 'OMG',
+      decimals: 18,
+    },
+    '0x01c9dc8b9c66d61a56db7bf3f5303cd9e9c85b1f': {
+      name: 'xBOBA Token',
+      symbol: 'xBOBA',
+      decimals: 18,
+    },
   },
   '9728': {
     '0x4200000000000000000000000000000000000006': {
@@ -432,6 +452,11 @@ export const TokenInfo: TokenInfoMap = {
     },
   },
   '11155111': {
+    '0x0000000000000000000000000000000000000000': {
+      name: 'Etheruem',
+      symbol: 'ETH',
+      decimals: 18,
+    },
     '0x33faf65b3dfcc6a1fccad4531d9ce518f0fdc896': {
       name: 'Boba Token',
       symbol: 'BOBA',
