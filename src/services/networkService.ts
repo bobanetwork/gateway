@@ -1250,6 +1250,7 @@ class NetworkService {
       if (
         this.networkGateway === Network.ETHEREUM &&
         allowance_BN.lt(BigNumber.from(value_Wei_String)) &&
+        allTokens.OMG &&
         currency.toLowerCase() === allTokens.OMG.L1.toLowerCase()
       ) {
         console.log(
