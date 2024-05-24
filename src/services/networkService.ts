@@ -1242,7 +1242,10 @@ class NetworkService {
       */
       if (
         this.networkGateway === Network.ETHEREUM &&
+        this.networkType === NetworkType.MAINNET && /// as OMG only supported on mainnet.
         allowance_BN.lt(BigNumber.from(value_Wei_String)) &&
+        !!allTokens &&
+        !!allTokens.OMG &&
         currency.toLowerCase() === allTokens.OMG.L1.toLowerCase()
       ) {
         console.log(
