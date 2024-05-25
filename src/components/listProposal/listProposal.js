@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+// TODO: cleanup mui material.
 import { Box, Link, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { executeProposal, queueProposal } from 'actions/daoAction'

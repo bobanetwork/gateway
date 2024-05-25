@@ -18,13 +18,11 @@ import { useDispatch } from 'react-redux'
 import { isEqual, orderBy } from 'util/lodash';
 import { useSelector } from 'react-redux'
 
-import { fetchSevens, fetchFastExits } from 'actions/networkAction'
+import {fetchSevens} from 'actions/networkAction'
 
-import { selectBaseEnabled, selectSevens, selectFastExits } from 'selectors'
+import {selectBaseEnabled,selectSevens} from 'selectors'
 
 import Sevens from './Sevens'
-import FastExits from './FastExits'
-
 import useInterval from 'hooks/useInterval'
 
 import { POLL_INTERVAL } from 'util/constant'
@@ -44,21 +42,15 @@ function BobaScope() {
   const orderedSevens = orderBy(unorderedSevens, i => i.timeStamp, 'desc')
   const sevens = orderedSevens
 
-  const unorderedFastExits = useSelector(selectFastExits, isEqual)
-  const orderedFastExits = orderBy(unorderedFastExits, i => i.timeStamp, 'desc')
-  const fastExits = orderedFastExits
-
   useEffect(() => {
     if (baseEnabled) {
       dispatch(fetchSevens())
-      dispatch(fetchFastExits())
     }
   }, [ dispatch, baseEnabled ])
 
   useInterval(() => {
     if (baseEnabled) {
       dispatch(fetchSevens())
-      dispatch(fetchFastExits())
     }
   }, POLL_INTERVAL)
 
@@ -77,12 +69,6 @@ function BobaScope() {
               content:(<Sevens
                 searchData={searchData}
                 sevens={sevens}
-              />)
-            },
-            {label:"Fast Exits",
-              content:(          <FastExits
-                searchData={searchData}
-                data={fastExits}
               />)
             }
         ]}

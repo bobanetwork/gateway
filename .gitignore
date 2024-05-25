@@ -1,3 +1,6 @@
+/cypress/videos
+/cypress/screenshots
+
 .DS_Store
 node_modules
 results

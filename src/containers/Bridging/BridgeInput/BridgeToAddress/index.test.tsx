@@ -85,23 +85,4 @@ describe('BridgeToAddress', () => {
     expect(navigator.clipboard.readText).toHaveBeenCalled()
     expect(newActions).toEqual([])
   })
-
-  test('should match Snapshot in case of L2 & Fast Bridge ', () => {
-    store = mockStore({
-      ...mockedInitialState,
-      setup: {
-        ...mockedInitialState.bridge,
-        accountEnabled: true,
-        netLayer: 'L2',
-      },
-      bridge: {
-        ...mockedInitialState.bridge,
-        bridgeToAddressState: true,
-      },
-    })
-    const { asFragment } = renderBridgeToAddress({
-      store,
-    })
-    expect(asFragment()).toMatchSnapshot()
-  })
 })

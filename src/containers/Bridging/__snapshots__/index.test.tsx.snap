@@ -89,6 +89,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             </p>
             <div
               class="sc-hRJfrW gQTHzT"
+              data-testid="from-network-picker"
             >
               <div
                 class="sc-iHbSHJ cMMGQH"
@@ -178,6 +179,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             </p>
             <div
               class="sc-hRJfrW gQTHzT"
+              data-testid="to-network-picker"
             >
               <div
                 class="sc-iHbSHJ cMMGQH"

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+// TODO: cleanup mui
 import { Box, Typography } from '@mui/material'
 import { Contract, utils } from 'ethers'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'

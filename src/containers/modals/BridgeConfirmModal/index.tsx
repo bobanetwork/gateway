@@ -12,8 +12,6 @@ import {
   selectAmountToBridge,
   selectBridgeType,
   selectDestChainIdTeleportation,
-  selectL1FeeRateN,
-  selectL2FeeRateN,
   selectLayer,
   selectLookupPrice,
   selectTokenToBridge,
@@ -37,8 +35,6 @@ interface Props {
 
 const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const dispatch = useDispatch<any>()
-  const l1FeeRateN = useSelector(selectL1FeeRateN)
-  const l2FeeRateN = useSelector(selectL2FeeRateN)
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
@@ -59,12 +55,6 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
         return '13 ~ 14mins.'
       } else {
         return '7 days'
-      }
-    } else if (bridgeType === BRIDGE_TYPE.FAST) {
-      if (layer === LAYER.L1) {
-        return '1 ~ 5min.'
-      } else {
-        return '15min ~ 3hrs.'
       }
     } else {
       // Teleportation, instant
@@ -144,17 +134,6 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
             {amountToUsd(amountToBridge, lookupPrice, token).toFixed(4)})
           </ConfirmValue>
         </Item>
-        {isAnchorageEnabled ? null : (
-          <Item>
-            <ConfirmLabel>Gas Fee</ConfirmLabel>
-            <ConfirmValue>
-              {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
-                ? l2FeeRateN
-                : l1FeeRateN) || 0}
-              %
-            </ConfirmValue>
-          </Item>
-        )}
         <Item>
           <ConfirmLabel>Time</ConfirmLabel>
           <ConfirmValue>{estimateTime()}</ConfirmValue>

@@ -17,38 +17,10 @@ export const selectlayer1Balance = (state) => state.balance.layer1
 
 export const selectlayer2Balance = (state) => state.balance.layer2
 
-export const selectL1LPBalanceString = (state) =>
-  state.balance.l1LpBalanceWeiString
-
-export const selectL2LPBalanceString = (state) =>
-  state.balance.l2LpBalanceWeiString
-
-export const selectL1LPPendingString = (state) =>
-  state.balance.l1LpPendingWeiString
-
-export const selectL2LPPendingString = (state) =>
-  state.balance.l2LpPendingWeiString
-
-export const selectL1LPLiquidity = (state) => state.balance.l1lpLiquidity
-
-export const selectL2LPLiquidity = (state) => state.balance.l2lpLiquidity
-
-export const selectL1FeeRateN = (state) => state.balance.l1FeeRateN
-
-export const selectL2FeeRateN = (state) => state.balance.l2FeeRateN
-
-export const selectFastExitCost = (state) => state.balance.fastExitCost
-
 export const selectClassicExitCost = (state) => state.balance.classicExitCost
-
-export const selectFastDepositCost = (state) => state.balance.fastDepositCost
-
-export const selectL1FeeBalance = (state) => state.balance.l1FeeBalance
 
 export const selectL2BalanceETH = (state) => state.balance.l2BalanceETH
 
 export const selectL2BalanceBOBA = (state) => state.balance.l2BalanceBOBA
 
 export const selectExitFee = (state) => state.balance.exitFee
-
-export const selectBalance = () => (state) => state.balance

@@ -10,20 +10,12 @@ import { LAYER } from 'util/constant'
 
 jest.mock('services/networkService', () => {
   return {
-    L1LPBalance: jest.fn(),
     L2LPBalance: jest.fn(),
     L1LPPending: jest.fn(),
     L2LPPending: jest.fn(),
-    L1LPLiquidity: jest.fn(),
-    L2LPLiquidity: jest.fn(),
     fetchLookUpPrice: jest.fn(),
     getL1TotalFeeRate: jest.fn(),
-    getL2TotalFeeRate: jest.fn(),
-    getL1UserRewardFeeRate: jest.fn(),
-    getL2UserRewardFeeRate: jest.fn(),
-    getFastExitCost: jest.fn(),
     getExitCost: jest.fn(),
-    getFastDepositCost: jest.fn(),
     getL1FeeBalance: jest.fn(),
     getL2BalanceETH: jest.fn(),
     getL2BalanceBOBA: jest.fn(),
@@ -67,122 +59,6 @@ jest.mock('services/networkService', () => {
 describe('useBridgeSetup', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-
-  xtest('Bridge Setup network is L1, but the funds will be paid out to L2. we request required info for fast briding', async () => {
-    const initialState = {
-      ...mockedInitialState,
-      bridge: {
-        ...mockedInitialState.bridge,
-        bridgeType: BRIDGE_TYPE.FAST,
-        tokens: [
-          {
-            currency: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
-            addressL1: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
-            addressL2: '0xe1e2ec9a85c607092668789581251115bcbd20de',
-            symbolL1: 'OMG',
-            symbolL2: 'OMG',
-            decimals: 18,
-            name: 'OMGToken',
-            redalert: false,
-            balance: '12f36952259fa2ac',
-            layer: 'L2',
-            address: '0xe1e2ec9a85c607092668789581251115bcbd20de',
-            symbol: 'OMG',
-            amount: 0,
-            toWei_String: 0,
-          },
-        ],
-      },
-      setup: {
-        ...mockedInitialState,
-        netLayer: LAYER.L1,
-      },
-    }
-
-    const store = mockStore(initialState)
-
-    const wrapper = ({ children }) => (
-      <Provider store={store}>{children}</Provider>
-    )
-    const { result } = renderHook(() => useBridgeSetup(), {
-      wrapper,
-    })
-
-    const actions = store.getActions()
-    expect(actions).toContainEqual({
-      type: 'FETCH/L2LP/BALANCE/REQUEST',
-    })
-    expect(actions).toContainEqual({
-      type: 'FETCH/L2LP/LIQUIDITY/REQUEST',
-    })
-    expect(actions).toContainEqual({
-      type: 'FETCH/L2LP/PENDING/REQUEST',
-    })
-    expect(actions).toContainEqual({
-      type: 'FETCH/L2TOTALFEERATE/REQUEST',
-    })
-    expect(actions).toContainEqual({
-      type: 'FETCH/L2FEERATE/REQUEST',
-    })
-    expect(actions).toContainEqual({
-      type: 'FETCH/FASTDEPOSIT/COST/REQUEST',
-    })
-    expect(actions).toContainEqual({
-      type: 'FETCH/L1FEE/BALANCE/REQUEST',
-    })
-  })
-
-  xtest('Bridge Setup network is L2, but the funds will be paid out to L1. we request required info for fast briding', async () => {
-    const initialState = {
-      ...mockedInitialState,
-      bridge: {
-        ...mockedInitialState.bridge,
-        bridgeType: BRIDGE_TYPE.FAST,
-        tokens: [
-          {
-            currency: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
-            addressL1: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
-            addressL2: '0xe1e2ec9a85c607092668789581251115bcbd20de',
-            symbolL1: 'OMG',
-            symbolL2: 'OMG',
-            decimals: 18,
-            name: 'OMGToken',
-            redalert: false,
-            balance: '12f36952259fa2ac',
-            layer: 'L2',
-            address: '0xe1e2ec9a85c607092668789581251115bcbd20de',
-            symbol: 'OMG',
-            amount: 0,
-            toWei_String: 0,
-          },
-        ],
-      },
-      setup: {
-        ...mockedInitialState,
-        netLayer: LAYER.L2,
-      },
-    }
-
-    const store = mockStore(initialState)
-
-    const wrapper = ({ children }) => (
-      <Provider store={store}>{children}</Provider>
-    )
-    const { result } = renderHook(() => useBridgeSetup(), {
-      wrapper,
-    })
-
-    const actions = store.getActions()
-    expect(actions).toContainEqual({ type: 'FETCH/L2ETH/BALANCE/REQUEST' })
-    expect(actions).toContainEqual({ type: 'FETCH/L2BOBA/BALANCE/REQUEST' })
-    expect(actions).toContainEqual({ type: 'FETCH/EXITFEE/REQUEST' })
-    expect(actions).toContainEqual({ type: 'FETCH/L1LP/BALANCE/REQUEST' })
-    expect(actions).toContainEqual({ type: 'FETCH/L1LP/LIQUIDITY/REQUEST' })
-    expect(actions).toContainEqual({ type: 'FETCH/L1LP/PENDING/REQUEST' })
-    expect(actions).toContainEqual({ type: 'FETCH/L1TOTALFEERATE/REQUEST' })
-    expect(actions).toContainEqual({ type: 'FETCH/L1FEERATE/REQUEST' })
-    expect(actions).toContainEqual({ type: 'FETCH/FASTEXIT/COST/REQUEST' })
-  })
 
   xtest('Bridge Setup network is L2, but the funds will be paid out to L1. we request required info for classic briding', async () => {
     const initialState = {

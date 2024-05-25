@@ -9,7 +9,6 @@ export default defineConfig({
   defaultCommandTimeout: 60000,
   pageLoadTimeout: 60000,
   requestTimeout: 60000,
-  video: !!process.env.CYPRESS_ENABLE_VIDEO || false,
   e2e: {
     testIsolation: false,
     setupNodeEvents: (on, config) => {
@@ -17,13 +16,6 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3000',
     supportFile: 'cypress/support/e2e.ts',
-    specPattern: [
-      `cypress/e2e/specs/*.spec.cy.ts`,
-      'cypress/e2e/specs/flow/connect.spec.cy.ts',
-      'cypress/e2e/specs/flow/tokenPicker.spec.cy.ts',
-      'cypress/e2e/specs/flow/feeSwitching.spec.cy.ts',
-      'cypress/e2e/specs/flow/bridging.spec.cy.ts',
-    ],
+    specPattern: ['cypress/e2e/bridge.spec.cy.ts'],
   },
-  includeShadowDom: true,
 })

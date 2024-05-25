@@ -6,8 +6,7 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
     class="sc-ikkxIA jVsqAY"
   >
     <div
-      class="sc-dAbbOL hKpqkV"
-      id="networkItem"
+      class="sc-dAbbOL hKpqkV networkItem"
     >
       <div
         class="sc-feUZmu dYqRNZ"
@@ -72,8 +71,7 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
       </p>
     </div>
     <div
-      class="sc-dAbbOL hKpqkV"
-      id="networkItem"
+      class="sc-dAbbOL hKpqkV networkItem"
     >
       <div
         class="sc-feUZmu dYqRNZ"

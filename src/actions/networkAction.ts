@@ -30,17 +30,8 @@ export const fetchTransactions = () =>
 export const fetchSevens = () =>
   createAction('SEVENS/GETALL', () => transactionService.getSevens())
 
-export const fetchFastExits = () =>
-  createAction('FASTEXITS/GETALL', () => transactionService.getFastExits())
-
 export const exitBOBA = (token: string, value: BigNumberish) =>
   createAction('EXIT/CREATE', () => networkService.exitBOBA(token, value))
-
-//SWAP RELATED
-export const depositL1LP = (currency: string, value: BigNumberish) =>
-  createAction('DEPOSIT/CREATE', () =>
-    networkService.depositL1LP(currency, value)
-  )
 
 export const isTeleportationOfAssetSupported = (
   layer: string,
@@ -69,10 +60,6 @@ export const depositWithLightBridge = (
   createAction('DEPOSIT/CREATE', () =>
     networkService.depositWithTeleporter(layer, currency, value, destChainId)
   )
-
-//SWAP RELATED - Depositing into the L2LP triggers the swap-exit
-export const depositL2LP = (token: string, value: BigNumberish) =>
-  createAction('EXIT/CREATE', () => networkService.depositL2LP(token, value))
 
 //CLASSIC DEPOSIT ETH
 export const depositETHL2 = (payload) =>

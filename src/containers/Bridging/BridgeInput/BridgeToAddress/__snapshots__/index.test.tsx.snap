@@ -30,5 +30,3 @@ exports[`BridgeToAddress should match Snapshot in case of L1 & Classic Bridge  1
   </div>
 </DocumentFragment>
 `;
-
-exports[`BridgeToAddress should match Snapshot in case of L2 & Fast Bridge  1`] = `<DocumentFragment />`;

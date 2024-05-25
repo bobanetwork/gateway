@@ -7,8 +7,6 @@ import {
   selectBridgeType,
   selectClassicExitCost,
   selectExitFee,
-  selectFastDepositCost,
-  selectFastExitCost,
   selectLayer,
 } from 'selectors'
 import { useSelector } from 'react-redux'
@@ -23,10 +21,8 @@ const Fee = () => {
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())
   const theme: any = useTheme()
-  const depositFee = useSelector(selectFastDepositCost)
 
   const classicExitCost = useSelector(selectClassicExitCost)
-  const fastExitCost = useSelector(selectFastExitCost)
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
@@ -44,12 +40,6 @@ const Fee = () => {
       } else {
         return '7 days'
       }
-    } else if (bridgeType === BRIDGE_TYPE.FAST) {
-      if (layer === LAYER.L1) {
-        return '1 ~ 5min.'
-      } else {
-        return '15min ~ 3hrs.'
-      }
     } else {
       // Teleportation, instant
       return '~1min.'
@@ -58,17 +48,10 @@ const Fee = () => {
 
   useEffect(() => {
     if (layer === LAYER.L1) {
-      if (bridgeType === BRIDGE_TYPE.FAST) {
-        setGasFee(`${Number(depositFee)?.toFixed(4)}ETH`)
-      } else {
-        setGasFee(`0 ETH`)
-      }
+      setGasFee(`0 ETH`)
     } else {
       //TODO: add check for safecost to avoid issues. debug why gas estimation wrong
-      let cost = classicExitCost || 0
-      if (bridgeType === BRIDGE_TYPE.FAST) {
-        cost = fastExitCost || 0
-      }
+      const cost = classicExitCost || 0
 
       const safeCost = Number(cost) * 1.04 // 1.04 == safety margin on cost
       if (feeUseBoba) {
@@ -79,16 +62,7 @@ const Fee = () => {
         )
       }
     }
-  }, [
-    layer,
-    bridgeType,
-    depositFee,
-    classicExitCost,
-    fastExitCost,
-    feeUseBoba,
-    feePriceRatio,
-  ])
-
+  }, [layer, bridgeType, classicExitCost, feeUseBoba, feePriceRatio])
   return (
     <BridgeInfoContainer>
       <InfoRow>
