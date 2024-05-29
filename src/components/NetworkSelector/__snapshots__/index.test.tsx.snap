@@ -23,6 +23,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (S
         </div>
         <p
           class="sc-dhKdcB jSXfaR"
+          data-testid="label-network-selector"
         >
           Boba (Sepolia)
         </p>
@@ -65,6 +66,7 @@ exports[`NetworkSelector should match snapshot when account connected to Boba (S
         </div>
         <p
           class="sc-dhKdcB jSXfaR"
+          data-testid="label-network-selector"
         >
           Boba (Sepolia)
         </p>
@@ -176,6 +178,7 @@ exports[`NetworkSelector should match snapshot when account connected to Ethereu
         </div>
         <p
           class="sc-dhKdcB jSXfaR"
+          data-testid="label-network-selector"
         >
           Ethereum
         </p>
@@ -218,6 +221,7 @@ exports[`NetworkSelector should match snapshot when account connected to Ethereu
         </div>
         <p
           class="sc-dhKdcB jSXfaR"
+          data-testid="label-network-selector"
         >
           Ethereum
         </p>
