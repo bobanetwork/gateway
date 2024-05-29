@@ -14,7 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { formatEther } from '@ethersproject/units'
 import { CrossChainMessenger } from '@bobanetwork/sdk'
 
 import { BigNumber, BigNumberish, Contract, ethers, utils } from 'ethers'
@@ -1348,7 +1347,7 @@ class NetworkService {
     }
     const depositReceipt = await L1DepositTx.wait()
     console.log(
-      `Deposited ${ethers.utils.formatEther(
+      `Deposited ${utils.formatEther(
         L1DepositAmountWei
       )} tokens to L1 Standard Bridge`
     )
@@ -2214,7 +2213,7 @@ class NetworkService {
 
     try {
       const balance = await this.BobaContract!.balanceOf(this.account)
-      return { balance: formatEther(balance) }
+      return { balance: utils.formatEther(balance) }
     } catch (error) {
       console.log('Error: getDaoBalance', error)
       return error
@@ -2233,7 +2232,7 @@ class NetworkService {
 
     try {
       const balance = await this.xBobaContract.balanceOf(this.account)
-      return { balanceX: formatEther(balance) }
+      return { balanceX: utils.formatEther(balance) }
     } catch (error) {
       console.log('Error: getDaoBalanceX', error)
       return error
@@ -2253,7 +2252,7 @@ class NetworkService {
 
     try {
       const votes = await this.BobaContract!.getCurrentVotes(this.account)
-      return { votes: formatEther(votes) }
+      return { votes: utils.formatEther(votes) }
     } catch (error) {
       console.log('NS: getDaoVotes error:', error)
       return error
@@ -2273,7 +2272,7 @@ class NetworkService {
 
     try {
       const votes = await this.xBobaContract.getCurrentVotes(this.account)
-      return { votesX: formatEther(votes) }
+      return { votesX: utils.formatEther(votes) }
     } catch (error) {
       console.log('NS: getDaoVotesX error:', error)
       return error
@@ -2343,7 +2342,7 @@ class NetworkService {
         this.addresses.GovernorBravoDelegator
       )
       const rawThreshold = await delegateCheck.proposalThreshold()
-      return { proposalThreshold: formatEther(rawThreshold) }
+      return { proposalThreshold: utils.formatEther(rawThreshold) }
     } catch (error) {
       console.log('NS: getProposalThreshold error:', error)
       return error
@@ -2521,12 +2520,12 @@ class NetworkService {
         const state = await delegateCheck.state(proposalID)
 
         const againstVotes = parseInt(
-          formatEther(proposalData.againstVotes),
+          utils.formatEther(proposalData.againstVotes),
           10
         )
-        const forVotes = parseInt(formatEther(proposalData.forVotes), 10)
+        const forVotes = parseInt(utils.formatEther(proposalData.forVotes), 10)
         const abstainVotes = parseInt(
-          formatEther(proposalData.abstainVotes),
+          utils.formatEther(proposalData.abstainVotes),
           10
         )
 
