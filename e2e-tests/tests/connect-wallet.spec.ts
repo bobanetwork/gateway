@@ -1,29 +1,46 @@
-import { test, expect } from '../fixtures'
+import { test, expect } from '../fixture/synpress'
 import * as metamask from '@synthetixio/synpress/commands/metamask'
 
 test.beforeEach(async ({ page }) => {
-  // baseUrl is set in playwright.config.ts
   await page.goto('/')
+  page.on('console', (msg) => console.log(msg.text()))
 })
 
-test('connect wallet using default metamask account', async ({ page }) => {
-  await page.getByTestId('connect-btn').click()
-  await page.getByTestId('metamask-link').click()
-  await metamask.acceptAccess()
-  await expect(page.getByTestId('label-address')).toHaveText(
-    '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
-  )
-})
+test.describe('Connect to MM', () => {
+  test('Validate Deposit', async ({ page }) => {
+    await page.getByTestId('setting-btn').click()
+    expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible()
+    expect(page.getByText('Show Testnets')).toBeVisible()
 
-// xtest('import private key and connect wallet using imported metamask account', async ({
-//   page,
-// }) => {
-//   await metamask.importAccount(
-//     '0xdbda1821b80551c9d65939329250298aa3472ba22feea921c0cf5d620ea67b97'
-//   )
-//   await page.click('#connectButton')
-//   await metamask.acceptAccess()
-//   await expect(page.locator('#accounts')).toHaveText(
-//     '0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f'
-//   )
-// })
+    const inputElement = await page
+      .locator('label[data-testid="switch-label"] input[type="checkbox"]')
+      .first()
+
+    const isChecked = await inputElement.isChecked()
+
+    expect(isChecked).toBe(false)
+
+    // trigger checked.
+    await inputElement.dispatchEvent('click')
+
+    const updatedIsChecked = await inputElement.isChecked()
+
+    expect(updatedIsChecked).toBe(true)
+
+    await page.getByTestId('close-modal-settings-modal').click()
+
+    // trigger connect.
+    await page.getByTestId('connect-btn').click()
+    // await page.locator('#switchBridgeDirection').click()
+
+    await page.getByTestId('metamask-link').click()
+
+    await metamask.acceptAccess()
+
+    await page.getByTestId('connect-btn').click()
+
+    await expect(page.getByTestId('label-address')).toContainText('7428')
+
+    await expect(page.getByTestId('connect-btn')).not.toBeVisible()
+  })
+})

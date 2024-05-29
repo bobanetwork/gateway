@@ -3,6 +3,9 @@ import { initialSetup } from '@synthetixio/synpress/commands/metamask'
 import { setExpectInstance } from '@synthetixio/synpress/commands/playwright'
 import { resetState } from '@synthetixio/synpress/commands/synpress'
 import { prepareMetamask } from '@synthetixio/synpress/helpers'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export const test = base.extend<{
   context: BrowserContext
@@ -42,10 +45,9 @@ export const test = base.extend<{
 
     // setup metamask
     await initialSetup(chromium, {
-      secretWordsOrPrivateKey:
-        'test test test test test test test test test test test junk',
-      network: 'optimism',
-      password: 'Tester@1234',
+      secretWordsOrPrivateKey: process.env.SECRET_WORDS,
+      network: 'sepolia',
+      password: process.env.PASSWORD,
       enableAdvancedSettings: true,
     })
 

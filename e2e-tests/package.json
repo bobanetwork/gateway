@@ -12,6 +12,10 @@
     "install:chromium": "playwright install chromium",
     "test": "playwright test --project=chromium",
     "test:headless": "HEADLESS_MODE=true playwright test --project=chromium",
-    "start:server": "serve ../build -p 3000"
+    "start:server": "serve ../build -p 3000",
+    "codegen": "npx playwright codegen"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
   }
 }

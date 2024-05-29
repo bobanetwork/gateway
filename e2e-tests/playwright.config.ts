@@ -9,18 +9,22 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: 1,
-  reporter: 'html',
+  reporter: [
+    ['dot'],
+    ['json', { outputFile: 'jsonResports/jsonReport.json' }],
+    [
+      'html',
+      {
+        open: 'always',
+      },
+    ],
+  ],
   use: {
     actionTimeout: 0,
     baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
     headless: false,
+    screenshot: 'on',
     video: 'on',
-    contextOptions: {
-      recordVideo: {
-        dir: './videos/',
-      },
-    },
   },
   // start local web server before tests
   webServer: [
