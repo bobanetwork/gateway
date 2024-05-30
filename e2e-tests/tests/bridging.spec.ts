@@ -113,8 +113,17 @@ test.describe('Gateway Bridging - ETHEREUM', () => {
     await expect(page.getByRole('heading', { name: 'History' })).toBeVisible()
   })
 
-  test('Should Deposit BOBA Successfully', async ({ page }) => {
+  test.only('Should Deposit BOBA Successfully', async ({ page }) => {
     test.setTimeout(150000)
+
+    // // connect to network mainnet
+    // await page.getByTestId('connect-btn').click()
+
+    // await page.getByTestId('metamask-link').click()
+
+    // await metamask.acceptAccess()
+
+    // await page.getByTestId('connect-btn').click()
 
     await page.getByTestId('setting-btn').click()
 
@@ -140,6 +149,7 @@ test.describe('Gateway Bridging - ETHEREUM', () => {
 
     await page.getByTestId('close-modal-settings-modal').click()
 
+    // connect to network sepolia
     await page.getByTestId('connect-btn').click()
 
     await page.getByTestId('metamask-link').click()
@@ -152,12 +162,10 @@ test.describe('Gateway Bridging - ETHEREUM', () => {
 
     await expect(page.getByTestId('connect-btn')).not.toBeVisible()
 
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(2000)
 
-    // open token picker.
     await page.locator('#tokenSelectorInput').click()
 
-    // select token symbol BOBA.
     await page
       .locator('div[title="tokenList"]')
       .getByTestId('token-BOBA')

@@ -841,8 +841,8 @@ class NetworkService {
       return
     }
 
-    Object.keys(allTokens).forEach((token, i) => {
-      getToken(allTokens[token].L1)
+    Object.keys(allTokens).forEach(async (token, i) => {
+      await getToken(allTokens[token].L1)
     })
   }
 
@@ -953,8 +953,14 @@ class NetworkService {
       layer1Balances[0].balance = new BN(layer1Balance.toString())
       layer2Balances[0].balance = new BN(layer2Balance.toString())
 
+      this.addTokenList()
       const state = store.getState()
       const tokenListValues = Object.values(state.tokenList)
+
+      console.log(
+        `tokenListValues`,
+        tokenListValues.map((i: any) => i.symbolL1)
+      )
 
       const tokenC = new ethers.Contract(
         this.addresses.L1_ETH_Address,
