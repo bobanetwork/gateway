@@ -20,7 +20,6 @@ test.describe('Connect to MM', () => {
 
     expect(isChecked).toBe(false)
 
-    // trigger checked.
     await inputElement.dispatchEvent('click')
 
     const updatedIsChecked = await inputElement.isChecked()
@@ -29,9 +28,7 @@ test.describe('Connect to MM', () => {
 
     await page.getByTestId('close-modal-settings-modal').click()
 
-    // trigger connect.
     await page.getByTestId('connect-btn').click()
-    // await page.locator('#switchBridgeDirection').click()
 
     await page.getByTestId('metamask-link').click()
 
@@ -42,5 +39,68 @@ test.describe('Connect to MM', () => {
     await expect(page.getByTestId('label-address')).toContainText('7428')
 
     await expect(page.getByTestId('connect-btn')).not.toBeVisible()
+
+    // open token picker.
+    await page.locator('#tokenSelectorInput').click()
+    // select token symbol eth.
+    await page
+      .locator('div[title="tokenList"]')
+      .getByTestId('token-ETH')
+      .click()
+
+    const bridgeBtn = page.getByTestId('bridge-btn')
+
+    await expect(bridgeBtn).toBeDisabled()
+
+    // enter amount.
+    await page.locator('input#bridgeAmount').fill('0.0001')
+
+    await expect(bridgeBtn).not.toBeDisabled()
+
+    await bridgeBtn.click()
+    // validate bridging fee sections.
+    await expect(page.getByTestId('amountToRecieve')).toHaveText('0.0001 ETH')
+
+    const estTime = await page
+      .locator(':text("Estimated time") + p')
+      .textContent()
+
+    expect(estTime).toBe('13 ~ 14mins.')
+
+    const estRecievable = await page
+      .locator(':text("You will receive") + p')
+      .textContent()
+    expect(estRecievable).toBe('0.0001 ETH')
+
+    // validate bridge confirmation modal.
+    await expect(
+      page.getByRole('heading', { name: 'Bridge Confirmation' })
+    ).toBeVisible()
+
+    await expect(page.getByTestId('fromNetwork')).toContainText(
+      'Ethereum (Sepolia)'
+    )
+
+    await expect(page.getByTestId('toNetwork')).toContainText('Boba (Sepolia)')
+
+    await page.locator('button:text("Confirm")').click()
+
+    await expect(
+      page.getByRole('heading', { name: 'Bridging...' })
+    ).toBeVisible()
+
+    // await expect(page.getByRole('paragraph', { name: 'Please wait moment.' })).toBeVisible();
+
+    // for deposit
+    await metamask.confirmPermissionToSpend('0.0001', true)
+
+    await expect(page.getByTestId('transactionSuccess-modal')).toHaveText(
+      'Bridge Successful',
+      { timeout: 200000 }
+    )
+
+    await page.getByRole('button', { name: 'Go to history' }).click()
+
+    await expect(page.getByRole('heading', { name: 'History' })).toBeVisible()
   })
 })
