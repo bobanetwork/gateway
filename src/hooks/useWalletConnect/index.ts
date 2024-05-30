@@ -1,6 +1,5 @@
 import { addTokenList } from 'actions/networkAction'
 import {
-  setBlockTime,
   setConnect,
   setConnectBOBA,
   setConnectETH,
@@ -8,18 +7,18 @@ import {
   setLayer,
   setWalletAddress,
 } from 'actions/setupAction'
-import { openModal, closeModal } from 'actions/uiAction'
+import { closeModal, openModal } from 'actions/uiAction'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectAccountEnabled,
-  selectBaseEnabled,
-  selectLayer,
   selectActiveNetwork,
   selectActiveNetworkType,
-  selectConnectETH,
-  selectConnectBOBA,
+  selectBaseEnabled,
   selectConnect,
+  selectConnectBOBA,
+  selectConnectETH,
+  selectLayer,
   selectUserTriggeredChainSwitch,
 } from 'selectors'
 import networkService from 'services/networkService'

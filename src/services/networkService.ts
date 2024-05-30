@@ -954,7 +954,7 @@ class NetworkService {
       layer2Balances[0].balance = new BN(layer2Balance.toString())
 
       const state = store.getState()
-      const tA = Object.values(state.tokenList)
+      const tokenListValues = Object.values(state.tokenList)
 
       const tokenC = new ethers.Contract(
         this.addresses.L1_ETH_Address,
@@ -978,7 +978,9 @@ class NetworkService {
 
       const getBalancePromise: any = []
 
-      tA.forEach((token: any) => {
+      console.log(`tokenList`, tokenListValues)
+
+      tokenListValues.forEach((token: any) => {
         if (token.addressL1 === null) {
           return
         }
@@ -1047,6 +1049,8 @@ class NetworkService {
             })
             .map((result: any) => result.value)
       )
+
+      console.log(`tokenBalances`, tokenBalances)
 
       tokenBalances.forEach((token) => {
         if (

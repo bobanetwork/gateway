@@ -12,7 +12,11 @@ export const ethereumConfig: NetworkDetail = {
       name: 'Sepolia',
       chainId: 11155111,
       chainIdHex: '0xaa36a7',
-      rpcUrl: [`https://ethereum-sepolia.publicnode.com`],
+      rpcUrl: [
+        `https://ethereum-sepolia.publicnode.com`,
+        `https://1rpc.io/sepolia`,
+        `https://rpc2.sepolia.org	`,
+      ],
       transaction: `https://rpc.sepolia.ethpandaops.io/tx/`,
       blockExplorerUrl: `https://gateway.tenderly.co/public/sepolia`,
       symbol: 'ETH',
