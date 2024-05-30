@@ -12,5 +12,29 @@
  playwright has ability to generate tests out of the box using codegen.
  
 ```ssh
-npx playwright codegen
+pnpm codegen
 ```
+
+## To run the test
+ playwright has ability to generate tests out of the box using codegen.
+ 
+```ssh
+pnpm test
+```
+
+## To run the test in UI mode.
+ playwright has ability to generate tests out of the box using codegen.
+ 
+```ssh
+pnpm test:ui
+```
+
+## To run the test in headless mode
+ playwright has ability to generate tests out of the box using codegen.
+ 
+```ssh
+pnpm test:headless
+```
+
+Reference for chains to be listed.
+[chains list](https://github.com/wevm/viem/blob/main/src/chains/index.ts)

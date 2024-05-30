@@ -9,16 +9,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: 1,
-  reporter: [
-    ['dot'],
-    ['json', { outputFile: 'jsonResports/jsonReport.json' }],
-    [
-      'html',
-      {
-        open: 'always',
-      },
-    ],
-  ],
+  reporter: [['dot'], ['html']],
   use: {
     actionTimeout: 0,
     baseURL: 'http://localhost:3000',
@@ -38,7 +29,10 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        viewport: null,
+        // ...devices['Desktop Chrome']
+      },
     },
   ],
   outputDir: 'test-results',

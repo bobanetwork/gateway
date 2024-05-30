@@ -46,7 +46,7 @@ export const test = base.extend<{
     // setup metamask
     await initialSetup(chromium, {
       secretWordsOrPrivateKey: process.env.SECRET_WORDS,
-      network: 'sepolia',
+      network: process.env.NETWORK,
       password: process.env.PASSWORD,
       enableAdvancedSettings: true,
     })
