@@ -2,11 +2,11 @@ import { test, expect } from '../fixture/synpress'
 import * as metamask from '@synthetixio/synpress/commands/metamask'
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/bridge')
   page.on('console', (msg) => console.log(msg.text()))
 })
 
-test.describe('Connect to MM', () => {
+test.describe('Gateway Bridging', () => {
   test.describe.configure({ timeout: 120000 })
   test('Should Deposit ETH Successfully', async ({ page }) => {
     await page.getByTestId('setting-btn').click()
