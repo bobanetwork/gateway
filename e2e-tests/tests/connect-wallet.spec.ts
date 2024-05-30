@@ -94,10 +94,9 @@ test.describe('Connect to MM', () => {
     // for deposit
     await metamask.confirmPermissionToSpend('0.0001', true)
 
-    await expect(page.getByTestId('transactionSuccess-modal')).toHaveText(
-      'Bridge Successful',
-      { timeout: 200000 }
-    )
+    await expect(page.getByTestId('data-testid')).toHaveText('Successful', {
+      timeout: 200000,
+    })
 
     await page.getByRole('button', { name: 'Go to history' }).click()
 

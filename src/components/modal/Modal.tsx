@@ -43,7 +43,7 @@ const _Modal = ({
       data-testid={testId}
     >
       <Fade in={open}>
-        <Container sx={{ maxWidth: '450px !important' }}>
+        <Container sx={{ maxWidth: maxWidth || '450px !important' }}>
           <S.Style transparent={!!transparent || !!isMobile}>
             <Box display="flex" flexDirection="column" gap="10px">
               <S.ModalHead>
