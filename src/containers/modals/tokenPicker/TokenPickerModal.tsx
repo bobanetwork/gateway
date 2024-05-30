@@ -214,6 +214,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
                   return (
                     <TokenListItem
                       key={token.symbol}
+                      data-testid={`token-${token.symbol}`}
                       selected={token.symbol === tokenToBridge?.symbol}
                       onClick={() =>
                         onTokenSelect({

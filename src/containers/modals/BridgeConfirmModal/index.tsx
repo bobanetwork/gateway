@@ -66,6 +66,17 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
     dispatch(closeModal('bridgeConfirmModal'))
   }
 
+  const originNetwork =
+    layer === LAYER.L1 ? (
+      <>
+        <L1Icon selected /> {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
+      </>
+    ) : (
+      <>
+        <L2Icon selected /> {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
+      </>
+    )
+
   let destNetwork =
     layer === LAYER.L1 ? (
       <>
@@ -109,23 +120,11 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
         </Item>
         <Item>
           <ConfirmLabel>From</ConfirmLabel>
-          <LayerNames>
-            {layer === LAYER.L1 ? (
-              <>
-                <L1Icon selected />{' '}
-                {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
-              </>
-            ) : (
-              <>
-                <L2Icon selected />{' '}
-                {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
-              </>
-            )}
-          </LayerNames>
+          <LayerNames data-testid="fromNetwork">{originNetwork}</LayerNames>
         </Item>
         <Item>
           <ConfirmLabel>To</ConfirmLabel>
-          <LayerNames>{destNetwork}</LayerNames>
+          <LayerNames data-testid="toNetwork">{destNetwork}</LayerNames>
         </Item>
         <Item>
           <ConfirmLabel>Amount to bridge</ConfirmLabel>
@@ -143,7 +142,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
             triggerSubmit()
             handleClose()
           }}
-          label={<Heading variant="h3">Confirm</Heading>}
+          label="Confirm"
         />
       </ConfirmModalContainer>
     </Modal>
