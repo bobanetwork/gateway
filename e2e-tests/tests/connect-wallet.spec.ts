@@ -7,12 +7,15 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Connect to MM', () => {
-  test('Validate Deposit', async ({ page }) => {
+  test.describe.configure({ timeout: 120000 })
+  test('Should Deposit ETH Successfully', async ({ page }) => {
     await page.getByTestId('setting-btn').click()
+
     expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible()
+
     expect(page.getByText('Show Testnets')).toBeVisible()
 
-    const inputElement = await page
+    const inputElement = page
       .locator('label[data-testid="switch-label"] input[type="checkbox"]')
       .first()
 
@@ -21,6 +24,8 @@ test.describe('Connect to MM', () => {
     expect(isChecked).toBe(false)
 
     await inputElement.dispatchEvent('click')
+
+    await page.waitForTimeout(500)
 
     const updatedIsChecked = await inputElement.isChecked()
 
@@ -42,6 +47,7 @@ test.describe('Connect to MM', () => {
 
     // open token picker.
     await page.locator('#tokenSelectorInput').click()
+
     // select token symbol eth.
     await page
       .locator('div[title="tokenList"]')
@@ -70,6 +76,7 @@ test.describe('Connect to MM', () => {
     const estRecievable = await page
       .locator(':text("You will receive") + p')
       .textContent()
+
     expect(estRecievable).toBe('0.0001 ETH')
 
     // validate bridge confirmation modal.
@@ -92,7 +99,9 @@ test.describe('Connect to MM', () => {
     // for deposit
     await metamask.confirmPermissionToSpend('0.0001', true)
 
-    await expect(page.getByTestId('transactionSuccess-modal')).toBeVisible()
+    await expect(page.getByTestId('transactionSuccess-modal')).toBeVisible({
+      timeout: 60000,
+    })
 
     await expect(page.getByTestId('success')).toHaveText('Successful')
 
