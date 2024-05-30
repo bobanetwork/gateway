@@ -16,6 +16,12 @@ export default defineConfig({
     headless: false,
     screenshot: 'on',
     video: 'on',
+    contextOptions: {
+      recordVideo: {
+        dir: 'videos/',
+        size: { width: 640, height: 480 },
+      },
+    },
   },
   // start local web server before tests
   webServer: [
@@ -31,7 +37,6 @@ export default defineConfig({
       name: 'chromium',
       use: {
         viewport: null,
-        // ...devices['Desktop Chrome']
       },
     },
   ],

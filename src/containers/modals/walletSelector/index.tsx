@@ -96,8 +96,6 @@ const WalletSelectorModal: React.FC<ModalInterface> = ({ open }) => {
       open={open}
       onClose={handleClose}
       newStyle={true}
-      maxWidth="450px"
-      minHeight="200px"
       title={modalTitle}
       testId="walletselector-modal"
     >

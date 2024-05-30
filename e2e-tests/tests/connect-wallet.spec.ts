@@ -89,14 +89,12 @@ test.describe('Connect to MM', () => {
       page.getByRole('heading', { name: 'Bridging...' })
     ).toBeVisible()
 
-    // await expect(page.getByRole('paragraph', { name: 'Please wait moment.' })).toBeVisible();
-
     // for deposit
     await metamask.confirmPermissionToSpend('0.0001', true)
 
-    await expect(page.getByTestId('data-testid')).toHaveText('Successful', {
-      timeout: 200000,
-    })
+    await expect(page.getByTestId('transactionSuccess-modal')).toBeVisible()
+
+    await expect(page.getByTestId('success')).toHaveText('Successful')
 
     await page.getByRole('button', { name: 'Go to history' }).click()
 
