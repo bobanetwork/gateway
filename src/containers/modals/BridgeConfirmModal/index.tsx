@@ -1,9 +1,9 @@
 import { closeModal } from 'actions/uiAction'
-import { Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import useBridge from 'hooks/useBridge'
+import useLookupPrice from 'hooks/useLookupPrice'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -13,7 +13,6 @@ import {
   selectBridgeType,
   selectDestChainIdTeleportation,
   selectLayer,
-  selectLookupPrice,
   selectTokenToBridge,
 } from 'selectors'
 import { amountToUsd } from 'util/amountConvert'
@@ -27,7 +26,6 @@ import {
   Item,
   LayerNames,
 } from './index.styles'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {
   open: boolean
@@ -38,16 +36,15 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-  const lookupPrice = useSelector(selectLookupPrice)
   const networkNames = useSelector(selectActiveNetworkName())
   const activeNetworkIcon = useSelector(selectActiveNetworkIcon())
   const layer = useSelector(selectLayer())
+  const { lookupPrice } = useLookupPrice()
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
 
   const { triggerSubmit } = useBridge()
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const estimateTime = () => {
     if (bridgeType === BRIDGE_TYPE.CLASSIC) {
