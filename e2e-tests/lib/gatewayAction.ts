@@ -2,7 +2,7 @@ import { Page } from '@playwright/test'
 import { BasePage } from '../pages/basePage'
 import { BridgePage } from '../pages/bridgePage'
 
-export class BridgeAction {
+export class GatewayAction {
   constructor(public page: Page) {}
 
   async classicBridgeDeposit({
@@ -14,12 +14,7 @@ export class BridgeAction {
     tokenSymbol: string
     successWaitTime?: number
   }) {
-    const basePage = new BasePage(this.page)
     const bridgePage = new BridgePage(this.page)
-    await basePage.openAndValidateSettingsModal()
-    await basePage.switchToTestnet()
-    await basePage.connectToMetamask()
-    await basePage.wait(1000)
     await bridgePage.openTokenPickerAndSelect(tokenSymbol)
     await bridgePage.bridgeButtonDisable()
     await bridgePage.inputBridgeAmount(amountToBridge)
@@ -28,8 +23,16 @@ export class BridgeAction {
     await bridgePage.clickToBridge()
     await bridgePage.validateAndConfirmBridging(amountToBridge, tokenSymbol)
     await bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
-    await basePage.wait(successWaitTime) // have to wait for success modal
+    await bridgePage.wait(successWaitTime) // have to wait for success modal
     await bridgePage.validateBridgeSuccess()
     await bridgePage.toHistoryPage()
+  }
+
+  async connectToTestnet() {
+    const basePage = new BasePage(this.page)
+    await basePage.openAndValidateSettingsModal()
+    await basePage.switchToTestnet()
+    await basePage.connectToMetamask()
+    await basePage.wait(1000)
   }
 }

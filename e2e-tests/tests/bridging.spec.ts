@@ -1,7 +1,5 @@
 import { test } from '../fixture/synpress'
-import { BridgeAction } from '../lib/bridgeAction'
-import { BasePage } from '../pages/basePage'
-import { BridgePage } from '../pages/bridgePage'
+import { GatewayAction } from '../lib/gatewayAction'
 
 const amountToBridge: string = '0.0001'
 
@@ -14,7 +12,8 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
   test.describe('Classic Bridge', () => {
     test('Should Deposit ETH Successfully', async ({ page }) => {
       test.setTimeout(120000)
-      const bridgeAction = new BridgeAction(page)
+      const bridgeAction = new GatewayAction(page)
+      await bridgeAction.connectToTestnet()
       await bridgeAction.classicBridgeDeposit({
         amountToBridge,
         tokenSymbol: 'ETH',
@@ -23,7 +22,8 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
 
     test('Should Deposit BOBA Successfully', async ({ page }) => {
       test.setTimeout(150000)
-      const bridgeAction = new BridgeAction(page)
+      const bridgeAction = new GatewayAction(page)
+      await bridgeAction.connectToTestnet()
       await bridgeAction.classicBridgeDeposit({
         amountToBridge,
         tokenSymbol: 'BOBA',
