@@ -14,6 +14,7 @@
     "test": "playwright test --project=chromium",
     "test:ui": "playwright test --project=chromium --ui",
     "test:headless": "HEADLESS_MODE=true playwright test --project=chromium",
+    "report":"npx playwright show-report",
     "start:server": "serve ../build -p 3000",
     "codegen": "npx playwright codegen"
   },

@@ -94,9 +94,7 @@ export class BridgePage extends BasePage {
     await metamask.confirmPermissionToSpend(amount, true)
 
     await expect(this.page.getByTestId('transactionSuccess-modal')).toBeVisible(
-      {
-        timeout: 60000,
-      }
+      { timeout: 60000 }
     )
   }
 

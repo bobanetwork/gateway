@@ -1,7 +1,7 @@
 import { test } from '../fixture/synpress'
 import { GatewayAction } from '../lib/gatewayAction'
 
-const amountToBridge: string = '0.0001'
+const amountToBridge: string = '0.0002'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/bridge')
@@ -21,13 +21,12 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
     })
 
     test('Should Deposit BOBA Successfully', async ({ page }) => {
-      test.setTimeout(150000)
+      test.setTimeout(120000)
       const bridgeAction = new GatewayAction(page)
       await bridgeAction.connectToTestnet()
       await bridgeAction.classicBridgeDeposit({
         amountToBridge,
         tokenSymbol: 'BOBA',
-        successWaitTime: 2000,
       })
     })
   })

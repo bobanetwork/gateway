@@ -150,7 +150,7 @@ export const useBridge = () => {
   const triggerSubmit = async () => {
     const amountWei = toWei_String(amountToBridge, token.decimals)
 
-    let receipt
+    let receipt: any
     dispatch(openModal({ modal: 'bridgeInProgress' }))
     if (layer === LAYER.L1) {
       if (bridgeType === BRIDGE_TYPE.CLASSIC) {

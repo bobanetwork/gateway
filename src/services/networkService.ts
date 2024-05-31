@@ -18,20 +18,20 @@ import { CrossChainMessenger } from '@bobanetwork/sdk'
 
 import { BigNumber, BigNumberish, Contract, ethers, utils } from 'ethers'
 
+import BN from 'bn.js'
 import store from 'store'
 import { orderBy } from 'util/lodash'
-import BN from 'bn.js'
 
-import { logAmount } from 'util/amountConvert'
 import { getToken } from 'actions/tokenAction'
+import { logAmount } from 'util/amountConvert'
 
 import { addBobaFee } from 'actions/setupAction'
 
 import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
 
-import { sortRawTokens } from 'util/common'
 import { graphQLService } from '@bobanetwork/graphql-utils'
+import { sortRawTokens } from 'util/common'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
@@ -70,15 +70,15 @@ import {
   TeleportationABI,
 } from './abi'
 
-import { setFetchDepositTxBlock } from 'actions/bridgeAction'
-import { LAYER } from '../containers/history/types'
+import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
+import { setFetchDepositTxBlock } from 'actions/bridgeAction'
+import { LiquidityPoolLayer } from 'types/earn.types'
+import { LAYER } from '../containers/history/types'
 import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
-import { LiquidityPoolLayer } from 'types/earn.types'
-import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -1316,7 +1316,6 @@ class NetworkService {
     const L1_ERC20_Contract = this.L1_TEST_Contract!.attach(currency)
     const L2_ERC20_Contract = this.L2_TEST_Contract!.attach(currencyL2)
     const L1BOBABalance = await L1_ERC20_Contract.balanceOf(this.account)
-    const L2BOBABalance = await L2_ERC20_Contract.balanceOf(this.account)
 
     if (L1BOBABalance.lt(L1DepositAmountWei)) {
       console.error('Insufficient L1 token balance')
@@ -1363,17 +1362,18 @@ class NetworkService {
     )
 
     setFetchDepositTxBlock(true)
-    while (true) {
-      const postL2BOBABalanceTmp = await L2_ERC20_Contract.balanceOf(
-        this.account
-      )
-      if (!L2BOBABalance.eq(postL2BOBABalanceTmp)) {
-        break
-      }
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-    }
+    // As this is more over to complete check of modal as we have note on success modal we can skip this check.
+    // while (true) {
+    //   const postL2BOBABalanceTmp = await L2_ERC20_Contract.balanceOf(
+    //     this.account
+    //   )
 
-    // TODO: Probably we want the l2Funds received tx receipt here
+    //   if (!L2BOBABalance.eq(postL2BOBABalanceTmp)) {
+    //     break
+    //   }
+    //   await new Promise((resolve) => setTimeout(resolve, 1000))
+    // }
+
     return depositReceipt
   }
 
