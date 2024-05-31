@@ -1,4 +1,6 @@
-# gateway/e2e-tests
+# Integration Test : Boba Gateway!
+
+Integration test are only running against the chromium browser!
 
 ## How to run
 
