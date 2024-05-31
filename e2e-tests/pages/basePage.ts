@@ -82,5 +82,10 @@ export class BasePage {
     await expect(this.page.getByTestId('connect-btn')).not.toBeVisible()
   }
 
+  async clickToSwitchNetwork() {
+    await this.page.getByTestId('switchNetwork').click()
+
+    await metamask.allowToAddAndSwitchNetwork()
+  }
   // disconnect
 }

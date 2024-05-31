@@ -10,23 +10,48 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Gateway ETHEREUM (Sepolia)', () => {
   test.describe('Classic Bridge', () => {
-    test('Should Deposit ETH Successfully', async ({ page }) => {
-      test.setTimeout(120000)
-      const bridgeAction = new GatewayAction(page)
-      await bridgeAction.connectToTestnet()
-      await bridgeAction.classicBridgeDeposit({
-        amountToBridge,
-        tokenSymbol: 'ETH',
+    test.describe('Deposit', () => {
+      test('Should Deposit ETH Successfully', async ({ page }) => {
+        test.setTimeout(12000)
+        const bridgeAction = new GatewayAction(page)
+        await bridgeAction.connectToTestnet()
+        await bridgeAction.classicBridgeDeposit({
+          amountToBridge,
+          tokenSymbol: 'ETH',
+        })
+      })
+
+      test('Should Deposit BOBA Successfully', async ({ page }) => {
+        test.setTimeout(12000)
+        const bridgeAction = new GatewayAction(page)
+        await bridgeAction.connectToTestnet()
+        await bridgeAction.classicBridgeDeposit({
+          amountToBridge,
+          tokenSymbol: 'BOBA',
+        })
       })
     })
 
-    test('Should Deposit BOBA Successfully', async ({ page }) => {
-      test.setTimeout(120000)
-      const bridgeAction = new GatewayAction(page)
-      await bridgeAction.connectToTestnet()
-      await bridgeAction.classicBridgeDeposit({
-        amountToBridge,
-        tokenSymbol: 'BOBA',
+    test.describe('Withdraw', () => {
+      test('Should withdraw ETH Successfully', async ({ page }) => {
+        test.setTimeout(12000)
+        const bridgeAction = new GatewayAction(page)
+        await bridgeAction.connectToTestnet() // connected to L1.
+        await bridgeAction.switchNetwork() // switches to L2.
+        await bridgeAction.classicBridgeWithdrawal({
+          amountToBridge,
+          tokenSymbol: 'ETH',
+        }) // switches to L2.
+      })
+      test('Should withdraw BOBA Successfully', async ({ page }) => {
+        test.setTimeout(12000)
+        const bridgeAction = new GatewayAction(page)
+        await bridgeAction.connectToTestnet() // connected to L1.
+        await bridgeAction.switchNetwork() // switches to L2.
+        await bridgeAction.classicBridgeWithdrawal({
+          amountToBridge,
+          tokenSymbol: 'ETH',
+        }) // switches to L2.
       })
     })
   })
