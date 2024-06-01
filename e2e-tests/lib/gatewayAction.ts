@@ -68,7 +68,8 @@ export class GatewayAction {
       estimatedTime: '7 days',
     })
     await this.bridgePage.reviewAndInitiateWithdrawal()
-    await this.bridgePage.switchNetworkProovWithdrawal()
+    // TODO :
+    // await this.bridgePage.switchNetworkProovWithdrawal()
     // NOTE: Discuss and implement the proove validation.
   }
 

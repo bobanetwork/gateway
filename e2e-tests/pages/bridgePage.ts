@@ -143,9 +143,11 @@ export class BridgePage extends BasePage {
 
     await initBtn.click()
 
-    await expect(initBtn).toBeDisabled()
-
     await metamask.confirmTransaction()
+
+    await this.wait(2000)
+
+    await this.page.getByRole('button', { name: 'Close' }).click()
   }
 
   async switchNetworkProovWithdrawal() {

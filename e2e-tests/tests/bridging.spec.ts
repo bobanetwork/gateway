@@ -1,7 +1,8 @@
 import { test } from '../fixture/synpress'
 import { GatewayAction } from '../lib/gatewayAction'
+import { BasePage } from '../pages/basePage'
 
-const amountToBridge: string = '0.0013'
+const amountToBridge: string = '0.0001'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/bridge')
@@ -11,7 +12,6 @@ test.beforeEach(async ({ page }) => {
 test.describe('Gateway ETHEREUM (Sepolia)', () => {
   test.describe('Classic Bridge', () => {
     test.describe('Deposit', () => {
-      test.skip()
       test('Should Deposit ETH Successfully', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
@@ -36,9 +36,12 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
     test.describe('Withdraw', () => {
       test('Should withdraw ETH Successfully', async ({ page }) => {
         test.setTimeout(120000)
+        const basePage = new BasePage(page)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet() // connected to L1.
         await bridgeAction.switchNetwork() // switches to L2.
+        await basePage.disconnectMetamask()
+        await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
           amountToBridge,
           tokenSymbol: 'ETH',
@@ -46,9 +49,12 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
       })
       test('Should withdraw BOBA Successfully', async ({ page }) => {
         test.setTimeout(120000)
+        const basePage = new BasePage(page)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet() // connected to L1.
         await bridgeAction.switchNetwork() // switches to L2.
+        await basePage.disconnectMetamask()
+        await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
           amountToBridge,
           tokenSymbol: 'ETH',

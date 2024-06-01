@@ -68,10 +68,15 @@ export class BasePage {
   }
 
   // connect
-  async connectToMetamask() {
+  // first time connect to meta mask.
+  async connectToMetamask(firstConnect = false) {
     await this.page.getByTestId('connect-btn').click()
 
     await this.page.getByTestId('metamask-link').click()
+
+    if (firstConnect) {
+      return
+    }
 
     await metamask.acceptAccess()
 
@@ -87,5 +92,11 @@ export class BasePage {
 
     await metamask.allowToAddAndSwitchNetwork()
   }
+
   // disconnect
+  async disconnectMetamask() {
+    await this.page.getByTestId('label-address').click()
+    await this.page.getByText('Disconnect').click()
+    await this.wait(2000)
+  }
 }
