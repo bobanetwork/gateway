@@ -19,6 +19,10 @@ export class BridgePage extends BasePage {
       .click()
   }
 
+  async switchToLightBridge() {
+    await await this.page.getByTestId('light-btn').click()
+  }
+
   async bridgeButtonDisable() {
     const bridgeBtn = this.page.getByTestId('bridge-btn')
     await expect(bridgeBtn).toBeDisabled()

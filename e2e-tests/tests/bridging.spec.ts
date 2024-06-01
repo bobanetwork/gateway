@@ -27,7 +27,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
         await bridgeAction.classicBridgeDeposit({
-          amountToBridge: '0.0012',
+          amountToBridge,
           tokenSymbol: 'BOBA',
         })
       })
@@ -59,6 +59,30 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
           amountToBridge,
           tokenSymbol: 'ETH',
         }) // switches to L2.
+      })
+    })
+  })
+
+  test.describe('Light Bridge', () => {
+    test.describe('Deposit', () => {
+      test('Should Deposit ETH Successfully', async ({ page }) => {
+        test.setTimeout(120000)
+        const bridgeAction = new GatewayAction(page)
+        await bridgeAction.connectToTestnet()
+        await bridgeAction.lightBridgeDeposit({
+          amountToBridge,
+          tokenSymbol: 'ETH',
+        })
+      })
+
+      test('Should Deposit BOBA Successfully', async ({ page }) => {
+        test.setTimeout(120000)
+        const bridgeAction = new GatewayAction(page)
+        await bridgeAction.connectToTestnet()
+        await bridgeAction.lightBridgeDeposit({
+          amountToBridge: '20.002',
+          tokenSymbol: 'BOBA',
+        })
       })
     })
   })
