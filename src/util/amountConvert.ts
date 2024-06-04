@@ -86,9 +86,15 @@ export const amountToUsd = (amount: number, lookupPrice = {}, token) => {
 }
 
 export const formatLargeNumber = (num: number) => {
-  const exp = Math.floor(Math.log10(Math.abs(num)) / 3)
+  if (num === 0) {
+    return '0'
+  }
+
+  const exp = Math.abs(num) < 1 ? 0 : Math.floor(Math.log10(Math.abs(num)) / 3)
   const scaledNum = Math.abs(num) / Math.pow(10, exp * 3)
-  const formattedNumber = scaledNum.toFixed(2)
+  const formattedNumber =
+    exp === 0 ? scaledNum.toString() : scaledNum.toFixed(2)
   const exponent = ['', 'k', 'M', 'B', 'T'][exp] || ''
+
   return isNaN(Number(formattedNumber)) ? '0' : formattedNumber + exponent
 }
