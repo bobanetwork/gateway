@@ -76,16 +76,19 @@ const TransactionSuccessModal: FC<
       title=""
       transparent={false}
       testId="transactionSuccess-modal"
+      maxWidth="380px !important"
     >
       <SuccessContainer>
-        <CircleOuter>
-          <CircleInner>
-            <SuccessCheck />
-          </CircleInner>
-        </CircleOuter>
         <SuccessContent>
-          <Heading variant="h1">Bridge Successful</Heading>
-          <TitleText>
+          <CircleOuter>
+            <CircleInner>
+              <SuccessCheck />
+            </CircleInner>
+          </CircleOuter>
+          <Heading data-testid="success" variant="h2">
+            Successful
+          </Heading>
+          <MutedText>
             Your funds will arrive in {estimateTime()} at your wallet on{' '}
             {anchorageWithdraw
               ? name['l1']
@@ -93,17 +96,30 @@ const TransactionSuccessModal: FC<
                   isAnchorageEnabled
                 ? name['l2']
                 : name['l1']}
-            .
-          </TitleText>
-          <MutedText>To monitor progress, go to History page.</MutedText>
+            . To monitor progress, go to History page.
+          </MutedText>
         </SuccessContent>
-        <Button
-          onClick={() => {
-            handleClose()
-            navigate('/history')
-          }}
-          label="Go to history"
-        />
+        <SuccessContent>
+          <Button
+            tiny
+            style={{ width: '100%' }}
+            onClick={() => {
+              handleClose()
+              navigate('/history')
+            }}
+            label="Go to history"
+          />
+          <Button
+            tiny
+            style={{ width: '100%' }}
+            transparent={true}
+            onClick={() => {
+              handleClose()
+              navigate('/history')
+            }}
+            label="Close"
+          />
+        </SuccessContent>
       </SuccessContainer>
     </Modal>
   )

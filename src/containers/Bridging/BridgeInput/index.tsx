@@ -79,7 +79,9 @@ const BridgeInput: FC<Props> = (props) => {
       {token && (
         <ReceiveContainer>
           <SectionLabel>Receive</SectionLabel>
-          <ReceiveAmount>{receivableAmount}</ReceiveAmount>
+          <ReceiveAmount data-testid="amountToRecieve">
+            {receivableAmount}
+          </ReceiveAmount>
         </ReceiveContainer>
       )}
       <BridgeToAddress />

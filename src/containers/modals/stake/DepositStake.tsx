@@ -148,7 +148,6 @@ const DepositStake = (props: any) => {
   return (
     <Modal
       open={open}
-      maxWidth="md"
       onClose={() => {
         handleClose()
       }}

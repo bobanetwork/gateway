@@ -56,6 +56,7 @@ export const WalletAddress = ({}: Props) => {
       setSelectedOnClick={false}
       error={true}
       includeArrow={false}
+      testId="address"
     />
   )
 }
