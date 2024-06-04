@@ -107,6 +107,13 @@ export class WalletService {
         showQrModal: true,
         chains: [networkService.networkConfig!['L1'].chainId],
         optionalChains: [1, 5, 56, 97], // only ETH, BNB (mainnet/testnet)
+        metadata: {
+          name: 'Boba Gateway',
+          url: 'https://gateway.boba.network',
+          description:
+            'Boba Gateway - Boba Network Gateway, facilitating effortless token bridging between Layer 1 (L1) and Layer 2 (L2) networks, featuring Staking, DAO, and Earn functionalities.',
+          icons: ['https://gateway.boba.network/favicon.png'],
+        },
       })
       await this.walletConnectProvider.connect()
       this.provider = new providers.Web3Provider(
