@@ -131,7 +131,7 @@
     "eslint-plugin-unicorn": "^50.0.1",
     "husky": "^8.0.3",
     "jest-styled-components": "^7.1.1",
-    "lint-staged": "^14.0.1",
+    "lint-staged": "^15.2.5",
     "prettier": "^3.0.3",
     "prop-types": "^15.8.1",
     "react-app-rewired": "^2.2.1",
