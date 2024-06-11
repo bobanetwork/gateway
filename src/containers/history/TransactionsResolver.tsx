@@ -193,8 +193,15 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
     const symbol = token.symbol
 
     const amountString = logAmount(transaction.action.amount, token.decimals, 4)
-    const fromHash = transaction.hash ?? transaction.crossDomainMessage.fromHash
+    let fromHash = transaction.hash ?? transaction.crossDomainMessage.fromHash
     let toHash = transaction.crossDomainMessage.toHash ?? ''
+
+    // handling for the deposit anchorage
+    if (chain === LAYER.L2.toLowerCase() && !transaction.isTeleportation) {
+      fromHash = ''
+      toHash = transaction.hash
+    }
+
     if (
       !toHash &&
       chain === LAYER.L2 &&

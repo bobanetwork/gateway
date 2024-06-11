@@ -106,7 +106,7 @@ export class WalletService {
         projectId: WC_PROJECT_ID as string,
         showQrModal: true,
         chains: [networkService.networkConfig!['L1'].chainId],
-        optionalChains: [1, 5, 56, 97], // only ETH, BNB (mainnet/testnet)
+        optionalChains: [1, 5, 56, 97], // only ETH, BNB (mainnet/testnet),
         metadata: {
           name: 'Boba Gateway',
           url: 'https://gateway.boba.network',
