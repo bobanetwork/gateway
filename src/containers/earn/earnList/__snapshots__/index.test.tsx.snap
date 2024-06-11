@@ -418,7 +418,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
           <p
             class="sc-gEvEer hiDcmV"
           >
-            850.00
+            0.85
           </p>
         </div>
         <div
@@ -428,7 +428,7 @@ exports[`EarnList  should match snapshot with data 1`] = `
           <p
             class="sc-gEvEer hiDcmV"
           >
-            610.00
+            0.61
           </p>
         </div>
         <div
