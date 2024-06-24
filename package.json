@@ -100,7 +100,7 @@
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.24.1",
-    "@sentry/types": "^7.100.1",
+    "@sentry/types": "^8.11.0",
     "@synthetixio/synpress": "^3.7.2-beta.7",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.1.4",
