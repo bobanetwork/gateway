@@ -147,12 +147,15 @@ export const useWalletConnect = () => {
 
   useEffect(() => {
     if (connectRequest && !networkService.walletService.provider) {
-      // bypass walletSelectorModal
       if (DISABLE_WALLETCONNECT) {
         triggerInit()
+        dispatch(setConnect(false))
       } else {
         dispatch(openModal({ modal: 'walletSelectorModal' }))
+        dispatch(setConnect(false))
       }
+    } else if (connectRequest) {
+      dispatch(setConnectETH(true))
     }
   }, [dispatch, connectRequest, triggerInit])
 
