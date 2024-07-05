@@ -2017,6 +2017,9 @@ class NetworkService {
   }
 
   async getDisburserBalance(sourceChainId, destChainId, token) {
+    if (token === '0x4200000000000000000000000000000000000006') {
+      token = '0x0000000000000000000000000000000000000000'
+    }
     // not just simply L2/L1 as also L2<>L2 supported, ..
     const destProvider = new ethers.providers.StaticJsonRpcProvider(
       getRpcUrlByChainId(destChainId)
