@@ -168,4 +168,12 @@ export class BridgePage extends BasePage {
     // close prove withdrawal modal.
     await this.page.getByRole('button', { name: 'Close' }).click()
   }
+
+  async confirmErrorAlert({ error }: { error: string }) {
+    expect(await this.page.isVisible('#bridge [type="error"]')).toBeTruthy()
+    const text = await this.page
+      .locator('#bridge [type="error"] p')
+      .textContent()
+    expect(text).toEqual(error)
+  }
 }

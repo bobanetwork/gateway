@@ -28,7 +28,7 @@ export const useAmountToReceive = () => {
   const layer = useSelector(selectLayer())
   const lightBridgeDestChainId = useSelector(selectDestChainIdTeleportation()) // can be L2 <> L2, we don't want a exit fee here
 
-  const l1LightBridgeFeeRateN = '1' // static, as only set in backend for now for light bridge when exiting to L1
+  const l1LightBridgeFeeRateN = '1' // NOTE: static, as only set in backend for now for light bridge when exiting to L1
 
   const [amountToReceive, setAmountToReceive] = useState<
     string | null | number
