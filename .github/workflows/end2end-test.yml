@@ -1,64 +1,91 @@
-name: End2End test (non-headless)
+name: E2E Playwright Test
 permissions: read-all
 
-on: workflow_dispatch
+on: 
+  push: 
+    branches:
+      - 'main'
+      - 'develop'
+      - 'master'
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-  End-to-End-Test:
-    name: Integration Test
+  e2e-test:
+    name: Playwright Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 16.17.0
-          cache: 'yarn'
-      - name: Setup Cache Node Modules, Cypress
-        id: cache-node-modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+          node-version: 18
       - name: Install dependencies
-        run: yarn
-      - uses: actions/cache/save@v3
-        if: ${{steps.cache-node-modules.outputs.cache-hit != 'true'}}
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        working-directory: ./e2e-tests
+        run: pnpm install
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
       - name: Install linux deps
         run: |
           sudo apt-get install --no-install-recommends -y \
           fluxbox \
           xvfb
-      - name: Run E2E Test (non-headless)
-        working-directory: ./
+      - name: Run E2E TEST
+        working-directory: ./e2e-tests
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-          fluxbox & yarn test:integration
+          fluxbox & pnpm test
         env:
-          REACT_APP_POLL_INTERVAL: 15000
-          SKIP_PREFLIGHT_CHECK: true
-          REACT_APP_WALLET_VERSION: 0.14.8
-          REACT_APP_ENV: prod
-          REACT_APP_STATUS: normal
-          CYPRESS_REMOTE_DEBUGGING_PORT: 9222
-          NETWORK_NAME: 'sepolia'
+          PASSWORD: ${{secrets.PASSWORD}}
+          NETWORK: 'sepolia'
           SECRET_WORDS: ${{secrets.SECRET_WORDS}}
-          DISPLAY: :0.0
-          CYPRESS_ENABLE_VIDEO: true
+          METAMASK_VERSION: 10.25.0
+      # - name: Setup Cache Node Modules, Cypress
+      #   id: cache-node-modules
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       node_modules
+      #       /home/runner/.cache/Cypress
+      #     key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      
+      # - name: Install dependencies
+      #   run: yarn
+      # - uses: actions/cache/save@v3
+      #   if: ${{steps.cache-node-modules.outputs.cache-hit != 'true'}}
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+      # - name: Install linux deps
+      #   run: |
+      #     sudo apt-get install --no-install-recommends -y \
+      #     fluxbox \
+      #     xvfb
+      # - name: Run E2E Test (non-headless)
+      #   working-directory: ./
+      #   run: |
+      #     Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+      #     fluxbox & yarn test:integration
+      #   env:
+      #     REACT_APP_POLL_INTERVAL: 15000
+      #     SKIP_PREFLIGHT_CHECK: true
+      #     REACT_APP_WALLET_VERSION: 0.14.8
+      #     REACT_APP_ENV: prod
+      #     REACT_APP_STATUS: normal
+      #     CYPRESS_REMOTE_DEBUGGING_PORT: 9222
+      #     NETWORK_NAME: 'sepolia'
+      #     SECRET_WORDS: ${{secrets.SECRET_WORDS}}
+      #     DISPLAY: :0.0
+      #     CYPRESS_ENABLE_VIDEO: true
       - name: Upload Archive e2e artifacts
         uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ !cancelled() }}
         with:
-          name: e2e-archive
+          name: playwright-report
           path: |
-            ./cypress/videos/
-            ./cypress/screenshots/
+            ./e2e-tests/videos/
+            ./e2e-tests/playwright-report/
         continue-on-error: true
