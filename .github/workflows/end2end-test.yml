@@ -58,7 +58,7 @@ jobs:
         working-directory: ./e2e-tests
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-          fluxbox & pnpm test
+          fluxbox & chown root . & pnpm test
         env:
           PASSWORD: ${{secrets.PASSWORD}}
           NETWORK: 'sepolia'
