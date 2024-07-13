@@ -76,7 +76,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         })
       })
 
-      test.skip('Should Deposit BOBA Successfully', async ({ page }) => {
+      test('Should Deposit BOBA Successfully', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
