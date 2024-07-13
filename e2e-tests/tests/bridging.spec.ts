@@ -6,7 +6,7 @@ import { BridgePage } from '../pages/bridgePage'
 const amountToBridge: string = '0.0001'
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/bridge')
+  await page.goto('/')
   page.on('console', (msg) => console.log(msg.text()))
 })
 
