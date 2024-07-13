@@ -2,8 +2,13 @@
 
 Integration test are only running against the chromium browser!
 
+# Prerequesitis.
+
+`nvm v 18+`
+
 ## How to run
 
+- `nvm use`
 - `pnpm install`
 - `pnpm install:chromium`
 - `pnpm start:server`

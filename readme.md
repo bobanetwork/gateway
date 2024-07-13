@@ -134,11 +134,7 @@ $ open ./coverage/index.html
 
 ## Integration Tests
 
-To run the integration test against the gateway execute the command below
-
-```bash
-$ yarn test:integration
-```
+[Follow Integration Docs](./e2e-tests/README.md)
 
 ## Directory Structure
 
@@ -147,6 +143,7 @@ $ yarn test:integration
 ├── .vscode                    # VSCode settings for ESLint auto-fix function
 ├── build                      # Bundled JS and TS declaration file for deployed npm package
 ├── public                     # Public file which
+├── e2e-tests                  # Integration tests.
 ├── src                        # All source code
 │    ├── src/actions           # Redux Actions.
 │    ├── src/api               # React axios instance of api

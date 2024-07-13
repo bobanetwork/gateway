@@ -205,8 +205,6 @@ export const addToken = async (tokenContractAddressL1: string) => {
       redalert: !_decimals,
     }
 
-    console.log(`storingtoken`, tokenInfo)
-
     store.dispatch({
       type: 'TOKEN/GET/SUCCESS',
       payload: tokenInfo,
