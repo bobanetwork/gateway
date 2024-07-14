@@ -7,7 +7,8 @@ const amountToBridge: string = '0.0001'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
-  page.on('console', (msg) => console.log(msg.text()))
+  // To view the page loading console.
+  // page.on('console', (msg) => console.log(msg.text()))
 })
 
 test.describe('Gateway ETHEREUM (Sepolia)', () => {

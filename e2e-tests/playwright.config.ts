@@ -9,7 +9,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: 1,
-  reporter: [['dot'], ['html']],
+  reporter: [['list'], ['dot'], ['html']],
   use: {
     actionTimeout: 0,
     baseURL: 'http://localhost:3000',
