@@ -1,4 +1,3 @@
----
 2-reviewers:
   - any ['.github/**/*']
   - any ['./*']
