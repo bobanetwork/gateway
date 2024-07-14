@@ -36,7 +36,11 @@ export default defineConfig({
     {
       name: 'chromium',
       use: {
-        viewport: null,
+        // viewport: null,
+        ...devices['Desktop Chrome'],
+        // It is important to define the `viewport` property after destructuring `devices`,
+        // since devices also define the `viewport` for that device.
+        viewport: { width: 1280, height: 850 },
       },
     },
   ],
