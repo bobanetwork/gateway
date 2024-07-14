@@ -1,3 +1,10 @@
 2-reviewers:
-  - any ['.github/**/*']
-  - any ['./*']
+- changed-files:
+  - any-glob-to-any-file: ./**
+
+E2E-Test:
+- changed-files:
+  - any-glob-to-any-file: ./e2e-tests/**
+
+release:
+- base-branch: 'master'
