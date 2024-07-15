@@ -7,14 +7,15 @@ export default defineConfig({
   },
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
-  workers: 1,
+  workers: process.env.CI ? 5 : 1,
+  forbidOnly: !!process.env.CI,
   reporter: [['list'], ['dot'], ['html']],
   use: {
+    headless: !!process.env.CI,
     actionTimeout: 0,
     baseURL: 'http://localhost:3000',
-    headless: false,
-    screenshot: 'on',
-    video: 'on',
+    screenshot: 'only-on-failure',
+    video: 'on-first-retry',
     contextOptions: {
       recordVideo: {
         dir: 'videos/',
