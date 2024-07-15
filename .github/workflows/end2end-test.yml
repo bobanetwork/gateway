@@ -68,6 +68,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: e2e-reports
+          retention-days: 3
           path: |
             ./e2e-tests/videos/
             ./e2e-tests/playwright-report/
