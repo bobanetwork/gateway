@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Gateway ETHEREUM (Sepolia)', () => {
   test.describe('Classic Bridge', () => {
     test.describe('Deposit', () => {
-      test.only('Should Deposit ETH Successfully', async ({ page }) => {
+      test('Should Deposit ETH Successfully', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
