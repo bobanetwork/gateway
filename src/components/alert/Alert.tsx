@@ -50,10 +50,10 @@ const Toast = ({
       autoHideDuration={autohide ? autohide : undefined}
       onClose={onClose}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
+        vertical: 'bottom',
+        horizontal: 'right',
       }}
-      style={{ marginTop: 50 }}
+      style={{ marginBottom: 100 }}
     >
       <MuiAlert
         onClose={onClose}
