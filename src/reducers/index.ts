@@ -23,7 +23,6 @@ import nftReducer from './nftReducer'
 import uiReducer from './uiReducer'
 import setupReducer from './setupReducer'
 import earnReduer from './earnReducer'
-import lookupReducer from './lookupReducer'
 import daoReducer from './daoReducer'
 import fixedReducer from './fixedReducer'
 import bridgeReducer from './bridgeReducer'
@@ -42,7 +41,6 @@ const rootReducer = combineReducers({
   ui: uiReducer,
   setup: setupReducer,
   earn: earnReduer,
-  lookup: lookupReducer,
   dao: daoReducer,
   fixed: fixedReducer,
   bridge: bridgeReducer,

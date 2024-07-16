@@ -97,12 +97,6 @@ export const approveERC20 = (
     )
   )
 
-export const fetchLookUpPrice = (params) =>
-  createAction('PRICE/GET', () => networkService.fetchLookUpPrice(params))
-
-export const clearLookupPrice = () => (dispatch) =>
-  dispatch({ type: 'LOOKUP/PRICE/CLEAR' })
-
 export const getAllAddresses = () =>
   createAction('GET/ALL/ADDRESS', () => networkService.getAllAddresses())
 

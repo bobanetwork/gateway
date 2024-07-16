@@ -294,12 +294,9 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             }
             handleNext()
           }}
-          label={<Heading variant="h3">{steps[activeStep].btnLbl}</Heading>}
+          label={steps[activeStep].btnLbl}
         />
-        <SecondaryActionButton
-          onClick={props.handleClose}
-          label={<Heading variant="h3">Close</Heading>}
-        />
+        <SecondaryActionButton onClick={props.handleClose} label="Close" />
       </div>
     </>
   )

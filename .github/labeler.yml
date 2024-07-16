@@ -1,28 +1,10 @@
----
 2-reviewers:
-  - '.github/**/*'
-  - './*'
+- changed-files:
+  - any-glob-to-any-file: ./**
 
-M-ci:
-  - any: ['.github/**/*']
+E2E-Test:
+- changed-files:
+  - any-glob-to-any-file: ./e2e-tests/**
 
-M-l2geth:
-  - any: ['l2geth/**/*']
-
-M-integration:
-  - any: ['integration-tests/**/*']
-
-M-batch-submitter:
-  - any: ['packages/batch-submitter/**/*']
-
-M-contracts:
-  - any: ['packages/contracts/**/*']
-
-M-core-utils:
-  - any: ['packages/core-utils/**/*']
-
-M-dtl:
-  - any: ['packages/data-transport-layer/**/*']
-
-M-ops:
-  - any: ['ops/**/*']
+release:
+- base-branch: 'master'

@@ -1,0 +1,8 @@
+node_modules
+test-results
+jsonReports
+playwright-report
+playwright/.cache
+metamask-*
+yarn-error.log
+videos

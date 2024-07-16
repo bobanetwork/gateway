@@ -121,6 +121,7 @@ exports[`Testing history page Test History Page 1`] = `
                   </div>
                   <p
                     class="sc-imWYAI dZiXLh"
+                    data-testid="label-"
                   >
                     All Networks
                   </p>
@@ -182,6 +183,7 @@ exports[`Testing history page Test History Page 1`] = `
                   </div>
                   <p
                     class="sc-imWYAI dZiXLh"
+                    data-testid="label-"
                   >
                     All Networks
                   </p>

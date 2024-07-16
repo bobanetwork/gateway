@@ -68,9 +68,7 @@ Copy `.env.example` file and name by excluding `.example` and populate the varia
 | REACT_APP_SENTRY_DSN          | Yes      | N/A          | Sentry DSN url to catch the error on frontend                                                                                                                                              |
 | REACT_APP_GAS_POLL_INTERVAL   | Yes      | 30000        | Poll interval to fetch the gas price status                                                                                                                                   |
 | REACT_APP_WC_PROJECT_ID=      | Yes      | N/A          | Wallet Connect project ID                                                                                                                                                                  |
-| CYPRESS_REMOTE_DEBUGGING_PORT | Yes      | 9222         | Debugging port for Cypress                                                                                                                                                                 |
 | NETWORK_NAME                  | Yes      | sepolia       | Starting network for wallet                                                                                                                                                                |
-| SECRET_WORDS                  | Yes      | N/A          | Secret phrase for wallet to be used by Cypress e2e test. Please note that this wallet should have at least .1 Sepolia ETH and 40 Boba Testnet Token on the sepolia and Boba sepolia Networks. |
 
 ### To start local dev-server
 
@@ -134,11 +132,7 @@ $ open ./coverage/index.html
 
 ## Integration Tests
 
-To run the integration test against the gateway execute the command below
-
-```bash
-$ yarn test:integration
-```
+[Follow Integration Docs](./e2e-tests/README.md)
 
 ## Directory Structure
 
@@ -147,6 +141,7 @@ $ yarn test:integration
 ├── .vscode                    # VSCode settings for ESLint auto-fix function
 ├── build                      # Bundled JS and TS declaration file for deployed npm package
 ├── public                     # Public file which
+├── e2e-tests                  # Integration tests.
 ├── src                        # All source code
 │    ├── src/actions           # Redux Actions.
 │    ├── src/api               # React axios instance of api

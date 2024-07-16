@@ -14,25 +14,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { formatEther } from '@ethersproject/units'
 import { CrossChainMessenger } from '@bobanetwork/sdk'
 
 import { BigNumber, BigNumberish, Contract, ethers, utils } from 'ethers'
 
+import BN from 'bn.js'
 import store from 'store'
 import { orderBy } from 'util/lodash'
-import BN from 'bn.js'
 
-import { logAmount } from 'util/amountConvert'
 import { getToken } from 'actions/tokenAction'
+import { logAmount } from 'util/amountConvert'
 
 import { addBobaFee } from 'actions/setupAction'
 
 import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
 
-import { sortRawTokens } from 'util/common'
 import { graphQLService } from '@bobanetwork/graphql-utils'
+import { sortRawTokens } from 'util/common'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
@@ -71,15 +70,15 @@ import {
   TeleportationABI,
 } from './abi'
 
-import { setFetchDepositTxBlock } from 'actions/bridgeAction'
-import { LAYER } from '../containers/history/types'
+import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
+import { setFetchDepositTxBlock } from 'actions/bridgeAction'
+import { LiquidityPoolLayer } from 'types/earn.types'
+import { LAYER } from '../containers/history/types'
 import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
-import { LiquidityPoolLayer } from 'types/earn.types'
-import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -842,8 +841,8 @@ class NetworkService {
       return
     }
 
-    Object.keys(allTokens).forEach((token, i) => {
-      getToken(allTokens[token].L1)
+    Object.keys(allTokens).forEach(async (token, i) => {
+      await getToken(allTokens[token].L1)
     })
   }
 
@@ -954,8 +953,14 @@ class NetworkService {
       layer1Balances[0].balance = new BN(layer1Balance.toString())
       layer2Balances[0].balance = new BN(layer2Balance.toString())
 
+      this.addTokenList()
       const state = store.getState()
-      const tA = Object.values(state.tokenList)
+      const tokenListValues = Object.values(state.tokenList)
+
+      console.log(
+        `tokenListValues`,
+        tokenListValues.map((i: any) => i.symbolL1)
+      )
 
       const tokenC = new ethers.Contract(
         this.addresses.L1_ETH_Address,
@@ -979,7 +984,9 @@ class NetworkService {
 
       const getBalancePromise: any = []
 
-      tA.forEach((token: any) => {
+      console.log(`tokenList`, tokenListValues)
+
+      tokenListValues.forEach((token: any) => {
         if (token.addressL1 === null) {
           return
         }
@@ -1048,6 +1055,8 @@ class NetworkService {
             })
             .map((result: any) => result.value)
       )
+
+      console.log(`tokenBalances`, tokenBalances)
 
       tokenBalances.forEach((token) => {
         if (
@@ -1307,7 +1316,6 @@ class NetworkService {
     const L1_ERC20_Contract = this.L1_TEST_Contract!.attach(currency)
     const L2_ERC20_Contract = this.L2_TEST_Contract!.attach(currencyL2)
     const L1BOBABalance = await L1_ERC20_Contract.balanceOf(this.account)
-    const L2BOBABalance = await L2_ERC20_Contract.balanceOf(this.account)
 
     if (L1BOBABalance.lt(L1DepositAmountWei)) {
       console.error('Insufficient L1 token balance')
@@ -1348,23 +1356,24 @@ class NetworkService {
     }
     const depositReceipt = await L1DepositTx.wait()
     console.log(
-      `Deposited ${ethers.utils.formatEther(
+      `Deposited ${utils.formatEther(
         L1DepositAmountWei
       )} tokens to L1 Standard Bridge`
     )
 
     setFetchDepositTxBlock(true)
-    while (true) {
-      const postL2BOBABalanceTmp = await L2_ERC20_Contract.balanceOf(
-        this.account
-      )
-      if (!L2BOBABalance.eq(postL2BOBABalanceTmp)) {
-        break
-      }
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-    }
+    // As this is more over to complete check of modal as we have note on success modal we can skip this check.
+    // while (true) {
+    //   const postL2BOBABalanceTmp = await L2_ERC20_Contract.balanceOf(
+    //     this.account
+    //   )
 
-    // TODO: Probably we want the l2Funds received tx receipt here
+    //   if (!L2BOBABalance.eq(postL2BOBABalanceTmp)) {
+    //     break
+    //   }
+    //   await new Promise((resolve) => setTimeout(resolve, 1000))
+    // }
+
     return depositReceipt
   }
 
@@ -2217,7 +2226,7 @@ class NetworkService {
 
     try {
       const balance = await this.BobaContract!.balanceOf(this.account)
-      return { balance: formatEther(balance) }
+      return { balance: utils.formatEther(balance) }
     } catch (error) {
       console.log('Error: getDaoBalance', error)
       return error
@@ -2236,7 +2245,7 @@ class NetworkService {
 
     try {
       const balance = await this.xBobaContract.balanceOf(this.account)
-      return { balanceX: formatEther(balance) }
+      return { balanceX: utils.formatEther(balance) }
     } catch (error) {
       console.log('Error: getDaoBalanceX', error)
       return error
@@ -2256,7 +2265,7 @@ class NetworkService {
 
     try {
       const votes = await this.BobaContract!.getCurrentVotes(this.account)
-      return { votes: formatEther(votes) }
+      return { votes: utils.formatEther(votes) }
     } catch (error) {
       console.log('NS: getDaoVotes error:', error)
       return error
@@ -2276,7 +2285,7 @@ class NetworkService {
 
     try {
       const votes = await this.xBobaContract.getCurrentVotes(this.account)
-      return { votesX: formatEther(votes) }
+      return { votesX: utils.formatEther(votes) }
     } catch (error) {
       console.log('NS: getDaoVotesX error:', error)
       return error
@@ -2346,7 +2355,7 @@ class NetworkService {
         this.addresses.GovernorBravoDelegator
       )
       const rawThreshold = await delegateCheck.proposalThreshold()
-      return { proposalThreshold: formatEther(rawThreshold) }
+      return { proposalThreshold: utils.formatEther(rawThreshold) }
     } catch (error) {
       console.log('NS: getProposalThreshold error:', error)
       return error
@@ -2524,12 +2533,12 @@ class NetworkService {
         const state = await delegateCheck.state(proposalID)
 
         const againstVotes = parseInt(
-          formatEther(proposalData.againstVotes),
+          utils.formatEther(proposalData.againstVotes),
           10
         )
-        const forVotes = parseInt(formatEther(proposalData.forVotes), 10)
+        const forVotes = parseInt(utils.formatEther(proposalData.forVotes), 10)
         const abstainVotes = parseInt(
-          formatEther(proposalData.abstainVotes),
+          utils.formatEther(proposalData.abstainVotes),
           10
         )
 

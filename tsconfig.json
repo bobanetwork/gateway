@@ -23,8 +23,7 @@
     "types": [
       "node",
       "jest",
-      "testing-library__jest-dom",
-      "cypress"
+      "testing-library__jest-dom"
     ],
   },
   "exclude": [

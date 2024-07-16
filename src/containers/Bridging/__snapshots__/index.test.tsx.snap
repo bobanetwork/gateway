@@ -156,7 +156,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
           </div>
           <div
             class="sc-dSCufp dvHzRa"
-            id="switchBridgeDirection"
+            data-testid="switchNetwork"
           >
             <div
               class="sc-fxwrCY beyRDV"

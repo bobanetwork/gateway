@@ -1,9 +1,9 @@
 import { closeModal } from 'actions/uiAction'
-import { Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import useBridge from 'hooks/useBridge'
+import useLookupPrice from 'hooks/useLookupPrice'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -13,7 +13,6 @@ import {
   selectBridgeType,
   selectDestChainIdTeleportation,
   selectLayer,
-  selectLookupPrice,
   selectTokenToBridge,
 } from 'selectors'
 import { amountToUsd } from 'util/amountConvert'
@@ -27,7 +26,6 @@ import {
   Item,
   LayerNames,
 } from './index.styles'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 interface Props {
   open: boolean
@@ -38,16 +36,15 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
   const amountToBridge = useSelector(selectAmountToBridge())
-  const lookupPrice = useSelector(selectLookupPrice)
   const networkNames = useSelector(selectActiveNetworkName())
   const activeNetworkIcon = useSelector(selectActiveNetworkIcon())
   const layer = useSelector(selectLayer())
+  const { lookupPrice } = useLookupPrice()
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
 
   const { triggerSubmit } = useBridge()
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const estimateTime = () => {
     if (bridgeType === BRIDGE_TYPE.CLASSIC) {
@@ -65,6 +62,17 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const handleClose = () => {
     dispatch(closeModal('bridgeConfirmModal'))
   }
+
+  const originNetwork =
+    layer === LAYER.L1 ? (
+      <>
+        <L1Icon selected /> {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
+      </>
+    ) : (
+      <>
+        <L2Icon selected /> {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
+      </>
+    )
 
   let destNetwork =
     layer === LAYER.L1 ? (
@@ -100,6 +108,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
       onClose={handleClose}
       minHeight="180px"
       title="Bridge Confirmation"
+      testId="bridge-confirmation"
       transparent={false}
     >
       <ConfirmModalContainer>
@@ -109,23 +118,11 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
         </Item>
         <Item>
           <ConfirmLabel>From</ConfirmLabel>
-          <LayerNames>
-            {layer === LAYER.L1 ? (
-              <>
-                <L1Icon selected />{' '}
-                {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
-              </>
-            ) : (
-              <>
-                <L2Icon selected />{' '}
-                {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
-              </>
-            )}
-          </LayerNames>
+          <LayerNames data-testid="fromNetwork">{originNetwork}</LayerNames>
         </Item>
         <Item>
           <ConfirmLabel>To</ConfirmLabel>
-          <LayerNames>{destNetwork}</LayerNames>
+          <LayerNames data-testid="toNetwork">{destNetwork}</LayerNames>
         </Item>
         <Item>
           <ConfirmLabel>Amount to bridge</ConfirmLabel>
@@ -143,7 +140,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
             triggerSubmit()
             handleClose()
           }}
-          label={<Heading variant="h3">Confirm</Heading>}
+          label="Confirm"
         />
       </ConfirmModalContainer>
     </Modal>

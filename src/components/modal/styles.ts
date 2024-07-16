@@ -59,7 +59,7 @@ export const Style = styled.div<StyleProps>`
     `}
 
   backdrop-filter: ${(props) => (props.transparent ? 'none' : 'blur(15px)')};
-  padding: 24px;
+  padding: 16px;
   outline: 0;
   box-sizing: border-box;
   border-radius: 12px;

@@ -1,32 +1,32 @@
-import {
-  ConfirmModalContainer,
-  SubLabel,
-  SubValue,
-  LightText,
-  Item,
-  LayerNames,
-  Separator,
-  WithdrawalNetworkContainer,
-} from './index.styles'
 import { closeModal, openError } from 'actions/uiAction'
 import Modal from 'components/modal/Modal'
+import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
+import { TokenInfo } from 'containers/history/tokenInfo'
+import { utils } from 'ethers'
+import useLookupPrice from 'hooks/useLookupPrice'
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkIcon,
   selectActiveNetworkName,
   selectAmountToBridge,
-  selectLookupPrice,
   selectReenterWithdrawalConfig,
   selectTokenToBridge,
 } from 'selectors'
 import { amountToUsd } from 'util/amountConvert'
-import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import { DEFAULT_NETWORK } from 'util/constant'
-import { VerticalStepper } from './VerticalStepper'
 import { setReenterWithdrawalConfig } from '../../../actions/bridgeAction'
-import { utils } from 'ethers'
-import { TokenInfo } from 'containers/history/tokenInfo'
+import {
+  ConfirmModalContainer,
+  Item,
+  LayerNames,
+  LightText,
+  Separator,
+  SubLabel,
+  SubValue,
+  WithdrawalNetworkContainer,
+} from './index.styles'
+import { VerticalStepper } from './VerticalStepper'
 
 interface Props {
   open: Boolean
@@ -40,12 +40,14 @@ export const MultiStepWithdrawalModal: FC<Props> = ({ open, isNewTx }) => {
   const _amountToBridge = useSelector(selectAmountToBridge()) // is undefined on network change
   const [token, setToken] = useState(_token)
   const [amountToBridge, setAmountToBridge] = useState(_amountToBridge)
-  const lookupPrice = useSelector(selectLookupPrice)
+
   const networkNames = useSelector(selectActiveNetworkName())
   const activeNetworkIcon = useSelector(selectActiveNetworkIcon())
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
+
+  const { lookupPrice } = useLookupPrice()
 
   useEffect(() => {
     if (!token) {

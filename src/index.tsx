@@ -34,8 +34,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
-
-// Exposes store to window when running Cypress test only.
-if ((window as any).Cypress) {
-  window['store'] = store
-}
