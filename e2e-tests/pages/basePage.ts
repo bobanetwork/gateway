@@ -80,7 +80,10 @@ export class BasePage {
 
     await metamask.acceptAccess()
 
-    await this.page.getByTestId('connect-btn').click()
+    // NOTE: need to get the spec running on locall.
+    if (!process.env.CI) {
+      await this.page.getByTestId('connect-btn').click()
+    }
 
     await expect(this.page.getByTestId('label-address')).toContainText('7428')
 
