@@ -7,8 +7,8 @@ import {
   approveERC20,
   depositErc20,
   depositErc20Anchorage,
-  depositETHAnchorageL2,
   depositETHL2,
+  depositNativeAnchorage,
   depositWithLightBridge,
   exitBOBA,
 } from 'actions/networkAction'
@@ -30,7 +30,13 @@ import {
 import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
 import { Layer, LAYER } from 'util/constant'
-import { INetwork, NetworkList } from '../../util/network/network.util'
+import {
+  INetwork,
+  Network,
+  NetworkList,
+  NetworkType,
+} from '../../util/network/network.util'
+import { bridgeService } from 'services'
 
 export const useBridge = () => {
   const dispatch = useDispatch<any>()
@@ -64,12 +70,13 @@ export const useBridge = () => {
 
   const triggerDeposit = async (amountWei: any) => {
     let receipt
+
     if (token.address === ethers.constants.AddressZero) {
       if (!!isAnchorageEnabled) {
         receipt = await dispatch(
-          depositETHAnchorageL2({
+          depositNativeAnchorage({
             recipient: toL2Account || '',
-            L1DepositAmountWei: amountWei,
+            amount: amountWei,
           })
         )
       } else {
@@ -82,14 +89,29 @@ export const useBridge = () => {
       }
     } else {
       if (!!isAnchorageEnabled) {
-        receipt = await dispatch(
-          depositErc20Anchorage({
-            recipient: toL2Account || '',
-            L1DepositAmountWei: amountWei,
-            currency: token.address,
-            currencyL2: token.addressL2,
-          })
-        )
+        // NOTE: Incase of BNB with BOBA token use
+        // optimism portal which has low gas.
+        if (
+          token.symbol === 'BOBA' &&
+          activeNetwork === Network.BNB &&
+          activeNetworkType === NetworkType.TESTNET
+        ) {
+          receipt = await dispatch(
+            depositNativeAnchorage({
+              recipient: toL2Account || '',
+              amount: amountWei,
+            })
+          )
+        } else {
+          receipt = await dispatch(
+            depositErc20Anchorage({
+              recipient: toL2Account || '',
+              L1DepositAmountWei: amountWei,
+              currency: token.address,
+              currencyL2: token.addressL2,
+            })
+          )
+        }
       } else {
         receipt = await dispatch(
           depositErc20({

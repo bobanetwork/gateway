@@ -17,6 +17,7 @@ import networkService from 'services/networkService'
 import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
+import { bridgeService } from 'services'
 
 export const fetchBalances = () =>
   createAction('BALANCE/GET', () => networkService.getBalances())
@@ -68,9 +69,9 @@ export const depositETHL2 = (payload) =>
   })
 
 //CLASSIC DEPOSIT ETH
-export const depositETHAnchorageL2 = (payload) =>
-  createAction('DEPOSIT/CREATE', () => {
-    return networkService.depositETHAnchorage(payload)
+export const depositNativeAnchorage = (payload) =>
+  createAction('DEPOSIT_ANCHORAGE/CREATE', () => {
+    return bridgeService.anchorageDepositNative(payload)
   })
 
 //DEPOSIT ERC20

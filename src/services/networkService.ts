@@ -1090,51 +1090,6 @@ class NetworkService {
     }
   }
 
-  /** @dev Once we fully migrated to Anchorage we might want to merge this function with depositETHL2. */
-  async depositETHAnchorage({ recipient = null, L1DepositAmountWei }) {
-    try {
-      setFetchDepositTxBlock(false)
-      let depositTX
-      // TODO: make sure to evaluate and update the fallback logic.
-      const isFallback = false // TODO evaluate when to use fallback optimismportal
-
-      const signer = networkService.provider?.getSigner()
-
-      // deposit fallback via OptimismPortal
-      if (isFallback) {
-        if (recipient) {
-          depositTX = await networkService.OptimismPortal?.connect(
-            signer!
-          ).depositTransaction(recipient, L1DepositAmountWei, 100000, false, [])
-        } else {
-          depositTX = await signer!.sendTransaction({
-            to: this.OptimismPortal?.address,
-            value: L1DepositAmountWei,
-          })
-        }
-      } else {
-        // deposit preferred way via L1StandardBridge
-        if (recipient) {
-          depositTX = await this.L1StandardBridgeContract!.connect(
-            signer!
-          ).depositETHTo(recipient, 100000, [], { value: L1DepositAmountWei })
-        } else {
-          depositTX = await this.L1StandardBridgeContract!.connect(
-            signer!
-          ).depositETH(100000, [], { value: L1DepositAmountWei })
-        }
-      }
-
-      setFetchDepositTxBlock(true)
-      const received = await depositTX.wait()
-
-      return received
-    } catch (error) {
-      console.log('NS: depositETHAnchorage error:', error)
-      return error
-    }
-  }
-
   // @note clean up on completion of anchorage migration on mainnet.
   //Move ETH from L1 to L2 using the standard deposit system
   /******
