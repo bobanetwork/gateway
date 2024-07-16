@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectActiveNetwork, selectActiveNetworkType } from 'selectors'
-import { Network } from 'util/network/network.util'
+import { Network, NetworkType } from 'util/network/network.util'
 
 export const useNetworkInfo = () => {
   const [isAnchorageEnabled, setIsAnchorageEnabled] = useState(false)
@@ -11,8 +11,11 @@ export const useNetworkInfo = () => {
   const networkType = useSelector(selectActiveNetworkType())
 
   useEffect(() => {
-    // NOTE: as anchorage has been shiped to ETHEREUM & SEPOLIA both.
-    if (network === Network.ETHEREUM) {
+    // NOTE: as anchorage has been shiped to ETHEREUM and BNB Testnet only.
+    if (
+      network === Network.ETHEREUM ||
+      (network === Network.BNB && networkType === NetworkType.TESTNET)
+    ) {
       setIsAnchorageEnabled(true)
     } else {
       setIsAnchorageEnabled(false)

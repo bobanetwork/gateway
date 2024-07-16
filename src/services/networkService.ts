@@ -178,9 +178,14 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  // NOTE: added check for anchorage for ethereum network.
+  // NOTE: Anchorage Bridging is enable for
+  // Ethereum and BNB-testnet
   isAnchorageEnabled() {
-    if (this.networkGateway === Network.ETHEREUM) {
+    if (
+      this.networkGateway === Network.ETHEREUM ||
+      (this.networkGateway === Network.BNB &&
+        this.networkType === NetworkType.TESTNET)
+    ) {
       return true
     }
     return false
