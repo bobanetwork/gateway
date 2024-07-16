@@ -106,7 +106,7 @@ export class BridgePage extends BasePage {
 
     expect(time).toBe(estimatedTime)
 
-    await this.page.locator('button:text("Confirm")').click()
+    await this.page.getByRole('button', { name: 'Confirm' }).click()
   }
 
   async confirmMetaMaskModalToBridge(amount: string) {
