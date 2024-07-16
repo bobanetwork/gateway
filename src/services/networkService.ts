@@ -179,8 +179,14 @@ class NetworkService {
   }
 
   // NOTE: added check for anchorage for ethereum network.
+  // Note: anchorage bridging is available on
+  //  ethereum, sepolia, bnb testnet except (❌ bnb mainnet)
   isAnchorageEnabled() {
-    if (this.networkGateway === Network.ETHEREUM) {
+    if (
+      this.networkGateway === Network.ETHEREUM ||
+      (this.networkGateway === Network.BNB &&
+        this.networkType === NetworkType.TESTNET)
+    ) {
       return true
     }
     return false
