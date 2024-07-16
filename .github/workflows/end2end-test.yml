@@ -17,6 +17,11 @@ jobs:
         with:
           node-version: 16.17.0
           cache: 'yarn'
+      - name: Install linux deps (xvfb / fluxbox)
+        run: |
+          sudo apt-get install --no-install-recommends -y \
+          fluxbox \
+          xvfb
       - name: Install yarn dependencies
         run: yarn
       - name: Build Gateway Project
@@ -43,15 +48,19 @@ jobs:
           npm install -g pnpm && pnpm install --frozen-lockfile  && npx playwright install
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
-      - name: Run E2E TEST
+      - name: Run e2e test (headful)
         working-directory: ./e2e-tests
         run: |
-          pnpm start:server & pnpm test:headless
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          fluxbox &
+          pnpm start:server & 
+          pnpm test
         env:
           PASSWORD: ${{secrets.PASSWORD}}
           NETWORK: 'sepolia'
           SECRET_WORDS: ${{secrets.SECRET_WORDS}}
           METAMASK_VERSION: 10.25.0
+          DISPLAY: :0.0
       - name: Upload Archive e2e artifacts
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
