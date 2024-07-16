@@ -1,14 +1,9 @@
-name: E2E Playwright Test
-permissions: read-all
+name: Integration Tests
 
 on: 
   push: 
-    branches:
-      - 'main'
-      - 'develop'
-      - 'master'
+    branches: ['main', 'master']
   pull_request:
-  workflow_dispatch:
 
 jobs:
   e2e-test:
@@ -24,7 +19,7 @@ jobs:
           cache: 'yarn'
       - name: Install yarn dependencies
         run: yarn
-      - name: Build Gateway
+      - name: Build Gateway Project
         working-directory: ./
         run: |
           yarn && yarn build:prod
@@ -42,7 +37,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: Install pnpm deps e2e tests
+      - name: Install PNPM deps e2e-tests
         working-directory: ./e2e-tests
         run: |
           npm install -g pnpm && pnpm install --frozen-lockfile  && npx playwright install

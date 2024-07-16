@@ -7,7 +7,7 @@ export default defineConfig({
   },
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 5 : 1,
+  workers: 1,
   forbidOnly: !!process.env.CI,
   reporter: [['list'], ['dot'], ['html']],
   use: {
@@ -16,6 +16,7 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
+    trace: 'on-first-retry',
     contextOptions: {
       recordVideo: {
         dir: 'videos/',
