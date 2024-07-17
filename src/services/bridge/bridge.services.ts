@@ -67,7 +67,9 @@ export class BridgeService {
       if (recipient) {
         depositTx = await optimismContract
           .connect(signer!)
-          .depositTransaction(recipient, amount, 100000, false, [])
+          .depositTransaction(recipient, 0, 100000, false, [], {
+            value: amount,
+          })
       } else {
         depositTx = await signer!.sendTransaction({
           to: optimismContract.address,
