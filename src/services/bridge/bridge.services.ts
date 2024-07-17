@@ -170,14 +170,6 @@ export class BridgeService {
       return error
     }
   }
-
-  // async anchorageWithdrawNative() {
-
-  // }
-
-  // async anchorageWithdrawERC20() {
-
-  // }
 }
 
 export const bridgeService = new BridgeService()
