@@ -68,7 +68,7 @@ export const depositETHL2 = (payload) =>
     return networkService.depositETHL2(payload)
   })
 
-//CLASSIC DEPOSIT ETH
+// Anchorage CLASSIC DEPOSIT ETH
 export const depositNativeAnchorage = (payload) =>
   createAction('DEPOSIT_ANCHORAGE/CREATE', () => {
     return bridgeService.anchorageDepositNative(payload)
@@ -80,7 +80,7 @@ export const depositErc20 = (payload) =>
 
 export const depositErc20Anchorage = (payload) =>
   createAction('DEPOSIT/CREATE', () =>
-    networkService.depositERC20Anchorage(payload)
+    bridgeService.anchorageDepositERC20(payload)
   )
 
 export const approveERC20 = (

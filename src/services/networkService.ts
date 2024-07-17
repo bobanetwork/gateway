@@ -65,7 +65,6 @@ import {
   L2StandardBridgeABIAnchorage,
   L2StandardERC20ABI,
   L2ToL1MessagePasserABI,
-  OptimismPortalABI,
   OVM_GasPriceOracleABI,
   TeleportationABI,
 } from './abi'
@@ -132,7 +131,6 @@ class NetworkService {
   //#region Anchorage specific
   L2ToL1MessagePasser?: Contract
   L2OutputOracle?: Contract
-  OptimismPortal?: Contract
   //#endregion
   //#endregion
 
@@ -614,14 +612,6 @@ class NetworkService {
               : this.addresses.L2ToL1MessagePasserProxy,
             L2ToL1MessagePasserABI,
             this.L2Provider
-          )
-        }
-
-        if (this.addresses.OptimismPortalProxy) {
-          this.OptimismPortal = new ethers.Contract(
-            this.addresses.OptimismPortalProxy,
-            OptimismPortalABI,
-            this.L1Provider
           )
         }
 

@@ -36,7 +36,6 @@ import {
   NetworkList,
   NetworkType,
 } from '../../util/network/network.util'
-import { bridgeService } from 'services'
 
 export const useBridge = () => {
   const dispatch = useDispatch<any>()
@@ -69,51 +68,41 @@ export const useBridge = () => {
   }
 
   const triggerDeposit = async (amountWei: any) => {
-    let receipt
-
-    if (token.address === ethers.constants.AddressZero) {
-      if (!!isAnchorageEnabled) {
-        receipt = await dispatch(
+    if (!!isAnchorageEnabled) {
+      if (
+        token.address === ethers.constants.AddressZero ||
+        (activeNetwork === Network.BNB &&
+          activeNetworkType === NetworkType.TESTNET &&
+          token.symbol === 'BOBA')
+      ) {
+        // deposit BOBA in bnb-testnet with optimism.
+        return dispatch(
           depositNativeAnchorage({
             recipient: toL2Account || '',
             amount: amountWei,
           })
         )
       } else {
-        receipt = await dispatch(
+        dispatch(
+          depositErc20Anchorage({
+            recipient: toL2Account,
+            amount: amountWei,
+            currency: token.address,
+            currencyL2: token.addressL2,
+          })
+        )
+      }
+    } else {
+      // NOTE: Below code is getting use only for BNB Mainnet.
+      if (token.address === ethers.constants.AddressZero) {
+        return dispatch(
           depositETHL2({
             recipient: toL2Account || '',
             value_Wei_String: amountWei,
           })
         )
-      }
-    } else {
-      if (!!isAnchorageEnabled) {
-        // NOTE: Incase of BNB with BOBA token use
-        // optimism portal which has low gas.
-        if (
-          token.symbol === 'BOBA' &&
-          activeNetwork === Network.BNB &&
-          activeNetworkType === NetworkType.TESTNET
-        ) {
-          receipt = await dispatch(
-            depositNativeAnchorage({
-              recipient: toL2Account || '',
-              amount: amountWei,
-            })
-          )
-        } else {
-          receipt = await dispatch(
-            depositErc20Anchorage({
-              recipient: toL2Account || '',
-              L1DepositAmountWei: amountWei,
-              currency: token.address,
-              currencyL2: token.addressL2,
-            })
-          )
-        }
       } else {
-        receipt = await dispatch(
+        return dispatch(
           depositErc20({
             recipient: toL2Account || '',
             value_Wei_String: amountWei,
@@ -123,8 +112,7 @@ export const useBridge = () => {
         )
       }
     }
-
-    return receipt
+    return false
   }
 
   const triggerTeleportAsset = async (
