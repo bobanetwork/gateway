@@ -536,20 +536,9 @@ class NetworkService {
       )
 
       if (!isLimitedNetwork) {
-        let L1StandardBridgeAddress
-
-        // todo remove once migrated to anchorage
-        if (!this.isAnchorageEnabled()) {
-          L1StandardBridgeAddress = this.addresses.L1StandardBridgeAddress
-        } else {
-          L1StandardBridgeAddress = this.addresses.L1StandardBridgeProxy
-            ? this.addresses.L1StandardBridgeProxy
-            : this.addresses.L1StandardBridge
-        }
-
-        if (L1StandardBridgeAddress) {
+        if (this.addresses.L1StandardBridgeAddress) {
           this.L1StandardBridgeContract = new ethers.Contract(
-            L1StandardBridgeAddress, // uses right addressed depending on ENABLE_ANCHORAGE
+            this.addresses.L1StandardBridgeAddress, // uses right addressed depending on ENABLE_ANCHORAGE
             L1StandardBridgeABI,
             this.L1Provider
           )
