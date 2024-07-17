@@ -8,6 +8,7 @@ import {
   approveERC20,
   depositErc20,
   depositErc20Anchorage,
+  depositErc20AnchorageOptimism,
   depositETHL2,
   depositNativeAnchorage,
   depositWithLightBridge,
@@ -79,25 +80,29 @@ export const useBridge = () => {
           })
         )
       } else {
-        let isBobaBnbToken = false
         if (
           activeNetwork === Network.BNB &&
           activeNetworkType === NetworkType.TESTNET &&
           token.symbol === 'BOBA'
         ) {
           // deposit BOBA in bnb-testnet with optimism.
-          isBobaBnbToken = true
+          reciept = await dispatch(
+            depositErc20AnchorageOptimism({
+              recipient: toL2Account,
+              amount: amountWei,
+              currency: token.address,
+            })
+          )
+        } else {
+          reciept = await dispatch(
+            depositErc20Anchorage({
+              recipient: toL2Account,
+              amount: amountWei,
+              currency: token.address,
+              currencyL2: token.addressL2,
+            })
+          )
         }
-
-        reciept = await dispatch(
-          depositErc20Anchorage({
-            recipient: toL2Account,
-            amount: amountWei,
-            currency: token.address,
-            currencyL2: token.addressL2,
-            isBobaBnbToken,
-          })
-        )
       }
     } else {
       // NOTE: Below code is getting use only for BNB Mainnet.

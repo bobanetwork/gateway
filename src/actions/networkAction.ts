@@ -83,6 +83,11 @@ export const depositErc20Anchorage = (payload) =>
     bridgeService.anchorageDepositERC20(payload)
   )
 
+export const depositErc20AnchorageOptimism = (payload) =>
+  createAction('DEPOSIT/CREATE', () =>
+    bridgeService.anchorageDepositERC20Optimism(payload)
+  )
+
 export const approveERC20 = (
   value: BigNumberish,
   currency: string,
