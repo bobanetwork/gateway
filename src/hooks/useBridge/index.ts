@@ -69,13 +69,7 @@ export const useBridge = () => {
 
   const triggerDeposit = async (amountWei: any) => {
     if (!!isAnchorageEnabled) {
-      if (
-        token.address === ethers.constants.AddressZero ||
-        (activeNetwork === Network.BNB &&
-          activeNetworkType === NetworkType.TESTNET &&
-          token.symbol === 'BOBA')
-      ) {
-        // deposit BOBA in bnb-testnet with optimism.
+      if (token.address === ethers.constants.AddressZero) {
         return dispatch(
           depositNativeAnchorage({
             recipient: toL2Account || '',
@@ -83,12 +77,23 @@ export const useBridge = () => {
           })
         )
       } else {
+        let isBobaBnbToken = false
+        if (
+          activeNetwork === Network.BNB &&
+          activeNetworkType === NetworkType.TESTNET &&
+          token.symbol === 'BOBA'
+        ) {
+          // deposit BOBA in bnb-testnet with optimism.
+          isBobaBnbToken = true
+        }
+
         dispatch(
           depositErc20Anchorage({
             recipient: toL2Account,
             amount: amountWei,
             currency: token.address,
             currencyL2: token.addressL2,
+            isBobaBnbToken,
           })
         )
       }

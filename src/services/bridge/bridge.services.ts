@@ -26,6 +26,7 @@ interface IDepositErc20 {
   amount: string
   currency: string
   currencyL2: string
+  isBobaBnbToken: boolean
 }
 interface IDepositNative {
   recipient?: null | string
@@ -82,6 +83,7 @@ export class BridgeService {
     amount,
     currency,
     currencyL2,
+    isBobaBnbToken,
   }: IDepositErc20) {
     try {
       console.log(`▶▶ anchorageDepositERC20`)
@@ -134,31 +136,66 @@ export class BridgeService {
 
       let depositTx: any
 
-      const l1StandardBridgeContract = new Contract(
-        networkService.addresses.L1StandardBridgeProxy,
-        L1StandardBridgeABI,
-        networkService.L1Provider
-      )
-
-      const signedContract = l1StandardBridgeContract!.connect(signer)
-
-      if (recipient) {
-        depositTx = await signedContract.depositERC20To(
-          currency,
-          currencyL2,
-          recipient,
-          amount,
-          999999,
-          '0x'
+      if (isBobaBnbToken) {
+        const optimismContract = new Contract(
+          networkService.addresses.OptimismPortalProxy,
+          OptimismPortalABI,
+          networkService.L1Provider
         )
+
+        if (recipient) {
+          console.log(
+            `calling TO L2 depositERC20Transaction(recipient, 0, amount, 100000, false, [])`,
+            recipient,
+            0,
+            amount,
+            100000,
+            false,
+            []
+          )
+          // in case of boba token for BNB testnet.
+          depositTx = await optimismContract
+            .connect(signer!)
+            .depositERC20Transaction(recipient, 0, amount, 100000, false, [])
+        } else {
+          depositTx = await optimismContract
+            .connect(signer!)
+            .depositERC20Transaction(
+              networkService.account,
+              amount,
+              0,
+              100000,
+              false,
+              []
+            )
+        }
       } else {
-        depositTx = await signedContract.depositERC20(
-          currency,
-          currencyL2,
-          amount,
-          999999,
-          '0x'
+        const l1StandardBridgeContract = new Contract(
+          networkService.addresses.L1StandardBridgeProxy,
+          L1StandardBridgeABI,
+          networkService.L1Provider
         )
+
+        const signedContract = l1StandardBridgeContract!.connect(signer)
+
+        if (recipient) {
+          depositTx = await signedContract.depositERC20To(
+            currency,
+            currencyL2,
+            recipient,
+            amount,
+            999999,
+            '0x'
+          )
+        } else {
+          depositTx = await signedContract.depositERC20(
+            currency,
+            currencyL2,
+            amount,
+            999999,
+            '0x'
+          )
+        }
       }
 
       const depositReceipt = await depositTx.wait()
