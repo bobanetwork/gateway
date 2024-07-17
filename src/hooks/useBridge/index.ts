@@ -1,6 +1,7 @@
 import {
   purgeBridgeAlert,
   resetBridgeAmount,
+  resetBridgeDestinationAddress,
   resetToken,
 } from 'actions/bridgeAction'
 import {
@@ -68,9 +69,10 @@ export const useBridge = () => {
   }
 
   const triggerDeposit = async (amountWei: any) => {
+    let reciept
     if (!!isAnchorageEnabled) {
       if (token.address === ethers.constants.AddressZero) {
-        return dispatch(
+        reciept = await dispatch(
           depositNativeAnchorage({
             recipient: toL2Account || '',
             amount: amountWei,
@@ -87,7 +89,7 @@ export const useBridge = () => {
           isBobaBnbToken = true
         }
 
-        dispatch(
+        reciept = await dispatch(
           depositErc20Anchorage({
             recipient: toL2Account,
             amount: amountWei,
@@ -100,14 +102,14 @@ export const useBridge = () => {
     } else {
       // NOTE: Below code is getting use only for BNB Mainnet.
       if (token.address === ethers.constants.AddressZero) {
-        return dispatch(
+        reciept = await dispatch(
           depositETHL2({
             recipient: toL2Account || '',
             value_Wei_String: amountWei,
           })
         )
       } else {
-        return dispatch(
+        reciept = await dispatch(
           depositErc20({
             recipient: toL2Account || '',
             value_Wei_String: amountWei,
@@ -117,7 +119,7 @@ export const useBridge = () => {
         )
       }
     }
-    return false
+    return reciept
   }
 
   const triggerTeleportAsset = async (
@@ -182,6 +184,7 @@ export const useBridge = () => {
       }
     }
     dispatch(closeModal('bridgeInProgress'))
+    dispatch(resetBridgeDestinationAddress())
     if (receipt) {
       dispatch(openModal({ modal: 'transactionSuccess' }))
       dispatch(resetToken())

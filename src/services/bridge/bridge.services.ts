@@ -120,9 +120,13 @@ export class BridgeService {
         throw new Error(`Insufficient L1 token balance`)
       }
 
+      const allowanceContract = isBobaBnbToken
+        ? networkService.addresses.OptimismPortalProxy
+        : networkService.addresses.L1StandardBridgeProxy
+
       const allowance_BN = await bobaTokenContract.allowance(
         networkService.account,
-        networkService.addresses.L1StandardBridgeProxy
+        allowanceContract
       )
 
       const allowed = allowance_BN.gte(BigNumber.from(amount))
@@ -130,7 +134,7 @@ export class BridgeService {
       if (!allowed) {
         const L1ApproveTx = await bobaTokenContract
           .connect(signer!)
-          .approve(networkService.addresses.L1StandardBridgeProxy, amount)
+          .approve(allowanceContract, amount)
         await L1ApproveTx.wait()
       }
 
@@ -144,19 +148,10 @@ export class BridgeService {
         )
 
         if (recipient) {
-          console.log(
-            `calling TO L2 depositERC20Transaction(recipient, 0, amount, 100000, false, [])`,
-            recipient,
-            0,
-            amount,
-            100000,
-            false,
-            []
-          )
           // in case of boba token for BNB testnet.
           depositTx = await optimismContract
             .connect(signer!)
-            .depositERC20Transaction(recipient, 0, amount, 100000, false, [])
+            .depositERC20Transaction(recipient, amount, 0, 100000, false, [])
         } else {
           depositTx = await optimismContract
             .connect(signer!)
