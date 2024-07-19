@@ -134,9 +134,6 @@ export class BridgePage extends BasePage {
     await expect(this.page.getByRole('heading', { level: 1 })).toHaveText(
       'History'
     )
-    // await expect(
-    //   this.page.getByRole('heading', { name: 'History' })
-    // ).toBeVisible()
   }
 
   async reviewAndInitiateWithdrawal() {
