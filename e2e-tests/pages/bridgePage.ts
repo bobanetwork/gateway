@@ -13,6 +13,7 @@ export class BridgePage extends BasePage {
   async openTokenPickerAndSelect(tokenSymbol: string) {
     await this.page.locator('#tokenSelectorInput').click()
     await expect(this.page.getByText('Select Token')).toBeVisible()
+    await this.page.waitForTimeout(4000)
     await this.page
       .locator('div[title="tokenList"]')
       .getByTestId(`token-${tokenSymbol}`)
@@ -116,6 +117,8 @@ export class BridgePage extends BasePage {
 
     // for deposit
     await metamask.confirmPermissionToSpend(amount, true)
+    // // only for BOBA or ERC 20 Token.
+    // await metamask.confirmTransaction()
 
     await expect(this.page.getByTestId('transactionSuccess-modal')).toBeVisible(
       { timeout: 60000 }
@@ -129,9 +132,14 @@ export class BridgePage extends BasePage {
   async toHistoryPage() {
     await this.page.getByRole('button', { name: 'Go to history' }).click()
 
-    await expect(
-      this.page.getByRole('heading', { name: 'History' })
-    ).toBeVisible()
+    await this.page.waitForTimeout(1000)
+
+    await expect(this.page.getByRole('heading', { level: 1 })).toHaveText(
+      'History'
+    )
+    // await expect(
+    //   this.page.getByRole('heading', { name: 'History' })
+    // ).toBeVisible()
   }
 
   async reviewAndInitiateWithdrawal() {
