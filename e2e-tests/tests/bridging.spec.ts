@@ -12,7 +12,6 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Gateway ETHEREUM (Sepolia)', () => {
-  test.describe.configure({ retries: 2 })
   test.describe('Classic Bridge', () => {
     test.describe('Deposit', () => {
       test('Should Deposit ETH Successfully', async ({ page }) => {
@@ -42,26 +41,26 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const basePage = new BasePage(page)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet() // connected to L1.
-        await bridgeAction.switchNetwork() // switches to L2.
+        await bridgeAction.switchNetwork()
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
           amountToBridge,
           tokenSymbol: 'ETH',
-        }) // switches to L2.
+        })
       })
       test('Should withdraw BOBA Successfully', async ({ page }) => {
         test.setTimeout(120000)
         const basePage = new BasePage(page)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet() // connected to L1.
-        await bridgeAction.switchNetwork() // switches to L2.
+        await bridgeAction.switchNetwork()
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
           amountToBridge,
           tokenSymbol: 'ETH',
-        }) // switches to L2.
+        })
       })
     })
   })
@@ -95,7 +94,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const bridgeAction = new GatewayAction(page)
         const basePage = new BasePage(page)
         await bridgeAction.connectToTestnet()
-        await bridgeAction.switchNetwork() // switches to L2.
+        await bridgeAction.switchNetwork()
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.lightBridgeWithdraw({
@@ -109,7 +108,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const basePage = new BasePage(page)
         const bridgePage = new BridgePage(page)
         await bridgeAction.connectToTestnet()
-        await bridgeAction.switchNetwork() // switches to L2.
+        await bridgeAction.switchNetwork()
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgePage.switchToLightBridge()

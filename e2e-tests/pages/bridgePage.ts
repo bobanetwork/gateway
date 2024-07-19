@@ -110,19 +110,12 @@ export class BridgePage extends BasePage {
     await this.page.getByRole('button', { name: 'Confirm' }).click()
   }
 
-  async confirmMetaMaskModalToBridge(
-    amount: string,
-    allowanceApprovalEnable?: boolean
-  ) {
+  async confirmMetaMaskModalToBridge(amount: string) {
     await expect(
       this.page.getByRole('heading', { name: 'Bridging...' })
     ).toBeVisible()
 
     await metamask.confirmPermissionToSpend(amount, true)
-
-    if (allowanceApprovalEnable) {
-      await metamask.confirmTransaction()
-    }
 
     await expect(this.page.getByTestId('transactionSuccess-modal')).toBeVisible(
       { timeout: 60000 }

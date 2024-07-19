@@ -50,11 +50,7 @@ export class GatewayAction {
       toNetwork: 'Boba (Sepolia)',
       estimatedTime: '13 ~ 14mins.',
     })
-    const allowanceApprovalEnable = networkConfig.L1.token !== tokenSymbol
-    await this.bridgePage.confirmMetaMaskModalToBridge(
-      amountToBridge,
-      allowanceApprovalEnable
-    )
+    await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
     await this.bridgePage.wait(successWaitTime) // have to wait for success modal
     await this.bridgePage.validateBridgeSuccess()
     await this.bridgePage.toHistoryPage()
