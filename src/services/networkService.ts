@@ -1984,7 +1984,8 @@ class NetworkService {
     }
   }
 
-  getLightBridgeAddress(chainId?: number) {
+  getLightBridgeAddress(inputChainId?: number) {
+    let chainId = inputChainId
     if (!chainId) {
       chainId = this.chainId
     }
@@ -2000,9 +2001,13 @@ class NetworkService {
       networkType: networkConfig.networkType,
       network: networkConfig.chain,
     })
-    if (networkConfig.layer === LAYER.L1) {
+    let layer = networkConfig.layer
+    if (!inputChainId) {
+      layer = this.L1orL2
+    }
+    if (layer === LAYER.L1) {
       lightBridgeAddr = addresses.Proxy__L1Teleportation
-    } else if (networkConfig.layer === LAYER.L2) {
+    } else if (layer === LAYER.L2) {
       lightBridgeAddr = addresses.Proxy__L2Teleportation
     }
     return { lightBridgeAddr, networkConfig }
@@ -2026,46 +2031,51 @@ class NetworkService {
   }
 
   async getDisburserBalance(sourceChainId, destChainId, token) {
-    if (token === '0x4200000000000000000000000000000000000006') {
-      token = '0x0000000000000000000000000000000000000000'
-    }
-    // not just simply L2/L1 as also L2<>L2 supported, ..
-    const destProvider = new ethers.providers.StaticJsonRpcProvider(
-      getRpcUrlByChainId(destChainId)
-    )
-    let destTokenAddr
     try {
-      destTokenAddr = getDestinationTokenAddress(
-        token,
-        sourceChainId,
-        destChainId
-      )
-    } catch (err) {
-      if (
-        (err as string)
-          .toString()
-          .includes(
-            'Token 0x4200000000000000000000000000000000000006 not supported on source chain 288'
-          )
-      ) {
-        destTokenAddr = ethers.constants.AddressZero
+      if (token === '0x4200000000000000000000000000000000000006') {
+        token = '0x0000000000000000000000000000000000000000'
       }
-    }
-    const isNative =
-      destTokenAddr === ethers.constants.AddressZero ||
-      destTokenAddr === this.addresses.L2_ETH_Address
+      // not just simply L2/L1 as also L2<>L2 supported, ..
+      const destProvider = new ethers.providers.StaticJsonRpcProvider(
+        getRpcUrlByChainId(destChainId)
+      )
+      let destTokenAddr
+      try {
+        destTokenAddr = getDestinationTokenAddress(
+          token,
+          sourceChainId,
+          destChainId
+        )
+      } catch (err) {
+        if (
+          (err as string)
+            .toString()
+            .includes(
+              'Token 0x4200000000000000000000000000000000000006 not supported on source chain 288'
+            )
+        ) {
+          destTokenAddr = ethers.constants.AddressZero
+        }
+      }
+      const isNative =
+        destTokenAddr === ethers.constants.AddressZero ||
+        destTokenAddr === this.addresses.L2_ETH_Address
 
-    const disburserAddr =
-      await this.getLightBridgeContract(destChainId)?.disburser()
-    if (!disburserAddr) {
-      return
-    }
-    if (isNative) {
-      return destProvider.getBalance(disburserAddr)
-    } else {
-      const destToken =
-        this.L1_TEST_Contract!.attach(destTokenAddr).connect(destProvider)
-      return destToken.balanceOf(disburserAddr)
+      const disburserAddr =
+        await this.getLightBridgeContract(destChainId)?.disburser()
+      if (!disburserAddr) {
+        return
+      }
+      if (isNative) {
+        return destProvider.getBalance(disburserAddr)
+      } else {
+        const destToken =
+          this.L1_TEST_Contract!.attach(destTokenAddr).connect(destProvider)
+        return destToken.balanceOf(disburserAddr)
+      }
+    } catch (error) {
+      console.log(`NS: disburser balance`, error)
+      return 0
     }
   }
 
@@ -2125,7 +2135,6 @@ class NetworkService {
           `Teleportation: Asset ${tokenAddress} not supported for chainId ${destChainId}`
         )
       }
-
       const depositTX = await teleportationContract.teleportAsset(
         tokenAddress,
         value_Wei_String,

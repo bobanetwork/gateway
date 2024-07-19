@@ -2,6 +2,19 @@ import { Page } from '@playwright/test'
 import { BasePage } from '../pages/basePage'
 import { BridgePage } from '../pages/bridgePage'
 
+const networkConfig = {
+  L1: {
+    token: 'ETH',
+    chainId: '11155111',
+    name: 'Sepolia',
+  },
+  L2: {
+    token: 'ETH',
+    chainId: '28882',
+    name: 'Boba Sepolia',
+  },
+}
+
 export class GatewayAction {
   basePage: BasePage
   bridgePage: BridgePage
@@ -37,7 +50,11 @@ export class GatewayAction {
       toNetwork: 'Boba (Sepolia)',
       estimatedTime: '13 ~ 14mins.',
     })
-    await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
+    const allowanceApprovalEnable = networkConfig.L1.token !== tokenSymbol
+    await this.bridgePage.confirmMetaMaskModalToBridge(
+      amountToBridge,
+      allowanceApprovalEnable
+    )
     await this.bridgePage.wait(successWaitTime) // have to wait for success modal
     await this.bridgePage.validateBridgeSuccess()
     await this.bridgePage.toHistoryPage()

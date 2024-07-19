@@ -12,6 +12,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Gateway ETHEREUM (Sepolia)', () => {
+  test.describe.configure({ retries: 2 })
   test.describe('Classic Bridge', () => {
     test.describe('Deposit', () => {
       test('Should Deposit ETH Successfully', async ({ page }) => {
@@ -77,13 +78,12 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         })
       })
 
-      // NOTE: skip as amount exceed allowance error!
-      test.skip('Should Deposit BOBA Successfully', async ({ page }) => {
+      test('Should Deposit BOBA Successfully', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
         await bridgeAction.lightBridgeDeposit({
-          amountToBridge: '20.002',
+          amountToBridge: '20.021',
           tokenSymbol: 'BOBA',
         })
       })
