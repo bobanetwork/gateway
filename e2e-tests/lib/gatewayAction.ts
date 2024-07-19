@@ -135,7 +135,7 @@ export class GatewayAction {
     await this.bridgePage.bridgeButtonEnable()
     const receivableAmt = Number(amountToBridge) * ((100 - 1) / 100)
     await this.bridgePage.validateBridgingFee({
-      amount: receivableAmt.toString(),
+      amount: receivableAmt.toFixed(4),
       token: tokenSymbol,
       estimatedTime: '~1min.',
     })
