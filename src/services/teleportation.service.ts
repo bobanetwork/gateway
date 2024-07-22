@@ -246,7 +246,7 @@ export class LightBridgeService {
       return true
     } catch (error) {
       console.log(`Teleport: deposit error`, error)
-      return false
+      return error
     }
   }
 }
