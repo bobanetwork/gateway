@@ -236,10 +236,10 @@ class TransactionService {
   async fetchLightBridgeTransactions(
     networkConfig: Partial<NetworkDetailChainConfig>
   ) {
-    const contractL1 = lightBridgeService.getLightBridgeContract(
+    const contractL1 = await lightBridgeService.getLightBridgeContract(
       networkConfig!.L1!.chainId
     )
-    const contractL2 = lightBridgeService.getLightBridgeContract(
+    const contractL2 = await lightBridgeService.getLightBridgeContract(
       networkConfig!.L2!.chainId
     )
 
