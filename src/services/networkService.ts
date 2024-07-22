@@ -846,17 +846,6 @@ class NetworkService {
     })
   }
 
-  // TODO: cleanup.
-  async getL1FeeBalance() {
-    try {
-      const balance = await this.L1Provider!.getBalance(this.account!)
-      return utils.formatEther(balance)
-    } catch (error) {
-      console.log('NS: getL1FeeBalance error:', error)
-      return error
-    }
-  }
-
   async getL2BalanceETH() {
     try {
       const balance = await this.L2Provider!.getBalance(this.account!)
@@ -1223,6 +1212,7 @@ class NetworkService {
     }
   }
 
+  // TODO: move this to bridge service with better naming.
   async approveERC20(
     value_Wei_String: BigNumberish,
     currency: string,
@@ -1946,8 +1936,8 @@ class NetworkService {
 
   /***********************************************/
   /*****          Withdraw Liquidity         *****/
-
   /***********************************************/
+
   async withdrawLiquidity(
     currency,
     value_Wei_String,
@@ -1980,189 +1970,6 @@ class NetworkService {
       return TX
     } catch (error) {
       console.log('NS: withdrawLiquidity error:', error)
-      return error
-    }
-  }
-
-  getLightBridgeAddress(inputChainId?: number) {
-    let chainId = inputChainId
-    if (!chainId) {
-      chainId = this.chainId
-    }
-    const networkConfig = CHAIN_ID_LIST[chainId!]
-    let lightBridgeAddr
-    if (!networkConfig) {
-      console.error(
-        `Unknown chainId to retrieve teleportation contract from: ${chainId}`
-      )
-      return { lightBridgeAddr: null, networkConfig: null }
-    }
-    const addresses = appService.fetchAddresses({
-      networkType: networkConfig.networkType,
-      network: networkConfig.chain,
-    })
-    let layer = networkConfig.layer
-    if (!inputChainId) {
-      layer = this.L1orL2
-    }
-    if (layer === LAYER.L1) {
-      lightBridgeAddr = addresses.Proxy__L1Teleportation
-    } else if (layer === LAYER.L2) {
-      lightBridgeAddr = addresses.Proxy__L2Teleportation
-    }
-    return { lightBridgeAddr, networkConfig }
-  }
-
-  getLightBridgeContract(chainId) {
-    const { lightBridgeAddr, networkConfig } =
-      this.getLightBridgeAddress(chainId)
-    if (!lightBridgeAddr || !this.LightBridge) {
-      return
-    }
-
-    const rpc = getRpcUrl({
-      networkType: networkConfig.networkType,
-      network: networkConfig.chain,
-      layer: networkConfig.layer,
-    })
-    const provider = new ethers.providers.StaticJsonRpcProvider(rpc)
-
-    return this.LightBridge!.attach(lightBridgeAddr).connect(provider)
-  }
-
-  async getDisburserBalance(sourceChainId, destChainId, token) {
-    try {
-      if (token === '0x4200000000000000000000000000000000000006') {
-        token = '0x0000000000000000000000000000000000000000'
-      }
-      const destProvider = new ethers.providers.StaticJsonRpcProvider(
-        getRpcUrlByChainId(destChainId)
-      )
-      let destTokenAddr
-      try {
-        destTokenAddr = getDestinationTokenAddress(
-          token,
-          sourceChainId,
-          destChainId
-        )
-      } catch (err) {
-        if (
-          (err as string)
-            .toString()
-            .includes(
-              'Token 0x4200000000000000000000000000000000000006 not supported on source chain 288'
-            )
-        ) {
-          destTokenAddr = ethers.constants.AddressZero
-        }
-      }
-      const isNative =
-        destTokenAddr === ethers.constants.AddressZero ||
-        destTokenAddr === this.addresses.L2_ETH_Address
-
-      const disburserAddr =
-        await this.getLightBridgeContract(destChainId)?.disburser()
-
-      if (!disburserAddr) {
-        return 0
-      }
-
-      if (isNative) {
-        return destProvider.getBalance(disburserAddr)
-      } else {
-        const contract =
-          this.L1orL2 === Layer.L1
-            ? this.L2_TEST_Contract!
-            : this.L1_TEST_Contract!
-
-        return await contract
-          .attach(destTokenAddr)
-          .connect(destProvider)
-          .balanceOf(disburserAddr)
-      }
-    } catch (error) {
-      console.log(`NS: disburser balance`, error)
-      return 0
-    }
-  }
-
-  async isTeleportationOfAssetSupported(layer, token, destChainId) {
-    const lightBridgeAddr =
-      layer === Layer.L1
-        ? this.addresses.Proxy__L1Teleportation
-        : this.addresses.Proxy__L2Teleportation
-    if (!lightBridgeAddr) {
-      return { supported: false }
-    }
-    const contract = this.LightBridge!.attach(lightBridgeAddr).connect(
-      this.provider!.getSigner()
-    )
-    return contract.supportedTokens(
-      token.replace(
-        '0x4200000000000000000000000000000000000006',
-        ethers.constants.AddressZero
-      ),
-      destChainId
-    )
-  }
-
-  async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
-    try {
-      setFetchDepositTxBlock(false)
-
-      const lightBridgeAddr =
-        layer === Layer.L1
-          ? this.addresses.Proxy__L1Teleportation
-          : this.addresses.Proxy__L2Teleportation
-      const msgVal =
-        currency === this.addresses.L1_ETH_Address ||
-        currency === this.addresses.NETWORK_NATIVE_TOKEN
-          ? { value: value_Wei_String }
-          : {}
-      const teleportationContract = this.LightBridge!.attach(
-        lightBridgeAddr
-      ).connect(this.provider!.getSigner())
-      const tokenAddress =
-        currency === this.addresses.NETWORK_NATIVE_TOKEN
-          ? ethers.constants.AddressZero
-          : currency
-
-      const assetSupport = await teleportationContract.supportedTokens(
-        tokenAddress,
-        destChainId
-      )
-      if (!assetSupport?.supported) {
-        console.error(
-          'Teleportation: Asset not supported for chainId',
-          assetSupport,
-          tokenAddress,
-          destChainId
-        )
-        return new Error(
-          `Teleportation: Asset ${tokenAddress} not supported for chainId ${destChainId}`
-        )
-      }
-      const depositTX = await teleportationContract.teleportAsset(
-        tokenAddress,
-        value_Wei_String,
-        destChainId,
-        msgVal
-      )
-
-      setFetchDepositTxBlock(true)
-
-      //at this point the tx has been submitted, and we are waiting...
-      await depositTX.wait()
-
-      const opts = {
-        fromBlock: -4000,
-      }
-      const receipt = await this.watcher!.waitForMessageReceipt(depositTX, opts)
-      const txReceipt = receipt.transactionReceipt
-      console.log(' completed swap-on ! tx hash:', txReceipt)
-      return txReceipt
-    } catch (error) {
-      console.log('Teleportation error:', error)
       return error
     }
   }

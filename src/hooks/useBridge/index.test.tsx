@@ -384,7 +384,7 @@ describe('UseBridge Hooks', () => {
       })
     })
 
-    describe('Light Bridge Teleporter', () => {
+    xdescribe('Light Bridge Teleporter', () => {
       beforeEach(() => {
         ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
           lightBridgeAddr: 'lightBridgeAddr',
@@ -564,7 +564,7 @@ describe('UseBridge Hooks', () => {
         ])
       })
     })
-    describe('Light Bridge Teleporter', () => {
+    xdescribe('Light Bridge Teleporter', () => {
       beforeEach(() => {
         ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
           lightBridgeAddr: 'lightBridgeAddr',

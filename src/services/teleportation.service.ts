@@ -196,13 +196,13 @@ export class LightBridgeService {
   async deposit({
     layer,
     tokenAddress,
-    value_Wei_String,
+    value,
     destChainId,
   }: {
+    value: string
     layer: string
-    tokenAddress: string
-    value_Wei_String: string
     destChainId: number
+    tokenAddress: string
   }) {
     try {
       const lightBridgeAddress =
@@ -213,7 +213,7 @@ export class LightBridgeService {
       const msgVal =
         tokenAddress === networkService.addresses.L1_ETH_Address ||
         tokenAddress === networkService.addresses.NETWORK_NATIVE_TOKEN
-          ? { value: value_Wei_String }
+          ? { value }
           : {}
 
       const contract = new Contract(
@@ -236,16 +236,16 @@ export class LightBridgeService {
 
       const depositTx = await contract.teleportAsset(
         tokenAddress,
-        value_Wei_String,
+        value,
         destChainId,
         msgVal
       )
 
       await depositTx.wait()
-      // NOTE: confirm once! if we need watcher call or not.
+
       return true
     } catch (error) {
-      console.log(`TS: deposit error`, error)
+      console.log(`Teleport: deposit error`, error)
       return false
     }
   }
