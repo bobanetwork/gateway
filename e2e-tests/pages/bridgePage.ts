@@ -119,6 +119,22 @@ export class BridgePage extends BasePage {
     )
   }
 
+  async approveAndConfirmMetaMaskSuccess(amount: string) {
+    await expect(
+      this.page.getByRole('heading', { name: 'Bridging...' })
+    ).toBeVisible()
+
+    await metamask.confirmPermissionToSpend(amount, true)
+
+    this.page.waitForTimeout(3000) // wait for 3 secs.
+
+    await metamask.confirmTransaction({ shouldWaitForPopupClosure: true })
+
+    await expect(this.page.getByTestId('transactionSuccess-modal')).toBeVisible(
+      { timeout: 60000 }
+    )
+  }
+
   async validateBridgeSuccess() {
     await expect(this.page.getByTestId('success')).toHaveText('Successful')
   }

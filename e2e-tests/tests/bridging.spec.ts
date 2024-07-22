@@ -1,7 +1,6 @@
 import { test } from '../fixture/synpress'
 import { GatewayAction } from '../lib/gatewayAction'
 import { BasePage } from '../pages/basePage'
-import { BridgePage } from '../pages/bridgePage'
 
 const amountToBridge: string = '0.0001'
 
@@ -29,6 +28,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         await bridgeAction.classicBridgeDeposit({
           amountToBridge,
           tokenSymbol: 'BOBA',
+          approveAllowance: true,
         })
       })
     })
@@ -65,7 +65,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
 
   test.describe('Light Bridge', () => {
     test.describe('Deposit', () => {
-      test.only('Should Deposit ETH Successfully', async ({ page }) => {
+      test('Should Deposit ETH Successfully', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
@@ -75,13 +75,14 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         })
       })
 
-      test.only('Should Deposit BOBA Successfully', async ({ page }) => {
+      test('Should Deposit BOBA Successfully', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
         await bridgeAction.lightBridgeDeposit({
           amountToBridge: '20.021',
           tokenSymbol: 'BOBA',
+          approveAllowance: true,
         })
       })
     })
@@ -111,6 +112,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         await bridgeAction.lightBridgeWithdraw({
           amountToBridge: '20.0211',
           tokenSymbol: 'BOBA',
+          approveAllowance: true,
         })
       })
     })

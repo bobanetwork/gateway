@@ -28,10 +28,12 @@ export class GatewayAction {
     amountToBridge,
     tokenSymbol,
     successWaitTime = 1000,
+    approveAllowance = false,
   }: {
     amountToBridge: string
     tokenSymbol: string
     successWaitTime?: number
+    approveAllowance?: boolean
   }) {
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
     await this.bridgePage.bridgeButtonToBeDisable()
@@ -50,7 +52,11 @@ export class GatewayAction {
       toNetwork: 'Boba (Sepolia)',
       estimatedTime: '13 ~ 14mins.',
     })
-    await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
+    if (approveAllowance) {
+      await this.bridgePage.approveAndConfirmMetaMaskSuccess(amountToBridge)
+    } else {
+      await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
+    }
     await this.bridgePage.wait(successWaitTime) // have to wait for success modal
     await this.bridgePage.validateBridgeSuccess()
     await this.bridgePage.toHistoryPage()
@@ -90,10 +96,12 @@ export class GatewayAction {
     amountToBridge,
     tokenSymbol,
     successWaitTime = 1000,
+    approveAllowance = false,
   }: {
     amountToBridge: string
     tokenSymbol: string
     successWaitTime?: number
+    approveAllowance?: boolean
   }) {
     await this.bridgePage.switchToLightBridge()
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
@@ -113,7 +121,11 @@ export class GatewayAction {
       toNetwork: 'Boba (Sepolia)',
       estimatedTime: '~1min.',
     })
-    await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
+    if (approveAllowance) {
+      await this.bridgePage.approveAndConfirmMetaMaskSuccess(amountToBridge)
+    } else {
+      await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
+    }
     await this.bridgePage.wait(successWaitTime) // have to wait for success modal
     await this.bridgePage.validateBridgeSuccess()
     await this.bridgePage.toHistoryPage()
@@ -123,10 +135,12 @@ export class GatewayAction {
     amountToBridge,
     tokenSymbol,
     successWaitTime = 1000,
+    approveAllowance = false,
   }: {
     amountToBridge: string
     tokenSymbol: string
     successWaitTime?: number
+    approveAllowance?: boolean
   }) {
     await this.bridgePage.switchToLightBridge()
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
@@ -147,7 +161,13 @@ export class GatewayAction {
       toNetwork: 'Ethereum (Sepolia)',
       estimatedTime: '~1min.',
     })
-    await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
+
+    if (approveAllowance) {
+      await this.bridgePage.approveAndConfirmMetaMaskSuccess(amountToBridge)
+    } else {
+      await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
+    }
+
     await this.bridgePage.wait(successWaitTime) // have to wait for success modal
     await this.bridgePage.validateBridgeSuccess()
     await this.bridgePage.toHistoryPage()
