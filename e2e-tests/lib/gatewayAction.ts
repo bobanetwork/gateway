@@ -34,9 +34,9 @@ export class GatewayAction {
     successWaitTime?: number
   }) {
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
-    await this.bridgePage.bridgeButtonDisable()
-    await this.bridgePage.inputBridgeAmount(amountToBridge)
-    await this.bridgePage.bridgeButtonEnable()
+    await this.bridgePage.bridgeButtonToBeDisable()
+    await this.bridgePage.fillBridgingAmount(amountToBridge)
+    await this.bridgePage.bridgeButtonToBeEnable()
     await this.bridgePage.validateBridgingFee({
       amount: amountToBridge,
       token: tokenSymbol,
@@ -64,9 +64,9 @@ export class GatewayAction {
     tokenSymbol: string
   }) {
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
-    await this.bridgePage.bridgeButtonDisable()
-    await this.bridgePage.inputBridgeAmount(amountToBridge)
-    await this.bridgePage.bridgeButtonEnable()
+    await this.bridgePage.bridgeButtonToBeDisable()
+    await this.bridgePage.fillBridgingAmount(amountToBridge)
+    await this.bridgePage.bridgeButtonToBeEnable()
     await this.bridgePage.validateBridgingFee({
       amount: amountToBridge,
       token: tokenSymbol,
@@ -97,9 +97,9 @@ export class GatewayAction {
   }) {
     await this.bridgePage.switchToLightBridge()
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
-    await this.bridgePage.bridgeButtonDisable()
-    await this.bridgePage.inputBridgeAmount(amountToBridge)
-    await this.bridgePage.bridgeButtonEnable()
+    await this.bridgePage.bridgeButtonToBeDisable()
+    await this.bridgePage.fillBridgingAmount(amountToBridge)
+    await this.bridgePage.bridgeButtonToBeEnable()
     await this.bridgePage.validateBridgingFee({
       amount: amountToBridge,
       token: tokenSymbol,
@@ -130,9 +130,9 @@ export class GatewayAction {
   }) {
     await this.bridgePage.switchToLightBridge()
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
-    await this.bridgePage.bridgeButtonDisable()
-    await this.bridgePage.inputBridgeAmount(amountToBridge)
-    await this.bridgePage.bridgeButtonEnable()
+    await this.bridgePage.bridgeButtonToBeDisable()
+    await this.bridgePage.fillBridgingAmount(amountToBridge)
+    await this.bridgePage.bridgeButtonToBeEnable()
     const receivableAmt = Number(amountToBridge) * ((100 - 1) / 100)
     await this.bridgePage.validateBridgingFee({
       amount: receivableAmt.toFixed(4),
