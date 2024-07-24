@@ -6,7 +6,7 @@ import {
 import {
   fetchBalances,
   getDisburserBalance,
-  isTeleportationOfAssetSupported,
+  isLightBridgeTokenSupported,
 } from 'actions/networkAction'
 import { closeModal } from 'actions/uiAction'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
@@ -137,14 +137,14 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
   const onTokenSelect = async (token: any) => {
     dispatch(updateToken({ token, tokenIndex: 0 }))
 
-    const destChainId =
-      destTeleportationChainId ??
-      NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
-        .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
-
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
+      const destChainId =
+        destTeleportationChainId ??
+        NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
+          .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
+
       const isSupported = await dispatch(
-        isTeleportationOfAssetSupported(layer, token.address, destChainId)
+        isLightBridgeTokenSupported(layer, token.address, destChainId)
       )
       const sourceChainId = NetworkList[activeNetworkType].find(
         (n) => n.chain === activeNetwork

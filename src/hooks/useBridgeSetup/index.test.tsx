@@ -16,7 +16,6 @@ jest.mock('services/networkService', () => {
     fetchLookUpPrice: jest.fn(),
     getL1TotalFeeRate: jest.fn(),
     getExitCost: jest.fn(),
-    getL1FeeBalance: jest.fn(),
     getL2BalanceETH: jest.fn(),
     getL2BalanceBOBA: jest.fn(),
     getExitFeeFromBillingContract: jest.fn(),
