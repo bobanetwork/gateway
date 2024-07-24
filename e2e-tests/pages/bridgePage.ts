@@ -7,12 +7,10 @@ export class BridgePage extends BasePage {
     super(page)
   }
 
-  // token picker.
-  // minimal assertion write more to validate other things.
-  // tokenSymbol - BOBA ETH DADO
   async openTokenPickerAndSelect(tokenSymbol: string) {
     await this.page.locator('#tokenSelectorInput').click()
     await expect(this.page.getByText('Select Token')).toBeVisible()
+    await this.page.waitForTimeout(4000)
     await this.page
       .locator('div[title="tokenList"]')
       .getByTestId(`token-${tokenSymbol}`)
@@ -20,15 +18,15 @@ export class BridgePage extends BasePage {
   }
 
   async switchToLightBridge() {
-    await await this.page.getByTestId('light-btn').click()
+    await this.page.getByTestId('light-btn').click()
   }
 
-  async bridgeButtonDisable() {
+  async bridgeButtonToBeDisable() {
     const bridgeBtn = this.page.getByTestId('bridge-btn')
     await expect(bridgeBtn).toBeDisabled()
   }
 
-  async bridgeButtonEnable() {
+  async bridgeButtonToBeEnable() {
     const bridgeBtn = this.page.getByTestId('bridge-btn')
     await expect(bridgeBtn).toBeEnabled()
   }
@@ -64,7 +62,7 @@ export class BridgePage extends BasePage {
     await this.page.getByTestId('bridge-btn').click()
   }
 
-  async inputBridgeAmount(amount: string) {
+  async fillBridgingAmount(amount: string) {
     await this.page.locator('input#bridgeAmount').fill(amount)
   }
 
@@ -114,8 +112,23 @@ export class BridgePage extends BasePage {
       this.page.getByRole('heading', { name: 'Bridging...' })
     ).toBeVisible()
 
-    // for deposit
     await metamask.confirmPermissionToSpend(amount, true)
+
+    await expect(this.page.getByTestId('transactionSuccess-modal')).toBeVisible(
+      { timeout: 60000 }
+    )
+  }
+
+  async approveAndConfirmMetaMaskSuccess(amount: string) {
+    await expect(
+      this.page.getByRole('heading', { name: 'Bridging...' })
+    ).toBeVisible()
+
+    await metamask.confirmPermissionToSpend(amount, true)
+
+    this.page.waitForTimeout(3000) // wait for 3 secs.
+
+    await metamask.confirmTransaction({ shouldWaitForPopupClosure: true })
 
     await expect(this.page.getByTestId('transactionSuccess-modal')).toBeVisible(
       { timeout: 60000 }
@@ -129,9 +142,11 @@ export class BridgePage extends BasePage {
   async toHistoryPage() {
     await this.page.getByRole('button', { name: 'Go to history' }).click()
 
-    await expect(
-      this.page.getByRole('heading', { name: 'History' })
-    ).toBeVisible()
+    await this.page.waitForTimeout(1000)
+
+    await expect(this.page.getByRole('heading', { level: 1 })).toHaveText(
+      'History'
+    )
   }
 
   async reviewAndInitiateWithdrawal() {

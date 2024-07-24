@@ -38,6 +38,7 @@ import {
   NetworkList,
   NetworkType,
 } from '../../util/network/network.util'
+import { lightBridgeService } from 'services/teleportation.service'
 
 export const useBridge = () => {
   const dispatch = useDispatch<any>()
@@ -127,25 +128,21 @@ export const useBridge = () => {
     return reciept
   }
 
-  const triggerTeleportAsset = async (
-    amountWei: BigNumberish,
-    destChainId: BigNumberish
-  ) => {
+  const triggerTeleportAsset = async (amountWei, destChainId) => {
     if (
       token.address !== ethers.constants.AddressZero &&
       token.address !== '0x4200000000000000000000000000000000000006'
     ) {
-      // ERC20 token fast bridging.
       // step -1  approve token
       // step -2  deposit to Teleportation.
-
-      const { lightBridgeAddr } = networkService.getLightBridgeAddress()
-      if (!lightBridgeAddr) {
-        console.warn('Teleportation Address not available.')
+      const { lightBridgeAddress } =
+        await lightBridgeService.getLightBridgeAddress()
+      if (!lightBridgeAddress) {
+        console.warn('Invalid light bridge(teleporation) address!')
         return
       }
       const approvalReceipt = await dispatch(
-        approveERC20(amountWei, token.address, lightBridgeAddr)
+        approveERC20(amountWei, token.address, lightBridgeAddress)
       )
 
       if (approvalReceipt === false) {

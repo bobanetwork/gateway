@@ -18,6 +18,7 @@ import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
 import { bridgeService } from 'services'
+import { lightBridgeService } from 'services/teleportation.service'
 
 export const fetchBalances = () =>
   createAction('BALANCE/GET', () => networkService.getBalances())
@@ -34,32 +35,45 @@ export const fetchSevens = () =>
 export const exitBOBA = (token: string, value: BigNumberish) =>
   createAction('EXIT/CREATE', () => networkService.exitBOBA(token, value))
 
-export const isTeleportationOfAssetSupported = (
+export const isLightBridgeTokenSupported = (
   layer: string,
-  asset: string,
+  tokenAdress: string,
   destChainId: string
 ) =>
   createAction('DEPOSIT/TELEPORTATION/TOKEN_SUPPORTED', () =>
-    networkService.isTeleportationOfAssetSupported(layer, asset, destChainId)
+    lightBridgeService.isTokenSupported({
+      layer,
+      tokenAdress,
+      destChainId,
+    })
   )
 
 export const getDisburserBalance = (
   sourceChainId: string,
   destChainId: string,
-  asset: string
+  tokenAddress: string
 ) =>
   createAction('DEPOSIT/TELEPORTATION/DISBURSER_BALANCE', () =>
-    networkService.getDisburserBalance(sourceChainId, destChainId, asset)
+    lightBridgeService.getDisburserBalance({
+      sourceChainId,
+      destChainId,
+      tokenAddress,
+    })
   )
 
 export const depositWithLightBridge = (
   layer: string,
-  currency: string,
-  value: BigNumberish,
-  destChainId: BigNumberish
+  tokenAddress: string,
+  value: any,
+  destChainId: any
 ) =>
   createAction('DEPOSIT/CREATE', () =>
-    networkService.depositWithTeleporter(layer, currency, value, destChainId)
+    lightBridgeService.deposit({
+      layer,
+      tokenAddress,
+      value,
+      destChainId,
+    })
   )
 
 //CLASSIC DEPOSIT ETH

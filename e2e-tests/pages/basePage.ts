@@ -85,6 +85,8 @@ export class BasePage {
       await this.page.getByTestId('connect-btn').click()
     }
 
+    await this.page.waitForTimeout(2000)
+
     await expect(this.page.getByTestId('label-address')).toContainText('7428')
 
     await expect(this.page.getByTestId('connect-btn')).not.toBeVisible()

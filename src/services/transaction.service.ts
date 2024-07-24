@@ -18,6 +18,7 @@ import {
 } from '@bobanetwork/graphql-utils'
 import networkService from './networkService'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
+import { lightBridgeService } from './teleportation.service'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -235,10 +236,10 @@ class TransactionService {
   async fetchLightBridgeTransactions(
     networkConfig: Partial<NetworkDetailChainConfig>
   ) {
-    const contractL1 = networkService.getLightBridgeContract(
+    const contractL1 = await lightBridgeService.getLightBridgeContract(
       networkConfig!.L1!.chainId
     )
-    const contractL2 = networkService.getLightBridgeContract(
+    const contractL2 = await lightBridgeService.getLightBridgeContract(
       networkConfig!.L2!.chainId
     )
 
