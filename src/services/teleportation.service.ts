@@ -5,7 +5,7 @@ import {
 } from 'util/network/network.util'
 import networkService from './networkService'
 import appService from './app.service'
-import { Layer, LAYER } from 'util/constant'
+import { ERROR_CODE, Layer, LAYER } from 'util/constant'
 import { L1ERC20ABI, L2StandardERC20ABI, TeleportationABI } from './abi'
 import { constants, Contract, providers } from 'ethers'
 import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
@@ -23,7 +23,7 @@ export class LightBridgeService {
       let lightBridgeAddress: string | undefined
 
       if (!destChainConfig) {
-        throw new Error(`Unknown network`)
+        throw new Error(`${ERROR_CODE} Unknown network`)
       }
 
       const addresses = appService.fetchAddresses({
@@ -62,7 +62,7 @@ export class LightBridgeService {
         await this.getLightBridgeAddress({ chainId })
 
       if (!lightBridgeAddress) {
-        throw new Error(`Invalid Light Bridge Address`)
+        throw new Error(`${ERROR_CODE} Invalid Light Bridge Address`)
       }
 
       const rpc = getRpcUrl({
@@ -128,13 +128,13 @@ export class LightBridgeService {
       const contract = await this.getLightBridgeContract(Number(destChainId))
 
       if (!contract) {
-        throw new Error(`Invalid LB contract`)
+        throw new Error(`${ERROR_CODE} Invalid LB contract`)
       }
 
       const disburserAddress = contract.disburser()
 
       if (!disburserAddress) {
-        throw new Error(`Invalid disburser address`)
+        throw new Error(`${ERROR_CODE} Invalid disburser address`)
       }
 
       if (isNativeToken) {
@@ -173,7 +173,7 @@ export class LightBridgeService {
           : networkService.addresses.Proxy__L2Teleportation
 
       if (!lightBridgeAddress) {
-        throw new Error(`Invalid LB Address`)
+        throw new Error(`${ERROR_CODE} Invalid LB Address`)
       }
 
       const contract = new Contract(
@@ -230,7 +230,7 @@ export class LightBridgeService {
 
       if (!payload.supported) {
         throw new Error(
-          `TS: Asset ${tokenAddress} not supported for chain ${destChainId}`
+          `${ERROR_CODE} Asset ${tokenAddress} not supported for chain ${destChainId}`
         )
       }
 

@@ -62,7 +62,7 @@ const Toast = ({
         sx={{
           wordWrap: 'break-word',
           borderRadius: '10px',
-          maxWidth: '80vw',
+          maxWidth: '400px',
         }}
         iconMapping={{
           error: <Error sx={{ color: '#FFD88D' }} />,
