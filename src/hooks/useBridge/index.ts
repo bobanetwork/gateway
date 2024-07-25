@@ -16,7 +16,7 @@ import {
 } from 'actions/networkAction'
 import { closeModal, openError, openModal } from 'actions/uiAction'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
-import { BigNumberish, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -29,7 +29,7 @@ import {
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
-import networkService from 'services/networkService'
+import { lightBridgeService } from 'services/teleportation.service'
 import { toWei_String } from 'util/amountConvert'
 import { Layer, LAYER } from 'util/constant'
 import {
@@ -38,7 +38,6 @@ import {
   NetworkList,
   NetworkType,
 } from '../../util/network/network.util'
-import { lightBridgeService } from 'services/teleportation.service'
 
 export const useBridge = () => {
   const dispatch = useDispatch<any>()
