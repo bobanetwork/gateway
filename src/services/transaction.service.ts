@@ -1,23 +1,20 @@
+import {
+  anchorageGraphQLService,
+  LightBridgeAssetReceivedEvent,
+  LightBridgeDisbursementEvents,
+  lightBridgeGraphQLService,
+} from '@bobanetwork/graphql-utils'
+import { BobaChains } from '@bobanetwork/light-bridge-chains'
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import { TRANSACTION_STATUS } from 'containers/history/types'
 import { Contract, ethers, providers } from 'ethers'
-import { BobaChains } from '@bobanetwork/light-bridge-chains'
-import { ethereumConfig } from 'util/network/config/ethereum'
 import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
-  Network,
-  NetworkType,
 } from 'util/network/network.util'
-import {
-  LightBridgeAssetReceivedEvent,
-  LightBridgeDisbursementEvents,
-  anchorageGraphQLService,
-  lightBridgeGraphQLService,
-} from '@bobanetwork/graphql-utils'
-import networkService from './networkService'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
+import networkService from './networkService'
 import { lightBridgeService } from './teleportation.service'
 
 interface ICrossDomainMessage {

@@ -21,7 +21,7 @@ export const useNetworkInfo = () => {
       setIsAnchorageEnabled(false)
     }
 
-    if (network === Network.BNB) {
+    if (network === Network.BNB && networkType === NetworkType.MAINNET) {
       setIsActiveNetworkBnb(true)
     } else {
       setIsActiveNetworkBnb(false)
