@@ -98,6 +98,27 @@ export class BasePage {
     await metamask.allowToAddAndSwitchNetwork()
   }
 
+  async clickAndSwitchToBnb() {
+    await this.page.getByTestId('from-network-picker').click()
+    await expect(
+      this.page.getByRole('heading', { level: 2, name: 'Select Network' })
+    ).toBeVisible()
+
+    await expect(this.page.getByText('Network Names')).toBeVisible()
+
+    await this.page.getByTestId('selector-bnb').click()
+
+    await this.page.waitForTimeout(1000)
+
+    await this.page.getByTestId('switch-network-btn').click()
+
+    await this.page.waitForTimeout(2000)
+
+    await this.page.getByText('Connect to the Bnb Testnet network').click()
+
+    await metamask.allowToAddAndSwitchNetwork()
+  }
+
   // disconnect
   async disconnectMetamask() {
     await this.page.getByTestId('label-address').click()

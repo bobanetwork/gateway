@@ -18,6 +18,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         await bridgeAction.classicBridgeDeposit({
           amountToBridge,
           tokenSymbol: 'ETH',
+          networkKey: 'eth',
         })
       })
 
@@ -29,6 +30,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
           amountToBridge,
           tokenSymbol: 'BOBA',
           approveAllowance: true,
+          networkKey: 'eth',
         })
       })
     })
@@ -39,7 +41,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const basePage = new BasePage(page)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet() // connected to L1.
-        await bridgeAction.switchNetwork()
+        await bridgeAction.switchL2Network()
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
@@ -52,7 +54,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const basePage = new BasePage(page)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet() // connected to L1.
-        await bridgeAction.switchNetwork()
+        await bridgeAction.switchL2Network()
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
@@ -93,7 +95,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const bridgeAction = new GatewayAction(page)
         const basePage = new BasePage(page)
         await bridgeAction.connectToTestnet()
-        await bridgeAction.switchNetwork()
+        await bridgeAction.switchL2Network()
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.lightBridgeWithdraw({
@@ -106,7 +108,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const bridgeAction = new GatewayAction(page)
         const basePage = new BasePage(page)
         await bridgeAction.connectToTestnet()
-        await bridgeAction.switchNetwork()
+        await bridgeAction.switchL2Network()
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.lightBridgeWithdraw({

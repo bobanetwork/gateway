@@ -15,6 +15,17 @@ const networkConfig = {
   },
 }
 
+const networkNames = {
+  eth: {
+    fromNetwork: 'Ethereum (Sepolia)',
+    toNetwork: 'Boba (Sepolia)',
+  },
+  bnb: {
+    fromNetwork: 'BNB Testnet',
+    toNetwork: 'Boba BNB Testnet',
+  },
+}
+
 export class GatewayAction {
   basePage: BasePage
   bridgePage: BridgePage
@@ -29,11 +40,13 @@ export class GatewayAction {
     tokenSymbol,
     successWaitTime = 1000,
     approveAllowance = false,
+    networkKey = 'eth',
   }: {
     amountToBridge: string
     tokenSymbol: string
     successWaitTime?: number
     approveAllowance?: boolean
+    networkKey?: 'bnb' | 'eth'
   }) {
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
     await this.bridgePage.bridgeButtonToBeDisable()
@@ -48,8 +61,7 @@ export class GatewayAction {
     await this.bridgePage.validateAndConfirmBridging({
       amount: amountToBridge,
       token: tokenSymbol,
-      fromNetwork: 'Ethereum (Sepolia)',
-      toNetwork: 'Boba (Sepolia)',
+      ...networkNames[networkKey],
       estimatedTime: '13 ~ 14mins.',
     })
     if (approveAllowance) {
@@ -180,7 +192,13 @@ export class GatewayAction {
     await this.basePage.wait(1000)
   }
 
-  async switchNetwork() {
+  async switchL2Network() {
     await this.basePage.clickToSwitchNetwork()
+  }
+
+  async addAndConnectBNBTestnet() {
+    await this.connectToTestnet()
+    await this.basePage.clickAndSwitchToBnb()
+    await this.basePage.wait(1000)
   }
 }
