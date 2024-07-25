@@ -23,7 +23,7 @@ export class LightBridgeService {
       let lightBridgeAddress: string | undefined
 
       if (!destChainConfig) {
-        throw new Error(`${ERROR_CODE} Unknown network`)
+        throw new Error(`${ERROR_CODE} unknown destination network`)
       }
 
       const addresses = appService.fetchAddresses({
@@ -62,7 +62,7 @@ export class LightBridgeService {
         await this.getLightBridgeAddress({ chainId })
 
       if (!lightBridgeAddress) {
-        throw new Error(`${ERROR_CODE} Invalid Light Bridge Address`)
+        throw new Error(`${ERROR_CODE} invalid teleporation address`)
       }
 
       const rpc = getRpcUrl({
@@ -128,13 +128,13 @@ export class LightBridgeService {
       const contract = await this.getLightBridgeContract(Number(destChainId))
 
       if (!contract) {
-        throw new Error(`${ERROR_CODE} Invalid LB contract`)
+        throw new Error(`${ERROR_CODE} no lightbridge contract found`)
       }
 
       const disburserAddress = contract.disburser()
 
       if (!disburserAddress) {
-        throw new Error(`${ERROR_CODE} Invalid disburser address`)
+        throw new Error(`${ERROR_CODE} invalid disburser address`)
       }
 
       if (isNativeToken) {
@@ -173,7 +173,7 @@ export class LightBridgeService {
           : networkService.addresses.Proxy__L2Teleportation
 
       if (!lightBridgeAddress) {
-        throw new Error(`${ERROR_CODE} Invalid LB Address`)
+        throw new Error(`${ERROR_CODE} invalid teleporation Address`)
       }
 
       const contract = new Contract(

@@ -44,17 +44,17 @@ export class BridgeService {
   async anchorageDepositNative({ recipient, amount }: IDepositNative) {
     try {
       if (!networkService.account) {
-        throw new Error(`${ERROR_CODE} Wallet not connected!`)
+        throw new Error(`${ERROR_CODE} wallet not connected`)
       }
 
       if (!networkService.addresses.OptimismPortalProxy) {
-        throw new Error(`${ERROR_CODE} Optimism portal address not provided`)
+        throw new Error(`${ERROR_CODE} invalid optimism portal address`)
       }
 
       const signer = networkService.provider?.getSigner()
 
       if (!signer) {
-        throw new Error(`${ERROR_CODE} No signer found`)
+        throw new Error(`${ERROR_CODE} no signer found`)
       }
 
       const optimismContract = new Contract(
@@ -96,19 +96,19 @@ export class BridgeService {
     try {
       console.log(`▶▶ anchorageDepositERC20`)
       if (!networkService.account) {
-        throw new Error(`${ERROR_CODE} Wallet not connected!`)
+        throw new Error(`${ERROR_CODE} wallet not connected!`)
       }
 
       const l1StdBridgeAddress = networkService.addresses.L1StandardBridgeProxy
 
       if (!l1StdBridgeAddress) {
-        throw new Error(`${ERROR_CODE} L1StandardBridge address not found!`)
+        throw new Error(`${ERROR_CODE} invalid L1StandardBridge address`)
       }
 
       const signer = networkService.provider?.getSigner()
 
       if (!signer) {
-        throw new Error(`${ERROR_CODE} No signer found!`)
+        throw new Error(`${ERROR_CODE} no signer found!`)
       }
 
       const bobaL1Contract = new Contract(
@@ -123,7 +123,7 @@ export class BridgeService {
       )
 
       if (bobaL1Balance.lt(amount)) {
-        throw new Error(`${ERROR_CODE} Insufficient L1 token balance`)
+        throw new Error(`${ERROR_CODE} insufficient L1 token balance`)
       }
 
       const allowance_BN = await bobaTokenContract.allowance(
@@ -187,19 +187,19 @@ export class BridgeService {
     try {
       console.log(`▶▶ anchorageDepositERC20Optimism`)
       if (!networkService.account) {
-        throw new Error(`${ERROR_CODE} Wallet not connected!`)
+        throw new Error(`${ERROR_CODE} wallet not connected!`)
       }
 
       const opContractAddress = networkService.addresses.OptimismPortalProxy
 
       if (!opContractAddress) {
-        throw new Error(`${ERROR_CODE} OptimismPortalProxy address not found!`)
+        throw new Error(`${ERROR_CODE} invalid optimismPortalProxy address`)
       }
 
       const signer = networkService.provider?.getSigner()
 
       if (!signer) {
-        throw new Error(`${ERROR_CODE} No signer found!`)
+        throw new Error(`${ERROR_CODE} no signer found!`)
       }
 
       const bobaL1Contract = new Contract(
@@ -214,7 +214,7 @@ export class BridgeService {
       )
 
       if (bobaL1Balance.lt(amount)) {
-        throw new Error(`${ERROR_CODE} Insufficient L1 token balance`)
+        throw new Error(`${ERROR_CODE} insufficient L1 token balance`)
       }
 
       const allowance_BN = await bobaTokenContract.allowance(
@@ -259,7 +259,7 @@ export class BridgeService {
 
       const depositReceipt = await depositTx.wait()
 
-      console.log(`✔ Deposit Optimism ${formatEther(amount)} tokens to L2`)
+      console.log(`✔ Deposited ${formatEther(amount)} tokens to L2`)
       return depositReceipt
     } catch (error) {
       console.log(`BS: deposit ERC20`, error)
