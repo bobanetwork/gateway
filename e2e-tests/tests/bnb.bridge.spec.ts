@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Gateway BNB (Testnet)', () => {
   test.describe('Classic Bridge', () => {
     test.describe('Deposit', () => {
-      test('Should Deposit tBNB Successfully', async ({ page }) => {
+      test('tBNB', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.addAndConnectBNBTestnet()
@@ -21,7 +21,7 @@ test.describe('Gateway BNB (Testnet)', () => {
           networkKey: 'bnb',
         })
       })
-      test('Should Deposit BOBA Successfully', async ({ page }) => {
+      test('BOBA', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.addAndConnectBNBTestnet()
@@ -30,6 +30,21 @@ test.describe('Gateway BNB (Testnet)', () => {
           tokenSymbol: 'BOBA',
           approveAllowance: true,
           networkKey: 'bnb',
+        })
+      })
+    })
+    test.describe('Withdraw', () => {
+      test('BOBA', async ({ page }) => {
+        test.setTimeout(120000)
+        const basePage = new BasePage(page)
+        const bridgeAction = new GatewayAction(page)
+        await bridgeAction.addAndConnectBNBTestnet()
+        await bridgeAction.switchL2Network()
+        await basePage.disconnectMetamask()
+        await basePage.connectToMetamask(true)
+        await bridgeAction.classicBridgeWithdrawal({
+          amountToBridge,
+          tokenSymbol: 'BOBA',
         })
       })
     })

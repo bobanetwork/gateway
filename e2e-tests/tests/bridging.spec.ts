@@ -59,7 +59,7 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
           amountToBridge,
-          tokenSymbol: 'ETH',
+          tokenSymbol: 'BOBA',
         })
       })
     })
