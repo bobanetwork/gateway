@@ -53,7 +53,7 @@ describe('BridgeService', () => {
           recipient: '0xRecipient',
           amount: '1000',
         })
-      ).resolves.toThrow('Wallet not connected!')
+      ).resolves.toThrow('GATEWAY ERROR: wallet not connected')
     })
 
     test('anchorageDepositNative should throw error if Optimism portal address not provided', async () => {
@@ -63,7 +63,7 @@ describe('BridgeService', () => {
           recipient: '0xRecipient',
           amount: '1000',
         })
-      ).resolves.toThrow('Optimism portal address not provided')
+      ).resolves.toThrow('GATEWAY ERROR: invalid optimism portal address')
     })
 
     xtest('anchorageDepositNative should call depositTransaction if recipient is provided', async () => {

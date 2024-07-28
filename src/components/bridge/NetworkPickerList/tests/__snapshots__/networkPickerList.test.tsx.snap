@@ -7,6 +7,7 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
   >
     <div
       class="sc-dAbbOL hKpqkV networkItem"
+      data-testid="selector-ethereum"
     >
       <div
         class="sc-feUZmu dYqRNZ"
@@ -72,6 +73,7 @@ exports[`NetworkList Component renders NetworkList correctly 1`] = `
     </div>
     <div
       class="sc-dAbbOL hKpqkV networkItem"
+      data-testid="selector-bnb"
     >
       <div
         class="sc-feUZmu dYqRNZ"
