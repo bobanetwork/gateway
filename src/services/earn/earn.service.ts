@@ -44,7 +44,6 @@ export class EarnService {
 
   async loadL1LpInfo() {
     try {
-      this.checkWalletConnection()
       const account = networkService.account
       const addresses = networkService.addresses
       const tokenAddresses = networkService.tokenAddresses
@@ -183,8 +182,6 @@ export class EarnService {
   }
   async loadL2LpInfo() {
     try {
-      this.checkWalletConnection()
-
       const account = networkService.account
       const addresses = networkService.addresses
       const tokenAddresses = networkService.tokenAddresses
@@ -337,6 +334,7 @@ export class EarnService {
 
       return { poolInfo, userInfo }
     } catch (error) {
+      console.log(`loadL2LpInfo error`, error)
       return error
     }
   }
