@@ -43,7 +43,6 @@ import walletService, { WalletService } from './wallet.service'
 
 import {
   BOBAABI,
-  BobaFixedSavingsABI,
   BobaGasPriceOracleABI,
   DiscretionaryExitFeeABI,
   L1ERC20ABI,
@@ -848,11 +847,6 @@ class NetworkService {
       const state = store.getState()
       const tokenListValues = Object.values(state.tokenList)
 
-      console.log(
-        `tokenListValues`,
-        tokenListValues.map((i: any) => i.symbolL1)
-      )
-
       const tokenC = new ethers.Contract(
         this.addresses.L1_ETH_Address,
         L1ERC20ABI,
@@ -874,8 +868,6 @@ class NetworkService {
       }
 
       const getBalancePromise: any = []
-
-      console.log(`tokenList`, tokenListValues)
 
       tokenListValues.forEach((token: any) => {
         if (token.addressL1 === null) {
@@ -946,8 +938,6 @@ class NetworkService {
             })
             .map((result: any) => result.value)
       )
-
-      console.log(`tokenBalances`, tokenBalances)
 
       tokenBalances.forEach((token) => {
         if (
@@ -1401,192 +1391,6 @@ class NetworkService {
       return totalCost
     } catch (error) {
       return 0
-    }
-  }
-
-  /***********************************************/
-  /*****       Fixed savings account         *****/
-
-  /***********************************************/
-  async addFS_Savings(value_Wei_String: BigNumberish) {
-    if (!this.account) {
-      console.log(
-        'NS: withdrawFS_Savings() error - called but account === null'
-      )
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider!.getSigner()
-      )
-
-      const allowance_BN = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).allowance(this.account, this.addresses.BobaFixedSavings)
-
-      const depositAmount_BN = BigNumber.from(value_Wei_String)
-
-      const approveAmount_BN = depositAmount_BN.add(
-        BigNumber.from('1000000000000')
-      )
-
-      try {
-        if (approveAmount_BN.gt(allowance_BN)) {
-          console.log('Need to approve YES:', approveAmount_BN)
-          const approveStatus = await this.BobaContract!.connect(
-            this.provider!.getSigner()
-          ).approve(this.addresses.BobaFixedSavings, approveAmount_BN)
-          await approveStatus.wait()
-        } else {
-          console.log(
-            'Allowance is sufficient:',
-            allowance_BN.toString(),
-            depositAmount_BN.toString()
-          )
-        }
-      } catch (error) {
-        console.log('NS: addFS_Savings approve error:', error)
-        return error
-      }
-
-      const TX = await FixedSavings.stake(value_Wei_String)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: addFS_Savings error:', error)
-      return error
-    }
-  }
-
-  async savingEstimate() {
-    // used to generate gas estimates for contracts that cannot set amount === 0
-    // to avoid need to approve amount
-
-    const otherField = {
-      from: this.gasEstimateAccount,
-    }
-
-    const gasPrice_BN = await this.provider!.getGasPrice()
-    console.log('gas price', gasPrice_BN.toString())
-
-    let approvalCost_BN = BigNumber.from('0')
-    let stakeCost_BN = BigNumber.from('0')
-
-    try {
-      // first, we need the allowance of the benchmarkAccount
-      const allowance_BN = await this.BobaContract!.connect(
-        this.provider!
-      ).allowance(this.gasEstimateAccount, this.addresses.BobaFixedSavings)
-
-      // second, we need the approval cost
-      const tx1 = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).populateTransaction.approve(
-        this.addresses.BobaFixedSavings,
-        allowance_BN.toString()
-      )
-
-      const approvalGas_BN = await this.provider!.estimateGas(tx1)
-      approvalCost_BN = approvalGas_BN.mul(gasPrice_BN)
-
-      // third, we need the stake cost
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider
-      )
-
-      const tx2 = await FixedSavings.populateTransaction.stake(
-        allowance_BN.toString(),
-        otherField
-      )
-      const stakeGas_BN = await this.provider!.estimateGas(tx2)
-      stakeCost_BN = stakeGas_BN.mul(gasPrice_BN)
-
-      const safety_margin_BN = BigNumber.from('1000000000000')
-
-      return approvalCost_BN.add(stakeCost_BN).add(safety_margin_BN)
-    } catch (error) {
-      console.log('NS: stakingEstimate() error', error)
-      return error
-    }
-  }
-
-  async withdrawFS_Savings(stakeID) {
-    if (!this.account) {
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider!.getSigner()
-      )
-      const TX = await FixedSavings.unstake(stakeID)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: withdrawFS_Savings error:', error)
-      return error
-    }
-  }
-
-  async getFS_Saves() {
-    if (this.account === null) {
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.L2Provider
-      )
-      await FixedSavings.l2Boba()
-      const stakecount = await FixedSavings.personalStakeCount(this.account)
-      return { stakecount: Number(stakecount) }
-    } catch (error) {
-      console.log('NS: getSaves error:', error)
-      return error
-    }
-  }
-
-  async getFS_Info() {
-    if (this.account === null) {
-      console.log('NS: getFS_Info() error - called but account === null')
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.L2Provider
-      )
-
-      const stakeInfo: any = []
-
-      const stakeCounts = await FixedSavings.personalStakeCount(this.account)
-
-      for (let i = 0; i < stakeCounts; i++) {
-        const stakeId = await FixedSavings.personalStakePos(this.account, i)
-        const stakeData = await FixedSavings.stakeDataMap(stakeId)
-
-        stakeInfo.push({
-          stakeId: Number(stakeId.toString()),
-          depositTimestamp: Number(stakeData.depositTimestamp.toString()),
-          depositAmount: logAmount(stakeData.depositAmount.toString(), 18),
-          isActive: stakeData.isActive,
-        })
-      }
-      return { stakeInfo }
-    } catch (error) {
-      console.log('NS: getFS_Info error:', error)
-      return error
     }
   }
 

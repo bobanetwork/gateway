@@ -13,11 +13,11 @@ import { addFS_Savings, getFS_Info, getFS_Saves } from 'actions/fixedAction'
 
 import { MaxInput } from 'components/global/InputMax'
 import { BigNumber, utils } from 'ethers'
-import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
 
 import { ModalTypography } from 'components/global/modalTypography'
 import { selectFixed, selectSetup, selectlayer2Balance } from 'selectors'
+import fixedSavingService from 'services/fixedsaving/fixedSaving.service'
 
 const DepositStake = ({ open }) => {
   const { stakeInfo } = useSelector(selectFixed())
@@ -57,7 +57,7 @@ const DepositStake = ({ open }) => {
       let fee = '0'
 
       if (netLayer === 'L2') {
-        const cost_BN: any = await networkService.savingEstimate()
+        const cost_BN: any = await fixedSavingService.savingEstimate()
 
         if (bobaFeeChoice) {
           // we are staking BOBA and paying in BOBA
