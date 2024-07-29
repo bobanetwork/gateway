@@ -21,11 +21,6 @@ export const pageTitleWhiteList = [
     path: ROUTES_PATH.DAO,
   },
   {
-    title: 'Dev Tools',
-    slug: '',
-    path: ROUTES_PATH.DEV_TOOLS,
-  },
-  {
     title: 'Boba Scope',
     slug: '',
     path: ROUTES_PATH.BOBASCOPE,

@@ -35,12 +35,10 @@ import { sortRawTokens } from 'util/common'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
-import { Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
+import { MIN_NATIVE_L1_BALANCE } from 'util/constant'
 import {
   CHAIN_ID_LIST,
   getNetworkDetail,
-  getRpcUrl,
-  getRpcUrlByChainId,
   Network,
   networkLimitedAvailability,
   NetworkType,
@@ -70,11 +68,9 @@ import {
   TeleportationABI,
 } from './abi'
 
-import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
 import { LiquidityPoolLayer } from 'types/earn.types'
-import { LAYER } from '../containers/history/types'
 import {
   NetworkDetailChainConfig,
   TxPayload,
@@ -2516,65 +2512,6 @@ class NetworkService {
     )
     return ethers.utils.formatEther(await L2BillingContract.exitFee())
   }
-
-  async submitTxBuilder(
-    contract: Contract,
-    methodIndex,
-    methodName: string,
-    inputs
-  ) {
-    const parseResult = (resultPR, outputsPR) => {
-      const parseResultPR: any = []
-      if (outputsPR.length === 1) {
-        return resultPR.toString()
-      }
-      for (let i = 0; i < outputsPR.length; i++) {
-        try {
-          const output = outputsPR[i]
-          const key = output.name ? output.name : output.type
-          if (output.type.includes('uint')) {
-            parseResultPR.push({ [key]: resultPR[i].toString() })
-          } else {
-            parseResultPR.push({ [key]: resultPR[i] })
-          }
-        } catch (err) {
-          return 'Error: Failed to parse result'
-        }
-      }
-      return JSON.stringify(parseResultPR)
-    }
-
-    let parseInput: any = Object.values(inputs)
-    let value = 0
-    const stateMutability =
-      contract.interface.functions[methodName].stateMutability
-    const outputs = contract.interface.functions[methodName].outputs
-    if (stateMutability === 'payable') {
-      value = parseInput[parseInput.length - 1]
-      parseInput = parseInput.slice(0, parseInput.length - 1)
-    }
-
-    let result
-    try {
-      if (stateMutability === 'view' || stateMutability === 'pure') {
-        result = await contract[methodName](...parseInput)
-        return {
-          methodIndex,
-          result: { result: parseResult(result, outputs), err: null },
-        }
-      } else if (stateMutability === 'payable') {
-        console.log({ value }, ...parseInput)
-        const tx = await contract[methodName](...parseInput, { value })
-        return { methodIndex, result: { transactionHash: tx.hash, err: null } }
-      } else {
-        const tx = await contract[methodName](...parseInput)
-        return { methodIndex, result: { transactionHash: tx.hash, err: null } }
-      }
-    } catch (err) {
-      return { methodIndex, result: { err: JSON.stringify(err) } }
-    }
-  }
-
   // getting block number;
   async getLatestBlockNumber() {
     return this.provider!.getBlockNumber()

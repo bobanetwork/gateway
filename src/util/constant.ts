@@ -34,7 +34,6 @@ type RoutesPathType = {
   STAKE: string
   BOBASCOPE: string
   DAO: string
-  DEV_TOOLS: string
 }
 
 export const ROUTES_PATH: RoutesPathType = {
@@ -45,7 +44,6 @@ export const ROUTES_PATH: RoutesPathType = {
   STAKE: '/stake',
   BOBASCOPE: '/bobascope',
   DAO: '/dao',
-  DEV_TOOLS: '/devtools',
 }
 
 type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum'
