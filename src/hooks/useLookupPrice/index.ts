@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectAccountEnabled, selectTokens } from 'selectors'
+import { fetchLookUpPrice } from 'services/common.service'
 import networkService from 'services/networkService'
 
 const useLookupPrice = () => {
@@ -32,8 +33,7 @@ const useLookupPrice = () => {
           return i?.symbolL1?.toLowerCase() ?? ''
         }
       })
-      const prices = await networkService.fetchLookUpPrice(symbolList)
-      console.log(`prices`, prices)
+      const prices = await fetchLookUpPrice(symbolList)
       setlookupPrice(prices)
     }
     fetchTokenPrice()
