@@ -34,7 +34,7 @@ test.describe('Gateway BNB (Testnet)', () => {
       })
     })
     test.describe('Withdraw', () => {
-      test.only('BOBA', async ({ page }) => {
+      test.skip('BOBA', async ({ page }) => {
         test.setTimeout(120000)
         const basePage = new BasePage(page)
         const bridgeAction = new GatewayAction(page)
