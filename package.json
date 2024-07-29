@@ -87,7 +87,7 @@
     "webpack-bundle-analyzer": "^4.10.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-env": "^7.25.0",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.24.1",
     "@sentry/types": "^8.13.0",
