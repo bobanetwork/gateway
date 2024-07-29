@@ -37,7 +37,7 @@
     "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.12.2",
     "@mui/styles": "^5.14.18",
-    "@reduxjs/toolkit": "^1.9.7",
+    "@reduxjs/toolkit": "^2.2.7",
     "@sentry/react": "^7.104.0",
     "@sentry/tracing": "^7.104.0",
     "@walletconnect/ethereum-provider": "^2.10.5",
