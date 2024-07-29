@@ -35,7 +35,7 @@ import {
 } from 'actions/setupAction'
 import { closeModal } from 'actions/uiAction'
 
-export interface NetworkListProps {
+interface NetworkListProps {
   close?: () => void
   isIndependentDestNetwork?: boolean
 }
