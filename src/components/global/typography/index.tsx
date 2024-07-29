@@ -1,6 +1,6 @@
-import React, { FC, ReactNode } from 'react'
-import { TypographyProps } from './types'
+import React, { FC } from 'react'
 import { StyledText } from './style'
+import { TypographyProps } from './types'
 
 /**
  *

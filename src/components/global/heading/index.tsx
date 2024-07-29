@@ -1,6 +1,6 @@
-import React, { FC, ReactNode } from 'react'
-import { HeadingProps } from './types'
+import React, { FC } from 'react'
 import { StyledHeading } from './style'
+import { HeadingProps } from './types'
 
 /**
  *

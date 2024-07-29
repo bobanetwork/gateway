@@ -30,7 +30,6 @@ type RoutesPathType = {
   BRIDGE: string
   HISTORY: string
   EARN: string
-  LOCK: string
   STAKE: string
   DAO: string
 }
@@ -39,7 +38,6 @@ export const ROUTES_PATH: RoutesPathType = {
   BRIDGE: '/bridge',
   HISTORY: '/history',
   EARN: '/earn',
-  LOCK: '/lock',
   STAKE: '/stake',
   DAO: '/dao',
 }

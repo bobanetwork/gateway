@@ -9,7 +9,7 @@ import styled, { css } from 'styled-components'
 import { Typography } from 'components/global'
 import { mobile } from 'themes/screens'
 
-export const AlertContainer = styled.div`
+const AlertContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,16 +25,16 @@ export const AlertContainer = styled.div`
     justify-content: flex-start;
   `)}
 `
-export const AlertBody = styled.div`
+const AlertBody = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 8px;
 `
-export const AlertDescription = styled(Typography).attrs({
+const AlertDescription = styled(Typography).attrs({
   variant: 'body2',
 })``
-export const AlertAction = styled.div``
+const AlertAction = styled.div``
 
 const Connect = ({
   userPrompt,

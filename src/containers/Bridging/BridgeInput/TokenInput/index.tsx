@@ -19,9 +19,7 @@ import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import networkService from 'services/networkService'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
-interface Props {}
-
-const TokenInput = (props: Props) => {
+const TokenInput = () => {
   const dispatch = useDispatch<any>()
   const layer = useSelector(selectLayer())
   const token = useSelector(selectTokenToBridge())

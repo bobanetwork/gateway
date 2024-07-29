@@ -136,7 +136,7 @@ export const addToken = async (tokenContractAddressL1: string) => {
         networkService.L2Provider!
       )
     } else {
-      Object.keys(tA).forEach((token, i) => {
+      Object.keys(tA).forEach((token) => {
         //let's see if we know about this Token
         if (_tokenContractAddressL1 === tA[token].L1.toLowerCase()) {
           _tokenContractAddressL2 = tA[token]?.L2?.toLowerCase()
@@ -170,7 +170,7 @@ export const addToken = async (tokenContractAddressL1: string) => {
         tokenContract.symbol(),
         tokenContract.decimals(),
         tokenContract.name(),
-      ]).catch((e) => [null, null, null])
+      ]).catch(() => [null, null, null])
     }
 
     const decimals = _decimals

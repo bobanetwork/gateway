@@ -21,9 +21,9 @@ import { Button } from 'components/global'
 
 import {
   Network,
-  NetworkType,
   networkLimitedAvailability,
   NetworkList,
+  NetworkType,
 } from 'util/network/network.util'
 import {
   ALL_NETWORKS,
@@ -44,20 +44,20 @@ import {
 import { fetchTransactions, setNetwork } from 'actions/networkAction'
 
 import {
-  Table,
-  NoHistory,
-  HistoryPageContainer,
-  TableHeader,
-  TableFilters,
-  NetworkDropdowns,
   DateDescriptions,
-  SwitchChainIcon,
-  SwitchIcon,
-  TableTransactionsContainer,
   DatePickerWrapper,
   DropdownNetwork,
+  HistoryPageContainer,
   MobileDateDescriptions,
   MobileDatePickerWrapper,
+  NetworkDropdowns,
+  NoHistory,
+  SwitchChainIcon,
+  SwitchIcon,
+  Table,
+  TableFilters,
+  TableHeader,
+  TableTransactionsContainer,
 } from './styles'
 
 import { setConnect } from 'actions/setupAction'
@@ -68,11 +68,11 @@ import { POLL_INTERVAL } from 'util/constant'
 import FilterIcon from 'assets/images/filter.svg'
 import noHistoryIcon from 'assets/images/noHistory.svg'
 import { FilterDropDown } from 'components/filter'
+import { SearchInput } from 'components/global/searchInput'
 import { Svg } from 'components/global/svg'
 import { TransactionsTableHeader } from 'components/global/table/themes'
 import { TransactionsResolver } from './TransactionsResolver'
 import { CHAIN_NAME, TRANSACTION_FILTER_STATUS } from './types'
-import { SearchInput } from 'components/global/searchInput'
 
 import { Typography } from 'components/global/typography'
 import DatePicker from './DatePicker'
@@ -80,8 +80,6 @@ import DatePicker from './DatePicker'
 const History = () => {
   const [toNetwork, setToNetwork] = useState(ALL_NETWORKS)
   const [fromNetwork, setFromNetwork] = useState(ALL_NETWORKS)
-  // TODO: cleanup as it's unused
-  const [transactionsFound, setTransactionsFound] = useState(true)
   const [switched, setSwitched] = useState(false)
 
   const networkType = useSelector(selectNetworkType())
@@ -249,33 +247,24 @@ const History = () => {
               <TransactionsTableHeader
                 options={TableOptions}
               ></TransactionsTableHeader>
-              {transactionsFound && (
-                <TransactionsResolver
-                  transactions={transactions}
-                  transactionsFilter={{
-                    fromNetworkChainId: fromNetwork.value as CHAIN_NAME,
-                    toNetworkChainId: toNetwork.value as CHAIN_NAME,
-                    status: transactionStatus as TRANSACTION_FILTER_STATUS,
-                    targetHash: searchHistory,
-                    startDate: filterStartDate,
-                    endDate: filterEndDate,
-                  }}
-                ></TransactionsResolver>
-              )}
+              <TransactionsResolver
+                transactions={transactions}
+                transactionsFilter={{
+                  fromNetworkChainId: fromNetwork.value as CHAIN_NAME,
+                  toNetworkChainId: toNetwork.value as CHAIN_NAME,
+                  status: transactionStatus as TRANSACTION_FILTER_STATUS,
+                  targetHash: searchHistory,
+                  startDate: filterStartDate,
+                  endDate: filterEndDate,
+                }}
+              ></TransactionsResolver>
             </TableTransactionsContainer>
           </Table>
         </>
       )}
-      {!transactionsFound && (
-        <NoHistory>
-          <Svg src={noHistoryIcon} />
-          <div>No Transactions Found.</div>
-        </NoHistory>
-      )}
       {!layer && (
         <NoHistory>
           <Svg src={noHistoryIcon} />
-          <div>No History.</div>
           <Button
             onClick={() => dispatch(setConnect(true))}
             small

@@ -1,4 +1,4 @@
-import { TableHeader } from 'components/global/table'
+import { TableHeader } from 'components/global'
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import { selectPoolInfo, selectUserInfo } from 'selectors'

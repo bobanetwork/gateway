@@ -29,16 +29,6 @@ export const StyledModal = styled(ModalUnstyled)`
     `}
 `
 
-export const Backdrop = styled.div`
-  z-index: -1;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-
-  -webkit-tap-highlight-color: transparent;
-`
 interface StyleProps {
   transparent?: boolean
   shouldForwardProp?: (props: StyleProps) => boolean
@@ -118,13 +108,6 @@ export const TitleContainer = styled.div`
   width: 100%;
   justify-content: center;
   gap: 10px;
-`
-
-export const BoxCenter = styled(Box)`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  cursor: pointer;
 `
 
 export const CloseIcon = styled(Svg).attrs({

@@ -1,14 +1,14 @@
 /* eslint-disable */
 
+import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
-import { act, renderHook } from '@testing-library/react-hooks'
-import useGasWatcher from './useGasWatcher'
-import configureStore from 'redux-mock-store'
-import { Network, NetworkType } from 'util/network/network.util'
 import { Provider } from 'react-redux'
+import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { fetchGasDetail } from 'services/gas.service'
 import networkService from 'services/networkService'
+import { Network, NetworkType } from 'util/network/network.util'
+import useGasWatcher from './useGasWatcher'
 
 jest.mock('services/gas.service')
 

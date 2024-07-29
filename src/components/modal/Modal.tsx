@@ -28,9 +28,7 @@ const _Modal = ({
   title,
   transparent,
   maxWidth = '450px !important',
-  minHeight,
   isMobile = false,
-  newStyle = false,
   testId = '',
 }: ModalInterface) => {
   return (

@@ -1,6 +1,5 @@
 import { Typography } from 'components/global'
 import styled, { css } from 'styled-components'
-import PlusIconOutline from '@mui/icons-material/AddCircleOutlineOutlined'
 
 export const TokenPickerModalContainer = styled.div`
   width: 100%;
@@ -133,9 +132,4 @@ export const ActionLabel = styled.div<{ selected?: boolean }>`
     color: ${({ theme: { colors, name } }) =>
       name === 'light' ? colors.gray[800] : '#fff'};
   }
-`
-
-export const PlusIcon = styled(PlusIconOutline)`
-  color: ${({ theme: { colors, name } }) =>
-    name === 'light' ? colors.gray[700] : colors.color};
 `

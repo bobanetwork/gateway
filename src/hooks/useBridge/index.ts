@@ -39,7 +39,7 @@ import {
   NetworkType,
 } from '../../util/network/network.util'
 
-export const useBridge = () => {
+const useBridge = () => {
   const dispatch = useDispatch<any>()
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())

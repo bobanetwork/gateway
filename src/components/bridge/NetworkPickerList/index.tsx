@@ -5,39 +5,35 @@ import {
   INetwork,
   L1_ICONS,
   L2_ICONS,
-  Network,
   NetworkList as NetworkLists,
 } from 'util/network/network.util'
 
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import {
   selectActiveNetwork,
   selectActiveNetworkType,
-  selectModalState,
-  selectLayer,
-  selectDestChainIdTeleportation,
   selectBridgeType,
+  selectDestChainIdTeleportation,
+  selectLayer,
+  selectModalState,
 } from 'selectors'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 
 import { setActiveNetwork, setNetwork } from 'actions/networkAction'
 
+import { setTeleportationDestChainId } from 'actions/bridgeAction'
 import {
-  NetworkPickerList,
-  NetworkItem,
   NetworkIcon,
+  NetworkItem,
   NetworkLabel,
+  NetworkPickerList,
 } from './styles'
-import {
-  setBridgeType,
-  setTeleportationDestChainId,
-} from 'actions/bridgeAction'
 
 import {
   setBaseState,
   setConnectBOBA,
   setConnectETH,
 } from 'actions/setupAction'
-import { closeModal, openModal } from 'actions/uiAction'
+import { closeModal } from 'actions/uiAction'
 
 export interface NetworkListProps {
   close?: () => void

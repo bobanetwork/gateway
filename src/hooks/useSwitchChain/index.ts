@@ -3,8 +3,11 @@
  * - this hooks is only responsible to switch between the chains.
  */
 
+import { setTeleportationDestChainId } from 'actions/bridgeAction'
+import { setNetwork } from 'actions/networkAction'
 import { setConnectBOBA, setConnectETH } from 'actions/setupAction'
 import { openModal } from 'actions/uiAction'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectAccountEnabled,
@@ -14,11 +17,8 @@ import {
   selectDestChainIdTeleportation,
   selectLayer,
 } from 'selectors'
-import { Layer, LAYER } from 'util/constant'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
-import { setNetwork } from 'actions/networkAction'
+import { LAYER } from 'util/constant'
 import { CHAIN_ID_LIST, INetwork, NetworkList } from 'util/network/network.util'
-import { setTeleportationDestChainId } from 'actions/bridgeAction'
 
 const useSwitchChain = () => {
   const dispatch = useDispatch<any>()

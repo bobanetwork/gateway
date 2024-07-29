@@ -30,5 +30,3 @@ export const bannerAlerts = (): IAppAlert[] => [
     ),
   },
 ]
-
-export default bannerAlerts

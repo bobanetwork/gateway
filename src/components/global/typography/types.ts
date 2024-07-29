@@ -9,7 +9,7 @@ export type VariantType =
   | 'body3'
   | 'subtitle'
 
-export type ComponentType = 'p' | 'span' | 'a'
+type ComponentType = 'p' | 'span' | 'a'
 
 export interface TypographyProps {
   variant: VariantType

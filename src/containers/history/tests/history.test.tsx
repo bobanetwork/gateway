@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import React from 'react'
-import CustomThemeProvider from 'themes'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
+import CustomThemeProvider from 'themes'
 import History from '../History'
 import { TransactionsResolver } from '../TransactionsResolver'
 import {

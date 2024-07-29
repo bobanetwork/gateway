@@ -65,13 +65,6 @@ export const EarnActionContainer = styled.div`
   margin: 10px 0;
 `
 
-export const EarnListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px 0;
-  padding: 10px 0;
-`
-
 export const TabSwitcherContainer = styled.div`
   display: flex;
   padding: 4px;

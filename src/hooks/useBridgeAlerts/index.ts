@@ -3,30 +3,30 @@ import {
   purgeBridgeAlert,
   setBridgeAlert,
 } from 'actions/bridgeAction'
+import BN from 'bignumber.js'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { BigNumber, BigNumberish, ethers } from 'ethers'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetwork,
   selectAmountToBridge,
+  selectBlockTime,
   selectBobaFeeChoice,
   selectBobaPriceRatio,
   selectBridgeType,
-  selectTeleportationDisburserBalance,
   selectExitFee,
   selectIsTeleportationOfAssetSupported,
   selectL2BalanceBOBA,
   selectL2BalanceETH,
   selectLayer,
+  selectTeleportationDisburserBalance,
   selectTokenToBridge,
-  selectBlockTime,
 } from 'selectors'
 import { logAmount } from 'util/amountConvert'
 import { LAYER } from 'util/constant'
-import BN from 'bignumber.js'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { Network } from 'util/network/network.util'
-import { BigNumber, BigNumberish, ethers, utils } from 'ethers'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 enum ALERT_KEYS {
   OMG_INFO = 'OMG_INFO',
@@ -137,16 +137,6 @@ const useBridgeAlerts = () => {
         const minDepositAmount = Number(
           ethers.utils.formatEther(
             tokenForTeleportationSupported.minDepositAmount
-          )
-        )
-        const transferredAmount = Number(
-          ethers.utils.formatEther(
-            tokenForTeleportationSupported.transferredAmount
-          )
-        )
-        const maxTransferAmount = Number(
-          ethers.utils.formatEther(
-            tokenForTeleportationSupported.maxTransferAmountPerDay
           )
         )
         const transferTimestampCheckPoint = Number(

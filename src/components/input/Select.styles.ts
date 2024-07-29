@@ -1,17 +1,17 @@
 export const selectCustomStyles = (newStyle, theme) => {
   return {
-    control: (provided, state) => ({
+    control: (provided) => ({
       ...provided,
       borderWidth: '0px',
       boxShadow: 'none',
       backgroundColor: 'transparent',
       // 'box-shadow': newStyle ? '-13px 15px 19px rgba(0, 0, 0, 0.15), inset 53px 36px 120px rgba(255, 255, 255, 0.06)' : 'none'
     }),
-    indicatorSeparator: (provided, state) => ({
+    indicatorSeparator: (provided) => ({
       ...provided,
       width: '0px',
     }),
-    indicatorsContainer: (provided, state) => ({
+    indicatorsContainer: (provided) => ({
       ...provided,
       marginRight: '30px',
       borderRight:
@@ -19,18 +19,18 @@ export const selectCustomStyles = (newStyle, theme) => {
           ? '1px solid rgba(0, 0, 0, 0.2)'
           : '1px solid rgba(255,255,255,0.2)',
     }),
-    valueContainer: (provided, state) => ({
+    valueContainer: (provided) => ({
       ...provided,
       padding: '0px',
     }),
-    singleValue: (provided, state) => ({
+    singleValue: (provided) => ({
       ...provided,
       color: 'auto',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
     }),
-    menu: (provided, state) => ({
+    menu: (provided) => ({
       ...provided,
       color: 'auto',
       backgroundColor: newStyle
@@ -43,7 +43,7 @@ export const selectCustomStyles = (newStyle, theme) => {
         backgroundColor: 'none',
       },
     }),
-    menuList: (provided, state) => ({
+    menuList: (provided) => ({
       ...provided,
       color: 'auto',
       backgroundColor: newStyle
@@ -70,7 +70,7 @@ export const selectCustomStyles = (newStyle, theme) => {
       },
       borderRadius: '10px',
     }),
-    option: (provided, state) => ({
+    option: (provided) => ({
       ...provided,
       color: 'auto',
       backgroundColor: newStyle

@@ -1,8 +1,7 @@
+import { TableContent, TableHeader } from 'components/global/table'
 import styled, { css } from 'styled-components'
-import { TableHeader, TableContent } from 'components/global/table'
-import { Svg } from 'components/global/svg'
-import { TableRow } from './styles'
 import { mobile, sdesktop } from 'themes/screens'
+import { TableRow } from './styles'
 export const TransactionsTableHeader = styled(TableHeader)`
   padding: 10px 24px 10px 24px;
   position: sticky;

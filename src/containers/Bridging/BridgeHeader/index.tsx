@@ -4,27 +4,14 @@ import { Heading } from 'components/global'
 import Tooltip from 'components/tooltip/Tooltip'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import styled, { useTheme } from 'styled-components'
-import { BridgeHeaderWrapper, GearIcon, IconWrapper } from './styles'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
-
-export const LabelStyle = styled.span`
-  color: var(--Gray-50, #eee);
-  font-family: Roboto;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 138.3%;
-`
-
-export const ValueStyle = styled.span`
-  color: var(--Gray-50, #eee);
-  font-family: Roboto;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 138.3%;
-`
+import { useTheme } from 'styled-components'
+import {
+  BridgeHeaderWrapper,
+  GearIcon,
+  IconWrapper,
+  LabelStyle,
+  ValueStyle,
+} from './styles'
 
 const BridgeHeader = () => {
   const dispatch = useDispatch<any>()

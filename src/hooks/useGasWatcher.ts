@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  selectBaseEnabled,
-  selectActiveNetworkName,
   selectActiveNetwork,
+  selectActiveNetworkName,
   selectActiveNetworkType,
+  selectBaseEnabled,
 } from 'selectors'
-import networkService from 'services/networkService'
-import { Network, NetworkType } from 'util/network/network.util'
 import { fetchGasDetail } from 'services/gas.service'
+import networkService from 'services/networkService'
+import { GAS_POLL_INTERVAL } from 'util/constant'
+import { Network, NetworkType } from 'util/network/network.util'
 import useInterval from './useInterval'
-import { GAS_POLL_INTERVAL, LAYER } from 'util/constant'
 
 /**
  *

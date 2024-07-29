@@ -1,3 +1,5 @@
+import { openModal } from 'actions/uiAction'
+import useSwitchChain from 'hooks/useSwitchChain'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -7,9 +9,9 @@ import {
   selectDestChainIdTeleportation,
   selectLayer,
 } from 'selectors'
-import { openModal } from 'actions/uiAction'
-import useSwitchChain from 'hooks/useSwitchChain'
 import { DEFAULT_NETWORK, LAYER } from 'util/constant'
+import { CHAIN_ID_LIST } from '../../../util/network/network.util'
+import { BRIDGE_TYPE } from '../BridgeTypeSelector'
 import { NETWORK_ICONS } from './constant'
 import {
   ChainContainer,
@@ -23,12 +25,8 @@ import {
   SwitchChainIcon,
   SwitchIcon,
 } from './styles'
-import { BRIDGE_TYPE } from '../BridgeTypeSelector'
-import { CHAIN_ID_LIST } from '../../../util/network/network.util'
 
-type Props = {}
-
-const Chains = (props: Props) => {
+const Chains = () => {
   const dispatch = useDispatch<any>()
 
   const { switchChain } = useSwitchChain()

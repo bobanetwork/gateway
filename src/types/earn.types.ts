@@ -1,4 +1,4 @@
-export interface IPoolItem {
+interface IPoolItem {
   symbol: string
   name: string
   decimals: number
@@ -17,7 +17,7 @@ export interface IPoolInfo {
   L2LP: Record<string, IPoolItem>
 }
 
-export interface IUserInfoItem {
+interface IUserInfoItem {
   l1TokenAddress: string
   l2TokenAddress: string
   amount: number

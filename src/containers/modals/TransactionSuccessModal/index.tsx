@@ -26,7 +26,6 @@ import {
   SuccessCheck,
   SuccessContainer,
   SuccessContent,
-  TitleText,
 } from './styles'
 
 const TransactionSuccessModal: FC<

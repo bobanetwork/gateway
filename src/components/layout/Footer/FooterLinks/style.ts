@@ -11,28 +11,6 @@ export const ScanContainer = styled.div`
   margin: 10px 0px;
 `
 
-export const ExplorereButton = styled.button`
-  display: flex;
-  padding: 8px 16px;
-  justify-content: center;
-  align-items: center;
-  gap: 11px;
-  border-radius: 28px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
-  color: ${({ theme }) => theme.colors.gray[100]};
-  background: transparent;
-  box-shadow: none;
-  cursor: pointer;
-  &:hover {
-    border: 1px solid ${({ theme }) => theme.colors.green[300]};
-  }
-`
-
 export const LinkContainer = styled.div`
   display: flex;
   flex-direction: column;

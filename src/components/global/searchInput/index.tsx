@@ -3,7 +3,7 @@ import { SearchInputContainer, Input } from './styles'
 import MagnifyingGlass from 'assets/images/icons/magnifyingGlass.svg'
 import { Svg } from 'components/global/svg'
 
-export interface SearchInputProps {
+interface SearchInputProps {
   placeholder: string
   value: string
   onChange: ChangeEventHandler<HTMLInputElement>

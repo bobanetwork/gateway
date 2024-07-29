@@ -1,8 +1,8 @@
 /* eslint-disable */
 
+import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { renderHook } from '@testing-library/react-hooks'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
@@ -11,8 +11,8 @@ import { mockedInitialState } from 'util/tests'
 import networkService from 'services/networkService'
 import { lightBridgeService } from 'services/teleportation.service'
 
-import useBridge from '.'
 import { bridgeService } from 'services'
+import useBridge from '.'
 
 jest.mock('services/bridge/bridge.services', () => {
   return {

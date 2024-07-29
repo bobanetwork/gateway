@@ -18,7 +18,7 @@ export const COMMON_ROUTES = [
   },
 ]
 
-export interface IRoute {
+interface IRoute {
   path: string
   children: {
     path: string

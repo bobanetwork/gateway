@@ -16,11 +16,6 @@ export enum TRANSACTION_STATUS {
   Failed = 'failed',
 }
 
-export interface INetworks {
-  l1: string
-  l2: string
-}
-
 export enum CHAIN_NAME {
   All_Networks = 'All Networks',
   BNB_Testnet = 'tBNB',
@@ -54,7 +49,7 @@ export interface ITransactionFilter {
 // why would we need to access the parent id of a chain
 // transactionTo's id is the parentID of the transaction
 // transactionFrom's parentID is the chainID of the transaction
-export interface IAction {
+interface IAction {
   amount: string
   fast: number
   feeRate: string
@@ -64,8 +59,7 @@ export interface IAction {
   to: string
   token: string
 }
-
-export interface ICrossDomainMessage {
+interface ICrossDomainMessage {
   crossDomainMessage: number
   crossDomainMessageEstimateFinalizedTime: number
   crossDomainMessageFinalize: number
@@ -131,14 +125,14 @@ export type ChainMap = {
   [key: string]: ChainInfo
 }
 
-export type ChainInfo = {
+type ChainInfo = {
   name: string
   symbol: string
   transactionUrlPrefix: string
   imgSrc: string
 }
 
-export interface Token {
+interface Token {
   name: string
   symbol: string
   decimals: number

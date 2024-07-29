@@ -32,7 +32,7 @@ export interface IDropdownItem {
   imgType?: string
 }
 
-export interface IDropdownProps {
+interface IDropdownProps {
   error?: boolean
   items: IDropdownItem[]
   defaultItem: IDropdownItem

@@ -15,62 +15,48 @@ limitations under the License. */
 
 interface IUiReducerState {
   theme: string
-  bridgeTypeSwitch: boolean
   tokenPicker: boolean
-  mergeModal: boolean
   confirmationModal: boolean
   wrongNetworkModal: boolean
-  ledgerConnectModal: boolean
   addNewTokenModal: boolean
   StakeDepositModal: boolean
   EarnWithdrawModal: boolean
   EarnWithdrawConfirmModal: boolean
   EarnWithdrawModalSuccess: boolean
   delegateDaoModal: boolean
-  delegateDaoXModal: boolean
   newProposalModal: boolean
   walletSelectorModal: boolean
   switchNetworkModal: boolean
   UnsupportedNetwork: boolean
   isNewTx: boolean
   isAnchorageWithdrawal?: boolean
-  ledger: boolean
   alert?: string
   error?: string
   lock?: string
   proposalId?: string
-  activeHistoryTab: string
-  activeDataTab: string
 }
 
 const initialState: IUiReducerState = {
   theme: 'dark',
-  bridgeTypeSwitch: false,
   tokenPicker: false,
-  mergeModal: false,
   confirmationModal: false,
   wrongNetworkModal: false,
-  ledgerConnectModal: false,
   addNewTokenModal: false,
   StakeDepositModal: false,
   EarnWithdrawModal: false,
   EarnWithdrawConfirmModal: false,
   EarnWithdrawModalSuccess: false,
   delegateDaoModal: false,
-  delegateDaoXModal: false,
   newProposalModal: false,
   walletSelectorModal: false,
   switchNetworkModal: false,
   UnsupportedNetwork: false,
   isNewTx: false,
   isAnchorageWithdrawal: false,
-  ledger: false,
   alert: undefined,
   error: undefined,
   lock: undefined,
   proposalId: undefined,
-  activeHistoryTab: 'All',
-  activeDataTab: 'Seven Day Queue',
 }
 
 const uiReducer = (state: IUiReducerState = initialState, action) => {
@@ -96,12 +82,6 @@ const uiReducer = (state: IUiReducerState = initialState, action) => {
       return { ...state, alert: action.payload }
     case 'UI/ERROR/UPDATE':
       return { ...state, error: action.payload }
-    case 'UI/LEDGER/UPDATE':
-      return { ...state, ledger: action.payload }
-    case 'UI/HISTORYTAB/UPDATE':
-      return { ...state, activeHistoryTab: action.payload }
-    case 'UI/DATATAB/UPDATE':
-      return { ...state, activeDataTab: action.payload }
     case 'UI/MODAL/DATA':
       let dataType = 'generic'
       if (action.payload.modal === 'confirmationModal') {

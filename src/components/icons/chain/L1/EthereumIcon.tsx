@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const EthereumIcon = ({ selected }) => (
+const EthereumIcon = () => (
   <svg
     width="32"
     height="32"

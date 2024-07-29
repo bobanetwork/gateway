@@ -278,7 +278,7 @@ class TransactionService {
 
       const supportedAsset = Object.entries(
         BobaChains[parseInt(destChainId, 10)].supportedAssets
-      ).find(([address, tokenSymbol]) => {
+      ).find(([, tokenSymbol]) => {
         return tokenSymbol === srcChainTokenSymbol
       })
       if (!supportedAsset) {

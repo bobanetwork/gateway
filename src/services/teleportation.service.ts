@@ -10,7 +10,7 @@ import { L1ERC20ABI, L2StandardERC20ABI, TeleportationABI } from './abi'
 import { constants, Contract, providers } from 'ethers'
 import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 
-export class LightBridgeService {
+class LightBridgeService {
   async getLightBridgeAddress({ chainId }: { chainId?: number } = {}) {
     try {
       const inputChainId = chainId

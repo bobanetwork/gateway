@@ -9,12 +9,6 @@ export const SuccessContainer = styled.div`
   gap: 25px;
 `
 
-export const TitleText = styled(Typography).attrs({
-  variant: 'body1',
-})`
-  text-align: center;
-`
-
 export const MutedText = styled(Typography).attrs({
   variant: 'body3',
 })`

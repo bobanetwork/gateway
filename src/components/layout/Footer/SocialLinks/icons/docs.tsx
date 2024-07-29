@@ -1,8 +1,6 @@
 import React from 'react'
 
-interface Props {}
-
-const DocsIcon = (props: Props) => {
+const DocsIcon = () => {
   return (
     <svg
       id="docs"

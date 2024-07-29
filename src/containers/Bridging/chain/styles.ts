@@ -24,13 +24,6 @@ export const ChainPickerContainer = styled.div`
   width: 100%;
 `
 
-export const ChainPickerLabel = styled(Typography).attrs({
-  variant: 'body2',
-})`
-  color: ${(props) => props.theme.colors.gray[100]};
-  flex: 1;
-`
-
 export const ChainPicker = styled.div`
   cursor: pointer;
   display: flex;

@@ -20,8 +20,8 @@ import addresses_BobaBnb from '@bobanetwork/register/addresses/addressBobaBnb_0x
 import store from 'store'
 
 // predeployed contracts.
-export const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
-export const L2_BOBA_Address = '0x4200000000000000000000000000000000000006'
+const L1_ETH_Address = '0x0000000000000000000000000000000000000000'
+const L2_BOBA_Address = '0x4200000000000000000000000000000000000006'
 const L2MessengerAddress = '0x4200000000000000000000000000000000000007'
 const L2StandardBridgeAddress = '0x4200000000000000000000000000000000000010'
 const L2_SECONDARYFEETOKEN_ADDRESS =

@@ -831,7 +831,7 @@ class NetworkService {
       return
     }
 
-    Object.keys(allTokens).forEach(async (token, i) => {
+    Object.keys(allTokens).forEach(async (token) => {
       await getToken(allTokens[token].L1)
     })
   }

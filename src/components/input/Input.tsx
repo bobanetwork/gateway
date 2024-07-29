@@ -30,7 +30,7 @@ import {
   OnChangeValue,
 } from 'react-select/dist/declarations/src/types'
 
-export interface IInputProps {
+interface IInputProps {
   placeholder: string
   label?: string
   type?: string
@@ -63,7 +63,7 @@ export interface IInputProps {
   maxRows?: number
 }
 
-export const Input = ({
+const Input = ({
   placeholder,
   label,
   type = 'text',

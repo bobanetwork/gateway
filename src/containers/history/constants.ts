@@ -1,7 +1,7 @@
 import AllNetworksIcon from 'assets/images/allNetworks.svg'
 import { IDropdownItem } from 'components/global/dropdown'
 import { IFilterDropdownItem } from 'components/filter'
-import { TableHeaderOptionType } from 'components/global/table'
+import { TableHeaderOptionType } from 'components/global'
 import { getCoinImage } from 'util/coinImage'
 import { NetworkType } from 'util/network/network.util'
 import { CHAIN_NAME, ChainMap } from './types'

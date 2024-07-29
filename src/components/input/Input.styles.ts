@@ -13,7 +13,7 @@ export const Wrapper: any = styled(Box)`
     props.newstyle ? '1px solid rgba(255, 255, 255, 0.06)' : 'none'};
 `
 
-export const TextFieldTag: any = styled(TextField)(({ ...props }) => ({
+export const TextFieldTag: any = styled(TextField)(() => ({
   'input::-webkit-outer-spin-button, input::-webkit-inner-spin-button': {
     WebkitAppearance: 'none',
     margin: 0,
@@ -51,7 +51,7 @@ export const InputWrapper = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const InputWrapperFull = styled(Box)(({ theme }) => ({
+export const InputWrapperFull = styled(Box)(() => ({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,

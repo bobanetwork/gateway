@@ -32,28 +32,6 @@ export const GridItemTagR = styled.div`
   padding-right: 8px;
 `
 
-export const DropdownWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  width: 100%;
-  padding: 6px;
-  margin-top: 10px;
-  background-color: ${(props) => props.theme.palette.background.secondary};
-  border-radius: 4px;
-  text-align: center;
-`
-
-export const DropdownContent = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  ${mobile(css`
-    padding: 15px;
-  `)}
-`
-
 export const ItemHeaderContainer = styled.div`
   display: flex;
   align-items: center;

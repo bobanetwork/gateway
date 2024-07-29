@@ -50,14 +50,14 @@ import styled from 'styled-components'
 import { POLL_INTERVAL } from 'util/constant'
 import { fetchBalances } from 'actions/networkAction'
 
-export const OutputLabel = styled(Typography).attrs({
+const OutputLabel = styled(Typography).attrs({
   variant: 'title',
 })`
   margin-top: 8px;
   color: #a8a8a8;
 `
 
-export const Description = styled(Typography).attrs({
+const Description = styled(Typography).attrs({
   variant: 'body2',
 })`
   margin-top: 8px;
@@ -246,7 +246,7 @@ const Save = () => {
               <S.StakeItemContainer>
                 {Object.keys(stakeInfo).map((v, i) => {
                   if (stakeInfo[i].isActive) {
-                    return <TransactionList stakeInfo={stakeInfo[i]} key={i} />
+                    return <TransactionList stakeInfo={stakeInfo[i]} key={v} />
                   }
                   return null
                 })}

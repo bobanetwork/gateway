@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-import { Svg } from 'components/global/svg'
 
 export const Label = styled.label`
   display: flex;

@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { openAlert, closeModal } from 'actions/uiAction'
+import { closeModal, openAlert } from 'actions/uiAction'
 
 import Modal from 'components/modal/Modal'
 
 import { Button } from 'components/global/button'
 
-import { StakeInputContainer, Flex, StakeContent, StakeDetails } from './styles'
+import { Flex, StakeContent, StakeDetails, StakeInputContainer } from './styles'
 
-import { getFS_Saves, getFS_Info, addFS_Savings } from 'actions/fixedAction'
+import { addFS_Savings, getFS_Info, getFS_Saves } from 'actions/fixedAction'
 
-import { toWei_String } from 'util/amountConvert'
-import networkService from 'services/networkService'
-import { BigNumber, utils } from 'ethers'
 import { MaxInput } from 'components/global/InputMax'
+import { BigNumber, utils } from 'ethers'
+import networkService from 'services/networkService'
+import { toWei_String } from 'util/amountConvert'
 
 import { ModalTypography } from 'components/global/modalTypography'
 import { selectFixed, selectSetup, selectlayer2Balance } from 'selectors'
 
-const DepositStake = (props: any) => {
+const DepositStake = ({ open }) => {
   const { stakeInfo } = useSelector(selectFixed())
   const { accountEnabled, netLayer, bobaFeeChoice, bobaFeePriceRatio } =
     useSelector(selectSetup())
@@ -135,6 +135,7 @@ const DepositStake = (props: any) => {
   }
 
   let totalBOBAstaked = 0
+  // @ts-ignore
   Object.keys(stakeInfo).forEach((v, i) => {
     if (stakeInfo[i].isActive) {
       totalBOBAstaked = totalBOBAstaked + Number(stakeInfo[i].depositAmount)
