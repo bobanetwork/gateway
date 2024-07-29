@@ -15,7 +15,7 @@ import {
 } from 'util/network/network.util'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
 import networkService from './networkService'
-import { lightBridgeService } from './teleportation.service'
+import { lightBridgeService } from './teleportation/teleportation.service'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string

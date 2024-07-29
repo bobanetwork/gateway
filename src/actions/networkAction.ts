@@ -18,7 +18,7 @@ import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
 import { bridgeService } from 'services'
-import { lightBridgeService } from 'services/teleportation.service'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 
 export const fetchBalances = () =>
   createAction('BALANCE/GET', () => networkService.getBalances())

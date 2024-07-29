@@ -1,8 +1,8 @@
 import { CHAIN_ID_LIST } from 'util/network/network.util'
-import appService from './app.service'
-import { MOCK_CHAIN_LIST } from './mock/teleporation'
+import appService from '../app.service'
+import { MOCK_CHAIN_LIST } from '../mock/teleporation'
 import { lightBridgeService as lbs } from './teleportation.service'
-import networkService from './networkService'
+import networkService from '../networkService'
 import { Layer } from 'util/constant'
 
 jest.mock('./networkService')

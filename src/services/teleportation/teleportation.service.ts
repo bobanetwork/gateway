@@ -3,10 +3,10 @@ import {
   getRpcUrl,
   getRpcUrlByChainId,
 } from 'util/network/network.util'
-import networkService from './networkService'
-import appService from './app.service'
+import networkService from '../networkService'
+import appService from '../app.service'
 import { ERROR_CODE, Layer, LAYER } from 'util/constant'
-import { L1ERC20ABI, L2StandardERC20ABI, TeleportationABI } from './abi'
+import { L1ERC20ABI, L2StandardERC20ABI, TeleportationABI } from '../abi'
 import { constants, Contract, providers } from 'ethers'
 import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 

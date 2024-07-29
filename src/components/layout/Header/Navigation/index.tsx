@@ -28,7 +28,6 @@ import { NavLinkItem, StyledNav } from './style'
 const Navigation: FC = () => {
   const activeNetwork = useSelector(selectActiveNetwork())
   const activeNetworkType = useSelector(selectActiveNetworkType())
-
   return (
     <StyledNav>
       {MENU_LIST.map((menu) => {

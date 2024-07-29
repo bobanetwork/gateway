@@ -9,7 +9,7 @@ import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
 
 import networkService from 'services/networkService'
-import { lightBridgeService } from 'services/teleportation.service'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 
 import { bridgeService } from 'services'
 import useBridge from '.'

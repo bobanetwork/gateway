@@ -29,7 +29,7 @@ import {
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
-import { lightBridgeService } from 'services/teleportation.service'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 import { toWei_String } from 'util/amountConvert'
 import { Layer, LAYER } from 'util/constant'
 import {
