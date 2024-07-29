@@ -1,23 +1,20 @@
+import {
+  anchorageGraphQLService,
+  LightBridgeAssetReceivedEvent,
+  LightBridgeDisbursementEvents,
+  lightBridgeGraphQLService,
+} from '@bobanetwork/graphql-utils'
+import { BobaChains } from '@bobanetwork/light-bridge-chains'
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import { TRANSACTION_STATUS } from 'containers/history/types'
 import { Contract, ethers, providers } from 'ethers'
-import { BobaChains } from '@bobanetwork/light-bridge-chains'
-import { ethereumConfig } from 'util/network/config/ethereum'
 import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
-  Network,
-  NetworkType,
 } from 'util/network/network.util'
-import {
-  LightBridgeAssetReceivedEvent,
-  LightBridgeDisbursementEvents,
-  anchorageGraphQLService,
-  lightBridgeGraphQLService,
-} from '@bobanetwork/graphql-utils'
-import networkService from './networkService'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
+import networkService from './networkService'
 import { lightBridgeService } from './teleportation.service'
 
 interface ICrossDomainMessage {
@@ -47,13 +44,7 @@ class TransactionService {
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
-    if (
-      (networkService.networkType === NetworkType.TESTNET &&
-        networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId) ||
-      (networkService.networkType === NetworkType.MAINNET &&
-        networkConfig?.L1.chainId !== ethereumConfig.Mainnet.L1.chainId) ||
-      !address
-    ) {
+    if (!address) {
       return []
     }
     try {
@@ -111,41 +102,6 @@ class TransactionService {
     }
   }
 
-  // fetch L0 transactions
-  async fetchL0Tx(networkConfig = networkService.networkConfig) {
-    let L0Txs = []
-    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
-      return L0Txs
-    }
-    try {
-      const responseL0 = await omgxWatcherAxiosInstance(networkConfig).post(
-        'get.layerzero.transactions',
-        {
-          address: networkService.account,
-          fromRange: 0,
-          toRange: 1000,
-        }
-      )
-
-      if (responseL0.status === 201) {
-        L0Txs = responseL0.data.map((v) => ({
-          ...v,
-          hash: v.tx_hash,
-          blockNumber: parseInt(v.block_number, 10),
-          timeStamp: parseInt(v.timestamp, 10), //fix bug - sometimes this is string, sometimes an integer
-          layer: 'L0',
-          chainName: networkConfig!.L1.name,
-          originChainId: networkConfig!.L1.chainId,
-          altL1: true,
-        }))
-      }
-      return L0Txs
-    } catch (error) {
-      console.log('TS: fetchL0Tx', error)
-      return L0Txs
-    }
-  }
-
   // fetch L1 pending transactions
   async fetchL1PendingTx(networkConfig = networkService.networkConfig) {
     let txL1pending = []
@@ -192,26 +148,25 @@ class TransactionService {
 
     const allNetworksTransactions = await Promise.all(
       networkConfigsArray.flatMap((config) => {
-        // light bridge available for all networks fetch for all.
         const promiseCalls: Promise<any>[] = [
           this.fetchLightBridgeTransactions(config),
         ]
 
         // check for ethereum and invoke anchorage data.
+        // [sepolia, bnb tesnet, eth mainnet]
         if (
-          [11155111, 28882, 1, 288].includes(config.L1.chainId) ||
-          [11155111, 28882, 1, 288].includes(config.L1.chainId)
+          [11155111, 97, 1].includes(config.L1.chainId) ||
+          [28882, 9728, 288].includes(config.L2.chainId)
         ) {
           promiseCalls.push(this.fetchAnchorageTransactions(config))
         }
 
-        // check for bnb and invoke watcher
-        if (
-          [97, 9728, 56, 56288].includes(config.L1.chainId) ||
-          [97, 9728, 56, 56288].includes(config.L1.chainId)
-        ) {
-          promiseCalls.push(this.fetchL2Tx(config))
+        // invoke watcher only for BNB mainnet
+        if ([56].includes(config.L1.chainId)) {
           promiseCalls.push(this.fetchL1PendingTx(config))
+        }
+        if ([56288].includes(config.L2.chainId)) {
+          promiseCalls.push(this.fetchL2Tx(config))
         }
 
         return promiseCalls

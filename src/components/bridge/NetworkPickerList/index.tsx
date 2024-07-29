@@ -144,6 +144,7 @@ export const NetworkList: FC<NetworkListProps> = ({
         className={'networkItem'}
         selected={selected}
         key={`${chainDetail.label}_${layer}_${chainDetail.key}`}
+        data-testid={`selector-${chainDetail.key}`}
         onClick={() => onChainChange(chainDetail, layer)}
       >
         <NetworkIcon>

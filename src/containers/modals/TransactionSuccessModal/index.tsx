@@ -115,7 +115,6 @@ const TransactionSuccessModal: FC<
             transparent={true}
             onClick={() => {
               handleClose()
-              navigate('/history')
             }}
             label="Close"
           />

@@ -97,3 +97,5 @@ export const MIN_NATIVE_L1_BALANCE: number = 0.002
 export const THIRD_PARTY_BRIDGES_LIST = `https://raw.githubusercontent.com/bobanetwork/gateway-data/${GATEWAY_DATA_BRANCH}/bridges/list.json`
 
 export const COIN_GECKO_URL = `https://api.coingecko.com/api/v3/`
+
+export const ERROR_CODE = 'GATEWAY ERROR:'

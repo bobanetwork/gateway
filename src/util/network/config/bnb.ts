@@ -2,7 +2,7 @@ import { NetworkDetail } from './network-details.types'
 
 export const bnbConfig: NetworkDetail = {
   Testnet: {
-    OMGX_WATCHER_URL: `https://api-watcher.testnet.bnb.boba.network/`,
+    OMGX_WATCHER_URL: ``,
     META_TRANSACTION: `https://api-meta-transaction.testnet.bnb.boba.network/`,
     MM_Label: `bobaBnbTestnet`,
     addressManager: `0xAee1fb3f4353a9060aEC3943fE932b6Efe35CdAa`,

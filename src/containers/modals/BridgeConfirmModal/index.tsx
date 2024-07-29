@@ -10,6 +10,7 @@ import {
   selectActiveNetworkIcon,
   selectActiveNetworkName,
   selectAmountToBridge,
+  selectBridgeDestinationAddress,
   selectBridgeType,
   selectDestChainIdTeleportation,
   selectLayer,
@@ -26,6 +27,7 @@ import {
   Item,
   LayerNames,
 } from './index.styles'
+import truncateMiddle from 'truncate-middle'
 
 interface Props {
   open: boolean
@@ -35,6 +37,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const dispatch = useDispatch<any>()
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
+  const toL2Account = useSelector(selectBridgeDestinationAddress())
   const amountToBridge = useSelector(selectAmountToBridge())
   const networkNames = useSelector(selectActiveNetworkName())
   const activeNetworkIcon = useSelector(selectActiveNetworkIcon())
@@ -131,6 +134,14 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
             {amountToUsd(amountToBridge, lookupPrice, token).toFixed(4)})
           </ConfirmValue>
         </Item>
+        {toL2Account && (
+          <Item>
+            <ConfirmLabel>Recipient</ConfirmLabel>
+            <ConfirmValue>
+              {truncateMiddle(toL2Account!, 6, 6, '...')}
+            </ConfirmValue>
+          </Item>
+        )}
         <Item>
           <ConfirmLabel>Time</ConfirmLabel>
           <ConfirmValue>{estimateTime()}</ConfirmValue>
