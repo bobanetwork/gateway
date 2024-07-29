@@ -25,8 +25,6 @@ import { orderBy } from 'util/lodash'
 import { getToken } from 'actions/tokenAction'
 import { logAmount } from 'util/amountConvert'
 
-import { addBobaFee } from 'actions/setupAction'
-
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
@@ -63,12 +61,13 @@ import {
   TeleportationABI,
 } from './abi'
 
-import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
 import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
+import oracleService from './oracle/oracle.service'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -179,39 +178,6 @@ class NetworkService {
     return false
   }
 
-  async getBobaFeeChoice() {
-    if (this.addresses.Boba_GasPriceOracle) {
-      const bobaFeeContract = new ethers.Contract(
-        this.addresses.Boba_GasPriceOracle,
-        BobaGasPriceOracleABI,
-        this.L2Provider
-      )
-
-      try {
-        const priceRatio = await bobaFeeContract.priceRatio()
-
-        let feeChoice
-        if (this.networkGateway === Network.ETHEREUM) {
-          feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
-        } else {
-          // this returns weather the secondary token getting use as tokenfee
-          feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
-          // if it's false which means boba is getting used as tokenfee which is default value.
-          feeChoice = !feeChoice
-        }
-        const bobaFee = {
-          priceRatio: priceRatio.toString(),
-          feeChoice,
-        }
-        await addBobaFee(bobaFee)
-        return bobaFee
-      } catch (error) {
-        console.log(error)
-        return error
-      }
-    }
-  }
-
   async estimateMinL1NativeTokenForFee() {
     if (this.L1orL2 !== 'L2') {
       return 0
@@ -231,42 +197,6 @@ class NetworkService {
       const minTokenForFee = await bobaFeeContract.secondaryFeeTokenMinimum()
 
       return logAmount(minTokenForFee.toString(), 18)
-    }
-  }
-
-  async switchFeeToken(targetFee) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-
-    const bobaFeeContract = new ethers.Contract(
-      this.addresses.Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.provider!.getSigner()
-    )
-
-    try {
-      let tx: TransactionResponse
-
-      if (targetFee === 'BOBA') {
-        tx = await bobaFeeContract.useBobaAsFeeToken()
-        await tx.wait()
-      } else if (targetFee === 'ETH') {
-        tx = await bobaFeeContract.useETHAsFeeToken()
-        await tx.wait()
-      } else if (targetFee === this.L1NativeTokenSymbol) {
-        tx = await bobaFeeContract.useSecondaryFeeTokenAsFeeToken()
-        await tx.wait()
-      } else {
-        return false
-      }
-
-      await this.getBobaFeeChoice()
-
-      return tx
-    } catch (error) {
-      console.log(error)
-      return error
     }
   }
 
@@ -327,7 +257,7 @@ class NetworkService {
         signature,
         data,
       })
-      await this.getBobaFeeChoice()
+      await oracleService.getBobaFeeChoice()
       return true
     } catch (error: any) {
       let errorData = error.response.data.error
@@ -760,7 +690,7 @@ class NetworkService {
         CHAIN_ID_LIST[L2ChainId]?.limitedAvailability
       // this should not do anything unless we changed chains
       if (this.L1orL2 === 'L2' && !isLimitedNetwork) {
-        await this.getBobaFeeChoice()
+        await oracleService.getBobaFeeChoice()
       }
 
       return this.L1orL2 // return the layer we are actually on
