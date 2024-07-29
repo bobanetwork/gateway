@@ -16,6 +16,9 @@ const addresses = {
 describe('TeleportationService', () => {
   beforeEach(() => {
     jest.spyOn(appService, 'fetchAddresses').mockReturnValue(addresses)
+    jest.spyOn(console, 'log').mockImplementation(() => {
+      return
+    })
   })
 
   afterAll(() => {

@@ -3,18 +3,18 @@
 exports[`BridgeToAddress should match Snapshot in case of L1 & Classic Bridge  1`] = `
 <DocumentFragment>
   <div
-    class="sc-dAbbOL jUHoEt"
+    class="sc-ikkxIA gBxIZy"
   >
     <p
-      class="sc-imWYAI cvMsuV sc-cWSHoV kFedEW"
+      class="sc-dAlyuH jxulBe sc-dtBdUo kpWPfo"
     >
       Destination Address
     </p>
     <div
-      class="sc-eBMEME kWwcpW"
+      class="sc-kOHTFB ktvblB"
     >
       <input
-        class="sc-dCFHLb bXTpAO"
+        class="sc-dtInlm hqtlRL"
         id="address"
         name="address"
         placeholder="Enter destination address"
@@ -22,7 +22,7 @@ exports[`BridgeToAddress should match Snapshot in case of L1 & Classic Bridge  1
         value=""
       />
       <button
-        class="sc-fhzFiK fxZYAZ"
+        class="sc-kOPcWz hUctCX"
       >
         Paste
       </button>

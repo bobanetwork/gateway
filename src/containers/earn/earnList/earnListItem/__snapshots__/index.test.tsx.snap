@@ -3,24 +3,24 @@
 exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
 <DocumentFragment>
   <div
-    class="sc-dAbbOL kfujas"
+    class="sc-ikkxIA ciecAv"
     data-testid="earn-list-item"
   >
     <div
-      class="sc-aXZVg krHmEs sc-kpDqfm hvflIl"
+      class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
     >
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 225px;"
       >
         <div
-          class="sc-aXZVg krHmEs sc-iGgWBj xSUkw"
+          class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
         >
           <div
-            class="sc-gEvEer Potal"
+            class="sc-fqkvVR jAPbXp"
           >
             <div
-              class="sc-aXZVg krHmEs"
+              class="sc-eqUAAy jWPfJu"
             >
               <div>
                 <img
@@ -31,12 +31,12 @@ exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
               </div>
               <div>
                 <p
-                  class="sc-eqUAAy ibYEEy"
+                  class="sc-aXZVg ijoHgY"
                 >
                   USDC
                 </p>
                 <p
-                  class="sc-fqkvVR jpBRQY"
+                  class="sc-gEvEer lhNhhM"
                 >
                   USD Coin
                 </p>
@@ -46,65 +46,65 @@ exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
         </div>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 145px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 115px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 85px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 90px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 110px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 75px;"
       >
         <div
-          class="sc-feUZmu ceIvoQ"
+          class="sc-dAbbOL iqwBcO"
           data-testid="action-btn"
         >
           <div
-            class="sc-fUnMCh euYGlO"
+            class="sc-feUZmu kjINkZ"
           >
             <div>
               <div
@@ -123,24 +123,24 @@ exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
 exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
 <DocumentFragment>
   <div
-    class="sc-dAbbOL kfujas"
+    class="sc-ikkxIA ciecAv"
     data-testid="earn-list-item"
   >
     <div
-      class="sc-aXZVg krHmEs sc-kpDqfm hvflIl"
+      class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
     >
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 225px;"
       >
         <div
-          class="sc-aXZVg krHmEs sc-iGgWBj xSUkw"
+          class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
         >
           <div
-            class="sc-gEvEer Potal"
+            class="sc-fqkvVR jAPbXp"
           >
             <div
-              class="sc-aXZVg krHmEs"
+              class="sc-eqUAAy jWPfJu"
             >
               <div>
                 <img
@@ -151,12 +151,12 @@ exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
               </div>
               <div>
                 <p
-                  class="sc-eqUAAy ibYEEy"
+                  class="sc-aXZVg ijoHgY"
                 >
                   USDC
                 </p>
                 <p
-                  class="sc-fqkvVR jpBRQY"
+                  class="sc-gEvEer lhNhhM"
                 >
                   USD Coin
                 </p>
@@ -166,65 +166,65 @@ exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
         </div>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 145px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 115px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 85px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 90px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 110px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 75px;"
       >
         <div
-          class="sc-feUZmu ceIvoQ"
+          class="sc-dAbbOL iqwBcO"
           data-testid="action-btn"
         >
           <div
-            class="sc-fUnMCh euYGlO"
+            class="sc-feUZmu kjINkZ"
           >
             <div>
               <div
@@ -243,24 +243,24 @@ exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
 exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
 <DocumentFragment>
   <div
-    class="sc-dAbbOL kfujas"
+    class="sc-ikkxIA ciecAv"
     data-testid="earn-list-item"
   >
     <div
-      class="sc-aXZVg krHmEs sc-kpDqfm hvflIl"
+      class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
     >
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 225px;"
       >
         <div
-          class="sc-aXZVg krHmEs sc-iGgWBj xSUkw"
+          class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
         >
           <div
-            class="sc-gEvEer Potal"
+            class="sc-fqkvVR jAPbXp"
           >
             <div
-              class="sc-aXZVg krHmEs"
+              class="sc-eqUAAy jWPfJu"
             >
               <div>
                 <img
@@ -271,12 +271,12 @@ exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
               </div>
               <div>
                 <p
-                  class="sc-eqUAAy ibYEEy"
+                  class="sc-aXZVg ijoHgY"
                 >
                   USDC
                 </p>
                 <p
-                  class="sc-fqkvVR jpBRQY"
+                  class="sc-gEvEer lhNhhM"
                 >
                   USD Coin
                 </p>
@@ -286,65 +286,65 @@ exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
         </div>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 145px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 115px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 85px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 90px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 110px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 75px;"
       >
         <div
-          class="sc-feUZmu ceIvoQ"
+          class="sc-dAbbOL iqwBcO"
           data-testid="action-btn"
         >
           <div
-            class="sc-fUnMCh euYGlO"
+            class="sc-feUZmu kjINkZ"
           >
             <div>
               <div
@@ -363,24 +363,24 @@ exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
 exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
 <DocumentFragment>
   <div
-    class="sc-dAbbOL kfujas"
+    class="sc-ikkxIA ciecAv"
     data-testid="earn-list-item"
   >
     <div
-      class="sc-aXZVg krHmEs sc-kpDqfm hvflIl"
+      class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
     >
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 225px;"
       >
         <div
-          class="sc-aXZVg krHmEs sc-iGgWBj xSUkw"
+          class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
         >
           <div
-            class="sc-gEvEer Potal"
+            class="sc-fqkvVR jAPbXp"
           >
             <div
-              class="sc-aXZVg krHmEs"
+              class="sc-eqUAAy jWPfJu"
             >
               <div>
                 <img
@@ -391,12 +391,12 @@ exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
               </div>
               <div>
                 <p
-                  class="sc-eqUAAy ibYEEy"
+                  class="sc-aXZVg ijoHgY"
                 >
                   USDC
                 </p>
                 <p
-                  class="sc-fqkvVR jpBRQY"
+                  class="sc-gEvEer lhNhhM"
                 >
                   USD Coin
                 </p>
@@ -406,65 +406,65 @@ exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
         </div>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 145px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 115px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 85px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 90px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 110px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 75px;"
       >
         <div
-          class="sc-feUZmu ceIvoQ"
+          class="sc-dAbbOL iqwBcO"
           data-testid="action-btn"
         >
           <div
-            class="sc-fUnMCh euYGlO"
+            class="sc-feUZmu kjINkZ"
           >
             <div>
               <div
@@ -485,24 +485,24 @@ exports[`EarnList  should match snapshot when showMystake is enable 1`] = `<Docu
 exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] = `
 <DocumentFragment>
   <div
-    class="sc-dAbbOL kfujas"
+    class="sc-ikkxIA ciecAv"
     data-testid="earn-list-item"
   >
     <div
-      class="sc-aXZVg krHmEs sc-kpDqfm hvflIl"
+      class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
     >
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 225px;"
       >
         <div
-          class="sc-aXZVg krHmEs sc-iGgWBj xSUkw"
+          class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
         >
           <div
-            class="sc-gEvEer Potal"
+            class="sc-fqkvVR jAPbXp"
           >
             <div
-              class="sc-aXZVg krHmEs"
+              class="sc-eqUAAy jWPfJu"
             >
               <div>
                 <img
@@ -513,10 +513,10 @@ exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] 
               </div>
               <div>
                 <p
-                  class="sc-eqUAAy ibYEEy"
+                  class="sc-aXZVg ijoHgY"
                 />
                 <p
-                  class="sc-fqkvVR jpBRQY"
+                  class="sc-gEvEer lhNhhM"
                 />
               </div>
             </div>
@@ -524,65 +524,65 @@ exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] 
         </div>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 145px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 115px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 85px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           NaN
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 90px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 110px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 75px;"
       >
         <div
-          class="sc-feUZmu ceIvoQ"
+          class="sc-dAbbOL iqwBcO"
           data-testid="action-btn"
         >
           <div
-            class="sc-fUnMCh euYGlO"
+            class="sc-feUZmu kjINkZ"
           >
             <div>
               <div
@@ -601,24 +601,24 @@ exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] 
 exports[`EarnList  should match snapshot when userreward is available 1`] = `
 <DocumentFragment>
   <div
-    class="sc-dAbbOL kfujas"
+    class="sc-ikkxIA ciecAv"
     data-testid="earn-list-item"
   >
     <div
-      class="sc-aXZVg krHmEs sc-kpDqfm hvflIl"
+      class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
     >
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 225px;"
       >
         <div
-          class="sc-aXZVg krHmEs sc-iGgWBj xSUkw"
+          class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
         >
           <div
-            class="sc-gEvEer Potal"
+            class="sc-fqkvVR jAPbXp"
           >
             <div
-              class="sc-aXZVg krHmEs"
+              class="sc-eqUAAy jWPfJu"
             >
               <div>
                 <img
@@ -629,12 +629,12 @@ exports[`EarnList  should match snapshot when userreward is available 1`] = `
               </div>
               <div>
                 <p
-                  class="sc-eqUAAy ibYEEy"
+                  class="sc-aXZVg ijoHgY"
                 >
                   BOBA
                 </p>
                 <p
-                  class="sc-fqkvVR jpBRQY"
+                  class="sc-gEvEer lhNhhM"
                 >
                   Boba Token
                 </p>
@@ -644,65 +644,65 @@ exports[`EarnList  should match snapshot when userreward is available 1`] = `
         </div>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 145px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           614.83
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 115px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           565.3
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 85px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 90px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           43.01
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 110px;"
       >
         <p
-          class="sc-imWYAI dZiXLh"
+          class="sc-dAlyuH eGlSty"
         >
           0.00126
         </p>
       </div>
       <div
-        class="sc-aXZVg krHmEs sc-dAlyuH iRhOjN"
+        class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
         style="max-width: 75px;"
       >
         <div
-          class="sc-feUZmu ceIvoQ"
+          class="sc-dAbbOL iqwBcO"
           data-testid="action-btn"
         >
           <div
-            class="sc-fUnMCh euYGlO"
+            class="sc-feUZmu kjINkZ"
           >
             <div>
               <div

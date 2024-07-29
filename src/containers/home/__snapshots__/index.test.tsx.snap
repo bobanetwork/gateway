@@ -3,10 +3,10 @@
 exports[`Home  should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-hGMjit aucDE"
+    class="sc-cyRcrZ kTliMC"
   >
     <div
-      class="sc-eldPxv hrjSZe"
+      class="sc-eDPEul henctI"
       id="header"
     >
       <a
@@ -14,42 +14,42 @@ exports[`Home  should match snapshot 1`] = `
         href="/bridge"
       >
         <div
-          class="sc-fPXMVe chGoFa"
+          class="sc-eldPxv eFRggx"
         />
       </a>
       <div
-        class="sc-fUnMCh foZnaf"
+        class="sc-feUZmu uDIYs"
       >
         <a
-          class="sc-hzhJZQ bhCELU"
+          class="sc-fUnMCh dmbHLE"
           href="/bridge"
         >
           Bridge
         </a>
         <a
-          class="sc-hzhJZQ bhCELU"
+          class="sc-fUnMCh dmbHLE"
           href="/history"
         >
           History
         </a>
         <a
-          class="sc-hzhJZQ bhCELU"
+          class="sc-fUnMCh dmbHLE"
           href="/stake"
         >
           Stake
         </a>
         <a
-          class="sc-hzhJZQ bhCELU"
+          class="sc-fUnMCh dmbHLE"
           href="/dao"
         >
           Dao
         </a>
       </div>
       <div
-        class="sc-gFqAkR Ovepb"
+        class="sc-fPXMVe dbBfGf"
       >
         <button
-          class="sc-jlZhew bkAwRq"
+          class="sc-gsFSXq ggpxdw"
           label="Connect Wallet"
           style="white-space: nowrap;"
           type="button"
@@ -57,10 +57,10 @@ exports[`Home  should match snapshot 1`] = `
            Connect Wallet
         </button>
         <div
-          class="sc-ikkxIA hLJCQi"
+          class="sc-gFqAkR dqIOWb"
         >
           <div
-            class="sc-dAbbOL khXVos"
+            class="sc-ikkxIA iYXifH"
           >
             <div>
               <div
@@ -71,7 +71,7 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-feUZmu dPKxQJ"
+          class="sc-dAbbOL lbvpjf"
           title="light-icon"
         >
           <div>
@@ -86,20 +86,20 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-dUYLmH jKwpnE"
+      class="sc-fyVfxW jzQkQR"
     >
       <div
-        class="sc-faUjhM iGclxT"
+        class="sc-eHsDsR fDSSQN"
       >
         <div
-          class="sc-cezyBN bNGhlP warning activeSlide"
+          class="sc-jdkBTo hHqFOq warning activeSlide"
           data-testid="banner-item"
         >
           <div
-            class="sc-fUkmAC egMIAt"
+            class="sc-fmzyuX gVLFSP"
           >
             <p
-              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
+              class="sc-dAlyuH eGlSty sc-BQMaI ihnFmL"
             >
               The earn program is being phased out as we introduce the Boba Light Bridge. To initiate a withdrawal of funds from the liquidity pool, To withdraw funds 
               <a
@@ -112,21 +112,21 @@ exports[`Home  should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-cezyBN bNGhlP warning lastSlide"
+          class="sc-jdkBTo hHqFOq warning lastSlide"
           data-testid="banner-item"
         >
           <div
-            class="sc-fUkmAC egMIAt"
+            class="sc-fmzyuX gVLFSP"
           >
             <p
-              class="sc-imWYAI dZiXLh sc-bhqpjJ jbrnQG"
+              class="sc-dAlyuH eGlSty sc-BQMaI ihnFmL"
             >
               Due to the Anchorage upgrade, relayers will no longer be available.
             </p>
           </div>
         </div>
         <button
-          class="sc-fPrdXf joMWqJ prev"
+          class="sc-bvgPty edQwwB prev"
         >
           <svg
             aria-hidden="true"
@@ -141,7 +141,7 @@ exports[`Home  should match snapshot 1`] = `
           </svg>
         </button>
         <button
-          class="sc-fPrdXf joMWqJ next"
+          class="sc-bvgPty edQwwB next"
         >
           <svg
             aria-hidden="true"
@@ -158,44 +158,44 @@ exports[`Home  should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-ezreuY itCRgP"
+      class="sc-kUdmhA gTuCBp"
     />
     <div
-      class="sc-fxwrCY epbVer"
+      class="sc-dSCufp byogsF"
     >
       <div
-        class="sc-jnOGJG gOMVdk"
+        class="sc-hIUJlX cdBCa-D"
       >
         <div
-          class="sc-ibQAlb cEEvmr"
+          class="sc-hwdzOV juzHLi"
         >
           <div
-            class="sc-krNlru ewhRbN"
+            class="sc-iMTnTL kDMfer"
             id="footerLinks"
           >
             <a
-              class="sc-jGKxIK iBVZnW"
+              class="sc-jaXxmE iRyUqB"
               href="https://docs.boba.network/faq"
               target="_blank"
             >
               FAQs
             </a>
             <a
-              class="sc-jGKxIK iBVZnW"
+              class="sc-jaXxmE iRyUqB"
               href="https://docs.boba.network/developer"
               target="_blank"
             >
               Dev Tools
             </a>
             <a
-              class="sc-jGKxIK iBVZnW"
+              class="sc-jaXxmE iRyUqB"
               href="https://boba.network"
               target="_blank"
             >
               Boba Network Website
             </a>
             <a
-              class="sc-jGKxIK iBVZnW"
+              class="sc-jaXxmE iRyUqB"
               href="https://boba.network/terms-of-use/"
               target="_blank"
             >
@@ -203,10 +203,10 @@ exports[`Home  should match snapshot 1`] = `
             </a>
           </div>
           <div
-            class="sc-hwdzOV izqvFC"
+            class="sc-krNlru iiQIBa"
           >
             <div
-              class="sc-bBeLUv fSyuEA"
+              class="sc-fvtFIe eFwmPI"
               data-testid="Block explorers"
             >
               Block explorers
@@ -215,32 +215,32 @@ exports[`Home  should match snapshot 1`] = `
         </div>
       </div>
       <hr
-        class="sc-hIUJlX cMdOah"
+        class="sc-fxwrCY hwyttG"
       />
       <div
-        class="sc-brPLxw cQhhhH"
+        class="sc-gFVvzn cEPQot"
         id="socialLinks"
       >
         <div
-          class="sc-kAkpmW immrrx"
+          class="sc-cmaqmh dFyDkZ"
         >
           <p
-            class="sc-imWYAI dZiXLh sc-gFVvzn VtWau"
+            class="sc-dAlyuH eGlSty sc-kAkpmW hXCTIs"
           >
             ©2023 Enya Labs
           </p>
           <p
-            class="sc-imWYAI dZiXLh sc-gFVvzn VtWau"
+            class="sc-dAlyuH eGlSty sc-kAkpmW hXCTIs"
           >
             v0.14.11
           </p>
         </div>
         <div
-          class="sc-iMWBiJ fWFfsb"
+          class="sc-brPLxw NEWka"
         >
           <a
             aria-label="bobadocs"
-            class="sc-fvtFIe kpKPOM"
+            class="sc-iMWBiJ crScPw"
             href="https://docs.boba.network"
             target="_blank"
           >
@@ -286,7 +286,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="twitter"
-            class="sc-fvtFIe kpKPOM"
+            class="sc-iMWBiJ crScPw"
             href="https://boba.eco/twitter"
             target="_blank"
           >
@@ -303,7 +303,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="discord"
-            class="sc-fvtFIe kpKPOM"
+            class="sc-iMWBiJ crScPw"
             href="https://boba.eco/discord"
             target="_blank"
           >
@@ -322,7 +322,7 @@ exports[`Home  should match snapshot 1`] = `
           </a>
           <a
             aria-label="telegram"
-            class="sc-fvtFIe kpKPOM"
+            class="sc-iMWBiJ crScPw"
             href="https://boba.eco/telegram"
             target="_blank"
           >

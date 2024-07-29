@@ -3,75 +3,75 @@
 exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
 <DocumentFragment>
   <div
-    class="sc-eldPxv RcgwZ"
+    class="sc-eDPEul kzverb"
     id="gasDetails"
   >
     <div
-      class="sc-fPXMVe fYeija"
+      class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
+        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
       >
         Ethereum
       </p>
       <p
-        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
+        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
       >
         10 Gwei
       </p>
     </div>
     <div
-      class="sc-fPXMVe fYeija"
+      class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
+        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
       >
         Boba ETH
       </p>
       <p
-        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
+        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
       >
         20 Gwei
       </p>
     </div>
     <div
-      class="sc-fPXMVe fYeija"
+      class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
+        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
       >
         Savings
       </p>
       <p
-        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
+        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
       >
         1x
       </p>
     </div>
     <div
-      class="sc-fPXMVe fYeija"
+      class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
+        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
       >
         L1
       </p>
       <p
-        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
+        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
       >
         110000
       </p>
     </div>
     <div
-      class="sc-fPXMVe fYeija"
+      class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-imWYAI dZiXLh sc-gFqAkR cKDrUh"
+        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
       >
         L2
       </p>
       <p
-        class="sc-imWYAI dZiXLh sc-ikkxIA sRcg"
+        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
       >
         220000
       </p>

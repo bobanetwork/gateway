@@ -44,6 +44,9 @@ describe('BridgeService', () => {
           wait: jest.fn().mockResolvedValue('txResponse'),
         }),
       })
+      jest.spyOn(console, 'log').mockImplementation(() => {
+        return
+      })
     })
 
     test('anchorageDepositNative should throw error if wallet not connected', async () => {
