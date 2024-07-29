@@ -34,7 +34,7 @@
     "@emotion/styled": "^11.11.0",
     "@ethersproject/providers": "^5.7.2",
     "@mui/base": "5.0.0-alpha.72",
-    "@mui/icons-material": "^5.15.4",
+    "@mui/icons-material": "^5.16.5",
     "@mui/material": "^5.12.2",
     "@mui/styles": "^5.14.18",
     "@reduxjs/toolkit": "^1.9.7",
