@@ -77,9 +77,11 @@ export class GatewayAction {
   async classicBridgeWithdrawal({
     amountToBridge,
     tokenSymbol,
+    networkKey = 'eth',
   }: {
     amountToBridge: string
     tokenSymbol: string
+    networkKey?: 'bnb' | 'eth'
   }) {
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
     await this.bridgePage.bridgeButtonToBeDisable()
@@ -94,8 +96,7 @@ export class GatewayAction {
     await this.bridgePage.validateAndConfirmBridging({
       amount: amountToBridge,
       token: tokenSymbol,
-      fromNetwork: 'Boba (Sepolia)',
-      toNetwork: 'Ethereum (Sepolia)',
+      ...networkNames[networkKey],
       estimatedTime: '7 days',
     })
     await this.bridgePage.reviewAndInitiateWithdrawal()

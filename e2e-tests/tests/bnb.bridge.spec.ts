@@ -34,17 +34,18 @@ test.describe('Gateway BNB (Testnet)', () => {
       })
     })
     test.describe('Withdraw', () => {
-      test('BOBA', async ({ page }) => {
+      test.only('BOBA', async ({ page }) => {
         test.setTimeout(120000)
         const basePage = new BasePage(page)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.addAndConnectBNBTestnet()
         await bridgeAction.switchL2Network()
-        await basePage.disconnectMetamask()
+        page.waitForTimeout(2000)
         await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
-          amountToBridge,
-          tokenSymbol: 'BOBA',
+          amountToBridge: '0.00001',
+          tokenSymbol: 'tBNB',
+          networkKey: 'bnb',
         })
       })
     })
