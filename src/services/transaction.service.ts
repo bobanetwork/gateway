@@ -27,19 +27,6 @@ interface ICrossDomainMessage {
 }
 
 class TransactionService {
-  async getSevens(networkConfig = networkService.networkConfig) {
-    const response = await omgxWatcherAxiosInstance(networkConfig).get(
-      'get.l2.pendingexits'
-    )
-
-    if (response.status === 201) {
-      const data = response.data
-      return data.filter((i) => i.fastRelay === 0 && i.status === 'pending')
-    } else {
-      return []
-    }
-  }
-
   async fetchAnchorageTransactions(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
@@ -162,6 +149,7 @@ class TransactionService {
         }
 
         // invoke watcher only for BNB mainnet
+        // TODO: cleanup on migrating the BNB to anchorage!
         if ([56].includes(config.L1.chainId)) {
           promiseCalls.push(this.fetchL1PendingTx(config))
         }

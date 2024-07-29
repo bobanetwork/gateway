@@ -20,9 +20,4 @@ export const pageTitleWhiteList = [
     slug: 'Participate in voting on proposals concerning the future of Boba Network',
     path: ROUTES_PATH.DAO,
   },
-  {
-    title: 'Boba Scope',
-    slug: '',
-    path: ROUTES_PATH.BOBASCOPE,
-  },
 ]

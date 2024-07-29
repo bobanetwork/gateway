@@ -16,7 +16,6 @@ limitations under the License. */
 import loadingReducer from './loadingReducer'
 import depositReducer from './depositReducer'
 import transactionReducer from './transactionReducer'
-import dataReducer from './dataReducer'
 import balanceReducer from './balanceReducer'
 import tokenReducer from './tokenReducer'
 import nftReducer from './nftReducer'
@@ -33,7 +32,6 @@ const rootReducer = combineReducers({
   loading: loadingReducer,
   deposit: depositReducer,
   transaction: transactionReducer,
-  data: dataReducer,
   balance: balanceReducer,
   tokenList: tokenReducer,
   nft: nftReducer,

@@ -188,12 +188,6 @@ exports[`Home  should match snapshot 1`] = `
               Dev Tools
             </a>
             <a
-              class="sc-guJBdh gUUVJI"
-              href="/bobascope"
-            >
-              Bobascope
-            </a>
-            <a
               class="sc-jGKxIK iBVZnW"
               href="https://boba.network"
               target="_blank"

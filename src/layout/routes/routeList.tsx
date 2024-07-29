@@ -4,7 +4,6 @@ import { Navigate } from 'react-router-dom'
 import { ROUTES_PATH } from 'util/constant'
 
 const Bridging = React.lazy(() => import('containers/Bridging'))
-const BobaScope = React.lazy(() => import('containers/bobaScope/BobaScope'))
 const OldDao = React.lazy(() => import('containers/dao/OldDao'))
 const Earn = React.lazy(() => import('containers/earn/Earn'))
 const Home = React.lazy(() => import('containers/home'))
@@ -16,11 +15,6 @@ export const COMMON_ROUTES = [
     path: '*',
     element: <Navigate to={ROUTES_PATH.BRIDGE} />,
     key: '',
-  },
-  {
-    path: ROUTES_PATH.BOBASCOPE,
-    element: <BobaScope />,
-    key: 'bobascope',
   },
 ]
 

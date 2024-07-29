@@ -32,7 +32,6 @@ type RoutesPathType = {
   EARN: string
   LOCK: string
   STAKE: string
-  BOBASCOPE: string
   DAO: string
 }
 
@@ -42,7 +41,6 @@ export const ROUTES_PATH: RoutesPathType = {
   EARN: '/earn',
   LOCK: '/lock',
   STAKE: '/stake',
-  BOBASCOPE: '/bobascope',
   DAO: '/dao',
 }
 

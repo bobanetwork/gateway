@@ -29,9 +29,6 @@ export const addTokenList = () =>
 export const fetchTransactions = () =>
   createAction('TRANSACTION/GETALL', () => transactionService.getTransactions())
 
-export const fetchSevens = () =>
-  createAction('SEVENS/GETALL', () => transactionService.getSevens())
-
 export const exitBOBA = (token: string, value: BigNumberish) =>
   createAction('EXIT/CREATE', () => networkService.exitBOBA(token, value))
 

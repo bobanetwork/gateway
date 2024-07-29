@@ -1,7 +1,6 @@
 export * from 'selectors/balanceSelector'
 export * from 'selectors/bridgeSelector'
 export * from 'selectors/daoSelector'
-export * from 'selectors/dataSelector'
 export * from 'selectors/earnSelector'
 export * from 'selectors/loadingSelector'
 export * from 'selectors/networkSelector'
