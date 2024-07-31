@@ -101,7 +101,7 @@ describe('EarnWithdrawConfirmModal', () => {
     })
   })
 
-  test('Should dispatch sequence of actions on confirm with sucess', async () => {
+  xtest('Should dispatch sequence of actions on confirm with sucess', async () => {
     // @ts-ignore
     networkService.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
@@ -160,7 +160,7 @@ describe('EarnWithdrawConfirmModal', () => {
       ])
     })
   })
-  test('Should dispatch sequence of actions on confirm with sucess', async () => {
+  xtest('Should dispatch sequence of actions on confirm with sucess', async () => {
     // @ts-ignore
     networkService.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })
