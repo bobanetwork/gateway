@@ -1,19 +1,24 @@
 import { CHAIN_ID_LIST, getRpcUrl } from 'util/network/network.util'
-import appService from '../app.service'
+import appService, { L1_ETH_Address, L2_BOBA_Address } from '../app.service'
 import { MOCK_CHAIN_LIST } from '../mock/teleporation'
 import { lightBridgeService as lbs } from './teleportation.service'
 import networkService from '../networkService'
-import { Layer } from 'util/constant'
+import { LAYER, Layer } from 'util/constant'
 import { constants, Contract, providers } from 'ethers'
-import { TeleportationABI } from 'services/abi'
+import { L1ERC20ABI, L2StandardERC20ABI, TeleportationABI } from 'services/abi'
+import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 
 jest.mock('../../util/network/network.util', () => {
   const originalModule = jest.requireActual('../../util/network/network.util')
   return {
     ...originalModule,
     getRpcUrl: jest.fn(),
+    getRpcUrlByChainId: jest.fn(),
   }
 })
+jest.mock('@bobanetwork/light-bridge-chains', () => ({
+  getDestinationTokenAddress: jest.fn(),
+}))
 jest.mock('../networkService')
 jest.mock('../app.service')
 jest.mock('ethers', () => {
@@ -61,10 +66,24 @@ describe('TeleportationService', () => {
 
     test('should return L2 lightBridgeAddr for a valid L2 chainId', async () => {
       const chainId = 99
-      CHAIN_ID_LIST[chainId] = MOCK_CHAIN_LIST[chainId]
+      CHAIN_ID_LIST[chainId] = {
+        ...MOCK_CHAIN_LIST[chainId],
+        layer: LAYER.L2,
+      }
       const result = await lbs.getLightBridgeAddress({ chainId })
       expect(result.lightBridgeAddress).toBe('L2_TELEPORTATION')
-      expect(result.destChainConfig).toBe(MOCK_CHAIN_LIST[chainId])
+      expect(result.destChainConfig).toBe(CHAIN_ID_LIST[chainId])
+    })
+
+    test('should return destChainConfig as null in case missmatch layer', async () => {
+      const chainId = 99
+      CHAIN_ID_LIST[chainId] = {
+        ...MOCK_CHAIN_LIST[chainId],
+        layer: 'l3',
+      }
+      const result = await lbs.getLightBridgeAddress({ chainId })
+      expect(result.lightBridgeAddress).toBeUndefined()
+      expect(result.destChainConfig).toBe(CHAIN_ID_LIST[chainId])
     })
     test('should use networkService.chainId if chainId is not provided and L1ORL2 is l1', async () => {
       const chainId = 88
@@ -72,6 +91,15 @@ describe('TeleportationService', () => {
       networkService.L1orL2 = Layer.L1
       CHAIN_ID_LIST[chainId] = MOCK_CHAIN_LIST[chainId]
       const result = await lbs.getLightBridgeAddress({})
+      expect(result.lightBridgeAddress).toBe('L1_TELEPORTATION')
+      expect(result.destChainConfig).toBe(MOCK_CHAIN_LIST[chainId])
+    })
+    test('should use networkService.chainId if chainId is not provided and L1ORL2 is l1', async () => {
+      const chainId = 88
+      networkService.chainId = chainId
+      networkService.L1orL2 = Layer.L1
+      CHAIN_ID_LIST[chainId] = MOCK_CHAIN_LIST[chainId]
+      const result = await lbs.getLightBridgeAddress()
       expect(result.lightBridgeAddress).toBe('L1_TELEPORTATION')
       expect(result.destChainConfig).toBe(MOCK_CHAIN_LIST[chainId])
     })
@@ -248,11 +276,130 @@ describe('TeleportationService', () => {
     })
   })
 
+  describe('getDisburserBalance', () => {
+    let contractMock: any
+    let getSignerMock: any
+    let getBalanceMock: any
+    const l2ETHAddress = 'l2ETHAddress'
+    const destAddress = '0xDestAddress'
+    const destChainId = '1'
+    const sourceChainId = '9'
+    const tokenAddress = '0xTokenAddress'
+    beforeEach(() => {
+      getSignerMock = jest.fn().mockReturnValue({})
+      getBalanceMock = jest.fn().mockReturnValue(10)
+      ;(
+        providers.StaticJsonRpcProvider as unknown as jest.Mock
+      ).mockReturnValue({
+        getSigner: getSignerMock,
+        getBalance: getBalanceMock,
+      })
+      contractMock = {
+        balanceOf: jest.fn().mockResolvedValue(20),
+        disburser: jest.fn().mockResolvedValue('0xdisburser'),
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+      networkService.addresses = {
+        L2_ETH_ADDRESS: l2ETHAddress,
+      }
+      ;(getDestinationTokenAddress as unknown as jest.Mock).mockReturnValue(
+        destAddress
+      )
+      jest.spyOn(lbs, 'getLightBridgeContract').mockResolvedValue(contractMock)
+    })
+    afterEach(() => {
+      jest.clearAllMocks()
+    })
+
+    it('should return correct balance for L1 with correct contract invokation ', async () => {
+      networkService.L1orL2 = 'L1'
+      const result = await lbs.getDisburserBalance({
+        destChainId,
+        sourceChainId,
+        tokenAddress,
+      })
+      expect(Contract).toHaveBeenCalledWith(destAddress, L2StandardERC20ABI, {
+        getSigner: getSignerMock,
+        getBalance: getBalanceMock,
+      })
+      expect(result).toBe(20)
+    })
+
+    it('should return correct balance for L2 with correct contract invokation ', async () => {
+      networkService.L1orL2 = 'L2'
+      const result = await lbs.getDisburserBalance({
+        destChainId,
+        sourceChainId,
+        tokenAddress,
+      })
+      expect(Contract).toHaveBeenCalledWith(destAddress, L1ERC20ABI, {
+        getSigner: getSignerMock,
+        getBalance: getBalanceMock,
+      })
+      expect(result).toBe(20)
+    })
+
+    it('should return correct balance for L1 incase of native token', async () => {
+      networkService.L1orL2 = 'L2'
+      ;(getDestinationTokenAddress as unknown as jest.Mock).mockReturnValue(
+        constants.AddressZero
+      )
+      const result = await lbs.getDisburserBalance({
+        destChainId,
+        sourceChainId,
+        tokenAddress,
+      })
+      expect(getBalanceMock).toHaveBeenCalledWith('0xdisburser')
+      expect(result).toBe(10)
+    })
+
+    it('should return 0 incase of invalid lightBridgeContract', async () => {
+      networkService.L1orL2 = 'L2'
+      jest.spyOn(lbs, 'getLightBridgeContract').mockResolvedValue(null)
+
+      const result = await lbs.getDisburserBalance({
+        destChainId,
+        sourceChainId,
+        tokenAddress,
+      })
+      expect(result).toBe(0)
+    })
+    it('should return 0 incase of invalid disburser address', async () => {
+      networkService.L1orL2 = 'L2'
+      contractMock.disburser.mockResolvedValue(null)
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+      const result = await lbs.getDisburserBalance({
+        destChainId,
+        sourceChainId,
+        tokenAddress,
+      })
+      expect(result).toBe(0)
+    })
+    it('should change token address to L1ETH in case of L2 Boba Address', async () => {
+      networkService.L1orL2 = 'L2'
+
+      const result = await lbs.getDisburserBalance({
+        destChainId,
+        sourceChainId,
+        tokenAddress: L2_BOBA_Address,
+      })
+
+      expect(getDestinationTokenAddress).toHaveBeenCalled()
+      expect(getDestinationTokenAddress).toHaveBeenCalledWith(
+        L1_ETH_Address,
+        sourceChainId,
+        destChainId
+      )
+
+      expect(result).toBe(20)
+    })
+  })
+
   describe('deposit', () => {
     let contractMock: any
     let getSignerMock: any
+    let tokenAddress = '0xNativeTokenAddress'
     const lightBridgeAddress = '0xL2ProxyAddress'
-    const tokenAddress = '0xNativeTokenAddress'
     const value = '1000'
     const destChainId = 123
     let layer = 'L1'
@@ -307,8 +454,36 @@ describe('TeleportationService', () => {
       )
     })
 
+    it('should deposit correctly L1 -> L2 with L1_ETH_ADDRESS', async () => {
+      const txMock = { wait: jest.fn() }
+      networkService.addresses.L1_ETH_Address = L1_ETH_Address
+
+      contractMock.teleportAsset.mockResolvedValue(txMock)
+
+      const result = await lbs.deposit({
+        layer,
+        tokenAddress: L1_ETH_Address,
+        value,
+        destChainId,
+      })
+
+      expect(result).toBe(true)
+      expect(txMock.wait).toHaveBeenCalled()
+      expect(contractMock.supportedTokens).toHaveBeenCalledWith(
+        constants.AddressZero,
+        destChainId
+      )
+      expect(contractMock.teleportAsset).toHaveBeenCalledWith(
+        constants.AddressZero,
+        value,
+        destChainId,
+        { value }
+      )
+    })
+
     it('should deposit correctly L1 -> L2 with Different Token', async () => {
       layer = 'L2'
+      tokenAddress = 'tokenAddress'
 
       networkService.addresses = {
         ...networkService.addresses,
@@ -336,7 +511,7 @@ describe('TeleportationService', () => {
         tokenAddress,
         value,
         destChainId,
-        { value }
+        {}
       )
     })
 
