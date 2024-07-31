@@ -33,6 +33,10 @@ describe('BridgeService', () => {
   let depositERC20Wait: any
   let depositERC20Mock: any
   beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {
+      return
+    })
+
     networkService.account = '0xAccount'
     networkService.addresses.OptimismPortalProxy = '0xOP'
     networkService.addresses.L1StandardBridgeProxy = '0xL1SB'
