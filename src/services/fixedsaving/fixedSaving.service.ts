@@ -8,6 +8,9 @@ import { Network } from 'util/network/network.util'
 
 class FixedSavingService {
   loadBobaTokenContract() {
+    if (!networkService.account) {
+      throw new Error(`${ERROR_CODE} wallet not connected!`)
+    }
     let l2SecondaryFeeTokenAddress = L2_SECONDARYFEETOKEN_ADDRESS
     if (
       networkService.tokenAddresses &&
@@ -69,16 +72,12 @@ class FixedSavingService {
       const approvalGas_BN = await networkService.provider!.estimateGas(tx1)
       approvalCost_BN = approvalGas_BN.mul(gasPrice_BN)
 
-      const FixedSavings = new Contract(
-        networkService.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        networkService.provider
-      )
+      const FixedSavings = this.loadFixedSavingContract()
 
-      const tx2 = await FixedSavings.populateTransaction.stake(
-        allowance_BN.toString(),
-        otherField
-      )
+      const tx2 = await FixedSavings.connect(
+        networkService.provider!
+      ).populateTransaction.stake(allowance_BN.toString(), otherField)
+
       const stakeGas_BN = await networkService.provider!.estimateGas(tx2)
       stakeCost_BN = stakeGas_BN.mul(gasPrice_BN)
 
