@@ -12,6 +12,11 @@ describe('useAmountToReceive', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
 
+  beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
   test('Should return undefined if token is not defined', async () => {
     const initialState = {
       ...mockedInitialState,

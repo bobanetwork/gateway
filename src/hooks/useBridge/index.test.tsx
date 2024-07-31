@@ -20,7 +20,7 @@ jest.mock('services/bridge/bridge.services', () => {
   }
 })
 
-jest.mock('services/teleportation.service', () => {
+jest.mock('services/teleportation/teleportation.service', () => {
   return {
     deposit: jest.fn(),
     getLightBridgeAddress: jest.fn(),

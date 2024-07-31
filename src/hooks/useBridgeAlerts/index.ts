@@ -286,6 +286,7 @@ const useBridgeAlerts = () => {
         keys: [ALERT_KEYS.EXIT_ERROR],
       })
     )
+    // TODO: cleanup on anchorage migration.
     if (
       layer === LAYER.L2 &&
       bridgeType !== BRIDGE_TYPE.LIGHT &&

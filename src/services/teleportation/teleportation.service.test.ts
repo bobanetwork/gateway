@@ -5,8 +5,8 @@ import { lightBridgeService as lbs } from './teleportation.service'
 import networkService from '../networkService'
 import { Layer } from 'util/constant'
 
-jest.mock('./networkService')
-jest.mock('./app.service')
+jest.mock('../networkService')
+jest.mock('../app.service')
 
 const addresses = {
   Proxy__L1Teleportation: 'L1_TELEPORTATION',

@@ -17,13 +17,23 @@
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import networkService from 'services/networkService'
-import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
+import earnService from 'services/earn/earn.service'
 import { LiquidityPoolLayer } from 'types/earn.types'
+import { createAction } from './createAction'
 
 const getEarnInfoBegin = () => ({
   type: 'GET_EARNINFO',
+})
+
+export const updateWithdrawToken = (withdrawToken: any) => ({
+  type: 'UPDATE_WITHDRAW_TOKEN',
+  payload: withdrawToken,
+})
+
+export const updateWithdrawPayload = (withdrawToken: any) => ({
+  type: 'UPDATE_WITHDRAW_PAYLOAD',
+  payload: withdrawToken,
 })
 
 const getEarnInfoSuccess = (
@@ -39,34 +49,24 @@ const getEarnInfoSuccess = (
 export const getEarnInfo = () => async (dispatch) => {
   dispatch(getEarnInfoBegin())
   const [L1LPInfo, L2LPInfo] = await Promise.all([
-    networkService.getL1LPInfo(),
-    networkService.getL2LPInfo(),
+    earnService.loadL1LpInfo(),
+    earnService.loadL2LpInfo(),
   ])
   dispatch(
     getEarnInfoSuccess(
-      L1LPInfo.poolInfo,
-      L1LPInfo.userInfo,
-      L2LPInfo.poolInfo,
-      L2LPInfo.userInfo
+      (L1LPInfo as any).poolInfo,
+      (L1LPInfo as any).userInfo,
+      (L2LPInfo as any).poolInfo,
+      (L2LPInfo as any).userInfo
     )
   )
 }
 
-export const updateWithdrawToken = (withdrawToken: any) => ({
-  type: 'UPDATE_WITHDRAW_TOKEN',
-  payload: withdrawToken,
-})
-
-export const updateWithdrawPayload = (withdrawToken: any) => ({
-  type: 'UPDATE_WITHDRAW_PAYLOAD',
-  payload: withdrawToken,
-})
-
 export const fetchL1LPBalance = (currency: string) =>
-  createAction('FETCH/L1LPBALANCE', () => networkService.L1LPBalance(currency))
+  createAction('FETCH/L1LPBALANCE', () => earnService.loadL1LpBalance(currency))
 
 export const fetchL2LPBalance = (currency: string) =>
-  createAction('FETCH/L2LPBALANCE', () => networkService.L2LPBalance(currency))
+  createAction('FETCH/L2LPBALANCE', () => earnService.loadL2LpBalance(currency))
 
 export const getReward = (
   currencyAddress: string,
@@ -74,18 +74,22 @@ export const getReward = (
   L1orL2Pool: LiquidityPoolLayer
 ) =>
   createAction('EARN/HARVEST', () =>
-    networkService.getReward(currencyAddress, value_Wei_String, L1orL2Pool)
+    earnService.loadReward({
+      currencyAddress,
+      value_Wei_String,
+      L1orL2Pool,
+    })
   )
 
 export const withdrawLiquidity = (
-  currencyAddress: string,
+  currency: string,
   value_Wei_String: string,
   L1orL2Pool: LiquidityPoolLayer
 ) =>
   createAction('EARN/WITHDRAW', () =>
-    networkService.withdrawLiquidity(
-      currencyAddress,
+    earnService.withdrawLiquidity({
+      currency,
+      L1orL2Pool,
       value_Wei_String,
-      L1orL2Pool
-    )
+    })
   )

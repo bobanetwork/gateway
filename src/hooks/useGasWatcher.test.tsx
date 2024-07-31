@@ -5,8 +5,11 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { fetchGasDetail } from 'services/gas.service'
-import networkService from 'services/networkService'
+import {
+  estimateL1SecurityFee,
+  estimateL2Fee,
+  fetchGasDetail,
+} from 'services/gas.service'
 import { Network, NetworkType } from 'util/network/network.util'
 import useGasWatcher from './useGasWatcher'
 
@@ -44,8 +47,8 @@ describe('UseGasWatcher', () => {
       blockL1: 110000,
       blockL2: 220000,
     })
-    ;(networkService.estimateL1SecurityFee as jest.Mock).mockResolvedValue(10)
-    ;(networkService.estimateL2Fee as jest.Mock).mockResolvedValue(20)
+    ;(estimateL1SecurityFee as jest.Mock).mockResolvedValue(10)
+    ;(estimateL2Fee as jest.Mock).mockResolvedValue(20)
   })
 
   test('should work as expected incase of ETHEREUM network ', async () => {

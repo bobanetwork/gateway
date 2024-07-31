@@ -36,9 +36,9 @@ import { PlaceholderConnect } from 'components/global/placeholderConnect'
 import { Typography } from 'components/global/typography'
 import TransactionList from 'components/stake/transactionList'
 import { BigNumber, utils } from 'ethers'
-import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
 
+import { fetchBalances } from 'actions/networkAction'
 import useInterval from 'hooks/useInterval'
 import {
   selectFixed,
@@ -46,9 +46,9 @@ import {
   selectlayer2Balance,
   selectSetup,
 } from 'selectors'
+import fixedSavingService from 'services/fixedsaving/fixedSaving.service'
 import styled from 'styled-components'
 import { POLL_INTERVAL } from 'util/constant'
-import { fetchBalances } from 'actions/networkAction'
 
 const OutputLabel = styled(Typography).attrs({
   variant: 'title',
@@ -84,6 +84,7 @@ const Save = () => {
       dispatch(getFS_Saves())
       dispatch(getFS_Info())
       getMaxTransferValue()
+      // TODO: instead of loading all token balances fetch only boba L2 balance
       dispatch(fetchBalances())
     }
   }, [accountEnabled])
@@ -102,6 +103,7 @@ const Save = () => {
 
   const getMaxTransferValue = async () => {
     // as staking BOBA check the bobabalance
+
     const token: any = Object.values(layer2).find(
       (t: any) => t['symbolL2'] === 'BOBA'
     )
@@ -112,7 +114,7 @@ const Save = () => {
       let fee = '0'
 
       if (netLayer === 'L2') {
-        const cost_BN: any = await networkService.savingEstimate()
+        const cost_BN: any = await fixedSavingService.savingEstimate()
 
         if (bobaFeeChoice) {
           // we are staking BOBA and paying in BOBA
