@@ -90,7 +90,7 @@ describe('TeleportationService', () => {
     })
   })
 
-  describe('GetLIghtBridgeContract', () => {
+  describe('GetLightBridgeContract', () => {
     beforeEach(() => {
       jest.spyOn(lbs, 'getLightBridgeAddress').mockResolvedValue({
         lightBridgeAddress: addresses.Proxy__L1Teleportation,

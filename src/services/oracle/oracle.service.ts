@@ -45,13 +45,12 @@ class OracleService {
 
   async switchFeeToken(targetFee: string) {
     try {
-      if (networkService.L1orL2 !== 'L2') {
-        return
-      }
-
       const account = networkService.account
       if (!account) {
         throw new Error(`${ERROR_CODE} wallet not connected!`)
+      }
+      if (networkService.L1orL2 !== 'L2') {
+        throw new Error(`${ERROR_CODE} on L1 network switch to L2 network!`)
       }
       if (!networkService.addresses.Boba_GasPriceOracle) {
         throw new Error(`${ERROR_CODE} invalid oracle address!`)
