@@ -127,6 +127,7 @@ class DaoService {
       await tx.wait()
       return tx
     } catch (error) {
+      console.log(error)
       return error
     }
   }
