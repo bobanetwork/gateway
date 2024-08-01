@@ -16,7 +16,7 @@
     "prepare": "husky install",
     "start": "GENERATE_SOURCEMAP=false react-app-rewired start",
     "test": "TZ=utc react-scripts test --watchAll=false",
-    "test:coverage": "yarn test --coverage",
+    "test:coverage": "yarn test --coverage && jest-coverage-badges output \"./badges\" ",
     "test:u": "yarn test -u",
     "test:w": "yarn test --watchAll=true"
   },
@@ -113,6 +113,7 @@
     "eslint-plugin-testing-library": "^6.2.0",
     "eslint-plugin-unicorn": "^50.0.1",
     "husky": "^8.0.3",
+    "jest-coverage-badges": "^1.1.2",
     "jest-styled-components": "^7.1.1",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
@@ -132,14 +133,19 @@
       "src/layout/**/*.tsx",
       "src/util/**/*.ts",
       "src/services/**/*.ts",
+      "src/containers/Home/index.tsx",
       "!src/actions/**/*.ts",
       "!src/api/**/*.ts",
       "!src/selectors/**/*.ts",
       "!src/reducers/**/*.ts",
       "!src/store/**/*.tsx",
-      "!src/containers/Home/index.tsx",
       "!src/**/types.{ts,tsx}",
       "!src/**/style.{ts,tsx}"
+    ],
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
     ]
   },
   "resolutions": {
