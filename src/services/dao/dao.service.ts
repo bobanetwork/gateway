@@ -274,6 +274,7 @@ class DaoService {
         description = `Change Proposal Threshold to ${value1} BOBA`
         callData = [defaultAbiCoder.encode(['uint256'], [value1])]
       }
+      // TODO: should return or throw error incase no action matches.
       const values = [0] // amount of ETH to send, generally, zero
       return await delegateCheck
         .connect(networkService.provider!.getSigner())

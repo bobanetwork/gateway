@@ -480,6 +480,15 @@ describe('DaoService', () => {
         )
         expect(result).toBe('PROPOSE')
       })
+      it('should call create proposal with values for invalid action', async () => {
+        const result = await daoService.createProposal({
+          action: 'change',
+          value: [1, 2, 3],
+        })
+        expect(proposeMock).toHaveBeenCalled()
+        expect(proposeMock).toHaveBeenCalledWith([''], [0], [''], [''], '')
+        expect(result).toBe('PROPOSE')
+      })
 
       it('should throw error incase contract function fails', async () => {
         contractMock = {
