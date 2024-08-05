@@ -15,7 +15,7 @@ import { Network } from 'util/network/network.util'
 
 export class EarnService {
   loadL1LpContract() {
-    if (networkService.addresses.L1LPAddress) {
+    if (!networkService.addresses.L1LPAddress) {
       throw new Error(`${ERROR_CODE} L1LpAddress not found!`)
     }
     return new Contract(
