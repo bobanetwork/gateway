@@ -26,7 +26,9 @@ jest.mock('../networkService')
 
 describe('OracleService', () => {
   beforeEach(() => {
-    // jest.spyOn(console, 'log').mockImplementation(() => { })
+    jest.spyOn(console, 'log').mockImplementation(() => {
+      return
+    })
   })
 
   describe('getBobaFeeChoice', () => {
