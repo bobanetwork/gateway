@@ -26,6 +26,17 @@ const networkNames = {
   },
 }
 
+const withDrawalNetworkNames = {
+  eth: {
+    toNetwork: 'Ethereum (Sepolia)',
+    fromNetwork: 'Boba (Sepolia)',
+  },
+  bnb: {
+    toNetwork: 'BNB Testnet',
+    fromNetwork: 'Boba BNB Testnet',
+  },
+}
+
 export class GatewayAction {
   basePage: BasePage
   bridgePage: BridgePage
@@ -96,7 +107,7 @@ export class GatewayAction {
     await this.bridgePage.validateAndConfirmBridging({
       amount: amountToBridge,
       token: tokenSymbol,
-      ...networkNames[networkKey],
+      ...withDrawalNetworkNames[networkKey],
       estimatedTime: '7 days',
     })
     await this.bridgePage.reviewAndInitiateWithdrawal()
