@@ -9,7 +9,7 @@ import { formatDate } from 'util/dates'
 import { DayPicker, DateRange } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 
-export interface IDatePickerProps {
+interface IDatePickerProps {
   selected: Date
   timeFormat?: string
   onChange: Function

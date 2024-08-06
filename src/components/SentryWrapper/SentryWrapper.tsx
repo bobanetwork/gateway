@@ -13,7 +13,7 @@ interface ISentryWrapperProps {
   children: React.ReactNode
 }
 
-export const BobaLogo = styled.div`
+const BobaLogo = styled.div`
   width: 50px;
   height: 54px;
   background: ${`url(${BobaLogoImage}) no-repeat`};
@@ -100,7 +100,7 @@ const SentryWrapper = (props: ISentryWrapperProps) => {
         initialScope: {
           tags: { network, networkType },
         },
-        beforeSend: (event, hint) => {
+        beforeSend: (event) => {
           // Avoid sending the sentry events on local env.
           if (window.location.hostname === 'localhost') {
             return null

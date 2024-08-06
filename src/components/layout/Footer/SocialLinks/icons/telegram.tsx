@@ -1,8 +1,6 @@
 import React from 'react'
 
-interface Props {}
-
-const TelegramIcon = (props: Props) => {
+const TelegramIcon = () => {
   return (
     <svg
       width="24"

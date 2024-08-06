@@ -3,24 +3,24 @@
 exports[`EarnList  should match snapshot in case no data 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fqkvVR fuyRCw sc-iGgWBj cCxFlv"
+    class="sc-eqUAAy jWPfJu sc-jEACwC dAlFxs"
   >
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 225px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Token
       </p>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 145px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Available Balance
       </p>
@@ -38,11 +38,11 @@ exports[`EarnList  should match snapshot in case no data 1`] = `
       </svg>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 115px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Total Staked
       </p>
@@ -60,11 +60,11 @@ exports[`EarnList  should match snapshot in case no data 1`] = `
       </svg>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 85px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         APR
       </p>
@@ -82,38 +82,38 @@ exports[`EarnList  should match snapshot in case no data 1`] = `
       </svg>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 90px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Your Stake
       </p>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 110px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Earned
       </p>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 75px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Actions
       </p>
     </div>
   </div>
   <div
-    class="sc-fHjqPf kAuoON"
+    class="sc-hzhJZQ dWUUbl"
   >
     <span
       class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
@@ -141,24 +141,24 @@ exports[`EarnList  should match snapshot in case no data 1`] = `
 exports[`EarnList  should match snapshot with data 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fqkvVR fuyRCw sc-iGgWBj cCxFlv"
+    class="sc-eqUAAy jWPfJu sc-jEACwC dAlFxs"
   >
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 225px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Token
       </p>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 145px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Available Balance
       </p>
@@ -176,11 +176,11 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </svg>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 115px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Total Staked
       </p>
@@ -198,11 +198,11 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </svg>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 85px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         APR
       </p>
@@ -220,74 +220,74 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </svg>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 90px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Your Stake
       </p>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 110px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Earned
       </p>
     </div>
     <div
-      class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+      class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
       style="max-width: 75px;"
     >
       <p
-        class="sc-gEvEer hiDcmV sc-eqUAAy jSVBRG"
+        class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
       >
         Actions
       </p>
     </div>
   </div>
   <div
-    class="sc-hzhJZQ jXgdnO"
+    class="sc-fUnMCh hTxGwK"
   >
     <div
-      class="sc-dAbbOL kfujas"
+      class="sc-ikkxIA ciecAv"
       data-testid="earn-list-item"
     >
       <div
-        class="sc-fqkvVR fuyRCw sc-gsFSXq djGaQM"
+        class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
       >
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 225px;"
         >
           <div
-            class="sc-fqkvVR fuyRCw sc-kpDqfm fYCSlX"
+            class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
           >
             <div
-              class="sc-dcJsrY jqXhqy"
+              class="sc-fqkvVR jAPbXp"
             >
               <div
-                class="sc-fqkvVR fuyRCw"
+                class="sc-eqUAAy jWPfJu"
               >
                 <div>
                   <img
                     alt="logo"
-                    class="sc-dhKdcB ldcSKy"
+                    class="sc-dcJsrY khyFAh"
                     src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/boba.svg"
                   />
                 </div>
                 <div>
                   <p
-                    class="sc-imWYAI lgSgkc"
+                    class="sc-aXZVg ijoHgY"
                   >
                     BOBA
                   </p>
                   <p
-                    class="sc-jXbUNg iWjFhm"
+                    class="sc-gEvEer lhNhhM"
                   >
                     Boba Token
                   </p>
@@ -297,65 +297,65 @@ exports[`EarnList  should match snapshot with data 1`] = `
           </div>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 145px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             99.95k
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 115px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             100.00k
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 85px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0.00
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 90px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 110px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 75px;"
         >
           <div
-            class="sc-feUZmu ceIvoQ"
+            class="sc-dAbbOL iqwBcO"
             data-testid="action-btn"
           >
             <div
-              class="sc-fUnMCh euYGlO"
+              class="sc-feUZmu kjINkZ"
             >
               <div>
                 <div
@@ -369,40 +369,40 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </div>
     </div>
     <div
-      class="sc-dAbbOL kfujas"
+      class="sc-ikkxIA ciecAv"
       data-testid="earn-list-item"
     >
       <div
-        class="sc-fqkvVR fuyRCw sc-gsFSXq djGaQM"
+        class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
       >
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 225px;"
         >
           <div
-            class="sc-fqkvVR fuyRCw sc-kpDqfm fYCSlX"
+            class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
           >
             <div
-              class="sc-dcJsrY jqXhqy"
+              class="sc-fqkvVR jAPbXp"
             >
               <div
-                class="sc-fqkvVR fuyRCw"
+                class="sc-eqUAAy jWPfJu"
               >
                 <div>
                   <img
                     alt="logo"
-                    class="sc-dhKdcB ldcSKy"
+                    class="sc-dcJsrY khyFAh"
                     src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/eth.svg"
                   />
                 </div>
                 <div>
                   <p
-                    class="sc-imWYAI lgSgkc"
+                    class="sc-aXZVg ijoHgY"
                   >
                     ETH
                   </p>
                   <p
-                    class="sc-jXbUNg iWjFhm"
+                    class="sc-gEvEer lhNhhM"
                   >
                     ETH
                   </p>
@@ -412,65 +412,65 @@ exports[`EarnList  should match snapshot with data 1`] = `
           </div>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 145px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0.85
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 115px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0.61
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 85px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0.10
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 90px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 110px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 75px;"
         >
           <div
-            class="sc-feUZmu ceIvoQ"
+            class="sc-dAbbOL iqwBcO"
             data-testid="action-btn"
           >
             <div
-              class="sc-fUnMCh euYGlO"
+              class="sc-feUZmu kjINkZ"
             >
               <div>
                 <div
@@ -484,40 +484,40 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </div>
     </div>
     <div
-      class="sc-dAbbOL kfujas"
+      class="sc-ikkxIA ciecAv"
       data-testid="earn-list-item"
     >
       <div
-        class="sc-fqkvVR fuyRCw sc-gsFSXq djGaQM"
+        class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
       >
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 225px;"
         >
           <div
-            class="sc-fqkvVR fuyRCw sc-kpDqfm fYCSlX"
+            class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
           >
             <div
-              class="sc-dcJsrY jqXhqy"
+              class="sc-fqkvVR jAPbXp"
             >
               <div
-                class="sc-fqkvVR fuyRCw"
+                class="sc-eqUAAy jWPfJu"
               >
                 <div>
                   <img
                     alt="logo"
-                    class="sc-dhKdcB ldcSKy"
+                    class="sc-dcJsrY khyFAh"
                     src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/omg.svg"
                   />
                 </div>
                 <div>
                   <p
-                    class="sc-imWYAI lgSgkc"
+                    class="sc-aXZVg ijoHgY"
                   >
                     OMG
                   </p>
                   <p
-                    class="sc-jXbUNg iWjFhm"
+                    class="sc-gEvEer lhNhhM"
                   >
                     OMG Token
                   </p>
@@ -527,65 +527,65 @@ exports[`EarnList  should match snapshot with data 1`] = `
           </div>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 145px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 115px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 85px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0.00
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 90px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 110px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 75px;"
         >
           <div
-            class="sc-feUZmu ceIvoQ"
+            class="sc-dAbbOL iqwBcO"
             data-testid="action-btn"
           >
             <div
-              class="sc-fUnMCh euYGlO"
+              class="sc-feUZmu kjINkZ"
             >
               <div>
                 <div
@@ -599,40 +599,40 @@ exports[`EarnList  should match snapshot with data 1`] = `
       </div>
     </div>
     <div
-      class="sc-dAbbOL kfujas"
+      class="sc-ikkxIA ciecAv"
       data-testid="earn-list-item"
     >
       <div
-        class="sc-fqkvVR fuyRCw sc-gsFSXq djGaQM"
+        class="sc-eqUAAy jWPfJu sc-cPiKLX hekCwR"
       >
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 225px;"
         >
           <div
-            class="sc-fqkvVR fuyRCw sc-kpDqfm fYCSlX"
+            class="sc-eqUAAy jWPfJu sc-iGgWBj xSUkw"
           >
             <div
-              class="sc-dcJsrY jqXhqy"
+              class="sc-fqkvVR jAPbXp"
             >
               <div
-                class="sc-fqkvVR fuyRCw"
+                class="sc-eqUAAy jWPfJu"
               >
                 <div>
                   <img
                     alt="logo"
-                    class="sc-dhKdcB ldcSKy"
+                    class="sc-dcJsrY khyFAh"
                     src="https://raw.githubusercontent.com/bobanetwork/token-list/main/assets/usdc.svg"
                   />
                 </div>
                 <div>
                   <p
-                    class="sc-imWYAI lgSgkc"
+                    class="sc-aXZVg ijoHgY"
                   >
                     USDC
                   </p>
                   <p
-                    class="sc-jXbUNg iWjFhm"
+                    class="sc-gEvEer lhNhhM"
                   >
                     USD Coin
                   </p>
@@ -642,65 +642,65 @@ exports[`EarnList  should match snapshot with data 1`] = `
           </div>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 145px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 115px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 85px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0.00
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 90px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 110px;"
         >
           <p
-            class="sc-gEvEer hiDcmV"
+            class="sc-dAlyuH eGlSty"
           >
             0
           </p>
         </div>
         <div
-          class="sc-fqkvVR fuyRCw sc-kAyceB xJAbn"
+          class="sc-eqUAAy jWPfJu sc-dLMFU hPWVSa"
           style="max-width: 75px;"
         >
           <div
-            class="sc-feUZmu ceIvoQ"
+            class="sc-dAbbOL iqwBcO"
             data-testid="action-btn"
           >
             <div
-              class="sc-fUnMCh euYGlO"
+              class="sc-feUZmu kjINkZ"
             >
               <div>
                 <div

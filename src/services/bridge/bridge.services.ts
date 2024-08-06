@@ -44,7 +44,7 @@ export class BridgeService {
   async anchorageDepositNative({ recipient, amount }: IDepositNative) {
     try {
       if (!networkService.account) {
-        throw new Error(`${ERROR_CODE} wallet not connected`)
+        throw new Error(`${ERROR_CODE} wallet not connected!`)
       }
 
       if (!networkService.addresses.OptimismPortalProxy) {
@@ -199,7 +199,7 @@ export class BridgeService {
       const signer = networkService.provider?.getSigner()
 
       if (!signer) {
-        throw new Error(`${ERROR_CODE} no signer found!`)
+        throw new Error(`${ERROR_CODE} no signer found`)
       }
 
       const bobaL1Contract = new Contract(

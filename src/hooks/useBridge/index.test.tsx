@@ -1,18 +1,18 @@
 /* eslint-disable */
 
+import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { renderHook } from '@testing-library/react-hooks'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
 import { mockedInitialState } from 'util/tests'
 
 import networkService from 'services/networkService'
-import { lightBridgeService } from 'services/teleportation.service'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 
-import useBridge from '.'
 import { bridgeService } from 'services'
+import useBridge from '.'
 
 jest.mock('services/bridge/bridge.services', () => {
   return {
@@ -20,7 +20,7 @@ jest.mock('services/bridge/bridge.services', () => {
   }
 })
 
-jest.mock('services/teleportation.service', () => {
+jest.mock('services/teleportation/teleportation.service', () => {
   return {
     deposit: jest.fn(),
     getLightBridgeAddress: jest.fn(),

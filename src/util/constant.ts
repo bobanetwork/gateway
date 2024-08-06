@@ -19,7 +19,7 @@ export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
 
-export const GATEWAY_DATA_BRANCH: EnvType =
+const GATEWAY_DATA_BRANCH: EnvType =
   process.env.REACT_APP_GATEWAY_DATA_BRANCH || 'main'
 
 /*********************
@@ -30,22 +30,16 @@ type RoutesPathType = {
   BRIDGE: string
   HISTORY: string
   EARN: string
-  LOCK: string
   STAKE: string
-  BOBASCOPE: string
   DAO: string
-  DEV_TOOLS: string
 }
 
 export const ROUTES_PATH: RoutesPathType = {
   BRIDGE: '/bridge',
   HISTORY: '/history',
   EARN: '/earn',
-  LOCK: '/lock',
   STAKE: '/stake',
-  BOBASCOPE: '/bobascope',
   DAO: '/dao',
-  DEV_TOOLS: '/devtools',
 }
 
 type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum'

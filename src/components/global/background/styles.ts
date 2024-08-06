@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { BackgroundProps } from './types'
 const gridHeight = '200vh'
 

@@ -3,17 +3,17 @@
 exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
 <DocumentFragment>
   <div
-    class="sc-eldPxv gUXUgi"
+    class="sc-eDPEul dyZNAM"
   >
     <div
-      class="sc-fPXMVe hfLOQC"
+      class="sc-eldPxv hwtUUV"
     >
       <div
-        class="sc-gFqAkR fsTZwS warning activeSlide"
+        class="sc-fPXMVe kWXXYu warning activeSlide"
         data-testid="banner-item"
       >
         <div
-          class="sc-ikkxIA kkCcKf"
+          class="sc-gFqAkR gGVGUm"
         >
           <p>
             Message update 1 
@@ -25,14 +25,14 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
           </p>
         </div>
         <div
-          class="sc-dAbbOL bqUnLe"
+          class="sc-ikkxIA lkyGHt"
         >
           <div
-            class="sc-feUZmu kDoDsn"
+            class="sc-dAbbOL dbuxkF"
             data-testid="close-icon-message-1"
           >
             <div
-              class="sc-hzhJZQ cGxMqP"
+              class="sc-fUnMCh jLRXcX"
             >
               <div>
                 <div
@@ -45,27 +45,27 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
         </div>
       </div>
       <div
-        class="sc-gFqAkR fsTZwS warning lastSlide"
+        class="sc-fPXMVe kWXXYu warning lastSlide"
         data-testid="banner-item"
       >
         <div
-          class="sc-ikkxIA kkCcKf"
+          class="sc-gFqAkR gGVGUm"
         >
           <p
-            class="sc-imWYAI dZiXLh sc-fUnMCh iwiHIW"
+            class="sc-dAlyuH eGlSty sc-feUZmu ldHMux"
           >
             message two goes here
           </p>
         </div>
         <div
-          class="sc-dAbbOL bqUnLe"
+          class="sc-ikkxIA lkyGHt"
         >
           <div
-            class="sc-feUZmu kDoDsn"
+            class="sc-dAbbOL dbuxkF"
             data-testid="close-icon-message-2"
           >
             <div
-              class="sc-hzhJZQ cGxMqP"
+              class="sc-fUnMCh jLRXcX"
             >
               <div>
                 <div
@@ -78,7 +78,7 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
         </div>
       </div>
       <button
-        class="sc-fHjqPf cKowaE prev"
+        class="sc-hzhJZQ bfNNeg prev"
       >
         <svg
           aria-hidden="true"
@@ -93,7 +93,7 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
         </svg>
       </button>
       <button
-        class="sc-fHjqPf cKowaE next"
+        class="sc-hzhJZQ bfNNeg next"
       >
         <svg
           aria-hidden="true"

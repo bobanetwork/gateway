@@ -15,9 +15,7 @@ import { logAmount } from 'util/amountConvert'
 import { LAYER } from 'util/constant'
 import { SwapAction, SwapAlert, SwapContainer } from './styles'
 
-interface Props {}
-
-const EmergencySwap: FC<Props> = (props) => {
+const EmergencySwap: FC = () => {
   const accountEnabled = useSelector(selectAccountEnabled())
   const l2Balances = useSelector(selectlayer2Balance, isEqual)
   const layer = useSelector(selectLayer())

@@ -41,7 +41,7 @@ export class BridgePage extends BasePage {
     estimatedTime: string
   }) {
     await expect(this.page.getByTestId('amountToRecieve')).toHaveText(
-      `${Number(amount).toFixed(4)} ${token}`
+      `${parseFloat(Number(amount).toFixed(4))} ${token}`
     )
 
     const estTime = await this.page
@@ -55,7 +55,9 @@ export class BridgePage extends BasePage {
       .textContent()
 
     // TODO: update value with fee calculation.
-    expect(estRecievable).toBe(`${Number(amount).toFixed(4)} ${token}`)
+    expect(estRecievable).toBe(
+      `${parseFloat(Number(amount).toFixed(4))} ${token}`
+    )
   }
 
   async clickToBridge() {

@@ -1,16 +1,21 @@
+import { renderHook } from '@testing-library/react-hooks'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import React from 'react'
-import { renderHook, act } from '@testing-library/react-hooks'
-import { useAmountToReceive } from './'
+import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { mockedInitialState } from 'util/tests'
-import { Provider } from 'react-redux'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { LAYER } from 'util/constant'
+import { mockedInitialState } from 'util/tests'
+import { useAmountToReceive } from './'
 
 describe('useAmountToReceive', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
+
+  beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+  })
 
   test('Should return undefined if token is not defined', async () => {
     const initialState = {

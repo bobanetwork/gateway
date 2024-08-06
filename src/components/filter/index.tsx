@@ -20,7 +20,7 @@ export interface IFilterDropdownItem {
   label: string | ReactNode
 }
 
-export interface IFilterDropdownProps {
+interface IFilterDropdownProps {
   error: boolean
   imgSrc: string
   items: IFilterDropdownItem[]

@@ -1,19 +1,18 @@
+import { renderHook } from '@testing-library/react-hooks'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import React from 'react'
-import { renderHook, act } from '@testing-library/react-hooks'
-import useBridgeSetup from './'
+import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { mockedInitialState } from 'util/tests'
-import { Provider } from 'react-redux'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { LAYER } from 'util/constant'
+import { mockedInitialState } from 'util/tests'
+import useBridgeSetup from './'
 
 jest.mock('services/networkService', () => {
   return {
     L2LPBalance: jest.fn(),
     L1LPPending: jest.fn(),
     L2LPPending: jest.fn(),
-    fetchLookUpPrice: jest.fn(),
     getL1TotalFeeRate: jest.fn(),
     getExitCost: jest.fn(),
     getL2BalanceETH: jest.fn(),

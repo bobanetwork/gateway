@@ -10,8 +10,6 @@ dayjs.extend(isSameOrBefore)
 dayjs.extend(isSameOrAfter)
 dayjs.extend(isBetween)
 
-export { Dayjs }
-
 type DateFormatType = (date: number, format?: string) => string
 export const formatDate: DateFormatType = (
   date,
@@ -47,10 +45,6 @@ export const isBeforeDate: IsSameAfterOrBeforeDateType = (dateA, dateB) => {
 
 export const addDaysToDate = (timestamp, day) => {
   return dayjs.unix(timestamp).add(day, 'day').unix()
-}
-
-export const addHoursToDate = (timestamp, hour) => {
-  return dayjs.unix(timestamp).add(hour, 'hour').unix()
 }
 
 export const diffBetweenTimeStamp = (time1: number, time2: number) => {

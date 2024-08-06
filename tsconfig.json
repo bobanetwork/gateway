@@ -18,6 +18,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "jsx": "react",
     "baseUrl": "src",
     "types": [

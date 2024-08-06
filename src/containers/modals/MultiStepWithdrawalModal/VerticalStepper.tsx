@@ -1,19 +1,20 @@
+import {
+  anchorageGraphQLService,
+  claimWithdrawal,
+  handleInitiateWithdrawal,
+  handleProveWithdrawal,
+  IHandleProveWithdrawalConfig,
+  MinimalNetworkService,
+} from '@bobanetwork/graphql-utils'
 import { setConnectETH } from 'actions/setupAction'
 import { closeModal, openError, openModal } from 'actions/uiAction'
-import { Heading } from 'components/global'
 import { ethers } from 'ethers'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectLayer } from 'selectors'
-import {
-  IHandleProveWithdrawalConfig,
-  claimWithdrawal,
-  handleInitiateWithdrawal,
-  handleProveWithdrawal,
-  anchorageGraphQLService,
-  MinimalNetworkService,
-} from '@bobanetwork/graphql-utils'
 import networkService from 'services/networkService'
+import { addDaysToDate, dayNowUnix, isBeforeDate } from 'util/dates'
+import { L2StandardERC20ABI } from '../../../services/abi'
 import { steps } from './config'
 import {
   ActiveStepNumberIndicator,
@@ -23,8 +24,6 @@ import {
   SecondaryActionButton,
   StepContainer,
 } from './index.styles'
-import { L2StandardERC20ABI } from '../../../services/abi'
-import { addDaysToDate, dayNowUnix, isBeforeDate } from 'util/dates'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -140,7 +139,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         })
         setLoading(false)
       })
-      .catch((err) => {
+      .catch(() => {
         setLoading(false)
         dispatch(openError(`The withdrawal initiation failed!`))
         props.handleClose()
@@ -162,7 +161,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         })
         setLoading(false)
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(openError(`The withdrawal verification failed!`))
         setLoading(false)
         props.handleClose()

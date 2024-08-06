@@ -29,8 +29,3 @@ export const sdesktop = (inner: any) => css`
     ${inner};
   }
 `
-export const desktop = (inner: any) => css`
-  @media (max-width: ${size.desktop}) {
-    ${inner};
-  }
-`

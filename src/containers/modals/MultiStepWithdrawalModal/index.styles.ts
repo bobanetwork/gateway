@@ -61,20 +61,6 @@ export const SecondaryActionButton = styled(Button)`
   }
 `
 
-export const PassiveStepIcon = styled.div`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-left: 8px;
-  margin-right: 8px;
-  background-color: ${({ theme }) =>
-    theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[400]};
-`
-
-export const PassiveStepIconActive = styled(PassiveStepIcon)`
-  background-color: ${(props) => props.theme.colors.green[300]};
-`
-
 export const Item = styled.div`
   display: flex;
   flex-direction: column;

@@ -49,7 +49,6 @@ export const ReceiveContainer = styled.div`
   flex-direction: column;
   gap: 8px;
 `
-export const DestinationAddressContainer = styled.div``
 
 export const BridgeInfoContainer = styled.div`
   width: 100%;

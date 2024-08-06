@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Switch, Input, Slider } from './styles'
+import React, { useEffect, useState } from 'react'
+import { Input, Slider, Switch } from './styles'
 import { SwitchButtonTypes } from './types'
 
 export const SwitchButton: React.FC<SwitchButtonTypes> = ({

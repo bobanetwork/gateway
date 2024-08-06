@@ -1,12 +1,12 @@
+import { renderHook } from '@testing-library/react-hooks'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { ethers } from 'ethers'
 import React from 'react'
-import { renderHook, act } from '@testing-library/react-hooks'
-import useBridgeAlerts from './'
+import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
-import { Provider } from 'react-redux'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
-import { ethers } from 'ethers'
+import useBridgeAlerts from './'
 
 const expectedActions = [
   {
@@ -48,7 +48,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -87,7 +87,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -139,7 +139,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -181,7 +181,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -212,7 +212,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -261,7 +261,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -340,7 +340,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -388,7 +388,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -430,7 +430,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -476,7 +476,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -634,7 +634,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -693,7 +693,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -744,7 +744,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -796,7 +796,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 
@@ -828,7 +828,7 @@ describe('useBridgeAlerts', () => {
     const wrapper = ({ children }) => (
       <Provider store={store}>{children}</Provider>
     )
-    const { result } = renderHook(() => useBridgeAlerts(), {
+    renderHook(() => useBridgeAlerts(), {
       wrapper,
     })
 

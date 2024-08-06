@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components'
 import BobaLogoImage from 'assets/images/boba-logo.png'
 import MenuIcon from 'assets/images/hamburger.svg'
 import { Svg } from 'components/global'
+import styled, { css } from 'styled-components'
 import { mobile } from 'themes/screens'
 
 export const HeaderContainer = styled.div`
@@ -13,7 +13,7 @@ export const HeaderContainer = styled.div`
   justify-content: flex-start;
   backdrop-filter: blur(7.5px);
   z-index: 10;
-  background: ${({ theme: { name, colors } }) =>
+  background: ${({ theme: { name } }) =>
     name === 'light' ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.05)'};
 
   ${mobile(css`
@@ -25,7 +25,7 @@ export const BobaLogo = styled.div`
   width: 30px;
   height: 32px;
   margin-right: 32px;
-  background: ${({ theme }) => `url(${BobaLogoImage}) no-repeat`};
+  background: ${() => `url(${BobaLogoImage}) no-repeat`};
   background-position: 100%;
   background-size: contain;
   ${mobile(css`

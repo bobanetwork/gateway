@@ -149,7 +149,7 @@ export class WalletService {
       }
     })
 
-    this.walletConnectProvider.on('disconnect', (res: any) => {
+    this.walletConnectProvider.on('disconnect', () => {
       store.dispatch(disconnectSetup())
       this.resetValues()
     })

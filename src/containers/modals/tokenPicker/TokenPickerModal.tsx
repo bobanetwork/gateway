@@ -62,7 +62,7 @@ interface TokenPickerModalProps {
   tokenIndex: number
 }
 
-const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
+const TokenPickerModal: FC<TokenPickerModalProps> = ({ open }) => {
   const layer = useSelector(selectLayer())
   const dispatch = useDispatch<any>()
 
@@ -189,7 +189,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
         <TokenPickerList title="tokenList">
           {balances.length > 0
             ? balances
-                .filter((token: any, index: number) => {
+                .filter((token: any) => {
                   if (layer === LAYER.L2) {
                     return !(NON_EXITABLE_TOKEN.indexOf(token.symbol) > 0)
                   }

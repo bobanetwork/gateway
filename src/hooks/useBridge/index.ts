@@ -29,7 +29,7 @@ import {
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
-import { lightBridgeService } from 'services/teleportation.service'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 import { toWei_String } from 'util/amountConvert'
 import { Layer, LAYER } from 'util/constant'
 import {
@@ -39,7 +39,7 @@ import {
   NetworkType,
 } from '../../util/network/network.util'
 
-export const useBridge = () => {
+const useBridge = () => {
   const dispatch = useDispatch<any>()
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())

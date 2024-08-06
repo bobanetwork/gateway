@@ -13,7 +13,7 @@ interface Props {
 }
 
 // Notes: show block confirmation in case of classic bridge L1 -> L2 ethereum / sepolia / bnb
-
+// TODO: remove on migration to anchorage bridging for bnb.
 const BlockConfirmation: FC<Props> = ({ onClose }) => {
   const [initialBlock, setInitialBlock] = useState<any>(0)
   const [latestBlock, setLatestBlock] = useState<any>(0)

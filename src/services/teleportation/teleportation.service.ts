@@ -3,14 +3,14 @@ import {
   getRpcUrl,
   getRpcUrlByChainId,
 } from 'util/network/network.util'
-import networkService from './networkService'
-import appService from './app.service'
+import networkService from '../networkService'
+import appService, { L1_ETH_Address, L2_BOBA_Address } from '../app.service'
 import { ERROR_CODE, Layer, LAYER } from 'util/constant'
-import { L1ERC20ABI, L2StandardERC20ABI, TeleportationABI } from './abi'
+import { L1ERC20ABI, L2StandardERC20ABI, TeleportationABI } from '../abi'
 import { constants, Contract, providers } from 'ethers'
 import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
 
-export class LightBridgeService {
+class LightBridgeService {
   async getLightBridgeAddress({ chainId }: { chainId?: number } = {}) {
     try {
       const inputChainId = chainId
@@ -96,8 +96,8 @@ export class LightBridgeService {
     tokenAddress: string
   }) {
     try {
-      if (tokenAddress === '0x4200000000000000000000000000000000000006') {
-        tokenAddress = '0x0000000000000000000000000000000000000000'
+      if (tokenAddress === L2_BOBA_Address) {
+        tokenAddress = L1_ETH_Address
       }
 
       const rpcUrl = getRpcUrlByChainId(destChainId)
@@ -131,7 +131,7 @@ export class LightBridgeService {
         throw new Error(`${ERROR_CODE} no lightbridge contract found`)
       }
 
-      const disburserAddress = contract.disburser()
+      const disburserAddress = await contract.disburser()
 
       if (!disburserAddress) {
         throw new Error(`${ERROR_CODE} invalid disburser address`)

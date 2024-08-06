@@ -1,8 +1,6 @@
 import React from 'react'
 
-interface Props {}
-
-const DiscordIcon = (props: Props) => {
+const DiscordIcon = () => {
   return (
     <svg
       width="24"

@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const BobaBnbIcon = ({ selected }) => (
+const BobaBnbIcon = () => (
   <svg viewBox="0 0 1202 1202" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="601" cy="601" r="601" fill="white" />
     <path

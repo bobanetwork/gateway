@@ -5,7 +5,7 @@ import GasWatcher from './GasWatcher'
 import SocialLinks from './SocialLinks'
 import FooterLinks from './FooterLinks'
 
-export const Footer: FC<FooterProps> = (props) => {
+export const Footer: FC<FooterProps> = () => {
   return (
     <StyledFooter>
       <Row>

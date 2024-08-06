@@ -15,13 +15,6 @@ export const TitleText = styled(Typography).attrs({
   text-align: center;
 `
 
-export const MutedText = styled(Typography).attrs({
-  variant: 'body3',
-})`
-  color: ${({ theme }) =>
-    theme.name === 'light' ? theme.colors.gray[700] : theme.colors.gray[50]};
-`
-
 export const CircleOuter = styled.div`
   display: flex;
   border-radius: 50%;

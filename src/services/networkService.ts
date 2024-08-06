@@ -25,22 +25,14 @@ import { orderBy } from 'util/lodash'
 import { getToken } from 'actions/tokenAction'
 import { logAmount } from 'util/amountConvert'
 
-import { addBobaFee } from 'actions/setupAction'
-
-import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
-
-import { graphQLService } from '@bobanetwork/graphql-utils'
-import { sortRawTokens } from 'util/common'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
-import { Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
+import { MIN_NATIVE_L1_BALANCE } from 'util/constant'
 import {
   CHAIN_ID_LIST,
   getNetworkDetail,
-  getRpcUrl,
-  getRpcUrlByChainId,
   Network,
   networkLimitedAvailability,
   NetworkType,
@@ -51,10 +43,8 @@ import walletService, { WalletService } from './wallet.service'
 
 import {
   BOBAABI,
-  BobaFixedSavingsABI,
   BobaGasPriceOracleABI,
   DiscretionaryExitFeeABI,
-  GovernorBravoDelegateABI,
   L1ERC20ABI,
   L1LiquidityPoolABI,
   L1StandardBridgeABI,
@@ -70,15 +60,13 @@ import {
   TeleportationABI,
 } from './abi'
 
-import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
-import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
-import { LiquidityPoolLayer } from 'types/earn.types'
-import { LAYER } from '../containers/history/types'
 import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
+import oracleService from './oracle/oracle.service'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -120,8 +108,6 @@ class NetworkService {
   L2_TEST_Contract?: Contract
   L2_ETH_Contract?: Contract
   BobaContract?: Contract
-  xBobaContract?: Contract
-  delegateContract?: Contract
   gasOracleContract?: Contract
   L1StandardBridgeContract?: Contract
   L2StandardBridgeContract?: Contract
@@ -191,39 +177,6 @@ class NetworkService {
     return false
   }
 
-  async getBobaFeeChoice() {
-    if (this.addresses.Boba_GasPriceOracle) {
-      const bobaFeeContract = new ethers.Contract(
-        this.addresses.Boba_GasPriceOracle,
-        BobaGasPriceOracleABI,
-        this.L2Provider
-      )
-
-      try {
-        const priceRatio = await bobaFeeContract.priceRatio()
-
-        let feeChoice
-        if (this.networkGateway === Network.ETHEREUM) {
-          feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
-        } else {
-          // this returns weather the secondary token getting use as tokenfee
-          feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
-          // if it's false which means boba is getting used as tokenfee which is default value.
-          feeChoice = !feeChoice
-        }
-        const bobaFee = {
-          priceRatio: priceRatio.toString(),
-          feeChoice,
-        }
-        await addBobaFee(bobaFee)
-        return bobaFee
-      } catch (error) {
-        console.log(error)
-        return error
-      }
-    }
-  }
-
   async estimateMinL1NativeTokenForFee() {
     if (this.L1orL2 !== 'L2') {
       return 0
@@ -243,42 +196,6 @@ class NetworkService {
       const minTokenForFee = await bobaFeeContract.secondaryFeeTokenMinimum()
 
       return logAmount(minTokenForFee.toString(), 18)
-    }
-  }
-
-  async switchFeeToken(targetFee) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-
-    const bobaFeeContract = new ethers.Contract(
-      this.addresses.Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.provider!.getSigner()
-    )
-
-    try {
-      let tx: TransactionResponse
-
-      if (targetFee === 'BOBA') {
-        tx = await bobaFeeContract.useBobaAsFeeToken()
-        await tx.wait()
-      } else if (targetFee === 'ETH') {
-        tx = await bobaFeeContract.useETHAsFeeToken()
-        await tx.wait()
-      } else if (targetFee === this.L1NativeTokenSymbol) {
-        tx = await bobaFeeContract.useSecondaryFeeTokenAsFeeToken()
-        await tx.wait()
-      } else {
-        return false
-      }
-
-      await this.getBobaFeeChoice()
-
-      return tx
-    } catch (error) {
-      console.log(error)
-      return error
     }
   }
 
@@ -339,7 +256,7 @@ class NetworkService {
         signature,
         data,
       })
-      await this.getBobaFeeChoice()
+      await oracleService.getBobaFeeChoice()
       return true
     } catch (error: any) {
       let errorData = error.response.data.error
@@ -690,12 +607,6 @@ class NetworkService {
       )
 
       if (Network.ETHEREUM === network && networkType === NetworkType.MAINNET) {
-        this.xBobaContract = new ethers.Contract(
-          allTokens.xBOBA.L2,
-          BOBAABI,
-          this.L2Provider
-        )
-
         if (
           !(await this.getAddressCached(
             this.addresses,
@@ -714,12 +625,6 @@ class NetworkService {
         ) {
           return
         }
-
-        this.delegateContract = new ethers.Contract(
-          this.addresses.GovernorBravoDelegate,
-          GovernorBravoDelegateABI,
-          this.L2Provider
-        )
       }
 
       this.gasOracleContract = new ethers.Contract(
@@ -784,7 +689,7 @@ class NetworkService {
         CHAIN_ID_LIST[L2ChainId]?.limitedAvailability
       // this should not do anything unless we changed chains
       if (this.L1orL2 === 'L2' && !isLimitedNetwork) {
-        await this.getBobaFeeChoice()
+        await oracleService.getBobaFeeChoice()
       }
 
       return this.L1orL2 // return the layer we are actually on
@@ -835,11 +740,12 @@ class NetworkService {
       return
     }
 
-    Object.keys(allTokens).forEach(async (token, i) => {
+    Object.keys(allTokens).forEach(async (token) => {
       await getToken(allTokens[token].L1)
     })
   }
 
+  // TODO clean up on anchorage migration
   async getL2BalanceETH() {
     try {
       const balance = await this.L2Provider!.getBalance(this.account!)
@@ -850,6 +756,7 @@ class NetworkService {
     }
   }
 
+  // TODO clean up on anchorage migration
   async getL2BalanceBOBA() {
     try {
       if (
@@ -940,11 +847,6 @@ class NetworkService {
       const state = store.getState()
       const tokenListValues = Object.values(state.tokenList)
 
-      console.log(
-        `tokenListValues`,
-        tokenListValues.map((i: any) => i.symbolL1)
-      )
-
       const tokenC = new ethers.Contract(
         this.addresses.L1_ETH_Address,
         L1ERC20ABI,
@@ -966,8 +868,6 @@ class NetworkService {
       }
 
       const getBalancePromise: any = []
-
-      console.log(`tokenList`, tokenListValues)
 
       tokenListValues.forEach((token: any) => {
         if (token.addressL1 === null) {
@@ -1039,8 +939,6 @@ class NetworkService {
             .map((result: any) => result.value)
       )
 
-      console.log(`tokenBalances`, tokenBalances)
-
       tokenBalances.forEach((token) => {
         if (
           token.layer === 'L1' &&
@@ -1069,6 +967,7 @@ class NetworkService {
   }
 
   // @note clean up on completion of anchorage migration on mainnet.
+  // TODO: clean up on anchorage migration
   //Move ETH from L1 to L2 using the standard deposit system
   /******
    * Deposit ETH from L1 to L2.
@@ -1146,8 +1045,6 @@ class NetworkService {
   }
 
   async checkAllowance(currencyAddress: string, targetContract: string) {
-    console.log('currencyAddress', currencyAddress)
-    console.log('targetContract', targetContract)
     try {
       const ERC20Contract = new ethers.Contract(
         currencyAddress,
@@ -1336,6 +1233,7 @@ class NetworkService {
   }
 
   //Standard 7 day exit from BOBA
+  // TODO: cleanup on migration to anchorage
   async exitBOBA(currencyAddress, value_Wei_String) {
     try {
       const L2BillingContract = new ethers.Contract(
@@ -1431,12 +1329,12 @@ class NetworkService {
   }
 
   /* Estimate cost of Classical Exit to L1 */
+  // TODO: cleanup on migration to anchorage
   async getExitCost(currencyAddress: string) {
     try {
       let approvalCost_BN = BigNumber.from('0')
 
       const gasPrice = await this.L2Provider!.getGasPrice()
-      console.log('Classical exit gas price', gasPrice.toString())
 
       if (currencyAddress !== this.addresses.L2_ETH_Address) {
         const ERC20Contract = new ethers.Contract(
@@ -1487,1024 +1385,16 @@ class NetworkService {
         ...tx2,
         from: this.gasEstimateAccount,
       })
-      console.log('Classical exit gas', gas_BN.toString())
-
       const cost_BN = gas_BN.mul(gasPrice)
-      console.log('Classical exit cost (ETH):', utils.formatEther(cost_BN))
 
       const totalCost = utils.formatEther(cost_BN.add(approvalCost_BN))
-      console.log('Classical exit total cost (ETH):', totalCost)
-
-      //returns total cost in ETH
       return totalCost
     } catch (error) {
       return 0
     }
   }
 
-  /*****************************************************/
-  /***** Pool, User Info, to populate the Earn tab *****/
-
-  /*****************************************************/
-  async getL1LPInfo() {
-    const poolInfo = {}
-    const userInfo = {}
-
-    const tokenAddressList = Object.keys(this.tokenAddresses!).reduce(
-      (acc, cur) => {
-        if (
-          cur !== 'xBOBA' &&
-          cur !== 'OLO' &&
-          cur !== 'WAGMIv0' &&
-          cur !== 'WAGMIv1' &&
-          cur !== 'WAGMIv2' &&
-          cur !== 'WAGMIv2-Oolong' &&
-          cur !== 'WAGMIv3' &&
-          cur !== 'WAGMIv3-Oolong'
-        ) {
-          acc.push(this.tokenAddresses![cur].L1.toLowerCase())
-        }
-        return acc
-      },
-      [this.addresses.L1_ETH_Address]
-    )
-
-    const L1LPContract = new ethers.Contract(
-      this.addresses.L1LPAddress,
-      L1LiquidityPoolABI,
-      this.L1Provider
-    )
-
-    const L1LPInfoPromise: any = []
-
-    const getL1LPInfoPromise = async (tokenAddress) => {
-      let tokenBalance
-      let tokenSymbol
-      let tokenName
-      let decimals
-
-      if (tokenAddress === this.addresses.L1_ETH_Address) {
-        //getting eth balance
-        tokenBalance = await this.L1Provider!.getBalance(
-          this.addresses.L1LPAddress
-        )
-        tokenSymbol = this.L1NativeTokenSymbol
-        tokenName = this.L1NativeTokenName
-        decimals = 18
-      } else {
-        //getting eth balance
-        tokenBalance = await this.L1_TEST_Contract!.attach(tokenAddress)
-          .connect(this.L1Provider!)
-          .balanceOf(this.addresses.L1LPAddress)
-        const tokenInfoFiltered =
-          this.tokenInfo!.L1[utils.getAddress(tokenAddress)]
-        if (tokenInfo) {
-          tokenSymbol = tokenInfoFiltered?.symbol
-          tokenName = tokenInfoFiltered?.name
-          decimals = tokenInfoFiltered?.decimals
-        } else {
-          tokenSymbol = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .symbol()
-          tokenName = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .name()
-          decimals = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .decimals()
-        }
-      }
-
-      const poolTokenInfo = await L1LPContract.poolInfo(tokenAddress)
-      let userTokenInfo = {}
-      if (typeof this.account !== 'undefined' && this.account) {
-        userTokenInfo = await L1LPContract.userInfo(tokenAddress, this.account)
-      }
-      return {
-        tokenAddress,
-        tokenBalance,
-        tokenSymbol,
-        tokenName,
-        poolTokenInfo,
-        userTokenInfo,
-        decimals,
-      }
-    }
-
-    tokenAddressList.forEach((tokenAddress) =>
-      L1LPInfoPromise.push(getL1LPInfoPromise(tokenAddress))
-    )
-
-    const L1LPInfo = await Promise.all(L1LPInfoPromise)
-    sortRawTokens(L1LPInfo).forEach((token) => {
-      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
-      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
-      const duration =
-        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
-      const durationDays = duration / (60 * 60 * 24 * 1000)
-      const annualRewardEstimate = (365 * rewards) / durationDays
-      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
-      if (!annualYieldEstimate) {
-        annualYieldEstimate = 0
-      }
-      poolInfo[token.tokenAddress.toLowerCase()] = {
-        symbol: token.tokenSymbol,
-        name: token.tokenName,
-        decimals: token.decimals,
-        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
-        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
-        accUserReward: token.poolTokenInfo.accUserReward.toString(),
-        accUserRewardPerShare:
-          token.poolTokenInfo.accUserRewardPerShare.toString(),
-        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
-        startTime: token.poolTokenInfo.startTime.toString(),
-        APR: annualYieldEstimate,
-        tokenBalance: token.tokenBalance.toString(),
-      }
-      userInfo[token.tokenAddress] = {
-        l1TokenAddress: token.tokenAddress.toLowerCase(),
-        amount: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.amount.toString()
-          : 0,
-        pendingReward: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.pendingReward.toString()
-          : 0,
-        rewardDebt: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.rewardDebt.toString()
-          : 0,
-      }
-    })
-
-    return { poolInfo, userInfo }
-  }
-
-  async getL2LPInfo() {
-    const tokenAddressList = Object.keys(this.tokenAddresses!).reduce(
-      (acc, cur) => {
-        if (
-          cur !== 'xBOBA' &&
-          cur !== 'OLO' &&
-          cur !== 'WAGMIv0' &&
-          cur !== 'WAGMIv1' &&
-          cur !== 'WAGMIv2' &&
-          cur !== 'WAGMIv2-Oolong' &&
-          cur !== 'WAGMIv3' &&
-          cur !== 'WAGMIv3-Oolong'
-        ) {
-          acc.push({
-            L1: this.tokenAddresses![cur].L1.toLowerCase(),
-            L2: this.tokenAddresses![cur].L2.toLowerCase(),
-          })
-        }
-        return acc
-      },
-      [
-        {
-          L1: this.addresses.L1_ETH_Address,
-          L2: this.addresses[`TK_L2${this.L1NativeTokenSymbol}`],
-        },
-      ]
-    )
-
-    const L2LPContract = new ethers.Contract(
-      this.addresses.L2LPAddress,
-      L2LiquidityPoolABI,
-      this.L2Provider
-    )
-
-    const poolInfo = {}
-    const userInfo = {}
-
-    const L2LPInfoPromise: any = []
-
-    const getL2LPInfoPromise = async (
-      tokenAddress: string,
-      tokenAddressL1: string
-    ) => {
-      let tokenBalance
-      let tokenSymbol
-      let tokenName
-      let decimals
-
-      if (tokenAddress === this.addresses.L2_ETH_Address) {
-        tokenBalance = await this.L2Provider!.getBalance(
-          this.addresses.L2LPAddress
-        )
-        tokenSymbol = this.network === Network.ETHEREUM ? 'ETH' : 'BOBA'
-        tokenName =
-          this.network === Network.ETHEREUM ? 'Ethereum' : 'BOBA Token'
-        decimals = 18
-      } else {
-        tokenBalance = await this.L2_TEST_Contract!.attach(tokenAddress)
-          .connect(this.L2Provider!)
-          .balanceOf(this.addresses.L2LPAddress)
-        const tokenInfoFiltered =
-          this.tokenInfo!.L2[utils.getAddress(tokenAddress)]
-        if (tokenInfo) {
-          tokenSymbol = tokenInfoFiltered.symbol
-          tokenName = tokenInfoFiltered.name
-          decimals = tokenInfoFiltered.decimals
-        } else {
-          tokenSymbol = await this.L2_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L2Provider!)
-            .symbol()
-          tokenName = await this.L2_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L2Provider!)
-            .name()
-          decimals = await this.L1_TEST_Contract!.attach(tokenAddressL1)
-            .connect(this.L1Provider!)
-            .decimals()
-        }
-      }
-      const poolTokenInfo = await L2LPContract.poolInfo(tokenAddress)
-      let userTokenInfo = {}
-      if (typeof this.account !== 'undefined' && this.account) {
-        userTokenInfo = await L2LPContract.userInfo(tokenAddress, this.account)
-      }
-      return {
-        tokenAddress,
-        tokenBalance,
-        tokenSymbol,
-        tokenName,
-        poolTokenInfo,
-        userTokenInfo,
-        decimals,
-      }
-    }
-
-    tokenAddressList.forEach(({ L1, L2 }) =>
-      L2LPInfoPromise.push(getL2LPInfoPromise(L2, L1))
-    )
-
-    const L2LPInfo = await Promise.all(L2LPInfoPromise)
-
-    sortRawTokens(L2LPInfo).forEach((token) => {
-      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
-      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
-      const duration =
-        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
-      const durationDays = duration / (60 * 60 * 24 * 1000)
-      const annualRewardEstimate = (365 * rewards) / durationDays
-      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
-      if (!annualYieldEstimate) {
-        annualYieldEstimate = 0
-      }
-      poolInfo[token.tokenAddress.toLowerCase()] = {
-        symbol: token.tokenSymbol,
-        name: token.tokenName,
-        decimals: token.decimals,
-        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
-        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
-        accUserReward: token.poolTokenInfo.accUserReward.toString(),
-        accUserRewardPerShare:
-          token.poolTokenInfo.accUserRewardPerShare.toString(),
-        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
-        startTime: token.poolTokenInfo.startTime.toString(),
-        APR: annualYieldEstimate,
-        tokenBalance: token.tokenBalance.toString(),
-      }
-      userInfo[token.tokenAddress.toLowerCase()] = {
-        l2TokenAddress: token.tokenAddress.toLowerCase(),
-        amount: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.amount.toString()
-          : 0,
-        pendingReward: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.pendingReward.toString()
-          : 0,
-        rewardDebt: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.rewardDebt.toString()
-          : 0,
-      }
-    })
-
-    return { poolInfo, userInfo }
-  }
-
-  /***********************************************/
-  /*****           Get Reward                *****/
-
-  /***********************************************/
-  async getReward(
-    currencyAddress,
-    value_Wei_String,
-    L1orL2Pool: LiquidityPoolLayer
-  ) {
-    try {
-      const TX = await (
-        L1orL2Pool === LiquidityPoolLayer.L1LP
-          ? this.L1LPContract!
-          : this.L2LPContract!
-      )
-        .connect(this.provider!.getSigner())
-        .withdrawReward(value_Wei_String, currencyAddress, this.account)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: getReward error:', error)
-      return error
-    }
-  }
-
-  /***********************************************/
-  /*****          Withdraw Liquidity         *****/
-  /***********************************************/
-
-  async withdrawLiquidity(
-    currency,
-    value_Wei_String,
-    L1orL2Pool: LiquidityPoolLayer
-  ) {
-    try {
-      const estimateGas = await (
-        L1orL2Pool === LiquidityPoolLayer.L1LP
-          ? this.L1LPContract!
-          : this.L2LPContract!
-      ).estimateGas.withdrawLiquidity(
-        value_Wei_String,
-        currency,
-        this.account,
-        { from: this.account }
-      )
-      const blockGasLimit = (await this.provider!.getBlock('latest')).gasLimit
-      const TX = await (
-        L1orL2Pool === LiquidityPoolLayer.L1LP
-          ? this.L1LPContract!
-          : this.L2LPContract!
-      )
-        .connect(this.provider!.getSigner())
-        .withdrawLiquidity(value_Wei_String, currency, this.account, {
-          gasLimit: estimateGas.mul(2).gt(blockGasLimit)
-            ? blockGasLimit
-            : estimateGas.mul(2),
-        })
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: withdrawLiquidity error:', error)
-      return error
-    }
-  }
-
-  /***************************************/
-  /************ L1LP Pool size ***********/
-  /***************************************/
-
-  async L1LPBalance(tokenAddress): Promise<string> {
-    let balance: BigNumberish
-    const tokenAddressLC = tokenAddress.toLowerCase()
-
-    if (
-      tokenAddressLC === this.addresses.L2_ETH_Address ||
-      tokenAddressLC === this.addresses.L1_ETH_Address
-    ) {
-      balance = await this.L1Provider!.getBalance(this.addresses.L1LPAddress)
-    } else {
-      balance = await this.L1_TEST_Contract!.attach(tokenAddress)
-        .connect(this.L1Provider!)
-        .balanceOf(this.addresses.L1LPAddress)
-    }
-
-    return balance.toString()
-  }
-
-  /***************************************/
-  /************ L2LP Pool size ***********/
-  /***************************************/
-  async L2LPBalance(tokenAddress): Promise<string> {
-    let balance: BigNumberish
-    const tokenAddressLC = tokenAddress.toLowerCase()
-
-    if (
-      tokenAddressLC === this.addresses.L2_BOBA_Address ||
-      tokenAddressLC === this.addresses.L1_ETH_Address
-    ) {
-      //We are dealing with ETH
-      balance = await this.L2_ETH_Contract!.connect(this.L2Provider!).balanceOf(
-        this.addresses.L2LPAddress
-      )
-    } else {
-      balance = await this.L2_TEST_Contract!.attach(tokenAddress)
-        .connect(this.L2Provider!)
-        .balanceOf(this.addresses.L2LPAddress)
-    }
-
-    return balance.toString()
-  }
-
-  async fetchLookUpPrice(params) {
-    try {
-      // fetching only the prices compare to usd.
-      const res = await coinGeckoAxiosInstance.get(
-        `simple/price?ids=${params.join()}&vs_currencies=usd`
-      )
-      return res.data
-    } catch (error) {
-      return error
-    }
-  }
-
-  /***********************************************/
-  /*****         DAO Functions               *****/
-  /***********************************************/
-
-  // get DAO Balance
-  async getDaoBalance() {
-    if (!this.BobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: getDaoBalance() error - called but account === null')
-      return
-    }
-
-    try {
-      const balance = await this.BobaContract!.balanceOf(this.account)
-      return { balance: utils.formatEther(balance) }
-    } catch (error) {
-      console.log('Error: getDaoBalance', error)
-      return error
-    }
-  }
-
-  async getDaoBalanceX() {
-    if (!this.xBobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: getDaoBalanceX() error - called but account === null')
-      return
-    }
-
-    try {
-      const balance = await this.xBobaContract.balanceOf(this.account)
-      return { balanceX: utils.formatEther(balance) }
-    } catch (error) {
-      console.log('Error: getDaoBalanceX', error)
-      return error
-    }
-  }
-
-  // get DAO Votes
-  async getDaoVotes() {
-    if (!this.BobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: getDaoVotes() error - called but account === null')
-      return
-    }
-
-    try {
-      const votes = await this.BobaContract!.getCurrentVotes(this.account)
-      return { votes: utils.formatEther(votes) }
-    } catch (error) {
-      console.log('NS: getDaoVotes error:', error)
-      return error
-    }
-  }
-
-  // get DAO Votes
-  async getDaoVotesX() {
-    if (!this.xBobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: getDaoVotesX() error - called but account === null')
-      return
-    }
-
-    try {
-      const votes = await this.xBobaContract.getCurrentVotes(this.account)
-      return { votesX: utils.formatEther(votes) }
-    } catch (error) {
-      console.log('NS: getDaoVotesX error:', error)
-      return error
-    }
-  }
-
-  //Delegate DAO Authority
-  async delegateVotes({ recipient }) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-    if (!this.BobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: delegateVotes() error - called but account === null')
-      return
-    }
-
-    try {
-      const tx = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).delegate(recipient)
-      await tx.wait()
-      return tx
-    } catch (error) {
-      console.log('NS: delegateVotes error:', error)
-      return error
-    }
-  }
-
-  //Delegate DAO Authority
-  async delegateVotesX({ recipient }) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-    if (!this.xBobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: delegateVotesX() error - called but account === null')
-      return
-    }
-
-    try {
-      const tx = await this.xBobaContract
-        .connect(this.provider!.getSigner())
-        .delegate(recipient)
-      await tx.wait()
-      return tx
-    } catch (error) {
-      console.log('NS: delegateVotesX error:', error)
-      return error
-    }
-  }
-
-  // Proposal Create Threshold
-  async getProposalThreshold() {
-    if (!this.delegateContract) {
-      return
-    }
-
-    try {
-      const delegateCheck = await this.delegateContract.attach(
-        this.addresses.GovernorBravoDelegator
-      )
-      const rawThreshold = await delegateCheck.proposalThreshold()
-      return { proposalThreshold: utils.formatEther(rawThreshold) }
-    } catch (error) {
-      console.log('NS: getProposalThreshold error:', error)
-      return error
-    }
-  }
-
-  // Create Proposal
-  async createProposal(payload) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-    if (!this.delegateContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: delegateVotesX() error - called but account === null')
-      return
-    }
-
-    let signatures = ['']
-    let value1 = 0
-    let value2 = 0
-    let value3 = 0
-    let description = ''
-    let address = ['']
-    let callData = ['']
-
-    const delegateCheck = await this.delegateContract.attach(
-      this.addresses.GovernorBravoDelegator
-    )
-
-    if (payload.action === 'text-proposal') {
-      address = ['0x000000000000000000000000000000000000dEaD']
-      description = payload.text.slice(0, 252) //100+150+2
-      callData = [
-        '0x0000000000000000000000000000000000000000000000000000000000000000',
-      ]
-    } else if (payload.action === 'change-lp1-fee') {
-      signatures = ['configureFeeExits(uint256,uint256,uint256)']
-      value1 = Number(payload.value[0])
-      value2 = Number(payload.value[1])
-      value3 = Number(payload.value[2])
-      description = `Change L1 LP Bridge fee to ${value1}, ${value2}, and ${value3} integer percent`
-      address = [this.addresses.L2LPAddress]
-      callData = [
-        ethers.utils.defaultAbiCoder.encode(
-          ['uint256', 'uint256', 'uint256'],
-          [value1, value2, value3]
-        ),
-      ]
-    } else if (payload.action === 'change-lp2-fee') {
-      address = [delegateCheck.address]
-      signatures = ['configureFee(uint256,uint256,uint256)']
-      value1 = Number(payload.value[0])
-      value2 = Number(payload.value[1])
-      value3 = Number(payload.value[2])
-      description = `Change L2 LP Bridge fee to ${value1}, ${value2}, and ${value3} integer percent`
-      address = [this.addresses.L2LPAddress]
-      callData = [
-        ethers.utils.defaultAbiCoder.encode(
-          ['uint256', 'uint256', 'uint256'],
-          [value1, value2, value3]
-        ),
-      ]
-    } else if (payload.action === 'change-threshold') {
-      address = [delegateCheck.address]
-      signatures = ['_setProposalThreshold(uint256)']
-      value1 = Number(payload.value[0])
-      description = `Change Proposal Threshold to ${value1} BOBA`
-      callData = [ethers.utils.defaultAbiCoder.encode(['uint256'], [value1])]
-    }
-
-    try {
-      const values = [0] //amount of ETH to send, generally, zero
-
-      return await delegateCheck
-        .connect(this.provider!.getSigner())
-        .propose(address, values, signatures, callData, description)
-    } catch (error) {
-      console.log('NS: createProposal error:', error)
-      return error
-    }
-  }
-
-  async queueProposal(proposalID) {
-    if (!this.delegateContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: queueProposal() error - called but account === null')
-      return
-    }
-
-    try {
-      const delegateCheck = this.delegateContract
-        .connect(this.provider!.getSigner())
-        .attach(this.addresses.GovernorBravoDelegator)
-
-      return await delegateCheck.queue(Number(proposalID))
-    } catch (error) {
-      console.log('NS: queueProposal error:', error)
-      return error
-    }
-  }
-
-  async executeProposal(proposalID) {
-    if (!this.delegateContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: executeProposal() error - called but account === null')
-      return
-    }
-
-    try {
-      const delegateCheck = this.delegateContract
-        .connect(this.provider!.getSigner())
-        .attach(this.addresses.GovernorBravoDelegator)
-
-      return await delegateCheck.execute(Number(proposalID))
-    } catch (error) {
-      console.log('NS: executeProposal error:', error)
-      return error
-    }
-  }
-
-  async fetchProposals() {
-    if (!this.delegateContract) {
-      return
-    }
-
-    const delegateCheck = this.delegateContract.attach(
-      this.addresses.GovernorBravoDelegator
-    )
-
-    try {
-      const proposalList: any = []
-
-      const proposalCounts = await delegateCheck.proposalCount()
-      const totalProposals = await proposalCounts.toNumber()
-
-      /// @notice An event emitted when a new proposal is created
-      // event ProposalCreated(uint id, address proposer, address[] targets, uint[] values, string[] signatures, bytes[] calldatas, uint startTimestamp, uint endTimestamp, string description);
-      const L2ChainId = this.networkConfig!.L2.chainId
-      const descriptionList = await graphQLService.queryBridgeProposalCreated({
-        sourceChainId: L2ChainId,
-      })
-
-      for (let i = 0; i < totalProposals; i++) {
-        const proposalRaw = descriptionList!.data.proposalCreateds[i]
-
-        if (typeof proposalRaw === 'undefined') {
-          continue
-        }
-
-        const proposalID = proposalRaw.idParam
-
-        //this is a number such as 2
-        const proposalData = await delegateCheck.proposals(proposalID)
-
-        const proposalStates = [
-          'Pending',
-          'Active',
-          'Canceled',
-          'Defeated',
-          'Succeeded',
-          'Queued',
-          'Expired',
-          'Executed',
-        ]
-
-        const state = await delegateCheck.state(proposalID)
-
-        const againstVotes = parseInt(
-          utils.formatEther(proposalData.againstVotes),
-          10
-        )
-        const forVotes = parseInt(utils.formatEther(proposalData.forVotes), 10)
-        const abstainVotes = parseInt(
-          utils.formatEther(proposalData.abstainVotes),
-          10
-        )
-
-        const startTimestamp = proposalData.startTimestamp.toString()
-        const endTimestamp = proposalData.endTimestamp.toString()
-
-        const proposal = await delegateCheck.getActions(i + 2)
-
-        const hasVoted = null
-
-        const description = proposalRaw.description.toString()
-
-        proposalList.push({
-          id: proposalID?.toString(),
-          proposal,
-          description,
-          totalVotes: forVotes + againstVotes,
-          forVotes,
-          againstVotes,
-          abstainVotes,
-          state: proposalStates[state],
-          startTimestamp,
-          endTimestamp,
-          hasVoted,
-        })
-      }
-      return { proposalList }
-    } catch (error) {
-      console.log('NS: fetchProposals error:', error)
-      return error
-    }
-  }
-
-  async castProposalVote({ id, userVote }) {
-    if (!this.delegateContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: castProposalVote() error - called but account === null')
-      return
-    }
-    try {
-      const delegateCheck = this.delegateContract
-        .connect(this.provider!.getSigner())
-        .attach(this.addresses.GovernorBravoDelegator)
-      return delegateCheck.castVote(id, userVote)
-    } catch (error) {
-      console.log('NS: castProposalVote error:', error)
-      return error
-    }
-  }
-
-  /***********************************************/
-  /*****       Fixed savings account         *****/
-
-  /***********************************************/
-  async addFS_Savings(value_Wei_String: BigNumberish) {
-    if (!this.account) {
-      console.log(
-        'NS: withdrawFS_Savings() error - called but account === null'
-      )
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider!.getSigner()
-      )
-
-      const allowance_BN = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).allowance(this.account, this.addresses.BobaFixedSavings)
-
-      const depositAmount_BN = BigNumber.from(value_Wei_String)
-
-      const approveAmount_BN = depositAmount_BN.add(
-        BigNumber.from('1000000000000')
-      )
-
-      try {
-        if (approveAmount_BN.gt(allowance_BN)) {
-          console.log('Need to approve YES:', approveAmount_BN)
-          const approveStatus = await this.BobaContract!.connect(
-            this.provider!.getSigner()
-          ).approve(this.addresses.BobaFixedSavings, approveAmount_BN)
-          await approveStatus.wait()
-        } else {
-          console.log(
-            'Allowance is sufficient:',
-            allowance_BN.toString(),
-            depositAmount_BN.toString()
-          )
-        }
-      } catch (error) {
-        console.log('NS: addFS_Savings approve error:', error)
-        return error
-      }
-
-      const TX = await FixedSavings.stake(value_Wei_String)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: addFS_Savings error:', error)
-      return error
-    }
-  }
-
-  async savingEstimate() {
-    // used to generate gas estimates for contracts that cannot set amount === 0
-    // to avoid need to approve amount
-
-    const otherField = {
-      from: this.gasEstimateAccount,
-    }
-
-    const gasPrice_BN = await this.provider!.getGasPrice()
-    console.log('gas price', gasPrice_BN.toString())
-
-    let approvalCost_BN = BigNumber.from('0')
-    let stakeCost_BN = BigNumber.from('0')
-
-    try {
-      // first, we need the allowance of the benchmarkAccount
-      const allowance_BN = await this.BobaContract!.connect(
-        this.provider!
-      ).allowance(this.gasEstimateAccount, this.addresses.BobaFixedSavings)
-
-      // second, we need the approval cost
-      const tx1 = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).populateTransaction.approve(
-        this.addresses.BobaFixedSavings,
-        allowance_BN.toString()
-      )
-
-      const approvalGas_BN = await this.provider!.estimateGas(tx1)
-      approvalCost_BN = approvalGas_BN.mul(gasPrice_BN)
-
-      // third, we need the stake cost
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider
-      )
-
-      const tx2 = await FixedSavings.populateTransaction.stake(
-        allowance_BN.toString(),
-        otherField
-      )
-      const stakeGas_BN = await this.provider!.estimateGas(tx2)
-      stakeCost_BN = stakeGas_BN.mul(gasPrice_BN)
-
-      const safety_margin_BN = BigNumber.from('1000000000000')
-
-      return approvalCost_BN.add(stakeCost_BN).add(safety_margin_BN)
-    } catch (error) {
-      console.log('NS: stakingEstimate() error', error)
-      return error
-    }
-  }
-
-  async withdrawFS_Savings(stakeID) {
-    if (!this.account) {
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider!.getSigner()
-      )
-      const TX = await FixedSavings.unstake(stakeID)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: withdrawFS_Savings error:', error)
-      return error
-    }
-  }
-
-  async getFS_Saves() {
-    if (this.account === null) {
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.L2Provider
-      )
-      await FixedSavings.l2Boba()
-      const stakecount = await FixedSavings.personalStakeCount(this.account)
-      return { stakecount: Number(stakecount) }
-    } catch (error) {
-      console.log('NS: getSaves error:', error)
-      return error
-    }
-  }
-
-  async getFS_Info() {
-    if (this.account === null) {
-      console.log('NS: getFS_Info() error - called but account === null')
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.L2Provider
-      )
-
-      const stakeInfo: any = []
-
-      const stakeCounts = await FixedSavings.personalStakeCount(this.account)
-
-      for (let i = 0; i < stakeCounts; i++) {
-        const stakeId = await FixedSavings.personalStakePos(this.account, i)
-        const stakeData = await FixedSavings.stakeDataMap(stakeId)
-
-        stakeInfo.push({
-          stakeId: Number(stakeId.toString()),
-          depositTimestamp: Number(stakeData.depositTimestamp.toString()),
-          depositAmount: logAmount(stakeData.depositAmount.toString(), 18),
-          isActive: stakeData.isActive,
-        })
-      }
-      return { stakeInfo }
-    } catch (error) {
-      console.log('NS: getFS_Info error:', error)
-      return error
-    }
-  }
-
-  /***********************************************/
-  /*****            L1 / L2 Security Fee     *****/
-
-  /***********************************************/
-  async estimateL1SecurityFee(payload = this.payloadForL1SecurityFee) {
-    const deepCopyPayload = { ...payload }
-    delete deepCopyPayload.from
-    // Gas oracle
-    this.gasOracleContract = new ethers.Contract(
-      L2GasOracle,
-      OVM_GasPriceOracleABI,
-      this.L2Provider
-    )
-    const l1SecurityFee = await this.gasOracleContract!.getL1Fee(
-      ethers.utils.serializeTransaction(deepCopyPayload)
-    )
-    return l1SecurityFee.toNumber()
-  }
-
-  async estimateL2Fee(payload: TxPayload = this.payloadForL1SecurityFee!) {
-    try {
-      const l2GasPrice = await this.L2Provider!.getGasPrice()
-      const l2GasEstimate = await this.L2Provider!.estimateGas(payload)
-      return l2GasPrice.mul(l2GasEstimate).toNumber()
-    } catch {
-      return 0
-    }
-  }
-
-  /***********************************************/
-  /*****              Exit fee               *****/
-
-  /***********************************************/
+  // TODO: cleanup on migration to anchorage
   async getExitFeeFromBillingContract() {
     if (!this.addresses.Proxy__BobaBillingContract) {
       return 0
@@ -2516,65 +1406,6 @@ class NetworkService {
     )
     return ethers.utils.formatEther(await L2BillingContract.exitFee())
   }
-
-  async submitTxBuilder(
-    contract: Contract,
-    methodIndex,
-    methodName: string,
-    inputs
-  ) {
-    const parseResult = (resultPR, outputsPR) => {
-      const parseResultPR: any = []
-      if (outputsPR.length === 1) {
-        return resultPR.toString()
-      }
-      for (let i = 0; i < outputsPR.length; i++) {
-        try {
-          const output = outputsPR[i]
-          const key = output.name ? output.name : output.type
-          if (output.type.includes('uint')) {
-            parseResultPR.push({ [key]: resultPR[i].toString() })
-          } else {
-            parseResultPR.push({ [key]: resultPR[i] })
-          }
-        } catch (err) {
-          return 'Error: Failed to parse result'
-        }
-      }
-      return JSON.stringify(parseResultPR)
-    }
-
-    let parseInput: any = Object.values(inputs)
-    let value = 0
-    const stateMutability =
-      contract.interface.functions[methodName].stateMutability
-    const outputs = contract.interface.functions[methodName].outputs
-    if (stateMutability === 'payable') {
-      value = parseInput[parseInput.length - 1]
-      parseInput = parseInput.slice(0, parseInput.length - 1)
-    }
-
-    let result
-    try {
-      if (stateMutability === 'view' || stateMutability === 'pure') {
-        result = await contract[methodName](...parseInput)
-        return {
-          methodIndex,
-          result: { result: parseResult(result, outputs), err: null },
-        }
-      } else if (stateMutability === 'payable') {
-        console.log({ value }, ...parseInput)
-        const tx = await contract[methodName](...parseInput, { value })
-        return { methodIndex, result: { transactionHash: tx.hash, err: null } }
-      } else {
-        const tx = await contract[methodName](...parseInput)
-        return { methodIndex, result: { transactionHash: tx.hash, err: null } }
-      }
-    } catch (err) {
-      return { methodIndex, result: { err: JSON.stringify(err) } }
-    }
-  }
-
   // getting block number;
   async getLatestBlockNumber() {
     return this.provider!.getBlockNumber()

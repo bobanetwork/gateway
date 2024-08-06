@@ -64,7 +64,6 @@ Object.defineProperty(window, 'location', {
 describe('WalletService', () => {
   const wsInstance = walletService
   let ethereumMock: any
-  let spyLog: any
   afterEach(() => {
     jest.restoreAllMocks()
   })
@@ -73,7 +72,7 @@ describe('WalletService', () => {
   })
 
   beforeEach(() => {
-    spyLog = jest.spyOn(console, 'log').mockImplementation(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {
       return
     })
     ethereumMock = {

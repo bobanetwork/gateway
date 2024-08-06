@@ -18,7 +18,7 @@ import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
 import { BigNumberish } from 'ethers'
 import { bridgeService } from 'services'
-import { lightBridgeService } from 'services/teleportation.service'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 
 export const fetchBalances = () =>
   createAction('BALANCE/GET', () => networkService.getBalances())
@@ -28,9 +28,6 @@ export const addTokenList = () =>
 
 export const fetchTransactions = () =>
   createAction('TRANSACTION/GETALL', () => transactionService.getTransactions())
-
-export const fetchSevens = () =>
-  createAction('SEVENS/GETALL', () => transactionService.getSevens())
 
 export const exitBOBA = (token: string, value: BigNumberish) =>
   createAction('EXIT/CREATE', () => networkService.exitBOBA(token, value))

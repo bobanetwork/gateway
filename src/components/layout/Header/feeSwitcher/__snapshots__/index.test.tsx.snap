@@ -3,11 +3,11 @@
 exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
 <DocumentFragment>
   <div
-    class="sc-jsJBEP bMsNfn"
+    class="sc-bXCLTC bEGkLd"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-koXPp fTnsXJ css-ptiqhd-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall sc-eeDRCY eDwWbt css-ptiqhd-MuiSvgIcon-root"
       data-mui-internal-clone-element="true"
       data-testid="HelpOutlineIcon"
       focusable="false"
@@ -18,7 +18,7 @@ exports[`FeeSwitcher should match snapshot when account is enabled  1`] = `
       />
     </svg>
     <h5
-      class="sc-eDPEul lkHkUy sc-eeDRCY bYqsCg"
+      class="sc-jlZhew fJitkJ sc-jsJBEP PTmCo"
     >
       Fee
     </h5>
