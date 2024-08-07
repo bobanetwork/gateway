@@ -76,6 +76,7 @@ Copy `.env.example` file and name by excluding `.example` and populate the varia
 | REACT_APP_GAS_POLL_INTERVAL   | Yes      | 30000        | Poll interval to fetch the gas price status                                                                                                                                   |
 | REACT_APP_WC_PROJECT_ID=      | Yes      | N/A          | Wallet Connect project ID                                                                                                                                                                  |
 | NETWORK_NAME                  | Yes      | sepolia       | Starting network for wallet                                                                                                                                                                |
+| REACT_APP_THE_GRAPH_API_KEY   | Yes      | N/A       | API key for graph application to fetch the data from subgraph.                                                                                                                                                                |
 
 ### To start local dev-server
 
