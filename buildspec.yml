@@ -10,7 +10,7 @@ phases:
        
   build:
     commands:
-        - REACT_APP_WALLET_VERSION=$(git rev-parse --short HEAD) yarn build
+        - REACT_APP_WALLET_VERSION=$(git rev-parse --short HEAD) yarn build:prod
      
 artifacts:
   # include all files required to run the application
