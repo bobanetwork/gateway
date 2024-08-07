@@ -61,9 +61,9 @@ import {
 } from './styles'
 
 import { setConnect } from 'actions/setupAction'
-import useInterval from 'hooks/useInterval'
 
-import { POLL_INTERVAL } from 'util/constant'
+// import useInterval from 'hooks/useInterval'
+// import { POLL_INTERVAL } from 'util/constant'
 
 import FilterIcon from 'assets/images/filter.svg'
 import noHistoryIcon from 'assets/images/noHistory.svg'
@@ -164,7 +164,7 @@ const History = () => {
     syncTransactions()
   }, [])
 
-  useInterval(syncTransactions, POLL_INTERVAL)
+  // useInterval(syncTransactions, POLL_INTERVAL)
 
   return (
     <HistoryPageContainer id={'history'}>
