@@ -170,6 +170,7 @@ export class GatewayAction {
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
     await this.bridgePage.bridgeButtonToBeDisable()
     await this.bridgePage.fillBridgingAmount(amountToBridge)
+    this.page.waitForTimeout(1000)
     await this.bridgePage.bridgeButtonToBeEnable()
     const receivableAmt = Number(amountToBridge) * ((100 - 1) / 100)
     await this.bridgePage.validateBridgingFee({
