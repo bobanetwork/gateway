@@ -1,27 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`3rd Party Bridges should match snapshot when network is BNB Mainnet 1`] = `
-<DocumentFragment>
-  <div
-    class="sc-eeDRCY jQGxeL"
-  >
-    <p
-      class="sc-dAlyuH eGlSty sc-fHjqPf iYUju"
-    >
-      Third party bridges
-    </p>
-    <div
-      class="sc-koXPp flvhee"
-    >
-      <p
-        class="sc-dAlyuH cZLdsH"
-      >
-        No bridges available
-      </p>
-    </div>
-  </div>
-</DocumentFragment>
-`;
+exports[`3rd Party Bridges should match snapshot when network is BNB Mainnet 1`] = `<DocumentFragment />`;
 
 exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`] = `
 <DocumentFragment>

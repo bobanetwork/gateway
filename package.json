@@ -124,7 +124,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "@walletconnect/ethereum-provider": "<rootDir>/__mocks__/@walletconnect/ethereum-provider.ts"
+      "@walletconnect/ethereum-provider": "<rootDir>/__mocks__/@walletconnect/ethereum-provider.ts",
+      "^axios$": "axios/dist/node/axios.cjs"
     },
     "collectCoverageFrom": [
       "src/components/**/*.tsx",
