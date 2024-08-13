@@ -7,6 +7,8 @@ export const useNetworkInfo = () => {
   const [isAnchorageEnabled, setIsAnchorageEnabled] = useState(false)
   const [isActiveNetworkBnb, setIsActiveNetworkBnb] = useState(false)
   const [isActiveNetworkSepolia, setIsActiveNetworkSepolia] = useState(false)
+  const [isActiveNetworkBnbTestnet, setIsActiveNetworkBnbTestnet] =
+    useState(false)
 
   const network = useSelector(selectActiveNetwork())
   const networkType = useSelector(selectActiveNetworkType())
@@ -28,6 +30,12 @@ export const useNetworkInfo = () => {
       setIsActiveNetworkSepolia(false)
     }
 
+    if (network === Network.BNB && networkType === NetworkType.TESTNET) {
+      setIsActiveNetworkBnbTestnet(true)
+    } else {
+      setIsActiveNetworkBnbTestnet(false)
+    }
+
     if (network === Network.BNB && networkType === NetworkType.MAINNET) {
       setIsActiveNetworkBnb(true)
     } else {
@@ -37,6 +45,7 @@ export const useNetworkInfo = () => {
     return () => {
       setIsAnchorageEnabled(false)
       setIsActiveNetworkBnb(false)
+      setIsActiveNetworkBnbTestnet(false)
     }
   }, [network, networkType])
 
@@ -44,5 +53,6 @@ export const useNetworkInfo = () => {
     isAnchorageEnabled,
     isActiveNetworkBnb,
     isActiveNetworkSepolia,
+    isActiveNetworkBnbTestnet,
   }
 }

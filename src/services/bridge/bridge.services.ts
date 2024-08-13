@@ -17,8 +17,12 @@ import { formatEther } from 'ethers/lib/utils'
 import {
   L1ERC20ABI,
   L1StandardBridgeABI,
+  L2StandardBridgeABIAnchorage,
+  L2StandardERC20ABI,
+  L2ToL1MessagePasserABI,
   OptimismPortalABI,
 } from 'services/abi'
+import { L2ToL1MessagePasserAddress } from 'services/app.service'
 import networkService from 'services/networkService'
 import { ERROR_CODE } from 'util/constant'
 
@@ -94,7 +98,6 @@ export class BridgeService {
     currencyL2,
   }: IDepositErc20) {
     try {
-      console.log(`▶▶ anchorageDepositERC20`)
       if (!networkService.account) {
         throw new Error(`${ERROR_CODE} wallet not connected!`)
       }
@@ -185,7 +188,6 @@ export class BridgeService {
     currency,
   }: IDepositErc20Optimism) {
     try {
-      console.log(`▶▶ anchorageDepositERC20Optimism`)
       if (!networkService.account) {
         throw new Error(`${ERROR_CODE} wallet not connected!`)
       }
@@ -263,6 +265,100 @@ export class BridgeService {
       return depositReceipt
     } catch (error) {
       console.log(`BS: deposit ERC20`, error)
+      return error
+    }
+  }
+
+  async anchorageWithdrawNativeToken({
+    amount,
+    isActiveNetworkBnb = false,
+  }: {
+    amount: string
+    isActiveNetworkBnb: boolean
+  }) {
+    try {
+      const signer = networkService.provider?.getSigner()
+
+      let initWithdraw
+
+      if (!isActiveNetworkBnb) {
+        if (!networkService.addresses.L2StandardBridgeAddress) {
+          throw new Error(`${ERROR_CODE} L2StandardBridge invalid address!`)
+        }
+
+        initWithdraw = await signer!.sendTransaction({
+          to: networkService.addresses.L2StandardBridgeAddress, // L2StandardBridge
+          value: amount,
+        })
+      } else {
+        // withdrawing BOBA for bnb
+        if (!L2ToL1MessagePasserAddress) {
+          throw new Error(`${ERROR_CODE} L2ToL1MessagePasser invalid address!`)
+        }
+
+        const contract = new Contract(
+          L2ToL1MessagePasserAddress,
+          L2ToL1MessagePasserABI,
+          signer
+        )
+
+        initWithdraw = await contract.initiateWithdrawal(
+          networkService.account,
+          100000,
+          [],
+          { value: amount }
+        )
+      }
+
+      const receipt = await initWithdraw.wait()
+      return receipt.blockNumber
+    } catch (error) {
+      console.log(`Anchorage native withdrawal failed`, error)
+      return error
+    }
+  }
+
+  async anchorageWithdrawErc20Token({ amount, token }) {
+    try {
+      if (!networkService.addresses.L2StandardBridgeAddress) {
+        throw new Error(`${ERROR_CODE} L2StandardBridge invalid address!`)
+      }
+
+      const signer = networkService.provider!.getSigner()
+
+      const tokenContract = new Contract(token, L2StandardERC20ABI, signer)
+
+      const allowance = await tokenContract.allowance(
+        signer.getAddress(),
+        networkService.addresses.L2StandardBridgeAddress
+      )
+
+      if (allowance.toString() < amount) {
+        const approveTx = await tokenContract!.approve(
+          networkService.addresses.L2StandardBridgeAddress,
+          amount
+        )
+        await approveTx.wait()
+      }
+
+      const L2StdBridgeContract = new Contract(
+        networkService.addresses.L2StandardBridgeAddress,
+        L2StandardBridgeABIAnchorage,
+        networkService.provider?.getSigner()
+      )
+
+      const initWithdraw = await L2StdBridgeContract.withdraw(
+        token,
+        amount,
+        30000,
+        '0x'
+      )
+
+      const receipt = await initWithdraw.wait()
+
+      return receipt.blockNumber
+    } catch (error) {
+      console.log(`anchorage erc20 withdrawal failed`, error)
       return error
     }
   }

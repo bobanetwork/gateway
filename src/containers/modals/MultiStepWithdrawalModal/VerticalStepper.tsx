@@ -1,20 +1,23 @@
 import {
   anchorageGraphQLService,
   claimWithdrawal,
-  handleInitiateWithdrawal,
   handleProveWithdrawal,
   IHandleProveWithdrawalConfig,
   MinimalNetworkService,
 } from '@bobanetwork/graphql-utils'
+import {
+  withdrawErc20TokenAnchorage,
+  withdrawNativeTokenAnchorage,
+} from 'actions/bridgeAction'
 import { setConnectETH } from 'actions/setupAction'
 import { closeModal, openError, openModal } from 'actions/uiAction'
-import { ethers } from 'ethers'
+import { utils } from 'ethers'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectLayer } from 'selectors'
 import networkService from 'services/networkService'
 import { addDaysToDate, dayNowUnix, isBeforeDate } from 'util/dates'
-import { L2StandardERC20ABI } from '../../../services/abi'
 import { steps } from './config'
 import {
   ActiveStepNumberIndicator,
@@ -43,6 +46,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
   const [canProoveTx, setCanProoveTx] = useState(false)
   const [latestBlock, setLatestBlock] = useState(0)
   const [txBlock, setTxBlock] = useState(0)
+  const { isActiveNetworkBnbTestnet } = useNetworkInfo()
 
   useEffect(() => {
     if (props.reenterWithdrawConfig) {
@@ -109,41 +113,43 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     return !Number(props.amountToBridge)
   }
 
-  const initWithdrawalStep = () => {
+  const initWithdrawalStep = async () => {
     setLoading(true)
     const isNativeWithdrawal =
       props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
 
-    handleInitiateWithdrawal(
-      networkService as MinimalNetworkService,
-      L2StandardERC20ABI,
-      ethers.utils
-        .parseUnits(
-          props.amountToBridge!.toString(),
-          props.token ? props.token.decimals : null
-        )
-        .toString(),
-      isNativeWithdrawal ? null : props.token
-    )
-      .then((res) => {
-        if (!res) {
-          props.handleClose()
-          dispatch(
-            openError('Failed to approve amount or user rejected signature')
-          )
-          return
-        }
-        setActiveStep(2)
-        setWithdrawalConfig({
-          blockNumber: res,
+    const amount = utils
+      .parseUnits(
+        props.amountToBridge!.toString(),
+        props.token ? props.token.decimals : null
+      )
+      .toString()
+
+    let receipt
+    if (isNativeWithdrawal) {
+      receipt = await dispatch(
+        withdrawNativeTokenAnchorage({
+          amount,
+          isActiveNetworkBnb: isActiveNetworkBnbTestnet,
         })
-        setLoading(false)
-      })
-      .catch(() => {
-        setLoading(false)
-        dispatch(openError(`The withdrawal initiation failed!`))
-        props.handleClose()
-      })
+      )
+    } else {
+      receipt = await dispatch(
+        withdrawErc20TokenAnchorage({ amount, token: props.token.address })
+      )
+    }
+
+    if (receipt.hasOwnProperty('message')) {
+      props.handleClose()
+      dispatch(openError(receipt.message))
+    } else if (receipt) {
+      setActiveStep(2)
+      setWithdrawalConfig({ blockNumber: receipt })
+      setLoading(false)
+    } else {
+      setLoading(false)
+      props.handleClose()
+    }
   }
 
   const proofWithdrawalStep = () => {
