@@ -58,6 +58,7 @@ import {
 
 import { LiquidityPoolLayer } from 'types/earn.types'
 import { BridgeTooltip } from './tooltips'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 const Earn = () => {
   const dispatch = useDispatch<any>()
@@ -65,8 +66,8 @@ const Earn = () => {
   const layer = useSelector(selectLayer())
   const baseEnabled = useSelector(selectBaseEnabled())
   const accountEnabled = useSelector(selectAccountEnabled())
-  const networkName = useSelector(selectActiveNetworkName())
   const activeNetworkName = useSelector(selectActiveNetworkName())
+  const { isActiveNetworkSepolia } = useNetworkInfo()
 
   const [showMyStakeOnly, setShowMyStakeOnly] = useState(false)
   const [lpChoice, setLpChoice] = useState<LiquidityPoolLayer>(
@@ -89,6 +90,10 @@ const Earn = () => {
   }, [layer, activeNetworkName])
 
   useEffect(() => {
+    if (isActiveNetworkSepolia) {
+      // TODO: revert and update for bnb
+      return
+    }
     if (baseEnabled) {
       dispatch(getEarnInfo())
       dispatch(getAllAddresses())
@@ -97,7 +102,21 @@ const Earn = () => {
     if (accountEnabled) {
       dispatch(fetchBalances())
     }
-  }, [dispatch, baseEnabled, accountEnabled, activeNetworkName])
+  }, [
+    dispatch,
+    baseEnabled,
+    accountEnabled,
+    activeNetworkName,
+    isActiveNetworkSepolia,
+  ])
+
+  if (isActiveNetworkSepolia) {
+    return (
+      <EarnPageContainer>
+        <div>Earn not supported please switch to mainnet!</div>
+      </EarnPageContainer>
+    )
+  }
 
   return (
     <EarnPageContainer>
@@ -138,7 +157,7 @@ const Earn = () => {
             }
             sx={{ fontWeight: '500;' }}
           >
-            Connect to {networkName[layer === 'L1' ? 'l2' : 'l1']}
+            Connect to {activeNetworkName[layer === 'L1' ? 'l2' : 'l1']}
           </Button>
         </LayerAlert>
       )}

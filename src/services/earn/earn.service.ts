@@ -70,11 +70,7 @@ export class EarnService {
         [addresses.L1_ETH_Address]
       )
 
-      const L1LPContract = new Contract(
-        addresses.L1LPAddress,
-        L1LiquidityPoolABI,
-        networkService.L1Provider
-      )
+      const L1LPContract = this.loadL1LpContract()
 
       const L1LPInfoPromise: any = []
 
@@ -177,7 +173,11 @@ export class EarnService {
 
       return { poolInfo, userInfo }
     } catch (error) {
-      return error
+      console.log('L1LpInfo error', error)
+      return {
+        poolInfo: {},
+        userInfo: {},
+      }
     }
   }
   async loadL2LpInfo() {
@@ -213,11 +213,7 @@ export class EarnService {
         ]
       )
 
-      const L2LPContract = new Contract(
-        addresses.L2LPAddress,
-        L2LiquidityPoolABI,
-        networkService.L2Provider
-      )
+      const L2LPContract = this.loadL2LpContract()
 
       const poolInfo = {}
       const userInfo = {}
@@ -335,7 +331,10 @@ export class EarnService {
       return { poolInfo, userInfo }
     } catch (error) {
       console.log(`loadL2LpInfo error`, error)
-      return error
+      return {
+        poolInfo: {},
+        userInfo: {},
+      }
     }
   }
   async loadL1LpBalance(tokenAddress: string) {

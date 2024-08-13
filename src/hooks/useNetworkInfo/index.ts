@@ -6,6 +6,7 @@ import { Network, NetworkType } from 'util/network/network.util'
 export const useNetworkInfo = () => {
   const [isAnchorageEnabled, setIsAnchorageEnabled] = useState(false)
   const [isActiveNetworkBnb, setIsActiveNetworkBnb] = useState(false)
+  const [isActiveNetworkSepolia, setIsActiveNetworkSepolia] = useState(false)
 
   const network = useSelector(selectActiveNetwork())
   const networkType = useSelector(selectActiveNetworkType())
@@ -19,6 +20,12 @@ export const useNetworkInfo = () => {
       setIsAnchorageEnabled(true)
     } else {
       setIsAnchorageEnabled(false)
+    }
+
+    if (network === Network.ETHEREUM && networkType === networkType.TESTNET) {
+      setIsActiveNetworkSepolia(true)
+    } else {
+      setIsActiveNetworkSepolia(false)
     }
 
     if (network === Network.BNB && networkType === NetworkType.MAINNET) {
@@ -36,5 +43,6 @@ export const useNetworkInfo = () => {
   return {
     isAnchorageEnabled,
     isActiveNetworkBnb,
+    isActiveNetworkSepolia,
   }
 }
