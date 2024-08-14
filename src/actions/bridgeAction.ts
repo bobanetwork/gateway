@@ -122,3 +122,13 @@ export const withdrawErc20TokenAnchorage = (payload) =>
   createAction('WITHDRAW_ERC20_ANCHORAGE/CREATE', () => {
     return bridgeService.anchorageWithdrawErc20Token(payload)
   })
+
+export const handleProveWithdrawal = (payload) =>
+  createAction('PROVE_WITHDRAWAL/CREATE', () => {
+    return bridgeService.prooveTransactionWithdrawal(payload)
+  })
+
+export const claimWithdrawal = (payload) =>
+  createAction('CLAIM_WITHDRAWAL/CREATE', () => {
+    return bridgeService.finalizeTransactionWithdrawal(payload)
+  })

@@ -1,13 +1,12 @@
 import {
   anchorageGraphQLService,
-  claimWithdrawal,
-  handleProveWithdrawal,
   IHandleProveWithdrawalConfig,
-  MinimalNetworkService,
 } from '@bobanetwork/graphql-utils'
 import {
+  handleProveWithdrawal,
   withdrawErc20TokenAnchorage,
   withdrawNativeTokenAnchorage,
+  claimWithdrawal,
 } from 'actions/bridgeAction'
 import { setConnectETH } from 'actions/setupAction'
 import { closeModal, openError, openModal } from 'actions/uiAction'
@@ -63,6 +62,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
       if (activeStep === 3 && withdrawalConfig?.blockNumber) {
         try {
           setTxBlock(withdrawalConfig?.blockNumber)
+          // TODO: cleanup with moving to service.
           let latestBlockOnL1 =
             await networkService?.L2OutputOracle?.latestBlockNumber()
           setLatestBlock(latestBlockOnL1)
@@ -73,6 +73,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           ) {
             // @todo: check why block number is not getting updated.
             // Update the latest block number
+            // TODO: cleanup with moving to service.
             latestBlockOnL1 =
               await networkService?.L2OutputOracle?.latestBlockNumber()
             setLatestBlock(latestBlockOnL1)
@@ -152,40 +153,45 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     }
   }
 
-  const proofWithdrawalStep = () => {
+  const proofWithdrawalStep = async () => {
     setLoading(true)
-    handleProveWithdrawal(
-      networkService as MinimalNetworkService,
-      withdrawalConfig!
+    console.log([`sending tx for proove withdrawal`, withdrawalConfig])
+    const res = await dispatch(
+      handleProveWithdrawal({ txInfo: withdrawalConfig })
     )
-      .then((res: any) => {
-        setActiveStep(5)
-        setLatestLogs(res)
-        setWithdrawalConfig({
-          blockNumber: res[0].blockNumber,
-          timeStamp: dayNowUnix(),
-        })
-        setLoading(false)
+    console.log(`withdrawal proof response`, res)
+    if (res) {
+      setActiveStep(5)
+      setLatestLogs(res)
+      setWithdrawalConfig({
+        blockNumber: res[0].blockNumber,
+        timeStamp: dayNowUnix(),
       })
-      .catch(() => {
-        dispatch(openError(`The withdrawal verification failed!`))
-        setLoading(false)
-        props.handleClose()
-      })
+      setLoading(false)
+    } else {
+      dispatch(openError(`The withdrawal verification failed!`))
+      setLoading(false)
+      props.handleClose()
+    }
   }
 
-  const claimWithdrawalStep = () => {
+  const claimWithdrawalStep = async () => {
     if (!!withdrawalConfig) {
       setLoading(true)
-      if (
-        !withdrawalConfig?.withdrawalHash &&
-        !!latestLogs &&
-        !!latestLogs?.length
-      ) {
-        claimWithdrawal(
-          networkService as MinimalNetworkService,
-          latestLogs
-        ).then(() => {
+      let logs: any[] = latestLogs || []
+      if (!logs || !logs?.length) {
+        const resLogs =
+          await anchorageGraphQLService.findWithdrawalMessagedPassed(
+            withdrawalConfig?.withdrawalHash || '',
+            networkService.networkConfig?.L2.chainId || ''
+          )
+
+        logs = resLogs.filter(
+          (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
+        )
+      } else {
+        const res = await dispatch(claimWithdrawal({ logs }))
+        if (res) {
           dispatch(closeModal('bridgeMultiStepWithdrawal'))
           dispatch(
             openModal({
@@ -194,31 +200,10 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
             })
           )
           setLoading(false)
-        })
-      } else {
-        anchorageGraphQLService
-          .findWithdrawalMessagedPassed(
-            withdrawalConfig?.withdrawalHash || '',
-            networkService.networkConfig?.L2.chainId || ''
-          )
-          .then((logs) => {
-            logs = logs.filter(
-              (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
-            )
-            claimWithdrawal(networkService as MinimalNetworkService, logs).then(
-              () => {
-                setActiveStep(6)
-                dispatch(
-                  openModal({
-                    modal: 'transactionSuccess',
-                    isAnchorageWithdrawal: true,
-                  })
-                )
-                dispatch(closeModal('bridgeMultiStepWithdrawal'))
-                setLoading(false)
-              }
-            )
-          })
+        } else {
+          console.log(`error state!`, res)
+          // TODO: handled failed state
+        }
       }
     }
   }
