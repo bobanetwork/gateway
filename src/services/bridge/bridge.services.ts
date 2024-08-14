@@ -367,7 +367,7 @@ export class BridgeService {
       const L2ToL1MessagePasserContract = new Contract(
         L2ToL1MessagePasserAddress,
         L2ToL1MessagePasserABI,
-        networkService.provider?.getSigner()
+        networkService.L2Provider
       )
 
       let logs: Array<any> = await L2ToL1MessagePasserContract.queryFilter(
@@ -496,12 +496,10 @@ export class BridgeService {
         throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
       }
 
-      const signer = networkService.provider!.getSigner()
-
       const optimismPortalContract = new Contract(
         networkService.addresses.OptimismPortalProxy,
         OptimismPortalABI,
-        signer
+        networkService.L1Provider
       )
 
       const gas =

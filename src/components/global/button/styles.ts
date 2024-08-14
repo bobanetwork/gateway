@@ -61,6 +61,7 @@ export const ButtonContainer = styled.button.withConfig({
       min-width:auto;
       font-size: ${props.theme.text.body2};
       border-radius: 33px;
+      padding: 10px 25px;
     `}
     ${(props) =>
     props.outline &&

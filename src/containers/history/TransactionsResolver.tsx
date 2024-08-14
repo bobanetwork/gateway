@@ -11,7 +11,7 @@ import { setReenterWithdrawalConfig } from 'actions/bridgeAction'
 import { openModal } from 'actions/uiAction'
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import noHistoryIcon from 'assets/images/noHistory.svg'
-import Button from 'components/button/Button'
+import { Button } from 'components/global'
 import { useDispatch } from 'react-redux'
 import truncate from 'truncate-middle'
 import { logAmount } from 'util/amountConvert'
@@ -370,13 +370,10 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
                     {
                       content: transaction.actionRequired ? (
                         <Button
-                          color="primary"
-                          variant="contained"
-                          size="small"
+                          label="Continue"
+                          small
                           onClick={() => handleAction(transaction)}
-                        >
-                          Continue
-                        </Button>
+                        />
                       ) : (
                         <NoAction>-</NoAction>
                       ),

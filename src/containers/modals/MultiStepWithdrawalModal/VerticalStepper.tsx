@@ -159,7 +159,6 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     const res = await dispatch(
       handleProveWithdrawal({ txInfo: withdrawalConfig })
     )
-    console.log(`withdrawal proof response`, res)
     if (res) {
       setActiveStep(5)
       setLatestLogs(res)
@@ -264,7 +263,8 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           </div>
         )}
         <ConfirmActionButton
-          style={{ marginTop: '12px' }}
+          small
+          style={{ marginTop: '12px', marginBottom: '12px' }}
           loading={loading}
           disabled={!!loading || isButtonDisabled()}
           onClick={() => {
@@ -286,7 +286,11 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           }}
           label={steps[activeStep].btnLbl}
         />
-        <SecondaryActionButton onClick={props.handleClose} label="Close" />
+        <SecondaryActionButton
+          small
+          onClick={props.handleClose}
+          label="Close"
+        />
       </div>
     </>
   )
