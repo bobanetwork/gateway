@@ -261,7 +261,7 @@ export class BridgeService {
     isActiveNetworkBnb = false,
   }: {
     amount: string
-    isActiveNetworkBnb: boolean
+    isActiveNetworkBnb?: boolean
   }) {
     try {
       const signer = networkService.provider?.getSigner()
@@ -279,12 +279,8 @@ export class BridgeService {
         })
       } else {
         // withdrawing BOBA for bnb
-        if (!L2ToL1MessagePasserAddress) {
-          throw new Error(`${ERROR_CODE} L2ToL1MessagePasser invalid address!`)
-        }
-
         const contract = new Contract(
-          L2ToL1MessagePasserAddress,
+          L2ToL1MessagePasserAddress, /// it's predeployed contract
           L2ToL1MessagePasserABI,
           signer
         )
@@ -356,10 +352,6 @@ export class BridgeService {
         throw new Error(`${ERROR_CODE} L2OutputOracle invalid address!`)
       }
 
-      if (!L2ToL1MessagePasserAddress) {
-        throw new Error(`${ERROR_CODE} L2ToL1MessagePasser invalid address!`)
-      }
-
       if (!networkService.addresses.OptimismPortalProxy) {
         throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
       }
@@ -375,7 +367,6 @@ export class BridgeService {
         txInfo.blockNumber,
         txInfo.blockNumber
       )
-      console.log(`L2toL1MsgPasser logs`, logs)
 
       if (txInfo.withdrawalHash) {
         logs = logs.filter(
@@ -384,7 +375,7 @@ export class BridgeService {
       }
 
       if (!logs || logs.length === 0 || !logs[0]) {
-        throw new Error(`No L2ToL1MessagePasser logs found`)
+        throw new Error(`${ERROR_CODE} No L2ToL1MessagePasser logs`)
       }
 
       const types = [
@@ -410,7 +401,7 @@ export class BridgeService {
       const withdrawalHash = logs[0].args.withdrawalHash
 
       if (withdrawalHash !== slot) {
-        throw new Error(`Widthdrawal hash does not match`)
+        throw new Error(`Withdrawal hash does not match`)
       }
 
       const messageSlot = utils.keccak256(
@@ -489,7 +480,7 @@ export class BridgeService {
   // can be usable to show the value of gas on UI
   async estimateGasFinalWithdrawal({ logs }) {
     try {
-      if (logs.length > 0 && !logs[0]) {
+      if (!logs.length || !logs[0]) {
         throw new Error(`${ERROR_CODE} invalid logs passed!`)
       }
       if (!networkService.addresses.OptimismPortalProxy) {
@@ -521,7 +512,7 @@ export class BridgeService {
 
   async finalizeTransactionWithdrawal({ logs }: { logs: any[] }) {
     try {
-      if (logs.length > 0 && !logs[0]) {
+      if (!logs.length || !logs[0]) {
         throw new Error(`${ERROR_CODE} invalid logs passed!`)
       }
       if (!networkService.addresses.OptimismPortalProxy) {
