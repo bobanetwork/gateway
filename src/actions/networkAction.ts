@@ -116,3 +116,6 @@ export const setActiveNetwork = () => (dispatch) =>
 
 export const setActiveNetworkType = (payload) => (dispatch) =>
   dispatch({ type: 'NETWORK/SET_TYPE/ACTIVE', payload })
+
+export const resetTransaction = () => (dispatch) =>
+  dispatch({ type: 'TRANSACTION/RESET' })

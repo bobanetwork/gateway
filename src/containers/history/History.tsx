@@ -41,7 +41,11 @@ import {
   selectTransactions,
 } from 'selectors'
 
-import { fetchTransactions, setNetwork } from 'actions/networkAction'
+import {
+  fetchTransactions,
+  resetTransaction,
+  setNetwork,
+} from 'actions/networkAction'
 
 import {
   DateDescriptions,
@@ -156,6 +160,7 @@ const History = () => {
 
   const syncTransactions = useCallback(() => {
     if (accountEnabled) {
+      dispatch(resetTransaction())
       dispatch(fetchTransactions())
     }
   }, [accountEnabled])

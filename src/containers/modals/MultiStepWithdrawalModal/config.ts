@@ -17,7 +17,7 @@ export const steps = [
     passiveStep: false,
     btnLbl: 'Prove Withdrawal',
   },
-  { label: 'Wait about 7 days', passiveStep: true },
+  { label: 'Wait for claim', passiveStep: true },
   {
     label: 'Claim Withdrawal',
     description: `The proof has been submitted. Please wait 7 days to claim your withdrawal`,
