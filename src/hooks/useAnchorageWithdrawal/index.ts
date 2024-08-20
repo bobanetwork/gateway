@@ -5,6 +5,7 @@ import {
 import {
   claimWithdrawal,
   handleProveWithdrawal,
+  handleProveWithdrawalWithFraudProof,
   withdrawErc20TokenAnchorage,
   withdrawNativeTokenAnchorage,
 } from 'actions/bridgeAction'
@@ -16,6 +17,7 @@ import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectLayer } from 'selectors'
+import { bridgeService } from 'services'
 import networkService from 'services/networkService'
 import oracleService from 'services/oracle/oracle.service'
 import { addDaysToDate, dayNowUnix, isBeforeDate } from 'util/dates'
@@ -29,6 +31,7 @@ const useAnchorageWithdrawal = (props) => {
   const [activeStep, setActiveStep] = useState(0)
   const [loading, setLoading] = useState(false)
   const [canProoveTx, setCanProoveTx] = useState(false)
+  const [canFinalizedTx, setCanFinalizedTx] = useState(false)
   const [latestBlockNumber, setLatestBlockNumber] = useState(0)
   const [txBlockNumber, setTxBlockNumber] = useState(0)
   const { isActiveNetworkBnbTestnet } = useNetworkInfo()
@@ -54,9 +57,13 @@ const useAnchorageWithdrawal = (props) => {
     if (activeStep === 3) {
       return !canProoveTx
     } else if (activeStep === 5) {
-      // can claim only if tx proove 7 day before
-      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
-      return !Number(props.amountToBridge) || !isBeforeDate(txWith7Day)
+      if (doesFruadProofWithdrawalEnable) {
+        return canFinalizedTx
+      } else {
+        // can claim only if tx proove 7 day before
+        const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
+        return !Number(props.amountToBridge) || !isBeforeDate(txWith7Day)
+      }
     }
 
     return !Number(props.amountToBridge)
@@ -100,8 +107,32 @@ const useAnchorageWithdrawal = (props) => {
         }
       }
     }
+
+    const checkWithdrawalFinalizeStatus = async () => {
+      try {
+        const res = await bridgeService.doesWithdrawalCanFinalized({
+          transactionHash: withdrawalConfig?.withdrawalHash,
+        })
+
+        console.log(`check withdrawal status`, res)
+        if (res) {
+          setCanFinalizedTx(true)
+        } else {
+          setCanFinalizedTx(false)
+        }
+      } catch (error) {
+        console.log(`failed to fetch withdrawal finalize status`, error)
+      }
+    }
+
     if (withdrawalConfig && activeStep === 3) {
       validateBlockNumberAndEnableProov()
+    } else if (
+      doesFruadProofWithdrawalEnable &&
+      withdrawalConfig &&
+      activeStep === 5
+    ) {
+      checkWithdrawalFinalizeStatus()
     }
 
     return () => {
@@ -151,9 +182,14 @@ const useAnchorageWithdrawal = (props) => {
   const proofWithdrawalStep = async () => {
     setLoading(true)
     console.log([`sending tx for proove withdrawal`, withdrawalConfig])
-    const res = await dispatch(
-      handleProveWithdrawal({ txInfo: withdrawalConfig })
-    )
+    let res
+    if (doesFruadProofWithdrawalEnable) {
+      res = await dispatch(
+        handleProveWithdrawalWithFraudProof({ txInfo: withdrawalConfig })
+      )
+    } else {
+      res = await dispatch(handleProveWithdrawal({ txInfo: withdrawalConfig }))
+    }
     if (res) {
       setActiveStep(5)
       setLatestLogs(res)
