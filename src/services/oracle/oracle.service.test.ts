@@ -251,4 +251,42 @@ describe('OracleService', () => {
       expect(result).toBe(error)
     })
   })
+
+  describe('getLatestL2OutputBlockNumber >', () => {
+    let l2OutputOracleContractMockMock: any
+    let getSignerMock: any
+    let latestBlockNumberMock: any
+
+    beforeEach(() => {
+      // jest.spyOn(console, 'log').mockImplementation(() => { })
+      getSignerMock = jest.fn().mockReturnValue({})
+      latestBlockNumberMock = jest.fn().mockReturnValue(12345)
+      ;(providers.JsonRpcProvider as unknown as jest.Mock).mockReturnValue({
+        getSigner: getSignerMock,
+      })
+      ;(networkService as any).L1Provider = new providers.JsonRpcProvider(
+        'http://demo.local'
+      )
+
+      l2OutputOracleContractMockMock = {
+        latestBlockNumber: latestBlockNumberMock,
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(
+        l2OutputOracleContractMockMock
+      )
+      jest.spyOn(oracleService, 'getBobaFeeChoice').mockResolvedValue(undefined)
+    })
+
+    it('Should throw error and return ZERO in case contract address in not found', async () => {
+      networkService.addresses.L2OutputOracleProxy = undefined
+      const result = await oracleService.getLatestL2OutputBlockNumber()
+      expect(result).toBe(0)
+    })
+
+    it('Should return correct block', async () => {
+      networkService.addresses.L2OutputOracleProxy = '0xL2OutputOracleProxy'
+      const result = await oracleService.getLatestL2OutputBlockNumber()
+      expect(result).toBe(12345)
+    })
+  })
 })

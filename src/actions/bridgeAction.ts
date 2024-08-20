@@ -127,6 +127,10 @@ export const handleProveWithdrawal = (payload) =>
   createAction('PROVE_WITHDRAWAL/CREATE', () => {
     return bridgeService.prooveTransactionWithdrawal(payload)
   })
+export const handleProveWithdrawalWithFraudProof = (payload) =>
+  createAction('PROVE_WITHDRAWAL/CREATE', () => {
+    return bridgeService.proveTransactionWithdrawalWithFraudProof(payload)
+  })
 
 export const claimWithdrawal = (payload) =>
   createAction('CLAIM_WITHDRAWAL/CREATE', () => {

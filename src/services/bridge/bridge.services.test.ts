@@ -551,6 +551,7 @@ describe('BridgeService', () => {
       })
 
       expect(res).toEqual(220)
+      expect(finalizeWithdrawalTransactionMock).toHaveBeenCalled()
     })
   })
 
@@ -735,7 +736,7 @@ describe('BridgeService', () => {
       })
       expect(result).toEqual(new Error(`Withdrawal hash does not match`))
     })
-    it('should throw error in case withdrawal hash is not match', async () => {
+    it('should throw error in case withdrawal hash is matches', async () => {
       const queryFilterMock = jest.fn().mockReturnValue([
         {
           args: {
@@ -805,6 +806,96 @@ describe('BridgeService', () => {
           },
         },
       ])
+    })
+  })
+
+  describe('proveTransactionWithdrawalWithFraudProof', () => {
+    it('Should throw error incase no logs found in queryFilter with transaction hash', async () => {
+      const queryFilterMock = jest.fn().mockReturnValue([])
+
+      contractMock = {
+        queryFilter: queryFilterMock,
+        filters: {
+          MessagePassed: jest.fn().mockReturnValue(false),
+        },
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+
+      networkService.addresses.L2OutputOracleProxy = '0xL2OutputOracleProxy'
+      networkService.addresses.OptimismPortalProxy = '0xOptimismPortalProxy'
+      const result =
+        await bridgeService.proveTransactionWithdrawalWithFraudProof({
+          txInfo: {
+            blockNumber: '12356',
+          },
+        })
+      expect(result).toEqual(
+        new Error(`${ERROR_CODE} No L2ToL1MessagePasser logs`)
+      )
+    })
+    it('should throw error in case withdrawal hash is not match', async () => {
+      const queryFilterMock = jest.fn().mockReturnValue([
+        {
+          args: {
+            withdrawalHash: 'withdrawalHash',
+            nonce: 0,
+            sender: '0xffffffffffffffffffffffffffffffffffffffff',
+            target: '0xdeaddeaddeaddeaddeaddeaddeaddeaddeaddead',
+            value: BigNumber.from('1'),
+            gasLimit: 21000,
+            data: [],
+          },
+        },
+      ])
+
+      contractMock = {
+        queryFilter: queryFilterMock,
+        filters: {
+          MessagePassed: jest.fn().mockReturnValue(false),
+        },
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+
+      networkService.addresses.L2OutputOracleProxy = '0xL2OutputOracleProxy'
+      networkService.addresses.OptimismPortalProxy = '0xOptimismPortalProxy'
+      const result =
+        await bridgeService.proveTransactionWithdrawalWithFraudProof({
+          txInfo: {
+            withdrawalHash: 'withdrawalHash',
+            blockNumber: '12356',
+          },
+        })
+      expect(result).toEqual(new Error(`Withdrawal hash does not match`))
+    })
+  })
+
+  describe('doesWithdrawalCanFinalized', () => {
+    it('should return false when transactionhash in undefined', async () => {
+      const result = await bridgeService.doesWithdrawalCanFinalized({
+        transactionHash: undefined,
+      })
+      expect(result).toBeFalsy()
+    })
+    it('should invoke checkWithdrawl and return correct response', async () => {
+      const checkWithdrawalMock = jest.fn().mockReturnValue('done')
+      contractMock = {
+        checkWithdrawal: checkWithdrawalMock,
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+
+      networkService.L1Provider = new providers.JsonRpcProvider(
+        'http://demo.local'
+      )
+
+      const res = await bridgeService.doesWithdrawalCanFinalized({
+        transactionHash: 'transactionHash',
+      })
+      expect(res).toBe('done')
+      expect(checkWithdrawalMock).toHaveBeenCalled()
+      expect(checkWithdrawalMock).toHaveBeenCalledWith(
+        'transactionHash',
+        '0xAccount'
+      )
     })
   })
 })

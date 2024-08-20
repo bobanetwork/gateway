@@ -23,7 +23,7 @@ export const ethereumConfig: NetworkDetail = {
       tokenName: 'ETH',
     },
     L2: {
-      name: 'BOBA Sepolia L2',
+      name: 'Boba Sepolia',
       chainId: 28882,
       chainIdHex: '0x70d2',
       rpcUrl: [`https://sepolia.boba.network`],
@@ -67,7 +67,7 @@ export const ethereumConfig: NetworkDetail = {
       tokenName: 'ETH',
     },
     L2: {
-      name: 'BOBA L2',
+      name: 'Boba Network',
       chainId: 288,
       chainIdHex: '0x120',
       rpcUrl: [
