@@ -497,14 +497,12 @@ describe('BridgeService', () => {
     it('Should throw error incase no logs found', async () => {
       const reswithempty = await bridgeService.finalizeTransactionWithdrawal({
         logs: [],
-        doesFruadProofWithdrawalEnable: false,
       })
       expect(reswithempty).toEqual(
         new Error(`${ERROR_CODE} invalid logs passed!`)
       )
       const reswithelement = await bridgeService.finalizeTransactionWithdrawal({
         logs: [undefined],
-        doesFruadProofWithdrawalEnable: false,
       })
       expect(reswithelement).toEqual(
         new Error(`${ERROR_CODE} invalid logs passed!`)
@@ -523,7 +521,6 @@ describe('BridgeService', () => {
             data: ['0x'],
           },
         ],
-        doesFruadProofWithdrawalEnable: false,
       })
       expect(response).toEqual(
         new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
@@ -551,34 +548,6 @@ describe('BridgeService', () => {
             data: ['0x'],
           },
         ],
-        doesFruadProofWithdrawalEnable: false,
-      })
-
-      expect(res).toEqual(220)
-    })
-
-    it('Should invoke finalizewithdrawalTransaction', async () => {
-      networkService.addresses.OptimismPortalProxy = '0xOptimismPortalProxy'
-      finalizeWithdrawalTransactionMock = jest.fn().mockReturnValue({
-        wait: jest.fn().mockReturnValue(220),
-      })
-
-      contractMock = {
-        finalizeWithdrawalTransaction: finalizeWithdrawalTransactionMock,
-      }
-      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
-      const res = await bridgeService.finalizeTransactionWithdrawal({
-        logs: [
-          {
-            nonce: 0.9,
-            sender: 0.9,
-            target: 0.9,
-            value: 0.9,
-            gasLimit: 0.9,
-            data: ['0x'],
-          },
-        ],
-        doesFruadProofWithdrawalEnable: true,
       })
 
       expect(res).toEqual(220)
@@ -767,7 +736,7 @@ describe('BridgeService', () => {
       })
       expect(result).toEqual(new Error(`Withdrawal hash does not match`))
     })
-    it('should throw error in case withdrawal hash is not match', async () => {
+    it('should throw error in case withdrawal hash is matches', async () => {
       const queryFilterMock = jest.fn().mockReturnValue([
         {
           args: {
@@ -837,6 +806,66 @@ describe('BridgeService', () => {
           },
         },
       ])
+    })
+  })
+
+  describe('proveTransactionWithdrawalWithFraudProof', () => {
+    it('Should throw error incase no logs found in queryFilter with transaction hash', async () => {
+      const queryFilterMock = jest.fn().mockReturnValue([])
+
+      contractMock = {
+        queryFilter: queryFilterMock,
+        filters: {
+          MessagePassed: jest.fn().mockReturnValue(false),
+        },
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+
+      networkService.addresses.L2OutputOracleProxy = '0xL2OutputOracleProxy'
+      networkService.addresses.OptimismPortalProxy = '0xOptimismPortalProxy'
+      const result =
+        await bridgeService.proveTransactionWithdrawalWithFraudProof({
+          txInfo: {
+            blockNumber: '12356',
+          },
+        })
+      expect(result).toEqual(
+        new Error(`${ERROR_CODE} No L2ToL1MessagePasser logs`)
+      )
+    })
+    it('should throw error in case withdrawal hash is not match', async () => {
+      const queryFilterMock = jest.fn().mockReturnValue([
+        {
+          args: {
+            withdrawalHash: 'withdrawalHash',
+            nonce: 0,
+            sender: '0xffffffffffffffffffffffffffffffffffffffff',
+            target: '0xdeaddeaddeaddeaddeaddeaddeaddeaddeaddead',
+            value: BigNumber.from('1'),
+            gasLimit: 21000,
+            data: [],
+          },
+        },
+      ])
+
+      contractMock = {
+        queryFilter: queryFilterMock,
+        filters: {
+          MessagePassed: jest.fn().mockReturnValue(false),
+        },
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+
+      networkService.addresses.L2OutputOracleProxy = '0xL2OutputOracleProxy'
+      networkService.addresses.OptimismPortalProxy = '0xOptimismPortalProxy'
+      const result =
+        await bridgeService.proveTransactionWithdrawalWithFraudProof({
+          txInfo: {
+            withdrawalHash: 'withdrawalHash',
+            blockNumber: '12356',
+          },
+        })
+      expect(result).toEqual(new Error(`Withdrawal hash does not match`))
     })
   })
 

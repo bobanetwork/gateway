@@ -11,10 +11,7 @@ import {
   OptimismPortalABI,
 } from 'services/abi'
 import { OptimismPortal2ABI } from 'services/abi/OptimismPortal2.abi'
-import {
-  L2ToL1MessagePasserAddress,
-  OptimismPortal2Address,
-} from 'services/app.service'
+import { L2ToL1MessagePasserAddress } from 'services/app.service'
 import networkService from 'services/networkService'
 import { ERROR_CODE } from 'util/constant'
 
@@ -482,8 +479,12 @@ export class BridgeService {
     }
   }
 
-  async prooveTransactionWithdrawalWithFraudProof({ txInfo }) {
+  async proveTransactionWithdrawalWithFraudProof({ txInfo }) {
     try {
+      if (!networkService.addresses.OptimismPortalProxy) {
+        throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
+      }
+
       const L2ToL1MessagePasserContract = new Contract(
         L2ToL1MessagePasserAddress,
         L2ToL1MessagePasserABI,
@@ -576,29 +577,10 @@ export class BridgeService {
       const signer = networkService.provider!.getSigner()
 
       const optimismPortal2Contract = new Contract(
-        OptimismPortal2Address,
+        networkService.addresses.OptimismPortalProxy,
         OptimismPortal2ABI,
         signer
       )
-
-      console.log(`params`, {
-        tuple: [
-          logs[0].args.nonce,
-          logs[0].args.sender,
-          logs[0].args.target,
-          logs[0].args.value,
-          logs[0].args.gasLimit,
-          logs[0].args.data,
-        ],
-        disputeGameIndex,
-        rootProof: [
-          constants.HashZero,
-          proposalBlock.stateRoot,
-          proof.storageHash,
-          proposalBlock.hash,
-        ],
-        proof: proof.storageProof[0].proof,
-      })
 
       // TODO: validate the prove withdrawal transaction.
       const proveTx = await optimismPortal2Contract.proveWithdrawalTransaction(
@@ -672,8 +654,12 @@ export class BridgeService {
         return false
       }
 
+      if (!networkService.addresses.OptimismPortalProxy) {
+        throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
+      }
+
       const optimismConract = new Contract(
-        OptimismPortal2Address, //TODO: optimism portal address.
+        networkService.addresses.OptimismPortalProxy,
         OptimismPortal2ABI,
         networkService.L1Provider
       )
@@ -691,13 +677,7 @@ export class BridgeService {
     }
   }
 
-  async finalizeTransactionWithdrawal({
-    logs,
-    doesFruadProofWithdrawalEnable,
-  }: {
-    logs: any[]
-    doesFruadProofWithdrawalEnable: boolean
-  }) {
+  async finalizeTransactionWithdrawal({ logs }: { logs: any[] }) {
     try {
       if (!logs.length || !logs[0]) {
         throw new Error(`${ERROR_CODE} invalid logs passed!`)
@@ -708,22 +688,11 @@ export class BridgeService {
 
       const signer = networkService.provider!.getSigner()
 
-      let optimismPortalContract
-
-      if (doesFruadProofWithdrawalEnable) {
-        // in case of fruad proof based withdrawal.
-        optimismPortalContract = new Contract(
-          OptimismPortal2Address,
-          OptimismPortal2ABI,
-          signer
-        )
-      } else {
-        optimismPortalContract = new Contract(
-          networkService.addresses.OptimismPortalProxy,
-          OptimismPortalABI,
-          signer
-        )
-      }
+      const optimismPortalContract = new Contract(
+        networkService.addresses.OptimismPortalProxy,
+        OptimismPortalABI,
+        signer
+      )
 
       const finalSubmitTx =
         await optimismPortalContract.finalizeWithdrawalTransaction([

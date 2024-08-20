@@ -219,9 +219,7 @@ const useAnchorageWithdrawal = (props) => {
           (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
         )
       }
-      const res = await dispatch(
-        claimWithdrawal({ logs, doesFruadProofWithdrawalEnable })
-      )
+      const res = await dispatch(claimWithdrawal({ logs }))
       if (res) {
         dispatch(closeModal('bridgeMultiStepWithdrawal'))
         dispatch(
