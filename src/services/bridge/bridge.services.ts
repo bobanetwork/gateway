@@ -673,7 +673,7 @@ export class BridgeService {
       return response
     } catch (error) {
       console.log(`ERR: doesWithdrawalCanFinalized`, error)
-      return error
+      return false
     }
   }
 

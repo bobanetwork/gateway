@@ -58,7 +58,7 @@ const useAnchorageWithdrawal = (props) => {
       return !canProoveTx
     } else if (activeStep === 5) {
       if (doesFruadProofWithdrawalEnable) {
-        return canFinalizedTx
+        return !canFinalizedTx
       } else {
         // can claim only if tx proove 7 day before
         const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
@@ -114,7 +114,6 @@ const useAnchorageWithdrawal = (props) => {
           transactionHash: withdrawalConfig?.withdrawalHash,
         })
 
-        console.log(`check withdrawal status`, res)
         if (res) {
           setCanFinalizedTx(true)
         } else {
@@ -260,6 +259,7 @@ const useAnchorageWithdrawal = (props) => {
     latestBlockNumber,
     withdrawalConfig,
     isButtonDisabled,
+    canFinalizedTx,
     txBlockNumber,
     canProoveTx,
     activeStep,

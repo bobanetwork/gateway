@@ -1,6 +1,12 @@
 import useAnchorageWithdrawal from 'hooks/useAnchorageWithdrawal'
 import React from 'react'
-import { addDaysToDate, isBeforeDate } from 'util/dates'
+import {
+  addDaysToDate,
+  dayNowUnix,
+  diffBetweenTimeStamp,
+  formatDurationInDaysHrs,
+  isBeforeDate,
+} from 'util/dates'
 import { steps } from './config'
 import {
   ActiveStepNumberIndicator,
@@ -29,6 +35,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     isButtonDisabled,
     withdrawalConfig,
     doesFruadProofWithdrawalEnable,
+    canFinalizedTx,
   } = useAnchorageWithdrawal(props)
 
   const prepareDesc = (desc?: string, step?: string) => {
@@ -38,22 +45,37 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
 
     if (activeStep === 3 && step === 'Prove Withdrawal') {
       if (!canProoveTx) {
-        return `${desc} The current L2 block submitted is ${latestBlockNumber}, and your block is ${txBlockNumber}. ${!doesFruadProofWithdrawalEnable ? '' : 'This will take about 3 days 12 hrs.'}`
+        const dateToClaim = addDaysToDate(withdrawalConfig?.timeStamp, 3.5)
+        const timeRemaining = diffBetweenTimeStamp(dateToClaim, dayNowUnix())
+        return `${desc} The current L2 block submitted is ${latestBlockNumber}, and your block is ${txBlockNumber}. ${!doesFruadProofWithdrawalEnable ? '' : `This will take about ${formatDurationInDaysHrs(timeRemaining)}.`}`
       } else {
         return `Your transaction has reached L1. You can now proove your withdrawal`
       }
     }
 
     if (activeStep === 5 && step === 'Claim Withdrawal') {
-      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
-      const canClaim = !Number(props.amountToBridge) || isBeforeDate(txWith7Day)
-      if (!canClaim) {
-        return `The proof has been submitted. Please wait 3 days to claim your withdrawal`
+      if (doesFruadProofWithdrawalEnable) {
+        const dateToClaim = addDaysToDate(
+          withdrawalConfig?.timeStamp_proven,
+          3.5
+        )
+        const timeRemaining = diffBetweenTimeStamp(dateToClaim, dayNowUnix())
+        if (canFinalizedTx) {
+          return `The proof has been submitted and the 3.5 days window has passed`
+        } else {
+          return `The proof has been submitted. Please wait ${formatDurationInDaysHrs(timeRemaining)} days to claim your withdrawal`
+        }
       } else {
-        return `The proof has been submitted and the 3-days window has passed`
+        const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
+        const canClaim =
+          !Number(props.amountToBridge) || isBeforeDate(txWith7Day)
+        if (!canClaim) {
+          return `The proof has been submitted. Please wait 7 days to claim your withdrawal`
+        } else {
+          return `The proof has been submitted and the 7-day window has passed`
+        }
       }
     }
-
     return desc
   }
 
