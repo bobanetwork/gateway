@@ -181,7 +181,6 @@ const useAnchorageWithdrawal = (props) => {
 
   const proofWithdrawalStep = async () => {
     setLoading(true)
-    console.log([`sending tx for proove withdrawal`, withdrawalConfig])
     let res
     if (doesFruadProofWithdrawalEnable) {
       res = await dispatch(
@@ -220,7 +219,9 @@ const useAnchorageWithdrawal = (props) => {
           (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
         )
       }
-      const res = await dispatch(claimWithdrawal({ logs }))
+      const res = await dispatch(
+        claimWithdrawal({ logs, doesFruadProofWithdrawalEnable })
+      )
       if (res) {
         dispatch(closeModal('bridgeMultiStepWithdrawal'))
         dispatch(

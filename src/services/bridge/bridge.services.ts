@@ -701,7 +701,13 @@ export class BridgeService {
     }
   }
 
-  async finalizeTransactionWithdrawal({ logs }: { logs: any[] }) {
+  async finalizeTransactionWithdrawal({
+    logs,
+    doesFruadProofWithdrawalEnable,
+  }: {
+    logs: any[]
+    doesFruadProofWithdrawalEnable: boolean
+  }) {
     try {
       if (!logs.length || !logs[0]) {
         throw new Error(`${ERROR_CODE} invalid logs passed!`)
@@ -712,11 +718,22 @@ export class BridgeService {
 
       const signer = networkService.provider!.getSigner()
 
-      const optimismPortalContract = new Contract(
-        networkService.addresses.OptimismPortalProxy,
-        OptimismPortalABI,
-        signer
-      )
+      let optimismPortalContract
+
+      if (doesFruadProofWithdrawalEnable) {
+        // in case of fruad proof based withdrawal.
+        optimismPortalContract = new Contract(
+          OptimismPortal2Address,
+          OptimismPortal2ABI,
+          signer
+        )
+      } else {
+        optimismPortalContract = new Contract(
+          networkService.addresses.OptimismPortalProxy,
+          OptimismPortalABI,
+          signer
+        )
+      }
 
       const finalSubmitTx =
         await optimismPortalContract.finalizeWithdrawalTransaction([
