@@ -26,6 +26,7 @@ import {
   SecondaryActionButton,
   StepContainer,
 } from './index.styles'
+import oracleService from 'services/oracle/oracle.service'
 
 interface IVerticalStepperProps {
   handleClose: () => void
@@ -64,18 +65,14 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           setTxBlock(withdrawalConfig?.blockNumber)
           // TODO: cleanup with moving to service.
           let latestBlockOnL1 =
-            await networkService?.L2OutputOracle?.latestBlockNumber()
+            await oracleService.getLatestL2OutputBlockNumber()
           setLatestBlock(latestBlockOnL1)
 
           while (
             isMounted &&
             Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
           ) {
-            // @todo: check why block number is not getting updated.
-            // Update the latest block number
-            // TODO: cleanup with moving to service.
-            latestBlockOnL1 =
-              await networkService?.L2OutputOracle?.latestBlockNumber()
+            latestBlockOnL1 = await oracleService.getLatestL2OutputBlockNumber()
             setLatestBlock(latestBlockOnL1)
             // Wait for 12 seconds before checking again
             await new Promise((resolve) => setTimeout(resolve, 12000))
