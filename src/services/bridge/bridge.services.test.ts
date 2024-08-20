@@ -497,12 +497,14 @@ describe('BridgeService', () => {
     it('Should throw error incase no logs found', async () => {
       const reswithempty = await bridgeService.finalizeTransactionWithdrawal({
         logs: [],
+        doesFruadProofWithdrawalEnable: false,
       })
       expect(reswithempty).toEqual(
         new Error(`${ERROR_CODE} invalid logs passed!`)
       )
       const reswithelement = await bridgeService.finalizeTransactionWithdrawal({
         logs: [undefined],
+        doesFruadProofWithdrawalEnable: false,
       })
       expect(reswithelement).toEqual(
         new Error(`${ERROR_CODE} invalid logs passed!`)
@@ -521,6 +523,7 @@ describe('BridgeService', () => {
             data: ['0x'],
           },
         ],
+        doesFruadProofWithdrawalEnable: false,
       })
       expect(response).toEqual(
         new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
@@ -548,9 +551,38 @@ describe('BridgeService', () => {
             data: ['0x'],
           },
         ],
+        doesFruadProofWithdrawalEnable: false,
       })
 
       expect(res).toEqual(220)
+    })
+
+    it('Should invoke finalizewithdrawalTransaction', async () => {
+      networkService.addresses.OptimismPortalProxy = '0xOptimismPortalProxy'
+      finalizeWithdrawalTransactionMock = jest.fn().mockReturnValue({
+        wait: jest.fn().mockReturnValue(220),
+      })
+
+      contractMock = {
+        finalizeWithdrawalTransaction: finalizeWithdrawalTransactionMock,
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+      const res = await bridgeService.finalizeTransactionWithdrawal({
+        logs: [
+          {
+            nonce: 0.9,
+            sender: 0.9,
+            target: 0.9,
+            value: 0.9,
+            gasLimit: 0.9,
+            data: ['0x'],
+          },
+        ],
+        doesFruadProofWithdrawalEnable: true,
+      })
+
+      expect(res).toEqual(220)
+      expect(finalizeWithdrawalTransactionMock).toHaveBeenCalled()
     })
   })
 
@@ -805,6 +837,36 @@ describe('BridgeService', () => {
           },
         },
       ])
+    })
+  })
+
+  describe('doesWithdrawalCanFinalized', () => {
+    it('should return false when transactionhash in undefined', async () => {
+      const result = await bridgeService.doesWithdrawalCanFinalized({
+        transactionHash: undefined,
+      })
+      expect(result).toBeFalsy()
+    })
+    it('should invoke checkWithdrawl and return correct response', async () => {
+      const checkWithdrawalMock = jest.fn().mockReturnValue('done')
+      contractMock = {
+        checkWithdrawal: checkWithdrawalMock,
+      }
+      ;(Contract as unknown as jest.Mock).mockReturnValue(contractMock)
+
+      networkService.L1Provider = new providers.JsonRpcProvider(
+        'http://demo.local'
+      )
+
+      const res = await bridgeService.doesWithdrawalCanFinalized({
+        transactionHash: 'transactionHash',
+      })
+      expect(res).toBe('done')
+      expect(checkWithdrawalMock).toHaveBeenCalled()
+      expect(checkWithdrawalMock).toHaveBeenCalledWith(
+        'transactionHash',
+        '0xAccount'
+      )
     })
   })
 })

@@ -495,15 +495,12 @@ export class BridgeService {
         txInfo.blockNumber,
         txInfo.blockNumber
       )
-      console.log(`logs`, logs)
 
       if (txInfo.withdrawalHash) {
         logs = logs.filter(
           (b) => b!.args.withdrawalHash === txInfo.withdrawalHash
         )
       }
-
-      console.log(`filter logs`, txInfo, logs)
 
       if (!logs || logs.length === 0 || !logs[0]) {
         throw new Error(`${ERROR_CODE} No L2ToL1MessagePasser logs`)
@@ -548,7 +545,6 @@ export class BridgeService {
           networkService.chainId!
         )
 
-      console.log(`latestBlockOnL1`, latestBlockOnL1)
       while (Number(latestBlockOnL1) < Number(txInfo.blockNumber)) {
         await new Promise((resolve) => setTimeout(resolve, 12000))
         latestBlockOnL1 =
@@ -563,7 +559,7 @@ export class BridgeService {
           networkService.chainId!,
           txInfo.blockNumber
         )
-      console.log(`disputeGameSubmissionPayload`, disputeGameSubmissionPayload)
+
       const disputeGameIndex = disputeGameSubmissionPayload.index
       const proposalBlockNumber = disputeGameSubmissionPayload.l2BlockNumber
       const proposalBlock = await networkService.L2Provider!.send(
@@ -571,14 +567,12 @@ export class BridgeService {
         [Number(proposalBlockNumber), false]
       )
 
-      console.log('requesting proof', proposalBlock, messageSlot)
       const proof = await networkService.L2Provider!.send('eth_getProof', [
         L2ToL1MessagePasserAddress,
         [messageSlot],
         proposalBlock.number, // reading hex block number.
       ])
 
-      console.log('Generated proof', proof)
       const signer = networkService.provider!.getSigner()
 
       const optimismPortal2Contract = new Contract(
@@ -678,11 +672,6 @@ export class BridgeService {
         return false
       }
 
-      console.log(`params`, {
-        transactionHash,
-        account: networkService.account,
-      })
-
       const optimismConract = new Contract(
         OptimismPortal2Address, //TODO: optimism portal address.
         OptimismPortal2ABI,
@@ -698,6 +687,7 @@ export class BridgeService {
       return response
     } catch (error) {
       console.log(`ERR: doesWithdrawalCanFinalized`, error)
+      return error
     }
   }
 
