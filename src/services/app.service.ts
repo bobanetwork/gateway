@@ -31,11 +31,6 @@ export const L2GasOracle = '0x420000000000000000000000000000000000000F'
 export const L2ToL1MessagePasserAddress =
   '0x4200000000000000000000000000000000000016'
 
-// NOTE: contract only for sepolia 11155111 chain
-// make sure to move this to registery and import
-export const OptimismPortal2Address =
-  '0x3e3a5D73f5044EFD0676468f221DeA9C4975c549'
-
 const ADDRESS_CONFIG = {
   [NetworkType.MAINNET]: {
     [Network.ETHEREUM]: {
