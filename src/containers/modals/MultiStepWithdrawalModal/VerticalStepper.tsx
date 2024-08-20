@@ -28,6 +28,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
     loading,
     isButtonDisabled,
     withdrawalConfig,
+    doesFruadProofWithdrawalEnable,
   } = useAnchorageWithdrawal(props)
 
   const prepareDesc = (desc?: string, step?: string) => {
@@ -37,7 +38,9 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
 
     if (activeStep === 3 && step === 'Prove Withdrawal') {
       if (!canProoveTx) {
-        return `${desc} The current L2 block submitted is ${latestBlockNumber}, and your block is ${txBlockNumber}. This will take about 3 days 12 hrs.`
+        return `${desc} The current L2 block submitted is ${latestBlockNumber}, and your block is ${txBlockNumber}. ${!doesFruadProofWithdrawalEnable ? '' : 'This will take about 3 days 12 hrs.'}`
+      } else {
+        return `Your transaction has reached L1. You can now proove your withdrawal`
       }
     }
 

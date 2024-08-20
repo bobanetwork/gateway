@@ -11,6 +11,7 @@ import {
 import { setConnectETH } from 'actions/setupAction'
 import { closeModal, openError, openModal } from 'actions/uiAction'
 import { utils } from 'ethers'
+import useAppConfig from 'hooks/useAppConfig'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,6 +32,7 @@ const useAnchorageWithdrawal = (props) => {
   const [latestBlockNumber, setLatestBlockNumber] = useState(0)
   const [txBlockNumber, setTxBlockNumber] = useState(0)
   const { isActiveNetworkBnbTestnet } = useNetworkInfo()
+  const { doesFruadProofWithdrawalEnable } = useAppConfig()
 
   useEffect(() => {
     if (props.reenterWithdrawConfig) {
@@ -62,24 +64,34 @@ const useAnchorageWithdrawal = (props) => {
 
   useEffect(() => {
     let isMounted = true // Flag to track component mount state
+
+    const getLatestBlockNumber = async () => {
+      if (doesFruadProofWithdrawalEnable) {
+        if (!networkService.chainId) {
+          return 0
+        }
+        return anchorageGraphQLService.getLatestFDGSubmittedBlock(
+          networkService.chainId
+        )
+      } else {
+        return oracleService.getLatestL2OutputBlockNumber()
+      }
+    }
+
     const validateBlockNumberAndEnableProov = async () => {
-      if (activeStep === 3 && withdrawalConfig?.blockNumber) {
+      if (withdrawalConfig?.blockNumber) {
         try {
           setTxBlockNumber(withdrawalConfig?.blockNumber)
-          let latestBlockOnL1 =
-            await oracleService.getLatestL2OutputBlockNumber()
-          setLatestBlockNumber(latestBlockOnL1)
-
+          let latestBlockOnL1 = await getLatestBlockNumber()
+          setLatestBlockNumber(Number(latestBlockOnL1))
           while (
             isMounted &&
             Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
           ) {
-            latestBlockOnL1 = await oracleService.getLatestL2OutputBlockNumber()
-            setLatestBlockNumber(latestBlockOnL1)
-            // Wait for 12 seconds before checking again
-            await new Promise((resolve) => setTimeout(resolve, 12000))
+            latestBlockOnL1 = await getLatestBlockNumber()
+            setLatestBlockNumber(Number(latestBlockOnL1))
+            await new Promise((resolve) => setTimeout(resolve, 12000)) // Wait for 12 seconds before checking again
           }
-
           if (isMounted) {
             setCanProoveTx(true)
           }
@@ -95,7 +107,7 @@ const useAnchorageWithdrawal = (props) => {
     return () => {
       isMounted = false // Update mount state on unmount
     }
-  }, [activeStep])
+  }, [activeStep, withdrawalConfig, doesFruadProofWithdrawalEnable])
 
   const initWithdrawalStep = async () => {
     setLoading(true)
@@ -208,6 +220,7 @@ const useAnchorageWithdrawal = (props) => {
   }
 
   return {
+    doesFruadProofWithdrawalEnable,
     handleWithdrawalAction,
     latestBlockNumber,
     withdrawalConfig,
