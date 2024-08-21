@@ -28,8 +28,11 @@ export const withdrawFS_Savings = (stakeID: number) =>
     fixedSavingService.withdrawSavings(stakeID)
   )
 
-export const getFS_Saves = () =>
+export const fetchSavings = () =>
   createAction('GET/FS_SAVES', () => fixedSavingService.loadSavings())
 
-export const getFS_Info = () =>
+export const fetchStakeInfo = () =>
   createAction('GET/FS_INFO', () => fixedSavingService.loadAccountSaveInfo())
+
+export const fetchBobaTokenDetail = () =>
+  createAction('BOBA_BALANCE/GET', () => fixedSavingService.loadBobaBalance())
