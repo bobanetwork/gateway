@@ -37,8 +37,6 @@ const balanceReducer = (state: IBalanceReducerState = initialState, action) => {
   switch (action.type) {
     case 'BALANCE/GET/SUCCESS':
       const { layer1, layer2 } = action.payload
-      console.log(`layer2`, layer2)
-      console.log(`layer1`, layer1)
       return {
         ...state,
         layer1,
