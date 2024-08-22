@@ -80,13 +80,12 @@ import { CHAIN_NAME, TRANSACTION_FILTER_STATUS } from './types'
 
 import { Typography } from 'components/global/typography'
 import DatePicker from './DatePicker'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 const History = () => {
   const [toNetwork, setToNetwork] = useState(ALL_NETWORKS)
   const [fromNetwork, setFromNetwork] = useState(ALL_NETWORKS)
   const [switched, setSwitched] = useState(false)
-  const { isActiveNetworkBnbTestnet } = useNetworkInfo()
+
   const networkType = useSelector(selectNetworkType())
   const network = useSelector(selectNetwork())
   const isOnLimitedNetwork: boolean = networkLimitedAvailability(
@@ -159,19 +158,16 @@ const History = () => {
     )
   }
 
-  const syncTransactions = useCallback(
-    (isActiveNetworkBnbTestnet) => {
-      if (accountEnabled) {
-        dispatch(resetTransaction())
-        dispatch(fetchTransactions(isActiveNetworkBnbTestnet))
-      }
-    },
-    [accountEnabled]
-  )
+  const syncTransactions = useCallback(() => {
+    if (accountEnabled) {
+      dispatch(resetTransaction())
+      dispatch(fetchTransactions())
+    }
+  }, [accountEnabled])
 
   useEffect(() => {
-    syncTransactions(isActiveNetworkBnbTestnet)
-  }, [isActiveNetworkBnbTestnet])
+    syncTransactions()
+  }, [])
 
   // TODO: setup tx with refresh option.
   // useInterval(syncTransactions, POLL_INTERVAL)

@@ -12,6 +12,8 @@ import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
+  Network,
+  NetworkType,
 } from 'util/network/network.util'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
 import networkService from './networkService'
@@ -128,8 +130,8 @@ class TransactionService {
    * loads L1Txs, l2Txs, l0Txs, L1PendingTxs
    *
    */
-  async getTransactions(isActiveNetworkBnb) {
-    console.log(`loading ${isActiveNetworkBnb ? 'BNB' : ''} tx `)
+  async getTransactions() {
+    console.log(`loading tx `)
     const networksArray = Array.from(Object.values(AllNetworkConfigs))
     const networkConfigsArray = networksArray.flatMap((network) => {
       return [network.Testnet, network.Mainnet]
@@ -143,24 +145,21 @@ class TransactionService {
 
         // check for ethereum and invoke anchorage data.
         // [sepolia, bnb tesnet, eth mainnet]
-        if (isActiveNetworkBnb) {
+        if (
+          networkService.network === Network.BNB &&
+          networkService.networkType === NetworkType.TESTNET
+        ) {
           if (
             [97].includes(config.L1.chainId) ||
             [9728].includes(config.L2.chainId)
           ) {
-            console.log(`calling anchorage tx for bnb`, isActiveNetworkBnb)
-            promiseCalls.push(
-              this.fetchAnchorageTransactions(config, isActiveNetworkBnb)
-            )
+            promiseCalls.push(this.fetchAnchorageTransactions(config, true))
           }
         } else if (
           [11155111, 1].includes(config.L1.chainId) ||
           [28882, 288].includes(config.L2.chainId)
         ) {
-          console.log(`calling anchorage tx for eth`, isActiveNetworkBnb)
-          promiseCalls.push(
-            this.fetchAnchorageTransactions(config, isActiveNetworkBnb)
-          )
+          promiseCalls.push(this.fetchAnchorageTransactions(config, false))
         }
 
         // invoke watcher only for BNB mainnet

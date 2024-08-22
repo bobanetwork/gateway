@@ -25,10 +25,8 @@ export const fetchBalances = () =>
 export const addTokenList = () =>
   createAction('TOKENLIST/GET', () => networkService.addTokenList())
 
-export const fetchTransactions = (payload) =>
-  createAction('TRANSACTION/GETALL', () =>
-    transactionService.getTransactions(payload)
-  )
+export const fetchTransactions = () =>
+  createAction('TRANSACTION/GETALL', () => transactionService.getTransactions())
 
 export const exitBOBA = (token: string, value: BigNumberish) =>
   createAction('EXIT/CREATE', () => networkService.exitBOBA(token, value))
