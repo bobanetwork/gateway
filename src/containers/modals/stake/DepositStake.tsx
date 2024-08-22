@@ -9,21 +9,25 @@ import { Button } from 'components/global/button'
 
 import { Flex, StakeContent, StakeDetails, StakeInputContainer } from './styles'
 
-import { addFS_Savings, getFS_Info, getFS_Saves } from 'actions/fixedAction'
+import {
+  addFS_Savings,
+  fetchStakeInfo,
+  fetchSavings,
+  fetchBobaTokenDetail,
+} from 'actions/fixedAction'
 
 import { MaxInput } from 'components/global/InputMax'
 import { BigNumber, utils } from 'ethers'
 import { toWei_String } from 'util/amountConvert'
 
 import { ModalTypography } from 'components/global/modalTypography'
-import { selectFixed, selectSetup, selectlayer2Balance } from 'selectors'
+import { selectFixed, selectSetup } from 'selectors'
 import fixedSavingService from 'services/fixedsaving/fixedSaving.service'
 
 const DepositStake = ({ open }) => {
-  const { stakeInfo } = useSelector(selectFixed())
+  const { stakeInfo, bobaToken } = useSelector(selectFixed())
   const { accountEnabled, netLayer, bobaFeeChoice, bobaFeePriceRatio } =
     useSelector(selectSetup())
-  const layer2 = useSelector(selectlayer2Balance)
 
   const dispatch = useDispatch<any>()
 
@@ -36,24 +40,16 @@ const DepositStake = ({ open }) => {
   })
 
   useEffect(() => {
-    dispatch(getFS_Saves())
-    dispatch(getFS_Info())
-    getMaxTransferValue()
+    dispatch(fetchBobaTokenDetail())
   }, [])
 
   useEffect(() => {
     getMaxTransferValue()
-  }, [layer2])
+  }, [bobaToken])
 
   const getMaxTransferValue = async () => {
-    // as staking BOBA check the bobabalance
-    const token: any = Object.values(layer2).find(
-      (t: any) => t['symbolL2'] === 'BOBA'
-    )
-
-    // BOBA available prepare transferEstimate
-    if (token) {
-      let max_BN = BigNumber.from(token.balance.toString())
+    if (bobaToken) {
+      let max_BN = BigNumber.from(bobaToken.balance.toString())
       let fee = '0'
 
       if (netLayer === 'L2') {
@@ -71,10 +67,10 @@ const DepositStake = ({ open }) => {
         if (bobaFeeChoice) {
           fee = utils.formatUnits(
             cost_BN.mul(BigNumber.from(bobaFeePriceRatio)),
-            token.decimals
+            bobaToken.decimals
           )
         } else {
-          fee = utils.formatUnits(cost_BN, token.decimals)
+          fee = utils.formatUnits(cost_BN, bobaToken.decimals)
         }
       }
 
@@ -84,7 +80,7 @@ const DepositStake = ({ open }) => {
 
       setState((prevState) => ({
         ...prevState,
-        max_Float_String: utils.formatUnits(max_BN, token.decimals),
+        max_Float_String: utils.formatUnits(max_BN, bobaToken.decimals),
         fee,
       }))
     }
@@ -123,6 +119,9 @@ const DepositStake = ({ open }) => {
 
     if (addTX) {
       dispatch(openAlert('Your BOBA were staked'))
+      dispatch(fetchSavings())
+      dispatch(fetchStakeInfo())
+      dispatch(fetchBobaTokenDetail())
     }
 
     setState((prevState) => ({
