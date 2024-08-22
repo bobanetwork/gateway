@@ -28,7 +28,8 @@ interface ICrossDomainMessage {
 
 class TransactionService {
   async fetchAnchorageTransactions(
-    networkConfig = networkService.networkConfig
+    networkConfig = networkService.networkConfig,
+    isActiveNetworkBnb = false
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
     if (!address) {
@@ -40,7 +41,8 @@ class TransactionService {
           networkService.L1Provider,
           networkService.L2Provider,
           address,
-          networkConfig!
+          networkConfig!,
+          isActiveNetworkBnb
         )
 
       const depositTransactions =
@@ -126,8 +128,8 @@ class TransactionService {
    * loads L1Txs, l2Txs, l0Txs, L1PendingTxs
    *
    */
-  async getTransactions() {
-    console.log(`loading tx`)
+  async getTransactions(isActiveNetworkBnb) {
+    console.log(`loading ${isActiveNetworkBnb ? 'BNB' : ''} tx `)
     const networksArray = Array.from(Object.values(AllNetworkConfigs))
     const networkConfigsArray = networksArray.flatMap((network) => {
       return [network.Testnet, network.Mainnet]
@@ -141,11 +143,24 @@ class TransactionService {
 
         // check for ethereum and invoke anchorage data.
         // [sepolia, bnb tesnet, eth mainnet]
-        if (
-          [11155111, 97, 1].includes(config.L1.chainId) ||
-          [28882, 9728, 288].includes(config.L2.chainId)
+        if (isActiveNetworkBnb) {
+          if (
+            [97].includes(config.L1.chainId) ||
+            [9728].includes(config.L2.chainId)
+          ) {
+            console.log(`calling anchorage tx for bnb`, isActiveNetworkBnb)
+            promiseCalls.push(
+              this.fetchAnchorageTransactions(config, isActiveNetworkBnb)
+            )
+          }
+        } else if (
+          [11155111, 1].includes(config.L1.chainId) ||
+          [28882, 288].includes(config.L2.chainId)
         ) {
-          promiseCalls.push(this.fetchAnchorageTransactions(config))
+          console.log(`calling anchorage tx for eth`, isActiveNetworkBnb)
+          promiseCalls.push(
+            this.fetchAnchorageTransactions(config, isActiveNetworkBnb)
+          )
         }
 
         // invoke watcher only for BNB mainnet
