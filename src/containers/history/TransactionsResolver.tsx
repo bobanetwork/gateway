@@ -41,6 +41,7 @@ import {
   TRANSACTION_FILTER_STATUS,
   TRANSACTION_STATUS,
 } from './types'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   transactions,
@@ -48,6 +49,7 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
   loading = false,
 }) => {
   const dispatch = useDispatch<any>()
+  const { isActiveNetworkBnb, isActiveNetworkBnbTestnet } = useNetworkInfo()
   const [currentTransactions, setCurrentTransactions] = useState<
     ITransaction[]
   >([])
@@ -179,6 +181,15 @@ export const TransactionsResolver: React.FC<ITransactionsResolverProps> = ({
       symbol: 'ETH',
       decimals: 18,
     }
+
+    if (isActiveNetworkBnb || isActiveNetworkBnbTestnet) {
+      token = {
+        name: 'BNB',
+        symbol: 'BNB',
+        decimals: 18,
+      }
+    }
+
     if (
       TokenInfo[transaction.originChainId.toString()]?.[
         transaction?.action?.token?.toLowerCase()
