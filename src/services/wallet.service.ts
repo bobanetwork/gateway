@@ -228,10 +228,19 @@ export class WalletService {
   // switching chain
   async switchChain(chainId: any, chainInfo: any) {
     this.userTriggeredSwitchChain = true
-    const provider =
-      this.walletType === 'metamask'
-        ? window.ethereum
-        : this.walletConnectProvider
+    let provider
+    if (this.walletType === 'metamask') {
+      provider = window.ethereum
+    } else if (this.walletType === 'gatewallet') {
+      provider = window.gatewallet
+    } else {
+      provider = this.walletConnectProvider
+    }
+
+    if (!provider) {
+      throw new Error(`invalid provider!`)
+    }
+
     try {
       await provider.request({
         method: 'wallet_switchEthereumChain',
@@ -239,7 +248,11 @@ export class WalletService {
       })
       return true
     } catch (error: any) {
-      if (error.code === 4902 || this.walletType === 'walletconnect') {
+      if (
+        error.code === 4902 ||
+        error.code === 4001 ||
+        this.walletType === 'walletconnect'
+      ) {
         try {
           if (this.walletType === 'walletconnect') {
             await provider.request({
@@ -254,11 +267,11 @@ export class WalletService {
           }
           return true
         } catch (addError) {
-          console.log(`Error adding chain: ${addError}`)
+          console.log(`Error adding chain:`, addError)
           return false
         }
       } else {
-        console.log(`Error switching chain: ${error?.message}`)
+        console.log(`Error switching chain:`, error)
         return false
       }
     }
