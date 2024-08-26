@@ -29,7 +29,6 @@ export const useNetworkInfo = () => {
     } else {
       setIsActiveNetworkSepolia(false)
     }
-
     if (network === Network.BNB && networkType === NetworkType.TESTNET) {
       setIsActiveNetworkBnbTestnet(true)
     } else {
@@ -40,12 +39,6 @@ export const useNetworkInfo = () => {
       setIsActiveNetworkBnb(true)
     } else {
       setIsActiveNetworkBnb(false)
-    }
-
-    return () => {
-      setIsAnchorageEnabled(false)
-      setIsActiveNetworkBnb(false)
-      setIsActiveNetworkBnbTestnet(false)
     }
   }, [network, networkType])
 

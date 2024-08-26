@@ -31,14 +31,15 @@ const Bridging = () => {
   useBridgeCleanUp()
   useBridgeAlerts()
   const accountEnabled = useSelector(selectAccountEnabled())
-  const { isAnchorageEnabled } = useNetworkInfo()
+  const { isAnchorageEnabled, isActiveNetworkBnbTestnet } = useNetworkInfo()
 
   const reenterWithdrawConfig = useSelector(selectReenterWithdrawalConfig())
 
   useEffect(() => {
     const triggerReenterCheck = async () => {
       const config = await checkBridgeWithdrawalReenter(
-        networkService as MinimalNetworkService
+        networkService as MinimalNetworkService,
+        isActiveNetworkBnbTestnet
       )
       if (config) {
         dispatch(setReenterWithdrawalConfig(config))

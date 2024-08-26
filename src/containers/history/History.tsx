@@ -169,6 +169,7 @@ const History = () => {
     syncTransactions()
   }, [])
 
+  // TODO: setup tx with refresh option.
   // useInterval(syncTransactions, POLL_INTERVAL)
 
   return (
