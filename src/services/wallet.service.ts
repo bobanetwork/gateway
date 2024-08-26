@@ -32,9 +32,75 @@ export class WalletService {
   provider: any
   walletConnectProvider: any
   account: string = ''
-  walletType: 'metamask' | 'walletconnect' | null = null
+  walletType: 'metamask' | 'walletconnect' | 'gatewallet' | null = null
   userTriggeredSwitchChain: boolean = false
   networkId: number = 1
+
+  // Gate wallet functions.
+  async connectToGateWallet() {
+    try {
+      await window.gatewallet.request({ method: 'eth_requestAccounts' })
+      this.provider = new providers.Web3Provider(window.gatewallet, 'any')
+      this.account = await this.provider.getSigner().getAddress()
+      this.walletType = 'gatewallet'
+      const network = await this.provider.getNetwork()
+      console.log(`data`, {
+        provider: this.provider,
+        account: this.account,
+        network,
+      })
+      this.networkId = network.chainId
+      return true
+    } catch (e) {
+      console.log(`Error connecting to gatewallet: ${e}`)
+      return false
+    }
+  }
+
+  async disconnectGateWallet() {
+    try {
+      await window.gatewallet.request({
+        method: 'eth_requestAccounts',
+        params: [{ eth_accounts: {} }],
+      })
+      return true
+    } catch (e) {
+      console.log(`Error disconnecting wallet: ${e}`)
+      return false
+    }
+  }
+
+  async listenToGateWallet() {
+    window.gatewallet.on('accountsChanged', () => {
+      //reset connection
+      store.dispatch(setBaseState(false))
+      store.dispatch(setEnableAccount(false))
+      window.location.reload()
+    })
+
+    window.gatewallet.on('chainChanged', (chainId) => {
+      if (this.networkId === chainId) {
+        return
+      }
+      if (CHAIN_ID_LIST[Number(chainId)]) {
+        if (this.userTriggeredSwitchChain) {
+          store.dispatch({
+            type: 'SETUP/USER_TRIGGERED_CHAIN_SWITCH/SET',
+            payload: true,
+          })
+        } else {
+          store.dispatch({
+            type: 'SETUP/CHAINIDCHANGED/SET',
+            payload: Number(chainId),
+          })
+        }
+        this.userTriggeredSwitchChain = false
+        this.networkId = chainId
+      } else {
+        store.dispatch(openModal({ modal: 'UnsupportedNetwork' }))
+      }
+    })
+  }
 
   // meta mask functions
 
@@ -200,7 +266,10 @@ export class WalletService {
 
   // trigger connect to MM / WC
 
-  async connect(type: 'metamask' | 'walletconnect') {
+  async connect(type: 'metamask' | 'walletconnect' | 'gatewallet') {
+    if (type === 'gatewallet') {
+      return this.connectToGateWallet()
+    }
     if (type === 'metamask') {
       return this.connectToMetaMask()
     }
@@ -222,6 +291,9 @@ export class WalletService {
   }
 
   bindProviderListeners(): void {
+    if (this.walletType === 'gatewallet') {
+      this.listenToGateWallet()
+    }
     if (this.walletType === 'metamask') {
       this.listenToMetaMask()
     }
