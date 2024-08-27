@@ -238,7 +238,7 @@ export class WalletService {
     }
 
     if (!provider) {
-      throw new Error(`invalid provider!`)
+      return false
     }
 
     try {
