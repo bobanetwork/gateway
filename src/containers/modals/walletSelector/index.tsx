@@ -10,6 +10,7 @@ import networkService from 'services/networkService'
 import metaMaskLogo from 'assets/images/metamask.svg'
 import walletConnectLogo from 'assets/images/walletconnect.svg'
 import ArrowIcon from 'assets/images/icons/arrowright.svg'
+import gateWalletIcon from 'assets/images/gateio-wallet.png'
 
 import {
   Wallets,
@@ -73,7 +74,7 @@ const WalletSelectorModal: React.FC<ModalInterface> = ({ open }) => {
   }
 
   const handleconnect = (type: WalletType) => {
-    if ((window as any).ethereum) {
+    if ((window as any).ethereum || (window as any).gatewallet) {
       connectToWallet(type)
     } else {
       setWalletNotFound(true)
@@ -110,6 +111,13 @@ const WalletSelectorModal: React.FC<ModalInterface> = ({ open }) => {
         )}
         {!walletNotFound && (
           <>
+            <Wallet
+              onClick={() => handleconnect('gatewallet')}
+              iconSrc={gateWalletIcon}
+              title="Gate Wallet"
+              showArrow
+              testid={'gatewallet-link'}
+            />
             <Wallet
               onClick={() => handleconnect('metamask')}
               iconSrc={metaMaskLogo}

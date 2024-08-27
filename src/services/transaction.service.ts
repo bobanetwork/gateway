@@ -159,6 +159,7 @@ class TransactionService {
           [11155111, 1].includes(config.L1.chainId) ||
           [28882, 288].includes(config.L2.chainId)
         ) {
+          console.log(`fetching transactions for eth!`)
           promiseCalls.push(this.fetchAnchorageTransactions(config, false))
         }
 
