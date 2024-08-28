@@ -1,8 +1,7 @@
 import { test } from '../fixture/synpress'
+import { CLASSIC_BRIDGE_TOKEN, LIGHT_BRIDGE_TOKEN } from '../lib/constants'
 import { GatewayAction } from '../lib/gatewayAction'
 import { BasePage } from '../pages/basePage'
-
-const amountToBridge: string = '0.0001'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
@@ -16,8 +15,8 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
         await bridgeAction.classicBridgeDeposit({
-          amountToBridge,
-          tokenSymbol: 'ETH',
+          amountToBridge: CLASSIC_BRIDGE_TOKEN.ETH.AMOUNT,
+          tokenSymbol: CLASSIC_BRIDGE_TOKEN.ETH.SYMBOL,
           networkKey: 'eth',
         })
       })
@@ -27,8 +26,8 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
         await bridgeAction.classicBridgeDeposit({
-          amountToBridge,
-          tokenSymbol: 'BOBA',
+          amountToBridge: CLASSIC_BRIDGE_TOKEN.BOBA.AMOUNT,
+          tokenSymbol: CLASSIC_BRIDGE_TOKEN.BOBA.SYMBOL,
           approveAllowance: true,
           networkKey: 'eth',
         })
@@ -45,8 +44,8 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
-          amountToBridge,
-          tokenSymbol: 'ETH',
+          amountToBridge: CLASSIC_BRIDGE_TOKEN.ETH.AMOUNT,
+          tokenSymbol: CLASSIC_BRIDGE_TOKEN.ETH.SYMBOL,
         })
       })
       test('Should withdraw BOBA Successfully', async ({ page }) => {
@@ -58,8 +57,8 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.classicBridgeWithdrawal({
-          amountToBridge,
-          tokenSymbol: 'BOBA',
+          amountToBridge: CLASSIC_BRIDGE_TOKEN.BOBA.AMOUNT,
+          tokenSymbol: CLASSIC_BRIDGE_TOKEN.BOBA.SYMBOL,
         })
       })
     })
@@ -72,18 +71,18 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
         await bridgeAction.lightBridgeDeposit({
-          amountToBridge: '0.01',
-          tokenSymbol: 'ETH',
+          amountToBridge: LIGHT_BRIDGE_TOKEN.ETH.AMOUNT,
+          tokenSymbol: LIGHT_BRIDGE_TOKEN.ETH.SYMBOL,
         })
       })
 
-      test('Should Deposit BOBA Successfully', async ({ page }) => {
+      test.only('Should Deposit BOBA Successfully', async ({ page }) => {
         test.setTimeout(120000)
         const bridgeAction = new GatewayAction(page)
         await bridgeAction.connectToTestnet()
         await bridgeAction.lightBridgeDeposit({
-          amountToBridge: '20.021',
-          tokenSymbol: 'BOBA',
+          amountToBridge: LIGHT_BRIDGE_TOKEN.BOBA.AMOUNT,
+          tokenSymbol: LIGHT_BRIDGE_TOKEN.BOBA.SYMBOL,
           approveAllowance: true,
         })
       })
@@ -99,8 +98,8 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.lightBridgeWithdraw({
-          amountToBridge: '0.01',
-          tokenSymbol: 'ETH',
+          amountToBridge: LIGHT_BRIDGE_TOKEN.ETH.AMOUNT,
+          tokenSymbol: LIGHT_BRIDGE_TOKEN.ETH.SYMBOL,
         })
       })
       test('Should Withdraw BOBA Successfully', async ({ page }) => {
@@ -112,8 +111,8 @@ test.describe('Gateway ETHEREUM (Sepolia)', () => {
         await basePage.disconnectMetamask()
         await basePage.connectToMetamask(true)
         await bridgeAction.lightBridgeWithdraw({
-          amountToBridge: '20.0211',
-          tokenSymbol: 'BOBA',
+          amountToBridge: LIGHT_BRIDGE_TOKEN.BOBA.AMOUNT,
+          tokenSymbol: LIGHT_BRIDGE_TOKEN.BOBA.SYMBOL,
           approveAllowance: true,
         })
       })
