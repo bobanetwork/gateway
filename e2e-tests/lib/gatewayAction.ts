@@ -11,54 +11,15 @@ export class GatewayAction {
     this.bridgePage = new BridgePage(page)
   }
 
-  async classicBridgeDeposit({
+  async classicBridge({
     amountToBridge,
     tokenSymbol,
-    successWaitTime = 1000,
-    approveAllowance = false,
-    networkKey = 'eth',
+    estimatedTime = '',
   }: {
     amountToBridge: string
     tokenSymbol: string
-    successWaitTime?: number
-    approveAllowance?: boolean
-    networkKey?: 'bnb' | 'eth'
+    estimatedTime?: string
   }) {
-    await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
-    await this.bridgePage.bridgeButtonToBeDisable()
-    await this.bridgePage.fillBridgingAmount(amountToBridge)
-    await this.bridgePage.bridgeButtonToBeEnable()
-    await this.bridgePage.validateBridgingFee({
-      amount: amountToBridge,
-      token: tokenSymbol,
-      estimatedTime: '13 ~ 14mins.',
-    })
-    await this.bridgePage.clickToBridge()
-    await this.bridgePage.validateAndConfirmBridging({
-      amount: amountToBridge,
-      token: tokenSymbol,
-      estimatedTime: '13 ~ 14mins.',
-    })
-    if (approveAllowance) {
-      await this.bridgePage.approveAndConfirmMetaMaskSuccess(amountToBridge)
-    } else {
-      await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
-    }
-    await this.bridgePage.wait(successWaitTime) // have to wait for success modal
-    await this.bridgePage.validateBridgeSuccess()
-    await this.bridgePage.toHistoryPage()
-  }
-
-  async classicBridgeWithdrawal({
-    amountToBridge,
-    tokenSymbol,
-    networkKey = 'eth',
-  }: {
-    amountToBridge: string
-    tokenSymbol: string
-    networkKey?: 'bnb' | 'eth'
-  }) {
-    await this.switchL2Network()
     await this.basePage.disconnectMetamask()
     await this.basePage.connectToMetamask(true)
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
@@ -68,62 +29,47 @@ export class GatewayAction {
     await this.bridgePage.validateBridgingFee({
       amount: amountToBridge,
       token: tokenSymbol,
-      estimatedTime: '7 days',
+      estimatedTime,
     })
     await this.bridgePage.clickToBridge()
     await this.bridgePage.validateAndConfirmBridging({
       amount: amountToBridge,
       token: tokenSymbol,
-      estimatedTime: '7 days',
+      estimatedTime,
     })
-    await this.bridgePage.reviewAndWithdraw()
   }
 
-  async lightBridgeDeposit({
+  async doDepositClassicBridge({
     amountToBridge,
-    tokenSymbol,
-    successWaitTime = 1000,
     approveAllowance = false,
   }: {
     amountToBridge: string
-    tokenSymbol: string
-    successWaitTime?: number
     approveAllowance?: boolean
   }) {
-    await this.bridgePage.switchToLightBridge()
-    await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
-    await this.bridgePage.bridgeButtonToBeDisable()
-    await this.bridgePage.fillBridgingAmount(amountToBridge)
-    await this.bridgePage.bridgeButtonToBeEnable()
-    await this.bridgePage.validateBridgingFee({
-      amount: amountToBridge,
-      token: tokenSymbol,
-      estimatedTime: '~1min.',
-    })
-    await this.bridgePage.clickToBridge()
-    await this.bridgePage.validateAndConfirmBridging({
-      amount: amountToBridge,
-      token: tokenSymbol,
-      estimatedTime: '~1min.',
-    })
     if (approveAllowance) {
       await this.bridgePage.approveAndConfirmMetaMaskSuccess(amountToBridge)
     } else {
       await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
     }
-    await this.bridgePage.wait(successWaitTime) // have to wait for success modal
+    await this.bridgePage.wait(1000)
     await this.bridgePage.validateBridgeSuccess()
     await this.bridgePage.toHistoryPage()
   }
 
-  async lightBridgeWithdraw({
+  async doWithdrawClassicBridge() {
+    await this.bridgePage.reviewAndWithdraw()
+  }
+
+  async lightBridge({
     amountToBridge,
     tokenSymbol,
     successWaitTime = 1000,
     approveAllowance = false,
+    receivableAmt,
   }: {
     amountToBridge: string
     tokenSymbol: string
+    receivableAmt?: string
     successWaitTime?: number
     approveAllowance?: boolean
   }) {
@@ -131,11 +77,9 @@ export class GatewayAction {
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
     await this.bridgePage.bridgeButtonToBeDisable()
     await this.bridgePage.fillBridgingAmount(amountToBridge)
-    this.page.waitForTimeout(1000)
     await this.bridgePage.bridgeButtonToBeEnable()
-    const receivableAmt = Number(amountToBridge) * ((100 - 1) / 100)
     await this.bridgePage.validateBridgingFee({
-      amount: receivableAmt.toFixed(4),
+      amount: receivableAmt ? Number(receivableAmt).toFixed(4) : amountToBridge,
       token: tokenSymbol,
       estimatedTime: '~1min.',
     })
@@ -145,13 +89,11 @@ export class GatewayAction {
       token: tokenSymbol,
       estimatedTime: '~1min.',
     })
-
     if (approveAllowance) {
       await this.bridgePage.approveAndConfirmMetaMaskSuccess(amountToBridge)
     } else {
       await this.bridgePage.confirmMetaMaskModalToBridge(amountToBridge)
     }
-
     await this.bridgePage.wait(successWaitTime) // have to wait for success modal
     await this.bridgePage.validateBridgeSuccess()
     await this.bridgePage.toHistoryPage()
@@ -164,8 +106,10 @@ export class GatewayAction {
     await this.basePage.wait(1000)
   }
 
-  async switchL2Network() {
+  async switchToL2AndReset() {
     await this.basePage.clickToSwitchNetwork()
+    await this.basePage.disconnectMetamask()
+    await this.basePage.connectToMetamask(true)
   }
 
   async addAndConnectBNBTestnet() {

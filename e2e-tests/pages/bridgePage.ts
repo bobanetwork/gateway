@@ -115,7 +115,7 @@ export class BridgePage extends BasePage {
 
     await metamask.confirmPermissionToSpend(amount, true)
 
-    this.page.waitForTimeout(3000) // wait for 3 secs.
+    this.page.waitForTimeout(6000) // wait for 3 secs.
 
     await metamask.confirmTransaction({ shouldWaitForPopupClosure: true })
 

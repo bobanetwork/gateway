@@ -1,8 +1,7 @@
 import { test } from '../fixture/synpress'
 import { GatewayAction } from '../lib/gatewayAction'
-import { BasePage } from '../pages/basePage'
 
-const amountToBridge: string = '0.0001'
+let amountToBridge: string = '0.0001'
 
 const TEST_TIMEOUT = 120000
 
@@ -19,73 +18,82 @@ test.describe('ETH', () => {
     test.setTimeout(TEST_TIMEOUT)
   })
 
-  test('should deposit ETH token with classic bridge', async ({ page }) => {
-    await gatewayAction.classicBridgeDeposit({
+  test('should deposit ETH token with classic bridge', async () => {
+    await gatewayAction.classicBridge({
       amountToBridge,
       tokenSymbol: 'ETH',
+      estimatedTime: '13 ~ 14mins.',
+    })
+    await gatewayAction.doDepositClassicBridge({
+      amountToBridge,
     })
   })
 
-  test.skip('should deposit BOBA token with classic bridge', async ({
-    page,
-  }) => {
-    await gatewayAction.classicBridgeDeposit({
+  test.fixme('should deposit BOBA token with classic bridge', async () => {
+    await gatewayAction.classicBridge({
       amountToBridge,
       tokenSymbol: 'BOBA',
+      estimatedTime: '13 ~ 14mins.',
+    })
+    await gatewayAction.doDepositClassicBridge({
+      amountToBridge,
       approveAllowance: true,
     })
   })
 
-  test.only('should withdraw ETH token with classic bridge', async ({
-    page,
-  }) => {
-    await gatewayAction.classicBridgeWithdrawal({
+  test('should withdraw ETH token with classic bridge', async () => {
+    await gatewayAction.switchToL2AndReset()
+    await gatewayAction.classicBridge({
       amountToBridge,
+      estimatedTime: '7 days',
       tokenSymbol: 'ETH',
     })
+    await gatewayAction.doWithdrawClassicBridge()
   })
 
-  test.only('should withdraw BOBA token with classic bridge', async ({
-    page,
-  }) => {
-    await gatewayAction.classicBridgeWithdrawal({
+  test('should withdraw BOBA token with classic bridge', async () => {
+    await gatewayAction.switchToL2AndReset()
+    await gatewayAction.classicBridge({
       amountToBridge,
+      estimatedTime: '7 days',
       tokenSymbol: 'BOBA',
     })
+    await gatewayAction.doWithdrawClassicBridge()
   })
 
-  test('should deposit ETH token with light bridge', async ({ page }) => {
-    await gatewayAction.lightBridgeDeposit({
+  test('should deposit ETH token with light bridge', async () => {
+    await gatewayAction.lightBridge({
       amountToBridge: '0.01',
       tokenSymbol: 'ETH',
     })
   })
 
-  test('should deposit BOBA token with light bridge', async ({ page }) => {
-    await gatewayAction.lightBridgeDeposit({
+  test.fixme('should deposit BOBA token with light bridge', async () => {
+    await gatewayAction.lightBridge({
       amountToBridge: '20.021',
       tokenSymbol: 'BOBA',
       approveAllowance: true,
     })
   })
 
-  test('should withdraw ETH token with light bridge', async ({ page }) => {
-    const basePage = new BasePage(page)
-    await gatewayAction.switchL2Network()
-    await basePage.disconnectMetamask()
-    await basePage.connectToMetamask(true)
-    await gatewayAction.lightBridgeWithdraw({
-      amountToBridge: '0.01',
+  test('should withdraw ETH token with light bridge', async () => {
+    amountToBridge = '0.01'
+    await gatewayAction.switchToL2AndReset()
+    const receivableAmt = Number(amountToBridge) * ((100 - 1) / 100)
+    await gatewayAction.lightBridge({
+      amountToBridge,
+      receivableAmt,
       tokenSymbol: 'ETH',
     })
   })
-  test('should withdraw BOBA token with light bridge', async ({ page }) => {
-    const basePage = new BasePage(page)
-    await gatewayAction.switchL2Network()
-    await basePage.disconnectMetamask()
-    await basePage.connectToMetamask(true)
-    await gatewayAction.lightBridgeWithdraw({
-      amountToBridge: '20.0211',
+
+  test('should withdraw BOBA token with light bridge', async () => {
+    amountToBridge = '20.0211'
+    await gatewayAction.switchToL2AndReset()
+    const receivableAmt = Number(amountToBridge) * ((100 - 1) / 100)
+    await gatewayAction.lightBridge({
+      amountToBridge,
+      receivableAmt,
       tokenSymbol: 'BOBA',
       approveAllowance: true,
     })
