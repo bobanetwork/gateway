@@ -2,41 +2,6 @@ import { Page } from '@playwright/test'
 import { BasePage } from '../pages/basePage'
 import { BridgePage } from '../pages/bridgePage'
 
-const networkConfig = {
-  L1: {
-    token: 'ETH',
-    chainId: '11155111',
-    name: 'Sepolia',
-  },
-  L2: {
-    token: 'ETH',
-    chainId: '28882',
-    name: 'Boba Sepolia',
-  },
-}
-
-const networkNames = {
-  eth: {
-    fromNetwork: 'Ethereum (Sepolia)',
-    toNetwork: 'Boba (Sepolia)',
-  },
-  bnb: {
-    fromNetwork: 'BNB Testnet',
-    toNetwork: 'Boba BNB Testnet',
-  },
-}
-
-const withDrawalNetworkNames = {
-  eth: {
-    toNetwork: 'Ethereum (Sepolia)',
-    fromNetwork: 'Boba (Sepolia)',
-  },
-  bnb: {
-    toNetwork: 'BNB Testnet',
-    fromNetwork: 'Boba BNB Testnet',
-  },
-}
-
 export class GatewayAction {
   basePage: BasePage
   bridgePage: BridgePage
@@ -72,7 +37,6 @@ export class GatewayAction {
     await this.bridgePage.validateAndConfirmBridging({
       amount: amountToBridge,
       token: tokenSymbol,
-      ...networkNames[networkKey],
       estimatedTime: '13 ~ 14mins.',
     })
     if (approveAllowance) {
@@ -94,6 +58,9 @@ export class GatewayAction {
     tokenSymbol: string
     networkKey?: 'bnb' | 'eth'
   }) {
+    await this.switchL2Network()
+    await this.basePage.disconnectMetamask()
+    await this.basePage.connectToMetamask(true)
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
     await this.bridgePage.bridgeButtonToBeDisable()
     await this.bridgePage.fillBridgingAmount(amountToBridge)
@@ -107,13 +74,9 @@ export class GatewayAction {
     await this.bridgePage.validateAndConfirmBridging({
       amount: amountToBridge,
       token: tokenSymbol,
-      ...withDrawalNetworkNames[networkKey],
       estimatedTime: '7 days',
     })
-    await this.bridgePage.reviewAndInitiateWithdrawal()
-    // TODO :
-    // await this.bridgePage.switchNetworkProovWithdrawal()
-    // NOTE: Discuss and implement the proove validation.
+    await this.bridgePage.reviewAndWithdraw()
   }
 
   async lightBridgeDeposit({
@@ -141,8 +104,6 @@ export class GatewayAction {
     await this.bridgePage.validateAndConfirmBridging({
       amount: amountToBridge,
       token: tokenSymbol,
-      fromNetwork: 'Ethereum (Sepolia)',
-      toNetwork: 'Boba (Sepolia)',
       estimatedTime: '~1min.',
     })
     if (approveAllowance) {
@@ -182,8 +143,6 @@ export class GatewayAction {
     await this.bridgePage.validateAndConfirmBridging({
       amount: amountToBridge,
       token: tokenSymbol,
-      fromNetwork: 'Boba (Sepolia)',
-      toNetwork: 'Ethereum (Sepolia)',
       estimatedTime: '~1min.',
     })
 

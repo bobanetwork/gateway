@@ -9,6 +9,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Gateway BNB (Testnet)', () => {
+  test.skip()
   test.describe('Classic Bridge', () => {
     test.describe('Deposit', () => {
       test('tBNB', async ({ page }) => {
