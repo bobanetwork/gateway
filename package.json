@@ -127,6 +127,7 @@
       "@walletconnect/ethereum-provider": "<rootDir>/__mocks__/@walletconnect/ethereum-provider.ts",
       "^axios$": "axios/dist/node/axios.cjs"
     },
+    "transformIgnorePatterns": ["/node_modules/(?!@bobanetwork/graphql-utils).+\\.js$"],
     "collectCoverageFrom": [
       "src/components/**/*.tsx",
       "src/containers/**/*.tsx",

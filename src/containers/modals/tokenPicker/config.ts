@@ -6,7 +6,6 @@ export const bridgeConfig = {
     getBalance: ({ l1Balance, l2Balance, layer, getBridgeableTokens }) => {
       const balances = layer === 'L2' ? l2Balance : l1Balance
       return getBridgeableTokens(balances).then((supportedTokens) => {
-        console.log(`supportedTokens`, supportedTokens, balances)
         return balances.filter((balance) => {
           return supportedTokens
             .map((b) => b.token)
