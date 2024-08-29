@@ -151,6 +151,19 @@ export class BridgePage extends BasePage {
     await this.page.getByRole('button', { name: 'Close' }).click()
   }
 
+  async reviewAproveAndWithdraw(amount) {
+    await expect(
+      this.page.getByRole('heading', { name: 'Withdrawal' })
+    ).toBeVisible()
+    await expect(
+      this.page.getByRole('button', { name: 'Initiate Withdrawal' })
+    ).toBeEnabled()
+    await this.page.getByRole('button', { name: 'Initiate Withdrawal' }).click()
+    await metamask.confirmPermissionToSpend(amount)
+    await this.wait(2000)
+    await this.page.getByRole('button', { name: 'Close' }).click()
+  }
+
   async switchNetworkProovWithdrawal() {
     const switchBtn = this.page.getByRole('button', { name: 'Switch Network' })
 

@@ -20,8 +20,6 @@ export class GatewayAction {
     tokenSymbol: string
     estimatedTime?: string
   }) {
-    await this.basePage.disconnectMetamask()
-    await this.basePage.connectToMetamask(true)
     await this.bridgePage.openTokenPickerAndSelect(tokenSymbol)
     await this.bridgePage.bridgeButtonToBeDisable()
     await this.bridgePage.fillBridgingAmount(amountToBridge)
@@ -58,6 +56,10 @@ export class GatewayAction {
 
   async doWithdrawClassicBridge() {
     await this.bridgePage.reviewAndWithdraw()
+  }
+
+  async doWithdrawClassicBridgeBnb(amount) {
+    await this.bridgePage.reviewAproveAndWithdraw(amount)
   }
 
   async lightBridge({
@@ -104,6 +106,10 @@ export class GatewayAction {
     await this.basePage.switchToTestnet()
     await this.basePage.connectToMetamask()
     await this.basePage.wait(1000)
+  }
+
+  async connect() {
+    await this.basePage.connectToMetamask(true)
   }
 
   async switchToL2AndReset() {

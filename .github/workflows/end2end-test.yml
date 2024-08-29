@@ -1,10 +1,9 @@
 name: Integration Test
 
 on: 
-  # push: 
-  #   branches: ['main', 'master']
-  # pull_request:
-  workflow_dispatch
+  push: 
+    branches: ['main', 'master']
+  pull_request:
 
 jobs:
   e2e-test:
