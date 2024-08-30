@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@bobanetwork/graphql-utils": "^1.1.15",
+    "@bobanetwork/graphql-utils": "^1.1.16",
     "@bobanetwork/light-bridge-chains": "^1.1.0",
     "@bobanetwork/register": "^0.0.26",
     "@bobanetwork/sdk": "1.0.7",
@@ -127,6 +127,7 @@
       "@walletconnect/ethereum-provider": "<rootDir>/__mocks__/@walletconnect/ethereum-provider.ts",
       "^axios$": "axios/dist/node/axios.cjs"
     },
+    "transformIgnorePatterns": ["/node_modules/(?!@bobanetwork/graphql-utils).+\\.js$"],
     "collectCoverageFrom": [
       "src/components/**/*.tsx",
       "src/containers/**/*.tsx",

@@ -1207,15 +1207,17 @@
     "@ethersproject/abstract-signer" "^5.5.0"
     "@ethersproject/hardware-wallets" "^5.5.0"
 
-"@bobanetwork/graphql-utils@^1.1.15":
-  version "1.1.15"
-  resolved "https://registry.yarnpkg.com/@bobanetwork/graphql-utils/-/graphql-utils-1.1.15.tgz#6b23b80c00946583fc40c455697c94f0a14da8d6"
-  integrity sha512-y2NavcPnCQSiTzgqFf/YEcotQ5B6O/5CCoemZrjRKtkJZKWwg3xIbb2ELy3bM5WWdHXd67z5KNhfpPN9Tp4tpw==
+"@bobanetwork/graphql-utils@^1.1.16":
+  version "1.1.16"
+  resolved "https://registry.yarnpkg.com/@bobanetwork/graphql-utils/-/graphql-utils-1.1.16.tgz#df93b658874905b21d8370b31355ef92ebaffdf9"
+  integrity sha512-jJA1JA2cf0iHI6qulZD65KpVuPo+rGCnxzSc+rfEaRLgjOr7TuIdqv/aYy5Lr/p2g+m1Gx0lAHWZQ5148HzvPw==
   dependencies:
     "@apollo/client" "3.5.10"
     "@ethersproject/providers" "^5.7.2"
     "@types/jest" "^29.5.12"
+    dotenv "^16.4.5"
     ethers "^5.5.4"
+    graphql "^16.8.2"
     node-fetch "^2.6.1"
     ts-jest "^29.1.2"
 
@@ -6240,6 +6242,11 @@ dotenv@^10.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
+dotenv@^16.4.5:
+  version "16.4.5"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
+  integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
+
 dotenv@^8.2.0, dotenv@^8.6.0:
   version "8.6.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
@@ -7576,7 +7583,7 @@ graphql-tag@^2.12.3:
   dependencies:
     tslib "^2.1.0"
 
-graphql@^16.8.1:
+graphql@^16.8.1, graphql@^16.8.2:
   version "16.9.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.9.0.tgz#1c310e63f16a49ce1fbb230bd0a000e99f6f115f"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
