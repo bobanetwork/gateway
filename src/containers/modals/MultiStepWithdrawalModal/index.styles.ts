@@ -109,8 +109,7 @@ export const ActiveStepNumberIndicator = styled.div<CanBeActive>`
 
 export const PassiveStepperNumberIndicator = styled.p<CanBeActive>`
   position: relative;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin: 8px auto;
   padding-left: 40px;
   font-size: 16px;
   opacity: 0.5;
@@ -134,10 +133,10 @@ export const PassiveStepperNumberIndicator = styled.p<CanBeActive>`
 `
 
 export const Description = styled.p<CanBeActive>`
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   margin-left: 14px;
-  padding: 8px 24px;
+  padding: 2px 24px;
   border-left: 2px solid gray;
   font-size: 14px;
   opacity: 0.5;

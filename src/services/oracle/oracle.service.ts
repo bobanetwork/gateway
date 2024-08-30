@@ -1,7 +1,7 @@
 import { TransactionResponse } from '@ethersproject/providers'
 import { addBobaFee } from 'actions/setupAction'
 import { Contract } from 'ethers'
-import { BobaGasPriceOracleABI } from 'services/abi'
+import { BobaGasPriceOracleABI, L2OutputOracleABI } from 'services/abi'
 import networkService from 'services/networkService'
 import { ERROR_CODE } from 'util/constant'
 import { Network } from 'util/network/network.util'
@@ -83,6 +83,27 @@ class OracleService {
     } catch (error) {
       console.log(`OS: switchFeeToken error`, error)
       return error
+    }
+  }
+
+  async getLatestL2OutputBlockNumber() {
+    try {
+      if (!networkService.addresses.L2OutputOracleProxy) {
+        throw new Error(`${ERROR_CODE} L2OutputOracleProxy invalid address!`)
+      }
+
+      const l2OutputOracleContract = new Contract(
+        networkService.addresses.L2OutputOracleProxy,
+        L2OutputOracleABI,
+        networkService.L1Provider
+      )
+
+      const blockNumber = await l2OutputOracleContract.latestBlockNumber()
+
+      return blockNumber
+    } catch (error) {
+      console.log(`ERR: Latest oracle block number`, error)
+      return 0
     }
   }
 }

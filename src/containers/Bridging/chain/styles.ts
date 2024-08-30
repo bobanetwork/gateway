@@ -67,7 +67,7 @@ export const SwitchChainIcon = styled.div`
   margin: -12px auto;
   width: 40px;
   height: 40px;
-  padding: 8px;
+  padding: 11px 8px;
   display: flex;
   align-items: center;
   justify-content: center;

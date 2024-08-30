@@ -689,7 +689,9 @@ class NetworkService {
         CHAIN_ID_LIST[L2ChainId]?.limitedAvailability
       // this should not do anything unless we changed chains
       if (this.L1orL2 === 'L2' && !isLimitedNetwork) {
-        await oracleService.getBobaFeeChoice()
+        if (!this.isAnchorageEnabled()) {
+          await oracleService.getBobaFeeChoice()
+        }
       }
 
       return this.L1orL2 // return the layer we are actually on

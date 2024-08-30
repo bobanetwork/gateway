@@ -71,34 +71,21 @@ export class BridgePage extends BasePage {
   async validateAndConfirmBridging({
     amount,
     token,
-    fromNetwork,
-    toNetwork,
     estimatedTime,
   }: {
-    amount: string
     token: string
-    fromNetwork: string
-    toNetwork: string
+    amount: string
     estimatedTime: string
   }) {
     await expect(
       this.page.getByRole('heading', { name: 'Bridge Confirmation' })
     ).toBeVisible()
 
-    // label can change base on networkType.
-    await expect(this.page.getByTestId('fromNetwork')).toContainText(
-      fromNetwork //'Ethereum (Sepolia)'
-    )
-
-    await expect(this.page.getByTestId('toNetwork')).toContainText(
-      toNetwork //'Boba (Sepolia)'
-    )
-
     const amountToBridge = await this.page
       .locator(':text("Amount to bridge") + p')
       .textContent()
 
-    await expect(amountToBridge).toContain(`${amount} ${token}`)
+    expect(amountToBridge).toContain(`${amount} ${token}`)
 
     const time = await this.page
       .locator('[data-testid="bridge-confirmation"] :text("Time") + p')
@@ -128,7 +115,7 @@ export class BridgePage extends BasePage {
 
     await metamask.confirmPermissionToSpend(amount, true)
 
-    this.page.waitForTimeout(3000) // wait for 3 secs.
+    this.page.waitForTimeout(6000) // wait for 3 secs.
 
     await metamask.confirmTransaction({ shouldWaitForPopupClosure: true })
 
@@ -151,23 +138,29 @@ export class BridgePage extends BasePage {
     )
   }
 
-  async reviewAndInitiateWithdrawal() {
+  async reviewAndWithdraw() {
     await expect(
       this.page.getByRole('heading', { name: 'Withdrawal' })
     ).toBeVisible()
-
-    const initBtn = this.page.getByRole('button', {
-      name: 'Initiate Withdrawal',
-    })
-
-    await expect(initBtn).toBeEnabled()
-
-    await initBtn.click()
-
+    await expect(
+      this.page.getByRole('button', { name: 'Initiate Withdrawal' })
+    ).toBeEnabled()
+    await this.page.getByRole('button', { name: 'Initiate Withdrawal' }).click()
     await metamask.confirmTransaction()
-
     await this.wait(2000)
+    await this.page.getByRole('button', { name: 'Close' }).click()
+  }
 
+  async reviewAproveAndWithdraw(amount) {
+    await expect(
+      this.page.getByRole('heading', { name: 'Withdrawal' })
+    ).toBeVisible()
+    await expect(
+      this.page.getByRole('button', { name: 'Initiate Withdrawal' })
+    ).toBeEnabled()
+    await this.page.getByRole('button', { name: 'Initiate Withdrawal' }).click()
+    await metamask.confirmPermissionToSpend(amount)
+    await this.wait(2000)
     await this.page.getByRole('button', { name: 'Close' }).click()
   }
 

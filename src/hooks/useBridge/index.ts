@@ -3,14 +3,14 @@ import {
   resetBridgeAmount,
   resetBridgeDestinationAddress,
   resetToken,
+  depositErc20Anchorage,
+  depositErc20AnchorageOptimism,
+  depositNativeAnchorage,
 } from 'actions/bridgeAction'
 import {
   approveERC20,
   depositErc20,
-  depositErc20Anchorage,
-  depositErc20AnchorageOptimism,
   depositETHL2,
-  depositNativeAnchorage,
   depositWithLightBridge,
   exitBOBA,
 } from 'actions/networkAction'

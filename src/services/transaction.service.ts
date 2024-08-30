@@ -12,6 +12,8 @@ import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
   getRpcUrlByChainId,
+  Network,
+  NetworkType,
 } from 'util/network/network.util'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
 import networkService from './networkService'
@@ -28,7 +30,8 @@ interface ICrossDomainMessage {
 
 class TransactionService {
   async fetchAnchorageTransactions(
-    networkConfig = networkService.networkConfig
+    networkConfig = networkService.networkConfig,
+    isActiveNetworkBnb = false
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
     if (!address) {
@@ -40,7 +43,8 @@ class TransactionService {
           networkService.L1Provider,
           networkService.L2Provider,
           address,
-          networkConfig!
+          networkConfig!,
+          isActiveNetworkBnb
         )
 
       const depositTransactions =
@@ -127,7 +131,7 @@ class TransactionService {
    *
    */
   async getTransactions() {
-    console.log(`loading tx`)
+    console.log(`loading tx `)
     const networksArray = Array.from(Object.values(AllNetworkConfigs))
     const networkConfigsArray = networksArray.flatMap((network) => {
       return [network.Testnet, network.Mainnet]
@@ -142,10 +146,21 @@ class TransactionService {
         // check for ethereum and invoke anchorage data.
         // [sepolia, bnb tesnet, eth mainnet]
         if (
-          [11155111, 97, 1].includes(config.L1.chainId) ||
-          [28882, 9728, 288].includes(config.L2.chainId)
+          networkService.network === Network.BNB &&
+          networkService.networkType === NetworkType.TESTNET
         ) {
-          promiseCalls.push(this.fetchAnchorageTransactions(config))
+          if (
+            [97].includes(config.L1.chainId) ||
+            [9728].includes(config.L2.chainId)
+          ) {
+            promiseCalls.push(this.fetchAnchorageTransactions(config, true))
+          }
+        } else if (
+          [11155111, 1].includes(config.L1.chainId) ||
+          [28882, 288].includes(config.L2.chainId)
+        ) {
+          console.log(`fetching transactions for eth!`)
+          promiseCalls.push(this.fetchAnchorageTransactions(config, false))
         }
 
         // invoke watcher only for BNB mainnet

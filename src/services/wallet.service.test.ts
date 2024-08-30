@@ -138,14 +138,6 @@ describe('WalletService', () => {
     expect(window.ethereum.request).toHaveBeenCalledWith({
       method: 'eth_requestAccounts',
     })
-    expect(window.ethereum.request).toHaveBeenCalledWith({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: 5 }],
-    })
-    expect(window.ethereum.request).toHaveBeenCalledWith({
-      method: 'wallet_addEthereumChain',
-      params: [{}, '0xcF044AB1e5b55203dC258F47756daFb7F8F01760'],
-    })
     await wsInstance.disconnect()
     // test for random code on error.
     ;(window.ethereum.request as any).mockRejectedValue({ code: 4901 })

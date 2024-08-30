@@ -1,24 +1,17 @@
-/* 
-  Bridging -
-    Contract interaction for Deposit & Withdrawal of Tokens 
-      - classic & light bridges.
- * For Bnb L2 (Testnet and Mainnet), 
- *   use OptimismPortal to deposit Boba and BNB. 
- *   use L1StandardBridge to deposit ERC20 tokens
- * 
- * For Eth L2, 
- *   use OptimismPortal to deposit Eth
- *   use L1StandardBridge ERC20 tokens
- * 
-*/
-
-import { BigNumber, Contract } from 'ethers'
+import { anchorageGraphQLService } from '@bobanetwork/graphql-utils'
+import { BigNumber, constants, Contract, utils } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
 import {
   L1ERC20ABI,
   L1StandardBridgeABI,
+  L2OutputOracleABI,
+  L2StandardBridgeABIAnchorage,
+  L2StandardERC20ABI,
+  L2ToL1MessagePasserABI,
   OptimismPortalABI,
 } from 'services/abi'
+import { OptimismPortal2ABI } from 'services/abi/OptimismPortal2.abi'
+import { L2ToL1MessagePasserAddress } from 'services/app.service'
 import networkService from 'services/networkService'
 import { ERROR_CODE } from 'util/constant'
 
@@ -94,7 +87,6 @@ export class BridgeService {
     currencyL2,
   }: IDepositErc20) {
     try {
-      console.log(`▶▶ anchorageDepositERC20`)
       if (!networkService.account) {
         throw new Error(`${ERROR_CODE} wallet not connected!`)
       }
@@ -185,7 +177,6 @@ export class BridgeService {
     currency,
   }: IDepositErc20Optimism) {
     try {
-      console.log(`▶▶ anchorageDepositERC20Optimism`)
       if (!networkService.account) {
         throw new Error(`${ERROR_CODE} wallet not connected!`)
       }
@@ -263,6 +254,459 @@ export class BridgeService {
       return depositReceipt
     } catch (error) {
       console.log(`BS: deposit ERC20`, error)
+      return error
+    }
+  }
+
+  async anchorageWithdrawNativeToken({
+    amount,
+    isActiveNetworkBnb = false,
+  }: {
+    amount: string
+    isActiveNetworkBnb?: boolean
+  }) {
+    try {
+      const signer = networkService.provider?.getSigner()
+
+      let initWithdraw
+
+      if (!isActiveNetworkBnb) {
+        if (!networkService.addresses.L2StandardBridgeAddress) {
+          throw new Error(`${ERROR_CODE} L2StandardBridge invalid address!`)
+        }
+
+        initWithdraw = await signer!.sendTransaction({
+          to: networkService.addresses.L2StandardBridgeAddress, // L2StandardBridge
+          value: amount,
+        })
+      } else {
+        // withdrawing BOBA for bnb
+        const contract = new Contract(
+          L2ToL1MessagePasserAddress, /// it's predeployed contract
+          L2ToL1MessagePasserABI,
+          signer
+        )
+
+        initWithdraw = await contract.initiateWithdrawal(
+          networkService.account,
+          100000,
+          [],
+          { value: amount }
+        )
+      }
+
+      const receipt = await initWithdraw.wait()
+      return receipt.blockNumber
+    } catch (error) {
+      console.log(`Anchorage native withdrawal failed`, error)
+      return error
+    }
+  }
+
+  async anchorageWithdrawErc20Token({ amount, token }) {
+    try {
+      if (!networkService.addresses.L2StandardBridgeAddress) {
+        throw new Error(`${ERROR_CODE} L2StandardBridge invalid address!`)
+      }
+
+      const signer = networkService.provider!.getSigner()
+
+      const tokenContract = new Contract(token, L2StandardERC20ABI, signer)
+
+      const allowance = await tokenContract.allowance(
+        signer.getAddress(),
+        networkService.addresses.L2StandardBridgeAddress
+      )
+
+      if (allowance.toString() < amount) {
+        const approveTx = await tokenContract!.approve(
+          networkService.addresses.L2StandardBridgeAddress,
+          amount
+        )
+        await approveTx.wait()
+      }
+
+      const L2StdBridgeContract = new Contract(
+        networkService.addresses.L2StandardBridgeAddress,
+        L2StandardBridgeABIAnchorage,
+        networkService.provider?.getSigner()
+      )
+
+      const initWithdraw = await L2StdBridgeContract.withdraw(
+        token,
+        amount,
+        30000,
+        '0x'
+      )
+
+      const receipt = await initWithdraw.wait()
+
+      return receipt.blockNumber
+    } catch (error) {
+      console.log(`anchorage erc20 withdrawal failed`, error)
+      return error
+    }
+  }
+
+  async prooveTransactionWithdrawal({ txInfo }) {
+    try {
+      if (!networkService.addresses.L2OutputOracleProxy) {
+        throw new Error(`${ERROR_CODE} L2OutputOracle invalid address!`)
+      }
+
+      if (!networkService.addresses.OptimismPortalProxy) {
+        throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
+      }
+
+      const L2ToL1MessagePasserContract = new Contract(
+        L2ToL1MessagePasserAddress,
+        L2ToL1MessagePasserABI,
+        networkService.L2Provider
+      )
+
+      let logs: Array<any> = await L2ToL1MessagePasserContract.queryFilter(
+        L2ToL1MessagePasserContract.filters.MessagePassed(),
+        txInfo.blockNumber,
+        txInfo.blockNumber
+      )
+
+      if (txInfo.withdrawalHash) {
+        logs = logs.filter(
+          (b) => b!.args.withdrawalHash === txInfo.withdrawalHash
+        )
+      }
+
+      if (!logs || logs.length === 0 || !logs[0]) {
+        throw new Error(`${ERROR_CODE} No L2ToL1MessagePasser logs`)
+      }
+
+      const types = [
+        'uint256',
+        'address',
+        'address',
+        'uint256',
+        'uint256',
+        'bytes',
+      ]
+
+      const encoded = utils.defaultAbiCoder.encode(types, [
+        logs[0].args.nonce,
+        logs[0].args.sender,
+        logs[0].args.target,
+        logs[0].args.value,
+        logs[0].args.gasLimit,
+        logs[0].args.data,
+      ])
+
+      const slot = utils.keccak256(encoded)
+
+      const withdrawalHash = logs[0].args.withdrawalHash
+
+      if (withdrawalHash !== slot) {
+        throw new Error(`Withdrawal hash does not match`)
+      }
+
+      const messageSlot = utils.keccak256(
+        utils.defaultAbiCoder.encode(
+          ['bytes32', 'uint256'],
+          [slot, constants.HashZero]
+        )
+      )
+
+      const l2OutputOracleContract = new Contract(
+        networkService.addresses.L2OutputOracleProxy,
+        L2OutputOracleABI,
+        networkService.L1Provider
+      )
+
+      // LOOPING TO CHECK THE LATEST BLOCK NUMBER.
+      let latestBlockOnL1 = await l2OutputOracleContract.latestBlockNumber()
+      while (latestBlockOnL1 < txInfo.blockNumber) {
+        await new Promise((resolve) => setTimeout(resolve, 12000))
+        latestBlockOnL1 = await l2OutputOracleContract.latestBlockNumber()
+      }
+
+      const l2OutputIndex = await l2OutputOracleContract.getL2OutputIndexAfter(
+        txInfo.blockNumber
+      )
+      const proposal = await l2OutputOracleContract.getL2Output(l2OutputIndex)
+      const proposalBlockNumber = proposal.l2BlockNumber
+      const proposalBlock = await networkService.L2Provider!.send(
+        'eth_getBlockByNumber',
+        [proposalBlockNumber.toNumber(), false]
+      )
+
+      console.log('requesting proof', proposalBlock, messageSlot)
+      const proof = await networkService.L2Provider!.send('eth_getProof', [
+        L2ToL1MessagePasserAddress,
+        [messageSlot],
+        proposalBlock.number, // reading hex block number.
+      ])
+
+      const signer = networkService.provider!.getSigner()
+
+      const optimismPortalContract = new Contract(
+        networkService.addresses.OptimismPortalProxy,
+        OptimismPortalABI,
+        signer
+      )
+
+      const proveTx = await optimismPortalContract.proveWithdrawalTransaction(
+        [
+          logs[0].args.nonce,
+          logs[0].args.sender,
+          logs[0].args.target,
+          logs[0].args.value,
+          logs[0].args.gasLimit,
+          logs[0].args.data,
+        ],
+        l2OutputIndex,
+        [
+          constants.HashZero,
+          proposalBlock.stateRoot,
+          proof.storageHash,
+          proposalBlock.hash,
+        ],
+        proof.storageProof[0].proof
+      )
+      console.log(`waiting for prove tx!!`)
+      const txReceipt = await proveTx.wait()
+      console.log(`txReceipt`, txReceipt)
+      return logs
+    } catch (error) {
+      console.log(`Err: proveWithdrwal`, error)
+      return error
+    }
+  }
+
+  async proveTransactionWithdrawalWithFraudProof({ txInfo }) {
+    try {
+      if (!networkService.addresses.OptimismPortalProxy) {
+        throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
+      }
+
+      const L2ToL1MessagePasserContract = new Contract(
+        L2ToL1MessagePasserAddress,
+        L2ToL1MessagePasserABI,
+        networkService.L2Provider
+      )
+
+      let logs: Array<any> = await L2ToL1MessagePasserContract.queryFilter(
+        L2ToL1MessagePasserContract.filters.MessagePassed(),
+        txInfo.blockNumber,
+        txInfo.blockNumber
+      )
+
+      if (txInfo.withdrawalHash) {
+        logs = logs.filter(
+          (b) => b!.args.withdrawalHash === txInfo.withdrawalHash
+        )
+      }
+
+      if (!logs || logs.length === 0 || !logs[0]) {
+        throw new Error(`${ERROR_CODE} No L2ToL1MessagePasser logs`)
+      }
+
+      const types = [
+        'uint256',
+        'address',
+        'address',
+        'uint256',
+        'uint256',
+        'bytes',
+      ]
+
+      const encoded = utils.defaultAbiCoder.encode(types, [
+        logs[0].args.nonce,
+        logs[0].args.sender,
+        logs[0].args.target,
+        logs[0].args.value,
+        logs[0].args.gasLimit,
+        logs[0].args.data,
+      ])
+
+      const slot = utils.keccak256(encoded)
+
+      const withdrawalHash = logs[0].args.withdrawalHash
+
+      if (withdrawalHash !== slot) {
+        throw new Error(`Withdrawal hash does not match`)
+      }
+
+      const messageSlot = utils.keccak256(
+        utils.defaultAbiCoder.encode(
+          ['bytes32', 'uint256'],
+          [slot, constants.HashZero]
+        )
+      )
+
+      // LOOPING TO CHECK THE LATEST BLOCK NUMBER.
+      let latestBlockOnL1 =
+        await anchorageGraphQLService.getLatestFDGSubmittedBlock(
+          networkService.chainId!
+        )
+
+      while (Number(latestBlockOnL1) < Number(txInfo.blockNumber)) {
+        await new Promise((resolve) => setTimeout(resolve, 12000))
+        latestBlockOnL1 =
+          await anchorageGraphQLService.getLatestFDGSubmittedBlock(
+            networkService.chainId!
+          )
+      }
+
+      // make use of anchorageService
+      const disputeGameSubmissionPayload =
+        await anchorageGraphQLService.getRootClaimOfFDGSubmission(
+          networkService.chainId!,
+          txInfo.blockNumber
+        )
+
+      const disputeGameIndex = disputeGameSubmissionPayload.index
+      const proposalBlockNumber = disputeGameSubmissionPayload.l2BlockNumber
+      const proposalBlock = await networkService.L2Provider!.send(
+        'eth_getBlockByNumber',
+        [Number(proposalBlockNumber), false]
+      )
+
+      const proof = await networkService.L2Provider!.send('eth_getProof', [
+        L2ToL1MessagePasserAddress,
+        [messageSlot],
+        proposalBlock.number, // reading hex block number.
+      ])
+
+      const signer = networkService.provider!.getSigner()
+
+      const optimismPortal2Contract = new Contract(
+        networkService.addresses.OptimismPortalProxy,
+        OptimismPortal2ABI,
+        signer
+      )
+
+      // TODO: validate the prove withdrawal transaction.
+      const proveTx = await optimismPortal2Contract.proveWithdrawalTransaction(
+        [
+          logs[0].args.nonce,
+          logs[0].args.sender,
+          logs[0].args.target,
+          logs[0].args.value,
+          logs[0].args.gasLimit,
+          logs[0].args.data,
+        ],
+        disputeGameIndex,
+        [
+          constants.HashZero,
+          proposalBlock.stateRoot,
+          proof.storageHash,
+          proposalBlock.hash,
+        ],
+        proof.storageProof[0].proof
+      )
+      // console.log(`needed gas`, gas)
+      const txReceipt = await proveTx.wait()
+      console.log(`txReceipt`, txReceipt)
+      return logs
+    } catch (error) {
+      console.log(`Err: proveWithdrwal`, error)
+      return error
+    }
+  }
+
+  // can be usable to show the value of gas on UI
+  async estimateGasFinalWithdrawal({ logs }) {
+    try {
+      if (!logs.length || !logs[0]) {
+        throw new Error(`${ERROR_CODE} invalid logs passed!`)
+      }
+      if (!networkService.addresses.OptimismPortalProxy) {
+        throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
+      }
+
+      const optimismPortalContract = new Contract(
+        networkService.addresses.OptimismPortalProxy,
+        OptimismPortalABI,
+        networkService.L1Provider
+      )
+
+      const gas =
+        await optimismPortalContract.estimateGas.finalizeWithdrawalTransaction([
+          logs[0].nonce,
+          logs[0].sender,
+          logs[0].target,
+          logs[0].value,
+          logs[0].gasLimit,
+          logs[0].data,
+        ])
+      console.log(`estimated gas`, gas, logs)
+      return gas
+    } catch (error) {
+      console.log(`Err estimateGasFinalWithdrawal`, error)
+      return error
+    }
+  }
+
+  async doesWithdrawalCanFinalized({
+    transactionHash,
+  }: {
+    transactionHash?: string
+  }) {
+    try {
+      if (!transactionHash) {
+        return false
+      }
+
+      if (!networkService.addresses.OptimismPortalProxy) {
+        throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
+      }
+
+      const optimismConract = new Contract(
+        networkService.addresses.OptimismPortalProxy,
+        OptimismPortal2ABI,
+        networkService.L1Provider
+      )
+
+      const response = await optimismConract.checkWithdrawal(
+        transactionHash,
+        networkService.account
+      )
+
+      console.log(`response`, response)
+      return response
+    } catch (error) {
+      console.log(`ERR: doesWithdrawalCanFinalized`, error)
+      return false
+    }
+  }
+
+  async finalizeTransactionWithdrawal({ logs }: { logs: any[] }) {
+    try {
+      if (!logs.length || !logs[0]) {
+        throw new Error(`${ERROR_CODE} invalid logs passed!`)
+      }
+      if (!networkService.addresses.OptimismPortalProxy) {
+        throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
+      }
+
+      const signer = networkService.provider!.getSigner()
+
+      const optimismPortalContract = new Contract(
+        networkService.addresses.OptimismPortalProxy,
+        OptimismPortalABI,
+        signer
+      )
+
+      const finalSubmitTx =
+        await optimismPortalContract.finalizeWithdrawalTransaction([
+          logs[0].nonce,
+          logs[0].sender,
+          logs[0].target,
+          logs[0].value,
+          logs[0].gasLimit,
+          logs[0].data,
+        ])
+
+      return finalSubmitTx.wait()
+    } catch (error) {
+      console.log(`Err: ClaimWithdrawal`, error)
       return error
     }
   }

@@ -41,7 +41,11 @@ import {
   selectTransactions,
 } from 'selectors'
 
-import { fetchTransactions, setNetwork } from 'actions/networkAction'
+import {
+  fetchTransactions,
+  resetTransaction,
+  setNetwork,
+} from 'actions/networkAction'
 
 import {
   DateDescriptions,
@@ -61,9 +65,9 @@ import {
 } from './styles'
 
 import { setConnect } from 'actions/setupAction'
-import useInterval from 'hooks/useInterval'
 
-import { POLL_INTERVAL } from 'util/constant'
+// import useInterval from 'hooks/useInterval'
+// import { POLL_INTERVAL } from 'util/constant'
 
 import FilterIcon from 'assets/images/filter.svg'
 import noHistoryIcon from 'assets/images/noHistory.svg'
@@ -156,6 +160,7 @@ const History = () => {
 
   const syncTransactions = useCallback(() => {
     if (accountEnabled) {
+      dispatch(resetTransaction())
       dispatch(fetchTransactions())
     }
   }, [accountEnabled])
@@ -164,7 +169,8 @@ const History = () => {
     syncTransactions()
   }, [])
 
-  useInterval(syncTransactions, POLL_INTERVAL)
+  // TODO: setup tx with refresh option.
+  // useInterval(syncTransactions, POLL_INTERVAL)
 
   return (
     <HistoryPageContainer id={'history'}>

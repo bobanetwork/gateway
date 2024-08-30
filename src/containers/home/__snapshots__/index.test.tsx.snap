@@ -49,7 +49,7 @@ exports[`Home  should match snapshot 1`] = `
         class="sc-fPXMVe dbBfGf"
       >
         <button
-          class="sc-gsFSXq ggpxdw"
+          class="sc-gsFSXq grxZJY"
           label="Connect Wallet"
           style="white-space: nowrap;"
           type="button"

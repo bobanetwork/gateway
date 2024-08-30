@@ -1,20 +1,12 @@
+import useAnchorageWithdrawal from 'hooks/useAnchorageWithdrawal'
+import React from 'react'
 import {
-  anchorageGraphQLService,
-  claimWithdrawal,
-  handleInitiateWithdrawal,
-  handleProveWithdrawal,
-  IHandleProveWithdrawalConfig,
-  MinimalNetworkService,
-} from '@bobanetwork/graphql-utils'
-import { setConnectETH } from 'actions/setupAction'
-import { closeModal, openError, openModal } from 'actions/uiAction'
-import { ethers } from 'ethers'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectLayer } from 'selectors'
-import networkService from 'services/networkService'
-import { addDaysToDate, dayNowUnix, isBeforeDate } from 'util/dates'
-import { L2StandardERC20ABI } from '../../../services/abi'
+  addDaysToDate,
+  dayNowUnix,
+  diffBetweenTimeStamp,
+  formatDurationInDaysHrs,
+  isBeforeDate,
+} from 'util/dates'
 import { steps } from './config'
 import {
   ActiveStepNumberIndicator,
@@ -33,189 +25,18 @@ interface IVerticalStepperProps {
 }
 
 export const VerticalStepper = (props: IVerticalStepperProps) => {
-  const dispatch = useDispatch<any>()
-  const layer = useSelector(selectLayer())
-  const [withdrawalConfig, setWithdrawalConfig] =
-    useState<IHandleProveWithdrawalConfig>()
-  const [latestLogs, setLatestLogs] = useState<null | []>(null)
-  const [activeStep, setActiveStep] = React.useState(0)
-  const [loading, setLoading] = useState(false)
-  const [canProoveTx, setCanProoveTx] = useState(false)
-  const [latestBlock, setLatestBlock] = useState(0)
-  const [txBlock, setTxBlock] = useState(0)
-
-  useEffect(() => {
-    if (props.reenterWithdrawConfig) {
-      dispatch(setConnectETH(true))
-      setWithdrawalConfig(props.reenterWithdrawConfig)
-      setActiveStep(props.reenterWithdrawConfig.step)
-    }
-  }, [layer])
-
-  useEffect(() => {
-    let isMounted = true // Flag to track component mount state
-
-    const validateBlockNumberAndEnableProov = async () => {
-      if (activeStep === 3 && withdrawalConfig?.blockNumber) {
-        try {
-          setTxBlock(withdrawalConfig?.blockNumber)
-          let latestBlockOnL1 =
-            await networkService?.L2OutputOracle?.latestBlockNumber()
-          setLatestBlock(latestBlockOnL1)
-
-          while (
-            isMounted &&
-            Number(latestBlockOnL1) < Number(withdrawalConfig?.blockNumber)
-          ) {
-            // @todo: check why block number is not getting updated.
-            // Update the latest block number
-            latestBlockOnL1 =
-              await networkService?.L2OutputOracle?.latestBlockNumber()
-            setLatestBlock(latestBlockOnL1)
-            // Wait for 12 seconds before checking again
-            await new Promise((resolve) => setTimeout(resolve, 12000))
-          }
-
-          if (isMounted) {
-            setCanProoveTx(true)
-          }
-        } catch (error) {
-          console.log(`Error while checking blocknumber`, error)
-        }
-      }
-    }
-    if (withdrawalConfig && activeStep === 3) {
-      validateBlockNumberAndEnableProov()
-    }
-
-    return () => {
-      isMounted = false // Update mount state on unmount
-    }
-  }, [activeStep])
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-  }
-
-  const isButtonDisabled = () => {
-    if (activeStep === 3) {
-      return !canProoveTx
-    } else if (activeStep === 5) {
-      // can claim only if tx proove 7 day before
-      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
-      return !Number(props.amountToBridge) || !isBeforeDate(txWith7Day)
-    }
-
-    return !Number(props.amountToBridge)
-  }
-
-  const initWithdrawalStep = () => {
-    setLoading(true)
-    const isNativeWithdrawal =
-      props.token.address === networkService.addresses.NETWORK_NATIVE_TOKEN
-
-    handleInitiateWithdrawal(
-      networkService as MinimalNetworkService,
-      L2StandardERC20ABI,
-      ethers.utils
-        .parseUnits(
-          props.amountToBridge!.toString(),
-          props.token ? props.token.decimals : null
-        )
-        .toString(),
-      isNativeWithdrawal ? null : props.token
-    )
-      .then((res) => {
-        if (!res) {
-          props.handleClose()
-          dispatch(
-            openError('Failed to approve amount or user rejected signature')
-          )
-          return
-        }
-        setActiveStep(2)
-        setWithdrawalConfig({
-          blockNumber: res,
-        })
-        setLoading(false)
-      })
-      .catch(() => {
-        setLoading(false)
-        dispatch(openError(`The withdrawal initiation failed!`))
-        props.handleClose()
-      })
-  }
-
-  const proofWithdrawalStep = () => {
-    setLoading(true)
-    handleProveWithdrawal(
-      networkService as MinimalNetworkService,
-      withdrawalConfig!
-    )
-      .then((res: any) => {
-        setActiveStep(5)
-        setLatestLogs(res)
-        setWithdrawalConfig({
-          blockNumber: res[0].blockNumber,
-          timeStamp: dayNowUnix(),
-        })
-        setLoading(false)
-      })
-      .catch(() => {
-        dispatch(openError(`The withdrawal verification failed!`))
-        setLoading(false)
-        props.handleClose()
-      })
-  }
-
-  const claimWithdrawalStep = () => {
-    if (!!withdrawalConfig) {
-      setLoading(true)
-      if (
-        !withdrawalConfig?.withdrawalHash &&
-        !!latestLogs &&
-        !!latestLogs?.length
-      ) {
-        claimWithdrawal(
-          networkService as MinimalNetworkService,
-          latestLogs
-        ).then(() => {
-          dispatch(closeModal('bridgeMultiStepWithdrawal'))
-          dispatch(
-            openModal({
-              modal: 'transactionSuccess',
-              isAnchorageWithdrawal: true,
-            })
-          )
-          setLoading(false)
-        })
-      } else {
-        anchorageGraphQLService
-          .findWithdrawalMessagedPassed(
-            withdrawalConfig?.withdrawalHash || '',
-            networkService.networkConfig?.L2.chainId || ''
-          )
-          .then((logs) => {
-            logs = logs.filter(
-              (log) => log?.withdrawalHash === withdrawalConfig?.withdrawalHash
-            )
-            claimWithdrawal(networkService as MinimalNetworkService, logs).then(
-              () => {
-                setActiveStep(6)
-                dispatch(
-                  openModal({
-                    modal: 'transactionSuccess',
-                    isAnchorageWithdrawal: true,
-                  })
-                )
-                dispatch(closeModal('bridgeMultiStepWithdrawal'))
-                setLoading(false)
-              }
-            )
-          })
-      }
-    }
-  }
+  const {
+    handleWithdrawalAction,
+    latestBlockNumber,
+    txBlockNumber,
+    canProoveTx,
+    activeStep,
+    loading,
+    isButtonDisabled,
+    withdrawalConfig,
+    doesFruadProofWithdrawalEnable,
+    canFinalizedTx,
+  } = useAnchorageWithdrawal(props)
 
   const prepareDesc = (desc?: string, step?: string) => {
     if (!desc) {
@@ -224,20 +45,37 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
 
     if (activeStep === 3 && step === 'Prove Withdrawal') {
       if (!canProoveTx) {
-        return `${desc} The current L2 block submitted to L1 is ${latestBlock} and your block is ${txBlock}.`
+        const dateToClaim = addDaysToDate(withdrawalConfig?.timeStamp, 3.5)
+        const timeRemaining = diffBetweenTimeStamp(dateToClaim, dayNowUnix())
+        return `${desc} The current L2 block submitted is ${latestBlockNumber}, and your block is ${txBlockNumber}. ${!doesFruadProofWithdrawalEnable ? '' : `This will take about ${formatDurationInDaysHrs(timeRemaining)}.`}`
+      } else {
+        return `Your transaction has reached L1. You can now proove your withdrawal`
       }
     }
 
     if (activeStep === 5 && step === 'Claim Withdrawal') {
-      const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
-      const canClaim = !Number(props.amountToBridge) || isBeforeDate(txWith7Day)
-      if (!canClaim) {
-        return `The proof has been submitted. Please wait 7 days to claim your withdrawal`
+      if (doesFruadProofWithdrawalEnable) {
+        const dateToClaim = addDaysToDate(
+          withdrawalConfig?.timeStamp_proven,
+          3.5
+        )
+        const timeRemaining = diffBetweenTimeStamp(dateToClaim, dayNowUnix())
+        if (canFinalizedTx) {
+          return `The proof has been submitted and the 3.5 days window has passed`
+        } else {
+          return `The proof has been submitted. Please wait ${formatDurationInDaysHrs(timeRemaining)} days to claim your withdrawal`
+        }
       } else {
-        return `The proof has been submitted and the 7-day window has passed`
+        const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)
+        const canClaim =
+          !Number(props.amountToBridge) || isBeforeDate(txWith7Day)
+        if (!canClaim) {
+          return `The proof has been submitted. Please wait 7 days to claim your withdrawal`
+        } else {
+          return `The proof has been submitted and the 7-day window has passed`
+        }
       }
     }
-
     return desc
   }
 
@@ -273,29 +111,18 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
           </div>
         )}
         <ConfirmActionButton
-          style={{ marginTop: '12px' }}
+          small
+          style={{ marginTop: '12px', marginBottom: '12px' }}
           loading={loading}
           disabled={!!loading || isButtonDisabled()}
-          onClick={() => {
-            switch (activeStep) {
-              case 0:
-                initWithdrawalStep()
-                break
-              case 2:
-                dispatch(setConnectETH(true))
-                break
-              case 3:
-                proofWithdrawalStep()
-                break
-              case 5:
-                claimWithdrawalStep()
-                break
-            }
-            handleNext()
-          }}
+          onClick={() => handleWithdrawalAction()}
           label={steps[activeStep].btnLbl}
         />
-        <SecondaryActionButton onClick={props.handleClose} label="Close" />
+        <SecondaryActionButton
+          small
+          onClick={props.handleClose}
+          label="Close"
+        />
       </div>
     </>
   )

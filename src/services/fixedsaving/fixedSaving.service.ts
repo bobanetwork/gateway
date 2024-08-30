@@ -178,6 +178,23 @@ class FixedSavingService {
       return error
     }
   }
+
+  async loadBobaBalance() {
+    try {
+      if (!networkService.account) {
+        throw new Error(`${ERROR_CODE} wallet not connected!`)
+      }
+      const bobaContract = this.loadBobaTokenContract()
+      const balance = await bobaContract.balanceOf(networkService.account)
+      const decimals = await bobaContract.decimals()
+      return {
+        balance,
+        decimals,
+      }
+    } catch (error) {
+      return error
+    }
+  }
 }
 
 const fixedSavingService = new FixedSavingService()

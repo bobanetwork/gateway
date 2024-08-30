@@ -13,12 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+import { BigNumberish } from 'ethers'
 import networkService from 'services/networkService'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
-import { BigNumberish } from 'ethers'
-import { bridgeService } from 'services'
-import { lightBridgeService } from 'services/teleportation/teleportation.service'
 
 export const fetchBalances = () =>
   createAction('BALANCE/GET', () => networkService.getBalances())
@@ -79,25 +78,9 @@ export const depositETHL2 = (payload) =>
     return networkService.depositETHL2(payload)
   })
 
-// Anchorage CLASSIC DEPOSIT ETH
-export const depositNativeAnchorage = (payload) =>
-  createAction('DEPOSIT_ANCHORAGE/CREATE', () => {
-    return bridgeService.anchorageDepositNative(payload)
-  })
-
 //DEPOSIT ERC20
 export const depositErc20 = (payload) =>
   createAction('DEPOSIT/CREATE', () => networkService.depositErc20(payload))
-
-export const depositErc20Anchorage = (payload) =>
-  createAction('DEPOSIT/CREATE', () =>
-    bridgeService.anchorageDepositERC20(payload)
-  )
-
-export const depositErc20AnchorageOptimism = (payload) =>
-  createAction('DEPOSIT/CREATE', () =>
-    bridgeService.anchorageDepositERC20Optimism(payload)
-  )
 
 export const approveERC20 = (
   value: BigNumberish,
@@ -133,3 +116,6 @@ export const setActiveNetwork = () => (dispatch) =>
 
 export const setActiveNetworkType = (payload) => (dispatch) =>
   dispatch({ type: 'NETWORK/SET_TYPE/ACTIVE', payload })
+
+export const resetTransaction = () => (dispatch) =>
+  dispatch({ type: 'TRANSACTION/RESET' })

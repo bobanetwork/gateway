@@ -27,6 +27,8 @@ const transactionReducer = (
         ...state,
         ...action.payload,
       }
+    case 'TRANSACTION/RESET':
+      return {}
     default:
       return state
   }
