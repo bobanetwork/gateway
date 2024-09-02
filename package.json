@@ -50,7 +50,7 @@
     "browserify-fs": "^1.0.0",
     "browserify-zlib": "^0.2.0",
     "date-fns": "^2.30.0",
-    "dayjs": "^1.11.7",
+    "dayjs": "^1.11.13",
     "dotenv": "^8.2.0",
     "eslint-config-react-app": "^7.0.0",
     "ethers": "5.7.2",
