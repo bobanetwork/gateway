@@ -167,7 +167,7 @@ const History = () => {
 
   useEffect(() => {
     syncTransactions()
-  }, [])
+  }, [accountEnabled])
 
   // TODO: setup tx with refresh option.
   // useInterval(syncTransactions, POLL_INTERVAL)

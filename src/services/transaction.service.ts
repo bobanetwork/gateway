@@ -125,70 +125,92 @@ class TransactionService {
     }
   }
 
-  /**
-   * @getTransactions
-   * loads L1Txs, l2Txs, l0Txs, L1PendingTxs
-   *
-   */
   async getTransactions() {
-    console.log(`loading tx `)
-    const networksArray = Array.from(Object.values(AllNetworkConfigs))
-    const networkConfigsArray = networksArray.flatMap((network) => {
-      return [network.Testnet, network.Mainnet]
-    })
-
-    const allNetworksTransactions = await Promise.all(
-      networkConfigsArray.flatMap((config) => {
-        const promiseCalls: Promise<any>[] = [
-          this.fetchLightBridgeTransactions(config),
-        ]
-
-        // check for ethereum and invoke anchorage data.
-        // [sepolia, bnb tesnet, eth mainnet]
-        if (
-          networkService.network === Network.BNB &&
-          networkService.networkType === NetworkType.TESTNET
-        ) {
-          if (
-            [97].includes(config.L1.chainId) ||
-            [9728].includes(config.L2.chainId)
-          ) {
-            promiseCalls.push(this.fetchAnchorageTransactions(config, true))
-          }
-        } else if (
-          [11155111, 1].includes(config.L1.chainId) ||
-          [28882, 288].includes(config.L2.chainId)
-        ) {
-          console.log(`fetching transactions for eth!`)
-          promiseCalls.push(this.fetchAnchorageTransactions(config, false))
-        }
-
-        // invoke watcher only for BNB mainnet
-        // TODO: cleanup on migrating the BNB to anchorage!
-        if ([56].includes(config.L1.chainId)) {
-          promiseCalls.push(this.fetchL1PendingTx(config))
-        }
-        if ([56288].includes(config.L2.chainId)) {
-          promiseCalls.push(this.fetchL2Tx(config))
-        }
-
-        return promiseCalls
+    try {
+      console.log(`loading tx...`)
+      // Flatten and gather network configs
+      const networksArray = Array.from(Object.values(AllNetworkConfigs))
+      const networkConfigsArray = networksArray.flatMap((network) => {
+        return [network.Testnet, network.Mainnet]
       })
-    )
 
-    /** @DEV additional network pairs that are cross L1-L2 configuration */
-    for (const additionalNetworkConfig of this.lightbridgeAdditionalNetworkPairs()) {
-      allNetworksTransactions.push(
-        await this.fetchLightBridgeTransactions(additionalNetworkConfig)
+      const promiseCalls: Promise<any>[] = []
+      const anchoragePromises: Promise<any>[] = []
+      const watcherPromises: Promise<any>[] = []
+
+      // Collect all promise calls in batches
+      networkConfigsArray.forEach((config) => {
+        if (networkService.network === Network.BNB) {
+          if (networkService.networkType === NetworkType.TESTNET) {
+            if (
+              [97].includes(config.L1.chainId) ||
+              [9728].includes(config.L2.chainId)
+            ) {
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+              anchoragePromises.push(
+                this.fetchAnchorageTransactions(config, true)
+              )
+            }
+          } else {
+            if ([56].includes(config.L1.chainId)) {
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+              watcherPromises.push(this.fetchL1PendingTx(config))
+            }
+            if ([56288].includes(config.L2.chainId)) {
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+              watcherPromises.push(this.fetchL2Tx(config))
+            }
+          }
+        } else if (networkService.network === Network.ETHEREUM) {
+          if (networkService.networkType === NetworkType.TESTNET) {
+            if (
+              [11155111].includes(config.L1.chainId) ||
+              [28882].includes(config.L2.chainId)
+            ) {
+              anchoragePromises.push(
+                this.fetchAnchorageTransactions(config, false)
+              )
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+            }
+          } else {
+            if (
+              [1].includes(config.L1.chainId) ||
+              [288].includes(config.L2.chainId)
+            ) {
+              console.log(`fetching Mainnet Tx`)
+              anchoragePromises.push(
+                this.fetchAnchorageTransactions(config, false)
+              )
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+            }
+          }
+        }
+      })
+
+      if (networkService.networkType === NetworkType.MAINNET) {
+        console.log(`loading supporting chain tx!`)
+        // Add additional network pairs for LightBridge transactions
+        const additionalNetworks = this.lightbridgeAdditionalNetworkPairs().map(
+          (config) => this.fetchLightBridgeTransactions(config)
+        )
+        promiseCalls.push(...additionalNetworks)
+      }
+      // Execute all promise calls with batching
+      const allNetworksTransactions = await Promise.all([
+        ...promiseCalls,
+        ...anchoragePromises,
+        ...watcherPromises,
+      ])
+
+      const filteredResults = allNetworksTransactions.reduce(
+        (acc, res) => [...acc, ...res],
+        []
       )
+
+      return filteredResults.filter((transaction) => transaction?.hash)
+    } catch (error) {
+      console.log(`error`, error)
     }
-
-    const filteredResults = allNetworksTransactions.reduce(
-      (acc, res) => [...acc, ...res],
-      []
-    )
-
-    return filteredResults.filter((transaction) => transaction?.hash)
   }
 
   async fetchLightBridgeTransactions(

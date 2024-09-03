@@ -658,13 +658,13 @@ export class BridgeService {
         throw new Error(`${ERROR_CODE} OptimismPortal invalid address!`)
       }
 
-      const optimismConract = new Contract(
+      const optimismContract = new Contract(
         networkService.addresses.OptimismPortalProxy,
         OptimismPortal2ABI,
         networkService.L1Provider
       )
 
-      const response = await optimismConract.checkWithdrawal(
+      const response = await optimismContract.checkWithdrawal(
         transactionHash,
         networkService.account
       )
