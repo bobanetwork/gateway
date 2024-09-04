@@ -52,7 +52,7 @@ export const ConfirmActionButton = styled(Button)`
 export const SecondaryActionButton = styled(Button)`
   background: transparent;
   color: ${({ theme }) =>
-    theme.name === 'light' ? theme.colors.gray[400] : theme.colors.gray[100]};
+    theme.name === 'light' ? theme.colors.gray[800] : theme.colors.gray[100]};
   width: 100%;
   box-shadow: none;
   :hover {

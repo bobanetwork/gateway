@@ -63,7 +63,7 @@ export const VerticalStepper = (props: IVerticalStepperProps) => {
         if (canFinalizedTx) {
           return `The proof has been submitted and the 3.5 days window has passed`
         } else {
-          return `The proof has been submitted. Please wait ${formatDurationInDaysHrs(timeRemaining)} days to claim your withdrawal`
+          return `The proof has been submitted. Please wait ${formatDurationInDaysHrs(timeRemaining)} to claim your withdrawal`
         }
       } else {
         const txWith7Day = addDaysToDate(withdrawalConfig?.timeStamp, 7)

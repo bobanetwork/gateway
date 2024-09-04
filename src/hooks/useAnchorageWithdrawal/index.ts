@@ -194,6 +194,7 @@ const useAnchorageWithdrawal = (props) => {
       setWithdrawalConfig({
         blockNumber: res[0].blockNumber,
         timeStamp: dayNowUnix(),
+        timeStamp_proven: dayNowUnix(),
       })
       setLoading(false)
     } else {
