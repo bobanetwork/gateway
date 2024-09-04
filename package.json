@@ -1,6 +1,6 @@
 {
   "name": "@bobanetwork/gateway",
-  "version": "0.14.9",
+  "version": "0.14.10",
   "private": true,
   "scripts": {
     "build:prod": "GENERATE_SOURCEMAP=false REACT_APP_ENV=prod react-app-rewired build",
