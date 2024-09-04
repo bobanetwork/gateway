@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { openAlert, closeModal } from 'actions/uiAction'
+import { closeModal, openAlert } from 'actions/uiAction'
 
 import Modal from 'components/modal/Modal'
 
 import { Button } from 'components/global/button'
 
-import { StakeInputContainer, Flex, StakeContent, StakeDetails } from './styles'
+import { Flex, StakeContent, StakeDetails, StakeInputContainer } from './styles'
 
-import { getFS_Saves, getFS_Info, addFS_Savings } from 'actions/fixedAction'
+import {
+  addFS_Savings,
+  fetchStakeInfo,
+  fetchSavings,
+  fetchBobaTokenDetail,
+} from 'actions/fixedAction'
 
-import { toWei_String } from 'util/amountConvert'
-import networkService from 'services/networkService'
-import { BigNumber, utils } from 'ethers'
 import { MaxInput } from 'components/global/InputMax'
+import { BigNumber, utils } from 'ethers'
+import { toWei_String } from 'util/amountConvert'
 
 import { ModalTypography } from 'components/global/modalTypography'
-import { selectFixed, selectSetup, selectBalance } from 'selectors'
+import { selectFixed, selectSetup } from 'selectors'
+import fixedSavingService from 'services/fixedsaving/fixedSaving.service'
 
-const DepositStake = (props: any) => {
-  const { stakeInfo } = useSelector(selectFixed())
+const DepositStake = ({ open }) => {
+  const { stakeInfo, bobaToken } = useSelector(selectFixed())
   const { accountEnabled, netLayer, bobaFeeChoice, bobaFeePriceRatio } =
     useSelector(selectSetup())
-  const balance = useSelector(selectBalance())
-  const { layer2 } = balance
 
   const dispatch = useDispatch<any>()
 
@@ -37,28 +40,20 @@ const DepositStake = (props: any) => {
   })
 
   useEffect(() => {
-    dispatch(getFS_Saves())
-    dispatch(getFS_Info())
-    getMaxTransferValue()
+    dispatch(fetchBobaTokenDetail())
   }, [])
 
   useEffect(() => {
     getMaxTransferValue()
-  }, [layer2])
+  }, [bobaToken])
 
   const getMaxTransferValue = async () => {
-    // as staking BOBA check the bobabalance
-    const token: any = Object.values(layer2).find(
-      (t: any) => t['symbolL2'] === 'BOBA'
-    )
-
-    // BOBA available prepare transferEstimate
-    if (token) {
-      let max_BN = BigNumber.from(token.balance.toString())
+    if (bobaToken) {
+      let max_BN = BigNumber.from(bobaToken.balance.toString())
       let fee = '0'
 
       if (netLayer === 'L2') {
-        const cost_BN: any = await networkService.savingEstimate()
+        const cost_BN: any = await fixedSavingService.savingEstimate()
 
         if (bobaFeeChoice) {
           // we are staking BOBA and paying in BOBA
@@ -72,10 +67,10 @@ const DepositStake = (props: any) => {
         if (bobaFeeChoice) {
           fee = utils.formatUnits(
             cost_BN.mul(BigNumber.from(bobaFeePriceRatio)),
-            token.decimals
+            bobaToken.decimals
           )
         } else {
-          fee = utils.formatUnits(cost_BN, token.decimals)
+          fee = utils.formatUnits(cost_BN, bobaToken.decimals)
         }
       }
 
@@ -85,7 +80,7 @@ const DepositStake = (props: any) => {
 
       setState((prevState) => ({
         ...prevState,
-        max_Float_String: utils.formatUnits(max_BN, token.decimals),
+        max_Float_String: utils.formatUnits(max_BN, bobaToken.decimals),
         fee,
       }))
     }
@@ -124,6 +119,9 @@ const DepositStake = (props: any) => {
 
     if (addTX) {
       dispatch(openAlert('Your BOBA were staked'))
+      dispatch(fetchSavings())
+      dispatch(fetchStakeInfo())
+      dispatch(fetchBobaTokenDetail())
     }
 
     setState((prevState) => ({
@@ -136,6 +134,7 @@ const DepositStake = (props: any) => {
   }
 
   let totalBOBAstaked = 0
+  // @ts-ignore
   Object.keys(stakeInfo).forEach((v, i) => {
     if (stakeInfo[i].isActive) {
       totalBOBAstaked = totalBOBAstaked + Number(stakeInfo[i].depositAmount)
@@ -149,7 +148,6 @@ const DepositStake = (props: any) => {
   return (
     <Modal
       open={open}
-      maxWidth="md"
       onClose={() => {
         handleClose()
       }}

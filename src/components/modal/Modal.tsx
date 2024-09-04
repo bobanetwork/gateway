@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import React from 'react'
-
+// TODO: cleanup mui
 import { Box, Container, Fade } from '@mui/material'
 
 import { Heading } from 'components/global'
@@ -27,10 +27,8 @@ const _Modal = ({
   onClose,
   title,
   transparent,
-  maxWidth,
-  minHeight,
+  maxWidth = '450px !important',
   isMobile = false,
-  newStyle = false,
   testId = '',
 }: ModalInterface) => {
   return (
@@ -43,7 +41,7 @@ const _Modal = ({
       data-testid={testId}
     >
       <Fade in={open}>
-        <Container sx={{ maxWidth: '450px !important' }}>
+        <Container sx={{ maxWidth }}>
           <S.Style transparent={!!transparent || !!isMobile}>
             <Box display="flex" flexDirection="column" gap="10px">
               <S.ModalHead>

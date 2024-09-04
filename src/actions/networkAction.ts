@@ -13,10 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+import { BigNumberish } from 'ethers'
 import networkService from 'services/networkService'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 import transactionService from 'services/transaction.service'
 import { createAction } from './createAction'
-import { BigNumberish } from 'ethers'
 
 export const fetchBalances = () =>
   createAction('BALANCE/GET', () => networkService.getBalances())
@@ -27,52 +28,49 @@ export const addTokenList = () =>
 export const fetchTransactions = () =>
   createAction('TRANSACTION/GETALL', () => transactionService.getTransactions())
 
-export const fetchSevens = () =>
-  createAction('SEVENS/GETALL', () => transactionService.getSevens())
-
-export const fetchFastExits = () =>
-  createAction('FASTEXITS/GETALL', () => transactionService.getFastExits())
-
 export const exitBOBA = (token: string, value: BigNumberish) =>
   createAction('EXIT/CREATE', () => networkService.exitBOBA(token, value))
 
-//SWAP RELATED
-export const depositL1LP = (currency: string, value: BigNumberish) =>
-  createAction('DEPOSIT/CREATE', () =>
-    networkService.depositL1LP(currency, value)
-  )
-
-export const isTeleportationOfAssetSupported = (
+export const isLightBridgeTokenSupported = (
   layer: string,
-  asset: string,
+  tokenAdress: string,
   destChainId: string
 ) =>
   createAction('DEPOSIT/TELEPORTATION/TOKEN_SUPPORTED', () =>
-    networkService.isTeleportationOfAssetSupported(layer, asset, destChainId)
+    lightBridgeService.isTokenSupported({
+      layer,
+      tokenAdress,
+      destChainId,
+    })
   )
 
 export const getDisburserBalance = (
   sourceChainId: string,
   destChainId: string,
-  asset: string
+  tokenAddress: string
 ) =>
   createAction('DEPOSIT/TELEPORTATION/DISBURSER_BALANCE', () =>
-    networkService.getDisburserBalance(sourceChainId, destChainId, asset)
+    lightBridgeService.getDisburserBalance({
+      sourceChainId,
+      destChainId,
+      tokenAddress,
+    })
   )
 
 export const depositWithLightBridge = (
   layer: string,
-  currency: string,
-  value: BigNumberish,
-  destChainId: BigNumberish
+  tokenAddress: string,
+  value: any,
+  destChainId: any
 ) =>
   createAction('DEPOSIT/CREATE', () =>
-    networkService.depositWithTeleporter(layer, currency, value, destChainId)
+    lightBridgeService.deposit({
+      layer,
+      tokenAddress,
+      value,
+      destChainId,
+    })
   )
-
-//SWAP RELATED - Depositing into the L2LP triggers the swap-exit
-export const depositL2LP = (token: string, value: BigNumberish) =>
-  createAction('EXIT/CREATE', () => networkService.depositL2LP(token, value))
 
 //CLASSIC DEPOSIT ETH
 export const depositETHL2 = (payload) =>
@@ -80,20 +78,9 @@ export const depositETHL2 = (payload) =>
     return networkService.depositETHL2(payload)
   })
 
-//CLASSIC DEPOSIT ETH
-export const depositETHAnchorageL2 = (payload) =>
-  createAction('DEPOSIT/CREATE', () => {
-    return networkService.depositETHAnchorage(payload)
-  })
-
 //DEPOSIT ERC20
 export const depositErc20 = (payload) =>
   createAction('DEPOSIT/CREATE', () => networkService.depositErc20(payload))
-
-export const depositErc20Anchorage = (payload) =>
-  createAction('DEPOSIT/CREATE', () =>
-    networkService.depositERC20Anchorage(payload)
-  )
 
 export const approveERC20 = (
   value: BigNumberish,
@@ -109,12 +96,6 @@ export const approveERC20 = (
       contractABI
     )
   )
-
-export const fetchLookUpPrice = (params) =>
-  createAction('PRICE/GET', () => networkService.fetchLookUpPrice(params))
-
-export const clearLookupPrice = () => (dispatch) =>
-  dispatch({ type: 'LOOKUP/PRICE/CLEAR' })
 
 export const getAllAddresses = () =>
   createAction('GET/ALL/ADDRESS', () => networkService.getAllAddresses())
@@ -135,3 +116,6 @@ export const setActiveNetwork = () => (dispatch) =>
 
 export const setActiveNetworkType = (payload) => (dispatch) =>
   dispatch({ type: 'NETWORK/SET_TYPE/ACTIVE', payload })
+
+export const resetTransaction = () => (dispatch) =>
+  dispatch({ type: 'TRANSACTION/RESET' })

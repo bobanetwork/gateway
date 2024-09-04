@@ -1,21 +1,19 @@
 import { closeModal } from 'actions/uiAction'
-import { Heading } from 'components/global'
 import Modal from 'components/modal/Modal'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { NETWORK_ICONS } from 'containers/Bridging/chain/constant'
 import useBridge from 'hooks/useBridge'
+import useLookupPrice from 'hooks/useLookupPrice'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkIcon,
   selectActiveNetworkName,
   selectAmountToBridge,
+  selectBridgeDestinationAddress,
   selectBridgeType,
   selectDestChainIdTeleportation,
-  selectL1FeeRateN,
-  selectL2FeeRateN,
   selectLayer,
-  selectLookupPrice,
   selectTokenToBridge,
 } from 'selectors'
 import { amountToUsd } from 'util/amountConvert'
@@ -29,7 +27,7 @@ import {
   Item,
   LayerNames,
 } from './index.styles'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
+import truncateMiddle from 'truncate-middle'
 
 interface Props {
   open: boolean
@@ -37,21 +35,19 @@ interface Props {
 
 const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const dispatch = useDispatch<any>()
-  const l1FeeRateN = useSelector(selectL1FeeRateN)
-  const l2FeeRateN = useSelector(selectL2FeeRateN)
   const bridgeType = useSelector(selectBridgeType())
   const token = useSelector(selectTokenToBridge())
+  const toL2Account = useSelector(selectBridgeDestinationAddress())
   const amountToBridge = useSelector(selectAmountToBridge())
-  const lookupPrice = useSelector(selectLookupPrice)
   const networkNames = useSelector(selectActiveNetworkName())
   const activeNetworkIcon = useSelector(selectActiveNetworkIcon())
   const layer = useSelector(selectLayer())
+  const { lookupPrice } = useLookupPrice()
   const icons = NETWORK_ICONS[activeNetworkIcon]
   const L1Icon = icons['L1']
   const L2Icon = icons['L2']
 
   const { triggerSubmit } = useBridge()
-  const { isAnchorageEnabled } = useNetworkInfo()
 
   const estimateTime = () => {
     if (bridgeType === BRIDGE_TYPE.CLASSIC) {
@@ -59,12 +55,6 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
         return '13 ~ 14mins.'
       } else {
         return '7 days'
-      }
-    } else if (bridgeType === BRIDGE_TYPE.FAST) {
-      if (layer === LAYER.L1) {
-        return '1 ~ 5min.'
-      } else {
-        return '15min ~ 3hrs.'
       }
     } else {
       // Teleportation, instant
@@ -75,6 +65,17 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
   const handleClose = () => {
     dispatch(closeModal('bridgeConfirmModal'))
   }
+
+  const originNetwork =
+    layer === LAYER.L1 ? (
+      <>
+        <L1Icon selected /> {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
+      </>
+    ) : (
+      <>
+        <L2Icon selected /> {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
+      </>
+    )
 
   let destNetwork =
     layer === LAYER.L1 ? (
@@ -110,6 +111,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
       onClose={handleClose}
       minHeight="180px"
       title="Bridge Confirmation"
+      testId="bridge-confirmation"
       transparent={false}
     >
       <ConfirmModalContainer>
@@ -119,23 +121,11 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
         </Item>
         <Item>
           <ConfirmLabel>From</ConfirmLabel>
-          <LayerNames>
-            {layer === LAYER.L1 ? (
-              <>
-                <L1Icon selected />{' '}
-                {networkNames['l1'] || DEFAULT_NETWORK.NAME.L1}
-              </>
-            ) : (
-              <>
-                <L2Icon selected />{' '}
-                {networkNames['l2'] || DEFAULT_NETWORK.NAME.L2}
-              </>
-            )}
-          </LayerNames>
+          <LayerNames data-testid="fromNetwork">{originNetwork}</LayerNames>
         </Item>
         <Item>
           <ConfirmLabel>To</ConfirmLabel>
-          <LayerNames>{destNetwork}</LayerNames>
+          <LayerNames data-testid="toNetwork">{destNetwork}</LayerNames>
         </Item>
         <Item>
           <ConfirmLabel>Amount to bridge</ConfirmLabel>
@@ -144,14 +134,11 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
             {amountToUsd(amountToBridge, lookupPrice, token).toFixed(4)})
           </ConfirmValue>
         </Item>
-        {isAnchorageEnabled ? null : (
+        {toL2Account && (
           <Item>
-            <ConfirmLabel>Gas Fee</ConfirmLabel>
+            <ConfirmLabel>Recipient</ConfirmLabel>
             <ConfirmValue>
-              {(layer === LAYER.L1 && bridgeType !== BRIDGE_TYPE.LIGHT
-                ? l2FeeRateN
-                : l1FeeRateN) || 0}
-              %
+              {truncateMiddle(toL2Account!, 6, 6, '...')}
             </ConfirmValue>
           </Item>
         )}
@@ -164,7 +151,7 @@ const BridgeConfirmModal: FC<Props> = ({ open }) => {
             triggerSubmit()
             handleClose()
           }}
-          label={<Heading variant="h3">Confirm</Heading>}
+          label="Confirm"
         />
       </ConfirmModalContainer>
     </Modal>

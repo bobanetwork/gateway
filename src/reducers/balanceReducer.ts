@@ -16,56 +16,20 @@ limitations under the License. */
 interface IBalanceReducerState {
   layer1: []
   layer2: []
-  l1LpBalanceWeiString: string
-  l2LpBalanceWeiString: string
-  l2LpETHBalanceWeiString: string
-  l1LpPendingWeiString: string
-  l2LpPendingWeiString: string
-  l2LpETHPendingWeiString: string
-  l1FeeRate: {}
-  l2FeeRate: {}
-  l2ETHFeeRateN: {}
-  fastExitCost: string
   classicExitCost: string
-  fastDepositCost: number
-  altL1DepositCost: string
   fastDepositBatchCost: string
-  l1FeeBalance: number
   l2BalanceETH: number
   l2BalanceBOBA: number
-  l1lpLiquidity: string
-  l2lpLiquidity: string
-  l2lpETHLiquidity: string
-  gas: {}
-  userAndL2LPBlanceBatch: {}
   exitFee: string
 }
 
 const initialState: IBalanceReducerState = {
   layer1: [],
   layer2: [],
-  l1LpBalanceWeiString: '',
-  l2LpBalanceWeiString: '',
-  l2LpETHBalanceWeiString: '',
-  l1LpPendingWeiString: '',
-  l2LpPendingWeiString: '',
-  l2LpETHPendingWeiString: '',
-  l1FeeRate: {},
-  l2FeeRate: {},
-  l2ETHFeeRateN: {},
-  fastExitCost: '',
   classicExitCost: '',
-  fastDepositCost: 0,
-  altL1DepositCost: '',
   fastDepositBatchCost: '',
-  l1FeeBalance: 0,
   l2BalanceETH: 0,
   l2BalanceBOBA: 0,
-  l1lpLiquidity: '',
-  l2lpLiquidity: '',
-  l2lpETHLiquidity: '',
-  gas: {},
-  userAndL2LPBlanceBatch: {},
   exitFee: '',
 }
 
@@ -78,90 +42,10 @@ const balanceReducer = (state: IBalanceReducerState = initialState, action) => {
         layer1,
         layer2,
       }
-    case 'FETCH/L1LP/BALANCE/SUCCESS':
-      return {
-        ...state,
-        l1LpBalanceWeiString: action.payload,
-      }
-    case 'FETCH/L2LP/BALANCE/SUCCESS':
-      return {
-        ...state,
-        l2LpBalanceWeiString: action.payload,
-      }
-    case 'FETCH/L2LP/BALANCE/ETH/SUCCESS':
-      return {
-        ...state,
-        l2LpETHBalanceWeiString: action.payload,
-      }
-    case 'FETCH/L1LP/PENDING/SUCCESS':
-      return {
-        ...state,
-        l1LpPendingWeiString: action.payload,
-      }
-    case 'FETCH/L2LP/PENDING/SUCCESS':
-      return {
-        ...state,
-        l2LpPendingWeiString: action.payload,
-      }
-    case 'FETCH/L2LP/PENDING/ETH/SUCCESS':
-      return {
-        ...state,
-        l2LpETHPendingWeiString: action.payload,
-      }
-    case 'FETCH/L1TOTALFEERATE/SUCCESS':
-      return {
-        ...state,
-        l1FeeRate: action.payload,
-      }
-    case 'FETCH/L2TOTALFEERATE/SUCCESS':
-      return {
-        ...state,
-        l2FeeRate: action.payload,
-      }
-    case 'FETCH/L1FEERATE/SUCCESS':
-      return {
-        ...state,
-        l1FeeRateN: action.payload,
-      }
-    case 'FETCH/L2FEERATE/SUCCESS':
-      return {
-        ...state,
-        l2FeeRateN: action.payload,
-      }
-    case 'FETCH/L2FEERATE/ETH/SUCCESS':
-      return {
-        ...state,
-        l2ETHFeeRateN: action.payload,
-      }
-    case 'FETCH/FASTEXIT/COST/SUCCESS':
-      return {
-        ...state,
-        fastExitCost: action.payload,
-      }
     case 'FETCH/CLASSICEXIT/COST/SUCCESS':
       return {
         ...state,
         classicExitCost: action.payload,
-      }
-    case 'FETCH/FASTDEPOSIT/COST/SUCCESS':
-      return {
-        ...state,
-        fastDepositCost: Number(action.payload),
-      }
-    case 'FETCH/ALTL1DEPOSIT/COST/SUCCESS':
-      return {
-        ...state,
-        altL1DepositCost: action.payload,
-      }
-    case 'FETCH/FASTDEPOSIT/BATCH/COST/SUCCESS':
-      return {
-        ...state,
-        fastDepositBatchCost: action.payload,
-      }
-    case 'FETCH/L1FEE/BALANCE/SUCCESS':
-      return {
-        ...state,
-        l1FeeBalance: Number(action.payload),
       }
     case 'FETCH/L2ETH/BALANCE/SUCCESS':
       return {
@@ -173,26 +57,6 @@ const balanceReducer = (state: IBalanceReducerState = initialState, action) => {
         ...state,
         l2BalanceBOBA: Number(action.payload),
       }
-    case 'FETCH/L1LP/LIQUIDITY/SUCCESS':
-      return {
-        ...state,
-        l1lpLiquidity: action.payload,
-      }
-    case 'FETCH/L2LP/LIQUIDITY/SUCCESS':
-      return {
-        ...state,
-        l2lpLiquidity: action.payload,
-      }
-    case 'FETCH/L2LP/LIQUIDITY/ETH/SUCCESS':
-      return {
-        ...state,
-        l2lpETHLiquidity: action.payload,
-      }
-    case 'FETCH/USER/L2LP/BALANCE/BATCH/SUCCESS':
-      return {
-        ...state,
-        userAndL2LPBlanceBatch: action.payload,
-      }
     case 'FETCH/EXITFEE/SUCCESS':
       return {
         ...state,
@@ -201,25 +65,10 @@ const balanceReducer = (state: IBalanceReducerState = initialState, action) => {
     case 'BALANCE/L1/RESET':
       return {
         ...state,
-        l1LpBalanceWeiString: '',
-        l1LpPendingWeiString: '',
-        l1FeeRate: '',
-        fastExitCost: '',
         l2FeeBalance: '',
-        l1lpLiquidity: '',
         l2BalanceETH: 0,
         l2BalanceBOBA: 0,
         exitFee: '',
-      }
-    case 'BALANCE/L2/RESET':
-      return {
-        ...state,
-        l2LpBalanceWeiString: '',
-        l2LpPendingWeiString: '',
-        l2FeeRate: '',
-        fastDepositCost: 0,
-        l1FeeBalance: 0,
-        l2lpLiquidity: '',
       }
     default:
       return state

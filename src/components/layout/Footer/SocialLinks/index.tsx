@@ -12,9 +12,7 @@ import TwitterIcon from './icons/twitter'
 import TelegramIcon from './icons/telegram'
 import { WALLET_VERSION } from 'util/constant'
 
-interface Props {}
-
-const SocialLinks = (props: Props) => {
+const SocialLinks = () => {
   return (
     <SocialLinksContainer id="socialLinks">
       <DisclaimerContainer>

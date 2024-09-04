@@ -15,15 +15,16 @@ import {
   ThirdPartyBridgesContainer,
 } from './styles'
 import { IThirdPartyBridge } from './types'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 const ThirdPartyBridges: FC = () => {
   const networkType = useSelector(selectActiveNetworkType())
   const network = useSelector(selectActiveNetwork())
   const { loading, bridges } = useThirdPartyBridges<IThirdPartyBridge[]>()
-
+  const { isActiveNetworkBnb } = useNetworkInfo()
   const theme: any = useTheme()
 
-  if (networkType !== NetworkType.MAINNET) {
+  if (networkType !== NetworkType.MAINNET || isActiveNetworkBnb) {
     return <></>
   }
 

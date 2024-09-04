@@ -55,7 +55,7 @@ exports[`Button Outline Button 1`] = `
 exports[`Button Small Button 1`] = `
 <DocumentFragment>
   <button
-    class="sc-aXZVg eCPrBm"
+    class="sc-aXZVg hzGBhO"
     label="Test Button"
     type="button"
   >

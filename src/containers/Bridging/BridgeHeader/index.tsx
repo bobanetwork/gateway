@@ -4,27 +4,14 @@ import { Heading } from 'components/global'
 import Tooltip from 'components/tooltip/Tooltip'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import styled, { useTheme } from 'styled-components'
-import { BridgeHeaderWrapper, GearIcon, IconWrapper } from './styles'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
-
-export const LabelStyle = styled.span`
-  color: var(--Gray-50, #eee);
-  font-family: Roboto;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 138.3%;
-`
-
-export const ValueStyle = styled.span`
-  color: var(--Gray-50, #eee);
-  font-family: Roboto;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 138.3%;
-`
+import { useTheme } from 'styled-components'
+import {
+  BridgeHeaderWrapper,
+  GearIcon,
+  IconWrapper,
+  LabelStyle,
+  ValueStyle,
+} from './styles'
 
 const BridgeHeader = () => {
   const dispatch = useDispatch<any>()
@@ -41,8 +28,9 @@ const BridgeHeader = () => {
   const ClassicBridgeInfo = () => {
     return (
       <>
-        <LabelStyle>Classic Bridge</LabelStyle> <br />
-        <ValueStyle>
+        <LabelStyle data-testid="tooltip-cb-t">Classic Bridge</LabelStyle>{' '}
+        <br />
+        <ValueStyle data-testid="tooltip-cb-d">
           Although this option is always available, it takes 7 days to receive
           your funds when withdrawing from L2 to L1.
         </ValueStyle>
@@ -56,9 +44,9 @@ const BridgeHeader = () => {
     return (
       <>
         {' '}
-        <LabelStyle>Light Bridge</LabelStyle>
+        <LabelStyle data-testid="tooltip-lb-t">Light Bridge</LabelStyle>
         <br />
-        <ValueStyle>
+        <ValueStyle data-testid="tooltip-lb-d">
           Bridge is an easy, fast, and cheap bridging solution that quickly gets
           your funds to your destination chain only available for a few selected
           assets (BOBA, ETH, BNB).

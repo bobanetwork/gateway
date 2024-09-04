@@ -1,8 +1,6 @@
 import React from 'react'
 
-interface Props {}
-
-const TwitterIcon = (props: Props) => {
+const TwitterIcon = () => {
   return (
     <svg
       width="24"

@@ -58,10 +58,10 @@ const SettingsModal: FC<SettingsModalProps> = ({ open }) => {
     onStateChange,
   }) => {
     return (
-      <SettingsItem>
+      <SettingsItem className="setting-item">
         <SettingsText>
-          <SettingTitle>{title}</SettingTitle>
-          <SettingSubTitle>{subTitle}</SettingSubTitle>
+          <SettingTitle data-testid="item-title">{title}</SettingTitle>
+          <SettingSubTitle data-testid="item-desc">{subTitle}</SettingSubTitle>
         </SettingsText>
         <SettingsAction>
           <SwitchButton isActive={isActive} onStateChange={onStateChange} />

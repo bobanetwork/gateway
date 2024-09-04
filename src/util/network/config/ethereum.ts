@@ -12,14 +12,19 @@ export const ethereumConfig: NetworkDetail = {
       name: 'Sepolia',
       chainId: 11155111,
       chainIdHex: '0xaa36a7',
-      rpcUrl: [`https://ethereum-sepolia.publicnode.com`],
-      transaction: `https://rpc.sepolia.ethpandaops.io/tx/`,
-      blockExplorerUrl: `https://gateway.tenderly.co/public/sepolia`,
+      rpcUrl: [
+        `https://ethereum-sepolia-rpc.publicnode.com`,
+        `https://1rpc.io/sepolia`,
+        `https://rpc.sepolia.ethpandaops.io`,
+        `https://gateway.tenderly.co/public/sepolia`,
+      ],
+      transaction: `https://sepolia.etherscan.io/tx`,
+      blockExplorerUrl: `https://sepolia.etherscan.io/`,
       symbol: 'ETH',
       tokenName: 'ETH',
     },
     L2: {
-      name: 'BOBA Sepolia L2',
+      name: 'Boba Sepolia',
       chainId: 28882,
       chainIdHex: '0x70d2',
       rpcUrl: [`https://sepolia.boba.network`],
@@ -63,7 +68,7 @@ export const ethereumConfig: NetworkDetail = {
       tokenName: 'ETH',
     },
     L2: {
-      name: 'BOBA L2',
+      name: 'Boba Network',
       chainId: 288,
       chainIdHex: '0x120',
       rpcUrl: [

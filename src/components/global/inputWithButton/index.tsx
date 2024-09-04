@@ -34,6 +34,13 @@ const InputWithButton: FC<Props> = ({
         name={name}
         placeholder={placeholder}
         onChange={onChange}
+        onWheel={(e: any) => {
+          e.target.blur()
+          e.stopPropagation()
+          setTimeout(() => {
+            e.target.focus()
+          }, 0)
+        }}
       />
       <InputActionButton disabled={disabled || error} onClick={onButtonClick}>
         {buttonLabel}

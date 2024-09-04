@@ -15,6 +15,8 @@ limitations under the License. */
 
 import store from 'store'
 import { BigNumberish } from 'ethers'
+import { createAction } from './createAction'
+import { bridgeService } from 'services'
 
 export interface IBridgeAltert {
   meta: string
@@ -93,3 +95,44 @@ export const setReenterWithdrawalConfig = (payload: any) => (dispatch) =>
 export const setFetchDepositTxBlock = (payload?) => {
   store.dispatch({ type: 'BRIDGE/DEPOSIT_TX/BLOCK', payload })
 }
+
+// bridging Actions
+
+export const depositNativeAnchorage = (payload) =>
+  createAction('DEPOSIT_ANCHORAGE/CREATE', () => {
+    return bridgeService.anchorageDepositNative(payload)
+  })
+
+export const depositErc20Anchorage = (payload) =>
+  createAction('DEPOSIT/CREATE', () =>
+    bridgeService.anchorageDepositERC20(payload)
+  )
+
+export const depositErc20AnchorageOptimism = (payload) =>
+  createAction('DEPOSIT/CREATE', () =>
+    bridgeService.anchorageDepositERC20Optimism(payload)
+  )
+
+export const withdrawNativeTokenAnchorage = (payload) =>
+  createAction('WITHDRAW_NATIVE_ANCHORAGE/CREATE', () => {
+    return bridgeService.anchorageWithdrawNativeToken(payload)
+  })
+
+export const withdrawErc20TokenAnchorage = (payload) =>
+  createAction('WITHDRAW_ERC20_ANCHORAGE/CREATE', () => {
+    return bridgeService.anchorageWithdrawErc20Token(payload)
+  })
+
+export const handleProveWithdrawal = (payload) =>
+  createAction('PROVE_WITHDRAWAL/CREATE', () => {
+    return bridgeService.prooveTransactionWithdrawal(payload)
+  })
+export const handleProveWithdrawalWithFraudProof = (payload) =>
+  createAction('PROVE_WITHDRAWAL/CREATE', () => {
+    return bridgeService.proveTransactionWithdrawalWithFraudProof(payload)
+  })
+
+export const claimWithdrawal = (payload) =>
+  createAction('CLAIM_WITHDRAWAL/CREATE', () => {
+    return bridgeService.finalizeTransactionWithdrawal(payload)
+  })

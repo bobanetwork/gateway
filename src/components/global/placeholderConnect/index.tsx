@@ -13,7 +13,7 @@ import { LAYER } from 'util/constant'
 import { PlaceholderConnectInterface } from './types'
 import styled from 'styled-components'
 
-export const StyledSvg = styled(Svg)`
+const StyledSvg = styled(Svg)`
   div {
     display: flex;
   }

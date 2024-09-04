@@ -64,7 +64,7 @@ export const CHAIN_ID_LIST = {
   11155111: {
     networkType: NetworkType.TESTNET,
     chain: Network.ETHEREUM,
-    layer: LAYER.L2,
+    layer: LAYER.L1,
     name: 'Sepolia',
     icon: 'ethereum',
     siteName: 'Ethereum (Sepolia)',

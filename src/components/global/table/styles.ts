@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components'
 import { Row } from 'components/global/containers'
+import styled, { css } from 'styled-components'
 import { screen } from 'themes/screens'
 
 export const TableHeaderContainer = styled(Row)`
@@ -10,7 +10,7 @@ export const TableHeaderContainer = styled(Row)`
   background: ${({ theme: { colors, name } }) =>
     name === 'light' ? colors.gray[50] : colors.gray[800]};
 
-  ${({ theme: { name, colors } }) =>
+  ${({ theme: { name } }) =>
     name === 'light'
       ? css`
           border-radius: 12px;

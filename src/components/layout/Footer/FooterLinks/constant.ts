@@ -1,5 +1,3 @@
-import { ROUTES_PATH } from 'util/constant'
-
 interface LinkProps {
   label: string
   path: string
@@ -14,11 +12,6 @@ export const FOOTERLINKS: Array<LinkProps> = [
   {
     label: 'Dev Tools',
     path: 'https://docs.boba.network/developer',
-  },
-  {
-    label: 'Bobascope',
-    path: ROUTES_PATH.BOBASCOPE,
-    isNav: true,
   },
   {
     label: 'Boba Network Website',

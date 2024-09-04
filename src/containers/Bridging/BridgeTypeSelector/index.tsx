@@ -14,10 +14,10 @@ import {
   networkLimitedAvailability,
 } from 'util/network/network.util'
 import { BridgeTabItem, BridgeTabs } from './style'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 export enum BRIDGE_TYPE {
   CLASSIC = 'CLASSIC',
-  FAST = 'FAST',
   LIGHT = 'LIGHT',
   THIRD_PARTY = 'THIRD_PARTY',
 }
@@ -29,6 +29,7 @@ const BridgeTypeSelector = () => {
   const network = useSelector(selectNetwork())
   const isOnLimitedNetwork = networkLimitedAvailability(networkType, network)
   const activeNetworkType = useSelector(selectActiveNetworkType())
+  const { isActiveNetworkBnb } = useNetworkInfo()
 
   const isMainnet =
     useSelector(selectActiveNetworkType()) === NetworkType.MAINNET
@@ -78,7 +79,7 @@ const BridgeTypeSelector = () => {
         Light
       </BridgeTabItem>
 
-      {isMainnet ? (
+      {isMainnet && !isActiveNetworkBnb ? (
         <BridgeTabItem
           data-testid="third-party-btn"
           active={bridgeType === BRIDGE_TYPE.THIRD_PARTY}

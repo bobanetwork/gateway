@@ -1,5 +1,3 @@
-import { Network } from 'util/network/network.util'
-
 interface BannerContent {
   message?: string
   content?: string

@@ -4,7 +4,7 @@ import { ReactSVG } from 'react-svg'
 import styled, { keyframes } from 'styled-components'
 import spinnerSvg from 'assets/spinner.svg'
 
-export const LoaderContainer = styled.div`
+const LoaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   aling-items: center;
@@ -13,7 +13,7 @@ export const LoaderContainer = styled.div`
   gap: 8px;
   margin: auto;
 `
-export const LoaderText = styled(Typography).attrs({
+const LoaderText = styled(Typography).attrs({
   variant: 'h1',
 })`
   color: ${({ theme: { name, colors } }) =>

@@ -3,40 +3,30 @@ import {
   purgeBridgeAlert,
   setBridgeAlert,
 } from 'actions/bridgeAction'
+import BN from 'bignumber.js'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { BigNumber, BigNumberish, ethers } from 'ethers'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetwork,
   selectAmountToBridge,
+  selectBlockTime,
   selectBobaFeeChoice,
   selectBobaPriceRatio,
   selectBridgeType,
-  selectTeleportationDisburserBalance,
   selectExitFee,
-  selectFastDepositCost,
-  selectFastExitCost,
   selectIsTeleportationOfAssetSupported,
-  selectL1FeeBalance,
-  selectL1LPBalanceString,
-  selectL1LPLiquidity,
-  selectL1LPPendingString,
   selectL2BalanceBOBA,
   selectL2BalanceETH,
-  selectL2LPBalanceString,
-  selectL2LPLiquidity,
-  selectL2LPPendingString,
   selectLayer,
+  selectTeleportationDisburserBalance,
   selectTokenToBridge,
-  selectBlockTime,
 } from 'selectors'
 import { logAmount } from 'util/amountConvert'
 import { LAYER } from 'util/constant'
-import BN from 'bignumber.js'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import { Network } from 'util/network/network.util'
-import { BigNumber, BigNumberish, ethers, utils } from 'ethers'
-import { formatEther } from '@ethersproject/units'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
 enum ALERT_KEYS {
   OMG_INFO = 'OMG_INFO',
@@ -45,7 +35,7 @@ enum ALERT_KEYS {
   VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT = 'VALUE_GREATER_THAN_MAX_BRIDGE_CONFIG_AMOUNT',
   VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT = 'VALUE_LESS_THAN_MIN_BRIDGE_CONFIG_AMOUNT',
   MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED = 'MAX_BRIDGE_AMOUNT_PER_DAY_EXCEEDED',
-  FAST_EXIT_ERROR = 'FAST_EXIT_ERROR',
+  EXIT_ERROR = 'EXIT_ERROR',
   FAST_DEPOSIT_ERROR = 'FAST_DEPOSIT_ERROR',
   DEPRECATION_WARNING = 'DEPRECATION_WARNING',
   TELEPORTATION_ASSET_NOT_SUPPORTED = 'TELEPORTER_ASSET_NOT_SUPPORTED',
@@ -77,24 +67,14 @@ const useBridgeAlerts = () => {
     selectTeleportationDisburserBalance()
   )?.toString()
 
-  const { isActiveNetworkBnb } = useNetworkInfo()
-  // fast input layer 1
-  const L1LPBalance = useSelector(selectL2LPBalanceString)
-  const L1LPPending = useSelector(selectL2LPPendingString)
-  const L1LPLiquidity = useSelector(selectL2LPLiquidity)
-  const L1feeBalance = useSelector(selectL1FeeBalance)
-  const fastDepositCost = useSelector(selectFastDepositCost)
-
   // imports needed for layer= 2;
   const feeBalanceETH = useSelector(selectL2BalanceETH)
   const feeBalanceBOBA = useSelector(selectL2BalanceBOBA)
   const feeUseBoba = useSelector(selectBobaFeeChoice())
   const feePriceRatio = useSelector(selectBobaPriceRatio())
   const exitFee = useSelector(selectExitFee)
-  const fastExitCost = useSelector(selectFastExitCost)
-  const LPBalance = useSelector(selectL1LPBalanceString)
-  const LPPending = useSelector(selectL1LPPendingString)
-  const LPLiquidity = useSelector(selectL1LPLiquidity)
+
+  const { isActiveNetworkBnb } = useNetworkInfo()
 
   useEffect(() => {
     amountToBridge = Number(amountToBridge)
@@ -157,16 +137,6 @@ const useBridgeAlerts = () => {
         const minDepositAmount = Number(
           ethers.utils.formatEther(
             tokenForTeleportationSupported.minDepositAmount
-          )
-        )
-        const transferredAmount = Number(
-          ethers.utils.formatEther(
-            tokenForTeleportationSupported.transferredAmount
-          )
-        )
-        const maxTransferAmount = Number(
-          ethers.utils.formatEther(
-            tokenForTeleportationSupported.maxTransferAmountPerDay
           )
         )
         const transferTimestampCheckPoint = Number(
@@ -313,9 +283,10 @@ const useBridgeAlerts = () => {
 
     dispatch(
       clearBridgeAlert({
-        keys: [ALERT_KEYS.FAST_EXIT_ERROR],
+        keys: [ALERT_KEYS.EXIT_ERROR],
       })
     )
+    // TODO: cleanup on anchorage migration.
     if (
       layer === LAYER.L2 &&
       bridgeType !== BRIDGE_TYPE.LIGHT &&
@@ -324,7 +295,8 @@ const useBridgeAlerts = () => {
       // trigger only when withdrawing funds.
       let warning = ''
       const balance = Number(logAmount(token.balance, token.decimals))
-      const ethCost = Number(fastExitCost) * 1.04 // 1.04 == safety margin on the cost.
+      // @note review and test once for classic bridge.
+      const ethCost = 1.04 // 1.04 == safety margin on the cost.
       const bobaCost = ethCost * feePriceRatio
 
       if (exitFee > feeBalanceBOBA) {
@@ -354,56 +326,10 @@ const useBridgeAlerts = () => {
         warning = `Insufficient ETH balance to cover ETH Amount and Exit fee.`
       }
 
-      if (bridgeType === BRIDGE_TYPE.FAST && balance > 0) {
-        // as in case of fast withdrwal we are using liquidity pools so below checks are required.
-        let LpRatio = 0
-        const lbl = Number(logAmount(LPLiquidity, token.decimals))
-        if (lbl > 0) {
-          const lpb = Number(logAmount(LPBalance, token.decimals))
-          const LPR = lpb / lbl
-          LpRatio = Number(LPR)
-        }
-
-        const lpUnits: any = logAmount(LPBalance, token.decimals)
-        const pendingUnits: any = logAmount(LPPending, token.decimals)
-        const pendingExitsBalance = Number(lpUnits) - Number(pendingUnits) // inflight exits (pending exits)
-
-        if (LpRatio < 0.1) {
-          if (Number(amountToBridge) > Number(pendingExitsBalance) * 0.9) {
-            //not enough absolute balance
-            //we don't want one large bridge to wipe out all the balance
-            //NOTE - this logic still allows bridgers to drain the entire pool, but just more slowly than before
-            //this is because the every time someone exits, the limit is recalculated
-            //via Number(LPBalance) * 0.9, and LPBalance changes over time
-            warning = `Insufficient balance in pool and balance / liquidity ratio too low, please reduce amount or use classical exit`
-          } else if (
-            Number(amountToBridge) <=
-            Number(pendingExitsBalance) * 0.9
-          ) {
-            warning = `The pool's balance/liquidity ratio (of ${Number(
-              LpRatio
-            ).toFixed(2)}) is too low.
-            Please use the classic bridge.`
-          } else {
-            warning = `There is not enough liquidity in the fast bridge pool - please reduce amount or use classical bridge`
-          }
-        }
-
-        if (
-          LpRatio >= 0.1 &&
-          Number(amountToBridge) > Number(pendingExitsBalance) * 0.9
-        ) {
-          warning = `The pool's balance of ${Number(
-            pendingExitsBalance
-          ).toFixed(2)} (including inflight bridges) is too low.
-            Please use the classic bridge or reduce the amount.`
-        }
-      }
-
       if (warning) {
         dispatch(
           setBridgeAlert({
-            meta: ALERT_KEYS.FAST_EXIT_ERROR,
+            meta: ALERT_KEYS.EXIT_ERROR,
             type: 'error',
             text: warning,
           })
@@ -421,122 +347,6 @@ const useBridgeAlerts = () => {
     feePriceRatio,
     feeUseBoba,
     exitFee,
-    fastExitCost,
-    LPLiquidity,
-    LPBalance,
-    LPPending,
-  ])
-
-  // alerts for fast deposit L1.
-
-  useEffect(() => {
-    if (!token) {
-      return
-    }
-
-    dispatch(
-      clearBridgeAlert({
-        keys: [ALERT_KEYS.FAST_DEPOSIT_ERROR],
-      })
-    )
-
-    if (layer === LAYER.L1 && bridgeType === BRIDGE_TYPE.FAST) {
-      let warning = ''
-      let type = 'error'
-      const balance = Number(logAmount(token.balance, token.decimals))
-
-      if (fastDepositCost > L1feeBalance) {
-        warning = `Insufficient L1 ETH balance to cover Gas fee`
-      }
-      if (token.symbol === 'ETH') {
-        if (Number(amountToBridge) + fastDepositCost > L1feeBalance) {
-          warning = `Insufficient L1 ETH balance to cover Amount and Gas fee`
-        }
-        if (Number(amountToBridge) + fastDepositCost > L1feeBalance * 0.96) {
-          warning = `Your L1 ETH balance ${L1feeBalance.toFixed(4)}
-          is very close to the estimated total (gas fee + amount).
-          Transaction might fail`
-          type = 'warning'
-        }
-      } else {
-        if (fastDepositCost > L1feeBalance) {
-          warning = `Insufficient L1 ETH balance to cover Gas fee`
-        }
-        if (fastDepositCost > L1feeBalance * 0.96) {
-          warning = `Your L1 ETH balance ${L1feeBalance.toFixed(4)}
-          is very close to the gas fee + amount.
-          Transaction might fail, it would be safe to have slightly more ETH in your L1 wallet to cover gas fee`
-          type = 'warning'
-        }
-      }
-
-      if (balance > 0) {
-        let LpRatio = 0
-
-        const lbl = Number(logAmount(L1LPLiquidity, token.decimals))
-        if (lbl > 0) {
-          const lbp = Number(logAmount(L1LPBalance, token.decimals))
-          const LPR = lbp / lbl
-          LpRatio = Number(LPR)
-        }
-        const L1lpUnits = logAmount(L1LPBalance, token.decimals)
-        const pendingUnits = logAmount(L1LPPending, token.decimals)
-        const pendingDepositBalance = Number(L1lpUnits) - Number(pendingUnits) ////subtract the in flight exits
-
-        if (LpRatio < 0.1) {
-          //not enough balance/liquidity ratio
-          //we always want some balance for unstaking
-
-          if (Number(amountToBridge) > pendingDepositBalance * 0.9) {
-            //not enough absolute balance
-            //we don't want one large bridge to wipe out the entire balance
-            //NOTE - this logic still allows bridgers to drain the entire pool, but just more slowly than before
-            //this is because the every time someone exits, the limit is recalculated
-            //via Number(LPBalance) * 0.9, and LPBalance changes over time
-
-            warning = `The ${token.symbol} pool's balance and balance/liquidity ratio is
-            low. Please use the classic bridge.`
-          } else if (Number(amountToBridge) <= pendingDepositBalance * 0.9) {
-            warning = `The ${token.symbol} pool's balance/liquidity ratio (of
-             ${Number(LpRatio).toFixed(2)}) is too low. Please use the classic
-            bridge.`
-          } else {
-            warning = `There is not enough liquidity in the fast bridge pool - reduce your amount or use the Classic Bridge`
-          }
-        }
-
-        if (
-          LpRatio >= 0.1 &&
-          Number(amountToBridge) > Number(pendingDepositBalance) * 0.9
-        ) {
-          warning = `The ${token.symbol} pool's balance of
-          ${Number(pendingDepositBalance).toFixed(2)}
-          (including inflight bridges) is too low.
-          Please use the classic bridge or reduce the amount.`
-        }
-      }
-
-      if (warning) {
-        dispatch(
-          setBridgeAlert({
-            meta: ALERT_KEYS.FAST_EXIT_ERROR,
-            text: warning,
-            type,
-          })
-        )
-      }
-    }
-  }, [
-    dispatch,
-    layer,
-    bridgeType,
-    amountToBridge,
-    token,
-    L1LPBalance,
-    L1LPPending,
-    L1LPLiquidity,
-    L1feeBalance,
-    fastDepositCost,
   ])
 
   // on changing bridgeType and active network cleanup alerts

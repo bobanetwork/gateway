@@ -33,7 +33,12 @@ const Menu: FC<MenuProps> = ({
 
   return (
     <>
-      <StyleMenuButton variant={variant} active={open} onClick={handleClick}>
+      <StyleMenuButton
+        data-testid={label}
+        variant={variant}
+        active={open}
+        onClick={handleClick}
+      >
         {label || children}
       </StyleMenuButton>
       <StyledMenu

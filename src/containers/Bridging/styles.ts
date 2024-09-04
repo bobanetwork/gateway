@@ -42,9 +42,6 @@ export const BridgeContent = styled.div`
   justify-content: space-around;
   align-items: flex-start;
 `
-
-export const BridgeReceiveWrapper = styled.div``
-export const BridgeInfo = styled.div``
 export const BridgeActionContainer = styled.div`
   width: 100%;
   display: flex;

@@ -1,26 +1,4 @@
-import styled, { css } from 'styled-components'
-import { sdesktop, tablet, mobile } from 'themes/screens'
-export const Wrapper = styled.div`
-  border-radius: 0;
-  background: ${(props) => props.theme.background.secondary};
-`
-
-export const Entry = styled.div`
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${(props) => props.theme.background.secondary};
-`
-
-export const GridCoontainer = styled.div``
-export const GridItemTag = styled.div`
-  text-align: left;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`
+import styled from 'styled-components'
 
 export const StakeItemDetails = styled.div`
   display: flex;

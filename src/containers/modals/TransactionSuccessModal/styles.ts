@@ -9,17 +9,13 @@ export const SuccessContainer = styled.div`
   gap: 25px;
 `
 
-export const TitleText = styled(Typography).attrs({
-  variant: 'body1',
-})`
-  text-align: center;
-`
-
 export const MutedText = styled(Typography).attrs({
   variant: 'body3',
 })`
+  text-align: center;
+  width: 250px;
   color: ${({ theme }) =>
-    theme.name === 'light' ? theme.colors.gray[700] : theme.colors.gray[50]};
+    theme.name === 'light' ? theme.colors.gray[700] : theme.colors.gray[100]};
 `
 
 export const CircleOuter = styled.div`
@@ -27,8 +23,8 @@ export const CircleOuter = styled.div`
   border-radius: 50%;
   justify-content: center;
   align-items: center;
-  height: 150px;
-  width: 150px;
+  height: 80px;
+  width: 80px;
   background: ${({ theme }) =>
     theme.name === 'light' ? theme.colors.green[300] : theme.colors.green[500]};
 `
@@ -37,8 +33,8 @@ export const CircleInner = styled.div`
   border-radius: 50%;
   justify-content: center;
   align-items: center;
-  height: 120px;
-  width: 120px;
+  height: 66px;
+  width: 66px;
   background: ${({ theme }) =>
     theme.name === 'light' ? theme.colors.green[300] : theme.colors.green[400]};
 `
@@ -48,13 +44,13 @@ export const SuccessCheck = styled.div`
   border-radius: 50%;
   justify-content: center;
   align-items: center;
-  height: 90px;
-  width: 90px;
+  height: 48.4px;
+  width: 48.4px;
   background: ${({ theme }) => theme.colors.green[300]};
   position: relative;
   &:after {
     content: '✓';
-    font-size: 60px;
+    font-size: 30px;
     color: #fff;
     position: absolute;
     margin: auto;
@@ -67,4 +63,5 @@ export const SuccessContent = styled.div`
   align-items: center;
   justify-content: space-around;
   gap: 8px;
+  width: 100%;
 `

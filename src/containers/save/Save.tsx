@@ -1,29 +1,11 @@
-/*
-  Utility Functions for OMG Plasma
-  Copyright (C) 2021 Enya Inc. Palo Alto, CA
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
-/* 
-  @Stake
-    - Staking is only available on Boba L2 (Ethereum network) only.
-*/
-
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getFS_Info, getFS_Saves } from 'actions/fixedAction'
+import {
+  fetchBobaTokenDetail,
+  fetchStakeInfo,
+  fetchSavings,
+} from 'actions/fixedAction'
 import { openModal } from 'actions/uiAction'
 
 import * as S from './Save.styles'
@@ -36,23 +18,20 @@ import { PlaceholderConnect } from 'components/global/placeholderConnect'
 import { Typography } from 'components/global/typography'
 import TransactionList from 'components/stake/transactionList'
 import { BigNumber, utils } from 'ethers'
-import networkService from 'services/networkService'
 import { toWei_String } from 'util/amountConvert'
 
-import useInterval from 'hooks/useInterval'
-import { selectBalance, selectFixed, selectLayer, selectSetup } from 'selectors'
+import { selectFixed, selectLayer, selectSetup } from 'selectors'
+import fixedSavingService from 'services/fixedsaving/fixedSaving.service'
 import styled from 'styled-components'
-import { POLL_INTERVAL } from 'util/constant'
-import { fetchBalances } from 'actions/networkAction'
 
-export const OutputLabel = styled(Typography).attrs({
+const OutputLabel = styled(Typography).attrs({
   variant: 'title',
 })`
   margin-top: 8px;
   color: #a8a8a8;
 `
 
-export const Description = styled(Typography).attrs({
+const Description = styled(Typography).attrs({
   variant: 'body2',
 })`
   margin-top: 8px;
@@ -62,11 +41,9 @@ export const Description = styled(Typography).attrs({
 
 const Save = () => {
   const layer = useSelector(selectLayer())
-  const { stakeInfo } = useSelector(selectFixed())
+  const { stakeInfo, bobaToken } = useSelector(selectFixed())
   const { accountEnabled, netLayer, bobaFeeChoice, bobaFeePriceRatio } =
     useSelector(selectSetup())
-  const balance = useSelector(selectBalance())
-  const { layer2 } = balance
 
   const dispatch = useDispatch<any>()
 
@@ -77,38 +54,24 @@ const Save = () => {
 
   useEffect(() => {
     if (accountEnabled) {
-      dispatch(getFS_Saves())
-      dispatch(getFS_Info())
-      getMaxTransferValue()
-      dispatch(fetchBalances())
+      dispatch(fetchSavings())
+      dispatch(fetchStakeInfo())
+      dispatch(fetchBobaTokenDetail())
     }
   }, [accountEnabled])
 
-  useInterval(() => {
-    if (accountEnabled) {
-      dispatch(getFS_Info())
-      dispatch(getFS_Saves())
-      dispatch(fetchBalances())
-    }
-  }, POLL_INTERVAL)
-
   useEffect(() => {
     getMaxTransferValue()
-  }, [layer2])
+  }, [bobaToken])
 
   const getMaxTransferValue = async () => {
-    // as staking BOBA check the bobabalance
-    const token: any = Object.values(layer2).find(
-      (t: any) => t['symbolL2'] === 'BOBA'
-    )
-
     // BOBA available prepare transferEstimate
-    if (token) {
-      let max_BN = BigNumber.from(token.balance.toString())
+    if (bobaToken) {
+      let max_BN = BigNumber.from(bobaToken.balance.toString())
       let fee = '0'
 
       if (netLayer === 'L2') {
-        const cost_BN: any = await networkService.savingEstimate()
+        const cost_BN: any = await fixedSavingService.savingEstimate()
 
         if (bobaFeeChoice) {
           // we are staking BOBA and paying in BOBA
@@ -122,10 +85,10 @@ const Save = () => {
         if (bobaFeeChoice) {
           fee = utils.formatUnits(
             cost_BN.mul(BigNumber.from(bobaFeePriceRatio)),
-            token.decimals
+            bobaToken.decimals
           )
         } else {
-          fee = utils.formatUnits(cost_BN, token.decimals)
+          fee = utils.formatUnits(cost_BN, bobaToken.decimals)
         }
       }
 
@@ -135,7 +98,7 @@ const Save = () => {
 
       setState((prevState) => ({
         ...prevState,
-        max_Float_String: utils.formatUnits(max_BN, token.decimals),
+        max_Float_String: utils.formatUnits(max_BN, bobaToken.decimals),
         fee,
       }))
     }
@@ -242,7 +205,7 @@ const Save = () => {
               <S.StakeItemContainer>
                 {Object.keys(stakeInfo).map((v, i) => {
                   if (stakeInfo[i].isActive) {
-                    return <TransactionList stakeInfo={stakeInfo[i]} key={i} />
+                    return <TransactionList stakeInfo={stakeInfo[i]} key={v} />
                   }
                   return null
                 })}

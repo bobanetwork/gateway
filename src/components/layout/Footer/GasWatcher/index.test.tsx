@@ -1,12 +1,12 @@
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import GasWatcher from '.'
-import { MemoryRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import CustomThemeProvider from 'themes'
-import configureStore from 'redux-mock-store'
-import { Network, NetworkType } from 'util/network/network.util'
+import { render } from '@testing-library/react'
 import useGasWatcher from 'hooks/useGasWatcher'
+import React from 'react'
+import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router-dom'
+import configureStore from 'redux-mock-store'
+import CustomThemeProvider from 'themes'
+import { Network, NetworkType } from 'util/network/network.util'
+import GasWatcher from '.'
 
 const mockStore = configureStore()
 

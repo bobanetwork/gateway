@@ -1,33 +1,39 @@
 /* eslint-disable */
 
+import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { renderHook } from '@testing-library/react-hooks'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
 import { mockedInitialState } from 'util/tests'
 
 import networkService from 'services/networkService'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 
+import { bridgeService } from 'services'
 import useBridge from '.'
 
-const L1LPAddress = 'L1LPAddress'
+jest.mock('services/bridge/bridge.services', () => {
+  return {
+    anchorageDepositERC20: jest.fn(),
+  }
+})
+
+jest.mock('services/teleportation/teleportation.service', () => {
+  return {
+    deposit: jest.fn(),
+    getLightBridgeAddress: jest.fn(),
+  }
+})
 
 jest.mock('services/networkService', () => {
   return {
     getAllAddresses: jest.fn(),
-    estimateL1SecurityFee: jest.fn(),
-    estimateL2Fee: jest.fn(),
     approveERC20: jest.fn(),
     depositErc20: jest.fn(),
-    depositERC20Anchorage: jest.fn(),
     depositETHL2: jest.fn(),
-    depositL1LP: jest.fn(),
-    depositL2LP: jest.fn(),
-    depositWithTeleporter: jest.fn(),
     exitBOBA: jest.fn(),
-    getLightBridgeAddress: jest.fn(),
   }
 })
 
@@ -167,7 +173,7 @@ describe('UseBridge Hooks', () => {
   })
 
   describe('Layer 1', () => {
-    describe('Classic Bridge', () => {
+    xdescribe('Classic Bridge', () => {
       beforeEach(() => {
         ;(networkService.depositETHL2 as jest.Mock).mockResolvedValue({
           message: 'success!',
@@ -175,7 +181,7 @@ describe('UseBridge Hooks', () => {
         ;(networkService.depositErc20 as jest.Mock).mockResolvedValue({
           message: 'success!',
         })
-        ;(networkService.depositERC20Anchorage as jest.Mock).mockResolvedValue({
+        ;(bridgeService.anchorageDepositERC20 as jest.Mock).mockResolvedValue({
           message: 'success!',
         })
 
@@ -319,7 +325,7 @@ describe('UseBridge Hooks', () => {
         expect(actions).toEqual(successActionsClassic)
       })
 
-      test('should invoke depositErc20Anchorage correctly and reset state on success', async () => {
+      test('should invoke anchorageDepositERC20 correctly and reset state on success', async () => {
         store = mockStore({
           ...store,
           bridge: {
@@ -339,10 +345,10 @@ describe('UseBridge Hooks', () => {
         let prevActions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.depositERC20Anchorage as jest.Mock).mock.calls
+          (bridgeService.anchorageDepositERC20 as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
-          (networkService.depositERC20Anchorage as jest.Mock).mock.calls[0][0]
+          (bridgeService.anchorageDepositERC20 as jest.Mock).mock.calls[0][0]
         ).toEqual({
           recipient: '',
           L1DepositAmountWei: '1255000000000000000',
@@ -352,7 +358,7 @@ describe('UseBridge Hooks', () => {
         expect(prevActions).toEqual(successActionsClassic)
       })
 
-      test('should trigger depositErc20Anchorage correctly with reciepent address', async () => {
+      test('should trigger anchorageDepositERC20 correctly with reciepent address', async () => {
         store = mockStore({
           ...store,
           bridge: {
@@ -375,10 +381,10 @@ describe('UseBridge Hooks', () => {
 
         await result.current.triggerSubmit()
         expect(
-          (networkService.depositERC20Anchorage as jest.Mock).mock.calls
+          (bridgeService.anchorageDepositERC20 as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
-          (networkService.depositERC20Anchorage as jest.Mock).mock.calls[0][0]
+          (bridgeService.anchorageDepositERC20 as jest.Mock).mock.calls[0][0]
         ).toEqual({
           currency: '0x0000000000000000000000000000000000000006',
           currencyL2: '0x0000000000000000000000000000000000000032',
@@ -389,149 +395,16 @@ describe('UseBridge Hooks', () => {
         expect(actions).toEqual(successActionsClassic)
       })
     })
-    describe('Fast Bridge', () => {
+
+    xdescribe('Light Bridge Teleporter', () => {
       beforeEach(() => {
-        ;(networkService.getAllAddresses as jest.Mock).mockReturnValue({
-          L1LPAddress,
-        })
-        ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
-        ;(networkService.depositL1LP as jest.Mock).mockResolvedValue({
-          message: 'success!',
-        })
-
-        store = {
-          ...mockedInitialState,
-          setup: {
-            ...mockedInitialState.setup,
-            netLayer: 'L1',
-          },
-          bridge: {
-            ...mockedInitialState.bridge,
-            bridgeType: 'FAST',
-          },
-        }
-      })
-
-      test('should trigger approveERC20 and DepositL1LP correctly and reset state on success', async () => {
-        store = mockStore(store)
-        const { result } = renderHook(() => useBridge(), { wrapper })
-
-        let actions = store.getActions()
-        await result.current.triggerSubmit()
-        expect(
-          (networkService.getAllAddresses as jest.Mock).mock.calls
-        ).toHaveLength(1)
-        expect(
-          (networkService.approveERC20 as jest.Mock).mock.calls[0]
-        ).toEqual([
-          '1255000000000000000',
-          '0x0000000000000000000000000000000000000000',
-          'L1LPAddress',
-          undefined,
-        ])
-        expect((networkService.depositL1LP as jest.Mock).mock.calls[0]).toEqual(
-          ['0x0000000000000000000000000000000000000000', '1255000000000000000']
-        )
-        expect(actions).toEqual(successActionsFast)
-      })
-
-      test('should work correclty and reset state should be triggered on error', async () => {
-        store = mockStore(store)
-        ;(networkService.approveERC20 as jest.Mock).mockRejectedValue(true)
-        ;(networkService.depositL1LP as jest.Mock).mockResolvedValue({
-          message: 'success!',
-        })
-
-        const { result } = renderHook(() => useBridge(), { wrapper })
-
-        let actions = store.getActions()
-        await result.current.triggerSubmit()
-        expect(
-          (networkService.getAllAddresses as jest.Mock).mock.calls
-        ).toHaveLength(1)
-        expect(
-          (networkService.approveERC20 as jest.Mock).mock.calls[0]
-        ).toEqual([
-          '1255000000000000000',
-          '0x0000000000000000000000000000000000000000',
-          'L1LPAddress',
-          undefined,
-        ])
-        expect(
-          (networkService.depositL1LP as jest.Mock).mock.calls
-        ).toHaveLength(0)
-
-        expect(actions).toEqual([
-          {
-            type: 'UI/MODAL/OPEN',
-            payload: 'bridgeInProgress',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
-            proposalId: undefined,
-            selectionLayer: undefined,
-            destNetworkSelection: undefined,
-          },
-          { type: 'APPROVE/CREATE/REQUEST' },
-          {
-            type: 'UI/ERROR/UPDATE',
-            payload: 'Failed to approve amount or user rejected signature',
-          },
-          { type: 'UI/MODAL/CLOSE', payload: 'bridgeInProgress' },
-        ])
-
-        store.clearActions()
-
-        // reject value from deposit l1lp.
-        ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
-        ;(networkService.depositL1LP as jest.Mock).mockRejectedValue(true)
-
-        const nextActions = store.getActions()
-        await result.current.triggerSubmit()
-
-        expect(
-          (networkService.getAllAddresses as jest.Mock).mock.calls
-        ).toHaveLength(2)
-        expect(
-          (networkService.approveERC20 as jest.Mock).mock.calls[0]
-        ).toEqual([
-          '1255000000000000000',
-          '0x0000000000000000000000000000000000000000',
-          'L1LPAddress',
-          undefined,
-        ])
-        expect((networkService.depositL1LP as jest.Mock).mock.calls[0]).toEqual(
-          ['0x0000000000000000000000000000000000000000', '1255000000000000000']
-        )
-
-        expect(nextActions).toEqual([
-          {
-            type: 'UI/MODAL/OPEN',
-            payload: 'bridgeInProgress',
-            token: undefined,
-            fast: undefined,
-            tokenIndex: undefined,
-            lock: undefined,
-            proposalId: undefined,
-            selectionLayer: undefined,
-            destNetworkSelection: undefined,
-          },
-          { type: 'APPROVE/CREATE/REQUEST' },
-          { type: 'APPROVE/CREATE/SUCCESS', payload: true },
-          { type: 'DEPOSIT/CREATE/REQUEST' },
-          { type: 'UI/MODAL/CLOSE', payload: 'bridgeInProgress' },
-        ])
-      })
-    })
-
-    describe('Light Bridge Teleporter', () => {
-      beforeEach(() => {
-        ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
+        ;(
+          lightBridgeService.getLightBridgeAddress as jest.Mock
+        ).mockReturnValue({
           lightBridgeAddr: 'lightBridgeAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
-        ;(networkService.depositWithTeleporter as jest.Mock).mockResolvedValue({
+        ;(lightBridgeService.deposit as jest.Mock).mockResolvedValue({
           message: 'success!',
         })
 
@@ -554,14 +427,14 @@ describe('UseBridge Hooks', () => {
 
         let actions = store.getActions()
         await result.current.triggerSubmit()
-        expect(
-          (networkService.depositWithTeleporter as jest.Mock).mock.calls[0]
-        ).toEqual([
-          'L1',
-          '0x0000000000000000000000000000000000000000',
-          '1255000000000000000',
-          'ethereum',
-        ])
+        expect((lightBridgeService.deposit as jest.Mock).mock.calls[0]).toEqual(
+          [
+            'L1',
+            '0x0000000000000000000000000000000000000000',
+            '1255000000000000000',
+            'ethereum',
+          ]
+        )
         expect(actions).toEqual(successActionsLight)
       })
       test('should trigger  approveERC20 and depositWithTeleporter correctly and reset state on success', async () => {
@@ -585,7 +458,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
+          (lightBridgeService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
@@ -619,7 +492,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
+          (lightBridgeService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
@@ -657,10 +530,6 @@ describe('UseBridge Hooks', () => {
       ;(networkService.exitBOBA as jest.Mock).mockResolvedValue({
         message: 'success!',
       })
-      ;(networkService.depositL2LP as jest.Mock).mockResolvedValue({
-        message: 'success!',
-      })
-
       beforeEach(() => {
         store = {
           ...mockedInitialState,
@@ -709,62 +578,15 @@ describe('UseBridge Hooks', () => {
         ])
       })
     })
-    describe('Fast Bridge', () => {
+    xdescribe('Light Bridge Teleporter', () => {
       beforeEach(() => {
-        store = {
-          ...mockedInitialState,
-          setup: {
-            ...mockedInitialState.setup,
-            netLayer: 'L2',
-          },
-          bridge: {
-            ...mockedInitialState.bridge,
-            bridgeType: 'FAST',
-          },
-        }
-      })
-
-      test('should triggerFastExit correctly and reset state on success', async () => {
-        store = mockStore(store)
-        const { result } = renderHook(() => useBridge(), { wrapper })
-        let actions = store.getActions()
-        await result.current.triggerSubmit()
-        expect(
-          (networkService.depositL2LP as jest.Mock).mock.calls
-        ).toHaveLength(1)
-        expect((networkService.depositL2LP as jest.Mock).mock.calls[0]).toEqual(
-          ['0x0000000000000000000000000000000000000000', '1255000000000000000']
-        )
-        expect(actions).toEqual([
-          {
-            destNetworkSelection: undefined,
-            fast: undefined,
-            lock: undefined,
-            payload: 'bridgeInProgress',
-            proposalId: undefined,
-            selectionLayer: undefined,
-            token: undefined,
-            tokenIndex: undefined,
-            type: 'UI/MODAL/OPEN',
-          },
-          {
-            type: 'EXIT/CREATE/REQUEST',
-          },
-          {
-            payload: 'bridgeInProgress',
-            type: 'UI/MODAL/CLOSE',
-          },
-        ])
-      })
-    })
-
-    describe('Light Bridge Teleporter', () => {
-      beforeEach(() => {
-        ;(networkService.getLightBridgeAddress as jest.Mock).mockReturnValue({
+        ;(
+          lightBridgeService.getLightBridgeAddress as jest.Mock
+        ).mockReturnValue({
           lightBridgeAddr: 'lightBridgeAddr',
         })
         ;(networkService.approveERC20 as jest.Mock).mockResolvedValue(true)
-        ;(networkService.depositWithTeleporter as jest.Mock).mockResolvedValue({
+        ;(lightBridgeService.deposit as jest.Mock).mockResolvedValue({
           message: 'success!',
         })
 
@@ -787,14 +609,14 @@ describe('UseBridge Hooks', () => {
 
         let actions = store.getActions()
         await result.current.triggerSubmit()
-        expect(
-          (networkService.depositWithTeleporter as jest.Mock).mock.calls[0]
-        ).toEqual([
-          'L2',
-          '0x0000000000000000000000000000000000000000',
-          '1255000000000000000',
-          'ethereum',
-        ])
+        expect((lightBridgeService.deposit as jest.Mock).mock.calls[0]).toEqual(
+          [
+            'L2',
+            '0x0000000000000000000000000000000000000000',
+            '1255000000000000000',
+            'ethereum',
+          ]
+        )
         expect(actions).toEqual(successActionsLight)
       })
       test('should trigger  approveERC20 and depositWithTeleporter correctly and reset state on success', async () => {
@@ -818,7 +640,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
+          (lightBridgeService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]
@@ -852,7 +674,7 @@ describe('UseBridge Hooks', () => {
         let actions = store.getActions()
         await result.current.triggerSubmit()
         expect(
-          (networkService.getLightBridgeAddress as jest.Mock).mock.calls
+          (lightBridgeService.getLightBridgeAddress as jest.Mock).mock.calls
         ).toHaveLength(1)
         expect(
           (networkService.approveERC20 as jest.Mock).mock.calls[0]

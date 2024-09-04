@@ -1,11 +1,11 @@
+import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
-import { renderHook, act } from '@testing-library/react-hooks'
-import { useOnboard } from '.'
+import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { mockedInitialState } from 'util/tests'
-import { Provider } from 'react-redux'
 import networkService from 'services/networkService'
+import { mockedInitialState } from 'util/tests'
+import { useOnboard } from '.'
 
 describe('useOnboard', () => {
   const middlewares = [thunk]

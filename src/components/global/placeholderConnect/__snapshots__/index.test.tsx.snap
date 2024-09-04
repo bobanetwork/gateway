@@ -22,7 +22,7 @@ exports[`PlaceholderConnect PlaceholderConnect is loading 1`] = `
       No 
     </p>
     <button
-      class="sc-aXZVg eCPrBm"
+      class="sc-aXZVg hzGBhO"
       label="Connect Wallet"
       type="button"
     >
@@ -53,7 +53,7 @@ exports[`PlaceholderConnect PlaceholderConnect is not loading 1`] = `
       No 
     </p>
     <button
-      class="sc-aXZVg eCPrBm"
+      class="sc-aXZVg hzGBhO"
       label="Connect Wallet"
       type="button"
     >

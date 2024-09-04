@@ -1,4 +1,3 @@
-import { IThirdPartyBridge } from 'containers/Bridging/ThirdPartyBridges/types'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectActiveNetworkType } from 'selectors'

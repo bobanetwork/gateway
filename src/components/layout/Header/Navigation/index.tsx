@@ -1,10 +1,9 @@
 import React, { FC } from 'react'
-import { StyledNav, NavLinkItem } from './style'
-import { MENU_LIST } from './constant'
-import { MenuProps } from './types'
 import { useSelector } from 'react-redux'
 import { selectActiveNetwork, selectActiveNetworkType } from 'selectors'
 import { Network, NetworkType } from 'util/network/network.util'
+import { MENU_LIST } from './constant'
+import { NavLinkItem, StyledNav } from './style'
 
 /**
  *
@@ -26,10 +25,9 @@ import { Network, NetworkType } from 'util/network/network.util'
  * @returns
  */
 
-const Navigation: FC<MenuProps> = ({ isOpen }) => {
+const Navigation: FC = () => {
   const activeNetwork = useSelector(selectActiveNetwork())
   const activeNetworkType = useSelector(selectActiveNetworkType())
-
   return (
     <StyledNav>
       {MENU_LIST.map((menu) => {

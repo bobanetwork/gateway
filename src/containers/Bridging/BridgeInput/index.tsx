@@ -1,13 +1,17 @@
-import React, { FC, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { openModal } from 'actions/uiAction'
+import React, { FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectAccountEnabled, selectTokenToBridge } from 'selectors'
 
 import useBridgeSetup from 'hooks/useBridgeSetup/'
 import { getCoinImage } from 'util/coinImage'
 
+import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import useAmountToReceive from 'hooks/useAmountToReceive'
+import { useNetworkInfo } from 'hooks/useNetworkInfo'
+import { SectionLabel } from '../chain/styles'
 import BridgeToAddress from './BridgeToAddress'
+import EmergencySwap from './EmergencySwap'
 import Fee from './Fee'
 import TokenInput from './TokenInput'
 import {
@@ -22,14 +26,8 @@ import {
   TokenSelectorInput,
   TokenSymbol,
 } from './styles'
-import { SectionLabel } from '../chain/styles'
-import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
-import EmergencySwap from './EmergencySwap'
-import { useNetworkInfo } from 'hooks/useNetworkInfo'
 
-type Props = {}
-
-const BridgeInput: FC<Props> = (props) => {
+const BridgeInput: FC = () => {
   const dispatch = useDispatch<any>()
   const isAccountEnabled = useSelector(selectAccountEnabled())
   const token = useSelector(selectTokenToBridge())
@@ -79,7 +77,9 @@ const BridgeInput: FC<Props> = (props) => {
       {token && (
         <ReceiveContainer>
           <SectionLabel>Receive</SectionLabel>
-          <ReceiveAmount>{receivableAmount}</ReceiveAmount>
+          <ReceiveAmount data-testid="amountToRecieve">
+            {receivableAmount}
+          </ReceiveAmount>
         </ReceiveContainer>
       )}
       <BridgeToAddress />

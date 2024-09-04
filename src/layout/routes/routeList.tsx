@@ -4,9 +4,7 @@ import { Navigate } from 'react-router-dom'
 import { ROUTES_PATH } from 'util/constant'
 
 const Bridging = React.lazy(() => import('containers/Bridging'))
-const BobaScope = React.lazy(() => import('containers/bobaScope/BobaScope'))
 const OldDao = React.lazy(() => import('containers/dao/OldDao'))
-const DevTools = React.lazy(() => import('containers/devtools/DevTools'))
 const Earn = React.lazy(() => import('containers/earn/Earn'))
 const Home = React.lazy(() => import('containers/home'))
 const SaveWrapper = React.lazy(() => import('containers/save/SaveWrapper'))
@@ -18,19 +16,9 @@ export const COMMON_ROUTES = [
     element: <Navigate to={ROUTES_PATH.BRIDGE} />,
     key: '',
   },
-  {
-    path: ROUTES_PATH.BOBASCOPE,
-    element: <BobaScope />,
-    key: 'bobascope',
-  },
-  {
-    path: ROUTES_PATH.DEV_TOOLS,
-    element: <DevTools />,
-    key: 'Devtool',
-  },
 ]
 
-export interface IRoute {
+interface IRoute {
   path: string
   children: {
     path: string

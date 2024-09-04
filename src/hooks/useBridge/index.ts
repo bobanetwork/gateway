@@ -1,22 +1,22 @@
 import {
   purgeBridgeAlert,
   resetBridgeAmount,
+  resetBridgeDestinationAddress,
   resetToken,
+  depositErc20Anchorage,
+  depositErc20AnchorageOptimism,
+  depositNativeAnchorage,
 } from 'actions/bridgeAction'
 import {
   approveERC20,
   depositErc20,
-  depositErc20Anchorage,
-  depositETHAnchorageL2,
   depositETHL2,
-  depositL1LP,
-  depositL2LP,
   depositWithLightBridge,
   exitBOBA,
 } from 'actions/networkAction'
 import { closeModal, openError, openModal } from 'actions/uiAction'
 import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
-import { BigNumberish, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { useNetworkInfo } from 'hooks/useNetworkInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -29,12 +29,17 @@ import {
   selectLayer,
   selectTokenToBridge,
 } from 'selectors'
-import networkService from 'services/networkService'
+import { lightBridgeService } from 'services/teleportation/teleportation.service'
 import { toWei_String } from 'util/amountConvert'
 import { Layer, LAYER } from 'util/constant'
-import { INetwork, NetworkList } from '../../util/network/network.util'
+import {
+  INetwork,
+  Network,
+  NetworkList,
+  NetworkType,
+} from '../../util/network/network.util'
 
-export const useBridge = () => {
+const useBridge = () => {
   const dispatch = useDispatch<any>()
   const bridgeType = useSelector(selectBridgeType())
   const layer = useSelector(selectLayer())
@@ -65,35 +70,51 @@ export const useBridge = () => {
   }
 
   const triggerDeposit = async (amountWei: any) => {
-    let receipt
-    if (token.address === ethers.constants.AddressZero) {
-      if (!!isAnchorageEnabled) {
-        receipt = await dispatch(
-          depositETHAnchorageL2({
+    let reciept
+    if (!!isAnchorageEnabled) {
+      if (token.address === ethers.constants.AddressZero) {
+        reciept = await dispatch(
+          depositNativeAnchorage({
             recipient: toL2Account || '',
-            L1DepositAmountWei: amountWei,
+            amount: amountWei,
           })
         )
       } else {
-        receipt = await dispatch(
+        if (
+          activeNetwork === Network.BNB &&
+          activeNetworkType === NetworkType.TESTNET &&
+          token.symbol === 'BOBA'
+        ) {
+          // deposit BOBA in bnb-testnet with optimism.
+          reciept = await dispatch(
+            depositErc20AnchorageOptimism({
+              recipient: toL2Account,
+              amount: amountWei,
+              currency: token.address,
+            })
+          )
+        } else {
+          reciept = await dispatch(
+            depositErc20Anchorage({
+              recipient: toL2Account,
+              amount: amountWei,
+              currency: token.address,
+              currencyL2: token.addressL2,
+            })
+          )
+        }
+      }
+    } else {
+      // NOTE: Below code is getting use only for BNB Mainnet.
+      if (token.address === ethers.constants.AddressZero) {
+        reciept = await dispatch(
           depositETHL2({
             recipient: toL2Account || '',
             value_Wei_String: amountWei,
           })
         )
-      }
-    } else {
-      if (!!isAnchorageEnabled) {
-        receipt = await dispatch(
-          depositErc20Anchorage({
-            recipient: toL2Account || '',
-            L1DepositAmountWei: amountWei,
-            currency: token.address,
-            currencyL2: token.addressL2,
-          })
-        )
       } else {
-        receipt = await dispatch(
+        reciept = await dispatch(
           depositErc20({
             recipient: toL2Account || '',
             value_Wei_String: amountWei,
@@ -103,53 +124,24 @@ export const useBridge = () => {
         )
       }
     }
-
-    return receipt
+    return reciept
   }
 
-  const triggerFastDeposit = async (amountWei: any) => {
-    if (token.symbol !== networkService.L1NativeTokenSymbol) {
-      // ERC20 token fast bridging.
-      // step -1  approve token
-      // step -2  deposit to L1LP.
-      const allAddresses = networkService.getAllAddresses()
-      const approvalReciept = await dispatch(
-        approveERC20(
-          amountWei,
-          token.address,
-          (allAddresses as any)['L1LPAddress']
-        )
-      )
-
-      if (approvalReciept === false) {
-        dispatch(
-          openError('Failed to approve amount or user rejected signature')
-        )
-        return
-      }
-    }
-    return dispatch(depositL1LP(token.address, amountWei))
-  }
-
-  const triggerTeleportAsset = async (
-    amountWei: BigNumberish,
-    destChainId: BigNumberish
-  ) => {
+  const triggerTeleportAsset = async (amountWei, destChainId) => {
     if (
       token.address !== ethers.constants.AddressZero &&
       token.address !== '0x4200000000000000000000000000000000000006'
     ) {
-      // ERC20 token fast bridging.
       // step -1  approve token
       // step -2  deposit to Teleportation.
-
-      const { lightBridgeAddr } = networkService.getLightBridgeAddress()
-      if (!lightBridgeAddr) {
-        console.warn('Teleportation Address not available.')
+      const { lightBridgeAddress } =
+        await lightBridgeService.getLightBridgeAddress()
+      if (!lightBridgeAddress) {
+        console.warn('Invalid light bridge(teleporation) address!')
         return
       }
       const approvalReceipt = await dispatch(
-        approveERC20(amountWei, token.address, lightBridgeAddr)
+        approveERC20(amountWei, token.address, lightBridgeAddress)
       )
 
       if (approvalReceipt === false) {
@@ -173,20 +165,14 @@ export const useBridge = () => {
     }
   }
 
-  const triggerFastExit = async (amountWei: any) => {
-    return dispatch(depositL2LP(token.address, amountWei))
-  }
-
   const triggerSubmit = async () => {
     const amountWei = toWei_String(amountToBridge, token.decimals)
 
-    let receipt
+    let receipt: any
     dispatch(openModal({ modal: 'bridgeInProgress' }))
     if (layer === LAYER.L1) {
       if (bridgeType === BRIDGE_TYPE.CLASSIC) {
         receipt = await triggerDeposit(amountWei)
-      } else if (bridgeType === BRIDGE_TYPE.FAST) {
-        receipt = await triggerFastDeposit(amountWei)
       } else if (bridgeType === BRIDGE_TYPE.LIGHT) {
         receipt = await triggerTeleportAsset(amountWei, destChainIdBridge!)
       }
@@ -194,13 +180,12 @@ export const useBridge = () => {
       if (bridgeType === BRIDGE_TYPE.CLASSIC) {
         // Anchorage update, other bridges should keep working as before
         receipt = await triggerExit(amountWei)
-      } else if (bridgeType === BRIDGE_TYPE.FAST) {
-        receipt = await triggerFastExit(amountWei)
       } else if (bridgeType === BRIDGE_TYPE.LIGHT) {
         receipt = await triggerTeleportAsset(amountWei, destChainIdBridge!)
       }
     }
     dispatch(closeModal('bridgeInProgress'))
+    dispatch(resetBridgeDestinationAddress())
     if (receipt) {
       dispatch(openModal({ modal: 'transactionSuccess' }))
       dispatch(resetToken())

@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-export interface DefaultThemeProps {
+interface DefaultThemeProps {
   background: string
   color: string
 }

@@ -14,35 +14,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import { formatEther } from '@ethersproject/units'
 import { CrossChainMessenger } from '@bobanetwork/sdk'
 
 import { BigNumber, BigNumberish, Contract, ethers, utils } from 'ethers'
 
+import BN from 'bn.js'
 import store from 'store'
 import { orderBy } from 'util/lodash'
-import BN from 'bn.js'
 
-import { logAmount } from 'util/amountConvert'
 import { getToken } from 'actions/tokenAction'
+import { logAmount } from 'util/amountConvert'
 
-import { addBobaFee } from 'actions/setupAction'
-
-import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
-import coinGeckoAxiosInstance from 'api/coinGeckoAxios'
 import metaTransactionAxiosInstance from 'api/metaTransactionAxios'
-
-import { sortRawTokens } from 'util/common'
-import { graphQLService } from '@bobanetwork/graphql-utils'
 
 import tokenInfo from '@bobanetwork/register/addresses/tokenInfo.json'
 
-import { Layer, MIN_NATIVE_L1_BALANCE } from 'util/constant'
+import { MIN_NATIVE_L1_BALANCE } from 'util/constant'
 import {
   CHAIN_ID_LIST,
   getNetworkDetail,
-  getRpcUrl,
-  getRpcUrlByChainId,
   Network,
   networkLimitedAvailability,
   NetworkType,
@@ -53,10 +43,8 @@ import walletService, { WalletService } from './wallet.service'
 
 import {
   BOBAABI,
-  BobaFixedSavingsABI,
   BobaGasPriceOracleABI,
   DiscretionaryExitFeeABI,
-  GovernorBravoDelegateABI,
   L1ERC20ABI,
   L1LiquidityPoolABI,
   L1StandardBridgeABI,
@@ -72,15 +60,13 @@ import {
   TeleportationABI,
 } from './abi'
 
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { setFetchDepositTxBlock } from 'actions/bridgeAction'
-import { LAYER } from '../containers/history/types'
-import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
 import {
   NetworkDetailChainConfig,
   TxPayload,
 } from '../util/network/config/network-details.types'
-import { LiquidityPoolLayer } from 'types/earn.types'
-import { getDestinationTokenAddress } from '@bobanetwork/light-bridge-chains'
+import oracleService from './oracle/oracle.service'
 
 const ERROR_ADDRESS = '0x0000000000000000000000000000000000000000'
 const L2GasOracle = '0x420000000000000000000000000000000000000F'
@@ -117,15 +103,11 @@ class NetworkService {
   networkGateway?: Network
   networkType?: NetworkType
   watcher?: CrossChainMessenger
-  fastWatcher?: CrossChainMessenger
-
   //#region contract_members
   L1_TEST_Contract?: Contract
   L2_TEST_Contract?: Contract
   L2_ETH_Contract?: Contract
   BobaContract?: Contract
-  xBobaContract?: Contract
-  delegateContract?: Contract
   gasOracleContract?: Contract
   L1StandardBridgeContract?: Contract
   L2StandardBridgeContract?: Contract
@@ -182,45 +164,17 @@ class NetworkService {
     this.walletService = walletService
   }
 
-  // NOTE: added check for anchorage for ethereum network.
+  // NOTE: Anchorage Bridging is enable for
+  // Ethereum and BNB-testnet
   isAnchorageEnabled() {
-    if (this.networkGateway === Network.ETHEREUM) {
+    if (
+      this.networkGateway === Network.ETHEREUM ||
+      (this.networkGateway === Network.BNB &&
+        this.networkType === NetworkType.TESTNET)
+    ) {
       return true
     }
     return false
-  }
-
-  async getBobaFeeChoice() {
-    if (this.addresses.Boba_GasPriceOracle) {
-      const bobaFeeContract = new ethers.Contract(
-        this.addresses.Boba_GasPriceOracle,
-        BobaGasPriceOracleABI,
-        this.L2Provider
-      )
-
-      try {
-        const priceRatio = await bobaFeeContract.priceRatio()
-
-        let feeChoice
-        if (this.networkGateway === Network.ETHEREUM) {
-          feeChoice = await bobaFeeContract.bobaFeeTokenUsers(this.account)
-        } else {
-          // this returns weather the secondary token getting use as tokenfee
-          feeChoice = await bobaFeeContract.secondaryFeeTokenUsers(this.account)
-          // if it's false which means boba is getting used as tokenfee which is default value.
-          feeChoice = !feeChoice
-        }
-        const bobaFee = {
-          priceRatio: priceRatio.toString(),
-          feeChoice,
-        }
-        await addBobaFee(bobaFee)
-        return bobaFee
-      } catch (error) {
-        console.log(error)
-        return error
-      }
-    }
   }
 
   async estimateMinL1NativeTokenForFee() {
@@ -242,42 +196,6 @@ class NetworkService {
       const minTokenForFee = await bobaFeeContract.secondaryFeeTokenMinimum()
 
       return logAmount(minTokenForFee.toString(), 18)
-    }
-  }
-
-  async switchFeeToken(targetFee) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-
-    const bobaFeeContract = new ethers.Contract(
-      this.addresses.Boba_GasPriceOracle,
-      BobaGasPriceOracleABI,
-      this.provider!.getSigner()
-    )
-
-    try {
-      let tx: TransactionResponse
-
-      if (targetFee === 'BOBA') {
-        tx = await bobaFeeContract.useBobaAsFeeToken()
-        await tx.wait()
-      } else if (targetFee === 'ETH') {
-        tx = await bobaFeeContract.useETHAsFeeToken()
-        await tx.wait()
-      } else if (targetFee === this.L1NativeTokenSymbol) {
-        tx = await bobaFeeContract.useSecondaryFeeTokenAsFeeToken()
-        await tx.wait()
-      } else {
-        return false
-      }
-
-      await this.getBobaFeeChoice()
-
-      return tx
-    } catch (error) {
-      console.log(error)
-      return error
     }
   }
 
@@ -338,7 +256,7 @@ class NetworkService {
         signature,
         data,
       })
-      await this.getBobaFeeChoice()
+      await oracleService.getBobaFeeChoice()
       return true
     } catch (error: any) {
       let errorData = error.response.data.error
@@ -537,20 +455,9 @@ class NetworkService {
       )
 
       if (!isLimitedNetwork) {
-        let L1StandardBridgeAddress
-
-        // todo remove once migrated to anchorage
-        if (!this.isAnchorageEnabled()) {
-          L1StandardBridgeAddress = this.addresses.L1StandardBridgeAddress
-        } else {
-          L1StandardBridgeAddress = this.addresses.L1StandardBridgeProxy
-            ? this.addresses.L1StandardBridgeProxy
-            : this.addresses.L1StandardBridge
-        }
-
-        if (L1StandardBridgeAddress) {
+        if (this.addresses.L1StandardBridgeAddress) {
           this.L1StandardBridgeContract = new ethers.Contract(
-            L1StandardBridgeAddress, // uses right addressed depending on ENABLE_ANCHORAGE
+            this.addresses.L1StandardBridgeAddress, // uses right addressed depending on ENABLE_ANCHORAGE
             L1StandardBridgeABI,
             this.L1Provider
           )
@@ -660,12 +567,6 @@ class NetworkService {
             l1ChainId: chainId,
             fastRelayer: false,
           })
-          this.fastWatcher = new CrossChainMessenger({
-            l1SignerOrProvider: this.L1Provider,
-            l2SignerOrProvider: this.L2Provider,
-            l1ChainId: chainId,
-            fastRelayer: true,
-          })
         }
       }
 
@@ -706,12 +607,6 @@ class NetworkService {
       )
 
       if (Network.ETHEREUM === network && networkType === NetworkType.MAINNET) {
-        this.xBobaContract = new ethers.Contract(
-          allTokens.xBOBA.L2,
-          BOBAABI,
-          this.L2Provider
-        )
-
         if (
           !(await this.getAddressCached(
             this.addresses,
@@ -730,12 +625,6 @@ class NetworkService {
         ) {
           return
         }
-
-        this.delegateContract = new ethers.Contract(
-          this.addresses.GovernorBravoDelegate,
-          GovernorBravoDelegateABI,
-          this.L2Provider
-        )
       }
 
       this.gasOracleContract = new ethers.Contract(
@@ -800,7 +689,9 @@ class NetworkService {
         CHAIN_ID_LIST[L2ChainId]?.limitedAvailability
       // this should not do anything unless we changed chains
       if (this.L1orL2 === 'L2' && !isLimitedNetwork) {
-        await this.getBobaFeeChoice()
+        if (!this.isAnchorageEnabled()) {
+          await oracleService.getBobaFeeChoice()
+        }
       }
 
       return this.L1orL2 // return the layer we are actually on
@@ -851,21 +742,12 @@ class NetworkService {
       return
     }
 
-    Object.keys(allTokens).forEach((token, i) => {
-      getToken(allTokens[token].L1)
+    Object.keys(allTokens).forEach(async (token) => {
+      await getToken(allTokens[token].L1)
     })
   }
 
-  async getL1FeeBalance() {
-    try {
-      const balance = await this.L1Provider!.getBalance(this.account!)
-      return utils.formatEther(balance)
-    } catch (error) {
-      console.log('NS: getL1FeeBalance error:', error)
-      return error
-    }
-  }
-
+  // TODO clean up on anchorage migration
   async getL2BalanceETH() {
     try {
       const balance = await this.L2Provider!.getBalance(this.account!)
@@ -876,6 +758,7 @@ class NetworkService {
     }
   }
 
+  // TODO clean up on anchorage migration
   async getL2BalanceBOBA() {
     try {
       if (
@@ -962,8 +845,9 @@ class NetworkService {
       layer1Balances[0].balance = new BN(layer1Balance.toString())
       layer2Balances[0].balance = new BN(layer2Balance.toString())
 
+      this.addTokenList()
       const state = store.getState()
-      const tA = Object.values(state.tokenList)
+      const tokenListValues = Object.values(state.tokenList)
 
       const tokenC = new ethers.Contract(
         this.addresses.L1_ETH_Address,
@@ -987,7 +871,7 @@ class NetworkService {
 
       const getBalancePromise: any = []
 
-      tA.forEach((token: any) => {
+      tokenListValues.forEach((token: any) => {
         if (token.addressL1 === null) {
           return
         }
@@ -1084,51 +968,8 @@ class NetworkService {
     }
   }
 
-  /** @dev Once we fully migrated to Anchorage we might want to merge this function with depositETHL2. */
-  async depositETHAnchorage({ recipient = null, L1DepositAmountWei }) {
-    try {
-      setFetchDepositTxBlock(false)
-      let depositTX
-      // @todo make sure to evaluate and update the fallback logic.
-      const isFallback = false // TODO evaluate when to use fallback optimismportal
-
-      const signer = networkService.provider?.getSigner()
-
-      // deposit fallback via OptimismPortal
-      if (isFallback) {
-        if (recipient) {
-          depositTX = await networkService.OptimismPortal?.connect(
-            signer!
-          ).depositTransaction(recipient, L1DepositAmountWei, 100000, false, [])
-        } else {
-          depositTX = await signer!.sendTransaction({
-            to: this.OptimismPortal?.address,
-            value: L1DepositAmountWei,
-          })
-        }
-      } else {
-        // deposit preferred way via L1StandardBridge
-        if (recipient) {
-          depositTX = await this.L1StandardBridgeContract!.connect(
-            signer!
-          ).depositETHTo(recipient, 100000, [], { value: L1DepositAmountWei })
-        } else {
-          depositTX = await this.L1StandardBridgeContract!.connect(
-            signer!
-          ).depositETH(100000, [], { value: L1DepositAmountWei })
-        }
-      }
-
-      setFetchDepositTxBlock(true)
-      const received = await depositTX.wait()
-
-      return received
-    } catch (error) {
-      console.log('NS: depositETHAnchorage error:', error)
-      return error
-    }
-  }
-
+  // @note clean up on completion of anchorage migration on mainnet.
+  // TODO: clean up on anchorage migration
   //Move ETH from L1 to L2 using the standard deposit system
   /******
    * Deposit ETH from L1 to L2.
@@ -1206,8 +1047,6 @@ class NetworkService {
   }
 
   async checkAllowance(currencyAddress: string, targetContract: string) {
-    console.log('currencyAddress', currencyAddress)
-    console.log('targetContract', targetContract)
     try {
       const ERC20Contract = new ethers.Contract(
         currencyAddress,
@@ -1221,6 +1060,7 @@ class NetworkService {
     }
   }
 
+  // TODO: move this to bridge service with better naming.
   async approveERC20(
     value_Wei_String: BigNumberish,
     currency: string,
@@ -1297,84 +1137,7 @@ class NetworkService {
     }
   }
 
-  /** @dev Once we fully migrated to Anchorage we might want to merge this function with depositERC20. */
-  async depositERC20Anchorage({
-    recipient = null,
-    L1DepositAmountWei,
-    currency,
-    currencyL2,
-  }): Promise<any> {
-    console.log(`calling anchorage erc 20 deposit`)
-    setFetchDepositTxBlock(false)
-    const signer = this.provider?.getSigner()
-    if (!signer) {
-      console.error('no signer!')
-    }
-
-    const L1_ERC20_Contract = this.L1_TEST_Contract!.attach(currency)
-    const L2_ERC20_Contract = this.L2_TEST_Contract!.attach(currencyL2)
-    const L1BOBABalance = await L1_ERC20_Contract.balanceOf(this.account)
-    const L2BOBABalance = await L2_ERC20_Contract.balanceOf(this.account)
-
-    if (L1BOBABalance.lt(L1DepositAmountWei)) {
-      console.error('Insufficient L1 token balance')
-      return
-    }
-
-    const allowance_BN = await L1_ERC20_Contract.allowance(
-      this.account,
-      this.addresses.L1StandardBridgeProxy
-    )
-
-    const allowed = allowance_BN.gte(BigNumber.from(L1DepositAmountWei))
-
-    if (!allowed) {
-      const L1ApproveTx = await L1_ERC20_Contract.connect(signer!).approve(
-        this.addresses.L1StandardBridgeProxy,
-        L1DepositAmountWei
-      )
-      await L1ApproveTx.wait()
-    }
-
-    let L1DepositTx
-    if (recipient) {
-      L1DepositTx = await this.L1StandardBridgeContract!.connect(
-        signer!
-      ).depositERC20To(
-        currency,
-        currencyL2,
-        recipient,
-        L1DepositAmountWei,
-        999999,
-        '0x'
-      )
-    } else {
-      L1DepositTx = await this.L1StandardBridgeContract!.connect(
-        signer!
-      ).depositERC20(currency, currencyL2, L1DepositAmountWei, 999999, '0x')
-    }
-    const depositReceipt = await L1DepositTx.wait()
-    console.log(
-      `Deposited ${ethers.utils.formatEther(
-        L1DepositAmountWei
-      )} tokens to L1 Standard Bridge`
-    )
-
-    setFetchDepositTxBlock(true)
-    while (true) {
-      const postL2BOBABalanceTmp = await L2_ERC20_Contract.balanceOf(
-        this.account
-      )
-      if (!L2BOBABalance.eq(postL2BOBABalanceTmp)) {
-        break
-      }
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-    }
-
-    // TODO: Probably we want the l2Funds received tx receipt here
-    return depositReceipt
-  }
-
+  // TODO: cleanup on migration of anchorage to mainnet.
   //Used to move ERC20 Tokens from L1 to L2 using the classic deposit
   async depositErc20({
     recipient = null,
@@ -1472,6 +1235,7 @@ class NetworkService {
   }
 
   //Standard 7 day exit from BOBA
+  // TODO: cleanup on migration to anchorage
   async exitBOBA(currencyAddress, value_Wei_String) {
     try {
       const L2BillingContract = new ethers.Contract(
@@ -1567,12 +1331,12 @@ class NetworkService {
   }
 
   /* Estimate cost of Classical Exit to L1 */
+  // TODO: cleanup on migration to anchorage
   async getExitCost(currencyAddress: string) {
     try {
       let approvalCost_BN = BigNumber.from('0')
 
       const gasPrice = await this.L2Provider!.getGasPrice()
-      console.log('Classical exit gas price', gasPrice.toString())
 
       if (currencyAddress !== this.addresses.L2_ETH_Address) {
         const ERC20Contract = new ethers.Contract(
@@ -1623,1529 +1387,16 @@ class NetworkService {
         ...tx2,
         from: this.gasEstimateAccount,
       })
-      console.log('Classical exit gas', gas_BN.toString())
-
       const cost_BN = gas_BN.mul(gasPrice)
-      console.log('Classical exit cost (ETH):', utils.formatEther(cost_BN))
 
       const totalCost = utils.formatEther(cost_BN.add(approvalCost_BN))
-      console.log('Classical exit total cost (ETH):', totalCost)
-
-      //returns total cost in ETH
       return totalCost
     } catch (error) {
       return 0
     }
   }
 
-  /***********************************************/
-  /*****                  Fee                *****/
-  /***** Fees are reported as integers,      *****/
-  /***** where every int represents 0.1%     *****/
-
-  /***********************************************/
-
-  async getL1TotalFeeRate() {
-    try {
-      const L1LPContract = new ethers.Contract(
-        this.addresses.L1LPAddress,
-        L1LiquidityPoolABI,
-        this.L1Provider
-      )
-      const [operatorFeeRate, userMinFeeRate, userMaxFeeRate] =
-        await Promise.all([
-          L1LPContract.ownerRewardFeeRate(),
-          L1LPContract.userRewardMinFeeRate(),
-          L1LPContract.userRewardMaxFeeRate(),
-        ])
-
-      const feeRateL = Number(userMinFeeRate) + Number(operatorFeeRate)
-      const feeRateH = Number(userMaxFeeRate) + Number(operatorFeeRate)
-
-      return {
-        feeMin: (feeRateL / 10).toFixed(1),
-        feeMax: (feeRateH / 10).toFixed(1),
-      }
-    } catch (error) {
-      console.log('NS: getL1TotalFeeRate error:', error)
-      return error
-    }
-  }
-
-  async getL2TotalFeeRate() {
-    try {
-      const L2LPContract = new ethers.Contract(
-        this.addresses.L2LPAddress,
-        L2LiquidityPoolABI,
-        this.L2Provider
-      )
-      const [operatorFeeRate, userMinFeeRate, userMaxFeeRate] =
-        await Promise.all([
-          L2LPContract.ownerRewardFeeRate(),
-          L2LPContract.userRewardMinFeeRate(),
-          L2LPContract.userRewardMaxFeeRate(),
-        ])
-
-      const feeRateL = Number(userMinFeeRate) + Number(operatorFeeRate)
-      const feeRateH = Number(userMaxFeeRate) + Number(operatorFeeRate)
-
-      return {
-        feeMin: (feeRateL / 10).toFixed(1),
-        feeMax: (feeRateH / 10).toFixed(1),
-      }
-    } catch (error) {
-      console.log('NS: getL2TotalFeeRate error:', error)
-      return error
-    }
-  }
-
-  async getL1UserRewardFeeRate(tokenAddress) {
-    try {
-      const L1LPContract = new ethers.Contract(
-        this.addresses.L1LPAddress,
-        L1LiquidityPoolABI,
-        this.L1Provider
-      )
-      const feeRate = await L1LPContract.getUserRewardFeeRate(tokenAddress)
-      //console.log("NS: getL1UserRewardFeeRate:", feeRate)
-      return (feeRate / 10).toFixed(1)
-    } catch (error) {
-      console.log('NS: getL1UserRewardFeeRate error:', error)
-      return error
-    }
-  }
-
-  async getL2UserRewardFeeRate(tokenAddress) {
-    try {
-      const L2LPContract = new ethers.Contract(
-        this.addresses.L2LPAddress,
-        L2LiquidityPoolABI,
-        this.L2Provider
-      )
-      const feeRate = await L2LPContract.getUserRewardFeeRate(tokenAddress)
-      //console.log("NS: getL2UserRewardFeeRate:", feeRate)
-      return (feeRate / 10).toFixed(1)
-    } catch (error) {
-      console.log('NS: getL2UserRewardFeeRate error:', error)
-      return error
-    }
-  }
-
-  /*****************************************************/
-  /***** Pool, User Info, to populate the Earn tab *****/
-
-  /*****************************************************/
-  async getL1LPInfo() {
-    const poolInfo = {}
-    const userInfo = {}
-
-    const tokenAddressList = Object.keys(this.tokenAddresses!).reduce(
-      (acc, cur) => {
-        if (
-          cur !== 'xBOBA' &&
-          cur !== 'OLO' &&
-          cur !== 'WAGMIv0' &&
-          cur !== 'WAGMIv1' &&
-          cur !== 'WAGMIv2' &&
-          cur !== 'WAGMIv2-Oolong' &&
-          cur !== 'WAGMIv3' &&
-          cur !== 'WAGMIv3-Oolong'
-        ) {
-          acc.push(this.tokenAddresses![cur].L1.toLowerCase())
-        }
-        return acc
-      },
-      [this.addresses.L1_ETH_Address]
-    )
-
-    const L1LPContract = new ethers.Contract(
-      this.addresses.L1LPAddress,
-      L1LiquidityPoolABI,
-      this.L1Provider
-    )
-
-    const L1LPInfoPromise: any = []
-
-    const getL1LPInfoPromise = async (tokenAddress) => {
-      let tokenBalance
-      let tokenSymbol
-      let tokenName
-      let decimals
-
-      if (tokenAddress === this.addresses.L1_ETH_Address) {
-        //getting eth balance
-        tokenBalance = await this.L1Provider!.getBalance(
-          this.addresses.L1LPAddress
-        )
-        tokenSymbol = this.L1NativeTokenSymbol
-        tokenName = this.L1NativeTokenName
-        decimals = 18
-      } else {
-        //getting eth balance
-        tokenBalance = await this.L1_TEST_Contract!.attach(tokenAddress)
-          .connect(this.L1Provider!)
-          .balanceOf(this.addresses.L1LPAddress)
-        const tokenInfoFiltered =
-          this.tokenInfo!.L1[utils.getAddress(tokenAddress)]
-        if (tokenInfo) {
-          tokenSymbol = tokenInfoFiltered?.symbol
-          tokenName = tokenInfoFiltered?.name
-          decimals = tokenInfoFiltered?.decimals
-        } else {
-          tokenSymbol = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .symbol()
-          tokenName = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .name()
-          decimals = await this.L1_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L1Provider!)
-            .decimals()
-        }
-      }
-
-      const poolTokenInfo = await L1LPContract.poolInfo(tokenAddress)
-      let userTokenInfo = {}
-      if (typeof this.account !== 'undefined' && this.account) {
-        userTokenInfo = await L1LPContract.userInfo(tokenAddress, this.account)
-      }
-      return {
-        tokenAddress,
-        tokenBalance,
-        tokenSymbol,
-        tokenName,
-        poolTokenInfo,
-        userTokenInfo,
-        decimals,
-      }
-    }
-
-    tokenAddressList.forEach((tokenAddress) =>
-      L1LPInfoPromise.push(getL1LPInfoPromise(tokenAddress))
-    )
-
-    const L1LPInfo = await Promise.all(L1LPInfoPromise)
-    sortRawTokens(L1LPInfo).forEach((token) => {
-      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
-      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
-      const duration =
-        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
-      const durationDays = duration / (60 * 60 * 24 * 1000)
-      const annualRewardEstimate = (365 * rewards) / durationDays
-      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
-      if (!annualYieldEstimate) {
-        annualYieldEstimate = 0
-      }
-      poolInfo[token.tokenAddress.toLowerCase()] = {
-        symbol: token.tokenSymbol,
-        name: token.tokenName,
-        decimals: token.decimals,
-        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
-        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
-        accUserReward: token.poolTokenInfo.accUserReward.toString(),
-        accUserRewardPerShare:
-          token.poolTokenInfo.accUserRewardPerShare.toString(),
-        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
-        startTime: token.poolTokenInfo.startTime.toString(),
-        APR: annualYieldEstimate,
-        tokenBalance: token.tokenBalance.toString(),
-      }
-      userInfo[token.tokenAddress] = {
-        l1TokenAddress: token.tokenAddress.toLowerCase(),
-        amount: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.amount.toString()
-          : 0,
-        pendingReward: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.pendingReward.toString()
-          : 0,
-        rewardDebt: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.rewardDebt.toString()
-          : 0,
-      }
-    })
-
-    return { poolInfo, userInfo }
-  }
-
-  async getL2LPInfo() {
-    const tokenAddressList = Object.keys(this.tokenAddresses!).reduce(
-      (acc, cur) => {
-        if (
-          cur !== 'xBOBA' &&
-          cur !== 'OLO' &&
-          cur !== 'WAGMIv0' &&
-          cur !== 'WAGMIv1' &&
-          cur !== 'WAGMIv2' &&
-          cur !== 'WAGMIv2-Oolong' &&
-          cur !== 'WAGMIv3' &&
-          cur !== 'WAGMIv3-Oolong'
-        ) {
-          acc.push({
-            L1: this.tokenAddresses![cur].L1.toLowerCase(),
-            L2: this.tokenAddresses![cur].L2.toLowerCase(),
-          })
-        }
-        return acc
-      },
-      [
-        {
-          L1: this.addresses.L1_ETH_Address,
-          L2: this.addresses[`TK_L2${this.L1NativeTokenSymbol}`],
-        },
-      ]
-    )
-
-    const L2LPContract = new ethers.Contract(
-      this.addresses.L2LPAddress,
-      L2LiquidityPoolABI,
-      this.L2Provider
-    )
-
-    const poolInfo = {}
-    const userInfo = {}
-
-    const L2LPInfoPromise: any = []
-
-    const getL2LPInfoPromise = async (
-      tokenAddress: string,
-      tokenAddressL1: string
-    ) => {
-      let tokenBalance
-      let tokenSymbol
-      let tokenName
-      let decimals
-
-      if (tokenAddress === this.addresses.L2_ETH_Address) {
-        tokenBalance = await this.L2Provider!.getBalance(
-          this.addresses.L2LPAddress
-        )
-        tokenSymbol = this.network === Network.ETHEREUM ? 'ETH' : 'BOBA'
-        tokenName =
-          this.network === Network.ETHEREUM ? 'Ethereum' : 'BOBA Token'
-        decimals = 18
-      } else {
-        tokenBalance = await this.L2_TEST_Contract!.attach(tokenAddress)
-          .connect(this.L2Provider!)
-          .balanceOf(this.addresses.L2LPAddress)
-        const tokenInfoFiltered =
-          this.tokenInfo!.L2[utils.getAddress(tokenAddress)]
-        if (tokenInfo) {
-          tokenSymbol = tokenInfoFiltered.symbol
-          tokenName = tokenInfoFiltered.name
-          decimals = tokenInfoFiltered.decimals
-        } else {
-          tokenSymbol = await this.L2_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L2Provider!)
-            .symbol()
-          tokenName = await this.L2_TEST_Contract!.attach(tokenAddress)
-            .connect(this.L2Provider!)
-            .name()
-          decimals = await this.L1_TEST_Contract!.attach(tokenAddressL1)
-            .connect(this.L1Provider!)
-            .decimals()
-        }
-      }
-      const poolTokenInfo = await L2LPContract.poolInfo(tokenAddress)
-      let userTokenInfo = {}
-      if (typeof this.account !== 'undefined' && this.account) {
-        userTokenInfo = await L2LPContract.userInfo(tokenAddress, this.account)
-      }
-      return {
-        tokenAddress,
-        tokenBalance,
-        tokenSymbol,
-        tokenName,
-        poolTokenInfo,
-        userTokenInfo,
-        decimals,
-      }
-    }
-
-    tokenAddressList.forEach(({ L1, L2 }) =>
-      L2LPInfoPromise.push(getL2LPInfoPromise(L2, L1))
-    )
-
-    const L2LPInfo = await Promise.all(L2LPInfoPromise)
-
-    sortRawTokens(L2LPInfo).forEach((token) => {
-      const userIn = Number(token.poolTokenInfo.userDepositAmount.toString())
-      const rewards = Number(token.poolTokenInfo.accUserReward.toString())
-      const duration =
-        new Date().getTime() - Number(token.poolTokenInfo.startTime) * 1000
-      const durationDays = duration / (60 * 60 * 24 * 1000)
-      const annualRewardEstimate = (365 * rewards) / durationDays
-      let annualYieldEstimate = (100 * annualRewardEstimate) / userIn
-      if (!annualYieldEstimate) {
-        annualYieldEstimate = 0
-      }
-      poolInfo[token.tokenAddress.toLowerCase()] = {
-        symbol: token.tokenSymbol,
-        name: token.tokenName,
-        decimals: token.decimals,
-        l1TokenAddress: token.poolTokenInfo.l1TokenAddress.toLowerCase(),
-        l2TokenAddress: token.poolTokenInfo.l2TokenAddress.toLowerCase(),
-        accUserReward: token.poolTokenInfo.accUserReward.toString(),
-        accUserRewardPerShare:
-          token.poolTokenInfo.accUserRewardPerShare.toString(),
-        userDepositAmount: token.poolTokenInfo.userDepositAmount.toString(),
-        startTime: token.poolTokenInfo.startTime.toString(),
-        APR: annualYieldEstimate,
-        tokenBalance: token.tokenBalance.toString(),
-      }
-      userInfo[token.tokenAddress.toLowerCase()] = {
-        l2TokenAddress: token.tokenAddress.toLowerCase(),
-        amount: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.amount.toString()
-          : 0,
-        pendingReward: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.pendingReward.toString()
-          : 0,
-        rewardDebt: Object.keys(token.userTokenInfo).length
-          ? token.userTokenInfo.rewardDebt.toString()
-          : 0,
-      }
-    })
-
-    return { poolInfo, userInfo }
-  }
-
-  // FIXME: move this to separate service of earn.
-  /***********************************************/
-  /*****           Get Reward                *****/
-
-  /***********************************************/
-  async getReward(
-    currencyAddress,
-    value_Wei_String,
-    L1orL2Pool: LiquidityPoolLayer
-  ) {
-    try {
-      const TX = await (
-        L1orL2Pool === LiquidityPoolLayer.L1LP
-          ? this.L1LPContract!
-          : this.L2LPContract!
-      )
-        .connect(this.provider!.getSigner())
-        .withdrawReward(value_Wei_String, currencyAddress, this.account)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: getReward error:', error)
-      return error
-    }
-  }
-
-  /***********************************************/
-  /*****          Withdraw Liquidity         *****/
-
-  /***********************************************/
-  async withdrawLiquidity(
-    currency,
-    value_Wei_String,
-    L1orL2Pool: LiquidityPoolLayer
-  ) {
-    try {
-      const estimateGas = await (
-        L1orL2Pool === LiquidityPoolLayer.L1LP
-          ? this.L1LPContract!
-          : this.L2LPContract!
-      ).estimateGas.withdrawLiquidity(
-        value_Wei_String,
-        currency,
-        this.account,
-        { from: this.account }
-      )
-      const blockGasLimit = (await this.provider!.getBlock('latest')).gasLimit
-      const TX = await (
-        L1orL2Pool === LiquidityPoolLayer.L1LP
-          ? this.L1LPContract!
-          : this.L2LPContract!
-      )
-        .connect(this.provider!.getSigner())
-        .withdrawLiquidity(value_Wei_String, currency, this.account, {
-          gasLimit: estimateGas.mul(2).gt(blockGasLimit)
-            ? blockGasLimit
-            : estimateGas.mul(2),
-        })
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: withdrawLiquidity error:', error)
-      return error
-    }
-  }
-
-  /***********************************************************/
-  /***** SWAP ON to BOBA by depositing funds to the L1LP *****/
-
-  /***********************************************************/
-  async depositL1LP(currency, value_Wei_String) {
-    try {
-      setFetchDepositTxBlock(false)
-      const depositTX = await this.L1LPContract!.connect(
-        this.provider!.getSigner()
-      ).clientDepositL1(
-        value_Wei_String,
-        currency,
-        currency === this.addresses.L1_ETH_Address
-          ? { value: value_Wei_String }
-          : {}
-      )
-
-      setFetchDepositTxBlock(true)
-
-      //at this point the tx has been submitted, and we are waiting...
-      await depositTX.wait()
-
-      const opts = {
-        fromBlock: -4000,
-      }
-      const receipt = await this.watcher!.waitForMessageReceipt(depositTX, opts)
-      const txReceipt = receipt.transactionReceipt
-      console.log(' completed swap-on ! L2 tx hash:', txReceipt)
-      return txReceipt
-    } catch (error) {
-      console.log('NS: depositL1LP error:', error)
-      return error
-    }
-  }
-
-  getLightBridgeAddress(chainId?: number) {
-    if (!chainId) {
-      chainId = this.chainId
-    }
-    const networkConfig = CHAIN_ID_LIST[chainId!]
-    let lightBridgeAddr
-    if (!networkConfig) {
-      console.error(
-        `Unknown chainId to retrieve teleportation contract from: ${chainId}`
-      )
-      return { lightBridgeAddr: null, networkConfig: null }
-    }
-    const addresses = appService.fetchAddresses({
-      networkType: networkConfig.networkType,
-      network: networkConfig.chain,
-    })
-    if (networkConfig.layer === LAYER.L1) {
-      lightBridgeAddr = addresses.Proxy__L1Teleportation
-    } else if (networkConfig.layer === LAYER.L2) {
-      lightBridgeAddr = addresses.Proxy__L2Teleportation
-    }
-    return { lightBridgeAddr, networkConfig }
-  }
-
-  getLightBridgeContract(chainId) {
-    const { lightBridgeAddr, networkConfig } =
-      this.getLightBridgeAddress(chainId)
-    if (!lightBridgeAddr || !this.LightBridge) {
-      return
-    }
-
-    const rpc = getRpcUrl({
-      networkType: networkConfig.networkType,
-      network: networkConfig.chain,
-      layer: networkConfig.layer,
-    })
-    const provider = new ethers.providers.StaticJsonRpcProvider(rpc)
-
-    return this.LightBridge!.attach(lightBridgeAddr).connect(provider)
-  }
-
-  async getDisburserBalance(sourceChainId, destChainId, token) {
-    // not just simply L2/L1 as also L2<>L2 supported, ..
-    const destProvider = new ethers.providers.StaticJsonRpcProvider(
-      getRpcUrlByChainId(destChainId)
-    )
-    let destTokenAddr
-    try {
-      destTokenAddr = getDestinationTokenAddress(
-        token,
-        sourceChainId,
-        destChainId
-      )
-    } catch (err) {
-      if (
-        (err as string)
-          .toString()
-          .includes(
-            'Token 0x4200000000000000000000000000000000000006 not supported on source chain 288'
-          )
-      ) {
-        destTokenAddr = ethers.constants.AddressZero
-      }
-    }
-    const isNative =
-      destTokenAddr === ethers.constants.AddressZero ||
-      destTokenAddr === this.addresses.L2_ETH_Address
-
-    const disburserAddr =
-      await this.getLightBridgeContract(destChainId)?.disburser()
-    if (!disburserAddr) {
-      return
-    }
-    if (isNative) {
-      return destProvider.getBalance(disburserAddr)
-    } else {
-      const destToken =
-        this.L1_TEST_Contract!.attach(destTokenAddr).connect(destProvider)
-      return destToken.balanceOf(disburserAddr)
-    }
-  }
-
-  async isTeleportationOfAssetSupported(layer, token, destChainId) {
-    const lightBridgeAddr =
-      layer === Layer.L1
-        ? this.addresses.Proxy__L1Teleportation
-        : this.addresses.Proxy__L2Teleportation
-    if (!lightBridgeAddr) {
-      return { supported: false }
-    }
-    const contract = this.LightBridge!.attach(lightBridgeAddr).connect(
-      this.provider!.getSigner()
-    )
-    return contract.supportedTokens(
-      token.replace(
-        '0x4200000000000000000000000000000000000006',
-        ethers.constants.AddressZero
-      ),
-      destChainId
-    )
-  }
-
-  async depositWithTeleporter(layer, currency, value_Wei_String, destChainId) {
-    try {
-      setFetchDepositTxBlock(false)
-
-      const lightBridgeAddr =
-        layer === Layer.L1
-          ? this.addresses.Proxy__L1Teleportation
-          : this.addresses.Proxy__L2Teleportation
-      const msgVal =
-        currency === this.addresses.L1_ETH_Address ||
-        currency === this.addresses.NETWORK_NATIVE_TOKEN
-          ? { value: value_Wei_String }
-          : {}
-      const teleportationContract = this.LightBridge!.attach(
-        lightBridgeAddr
-      ).connect(this.provider!.getSigner())
-      const tokenAddress =
-        currency === this.addresses.NETWORK_NATIVE_TOKEN
-          ? ethers.constants.AddressZero
-          : currency
-
-      const assetSupport = await teleportationContract.supportedTokens(
-        tokenAddress,
-        destChainId
-      )
-      if (!assetSupport?.supported) {
-        console.error(
-          'Teleportation: Asset not supported for chainId',
-          assetSupport,
-          tokenAddress,
-          destChainId
-        )
-        return new Error(
-          `Teleportation: Asset ${tokenAddress} not supported for chainId ${destChainId}`
-        )
-      }
-
-      const depositTX = await teleportationContract.teleportAsset(
-        tokenAddress,
-        value_Wei_String,
-        destChainId,
-        msgVal
-      )
-
-      setFetchDepositTxBlock(true)
-
-      //at this point the tx has been submitted, and we are waiting...
-      await depositTX.wait()
-
-      const opts = {
-        fromBlock: -4000,
-      }
-      const receipt = await this.watcher!.waitForMessageReceipt(depositTX, opts)
-      const txReceipt = receipt.transactionReceipt
-      console.log(' completed swap-on ! tx hash:', txReceipt)
-      return txReceipt
-    } catch (error) {
-      console.log('Teleportation error:', error)
-      return error
-    }
-  }
-
-  /***************************************/
-  /************ L1LP Pool size ***********/
-
-  async L1LPPending(tokenAddress): Promise<string> {
-    const L1pending = await omgxWatcherAxiosInstance(this.networkConfig).get(
-      'get.l2.pendingexits',
-      {}
-    )
-
-    const pendingFast = L1pending.data.filter((i) => {
-      return (
-        i.fastRelay === 1 && //fast exit
-        i.exitToken.toLowerCase() === tokenAddress.toLowerCase()
-      ) //and, this specific token
-    })
-
-    const sum = pendingFast.reduce((prev, current) => {
-      const weiString = BigNumber.from(current.exitAmount)
-      return prev.add(weiString)
-    }, BigNumber.from('0'))
-
-    return sum.toString()
-  }
-
-  /***************************************/
-  /************ L1LP Pool size ***********/
-
-  /***************************************/
-  async L2LPPending(tokenAddress) {
-    //Placeholder return
-    const sum = BigNumber.from('0')
-    return sum.toString()
-  }
-
-  /***************************************/
-  /************ L1LP Pool size ***********/
-
-  /***************************************/
-  async L1LPBalance(tokenAddress): Promise<string> {
-    let balance: BigNumberish
-    const tokenAddressLC = tokenAddress.toLowerCase()
-
-    if (
-      tokenAddressLC === this.addresses.L2_ETH_Address ||
-      tokenAddressLC === this.addresses.L1_ETH_Address
-    ) {
-      balance = await this.L1Provider!.getBalance(this.addresses.L1LPAddress)
-    } else {
-      balance = await this.L1_TEST_Contract!.attach(tokenAddress)
-        .connect(this.L1Provider!)
-        .balanceOf(this.addresses.L1LPAddress)
-    }
-
-    return balance.toString()
-  }
-
-  /***************************************/
-  /************ L2LP Pool size ***********/
-
-  /***************************************/
-  async L2LPBalance(tokenAddress): Promise<string> {
-    let balance: BigNumberish
-    const tokenAddressLC = tokenAddress.toLowerCase()
-
-    if (
-      tokenAddressLC === this.addresses.L2_BOBA_Address ||
-      tokenAddressLC === this.addresses.L1_ETH_Address
-    ) {
-      //We are dealing with ETH
-      balance = await this.L2_ETH_Contract!.connect(this.L2Provider!).balanceOf(
-        this.addresses.L2LPAddress
-      )
-    } else {
-      balance = await this.L2_TEST_Contract!.attach(tokenAddress)
-        .connect(this.L2Provider!)
-        .balanceOf(this.addresses.L2LPAddress)
-    }
-
-    return balance.toString()
-  }
-
-  /***************************************/
-  /*********** L1LP Liquidity ************/
-
-  /***************************************/
-  async L1LPLiquidity(tokenAddress) {
-    const L1LPContractNS = new ethers.Contract(
-      this.addresses.L1LPAddress,
-      L1LiquidityPoolABI,
-      this.L1Provider
-    )
-
-    try {
-      const poolTokenInfo = await L1LPContractNS.poolInfo(tokenAddress)
-      return poolTokenInfo.userDepositAmount.toString()
-    } catch (error) {
-      console.log('NS: L1LPLiquidity error:', error)
-      return error
-    }
-  }
-
-  /***************************************/
-  /*********** L2LP Liquidity ************/
-
-  /***************************************/
-  async L2LPLiquidity(tokenAddress) {
-    const L2LPContractNS = new ethers.Contract(
-      this.addresses.L2LPAddress,
-      L2LiquidityPoolABI,
-      this.L2Provider
-    )
-
-    try {
-      const poolTokenInfo = await L2LPContractNS.poolInfo(tokenAddress)
-      return poolTokenInfo.userDepositAmount.toString()
-    } catch (error) {
-      console.log('NS: L2LPLiquidity error:', error)
-      return error
-    }
-  }
-
-  /* Estimate cost of Fast Exit to L1 */
-  async getFastExitCost(currencyAddress) {
-    let approvalCost_BN = BigNumber.from('0')
-
-    const gasPrice = await this.L2Provider!.getGasPrice()
-    console.log('Fast exit gas price', gasPrice.toString())
-
-    if (currencyAddress !== this.addresses.L2_ETH_Address) {
-      const ERC20Contract = new ethers.Contract(
-        currencyAddress,
-        L2StandardERC20ABI, //any old abi will do...
-        this.provider!.getSigner()
-      )
-
-      const tx = await ERC20Contract.populateTransaction.approve(
-        this.addresses.L2LPAddress,
-        utils.parseEther('1.0')
-      )
-
-      const approvalGas_BN = await this.L2Provider!.estimateGas({
-        ...tx,
-        from: this.gasEstimateAccount,
-      })
-      approvalCost_BN = approvalGas_BN.mul(gasPrice)
-    }
-
-    const L2BillingContract = new ethers.Contract(
-      this.addresses.Proxy__BobaBillingContract,
-      L2BillingContractABI,
-      this.L2Provider
-    )
-
-    const approvalAmount = await L2BillingContract.exitFee()
-
-    let value
-    if (this.networkGateway === Network.ETHEREUM) {
-      value =
-        currencyAddress === this.addresses.L2_ETH_Address ? { value: '1' } : {}
-    } else {
-      value =
-        currencyAddress === this.addresses.L2_ETH_Address
-          ? { value: approvalAmount.add('1') }
-          : { value: approvalAmount }
-    }
-
-    //in some cases zero not allowed
-    const tx2 = await this.L2LPContract!.connect(
-      this.provider!.getSigner()
-    ).populateTransaction.clientDepositL2(
-      currencyAddress === this.addresses.L2_ETH_Address ? '1' : '0', //ETH does not allow zero
-      currencyAddress,
-      value
-    )
-
-    const depositGas_BN = await this.L2Provider!.estimateGas({
-      ...tx2,
-      from: this.gasEstimateAccount,
-    })
-
-    let l1SecurityFee = BigNumber.from('0')
-    if (this.networkType === NetworkType.MAINNET) {
-      delete tx2.from
-      l1SecurityFee = await this.gasOracleContract!.getL1Fee(
-        utils.serializeTransaction(tx2)
-      )
-      // We can't correctly calculate the final l1 securifty fee,
-      // so we increase it by 1.1X to make sure that users have
-      // enough balance to cover it
-      l1SecurityFee = l1SecurityFee.mul('11').div('10')
-      console.log('l1Security fee (ETH)', l1SecurityFee.toString())
-    }
-
-    const depositCost_BN = depositGas_BN.mul(gasPrice).add(l1SecurityFee)
-    console.log('Fast exit cost (ETH):', utils.formatEther(depositCost_BN))
-
-    //returns total cost in ETH
-    return utils.formatEther(depositCost_BN.add(approvalCost_BN))
-  }
-
-  /* Estimate cost of Fast Deposit to L2 */
-  async getFastDepositCost(currencyAddress: string) {
-    let approvalCost_BN = BigNumber.from('0')
-
-    const gasPrice = await this.L1Provider!.getGasPrice()
-    console.log('Fast deposit gas price', gasPrice.toString())
-
-    if (currencyAddress !== this.addresses.L1_ETH_Address) {
-      const ERC20Contract = new ethers.Contract(
-        currencyAddress,
-        L1ERC20ABI, //any old abi will do...
-        this.provider!.getSigner()
-      )
-
-      const tx = await ERC20Contract.populateTransaction.approve(
-        this.addresses.L1LPAddress,
-        utils.parseEther('1.0')
-      )
-
-      const approvalGas_BN = await this.L1Provider!.estimateGas(tx)
-      approvalCost_BN = approvalGas_BN.mul(gasPrice)
-    }
-
-    //in some cases zero not allowed
-    const tx2 = await this.L1LPContract!.connect(
-      this.provider!.getSigner()
-    ).populateTransaction.clientDepositL1(
-      currencyAddress === this.addresses.L1_ETH_Address ? '1' : '0', //ETH does not allow zero
-      currencyAddress,
-      currencyAddress === this.addresses.L1_ETH_Address ? { value: '1' } : {}
-    )
-
-    const depositGas_BN = await this.L1Provider!.estimateGas(tx2)
-    console.log('Fast deposit gas', depositGas_BN.toString())
-
-    const depositCost_BN = depositGas_BN.mul(gasPrice)
-    console.log('Fast deposit cost (ETH):', utils.formatEther(depositCost_BN))
-
-    //returns total cost in ETH
-    return utils.formatEther(depositCost_BN.add(approvalCost_BN))
-  }
-
-  /**************************************************************/
-  /***** SWAP OFF from BOBA by depositing funds to the L2LP *****/
-
-  /**************************************************************/
-  async depositL2LP(currencyAddress: string, value_Wei_String: BigNumberish) {
-    console.log('depositL2LP currencyAddress', currencyAddress)
-
-    const L2BillingContract = new ethers.Contract(
-      this.addresses.Proxy__BobaBillingContract,
-      L2BillingContractABI,
-      this.L2Provider
-    )
-    let BobaApprovalAmount = await L2BillingContract.exitFee()
-
-    const BobaAllowance = await this.checkAllowance(
-      this.addresses.TK_L2BOBA,
-      this.addresses.L2LPAddress
-    )
-
-    try {
-      if (this.networkGateway === Network.ETHEREUM) {
-        // Approve BOBA first only when the Boba is not native token.
-        if (
-          utils.getAddress(currencyAddress) ===
-          utils.getAddress(this.addresses.TK_L2BOBA)
-        ) {
-          BobaApprovalAmount = BobaApprovalAmount.add(
-            BigNumber.from(value_Wei_String)
-          )
-        }
-        if (BobaAllowance.lt(BobaApprovalAmount)) {
-          const approveStatus = await this.approveERC20(
-            BobaApprovalAmount,
-            this.addresses.TK_L2BOBA,
-            this.addresses.L2LPAddress
-          )
-          if (!approveStatus) {
-            return false
-          }
-        }
-      }
-
-      // Approve other tokens
-      if (
-        currencyAddress !== this.addresses.L2_ETH_Address &&
-        utils.getAddress(currencyAddress) !==
-          utils.getAddress(this.addresses.TK_L2BOBA)
-      ) {
-        const L2ERC20Contract = new ethers.Contract(
-          currencyAddress,
-          L2StandardERC20ABI,
-          this.provider!.getSigner()
-        )
-
-        const allowance_BN = await L2ERC20Contract.allowance(
-          this.account,
-          this.addresses.L2LPAddress
-        )
-
-        const depositAmount_BN = BigNumber.from(value_Wei_String)
-
-        if (depositAmount_BN.gt(allowance_BN)) {
-          const approveStatus = await L2ERC20Contract.approve(
-            this.addresses.L2LPAddress,
-            value_Wei_String
-          )
-          await approveStatus.wait()
-          if (!approveStatus) {
-            return false
-          }
-        }
-      }
-
-      const time_start = new Date().getTime()
-      console.log('TX start time:', time_start)
-
-      let otherField
-      if (this.networkGateway === Network.ETHEREUM) {
-        otherField =
-          currencyAddress === this.addresses.L2_ETH_Address
-            ? { value: value_Wei_String }
-            : {}
-      } else {
-        otherField =
-          currencyAddress === this.addresses.L2_ETH_Address
-            ? { value: BobaApprovalAmount.add(value_Wei_String) }
-            : { value: BobaApprovalAmount }
-      }
-
-      const depositTX = await this.L2LPContract!.connect(
-        this.provider!.getSigner()
-      ).clientDepositL2(value_Wei_String, currencyAddress, otherField)
-
-      //at this point the tx has been submitted, and we are waiting...
-      await depositTX.wait()
-
-      const block = await this.L2Provider!.getTransaction(depositTX.hash)
-      console.log(' block:', block)
-      return depositTX
-    } catch (error) {
-      console.log('NS: depositL2LP error:', error)
-      return error
-    }
-  }
-
-  async fetchLookUpPrice(params) {
-    try {
-      // fetching only the prices compare to usd.
-      const res = await coinGeckoAxiosInstance.get(
-        `simple/price?ids=${params.join()}&vs_currencies=usd`
-      )
-      return res.data
-    } catch (error) {
-      return error
-    }
-  }
-
-  /***********************************************/
-  /*****         DAO Functions               *****/
-  /***********************************************/
-
-  // get DAO Balance
-  async getDaoBalance() {
-    if (!this.BobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: getDaoBalance() error - called but account === null')
-      return
-    }
-
-    try {
-      const balance = await this.BobaContract!.balanceOf(this.account)
-      return { balance: formatEther(balance) }
-    } catch (error) {
-      console.log('Error: getDaoBalance', error)
-      return error
-    }
-  }
-
-  async getDaoBalanceX() {
-    if (!this.xBobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: getDaoBalanceX() error - called but account === null')
-      return
-    }
-
-    try {
-      const balance = await this.xBobaContract.balanceOf(this.account)
-      return { balanceX: formatEther(balance) }
-    } catch (error) {
-      console.log('Error: getDaoBalanceX', error)
-      return error
-    }
-  }
-
-  // get DAO Votes
-  async getDaoVotes() {
-    if (!this.BobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: getDaoVotes() error - called but account === null')
-      return
-    }
-
-    try {
-      const votes = await this.BobaContract!.getCurrentVotes(this.account)
-      return { votes: formatEther(votes) }
-    } catch (error) {
-      console.log('NS: getDaoVotes error:', error)
-      return error
-    }
-  }
-
-  // get DAO Votes
-  async getDaoVotesX() {
-    if (!this.xBobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: getDaoVotesX() error - called but account === null')
-      return
-    }
-
-    try {
-      const votes = await this.xBobaContract.getCurrentVotes(this.account)
-      return { votesX: formatEther(votes) }
-    } catch (error) {
-      console.log('NS: getDaoVotesX error:', error)
-      return error
-    }
-  }
-
-  //Delegate DAO Authority
-  async delegateVotes({ recipient }) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-    if (!this.BobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: delegateVotes() error - called but account === null')
-      return
-    }
-
-    try {
-      const tx = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).delegate(recipient)
-      await tx.wait()
-      return tx
-    } catch (error) {
-      console.log('NS: delegateVotes error:', error)
-      return error
-    }
-  }
-
-  //Delegate DAO Authority
-  async delegateVotesX({ recipient }) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-    if (!this.xBobaContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: delegateVotesX() error - called but account === null')
-      return
-    }
-
-    try {
-      const tx = await this.xBobaContract
-        .connect(this.provider!.getSigner())
-        .delegate(recipient)
-      await tx.wait()
-      return tx
-    } catch (error) {
-      console.log('NS: delegateVotesX error:', error)
-      return error
-    }
-  }
-
-  // Proposal Create Threshold
-  async getProposalThreshold() {
-    if (!this.delegateContract) {
-      return
-    }
-
-    try {
-      const delegateCheck = await this.delegateContract.attach(
-        this.addresses.GovernorBravoDelegator
-      )
-      const rawThreshold = await delegateCheck.proposalThreshold()
-      return { proposalThreshold: formatEther(rawThreshold) }
-    } catch (error) {
-      console.log('NS: getProposalThreshold error:', error)
-      return error
-    }
-  }
-
-  // Create Proposal
-  /************************/
-  /*****Old Dao Fix Me.****/
-  /************************/
-
-  // FIXME:
-  async createProposal(payload) {
-    if (this.L1orL2 !== 'L2') {
-      return
-    }
-    if (!this.delegateContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: delegateVotesX() error - called but account === null')
-      return
-    }
-
-    let signatures = ['']
-    let value1 = 0
-    let value2 = 0
-    let value3 = 0
-    let description = ''
-    let address = ['']
-    let callData = ['']
-    // FIXME: Ve DAO From here
-    /*
-      let tokenIds = payload.tokenIds
-      // create proposal only on latest contracts.
-      const delegateCheck = await this.delegateContract.attach(this.addresses.GovernorBravoDelegatorV2)
-
-    */
-    // FIXME: Ve DAO Till here
-
-    const delegateCheck = await this.delegateContract.attach(
-      this.addresses.GovernorBravoDelegator
-    )
-
-    if (payload.action === 'text-proposal') {
-      address = ['0x000000000000000000000000000000000000dEaD']
-      description = payload.text.slice(0, 252) //100+150+2
-      callData = [
-        '0x0000000000000000000000000000000000000000000000000000000000000000',
-      ]
-    } else if (payload.action === 'change-lp1-fee') {
-      signatures = ['configureFeeExits(uint256,uint256,uint256)']
-      value1 = Number(payload.value[0])
-      value2 = Number(payload.value[1])
-      value3 = Number(payload.value[2])
-      description = `Change L1 LP Bridge fee to ${value1}, ${value2}, and ${value3} integer percent`
-      address = [this.addresses.L2LPAddress]
-      callData = [
-        ethers.utils.defaultAbiCoder.encode(
-          ['uint256', 'uint256', 'uint256'],
-          [value1, value2, value3]
-        ),
-      ]
-    } else if (payload.action === 'change-lp2-fee') {
-      address = [delegateCheck.address]
-      signatures = ['configureFee(uint256,uint256,uint256)']
-      value1 = Number(payload.value[0])
-      value2 = Number(payload.value[1])
-      value3 = Number(payload.value[2])
-      description = `Change L2 LP Bridge fee to ${value1}, ${value2}, and ${value3} integer percent`
-      address = [this.addresses.L2LPAddress]
-      callData = [
-        ethers.utils.defaultAbiCoder.encode(
-          ['uint256', 'uint256', 'uint256'],
-          [value1, value2, value3]
-        ),
-      ]
-    } else if (payload.action === 'change-threshold') {
-      address = [delegateCheck.address]
-      signatures = ['_setProposalThreshold(uint256)']
-      value1 = Number(payload.value[0])
-      description = `Change Proposal Threshold to ${value1} BOBA`
-      callData = [ethers.utils.defaultAbiCoder.encode(['uint256'], [value1])]
-    }
-
-    try {
-      const values = [0] //amount of ETH to send, generally, zero
-
-      return await delegateCheck
-        .connect(this.provider!.getSigner())
-        .propose(address, values, signatures, callData, description)
-    } catch (error) {
-      console.log('NS: createProposal error:', error)
-      return error
-    }
-  }
-
-  //Fetch DAO Proposals
-  async queueProposal(proposalID) {
-    if (!this.delegateContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: queueProposal() error - called but account === null')
-      return
-    }
-
-    try {
-      const delegateCheck = this.delegateContract
-        .connect(this.provider!.getSigner())
-        .attach(this.addresses.GovernorBravoDelegator)
-
-      return await delegateCheck.queue(Number(proposalID))
-    } catch (error) {
-      console.log('NS: queueProposal error:', error)
-      return error
-    }
-  }
-
-  async executeProposal(proposalID) {
-    if (!this.delegateContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: executeProposal() error - called but account === null')
-      return
-    }
-
-    try {
-      const delegateCheck = this.delegateContract
-        .connect(this.provider!.getSigner())
-        .attach(this.addresses.GovernorBravoDelegator)
-
-      return await delegateCheck.execute(Number(proposalID))
-    } catch (error) {
-      console.log('NS: executeProposal error:', error)
-      return error
-    }
-  }
-
-  /***********************************************/
-  /*****       Fixed savings account         *****/
-
-  /***********************************************/
-  async addFS_Savings(value_Wei_String: BigNumberish) {
-    if (!this.account) {
-      console.log(
-        'NS: withdrawFS_Savings() error - called but account === null'
-      )
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider!.getSigner()
-      )
-
-      const allowance_BN = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).allowance(this.account, this.addresses.BobaFixedSavings)
-
-      const depositAmount_BN = BigNumber.from(value_Wei_String)
-
-      const approveAmount_BN = depositAmount_BN.add(
-        BigNumber.from('1000000000000')
-      )
-
-      try {
-        if (approveAmount_BN.gt(allowance_BN)) {
-          console.log('Need to approve YES:', approveAmount_BN)
-          const approveStatus = await this.BobaContract!.connect(
-            this.provider!.getSigner()
-          ).approve(this.addresses.BobaFixedSavings, approveAmount_BN)
-          await approveStatus.wait()
-        } else {
-          console.log(
-            'Allowance is sufficient:',
-            allowance_BN.toString(),
-            depositAmount_BN.toString()
-          )
-        }
-      } catch (error) {
-        console.log('NS: addFS_Savings approve error:', error)
-        return error
-      }
-
-      const TX = await FixedSavings.stake(value_Wei_String)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: addFS_Savings error:', error)
-      return error
-    }
-  }
-
-  async savingEstimate() {
-    // used to generate gas estimates for contracts that cannot set amount === 0
-    // to avoid need to approve amount
-
-    const otherField = {
-      from: this.gasEstimateAccount,
-    }
-
-    const gasPrice_BN = await this.provider!.getGasPrice()
-    console.log('gas price', gasPrice_BN.toString())
-
-    let approvalCost_BN = BigNumber.from('0')
-    let stakeCost_BN = BigNumber.from('0')
-
-    try {
-      // first, we need the allowance of the benchmarkAccount
-      const allowance_BN = await this.BobaContract!.connect(
-        this.provider!
-      ).allowance(this.gasEstimateAccount, this.addresses.BobaFixedSavings)
-
-      // second, we need the approval cost
-      const tx1 = await this.BobaContract!.connect(
-        this.provider!.getSigner()
-      ).populateTransaction.approve(
-        this.addresses.BobaFixedSavings,
-        allowance_BN.toString()
-      )
-
-      const approvalGas_BN = await this.provider!.estimateGas(tx1)
-      approvalCost_BN = approvalGas_BN.mul(gasPrice_BN)
-
-      // third, we need the stake cost
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider
-      )
-
-      const tx2 = await FixedSavings.populateTransaction.stake(
-        allowance_BN.toString(),
-        otherField
-      )
-      const stakeGas_BN = await this.provider!.estimateGas(tx2)
-      stakeCost_BN = stakeGas_BN.mul(gasPrice_BN)
-
-      const safety_margin_BN = BigNumber.from('1000000000000')
-
-      return approvalCost_BN.add(stakeCost_BN).add(safety_margin_BN)
-    } catch (error) {
-      console.log('NS: stakingEstimate() error', error)
-      return error
-    }
-  }
-
-  async withdrawFS_Savings(stakeID) {
-    if (!this.account) {
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.provider!.getSigner()
-      )
-      const TX = await FixedSavings.unstake(stakeID)
-      await TX.wait()
-      return TX
-    } catch (error) {
-      console.log('NS: withdrawFS_Savings error:', error)
-      return error
-    }
-  }
-
-  async getFS_Saves() {
-    if (this.account === null) {
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.L2Provider
-      )
-      await FixedSavings.l2Boba()
-      const stakecount = await FixedSavings.personalStakeCount(this.account)
-      return { stakecount: Number(stakecount) }
-    } catch (error) {
-      console.log('NS: getSaves error:', error)
-      return error
-    }
-  }
-
-  async getFS_Info() {
-    if (this.account === null) {
-      console.log('NS: getFS_Info() error - called but account === null')
-      return
-    }
-
-    try {
-      const FixedSavings = new ethers.Contract(
-        this.addresses.BobaFixedSavings,
-        BobaFixedSavingsABI,
-        this.L2Provider
-      )
-
-      const stakeInfo: any = []
-
-      const stakeCounts = await FixedSavings.personalStakeCount(this.account)
-
-      for (let i = 0; i < stakeCounts; i++) {
-        const stakeId = await FixedSavings.personalStakePos(this.account, i)
-        const stakeData = await FixedSavings.stakeDataMap(stakeId)
-
-        stakeInfo.push({
-          stakeId: Number(stakeId.toString()),
-          depositTimestamp: Number(stakeData.depositTimestamp.toString()),
-          depositAmount: logAmount(stakeData.depositAmount.toString(), 18),
-          isActive: stakeData.isActive,
-        })
-      }
-      return { stakeInfo }
-    } catch (error) {
-      console.log('NS: getFS_Info error:', error)
-      return error
-    }
-  }
-
-  /***********************************************/
-  /*****            L1 Security Fee          *****/
-
-  /***********************************************/
-  async estimateL1SecurityFee(payload = this.payloadForL1SecurityFee) {
-    const deepCopyPayload = { ...payload }
-    delete deepCopyPayload.from
-    // Gas oracle
-    this.gasOracleContract = new ethers.Contract(
-      L2GasOracle,
-      OVM_GasPriceOracleABI,
-      this.L2Provider
-    )
-    const l1SecurityFee = await this.gasOracleContract!.getL1Fee(
-      ethers.utils.serializeTransaction(deepCopyPayload)
-    )
-    return l1SecurityFee.toNumber()
-  }
-
-  /***********************************************/
-  /*****                L2 Fee              *****/
-
-  /***********************************************/
-  async estimateL2Fee(payload: TxPayload = this.payloadForL1SecurityFee!) {
-    try {
-      const l2GasPrice = await this.L2Provider!.getGasPrice()
-      const l2GasEstimate = await this.L2Provider!.estimateGas(payload)
-      return l2GasPrice.mul(l2GasEstimate).toNumber()
-    } catch {
-      return 0
-    }
-  }
-
-  /***********************************************/
-  /*****              Exit fee               *****/
-
-  /***********************************************/
+  // TODO: cleanup on migration to anchorage
   async getExitFeeFromBillingContract() {
     if (!this.addresses.Proxy__BobaBillingContract) {
       return 0
@@ -3157,186 +1408,7 @@ class NetworkService {
     )
     return ethers.utils.formatEther(await L2BillingContract.exitFee())
   }
-
-  /*************************************************
-   **************** Alt L1 Functions ***************
-   *************************************************/
-
-  /****************************************
-   ************* DAO ***********
-   *****************************************/
-  async fetchProposals() {
-    if (!this.delegateContract) {
-      return
-    }
-
-    const delegateCheck = this.delegateContract.attach(
-      this.addresses.GovernorBravoDelegator
-    )
-
-    try {
-      const proposalList: any = []
-
-      const proposalCounts = await delegateCheck.proposalCount()
-      const totalProposals = await proposalCounts.toNumber()
-
-      /// @notice An event emitted when a new proposal is created
-      // event ProposalCreated(uint id, address proposer, address[] targets, uint[] values, string[] signatures, bytes[] calldatas, uint startTimestamp, uint endTimestamp, string description);
-      const L2ChainId = this.networkConfig!.L2.chainId
-      const descriptionList = await graphQLService.queryBridgeProposalCreated({
-        sourceChainId: L2ChainId,
-      })
-
-      for (let i = 0; i < totalProposals; i++) {
-        const proposalRaw = descriptionList!.data.proposalCreateds[i]
-
-        if (typeof proposalRaw === 'undefined') {
-          continue
-        }
-
-        const proposalID = proposalRaw.idParam
-
-        //this is a number such as 2
-        const proposalData = await delegateCheck.proposals(proposalID)
-
-        const proposalStates = [
-          'Pending',
-          'Active',
-          'Canceled',
-          'Defeated',
-          'Succeeded',
-          'Queued',
-          'Expired',
-          'Executed',
-        ]
-
-        const state = await delegateCheck.state(proposalID)
-
-        const againstVotes = parseInt(
-          formatEther(proposalData.againstVotes),
-          10
-        )
-        const forVotes = parseInt(formatEther(proposalData.forVotes), 10)
-        const abstainVotes = parseInt(
-          formatEther(proposalData.abstainVotes),
-          10
-        )
-
-        const startTimestamp = proposalData.startTimestamp.toString()
-        const endTimestamp = proposalData.endTimestamp.toString()
-
-        const proposal = await delegateCheck.getActions(i + 2)
-
-        const hasVoted = null
-
-        const description = proposalRaw.description.toString()
-
-        proposalList.push({
-          id: proposalID?.toString(),
-          proposal,
-          description,
-          totalVotes: forVotes + againstVotes,
-          forVotes,
-          againstVotes,
-          abstainVotes,
-          state: proposalStates[state],
-          startTimestamp,
-          endTimestamp,
-          hasVoted,
-        })
-      }
-      return { proposalList }
-    } catch (error) {
-      console.log('NS: fetchProposals error:', error)
-      return error
-    }
-  }
-
-  async castProposalVote({ id, userVote }) {
-    if (!this.delegateContract) {
-      return
-    }
-
-    if (!this.account) {
-      console.log('NS: castProposalVote() error - called but account === null')
-      return
-    }
-    try {
-      const delegateCheck = this.delegateContract
-        .connect(this.provider!.getSigner())
-        .attach(this.addresses.GovernorBravoDelegator)
-      return delegateCheck.castVote(id, userVote)
-    } catch (error) {
-      console.log('NS: castProposalVote error:', error)
-      return error
-    }
-  }
-
-  /****************************************
-   ************* END HERE *****************
-   ***********OLD DAO REMOVE ME TILL HERE *
-   *****************************************/
-
-  async submitTxBuilder(
-    contract: Contract,
-    methodIndex,
-    methodName: string,
-    inputs
-  ) {
-    const parseResult = (resultPR, outputsPR) => {
-      const parseResultPR: any = []
-      if (outputsPR.length === 1) {
-        return resultPR.toString()
-      }
-      for (let i = 0; i < outputsPR.length; i++) {
-        try {
-          const output = outputsPR[i]
-          const key = output.name ? output.name : output.type
-          if (output.type.includes('uint')) {
-            parseResultPR.push({ [key]: resultPR[i].toString() })
-          } else {
-            parseResultPR.push({ [key]: resultPR[i] })
-          }
-        } catch (err) {
-          return 'Error: Failed to parse result'
-        }
-      }
-      return JSON.stringify(parseResultPR)
-    }
-
-    let parseInput: any = Object.values(inputs)
-    let value = 0
-    const stateMutability =
-      contract.interface.functions[methodName].stateMutability
-    const outputs = contract.interface.functions[methodName].outputs
-    if (stateMutability === 'payable') {
-      value = parseInput[parseInput.length - 1]
-      parseInput = parseInput.slice(0, parseInput.length - 1)
-    }
-
-    let result
-    try {
-      if (stateMutability === 'view' || stateMutability === 'pure') {
-        result = await contract[methodName](...parseInput)
-        return {
-          methodIndex,
-          result: { result: parseResult(result, outputs), err: null },
-        }
-      } else if (stateMutability === 'payable') {
-        console.log({ value }, ...parseInput)
-        const tx = await contract[methodName](...parseInput, { value })
-        return { methodIndex, result: { transactionHash: tx.hash, err: null } }
-      } else {
-        const tx = await contract[methodName](...parseInput)
-        return { methodIndex, result: { transactionHash: tx.hash, err: null } }
-      }
-    } catch (err) {
-      return { methodIndex, result: { err: JSON.stringify(err) } }
-    }
-  }
-
   // getting block number;
-
   async getLatestBlockNumber() {
     return this.provider!.getBlockNumber()
   }

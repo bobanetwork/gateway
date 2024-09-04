@@ -24,13 +24,6 @@ export const ChainPickerContainer = styled.div`
   width: 100%;
 `
 
-export const ChainPickerLabel = styled(Typography).attrs({
-  variant: 'body2',
-})`
-  color: ${(props) => props.theme.colors.gray[100]};
-  flex: 1;
-`
-
 export const ChainPicker = styled.div`
   cursor: pointer;
   display: flex;
@@ -74,7 +67,7 @@ export const SwitchChainIcon = styled.div`
   margin: -12px auto;
   width: 40px;
   height: 40px;
-  padding: 8px;
+  padding: 11px 8px;
   display: flex;
   align-items: center;
   justify-content: center;

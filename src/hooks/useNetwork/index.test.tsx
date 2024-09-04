@@ -1,10 +1,10 @@
+import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
-import { renderHook, act } from '@testing-library/react-hooks'
-import useNetwork from '.'
+import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { mockedInitialState } from 'util/tests'
-import { Provider } from 'react-redux'
+import useNetwork from '.'
 
 describe('useNetwork', () => {
   const middlewares = [thunk]

@@ -67,19 +67,6 @@ export const DaoProposalContainer = styled.div`
 
 `
 
-export const DaoProposalHead = styled.div`
-  display: flex;
-  align-items: center;
-  align-self: flex-start;
-  justify-content: space-between;
-  padding: 15px 0px;
-  width: 100%;
-  margin: 5px;
-  ${mobile(css`
-    padding:0px;
-  `)}
-`
-
 export const DaoProposalListContainer = styled.div`
   display:flex;
   flex-direction:column;

@@ -16,18 +16,15 @@ limitations under the License. */
 import loadingReducer from './loadingReducer'
 import depositReducer from './depositReducer'
 import transactionReducer from './transactionReducer'
-import dataReducer from './dataReducer'
 import balanceReducer from './balanceReducer'
 import tokenReducer from './tokenReducer'
 import nftReducer from './nftReducer'
 import uiReducer from './uiReducer'
 import setupReducer from './setupReducer'
 import earnReduer from './earnReducer'
-import lookupReducer from './lookupReducer'
 import daoReducer from './daoReducer'
 import fixedReducer from './fixedReducer'
 import bridgeReducer from './bridgeReducer'
-import devToolsReducer from './devToolsReducer'
 import networkReducer from './networkReducer'
 import { combineReducers } from '@reduxjs/toolkit'
 
@@ -35,18 +32,15 @@ const rootReducer = combineReducers({
   loading: loadingReducer,
   deposit: depositReducer,
   transaction: transactionReducer,
-  data: dataReducer,
   balance: balanceReducer,
   tokenList: tokenReducer,
   nft: nftReducer,
   ui: uiReducer,
   setup: setupReducer,
   earn: earnReduer,
-  lookup: lookupReducer,
   dao: daoReducer,
   fixed: fixedReducer,
   bridge: bridgeReducer,
-  devTools: devToolsReducer,
   network: networkReducer,
 })
 

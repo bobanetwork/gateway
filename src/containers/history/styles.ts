@@ -17,7 +17,7 @@ import {
 
 import { Dropdown } from 'components/global/dropdown/'
 
-export const DefaultIcon = styled.div`
+const DefaultIcon = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -105,17 +105,6 @@ export const MobileDatePickerWrapper = styled.div`
   `)}
 `
 
-export const DateInput = styled.button`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  border: 1px solid #545454;
-  border-radius: 8px;
-  background: #262626;
-  padding: 10px 20px;
-  color: ${({ theme }) => theme.color};
-`
-
 export const NetworkDropdowns = styled.div`
   display: flex;
   flex-direction: row;
@@ -128,9 +117,6 @@ export const NetworkDropdowns = styled.div`
     font-size: 12px;
     gap: 0px 5px;
   `)}
-`
-export const TransactionsTableWrapper = styled.div`
-  width: 100%;
 `
 
 export const TransactionsWrapper = styled.div`
@@ -724,13 +710,6 @@ export const DatePickerHeader = styled.div`
     width: 130px;
     font-size: 10px;
   `)}
-`
-
-export const DatePickerHeadersContainer = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  flex-direction: row;
 `
 
 export const DatePickerDropdown = styled.div<{ isRange?: boolean }>`

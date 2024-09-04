@@ -1,3 +1,4 @@
+// TODO: cleanup mui
 import { Box } from '@mui/material'
 import styled, { css } from 'styled-components'
 import ModalUnstyled from '@mui/base/ModalUnstyled'
@@ -28,16 +29,6 @@ export const StyledModal = styled(ModalUnstyled)`
     `}
 `
 
-export const Backdrop = styled.div`
-  z-index: -1;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-
-  -webkit-tap-highlight-color: transparent;
-`
 interface StyleProps {
   transparent?: boolean
   shouldForwardProp?: (props: StyleProps) => boolean
@@ -58,7 +49,7 @@ export const Style = styled.div<StyleProps>`
     `}
 
   backdrop-filter: ${(props) => (props.transparent ? 'none' : 'blur(15px)')};
-  padding: 24px;
+  padding: 16px;
   outline: 0;
   box-sizing: border-box;
   border-radius: 12px;
@@ -69,7 +60,6 @@ export const Style = styled.div<StyleProps>`
     ${props.shouldForwardProp(props)}
   `}
 `
-
 export const WrapperActionsModal = styled(Box)<{ $fullWidth?: boolean }>`
   display: flex;
   flex-direction: column;
@@ -118,13 +108,6 @@ export const TitleContainer = styled.div`
   width: 100%;
   justify-content: center;
   gap: 10px;
-`
-
-export const BoxCenter = styled(Box)`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  cursor: pointer;
 `
 
 export const CloseIcon = styled(Svg).attrs({

@@ -9,7 +9,7 @@ import { mockedInitialState } from 'util/tests'
 
 const mockStore = configureStore([thunk])
 
-const renderBridgeTypeSelector = ({ options = null }: any) => {
+const renderBridgeTypeSelector = () => {
   return render(
     <Provider store={mockStore(mockedInitialState)}>
       <CustomThemeProvider>
@@ -28,7 +28,7 @@ describe('Testing BridgeTypeSelector', () => {
   })
 
   test('Test BridgeTypeSelector renders', () => {
-    const { asFragment } = renderBridgeTypeSelector({})
+    const { asFragment } = renderBridgeTypeSelector()
     expect(asFragment()).toMatchSnapshot()
   })
 })

@@ -7,6 +7,7 @@ export const BridgeHeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `
+
 export const IconWrapper = styled.div<{ inline?: boolean }>`
   padding: 8px;
   height: 32px;
@@ -24,4 +25,22 @@ export const IconWrapper = styled.div<{ inline?: boolean }>`
 
 export const GearIcon = styled(SettingsOutlined)`
   cursor: pointer;
+`
+
+export const LabelStyle = styled.span`
+  color: var(--Gray-50, #eee);
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 138.3%;
+`
+
+export const ValueStyle = styled.span`
+  color: var(--Gray-50, #eee);
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 138.3%;
 `

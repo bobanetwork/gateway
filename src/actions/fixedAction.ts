@@ -17,19 +17,22 @@
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import networkService from 'services/networkService'
+import fixedSavingService from 'services/fixedsaving/fixedSaving.service'
 import { createAction } from './createAction'
 
 export const addFS_Savings = (weiString: string) =>
-  createAction('ADD/FS_SAVINGS', () => networkService.addFS_Savings(weiString))
+  createAction('ADD/FS_SAVINGS', () => fixedSavingService.addSavings(weiString))
 
 export const withdrawFS_Savings = (stakeID: number) =>
   createAction('WITHDRAW/FS_SAVINGS', () =>
-    networkService.withdrawFS_Savings(stakeID)
+    fixedSavingService.withdrawSavings(stakeID)
   )
 
-export const getFS_Saves = () =>
-  createAction('GET/FS_SAVES', () => networkService.getFS_Saves())
+export const fetchSavings = () =>
+  createAction('GET/FS_SAVES', () => fixedSavingService.loadSavings())
 
-export const getFS_Info = () =>
-  createAction('GET/FS_INFO', () => networkService.getFS_Info())
+export const fetchStakeInfo = () =>
+  createAction('GET/FS_INFO', () => fixedSavingService.loadAccountSaveInfo())
+
+export const fetchBobaTokenDetail = () =>
+  createAction('BOBA_BALANCE/GET', () => fixedSavingService.loadBobaBalance())

@@ -16,11 +16,13 @@ limitations under the License. */
 interface IFixedReducerState {
   stakeCount: number
   stakeInfo: any
+  bobaToken: any
 }
 
 const initialState: IFixedReducerState = {
   stakeCount: 0,
   stakeInfo: {},
+  bobaToken: null,
 }
 
 const fixedReducer = (state: IFixedReducerState = initialState, action) => {
@@ -29,6 +31,11 @@ const fixedReducer = (state: IFixedReducerState = initialState, action) => {
       return { ...state, ...action.payload }
     case 'GET/FS_INFO/SUCCESS':
       return { ...state, ...action.payload }
+    case 'BOBA_BALANCE/GET/SUCCESS':
+      return {
+        ...state,
+        bobaToken: action.payload,
+      }
     default:
       return state
   }

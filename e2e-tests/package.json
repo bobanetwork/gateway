@@ -1,0 +1,25 @@
+{
+  "name": "@gateway/e2e-tests",
+  "version": "0.0.1",
+  "author": "Sahil Kashetwar <sahil@enya.ai>",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.37.0",
+    "@synthetixio/synpress": "3.7.2-beta.3",
+    "serve": "^14.2.0"
+  },
+  "scripts": {
+    "clean": "rm -rf ./videos ./test-results ./playwright-report",
+    "clean:test": "pnpm clean && pnpm test",
+    "install:chromium": "playwright install chromium",
+    "test": "playwright test --project=chromium",
+    "test:ui": "playwright test --project=chromium --ui",
+    "test:headless": "HEADLESS_MODE=true playwright test --project=chromium",
+    "report":"npx playwright show-report",
+    "start:server": "serve ../build -p 3000",
+    "codegen": "npx playwright codegen"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

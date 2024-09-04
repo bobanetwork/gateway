@@ -1,22 +1,19 @@
+import { renderHook } from '@testing-library/react-hooks'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import React from 'react'
-import { renderHook, act } from '@testing-library/react-hooks'
-import useNetwork from '.'
+import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { mockedInitialState } from 'util/tests'
-import { Provider } from 'react-redux'
 import { LAYER } from 'util/constant'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { mockedInitialState } from 'util/tests'
+import useNetwork from '.'
 
 describe('useSwitchChain', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-
-  let originalConsoleWarn
   let consoleOutput
 
   beforeAll(() => {
-    originalConsoleWarn = console.warn
     console.warn = (message) => {
       if (consoleOutput === undefined) {
         consoleOutput = []
@@ -160,7 +157,7 @@ describe('useSwitchChain', () => {
         netLayer: LAYER.L1,
       },
     }
-    const consoleWarnSpy = jest.spyOn(console, 'warn')
+    jest.spyOn(console, 'warn')
 
     const store = mockStore(initialState)
     const wrapper = ({ children }) => (

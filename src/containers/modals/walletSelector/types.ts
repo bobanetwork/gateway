@@ -6,4 +6,4 @@ export interface WalletInterface {
   testid: string
 }
 
-export type WalletType = 'metamask' | 'walletconnect'
+export type WalletType = 'metamask' | 'walletconnect' | 'gatewallet'

@@ -13,12 +13,11 @@ export const steps = [
   },
   {
     label: 'Prove Withdrawal',
-    description:
-      'You will be able to submit your proof once your transaction is submitted to L1.',
+    description: 'You can submit your proof once your transaction reaches L1.',
     passiveStep: false,
     btnLbl: 'Prove Withdrawal',
   },
-  { label: 'Wait about 7 days', passiveStep: true },
+  { label: 'Wait for claim', passiveStep: true },
   {
     label: 'Claim Withdrawal',
     description: `The proof has been submitted. Please wait 7 days to claim your withdrawal`,

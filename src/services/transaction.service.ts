@@ -1,8 +1,13 @@
+import {
+  anchorageGraphQLService,
+  LightBridgeAssetReceivedEvent,
+  LightBridgeDisbursementEvents,
+  lightBridgeGraphQLService,
+} from '@bobanetwork/graphql-utils'
+import { BobaChains } from '@bobanetwork/light-bridge-chains'
 import omgxWatcherAxiosInstance from 'api/omgxWatcherAxios'
 import { TRANSACTION_STATUS } from 'containers/history/types'
 import { Contract, ethers, providers } from 'ethers'
-import { BobaChains } from '@bobanetwork/light-bridge-chains'
-import { ethereumConfig } from 'util/network/config/ethereum'
 import {
   AllNetworkConfigs,
   CHAIN_ID_LIST,
@@ -10,14 +15,9 @@ import {
   Network,
   NetworkType,
 } from 'util/network/network.util'
-import {
-  LightBridgeAssetReceivedEvent,
-  LightBridgeDisbursementEvents,
-  anchorageGraphQLService,
-  lightBridgeGraphQLService,
-} from '@bobanetwork/graphql-utils'
-import networkService from './networkService'
 import { NetworkDetailChainConfig } from '../util/network/config/network-details.types'
+import networkService from './networkService'
+import { lightBridgeService } from './teleportation/teleportation.service'
 
 interface ICrossDomainMessage {
   crossDomainMessage?: string
@@ -29,43 +29,12 @@ interface ICrossDomainMessage {
 }
 
 class TransactionService {
-  async getSevens(networkConfig = networkService.networkConfig) {
-    const response = await omgxWatcherAxiosInstance(networkConfig).get(
-      'get.l2.pendingexits'
-    )
-
-    if (response.status === 201) {
-      const data = response.data
-      return data.filter((i) => i.fastRelay === 0 && i.status === 'pending')
-    } else {
-      return []
-    }
-  }
-
-  async getFastExits(networkConfig = networkService.networkConfig) {
-    const response = await omgxWatcherAxiosInstance(networkConfig).get(
-      'get.l2.pendingexits'
-    )
-
-    if (response.status === 201) {
-      const data = response.data
-      return data.filter((i) => i.fastRelay === 1 && i.status === 'pending')
-    } else {
-      return []
-    }
-  }
-
   async fetchAnchorageTransactions(
-    networkConfig = networkService.networkConfig
+    networkConfig = networkService.networkConfig,
+    isActiveNetworkBnb = false
   ): Promise<any[]> {
     const address = await networkService.provider?.getSigner().getAddress()
-    if (
-      (networkService.networkType === NetworkType.TESTNET &&
-        networkConfig?.L1.chainId !== ethereumConfig.Testnet.L1.chainId) ||
-      (networkService.networkType === NetworkType.MAINNET &&
-        networkConfig?.L1.chainId !== ethereumConfig.Mainnet.L1.chainId) ||
-      !address
-    ) {
+    if (!address) {
       return []
     }
     try {
@@ -74,7 +43,8 @@ class TransactionService {
           networkService.L1Provider,
           networkService.L2Provider,
           address,
-          networkConfig!
+          networkConfig!,
+          isActiveNetworkBnb
         )
 
       const depositTransactions =
@@ -90,7 +60,6 @@ class TransactionService {
     }
   }
 
-  // fetch L2 transactions from omgxWatcherAxiosInstance
   async fetchL2Tx(
     networkConfig = networkService.networkConfig
   ): Promise<any[]> {
@@ -124,42 +93,7 @@ class TransactionService {
     }
   }
 
-  // fetch L0 transactions from omgxWatcherAxiosInstance
-  async fetchL0Tx(networkConfig = networkService.networkConfig) {
-    let L0Txs = []
-    if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
-      return L0Txs
-    }
-    try {
-      const responseL0 = await omgxWatcherAxiosInstance(networkConfig).post(
-        'get.layerzero.transactions',
-        {
-          address: networkService.account,
-          fromRange: 0,
-          toRange: 1000,
-        }
-      )
-
-      if (responseL0.status === 201) {
-        L0Txs = responseL0.data.map((v) => ({
-          ...v,
-          hash: v.tx_hash,
-          blockNumber: parseInt(v.block_number, 10),
-          timeStamp: parseInt(v.timestamp, 10), //fix bug - sometimes this is string, sometimes an integer
-          layer: 'L0',
-          chainName: networkConfig!.L1.name,
-          originChainId: networkConfig!.L1.chainId,
-          altL1: true,
-        }))
-      }
-      return L0Txs
-    } catch (error) {
-      console.log('TS: fetchL0Tx', error)
-      return L0Txs
-    }
-  }
-
-  // fetch L1 pending transactions from omgxWatcherAxiosInstance
+  // fetch L1 pending transactions
   async fetchL1PendingTx(networkConfig = networkService.networkConfig) {
     let txL1pending = []
     if (!networkConfig || !networkConfig['OMGX_WATCHER_URL']) {
@@ -191,68 +125,101 @@ class TransactionService {
     }
   }
 
-  /**
-   * @getTransactions
-   * loads L1Txs, l2Txs, l0Txs, L1PendingTxs
-   *
-   */
   async getTransactions() {
-    console.log(`loading tx`)
-    const networksArray = Array.from(Object.values(AllNetworkConfigs))
-    const networkConfigsArray = networksArray.flatMap((network) => {
-      return [network.Testnet, network.Mainnet]
-    })
-
-    const allNetworksTransactions = await Promise.all(
-      networkConfigsArray.flatMap((config) => {
-        // light bridge available for all networks fetch for all.
-        const promiseCalls: Promise<any>[] = [
-          this.fetchLightBridgeTransactions(config),
-        ]
-
-        // check for ethereum and invoke anchorage data.
-        if (
-          [11155111, 28882, 1, 288].includes(config.L1.chainId) ||
-          [11155111, 28882, 1, 288].includes(config.L1.chainId)
-        ) {
-          promiseCalls.push(this.fetchAnchorageTransactions(config))
-        }
-
-        // check for bnb and invoke watcher
-        if (
-          [97, 9728, 56, 56288].includes(config.L1.chainId) ||
-          [97, 9728, 56, 56288].includes(config.L1.chainId)
-        ) {
-          promiseCalls.push(this.fetchL2Tx(config))
-          promiseCalls.push(this.fetchL1PendingTx(config))
-        }
-
-        return promiseCalls
+    try {
+      console.log(`loading tx...`)
+      // Flatten and gather network configs
+      const networksArray = Array.from(Object.values(AllNetworkConfigs))
+      const networkConfigsArray = networksArray.flatMap((network) => {
+        return [network.Testnet, network.Mainnet]
       })
-    )
 
-    /** @DEV additional network pairs that are cross L1-L2 configuration */
-    for (const additionalNetworkConfig of this.lightbridgeAdditionalNetworkPairs()) {
-      allNetworksTransactions.push(
-        await this.fetchLightBridgeTransactions(additionalNetworkConfig)
+      const promiseCalls: Promise<any>[] = []
+      const anchoragePromises: Promise<any>[] = []
+      const watcherPromises: Promise<any>[] = []
+
+      // Collect all promise calls in batches
+      networkConfigsArray.forEach((config) => {
+        if (networkService.network === Network.BNB) {
+          if (networkService.networkType === NetworkType.TESTNET) {
+            if (
+              [97].includes(config.L1.chainId) ||
+              [9728].includes(config.L2.chainId)
+            ) {
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+              anchoragePromises.push(
+                this.fetchAnchorageTransactions(config, true)
+              )
+            }
+          } else {
+            if ([56].includes(config.L1.chainId)) {
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+              watcherPromises.push(this.fetchL1PendingTx(config))
+            }
+            if ([56288].includes(config.L2.chainId)) {
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+              watcherPromises.push(this.fetchL2Tx(config))
+            }
+          }
+        } else if (networkService.network === Network.ETHEREUM) {
+          if (networkService.networkType === NetworkType.TESTNET) {
+            if (
+              [11155111].includes(config.L1.chainId) ||
+              [28882].includes(config.L2.chainId)
+            ) {
+              anchoragePromises.push(
+                this.fetchAnchorageTransactions(config, false)
+              )
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+            }
+          } else {
+            if (
+              [1].includes(config.L1.chainId) ||
+              [288].includes(config.L2.chainId)
+            ) {
+              console.log(`fetching Mainnet Tx`)
+              anchoragePromises.push(
+                this.fetchAnchorageTransactions(config, false)
+              )
+              promiseCalls.push(this.fetchLightBridgeTransactions(config))
+            }
+          }
+        }
+      })
+
+      if (networkService.networkType === NetworkType.MAINNET) {
+        console.log(`loading supporting chain tx!`)
+        // Add additional network pairs for LightBridge transactions
+        const additionalNetworks = this.lightbridgeAdditionalNetworkPairs().map(
+          (config) => this.fetchLightBridgeTransactions(config)
+        )
+        promiseCalls.push(...additionalNetworks)
+      }
+      // Execute all promise calls with batching
+      const allNetworksTransactions = await Promise.all([
+        ...promiseCalls,
+        ...anchoragePromises,
+        ...watcherPromises,
+      ])
+
+      const filteredResults = allNetworksTransactions.reduce(
+        (acc, res) => [...acc, ...res],
+        []
       )
+
+      return filteredResults.filter((transaction) => transaction?.hash)
+    } catch (error) {
+      console.log(`error`, error)
     }
-
-    const filteredResults = allNetworksTransactions.reduce(
-      (acc, res) => [...acc, ...res],
-      []
-    )
-
-    return filteredResults.filter((transaction) => transaction?.hash)
   }
 
   async fetchLightBridgeTransactions(
     networkConfig: Partial<NetworkDetailChainConfig>
   ) {
-    const contractL1 = networkService.getLightBridgeContract(
+    const contractL1 = await lightBridgeService.getLightBridgeContract(
       networkConfig!.L1!.chainId
     )
-    const contractL2 = networkService.getLightBridgeContract(
+    const contractL2 = await lightBridgeService.getLightBridgeContract(
       networkConfig!.L2!.chainId
     )
 
@@ -348,7 +315,7 @@ class TransactionService {
 
       const supportedAsset = Object.entries(
         BobaChains[parseInt(destChainId, 10)].supportedAssets
-      ).find(([address, tokenSymbol]) => {
+      ).find(([, tokenSymbol]) => {
         return tokenSymbol === srcChainTokenSymbol
       })
       if (!supportedAsset) {

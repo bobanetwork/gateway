@@ -70,7 +70,7 @@ const lookupMap = {
   tBNB: { provider: 'binancecoin' },
 }
 
-export const amountToUsd = (amount: number, lookupPrice, token) => {
+export const amountToUsd = (amount: number, lookupPrice = {}, token) => {
   const { symbol } = token
   if (!symbol) {
     return 0

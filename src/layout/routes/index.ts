@@ -12,7 +12,7 @@ import {
 } from '../../util/network/network.util'
 import { COMMON_ROUTES, ROUTE_LIST } from './routeList'
 
-export const Router = () => {
+const Router = () => {
   const routeList = ROUTE_LIST
   const [routes, setRoutes] = useState<RouteObject[]>([])
   const dispatch = useDispatch()

@@ -52,27 +52,13 @@ export const ConfirmActionButton = styled(Button)`
 export const SecondaryActionButton = styled(Button)`
   background: transparent;
   color: ${({ theme }) =>
-    theme.name === 'light' ? theme.colors.gray[400] : theme.colors.gray[100]};
+    theme.name === 'light' ? theme.colors.gray[800] : theme.colors.gray[100]};
   width: 100%;
   box-shadow: none;
   :hover {
     background: transparent;
     opacity: 75%;
   }
-`
-
-export const PassiveStepIcon = styled.div`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-left: 8px;
-  margin-right: 8px;
-  background-color: ${({ theme }) =>
-    theme.name === 'light' ? theme.colors.gray[600] : theme.colors.gray[400]};
-`
-
-export const PassiveStepIconActive = styled(PassiveStepIcon)`
-  background-color: ${(props) => props.theme.colors.green[300]};
 `
 
 export const Item = styled.div`
@@ -123,8 +109,7 @@ export const ActiveStepNumberIndicator = styled.div<CanBeActive>`
 
 export const PassiveStepperNumberIndicator = styled.p<CanBeActive>`
   position: relative;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin: 8px auto;
   padding-left: 40px;
   font-size: 16px;
   opacity: 0.5;
@@ -148,10 +133,10 @@ export const PassiveStepperNumberIndicator = styled.p<CanBeActive>`
 `
 
 export const Description = styled.p<CanBeActive>`
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   margin-left: 14px;
-  padding: 8px 24px;
+  padding: 2px 24px;
   border-left: 2px solid gray;
   font-size: 14px;
   opacity: 0.5;

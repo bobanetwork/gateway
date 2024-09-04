@@ -18,12 +18,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "jsx": "react",
     "baseUrl": "src",
     "types": [
       "node",
       "jest",
-      "cypress"
+      "testing-library__jest-dom"
     ],
   },
   "exclude": [
@@ -32,7 +34,5 @@
   ],
   "include": [
     "src"
-,
-"bin/abiCompressor.ts"
-]
+  ]
 }

@@ -36,6 +36,7 @@ const renderEarnComponent = ({ store }: any) => {
 describe('Earn ', () => {
   let store
   beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {})
     // @ts-ignore
     networkService.getL1LPInfo.mockImplementation(() =>
       Promise.resolve({ poolInfo: {}, userInfo: {} })

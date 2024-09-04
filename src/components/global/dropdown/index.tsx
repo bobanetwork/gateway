@@ -32,7 +32,7 @@ export interface IDropdownItem {
   imgType?: string
 }
 
-export interface IDropdownProps {
+interface IDropdownProps {
   error?: boolean
   items: IDropdownItem[]
   defaultItem: IDropdownItem
@@ -155,7 +155,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
           {selectedItem.imgSrc && (
             <IconContainer>{handleIcon(selectedItem)}</IconContainer>
           )}
-          <Typography variant="body2">{selectedItem.label}</Typography>
+          <Typography variant="body2" data-testid={`label-${testId}`}>
+            {selectedItem.label}
+          </Typography>
           {includeArrow && (
             <Arrow src={ArrowDown} className={`dropdown ${className}`} />
           )}

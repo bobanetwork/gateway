@@ -1,16 +1,16 @@
+import { setNetwork } from 'actions/networkAction'
+import { IDropdownItem } from 'components/global/dropdown'
+import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetworkType,
-  selectNetworkChainIds,
-  selectLayer,
   selectBridgeType,
+  selectLayer,
+  selectNetworkChainIds,
 } from 'selectors'
-import { NetworkList, CHAIN_ID_LIST, Network } from 'util/network/network.util'
-import { setNetwork } from 'actions/networkAction'
-import { useDispatch, useSelector } from 'react-redux'
-import { BRIDGE_TYPE } from 'containers/Bridging/BridgeTypeSelector'
+import { CHAIN_ID_LIST, NetworkList } from 'util/network/network.util'
 import { NetworkSelectorDropdown } from './styles'
-import { IDropdownItem } from 'components/global/dropdown'
 
 const NetworkDropdownHeading = {
   label: 'Networks',

@@ -1,7 +1,7 @@
 import { PopoverOrigin } from '@mui/material/Popover'
-import { ComponentType, ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
-export interface OptionProps {
+interface OptionProps {
   label?: string
   component?: ReactElement<any>
   onClick?: (d: any) => void

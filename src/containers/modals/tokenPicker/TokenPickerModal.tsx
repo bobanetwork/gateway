@@ -1,17 +1,17 @@
-import React, { FC, useEffect, useState } from 'react'
 import {
-  setTeleportationOfAssetSupported,
   setTeleportationDisburserBalance,
+  setTeleportationOfAssetSupported,
   updateToken,
 } from 'actions/bridgeAction'
 import {
   fetchBalances,
   getDisburserBalance,
-  isTeleportationOfAssetSupported,
+  isLightBridgeTokenSupported,
 } from 'actions/networkAction'
 import { closeModal } from 'actions/uiAction'
+import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import Modal from 'components/modal/Modal'
-import { isEqual } from 'util/lodash'
+import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectActiveNetwork,
@@ -24,7 +24,11 @@ import {
   selectTokenToBridge,
 } from 'selectors'
 import { getCoinImage } from 'util/coinImage'
+import { formatTokenAmount } from 'util/common'
 import { LAYER } from 'util/constant'
+import { isEqual } from 'util/lodash'
+import { NetworkList } from '../../../util/network/network.util'
+import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
 import {
   ActionLabel,
   ListLabel,
@@ -38,17 +42,11 @@ import {
   TokenSearchInput,
   TokenSymbol,
 } from './styles'
-import { formatTokenAmount } from 'util/common'
-import { Network, NetworkList } from '../../../util/network/network.util'
-import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
-import { BRIDGE_TYPE } from '../../Bridging/BridgeTypeSelector'
-import { constants, ethers } from 'ethers'
 
 import { lightBridgeGraphQLService } from '@bobanetwork/graphql-utils'
-import { bridgeConfig } from './config'
-import { NETWORK_L2_OPTIONS } from '../../history/constants'
-import { optimismConfig } from '../../../util/network/config/optimism'
 import { arbitrumConfig } from '../../../util/network/config/arbitrum'
+import { optimismConfig } from '../../../util/network/config/optimism'
+import { bridgeConfig } from './config'
 // the L2 token which can not be exited so exclude from dropdown in case of L2
 const NON_EXITABLE_TOKEN = [
   'OLO',
@@ -64,7 +62,7 @@ interface TokenPickerModalProps {
   tokenIndex: number
 }
 
-const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
+const TokenPickerModal: FC<TokenPickerModalProps> = ({ open }) => {
   const layer = useSelector(selectLayer())
   const dispatch = useDispatch<any>()
 
@@ -139,14 +137,14 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
   const onTokenSelect = async (token: any) => {
     dispatch(updateToken({ token, tokenIndex: 0 }))
 
-    const destChainId =
-      destTeleportationChainId ??
-      NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
-        .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
-
     if (bridgeType === BRIDGE_TYPE.LIGHT) {
+      const destChainId =
+        destTeleportationChainId ??
+        NetworkList[activeNetworkType].find((n) => n.chain === activeNetwork)
+          .chainId[layer === LAYER.L1 ? LAYER.L2 : LAYER.L1]
+
       const isSupported = await dispatch(
-        isTeleportationOfAssetSupported(layer, token.address, destChainId)
+        isLightBridgeTokenSupported(layer, token.address, destChainId)
       )
       const sourceChainId = NetworkList[activeNetworkType].find(
         (n) => n.chain === activeNetwork
@@ -191,7 +189,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
         <TokenPickerList title="tokenList">
           {balances.length > 0
             ? balances
-                .filter((token: any, index: number) => {
+                .filter((token: any) => {
                   if (layer === LAYER.L2) {
                     return !(NON_EXITABLE_TOKEN.indexOf(token.symbol) > 0)
                   }
@@ -214,6 +212,7 @@ const TokenPickerModal: FC<TokenPickerModalProps> = ({ open, tokenIndex }) => {
                   return (
                     <TokenListItem
                       key={token.symbol}
+                      data-testid={`token-${token.symbol}`}
                       selected={token.symbol === tokenToBridge?.symbol}
                       onClick={() =>
                         onTokenSelect({

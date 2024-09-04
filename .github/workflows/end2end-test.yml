@@ -1,65 +1,75 @@
-name: End2End test (non-headless)
-permissions: read-all
+name: Integration Test
 
-on:
+on: 
+  push: 
+    branches: ['main', 'master']
   pull_request:
+  workflow_dispatch:
 
 jobs:
-  End-to-End-Test:
-    name: Integration Test
+  e2e-test:
+    name: Playwright Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node
+        uses: actions/checkout@v4
+      - name: Setup Node 16
         uses: actions/setup-node@v4
         with:
           node-version: 16.17.0
           cache: 'yarn'
-      - name: Setup Cache Node Modules, Cypress
-        id: cache-node-modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Install dependencies
-        run: yarn
-      - uses: actions/cache/save@v3
-        if: ${{steps.cache-node-modules.outputs.cache-hit != 'true'}}
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-      - name: Install linux deps
+      - name: Install linux deps (xvfb / fluxbox)
         run: |
           sudo apt-get install --no-install-recommends -y \
           fluxbox \
           xvfb
-      - name: Run E2E Test (non-headless)
+      - name: Install yarn dependencies
+        run: yarn
+      - name: Build Gateway Project
         working-directory: ./
         run: |
-          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-          fluxbox & yarn test:integration
+          yarn && yarn build:prod
         env:
           REACT_APP_POLL_INTERVAL: 15000
+          REACT_APP_GAS_POLL_INTERVAL: 30000
           SKIP_PREFLIGHT_CHECK: true
-          REACT_APP_WALLET_VERSION: 0.9.1
-          REACT_APP_ENV: prod
-          REACT_APP_STATUS: normal
-          CYPRESS_REMOTE_DEBUGGING_PORT: 9222
-          NETWORK_NAME: 'goerli'
+          REACT_APP_WALLET_VERSION: 0.14.9
+          REACT_APP_ENV: local
+          REACT_APP_ENABLE_ANCHORAGE: true
+          REACT_APP_WC_PROJECT_ID: ${{secrets.WC_PROJECT_ID}}
+          REACT_APP_GA4_MEASUREMENT_ID: ${{secrets.GA4_MEASUREMENT_ID}}
+          REACT_APP_SENTRY_DSN: ${{secrets.SENTRY_DSN}}
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install PNPM deps e2e-tests
+        working-directory: ./e2e-tests
+        run: |
+          npm install -g pnpm && pnpm install --frozen-lockfile  && npx playwright install
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run e2e test (headful)
+        working-directory: ./e2e-tests
+        run: |
+          Xvfb :0 -screen 0 1920x1080x24 -listen tcp -ac &
+          fluxbox &
+          pnpm start:server & 
+          pnpm test
+        env:
+          PASSWORD: ${{secrets.PASSWORD}}
+          NETWORK: 'sepolia'
           SECRET_WORDS: ${{secrets.SECRET_WORDS}}
+          METAMASK_VERSION: 10.25.0
           DISPLAY: :0.0
-          CYPRESS_ENABLE_VIDEO: true
       - name: Upload Archive e2e artifacts
         uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ !cancelled() }}
         with:
-          name: e2e-archive
+          name: e2e-reports
+          retention-days: 3
           path: |
-            ./cypress/videos/
-            ./cypress/screenshots/
+            ./e2e-tests/videos/
+            ./e2e-tests/playwright-report/
+            ./e2e-tests/test-results/
         continue-on-error: true

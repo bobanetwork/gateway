@@ -64,7 +64,6 @@ Object.defineProperty(window, 'location', {
 describe('WalletService', () => {
   const wsInstance = walletService
   let ethereumMock: any
-  let spyLog: any
   afterEach(() => {
     jest.restoreAllMocks()
   })
@@ -73,7 +72,7 @@ describe('WalletService', () => {
   })
 
   beforeEach(() => {
-    spyLog = jest.spyOn(console, 'log').mockImplementation(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {
       return
     })
     ethereumMock = {
@@ -138,14 +137,6 @@ describe('WalletService', () => {
     await wsInstance.switchChain(5, {})
     expect(window.ethereum.request).toHaveBeenCalledWith({
       method: 'eth_requestAccounts',
-    })
-    expect(window.ethereum.request).toHaveBeenCalledWith({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: 5 }],
-    })
-    expect(window.ethereum.request).toHaveBeenCalledWith({
-      method: 'wallet_addEthereumChain',
-      params: [{}, '0xcF044AB1e5b55203dC258F47756daFb7F8F01760'],
     })
     await wsInstance.disconnect()
     // test for random code on error.

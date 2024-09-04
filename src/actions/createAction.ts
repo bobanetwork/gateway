@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import * as Sentry from '@sentry/react'
+import { ERROR_CODE } from 'util/constant'
 
 export const createAction =
   (key: string, asyncAction: () => any): any =>
@@ -66,8 +67,8 @@ export const createAction =
             errorMessage = 'Transaction rejected by user!'
           }
         } else {
-          errorMessage = response.reason
-          Sentry.captureMessage(response.reason || '')
+          errorMessage = response.message
+          Sentry.captureMessage(response.message || '')
         }
 
         if (response.reason?.includes('could not detect network')) {
@@ -91,6 +92,13 @@ export const createAction =
         }
 
         dispatch({ type: `UI/ERROR/UPDATE`, payload: errorMessage })
+        dispatch({ type: `${key}/ERROR` })
+        return false
+      } else if (
+        response.hasOwnProperty('message') &&
+        response.message.includes(ERROR_CODE)
+      ) {
+        dispatch({ type: `UI/ERROR/UPDATE`, payload: response.message })
         dispatch({ type: `${key}/ERROR` })
         return false
       }
