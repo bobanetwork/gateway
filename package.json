@@ -105,7 +105,7 @@
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-jsdoc": "^46.9.1",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-prettier": "^5.0.1",
