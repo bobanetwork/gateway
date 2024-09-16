@@ -1,8 +1,8 @@
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { Button } from '@/components/ui/button'
 import { EnvelopeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { Input } from "@/components/ui/input";
-import { Label } from "./components/ui/label";
+import { Input, Label } from "@/components/ui";
+import ThemeToggleButton from "@/components/layout/ThemeToggle";
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
@@ -29,6 +29,7 @@ function App() {
       </div>
 
       <div>
+        <ThemeToggleButton />
         <h2>Connect</h2>
         {connectors.map((connector, index) => (
           <Button className="mx-2" key={connector.uid} variant={index % 2 == 0 ? "outline" : "default"} onClick={() => connect({ connector })} type="button">
