@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="container mx-auto px-4">
         <h2>Account</h2>
 
         <div>
@@ -29,9 +29,7 @@ function App() {
             Disconnect
           </Button>
         )}
-      </div>
 
-      <div>
         <ThemeToggleButton />
         <h2>Connect</h2>
         {connectors.map((connector, index) => (

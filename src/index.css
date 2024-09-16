@@ -1,34 +1,13 @@
-/* MontSerrat Fonts installation */
+/* Montserrat and Inter Fonts Installation */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Optional Tailwind base styles */
+/* Optional Tailwind Base Styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root {
-  background-color: #181818;
-  color: rgba(255, 255, 255, 0.87);
-  color-scheme: light dark;
-  font-family: 'Inter', sans-serif;
-  font-synthesis: none;
-  font-weight: 400;
-  line-height: 1.5;
-  text-rendering: optimizeLegibility;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-/* review and fix this with correct setup. */
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: #f8f8f8;
-    color: #181818;
-  }
-}
 
 /*
+  NOTE:
     Light Mode (:root): Mapped the colors from your provided palette to the appropriate variables. --background,
     --card,
     --popover: Set to Gray 50 (#FCFCFD). --primary: Set to Green 300 (Main Green). --secondary,
@@ -41,127 +20,112 @@
     --border,
     etc.: Updated with the darker shades. --destructive: Set to Dark Red 300 for error states.
 */
+
+
 @layer base {
   :root {
     /* Light Mode Colors */
-      --background: #FCFCFD;
-      /* Gray 50 */
-      --foreground: #22221E;
-      /* Gray 800 */
-      --card: #FCFCFD;
-      /* Same as background */
-      --card-foreground: #22221E;
-      /* Same as foreground */
-      --popover: #FCFCFD;
-      /* Same as background */
-      --popover-foreground: #22221E;
-      /* Same as foreground */
+    --background: #FCFCFD; /* Gray 50 */
+    --foreground: #22221E; /* Gray 800 */
+    --card: #FCFCFD; /* Same as background */
+    --card-foreground: #22221E; /* Same as foreground */
+    --popover: #FCFCFD; /* Same as background */
+    --popover-foreground: #22221E; /* Same as foreground */
     
-      --primary: #AEDB01;
-      /* Green 300 - Main Green */
-      --primary-foreground: #FFFFFF;
-      /* Assuming white text on primary */
+    --primary: #AEDB01; /* Green 300 - Main Green */
+    --primary-foreground: #FFFFFF; /* White text on primary */
     
-      --secondary: #DEE0D8;
-      /* Gray 400 */
-      --secondary-foreground: #22221E;
-      /* Foreground on secondary */
+    --secondary: #DEE0D8; /* Gray 400 */
+    --secondary-foreground: #22221E; /* Foreground on secondary */
     
-      --muted: #F0F1EA;
-      /* Gray 100 */
-      --muted-foreground: #5E6058;
-      /* Gray 700 */
+    --muted: #F0F1EA; /* Gray 100 */
+    --muted-foreground: #5E6058; /* Gray 700 */
     
-      --accent: #90B406;
-      /* Green 400 */
-      --accent-foreground: #22221E;
-      /* Foreground on accent */
+    --accent: #90B406; /* Green 400 */
+    --accent-foreground: #22221E; /* Foreground on accent */
     
-      --destructive: #A52015;
-      /* Red 300 */
-      --destructive-foreground: #FFFFFF;
-      /* White text on destructive */
+    --destructive: #A52015; /* Red 300 */
+    --destructive-foreground: #FFFFFF; /* White text on destructive */
     
-      --border: #C8CAC2;
-      /* Gray 500 */
-      --input: #E5E5E1;
-      /* Gray 200 */
-      --ring: #4972DA;
-      /* Information 300 */
+    --border: #C8CAC2; /* Gray 500 */
+    --input: #E5E5E1; /* Gray 200 */
+    --ring: #4972DA; /* Information 300 */
     
-      /* Charts */
-      --chart-1: #F5B441;
-      /* Yellow 300 */
-      --chart-2: #BEE234;
-      /* Green 200 */
-      --chart-3: #6E8EE1;
-      /* Information 200 */
-      --chart-4: #936C27;
-      /* Yellow 400 */
-      --chart-5: #A52015;
-      /* Red 300 */
+    /* Charts */
+    --chart-1: #F5B441; /* Yellow 300 */
+    --chart-2: #BEE234; /* Green 200 */
+    --chart-3: #6E8EE1; /* Information 200 */
+    --chart-4: #936C27; /* Yellow 400 */
+    --chart-5: #A52015; /* Red 300 */
     
-      /* Border radius */
+    /* Border Radius */
     --radius: 0.5rem;
   }
+
   .dark {
     /* Dark Mode Colors */
-      --background: #191919;
-      /* Dark Gray 600 */
-      --foreground: #EEEEEE;
-      /* Dark Gray 50 */
-      --card: #191919;
-      /* Same as background */
-      --card-foreground: #EEEEEE;
-      /* Same as foreground */
-      --popover: #191919;
-      /* Same as background */
-      --popover-foreground: #EEEEEE;
-      /* Same as foreground */
+    --background: #191919; /* Dark Gray 600 */
+    --foreground: #EEEEEE; /* Light Gray 50 */
+    --card: #191919; /* Same as background */
+    --card-foreground: #EEEEEE; /* Same as foreground */
+    --popover: #191919; /* Same as background */
+    --popover-foreground: #EEEEEE; /* Same as foreground */
     
-      --primary: #AEDB01;
-      /* Dark Green 300 - Main Green */
-      --primary-foreground: #FFFFFF;
-      /* Assuming white text on primary */
+    --primary: #AEDB01; /* Dark Green 300 - Main Green */
+    --primary-foreground: #FFFFFF; /* White text on primary */
     
-      --secondary: #393939;
-      /* Dark Gray 400 */
-      --secondary-foreground: #EEEEEE;
-      /* Foreground on secondary */
+    --secondary: #393939; /* Dark Gray 400 */
+    --secondary-foreground: #EEEEEE; /* Foreground on secondary */
     
-      --muted: #545454;
-      /* Dark Gray 300 */
-      --muted-foreground: #A8A8A8;
-      /* Dark Gray 100 */
+    --muted: #545454; /* Dark Gray 300 */
+    --muted-foreground: #A8A8A8; /* Dark Gray 100 */
     
-      --accent: #90B406;
-      /* Dark Green 400 */
-      --accent-foreground: #EEEEEE;
-      /* Foreground on accent */
+    --accent: #90B406; /* Dark Green 400 */
+    --accent-foreground: #EEEEEE; /* Foreground on accent */
     
-      --destructive: #D84F4F;
-      /* Dark Red 300 */
-      --destructive-foreground: #FFFFFF;
-      /* White text on destructive */
+    --destructive: #D84F4F; /* Dark Red 300 */
+    --destructive-foreground: #FFFFFF; /* White text on destructive */
     
-      --border: #5F5F5F;
-      /* Dark Gray 200 */
-      --input: #5F5F5F;
-      /* Same as border */
-      --ring: #4A72DA;
-      /* Dark Information 300 */
+    --border: #5F5F5F; /* Dark Gray 200 */
+    --input: #5F5F5F; /* Same as border */
+    --ring: #4A72DA; /* Dark Information 300 */
     
-      /* Charts */
-      --chart-1: #F5B441;
-      /* Dark Yellow 300 */
-      --chart-2: #BEE234;
-      /* Dark Green 200 */
-      --chart-3: #6E8EE1;
-      /* Dark Information 200 */
-      --chart-4: #936C27;
-      /* Dark Yellow 400 */
-      --chart-5: #D84F4F;
-      /* Dark Red 300 */
+    /* Charts */
+    --chart-1: #F5B441; /* Dark Yellow 300 */
+    --chart-2: #BEE234; /* Dark Green 200 */
+    --chart-3: #6E8EE1; /* Dark Information 200 */
+    --chart-4: #936C27; /* Dark Yellow 400 */
+    --chart-5: #D84F4F; /* Dark Red 300 */
+  }
+}
+
+:root {
+  background-color: var(--background);
+  color: var(--foreground);
+  color-scheme: light dark;
+  font-family: 'Inter', sans-serif;
+  font-synthesis: none;
+  font-weight: 400;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+/* Light Mode Styles */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #FCFCFD;
+    --text-color: #22221E;
+  }
+}
+
+/* Dark Mode Styles */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #191919;
+    --text-color: #EEEEEE;
   }
 }
 
