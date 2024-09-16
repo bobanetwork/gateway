@@ -33,46 +33,140 @@ export default {
 				xs: ['0.75rem','1rem'],      // 12px, 0.75rem
 			},
 			colors: {
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
+				background: 'var(--background)',
+				foreground: 'var(--foreground)',
 				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
+					DEFAULT: 'var(--card)',
+					foreground: 'var(--card-foreground)'
 				},
 				popover: {
-					DEFAULT: 'hsl(var(--popover))',
-					foreground: 'hsl(var(--popover-foreground))'
+					DEFAULT: 'var(--popover)',
+					foreground: 'var(--popover-foreground)'
 				},
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: 'var(--primary)',
+					foreground: 'var(--primary-foreground)'
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: 'var(--secondary)',
+					foreground: 'var(--secondary-foreground)'
 				},
 				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
+					DEFAULT: 'var(--muted)',
+					foreground: 'var(--muted-foreground)'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: 'var(--accent)',
+					foreground: 'var(--accent-foreground)'
 				},
 				destructive: {
-					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
+					DEFAULT: 'var(--destructive)',
+					foreground: 'var(--destructive-foreground)'
 				},
-				border: 'hsl(var(--border))',
-				input: 'hsl(var(--input))',
-				ring: 'hsl(var(--ring))',
+				border: 'var(--border)',
+				input: 'var(--input)',
+				ring: 'var(--ring)',
 				chart: {
-					'1': 'hsl(var(--chart-1))',
-					'2': 'hsl(var(--chart-2))',
-					'3': 'hsl(var(--chart-3))',
-					'4': 'hsl(var(--chart-4))',
-					'5': 'hsl(var(--chart-5))'
-				}
+					'1': 'var(--chart-1)',
+					'2': 'var(--chart-2)',
+					'3': 'var(--chart-3)',
+					'4': 'var(--chart-4)',
+					'5': 'var(--chart-5)'
+				},
+				gray: {
+					50: '#FCFCFD', // Opacity: 90%
+					100: '#F0F1EA',
+					200: '#E5E5E1',
+					300: '#FCFCFD',
+					400: '#DEE0D8',
+					500: '#C8CAC2',
+					600: '#8F9288',
+					700: '#5E6058',
+					800: '#22221E',
+				},
+				green: {
+					50: '#EFF8CC',
+					100: '#CEE967',
+					200: '#BEE234',
+					300: '#AEDB01', // Main Green
+					400: '#90B406',
+					500: '#637A0D',
+					600: '#232C00',
+				},
+				red: {
+					50: '#F3D8DB',
+					100: '#EEC8CC',
+					200: '#C97973',
+					300: '#A52015',
+					400: '#841A11',
+					500: '#692327',
+					600: '#210604',
+				},
+				yellow: {
+					50: '#FDF0D9',
+					100: '#F9D28D',
+					200: '#F7C367',
+					300: '#F5B441',
+					400: '#936C27',
+					500: '#62481A',
+					600: '#31240D',
+				},
+				information: {
+					50: '#DBE3F8',
+					100: '#B7C7F0',
+					200: '#6E8EE1',
+					300: '#4972DA',
+					400: '#3B5BAE',
+					500: '#1E2E57',
+					600: '#0F172C',
+				},
+
+				// Dark mode colors
+				'dark-gray': {
+					50: '#EEEEEE',
+					100: '#A8A8A8',
+					200: '#5F5F5F',
+					300: '#545454',
+					400: '#393939',
+					500: '#262626',
+					600: '#191919',
+				},
+				'dark-green': {
+					50: '#EFF8CC',
+					100: '#CEE967',
+					200: '#BEE234',
+					300: '#AEDB01', // Main Green
+					400: '#90B406',
+					500: '#637A0D',
+					600: '#232C00',
+				},
+				'dark-red': {
+					50: '#F7DCDC',
+					100: '#EFB9B9',
+					200: '#E07272',
+					300: '#D84F4F',
+					400: '#822F2F',
+					500: '#562020',
+					600: '#2B1010',
+				},
+				'dark-yellow': {
+					50: '#FDF0D9',
+					100: '#F9D28D',
+					200: '#F7C367',
+					300: '#F5B441',
+					400: '#936C27',
+					500: '#62481A',
+					600: '#31240D',
+				},
+				'dark-information': {
+					50: '#DBE3F8',
+					100: '#B7C7F0',
+					200: '#6E8EE1',
+					300: '#4A72DA',
+					400: '#3B5BAE',
+					500: '#1E2E57',
+					600: '#0F172C',
+				},
 			}
 		}
 	},

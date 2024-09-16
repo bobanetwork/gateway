@@ -1,9 +1,11 @@
-import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { Button } from '@/components/ui/button'
-import { EnvelopeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { Input, Label } from "@/components/ui";
 import ThemeToggleButton from "@/components/layout/ThemeToggle";
+import { Input, Label } from "@/components/ui";
+import { Button } from '@/components/ui/button';
+import { EnvelopeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import Text from "./components/ui/text";
+import ColorTiles from "./theme/colorTiles";
+import Fonts from "./theme/fonts";
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
@@ -60,40 +62,10 @@ function App() {
           </div>
         </div>
 
-        <div className="flex justify-center">
-          <div className="mt-2 mx-auto rounded-sm p-3 w-12/4">
-            📓 Montserrat
-            <Text fontFamily="montserrat" variant="3xl"> 3xl Top level heading goes</Text>
-            <Text fontFamily="montserrat" variant="2xl"> 2xl</Text>
-            <Text fontFamily="montserrat" variant="xl"> xl</Text>
-            <Text fontFamily="montserrat" align="center" variant="lg"> lg cneter aligned Text</Text>
-            <Text fontFamily="montserrat" align="center" variant="md"> md cneter aligned Text</Text>
-            <Text fontFamily="montserrat" align="right" variant="sm"> sm right aligned</Text>
-            <Text fontFamily="montserrat" variant="xs"> xs</Text>
-          </div>
-          <div className="mt-2 mx-auto rounded-sm p-3 w-12/4">
-            📓 Inter
-            <Text fontWeight="bold" variant="lg">Large</Text>
-            <Text fontWeight="bold" variant="md">Medium</Text>
-            <Text fontWeight="bold" variant="sm">Small</Text>
-            📓 Inter- semibold
-            <Text fontWeight="semibold" variant="lg">Large</Text>
-            <Text fontWeight="semibold" variant="md">Medium</Text>
-            <Text fontWeight="semibold" variant="sm">Small</Text>
-            📓 Inter- medium
-            <Text fontWeight="medium" variant="lg">Large</Text>
-            <Text fontWeight="medium" variant="md">Medium</Text>
-            <Text fontWeight="medium" variant="sm">Small</Text>
-            📓 Inter- regular
-            <Text fontWeight="normal" variant="md">Medium</Text>
-            <Text fontWeight="normal" variant="sm">Small</Text>
-            📓 Inter- light
-            <Text fontWeight="light" variant="sm">Small</Text>
-          </div>
-        </div>
-
-
-
+        <Text variant="3xl"> Colors </Text>
+        <ColorTiles />
+        <Text variant="3xl"> Fonts </Text>
+        <Fonts />
       </div>
     </>
   );
