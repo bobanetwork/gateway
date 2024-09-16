@@ -6,6 +6,7 @@ import Text from "./components/ui/text";
 import ButtonLists from "./theme/buttons";
 import ColorTiles from "./theme/colorTiles";
 import Fonts from "./theme/fonts";
+import ToastListContainer from "./theme/toast";
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
@@ -42,6 +43,7 @@ function App() {
         <div>{status}</div>
         <div>{error?.message}</div>
 
+        <ToastListContainer />
         <ButtonLists />
 
         <h2>Input</h2>
