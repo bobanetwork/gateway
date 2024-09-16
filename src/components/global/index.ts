@@ -1,7 +1,0 @@
-export * from './IconLabel'
-export * from './button'
-export * from './switch'
-export * from './typography'
-export * from './heading'
-export * from './svg'
-export * from './table'

@@ -1,0 +1,11 @@
+ - [ ] Cleanup old code
+ - [ ] Disable the github actions
+ - [ ] Setup vite project with pnpm 
+ - [ ] Setup view and web kit from wallet connect.
+ - [ ] Install and setup shadcn ui basic structure
+ - [ ] Install and setup tailwind with less work of coding
+ - [ ] Validate wallet connection with MM & other supported wallets.
+ - [ ] Setup unit testing with jest
+ - [ ] Setup integration with synpress 4-beta
+ - [ ] Make sure on reload wallet should stay connected. 
+ - [ ] Theme should work seemlessly.

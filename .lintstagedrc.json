@@ -1,9 +1,0 @@
-{
-  "*.{ts,tsx}": [
-    "yarn format:fix",
-    "yarn lint:fix"
-  ],
-  "!(__tests__|*test|styles).{ts,tsx}": [
-    "yarn test --passWithNoTests"
-  ]
-}
