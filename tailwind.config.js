@@ -12,6 +12,26 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			fontFamily: {
+				montserrat: ['Montserrat','sans-serif'], // Montserrat Bold
+				inter: ['Inter','sans-serif'], // Inter Font with different weights
+			},
+			fontWeight: {
+				light: 300,     // Inter Light
+				normal: 400,    // Inter Regular
+				medium: 500,    // Inter Medium
+				semibold: 600,  // Inter Semibold
+				bold: 700,      // Inter Bold / Montserrat Bold
+			},
+			fontSize: {
+				'3xl': ['2.25rem','2.5rem'], // 36px, 2.25rem
+				'2xl': ['1.5rem','2rem'],    // 24px, 1.5rem
+				xl: ['1.25rem','1.75rem'],   // 20px, 1.25rem
+				lg: ['1.125rem','1.5rem'],   // 18px, 1.125rem
+				md: ['1rem','1.5rem'],       // 16px, 1rem
+				sm: ['0.875rem','1.25rem'],  // 14px, 0.875rem
+				xs: ['0.75rem','1rem'],      // 12px, 0.75rem
+			},
 			colors: {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
