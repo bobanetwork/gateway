@@ -10,20 +10,21 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+          "bg-primary text-gray-800 shadow hover:bg-green-400 dark:hover:bg-dark-green-400",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background shadow-sm border-gray-500 dark:border-dark-gray-200 hover:border-gray-600 hover:bg-gray-100 dark:hover:bg-background dark:hover:border-dark-gray-50 dark:md:hover:text-dark-gray-50 hover:text-gray-800",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-gray-800 dark:hover:text-dark-gray-50 hover:bg-gray-100 dark:hover:bg-dark-gray-400",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
+        sm: 'px-2.5 py-4 text-sm h-9', // 10 16 10 16 | size 14, lh 17.07
+        md: 'px-3 py-5 text-base h-9', // 12 24 12 24 | size 14, lh 17.5
+        lg: 'px-3.5 py-6 text-lg h-9', // 14 28 14 28  | size 18, lh 25
         icon: "h-9 w-9",
       },
     },

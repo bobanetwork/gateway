@@ -1,9 +1,9 @@
 import ThemeToggleButton from "@/components/layout/ThemeToggle";
 import { Input, Label } from "@/components/ui";
 import { Button } from '@/components/ui/button';
-import { EnvelopeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import Text from "./components/ui/text";
+import ButtonLists from "./theme/buttons";
 import ColorTiles from "./theme/colorTiles";
 import Fonts from "./theme/fonts";
 function App() {
@@ -35,21 +35,16 @@ function App() {
         <ThemeToggleButton />
         <h2>Connect</h2>
         {connectors.map((connector, index) => (
-          <Button className="mx-2" key={connector.uid} variant={index % 2 == 0 ? "outline" : "default"} onClick={() => connect({ connector })} type="button">
+          <Button className="mx-2" key={connector.uid} variant={index % 2 == 0 ? "outline" : "default"}
+            size="sm"
+            onClick={() => connect({ connector })} type="button">
             {connector.name}
           </Button>
         ))}
         <div>{status}</div>
         <div>{error?.message}</div>
-        <Button variant="default">Primary</Button>
-        <Button variant="secondary">Outlined</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="outline"> <EnvelopeOpenIcon className="mr-2 h-4 w-4" /> link</Button>
-        <Button disabled>
-          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-          Please wait
-        </Button>
+
+        <ButtonLists />
 
         <h2>Input</h2>
         <div className="m-2 p-4 rounded">
