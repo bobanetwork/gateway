@@ -4,6 +4,7 @@ import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { IconAlertCircle, IconAlertHexagon, IconAlertTriangle, IconCircleCheck } from "@tabler/icons-react"
 
 const ToastProvider = ToastPrimitives.Provider
 
@@ -23,13 +24,17 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 
 const toastVariants = cva(
-  "group pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded-md border p-4 pr-6 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full",
+  "group pointer-events-auto relative flex w-full items-center space-x-2 overflow-hidden rounded-md border p-4 pr-6 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full",
   {
     variants: {
       variant: {
-        default: "border bg-background text-foreground",
+        default: "rounded-2xl border-0 bg-information-50 text-information-500 dark:bg-dark-information-500 dark:text-dark-information-100",
         destructive:
-          "destructive group border-destructive bg-destructive text-destructive-foreground",
+          "rounded-2xl destructive group border-destructive bg-destructive text-destructive-foreground",
+        info: "rounded-2xl border-0 bg-information-50 text-information-500 dark:bg-dark-information-500 dark:text-dark-information-100",
+        error: "rounded-2xl border-0 bg-red-50 text-red-500 dark:bg-dark-red-500 dark:text-dark-red-300",
+        success: "rounded-2xl border-0 bg-green-50 text-green-500 dark:bg-dark-green-500 dark:text-dark-green-50",
+        warning: "rounded-2xl border-0 bg-yellow-50 text-yellow-500 dark:bg-dark-yellow-500 dark:text-dark-yellow-50",
       },
     },
     defaultVariants: {
@@ -114,6 +119,30 @@ type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
 
 type ToastActionElement = React.ReactElement<typeof ToastAction>
 
+const icons = {
+  success: <IconCircleCheck className="w-6 h-6 mr-2" />,
+  error: <IconAlertCircle className="w-6 h-6 mr-2" />,
+  warning: <IconAlertTriangle className="w-6 h-6 mr-2" />,
+  info: <IconAlertCircle className="w-6 h-6 mr-2" />,
+  default: <IconAlertCircle className="w-6 h-6 mr-2" />,
+  destructive: <IconAlertHexagon className="w-6 h-6 mr-2" />,
+};
+
+type ToastVariant = 'success' | 'error' | 'warning' | 'info' | 'default' | 'destructive' | undefined | null;
+
+interface ToastIconProps {
+  variant?: ToastVariant
+}
+
+const ToastIcon: React.FC<ToastIconProps> = ({ variant }) => {
+
+  if (!variant) {
+    return <></>;
+  }
+
+  return <>{icons[variant]}</>
+}
+
 export {
   type ToastProps,
   type ToastActionElement,
@@ -124,4 +153,5 @@ export {
   ToastDescription,
   ToastClose,
   ToastAction,
+  ToastIcon
 }

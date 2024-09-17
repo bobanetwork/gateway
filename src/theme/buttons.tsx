@@ -7,7 +7,7 @@ interface Props {
 
 const ButtonLists = (props: Props) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 flex-wrap">
       <div className="flex flex-col gap-2 py-2">
         <Text variant="2xl">Primary</Text>
         <div className="flex gap-2">

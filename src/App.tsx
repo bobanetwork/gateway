@@ -6,7 +6,7 @@ import Text from "./components/ui/text";
 import ButtonLists from "./theme/buttons";
 import ColorTiles from "./theme/colorTiles";
 import Fonts from "./theme/fonts";
-import ToastListContainer from "./theme/toast";
+import ToastListContainer from "@/theme/toastListContainer";
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();

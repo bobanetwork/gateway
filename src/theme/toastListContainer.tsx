@@ -14,32 +14,43 @@ const ToastListContainer = () => {
       <div className="flex justify-center gap-2">
         <Button variant="outline" onClick={() => {
           toast({
+            title: "[Default Text Here]",
+          })
+        }}>
+          <IconAlertCircle className="w-4 h-4 mr-2" /> Default
+        </Button>
+        <Button variant="outline" onClick={() => {
+          toast({
             title: "[Information Text Here]",
-            variant: "default"
+            description: "There was a problem with your request.",
+            variant: "info"
           })
         }}>
           <IconAlertCircle className="w-4 h-4 mr-2" /> Information
         </Button>
         <Button variant="outline" onClick={() => {
           toast({
-            title: "[Information Text Here]",
-            variant: "destructive"
+            title: "[Warning Text Here]",
+            description: "There was a problem with your request.",
+            variant: "warning"
           })
         }}>
           <IconAlertTriangle className="w-4 h-4 mr-2" /> Warning
         </Button>
         <Button variant="outline" onClick={() => {
           toast({
-            title: "[Information Text Here]",
-            variant: "default"
+            title: "[Error Text Here]",
+            description: "There was a problem with your request.",
+            variant: "error"
           })
         }}>
           <IconAlertCircle className="w-4 h-4 mr-2" /> Error
         </Button>
         <Button variant="outline" onClick={() => {
           toast({
-            title: "[Information Text Here]",
-            variant: "default"
+            title: "[Success Text Here]",
+            description: "There was a problem with your request.",
+            variant: "success"
           })
         }}>
           <IconCircleCheck className="w-4 h-4 mr-2" /> Success
