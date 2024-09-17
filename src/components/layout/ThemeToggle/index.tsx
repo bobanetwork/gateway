@@ -18,9 +18,9 @@ const ThemeToggleButton = () => {
 
   return (
     <Button variant="ghost" size="icon" onClick={toggle}>
-      {isDarkMode ?
-        <IconMoon className="h-4 w-4" /> :
-        <IconSun className="h-4 w-4" />}
+      {!isDarkMode ?
+        <IconMoon className="h-5 w-5 stroke-gray-600 dark:stroke-dark-gray-100" /> :
+        <IconSun className="h-5 w-5 stroke-gray-600 dark:stroke-dark-gray-100" />}
     </Button >
   )
 }

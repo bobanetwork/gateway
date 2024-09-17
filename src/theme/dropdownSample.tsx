@@ -15,6 +15,7 @@ const DropdownSample = () => {
             <Button size="sm" variant="outline">Fee</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
+            alignOffset={5}
             align="end"
             className="z-10 border shadow-xl rounded-lg p-2 border-gray-500 bg-gray-50 dark:bg-dark-gray-500 dark:text-gray-100 dark:border-dark-gray-400"
           >
@@ -35,6 +36,7 @@ const DropdownSample = () => {
             <Button size="sm" variant="outline">Network</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
+            alignOffset={5}
             align="end"
             className="z-10 border shadow-xl rounded-lg p-2 border-gray-500 bg-gray-50 dark:bg-dark-gray-500 dark:text-gray-100 dark:border-dark-gray-400"
           >
@@ -57,6 +59,7 @@ const DropdownSample = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
+            alignOffset={5}
             align="end"
             className="z-10 border shadow-xl rounded-lg p-2 border-gray-500 bg-gray-50 dark:bg-dark-gray-500 dark:text-gray-100 dark:border-dark-gray-400"
           >
@@ -125,6 +128,7 @@ const DropdownSample = () => {
             <Button size="sm" variant="outline">Network List</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
+            alignOffset={5}
             align="end"
             className="z-10 border shadow-xl rounded-lg p-2 border-gray-500 bg-gray-50 dark:bg-dark-gray-500 dark:text-gray-100 dark:border-dark-gray-400"
           >
@@ -200,6 +204,7 @@ const DropdownSample = () => {
             <Button size="sm" variant="outline">Statuses</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
+            alignOffset={5}
             align="end"
             className="z-10 border shadow-xl rounded-lg p-2 border-gray-500 bg-gray-50 dark:bg-dark-gray-500 dark:text-gray-100 dark:border-dark-gray-400"
           >

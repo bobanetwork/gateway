@@ -7,6 +7,8 @@ const TooltipProvider = TooltipPrimitive.Provider
 
 const TooltipRoot = TooltipPrimitive.Root
 
+const TooltipArrow = TooltipPrimitive.Arrow
+
 const TooltipTrigger = TooltipPrimitive.Trigger
 
 const TooltipContent = React.forwardRef<
@@ -38,7 +40,7 @@ const Tooltip: React.FC<TooltipPros & React.PropsWithChildren> = ({
       <TooltipTrigger asChild>
         {children}
       </TooltipTrigger>
-      <TooltipContent>
+      <TooltipContent align="center">
         {content}
       </TooltipContent>
     </TooltipRoot>
