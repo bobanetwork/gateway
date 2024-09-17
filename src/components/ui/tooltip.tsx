@@ -47,4 +47,4 @@ const Tooltip: React.FC<TooltipPros & React.PropsWithChildren> = ({
   </TooltipProvider>
 }
 
-export { Tooltip, TooltipRoot, TooltipTrigger, TooltipContent, TooltipProvider }
+export { Tooltip, TooltipRoot, TooltipTrigger, TooltipContent, TooltipProvider, TooltipArrow }
