@@ -18,3 +18,4 @@ export * from "./checkbox.tsx";
 export * from "./progress.tsx";
 export * from "./toast.tsx";
 export * from "./toaster.tsx";
+export * from "./alert.tsx";

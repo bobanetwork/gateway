@@ -7,6 +7,8 @@ import ButtonLists from "./theme/buttons";
 import ColorTiles from "./theme/colorTiles";
 import Fonts from "./theme/fonts";
 import ToastListContainer from "@/theme/toastListContainer";
+import AlertLists from "./theme/alertList";
+
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
@@ -44,7 +46,8 @@ function App() {
         <div>{error?.message}</div>
 
         <ToastListContainer />
-        <ButtonLists />
+        {/* <ButtonLists /> */}
+        <AlertLists />
 
         <h2>Input</h2>
         <div className="m-2 p-4 rounded">
