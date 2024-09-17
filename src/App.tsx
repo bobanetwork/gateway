@@ -30,11 +30,7 @@ function App() {
 
       <main className="flex-1 overflow-y-auto p-4">
         <div className="min-h-[calc(100vh-473px)]">
-          <p>Scrollable content here...</p>
-          <p>More content...</p>
-          <p>More content...</p>
-          <p>More content...</p>
-          <p>More content...</p>
+
         </div>
       </main>
 
