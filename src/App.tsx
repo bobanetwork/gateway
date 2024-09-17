@@ -10,6 +10,8 @@ import ToastListContainer from "@/theme/toastListContainer";
 import AlertLists from "./theme/alertList";
 import DropdownSample from "./theme/dropdownSample";
 import TooltipSample from "./theme/tooltipSample";
+import TabsSample from "./theme/TabsSample";
+import PopoverSample from "./theme/popoverSample";
 
 function App() {
   const account = useAccount();
@@ -21,6 +23,7 @@ function App() {
       <div className="container mx-auto px-4">
         <h2>Account</h2>
 
+        <PopoverSample />
         <div>
           status: {account.status}
           <br />
@@ -46,7 +49,7 @@ function App() {
         ))}
         <div>{status}</div>
         <div>{error?.message}</div>
-
+        <TabsSample />
         <TooltipSample />
         <DropdownSample />
         <ToastListContainer />

@@ -24,7 +24,7 @@ interface TypographyProps {
   className?: string; // Additional classnames
 }
 
-const Text: React.FC<TypographyProps> = ({
+export const Text: React.FC<TypographyProps> = ({
   variant = 'md',
   fontWeight = 'normal',
   fontFamily = 'inter',
