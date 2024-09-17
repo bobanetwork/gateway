@@ -48,25 +48,25 @@ function App() {
           <div className="flex justify-between">
             <div className="flex space-x-4">
               <a href="#">
-                <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> FAQs </Text>
+                <Text variant="sm" fontWeight="medium" className="hover:text-gray-800 text-gray-600 dark:text-dark-gray-100 dark:hover:text-green-300 hover:underline"> FAQs </Text>
               </a>
               <a href="#">
-                <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> Terms of Use </Text>
+                <Text variant="sm" fontWeight="medium" className="hover:text-gray-800 text-gray-600 dark:text-dark-gray-100 dark:hover:text-green-300 hover:underline"> Terms of Use </Text>
               </a>
               <a href="#">
-                <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> Dev Tools </Text>
+                <Text variant="sm" fontWeight="medium" className="hover:text-gray-800 text-gray-600 dark:text-dark-gray-100 dark:hover:text-green-300 hover:underline"> Dev Tools </Text>
               </a>
               <a href="#">
-                <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> Boba Network Website </Text>
+                <Text variant="sm" fontWeight="medium" className="hover:text-gray-800 text-gray-600 dark:text-dark-gray-100 dark:hover:text-green-300 hover:underline"> Boba Network Website </Text>
               </a>
             </div>
 
             <div className="flex space-x-4">
-              <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-100">BNB Testnet <span className="dark:text-dark-gray-200 text-gray-700">10 Gwei</span></Text>
-              <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-100">Boba BNB Testnet <span className="dark:text-dark-gray-200 text-gray-700">1 Gwei</span></Text>
-              <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-100">Saving <span className="dark:text-dark-gray-200 text-gray-700">1x</span></Text>
-              <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-100">L1 <span className="dark:text-dark-gray-200 text-gray-700">30446615</span></Text>
-              <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-100">L2 <span className="dark:text-dark-gray-200 text-gray-700">22804</span></Text>
+              <Text variant="sm" fontWeight="medium" className="text-gray-600 hover:text-gray-800 dark:text-dark-gray-100 dark:hover:text-green-300">BNB Testnet <span className="dark:text-dark-gray-200 text-gray-700">10 Gwei</span></Text>
+              <Text variant="sm" fontWeight="medium" className="text-gray-600 hover:text-gray-800 dark:text-dark-gray-100 dark:hover:text-green-300">Boba BNB Testnet <span className="dark:text-dark-gray-200 text-gray-700">1 Gwei</span></Text>
+              <Text variant="sm" fontWeight="medium" className="text-gray-600 hover:text-gray-800 dark:text-dark-gray-100 dark:hover:text-green-300">Saving <span className="dark:text-dark-gray-200 text-gray-700">1x</span></Text>
+              <Text variant="sm" fontWeight="medium" className="text-gray-600 hover:text-gray-800 dark:text-dark-gray-100 dark:hover:text-green-300">L1 <span className="dark:text-dark-gray-200 text-gray-700">30446615</span></Text>
+              <Text variant="sm" fontWeight="medium" className="text-gray-600 hover:text-gray-800 dark:text-dark-gray-100 dark:hover:text-green-300">L2 <span className="dark:text-dark-gray-200 text-gray-700">22804</span></Text>
             </div>
           </div>
 
@@ -75,21 +75,21 @@ function App() {
           <div className="flex justify-between">
             <div className="flex gap-4">
               <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> ©2023 Enya Labs. All rights reserved. </Text>
-              <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> v.2.5.0 </Text>
+              <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> v.3.0.0 </Text>
             </div>
 
             <div className="flex space-x-4">
               <Tooltip content={<Text variant="sm">content</Text>}>
-                <IconFileText className=" w-6 h-6 text-gray-600 dark:text-dark-gray-200 cursor-pointer" />
+                <IconFileText className=" w-6 h-6 hover:text-gray-800 text-gray-600 dark:text-dark-gray-200 dark:hover:text-green-300 cursor-pointer" />
               </Tooltip>
               <Tooltip content={<Text variant="sm">content</Text>}>
-                <IconBrandTwitter className=" w-6 h-6 text-gray-600 dark:text-dark-gray-200 cursor-pointer" />
+                <IconBrandTwitter className=" w-6 h-6 hover:text-gray-800 text-gray-600 dark:text-dark-gray-200 dark:hover:text-green-300 cursor-pointer" />
               </Tooltip>
               <Tooltip content={<Text variant="sm">content</Text>}>
-                <IconBrandDiscord className=" w-6 h-6 text-gray-600 dark:text-dark-gray-200 cursor-pointer" />
+                <IconBrandDiscord className=" w-6 h-6 hover:text-gray-800 text-gray-600 dark:text-dark-gray-200 dark:hover:text-green-300 cursor-pointer" />
               </Tooltip>
               <Tooltip content={<Text variant="sm">content</Text>}>
-                <IconBrandTelegram className=" w-6 h-6 text-gray-600 dark:text-dark-gray-200 cursor-pointer" />
+                <IconBrandTelegram className=" w-6 h-6 hover:text-gray-800 text-gray-600 dark:text-dark-gray-200 dark:hover:text-green-300 cursor-pointer" />
               </Tooltip>
             </div>
           </div>
