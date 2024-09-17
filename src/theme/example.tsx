@@ -8,7 +8,7 @@ import TabsSample from "./TabsSample";
 import ToastListContainer from "./toastListContainer";
 import TooltipSample from "./tooltipSample";
 import PopoverSample from "./popoverSample";
-import ThemeToggleButton from "@/components/layout/ThemeToggle";
+import ThemeToggleButton from "@/components/boba/ThemeToggle";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 

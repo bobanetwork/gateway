@@ -1,7 +1,8 @@
-import { IconBell, IconBrandDiscord, IconBrandTelegram, IconBrandTwitter, IconFileText } from "@tabler/icons-react";
-import { Button, Text, Tooltip } from "./components/ui";
-import ThemeToggleButton from "./components/layout/ThemeToggle";
 import bobaLogo from "@/assets/boba-logo.svg";
+import { IconBrandDiscord, IconBrandTelegram, IconBrandTwitter, IconFileText } from "@tabler/icons-react";
+import AppNotification from "./components/boba/AppNotification";
+import ThemeToggleButton from "./components/boba/ThemeToggle";
+import { Button, Text, Tooltip } from "./components/ui";
 
 function App() {
 
@@ -20,9 +21,7 @@ function App() {
         <div className="text-xl font-bold flex self-end gap-2">
           <Button>Connect Wallet</Button>
           <div className="flex gap-2">
-            <Button variant="ghost" size="icon">
-              <IconBell className="w-5 h-5 stroke-gray-600 dark:stroke-dark-gray-100" />
-            </Button>
+            <AppNotification />
             <div className="h-full w-px bg-gray-500 dark:bg-dark-gray-100"></div>
             <ThemeToggleButton />
           </div>

@@ -4,7 +4,7 @@ import { IconMoon, IconSun } from "@tabler/icons-react";
 import { useEffect } from 'react';
 import { useDarkMode } from "usehooks-ts";
 
-const ThemeToggleButton = () => {
+export const ThemeToggleButton = () => {
   const { isDarkMode, toggle } = useDarkMode({ initializeWithValue: true });
   useEffect(() => {
     if (isDarkMode) {
