@@ -5,11 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { ExitIcon } from '@radix-ui/react-icons'
 import { IconBracketsAngle, IconCheck, IconCircle, IconCopy, IconExternalLink, IconUserHexagon } from '@tabler/icons-react'
 
-interface Props {
-
-}
-
-const DropdownSample = (props: Props) => {
+const DropdownSample = () => {
   return (
     <div className='flex flex-col gap-2 items-center my-3'>
       <Text variant='3xl'>Dropdown Sample</Text>

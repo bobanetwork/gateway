@@ -9,6 +9,7 @@ import Fonts from "./theme/fonts";
 import ToastListContainer from "@/theme/toastListContainer";
 import AlertLists from "./theme/alertList";
 import DropdownSample from "./theme/dropdownSample";
+import TooltipSample from "./theme/tooltipSample";
 
 function App() {
   const account = useAccount();
@@ -46,6 +47,7 @@ function App() {
         <div>{status}</div>
         <div>{error?.message}</div>
 
+        <TooltipSample />
         <DropdownSample />
         <ToastListContainer />
         <AlertLists />
