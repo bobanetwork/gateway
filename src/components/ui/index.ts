@@ -19,3 +19,4 @@ export * from "./progress.tsx";
 export * from "./toast.tsx";
 export * from "./toaster.tsx";
 export * from "./alert.tsx";
+export * from "./dropdown-menu.tsx";

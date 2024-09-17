@@ -8,6 +8,7 @@ import ColorTiles from "./theme/colorTiles";
 import Fonts from "./theme/fonts";
 import ToastListContainer from "@/theme/toastListContainer";
 import AlertLists from "./theme/alertList";
+import DropdownSample from "./theme/dropdownSample";
 
 function App() {
   const account = useAccount();
@@ -45,10 +46,10 @@ function App() {
         <div>{status}</div>
         <div>{error?.message}</div>
 
+        <DropdownSample />
         <ToastListContainer />
-        {/* <ButtonLists /> */}
         <AlertLists />
-
+        <ButtonLists />
         <h2>Input</h2>
         <div className="m-2 p-4 rounded">
           <div className="m-2 rounded">

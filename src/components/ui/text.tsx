@@ -37,9 +37,9 @@ const Text: React.FC<TypographyProps> = ({
     '2xl': 'text-2xl font-semibold', // 24px
     'xl': 'text-xl font-medium',   // 20px
     'lg': 'text-lg font-medium',   // 18px
-    'md': 'text-md font-normal',   // 16px
-    'sm': 'text-sm font-normal',   // 14px
-    'xs': 'text-xs font-normal',   // 12px
+    'md': 'text-md',   // 16px
+    'sm': 'text-sm',   // 14px
+    'xs': 'text-xs',   // 12px
   };
 
   const alignClasses = {
