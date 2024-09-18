@@ -49,7 +49,7 @@ export const Footer = () => {
         </div>
 
         <div className="flex space-x-4">
-          {socialNavLinks.map((linkItem, index) => (<Tooltip content={<Text variant="sm">content</Text>}>
+          {socialNavLinks.map((linkItem, index) => (<Tooltip key={linkItem.label} content={<Text variant="sm">{linkItem.label}</Text>}>
             <a key={index} href={linkItem.href} target="_blank">
               {socialIconMap[linkItem.icon]}
             </a>

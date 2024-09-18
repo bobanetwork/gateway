@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/class-merge"
 
 const Drawer = ({
   shouldScaleBackground = true,
