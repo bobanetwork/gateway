@@ -1,9 +1,7 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui'
 import { Button } from '@/components/ui/button'
 import Text from '@/components/ui/text'
-import { cn } from '@/lib/utils'
-import { ExitIcon } from '@radix-ui/react-icons'
-import { IconBracketsAngle, IconCheck, IconChevronDown, IconCircle, IconCopy, IconExternalLink } from '@tabler/icons-react'
+import { IconBracketsAngle, IconChevronDown, IconCopy, IconExternalLink, IconLogout } from '@tabler/icons-react'
 
 const userMenuGroups = [
   {
@@ -11,18 +9,18 @@ const userMenuGroups = [
     menu: [
       {
         label: "Copy Address",
-        iconLeft: true,
-        type: "button"
+        type: "button",
+        iconLeft: <IconCopy className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />
       },
       {
         label: "Disconnect",
-        iconLeft: true,
-        type: "button"
+        type: "button",
+        iconLeft: <IconLogout className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />
       },
       {
         label: "Switch to testnet",
-        iconLeft: true,
-        type: "button"
+        type: "button",
+        iconLeft: <IconBracketsAngle className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />
       },
     ]
   },
@@ -32,22 +30,38 @@ const userMenuGroups = [
       {
         label: "Etherscan",
         iconRight: true,
-        type: "link"
+        type: "link",
+        url: "https://etherscan.io"
       },
       {
         label: "Bobascan",
         iconRight: true,
-        type: "link"
+        type: "link",
+        url: "https://bobascan.com"
       },
       {
         label: "Binance Smart Chain",
         iconRight: true,
-        type: "link"
+        type: "link",
+        url: "https://bscscan.com"
       },
       {
         label: "Boba Bnb",
         iconRight: true,
-        type: "link"
+        type: "link",
+        url: "https://bnb.bobascan.com"
+      },
+      {
+        label: "Optimism",
+        iconRight: true,
+        type: "link",
+        url: "https://optimistic.etherscan.io/"
+      },
+      {
+        label: "Arbitrum",
+        iconRight: true,
+        type: "link",
+        url: "https://arbiscan.io/"
       },
     ]
   },
@@ -55,10 +69,12 @@ const userMenuGroups = [
 
 type MenuItemTypes = 'link' | 'button' | 'label';
 
+type iconType = boolean | React.ReactNode;
+
 interface MenuItemProps {
-  iconLeft: boolean
+  iconLeft: iconType
   label: string
-  iconRight: boolean
+  iconRight: iconType
   type: MenuItemTypes
   url: string
   onClick: (e: any) => void
@@ -75,16 +91,18 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   const renderContent = () => (
     <>
-      {iconLeft ? <IconCopy className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" /> : null}
+      {iconLeft && (typeof iconLeft === 'boolean' ? <IconCopy className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" /> : (iconLeft))}
       <span className="font-medium text-sm">{label}</span>
       {iconRight ? <IconExternalLink className="w-4 h-4 text-gray-600 dark:text-dark-gray-100" /> : null}
     </>
   );
 
   if (type === 'link' && url) {
-    return <a
+    return <a href={url} target="_blank">
+      <DropdownMenuItem
       className="flex justify-between rounded-sm items-center p-2 gap-2 hover:bg-gray-200 dark:hover:bg-dark-gray-400 dark:text-dark-gray-50 focus-visible:outline-0 hover:cursor-pointer">
-      {renderContent()}
+        {renderContent()}
+      </DropdownMenuItem>
     </a>
   } else {
     return <DropdownMenuItem
@@ -104,7 +122,7 @@ const MenuGroup: React.FC<any> = ({
     {label ? <DropdownMenuLabel
       className="py-1 px-0 text-gray-700 dark:text-dark-gray-100"
     >
-      <Text variant='md' fontWeight='normal'>label</Text>
+      <Text variant='md' fontWeight='normal'>{label}</Text>
     </DropdownMenuLabel> : null}
     {menu.map((_menuItem: any) => <MenuItem {..._menuItem} />)}
   </>
@@ -123,77 +141,20 @@ export const Dropdown = () => {
       align="end"
       className="z-10 border shadow-xl rounded-lg p-2 border-gray-500 bg-gray-50 dark:bg-dark-gray-500 dark:text-gray-100 dark:border-dark-gray-400"
     >
-      <DropdownMenuItem className="w-full gap-2 flex items-center justify-start text-gray-800 hover:bg-gray-200 dark:text-gray-50 dark:hover:bg-dark-gray-400 px-4 py-2 rounded-md focus-visible:outline-0 hover:border-0">
+      {/* <DropdownMenuItem className="w-full gap-2 flex items-center justify-start text-gray-800 hover:bg-gray-200 dark:text-gray-50 dark:hover:bg-dark-gray-400 px-4 py-2 rounded-md focus-visible:outline-0 hover:border-0">
         <IconCircle className="w-9 h-9 text-blue-300" />
         <Text className="flex-1" variant="sm" fontWeight='medium'>Ethereum</Text>
-        {/* <IconCheck className="w-6 h-6 text-gray-800 dark:text-dark-green-300" /> */}
+        <IconCheck className="w-6 h-6 text-gray-800 dark:text-dark-green-300" />
       </DropdownMenuItem>
       <DropdownMenuItem className="w-full gap-2 flex items-center justify-start text-gray-800 hover:bg-gray-200 dark:text-gray-50 dark:hover:bg-dark-gray-400 px-4 py-2 rounded-md focus-visible:outline-0 hover:border-0">
         <IconCircle className="w-9 h-9 text-blue-300" />
         <Text className="flex-1" variant="sm" fontWeight='medium'>Binance Smart Chain</Text>
         <IconCheck className="w-6 h-6 text-gray-800 dark:text-dark-green-300" />
-      </DropdownMenuItem>
+      </DropdownMenuItem> */}
 
       {userMenuGroups.map((group) => {
         return <MenuGroup {...group} />
       })}
-
-      <DropdownMenuLabel
-        className="py-1 px-0 text-gray-700 dark:text-dark-gray-100"
-      >
-        <Text variant='md' fontWeight='normal'>Account</Text>
-      </DropdownMenuLabel>
-      <DropdownMenuGroup>
-        <DropdownMenuItem
-          className="flex rounded-sm items-center justify-start p-2 gap-2 hover:bg-gray-200 dark:hover:bg-dark-gray-400 dark:text-dark-gray-50 focus-visible:outline-0 hover:cursor-pointer"
-        >
-          <IconCopy className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />
-          <Text fontWeight='medium' variant="sm"> Copy Address</Text>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="flex rounded-sm items-center justify-start p-2 gap-2 hover:bg-gray-200 dark:hover:bg-dark-gray-400 dark:text-dark-gray-50 focus-visible:outline-0 hover:cursor-pointer"
-        >
-          <ExitIcon className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />
-          Disconnect
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="flex rounded-sm items-center justify-start p-2 gap-2 hover:bg-gray-200 dark:hover:bg-dark-gray-400 dark:text-dark-gray-50 focus-visible:outline-0 hover:cursor-pointer"
-        >
-          <IconBracketsAngle className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />
-          Switch to testnet
-        </DropdownMenuItem>
-      </DropdownMenuGroup>
-      <DropdownMenuLabel
-        className="py-1 px-0 text-gray-700 dark:text-dark-gray-100"
-      >
-        <Text variant='md' fontWeight='normal'>Block Explorer</Text>
-      </DropdownMenuLabel>
-      <DropdownMenuGroup>
-        <DropdownMenuItem
-          className="flex rounded-sm items-center justify-between p-2 gap-2 hover:bg-gray-200 dark:hover:bg-dark-gray-400 dark:text-dark-gray-50 focus-visible:outline-0 hover:cursor-pointer"
-        >
-          Etherscan
-          <IconExternalLink className="w-4 h-4 text-gray-600 dark:text-dark-gray-100" />
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="flex rounded-sm items-center justify-between p-2 gap-2 hover:bg-gray-200 dark:hover:bg-dark-gray-400 dark:text-dark-gray-50 focus-visible:outline-0 hover:cursor-pointer"
-        >
-          Bobascan
-          <IconExternalLink className="w-4 h-4 text-gray-600 dark:text-dark-gray-100" />
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="flex rounded-sm items-center justify-between p-2 gap-2 hover:bg-gray-200 dark:hover:bg-dark-gray-400 dark:text-dark-gray-50 focus-visible:outline-0 hover:cursor-pointer"
-        >
-          Binance Smart Chain
-          <IconExternalLink className="w-4 h-4 text-gray-600 dark:text-dark-gray-100" />
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="flex rounded-sm items-center justify-between p-2 gap-2 hover:bg-gray-200 dark:hover:bg-dark-gray-400 dark:text-dark-gray-50 focus-visible:outline-0 hover:cursor-pointer"
-        >
-          Boba BNB
-          <IconExternalLink className="w-4 h-4 text-gray-600 dark:text-dark-gray-100" />
-        </DropdownMenuItem>
-      </DropdownMenuGroup>
     </DropdownMenuContent>
   </DropdownMenu>
 }
