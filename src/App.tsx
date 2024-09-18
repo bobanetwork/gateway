@@ -1,8 +1,7 @@
 import bobaLogo from "@/assets/boba-logo.svg";
 import { IconBrandDiscord, IconBrandTelegram, IconBrandTwitter, IconFileText } from "@tabler/icons-react";
-import AppNotification from "./components/boba/AppNotification";
-import ThemeToggleButton from "./components/boba/ThemeToggle";
 import { Button, Text, Tooltip } from "./components/ui";
+import { AppNotification, Dropdown, ThemeToggleButton } from "@/components/boba";
 
 function App() {
 
@@ -19,6 +18,7 @@ function App() {
           <Text variant="md" fontWeight="medium" className="cursor-pointer hover:text-gray-800 text-gray-600 dark:text-dark-gray-100 dark:hover:text-green-300">Dao</Text>
         </div>
         <div className="text-xl font-bold flex self-end gap-2">
+          <Dropdown />
           <Button>Connect Wallet</Button>
           <div className="flex gap-2">
             <AppNotification />

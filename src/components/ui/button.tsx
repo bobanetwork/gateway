@@ -11,6 +11,8 @@ const buttonVariants = cva(
       variant: {
         default:
           "bg-primary text-gray-800 shadow hover:bg-green-400 dark:hover:bg-dark-green-400 disabled:bg-green-300 disabled:text-gray-600",
+        select:
+          "gap-2 border border-gray-500 text-gray-800 bg-gray-50 dark:text-dark-gray-50 dark:border-dark-gray-200 dark:bg-dark-gray-400",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 disabled:opacity-50",
         outline:

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useDarkMode } from "usehooks-ts";
 
 export const ThemeToggleButton = () => {
-  const { isDarkMode, toggle } = useDarkMode({ initializeWithValue: true });
+  const { isDarkMode, toggle } = useDarkMode({ defaultValue: true, initializeWithValue: true });
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark');
