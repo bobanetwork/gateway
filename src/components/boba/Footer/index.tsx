@@ -1,6 +1,6 @@
 import { Text, Tooltip } from "@/components/ui";
 import { useFooter } from "./useFooter";
-import bobaLogo from "@/assets/boba-logo.svg";
+import bobaLogo from "@/assets/boba/boba-logo.svg";
 import { IconFileText, IconBrandTwitter, IconBrandDiscord, IconBrandTelegram } from "@tabler/icons-react";
 
 const socialIconMap: Record<string, React.ReactNode> = {
@@ -16,7 +16,9 @@ export const Footer = () => {
   return <footer className="w-full py-10 px-12 shadow-md">
     <div className="flex flex-col space-y-4">
       <div className="text-left flex gap-2">
-        <img className="h-6 w-6 object-cover" src={bobaLogo} alt="Boba Logo" />
+        <a href="https://boba.network" target="_blank">
+          <img className="h-6 w-6 object-cover" src={bobaLogo} alt="Boba Logo" />
+        </a>
         <a href="https://boba.network" target="_blank">
           <Text variant="xl" fontWeight="medium"> BOBA NETWORK </Text>
         </a>
