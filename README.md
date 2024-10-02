@@ -42,3 +42,9 @@ Please check the icons availble from library below.
 ```ssh
 pnpm dlx shadcn@latest add toast
 ```
+
+# To add new package 
+```ssh
+pnpm add react-router-dom
+
+```
