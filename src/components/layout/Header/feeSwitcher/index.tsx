@@ -28,7 +28,7 @@ import Tooltip from 'components/tooltip/Tooltip'
 import networkService from 'services/networkService'
 
 import useFeeSwitcher from 'hooks/useFeeSwitcher'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 import {
   FeeLabel,
   FeeSwitcherIcon,

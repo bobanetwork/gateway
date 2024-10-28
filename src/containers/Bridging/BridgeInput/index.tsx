@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectAccountEnabled, selectTokenToBridge } from 'selectors'
 
 import useBridgeSetup from 'hooks/useBridgeSetup/'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 
 import bobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import useAmountToReceive from 'hooks/useAmountToReceive'

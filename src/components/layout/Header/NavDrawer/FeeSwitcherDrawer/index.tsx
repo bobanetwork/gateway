@@ -10,7 +10,7 @@ import {
   MenuItemStyle,
 } from '../styles'
 import networkService from 'services/networkService'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 import BobaLogo from 'assets/images/Boba_Logo_White_Circle.png'
 import useFeeSwitcher from 'hooks/useFeeSwitcher'
 

@@ -23,7 +23,7 @@ import {
   selectlayer2Balance,
   selectTokenToBridge,
 } from 'selectors'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 import { formatTokenAmount } from 'util/common'
 import { LAYER } from 'util/constant'
 import { isEqual } from 'util/lodash'

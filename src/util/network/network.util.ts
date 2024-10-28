@@ -23,7 +23,7 @@ import {
   NetworkDetail,
   NetworkDetailChainConfig,
 } from './config/network-details.types'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 
 export const L1_ICONS = {
   ethereum: EthereumIcon,

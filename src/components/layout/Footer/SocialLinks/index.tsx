@@ -6,10 +6,10 @@ import {
   SocialLinksContainer,
   StyledSocialLinks,
 } from './style'
-import DocsIcon from './icons/docs'
-import DiscordIcon from './icons/discord'
-import TwitterIcon from './icons/twitter'
-import TelegramIcon from './icons/telegram'
+import DocsIcon from '../../../../assets/icons/docs'
+import DiscordIcon from '../../../../assets/icons/discord'
+import TwitterIcon from '../../../../assets/icons/twitter'
+import TelegramIcon from '../../../../assets/icons/telegram'
 import { WALLET_VERSION } from 'util/constant'
 
 const SocialLinks = () => {

@@ -99,12 +99,12 @@ export const MM_EXTENTION_URL: string =
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
 
-const GATEWAY_DATA_RAW =
+export const GATEWAY_DATA_RAW =
   'https://raw.githubusercontent.com/bobanetwork/gateway-data/'
 
 export const THIRD_PARTY_BRIDGES_LIST = `https://raw.githubusercontent.com/bobanetwork/gateway-data/${GATEWAY_DATA_BRANCH}/bridges/list.json`
 
-// update branch name
+//@todo update branch name
 export const ECOSYSTEM_LIST = `${GATEWAY_DATA_RAW}feat/ecosystem-page/ecosystem/list.json`
 export const TRADE_LIST = `${GATEWAY_DATA_RAW}feat/ecosystem-page/ecosystem/cex.list.json`
 

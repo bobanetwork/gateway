@@ -13,7 +13,7 @@ import {
   selectLayer,
   selectWithdrawPayload,
 } from 'selectors'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 import { LAYER } from 'util/constant'
 import {
   ConfirmLabel,
