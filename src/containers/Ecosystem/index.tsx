@@ -15,7 +15,7 @@ import {
   Title,
 } from './styles'
 
-const EcosystemCard = ({ name, description, icon }) => {
+const EcosystemCard = ({ name, description, icon, website }) => {
   const theme = useSelector(selectTheme)
   const iconImage = getEcoImage(theme === 'light' ? icon.light : icon.dark)
   return (
@@ -23,7 +23,7 @@ const EcosystemCard = ({ name, description, icon }) => {
       <PlaceholderImage>
         <img src={iconImage} alt={name} width="100%" />
       </PlaceholderImage>
-      <Title>{name}</Title>
+      <Title href={website}>{name}</Title>
       <Tooltip title={description}>
         <Description>{description}</Description>
       </Tooltip>
