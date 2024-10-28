@@ -71,7 +71,6 @@ const Router = () => {
       setRoutes([])
     }
   }, [network, routeList])
-
   return useRoutes(routes!)
 }
 

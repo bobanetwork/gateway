@@ -32,6 +32,8 @@ type RoutesPathType = {
   EARN: string
   STAKE: string
   DAO: string
+  ECOSYSTEM: string
+  TRADE: string
 }
 
 export const ROUTES_PATH: RoutesPathType = {
@@ -40,17 +42,26 @@ export const ROUTES_PATH: RoutesPathType = {
   EARN: '/earn',
   STAKE: '/stake',
   DAO: '/dao',
+  ECOSYSTEM: '/ecosystem',
+  TRADE: '/trade',
 }
 
 type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum'
-type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO'
+type Page =
+  | 'Bridge'
+  | 'History'
+  | 'Earn'
+  | 'Stake'
+  | 'DAO'
+  | 'trade'
+  | 'ecosystem'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
-  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
-  bnb: ['Bridge', 'Earn', 'History'],
-  optimism: ['Bridge', 'History'],
-  arbitrum: ['Bridge', 'History'],
+  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO', 'ecosystem', 'trade'],
+  bnb: ['Bridge', 'Earn', 'History', 'ecosystem', 'trade'],
+  optimism: ['Bridge', 'History', 'ecosystem', 'trade'],
+  arbitrum: ['Bridge', 'History', 'ecosystem', 'trade'],
 }
 
 export enum Layer {

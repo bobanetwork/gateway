@@ -9,6 +9,7 @@ const Earn = React.lazy(() => import('containers/earn/Earn'))
 const Home = React.lazy(() => import('containers/home'))
 const SaveWrapper = React.lazy(() => import('containers/save/SaveWrapper'))
 const History = React.lazy(() => import('containers/history/History'))
+const Ecosystem = React.lazy(() => import('containers/Ecosystem'))
 
 export const COMMON_ROUTES = [
   {
@@ -58,6 +59,16 @@ export const ROUTE_LIST: IRoute[] = [
         path: ROUTES_PATH.DAO,
         element: <OldDao />,
         key: 'DAO',
+      },
+      {
+        path: ROUTES_PATH.ECOSYSTEM,
+        element: <Ecosystem />,
+        key: 'ecosystem',
+      },
+      {
+        path: ROUTES_PATH.TRADE,
+        element: <Ecosystem />,
+        key: 'trade',
       },
     ],
   },
