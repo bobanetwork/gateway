@@ -11,12 +11,15 @@ export const StyledNav = styled.div`
 `
 
 export const NavLinkItem = styled(NavLink)`
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 500;
-  text-transform: uppercase;
+  text-transform: capitalize;
   cursor: pointer;
   text-decoration: none;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.36px;
+  text-align: left;
+
   color: ${({ theme }) =>
     theme.name === 'light'
       ? theme.colors['gray'][600]

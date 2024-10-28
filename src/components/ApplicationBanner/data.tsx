@@ -10,9 +10,8 @@ export const bannerAlerts = (): IAppAlert[] => [
     canClose: false,
     Component: () => (
       <BannerText>
-        The earn program is being phased out as we introduce the Boba Light
-        Bridge. To initiate a withdrawal of funds from the liquidity pool, To
-        withdraw funds{' '}
+        As we launch the Boba Light Bridge, the earn program has ended. To
+        withdraw from the liquidity pool{' '}
         <a href="/earn" target="blank">
           CLICK HERE
         </a>

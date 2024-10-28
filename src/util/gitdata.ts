@@ -12,6 +12,6 @@ export const getCoinImage = (symbol: string): string => {
   return url
 }
 
-export const getEcoCoinImage = (name: string) => {
-  return `${GATEWAY_DATA_RAW}/feat/ecosystem-page/ecosystem/white/${name}.svg`
+export const getEcoImage = (name: string) => {
+  return `${GATEWAY_DATA_RAW}/feat/ecosystem-page/ecosystem/icons/${name}`
 }

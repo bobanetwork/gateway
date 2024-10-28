@@ -35,9 +35,12 @@ export const BlockContainer = styled.div`
   padding: 24px;
   width: 100%;
   gap: 25px 0px;
-  border-radius: 12px;
+  border-radius: 28px;
   background: ${(props) => props.theme.colors.box.background};
   border: 1px solid ${(props) => props.theme.colors.box.border};
+  box-shadow: 0px 4px 6px -2px #10182808;
+  box-shadow: 0px 12px 16px -4px #10182814;
+  backdrop-filter: blur(25px);
   ${sdesktop(css`
     flex-direction: row;
     justify-content: space-between;
