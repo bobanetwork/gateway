@@ -148,6 +148,10 @@ export const OutlineButton = styled.button`
     background-color 0.2s,
     color 0.2s;
 
+  &:hover {
+    color: white;
+  }
+
   &:focus {
     outline: none;
   }
@@ -158,11 +162,6 @@ export const OutlineButton = styled.button`
     props.theme.name === 'light' &&
     css`
       color: ${props.theme.colors.gray[600]};
-      &:hover {
-        color: ${props.theme.colors.gray[800]};
-        background: ${props.theme.colors.gray[50]};
-        border-color: ${props.theme.colors.gray[50]};
-      }
       &.active {
         background: ${props.theme.colors.gray[50]};
         border-color: ${props.theme.colors.gray[50]};
@@ -173,13 +172,9 @@ export const OutlineButton = styled.button`
     props.theme.name === 'dark' &&
     css`
       border: 2px solid ${props.theme.colors.gray[200]};
-      &:hover {
-        color: ${props.theme.colors.green[300]};
-        border-color: ${props.theme.colors.green[300]};
-      }
       &.active {
         border-color: ${props.theme.colors.green[300]};
-        color: ${props.theme.colors.green[300]};
+        color: white;
       }
     `}
 `

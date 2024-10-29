@@ -17,7 +17,7 @@ import {
 
 const EcosystemCard = ({ name, description, icon, website }) => {
   const theme = useSelector(selectTheme)
-  const iconImage = getEcoImage(theme === 'light' ? icon.light : icon.dark)
+  const iconImage = getEcoImage(theme === 'light' ? icon.dark : icon.light)
   return (
     <Card>
       <PlaceholderImage>
