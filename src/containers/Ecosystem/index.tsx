@@ -9,13 +9,15 @@ import {
   Card,
   CardList,
   Description,
+  ExternalIcon,
   OutlineButton,
   PageContainer,
   PlaceholderImage,
   Title,
 } from './styles'
+import externalSvg from 'assets/external.svg'
 
-const EcosystemCard = ({ name, description, icon, website }) => {
+const EcosystemCard = ({ name, description, icon, link }) => {
   const theme = useSelector(selectTheme)
   const iconImage = getEcoImage(theme === 'light' ? icon.dark : icon.light)
   return (
@@ -23,7 +25,9 @@ const EcosystemCard = ({ name, description, icon, website }) => {
       <PlaceholderImage>
         <img src={iconImage} alt={name} width="100%" />
       </PlaceholderImage>
-      <Title href={website}>{name}</Title>
+      <Title href={link} target="_blank">
+        {name} <ExternalIcon src={externalSvg} />
+      </Title>
       <Tooltip title={description}>
         <Description>{description}</Description>
       </Tooltip>

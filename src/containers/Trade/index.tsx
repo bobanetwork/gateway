@@ -9,12 +9,14 @@ import {
   Card,
   CardList,
   Description,
+  ExternalIcon,
   PageContainer,
   PlaceholderImage,
   Title,
 } from './styles'
+import externalSvg from 'assets/external.svg'
 
-const TradeCard = ({ name, description, icon, website }) => {
+const TradeCard = ({ name, description, icon, link }) => {
   const theme = useSelector(selectTheme)
   const iconImage = getEcoImage(theme === 'light' ? icon.light : icon.dark)
   return (
@@ -22,7 +24,9 @@ const TradeCard = ({ name, description, icon, website }) => {
       <PlaceholderImage>
         <img src={iconImage} alt={name} width="100%" />
       </PlaceholderImage>
-      <Title href={website}>{name}</Title>
+      <Title href={link} target="_blank">
+        {name} <ExternalIcon src={externalSvg} />
+      </Title>
       <Tooltip title={description}>
         <Description>{description}</Description>
       </Tooltip>

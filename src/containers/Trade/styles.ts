@@ -8,15 +8,16 @@ export const PageContainer = styled.div`
   justify-content: space-around;
   padding: 0px 50px 50px 50px;
   width: 100%;
-  max-width: 1024px;
+  max-width: 1164px;
   ${sdesktop(css`
     padding: 0px 0px 50px 0px;
   `)}
   ${tablet(css`
     padding: 0px 50px;
   `)}
-  ${sdesktop(css`
-    padding: 0px 50px;
+  ${mobile(css`
+    padding: 0px 25px;
+    margin: auto;
   `)}
 `
 
@@ -55,6 +56,8 @@ export const Card = styled.div`
   padding: 24px;
   gap: 10px;
   width: 100%;
+  max-width: 250px;
+  min-width: 250px;
   border: 1px solid
     ${({ theme: { colors, name } }) =>
       name === 'light' ? colors.gray[400] : colors.gray[300]};
@@ -62,12 +65,20 @@ export const Card = styled.div`
   ${tablet`
     padding: 20px;
     gap: 8px;
+    max-width: 200px;
+  min-width: 200px;
   `}
 
   ${mobile`
     padding: 16px;
     gap: 8px;
+    max-width: 350px;
+  min-width: 350px;
   `}
+`
+
+export const ExternalIcon = styled.img`
+  width: 16px;
 `
 
 export const Title = styled.a`
@@ -80,21 +91,26 @@ export const Title = styled.a`
   font-weight: 700;
   line-height: 19.5px;
   text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  gap: 5px;
 
   &:hover {
     text-decoration: underline;
   }
 
-  ${(props) =>
-    props.theme.name === 'light' &&
-    css`
-      color: ${props.theme.colors.gray[800]};
+  ${(props) => css`
+    color: ${props.theme.name === 'light'
+      ? props.theme.colors.gray[800]
+      : '#fff'};
+  `}
+  & img {
+    ${(props) => css`
+      display: ${props.theme.name === 'light' ? 'block' : 'none'};
     `}
-  ${(props) =>
-    props.theme.name === 'dark' &&
-    css`
-      color: #fff;
-    `}
+  }
 `
 
 export const IconList = styled.div`
