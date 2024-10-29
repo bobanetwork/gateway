@@ -23,7 +23,7 @@ import {
 } from './styles'
 import useThemeSwitcher from 'hooks/useThemeSwitcher'
 import { THEME_NAME } from '../types'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 import truncateMiddle from 'truncate-middle'
 import networkService from 'services/networkService'
 import { useSelector } from 'react-redux'

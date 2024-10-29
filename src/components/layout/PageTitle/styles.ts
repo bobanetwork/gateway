@@ -16,27 +16,21 @@ export const PageTitleContainer = styled.div`
 `
 
 export const Title = styled(Heading)`
-  ${(props) =>
-    props.theme.name === 'light' &&
-    css`
-      color: ${props.theme.colors.gray[800]};
-    `}
-  ${(props) =>
-    props.theme.name === 'dark' &&
-    css`
-      color: #fff;
-    `}
+  font-family: Montserrat;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 43.88px;
+  text-align: left;
+  color: ${(props) =>
+    props.theme.name === 'light' ? props.theme.colors.gray[800] : '#fff'};
 `
 
 export const Slug = styled(Typography)`
-  ${(props) =>
-    props.theme.name === 'light' &&
-    css`
-      color: ${props.theme.colors.gray[700]};
-    `}
-  ${(props) =>
-    props.theme.name === 'dark' &&
-    css`
-      color: #acacac;
-    `}
+  font-family: 'Inter';
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.36px;
+  text-align: center;
+  color: ${(props) =>
+    props.theme.name === 'light' ? props.theme.colors.gray[700] : '#acacac'};
 `

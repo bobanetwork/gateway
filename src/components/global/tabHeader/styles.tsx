@@ -14,12 +14,19 @@ export const TabContainer = styled.div`
 export const TabItem = styled.div`
   cursor: pointer;
   margin: 0px 8px;
-  transition: 0.2s all ease;
-  color: ${(props) => props.theme.colors.gray[100]};
-  border-radius: 35px;
-  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #007bff;
+  color: #007bff;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin: 0px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition:
+    background-color 0.2s,
+    color 0.2s;
   border: 2px solid transparent;
 
+  color: ${(props) => props.theme.colors.gray[100]};
   ${(props) =>
     props.theme.name === 'light' &&
     css`

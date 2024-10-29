@@ -32,6 +32,8 @@ type RoutesPathType = {
   EARN: string
   STAKE: string
   DAO: string
+  ECOSYSTEM: string
+  TRADE: string
 }
 
 export const ROUTES_PATH: RoutesPathType = {
@@ -40,17 +42,26 @@ export const ROUTES_PATH: RoutesPathType = {
   EARN: '/earn',
   STAKE: '/stake',
   DAO: '/dao',
+  ECOSYSTEM: '/ecosystem',
+  TRADE: '/trade',
 }
 
 type Network = 'ethereum' | 'bnb' | 'optimism' | 'arbitrum'
-type Page = 'Bridge' | 'History' | 'Earn' | 'Stake' | 'DAO'
+type Page =
+  | 'Bridge'
+  | 'History'
+  | 'Earn'
+  | 'Stake'
+  | 'DAO'
+  | 'trade'
+  | 'ecosystem'
 type PagesByNetworkType = Record<Network, Page[]>
 
 export const PAGES_BY_NETWORK: PagesByNetworkType = {
-  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO'],
-  bnb: ['Bridge', 'Earn', 'History'],
-  optimism: ['Bridge', 'History'],
-  arbitrum: ['Bridge', 'History'],
+  ethereum: ['Bridge', 'History', 'Earn', 'Stake', 'DAO', 'ecosystem', 'trade'],
+  bnb: ['Bridge', 'Earn', 'History', 'ecosystem', 'trade'],
+  optimism: ['Bridge', 'History', 'ecosystem', 'trade'],
+  arbitrum: ['Bridge', 'History', 'ecosystem', 'trade'],
 }
 
 export enum Layer {
@@ -88,7 +99,14 @@ export const MM_EXTENTION_URL: string =
 
 export const MIN_NATIVE_L1_BALANCE: number = 0.002
 
+export const GATEWAY_DATA_RAW =
+  'https://raw.githubusercontent.com/bobanetwork/gateway-data/'
+
 export const THIRD_PARTY_BRIDGES_LIST = `https://raw.githubusercontent.com/bobanetwork/gateway-data/${GATEWAY_DATA_BRANCH}/bridges/list.json`
+
+//@todo update branch name
+export const ECOSYSTEM_LIST = `${GATEWAY_DATA_RAW}${GATEWAY_DATA_BRANCH}/ecosystem/list.json`
+export const TRADE_LIST = `${GATEWAY_DATA_RAW}${GATEWAY_DATA_BRANCH}/ecosystem/cex.list.json`
 
 export const COIN_GECKO_URL = `https://api.coingecko.com/api/v3/`
 

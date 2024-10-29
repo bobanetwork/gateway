@@ -16,6 +16,11 @@ const LoaderContainer = styled.div`
 const LoaderText = styled(Typography).attrs({
   variant: 'h1',
 })`
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.36px;
+  text-align: left;
   color: ${({ theme: { name, colors } }) =>
     name === 'light' ? colors.gray[800] : colors.gray[100]};
 `
@@ -44,7 +49,7 @@ const FallbackLoader: FC = () => {
   return (
     <LoaderContainer>
       <RotatingStyledSVG src={spinnerSvg} />
-      <LoaderText>Loading...</LoaderText>
+      <LoaderText>Please wait a moment...</LoaderText>
     </LoaderContainer>
   )
 }

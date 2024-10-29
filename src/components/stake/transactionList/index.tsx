@@ -15,7 +15,7 @@ import { ModalTypography } from 'components/global/modalTypography'
 
 import { TransactionListInterface } from './types'
 import { StakeItemDetails, Token, Flex } from './styles'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 
 const TransactionList = ({ stakeInfo }: TransactionListInterface) => {
   const dispatch = useDispatch<any>()

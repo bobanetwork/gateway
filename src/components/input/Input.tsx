@@ -24,7 +24,7 @@ import Button from 'components/button/Button'
 
 import { useTheme, Box, Typography } from '@mui/material'
 
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 import {
   ActionMeta,
   OnChangeValue,

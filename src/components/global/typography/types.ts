@@ -24,5 +24,6 @@ export interface TypographyProps {
 export interface TypographyStyleProps {
   size: string
   lineHeight: string
+  fontFamily: string
   fontWeight: number
 }

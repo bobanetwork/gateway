@@ -96,9 +96,11 @@ export const BannerText = styled(Typography).attrs({
   max-width: 1440px;
   margin: 0 auto;
   padding: 10px 0;
+  font-weight: 400;
 
   @media ${(props) => props.theme.screen.mobile} {
     padding: 5px 10px;
+    font-size: 12px;
   }
 
   a {

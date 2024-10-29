@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 
 import { Text, Small } from 'components/global/text'
 import { Row, Column } from 'components/global/containers'

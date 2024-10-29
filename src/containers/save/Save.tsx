@@ -23,20 +23,19 @@ import { toWei_String } from 'util/amountConvert'
 import { selectFixed, selectLayer, selectSetup } from 'selectors'
 import fixedSavingService from 'services/fixedsaving/fixedSaving.service'
 import styled from 'styled-components'
-
-const OutputLabel = styled(Typography).attrs({
-  variant: 'title',
-})`
-  margin-top: 8px;
-  color: #a8a8a8;
-`
+import { getCoinImage } from 'util/gitdata'
 
 const Description = styled(Typography).attrs({
   variant: 'body2',
 })`
+  color: ${(props) =>
+    props.theme.name === 'light' ? props.theme.colors.gray[700] : '#acacac'};
   margin-top: 8px;
-  color: #a8a8a8;
-  line-height: 18px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.94px !important;
+  text-align: left;
 `
 
 const Save = () => {
@@ -135,23 +134,31 @@ const Save = () => {
           <S.BlockContainer>
             <S.Flex>
               <div>
-                <Typography variant="head">Staked</Typography>
-                <OutputLabel>
-                  {Number(totalBOBAstaked).toFixed(4)} BOBA
-                </OutputLabel>
-              </div>
-              <div>
-                <Typography variant="head">Boba Balance</Typography>
-                <OutputLabel>
+                <Typography variant="title">
+                  <img
+                    src={getCoinImage('boba')}
+                    alt="Boba logo"
+                    width="20px"
+                    className="border: 1px solid   gray"
+                  />
+                  Boba
+                </Typography>
+                <Description>
                   {Number(state.max_Float_String).toFixed(4)} BOBA
-                </OutputLabel>
+                </Description>
               </div>
             </S.Flex>
             <div>
               <div>
-                <Typography variant="head">APY</Typography>
-                <OutputLabel>5.0%</OutputLabel>
+                <Typography variant="title">APY</Typography>
+                <Description>5.0%</Description>
               </div>
+            </div>
+            <div>
+              <Typography variant="title">Staked</Typography>
+              <Description>
+                {Number(totalBOBAstaked).toFixed(4)} BOBA
+              </Description>
             </div>
             {layer === 'L2' && (
               <div>
@@ -170,7 +177,7 @@ const Save = () => {
         <S.PaddingContainer>
           <S.BlockContainer>
             <div>
-              <Typography variant="head">Staking Period</Typography>
+              <Typography variant="title">Staking Period</Typography>
               <Description>
                 Each staking period lasts 2 weeks. If you do not unstake after a
                 <br />
@@ -178,7 +185,7 @@ const Save = () => {
               </Description>
             </div>
             <div>
-              <Typography variant="head">Unstaking Window</Typography>
+              <Typography variant="title">Unstaking Window</Typography>
               <Description>
                 The first two days of every staking period, except for the first
                 <br />
@@ -193,7 +200,7 @@ const Save = () => {
       <>
         <S.PaddingContainer>
           <S.TitleContainer>
-            <Typography variant="head">Staking History</Typography>
+            <Typography variant="title">Staking History</Typography>
           </S.TitleContainer>
         </S.PaddingContainer>
         <S.MobileTableContainer>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 
 const BnbIcon = () => (
   <>

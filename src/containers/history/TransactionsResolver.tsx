@@ -3,7 +3,7 @@ import { TransactionsTableContent } from 'components/global/table/themes'
 import { TokenInfo } from 'containers/history/tokenInfo'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
-import { getCoinImage } from 'util/coinImage'
+import { getCoinImage } from 'util/gitdata'
 import { formatDate, isSameOrAfterDate, isSameOrBeforeDate } from 'util/dates'
 import { ALL_NETWORKS, Chains } from './constants'
 
