@@ -24,7 +24,7 @@ const TradeCard = ({ name, description, icon, link }) => {
       <PlaceholderImage>
         <img src={iconImage} alt={name} width="100%" />
       </PlaceholderImage>
-      <Title href={link} target="_blank">
+      <Title href={link} target="_blank" rel="noopener noreferrer">
         {name} <ExternalIcon src={externalSvg} />
       </Title>
       <Tooltip title={description}>
@@ -49,7 +49,13 @@ const Trade = () => {
       <CardList>
         {items.map(
           (item: any, index) =>
-            item.visible && <TradeCard key={index} {...item} />
+            item.visible && (
+              <TradeCard
+                key={`${item.name}-${item.pairName}` || index}
+                {...item}
+                description={item.pairName}
+              />
+            )
         )}
       </CardList>
     </PageContainer>
