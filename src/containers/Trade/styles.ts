@@ -66,7 +66,7 @@ export const Card = styled.div`
     padding: 20px;
     gap: 8px;
     max-width: 200px;
-  min-width: 200px;
+    min-width: 200px;
   `}
 
   ${mobile`
