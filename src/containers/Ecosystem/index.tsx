@@ -25,7 +25,7 @@ const EcosystemCard = ({ name, description, icon, link }) => {
       <PlaceholderImage>
         <img src={iconImage} alt={name} width="100%" />
       </PlaceholderImage>
-      <Title href={link} target="_blank">
+      <Title href={link} target="_blank" rel="noopener noreferrer">
         {name} <ExternalIcon src={externalSvg} />
       </Title>
       <Tooltip title={description}>
@@ -56,11 +56,11 @@ const Ecosystem = () => {
         >
           All
         </OutlineButton>
-        {types.filter(Boolean).map((type, index) => (
+        {types.filter(Boolean).map((type) => (
           <OutlineButton
             className={`${type.toLowerCase() !== selectedType ? '' : 'active'}`}
             onClick={() => setType(type.toLowerCase())}
-            key={index}
+            key={type}
           >
             {type}
           </OutlineButton>
@@ -75,7 +75,9 @@ const Ecosystem = () => {
           )
           .map(
             (item: any, index) =>
-              item.visible && <EcosystemCard key={index} {...item} />
+              item.visible && (
+                <EcosystemCard key={item.name || index} {...item} />
+              )
           )}
       </CardList>
     </PageContainer>
