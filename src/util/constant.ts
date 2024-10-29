@@ -19,7 +19,7 @@ export const WC_PROJECT_ID: EnvType = process.env.REACT_APP_WC_PROJECT_ID
 export const DISABLE_WALLETCONNECT: EnvType =
   process.env.REACT_APP_DISABLE_WALLETCONNECT
 
-const GATEWAY_DATA_BRANCH: EnvType =
+export const GATEWAY_DATA_BRANCH: EnvType =
   process.env.REACT_APP_GATEWAY_DATA_BRANCH || 'main'
 
 /*********************

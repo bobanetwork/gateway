@@ -1,5 +1,5 @@
 import TESTLogo from 'assets/images/test.svg'
-import { GATEWAY_DATA_RAW } from './constant'
+import { GATEWAY_DATA_BRANCH, GATEWAY_DATA_RAW } from './constant'
 
 export const getCoinImage = (symbol: string): string => {
   const logoURIbase =
@@ -13,5 +13,5 @@ export const getCoinImage = (symbol: string): string => {
 }
 
 export const getEcoImage = (name: string) => {
-  return `${GATEWAY_DATA_RAW}/feat/ecosystem-page/ecosystem/icons/${name}`
+  return `${GATEWAY_DATA_RAW}${GATEWAY_DATA_BRANCH}/ecosystem/icons/${name}`
 }
