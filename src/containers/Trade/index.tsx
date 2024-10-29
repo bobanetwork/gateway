@@ -49,7 +49,13 @@ const Trade = () => {
       <CardList>
         {items.map(
           (item: any, index) =>
-            item.visible && <TradeCard key={item.name || index} {...item} />
+            item.visible && (
+              <TradeCard
+                key={`${item.name}-${item.pairName}` || index}
+                {...item}
+                description={item.pairName}
+              />
+            )
         )}
       </CardList>
     </PageContainer>
