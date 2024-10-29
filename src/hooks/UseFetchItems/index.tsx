@@ -16,7 +16,7 @@ export const useFetchItems = (url) => {
       const shouldFetch =
         !cachedData ||
         !cacheTimestamp ||
-        Date.now() - Number(cacheTimestamp) > 3 * 24 * 60 * 60 * 1000 // 3 days
+        Date.now() - Number(cacheTimestamp) > 24 * 60 * 60 * 1000 // 1 days
 
       if (shouldFetch) {
         try {
