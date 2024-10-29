@@ -18,7 +18,7 @@ import externalSvg from 'assets/external.svg'
 
 const TradeCard = ({ name, description, icon, link }) => {
   const theme = useSelector(selectTheme)
-  const iconImage = getEcoImage(theme === 'light' ? icon.light : icon.dark)
+  const iconImage = getEcoImage(theme === 'light' ? icon.dark : icon.light)
   return (
     <Card>
       <PlaceholderImage>
