@@ -52,7 +52,7 @@ exports[`ApplicationBanner should match snapshot when alerts are enable 1`] = `
           class="sc-gFqAkR gGVGUm"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-feUZmu ldHMux"
+            class="sc-dAlyuH kHUTXv sc-feUZmu fXcDyn"
           >
             message two goes here
           </p>

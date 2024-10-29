@@ -50,7 +50,7 @@ exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
         style="max-width: 145px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -60,7 +60,7 @@ exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
         style="max-width: 115px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -70,7 +70,7 @@ exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
         style="max-width: 85px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -80,7 +80,7 @@ exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
         style="max-width: 90px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -90,7 +90,7 @@ exports[`EarnList  should match snapshot when lpChoice L1LP 1`] = `
         style="max-width: 110px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -170,7 +170,7 @@ exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
         style="max-width: 145px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -180,7 +180,7 @@ exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
         style="max-width: 115px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -190,7 +190,7 @@ exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
         style="max-width: 85px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -200,7 +200,7 @@ exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
         style="max-width: 90px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -210,7 +210,7 @@ exports[`EarnList  should match snapshot when lpChoice L2LP 1`] = `
         style="max-width: 110px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -290,7 +290,7 @@ exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
         style="max-width: 145px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -300,7 +300,7 @@ exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
         style="max-width: 115px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -310,7 +310,7 @@ exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
         style="max-width: 85px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -320,7 +320,7 @@ exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
         style="max-width: 90px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -330,7 +330,7 @@ exports[`EarnList  should match snapshot when lpChoice empty 1`] = `
         style="max-width: 110px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -410,7 +410,7 @@ exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
         style="max-width: 145px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -420,7 +420,7 @@ exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
         style="max-width: 115px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -430,7 +430,7 @@ exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
         style="max-width: 85px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -440,7 +440,7 @@ exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
         style="max-width: 90px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -450,7 +450,7 @@ exports[`EarnList  should match snapshot when showMystake is disabled 1`] = `
         style="max-width: 110px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -528,7 +528,7 @@ exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] 
         style="max-width: 145px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -538,7 +538,7 @@ exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] 
         style="max-width: 115px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -548,7 +548,7 @@ exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] 
         style="max-width: 85px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           NaN
         </p>
@@ -558,7 +558,7 @@ exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] 
         style="max-width: 90px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -568,7 +568,7 @@ exports[`EarnList  should match snapshot when userInfo or poolInfo is empty 1`] 
         style="max-width: 110px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0
         </p>
@@ -648,7 +648,7 @@ exports[`EarnList  should match snapshot when userreward is available 1`] = `
         style="max-width: 145px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           614.83
         </p>
@@ -658,7 +658,7 @@ exports[`EarnList  should match snapshot when userreward is available 1`] = `
         style="max-width: 115px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           565.3
         </p>
@@ -668,7 +668,7 @@ exports[`EarnList  should match snapshot when userreward is available 1`] = `
         style="max-width: 85px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00
         </p>
@@ -678,7 +678,7 @@ exports[`EarnList  should match snapshot when userreward is available 1`] = `
         style="max-width: 90px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           43.01
         </p>
@@ -688,7 +688,7 @@ exports[`EarnList  should match snapshot when userreward is available 1`] = `
         style="max-width: 110px;"
       >
         <p
-          class="sc-dAlyuH eGlSty"
+          class="sc-dAlyuH kHUTXv"
         >
           0.00126
         </p>
