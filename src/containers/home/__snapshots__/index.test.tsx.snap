@@ -21,28 +21,40 @@ exports[`Home  should match snapshot 1`] = `
         class="sc-feUZmu uDIYs"
       >
         <a
-          class="sc-fUnMCh dmbHLE"
+          class="sc-fUnMCh bWDZzX"
           href="/bridge"
         >
           Bridge
         </a>
         <a
-          class="sc-fUnMCh dmbHLE"
+          class="sc-fUnMCh bWDZzX"
           href="/history"
         >
           History
         </a>
         <a
-          class="sc-fUnMCh dmbHLE"
+          class="sc-fUnMCh bWDZzX"
           href="/stake"
         >
           Stake
         </a>
         <a
-          class="sc-fUnMCh dmbHLE"
+          class="sc-fUnMCh bWDZzX"
           href="/dao"
         >
           Dao
+        </a>
+        <a
+          class="sc-fUnMCh bWDZzX"
+          href="/trade"
+        >
+          Trade
+        </a>
+        <a
+          class="sc-fUnMCh bWDZzX"
+          href="/ecosystem"
+        >
+          Ecosystem
         </a>
       </div>
       <div
@@ -99,9 +111,9 @@ exports[`Home  should match snapshot 1`] = `
             class="sc-fmzyuX gVLFSP"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-BQMaI ihnFmL"
+              class="sc-dAlyuH kHUTXv sc-BQMaI haaNDR"
             >
-              The earn program is being phased out as we introduce the Boba Light Bridge. To initiate a withdrawal of funds from the liquidity pool, To withdraw funds 
+              As we launch the Boba Light Bridge, the earn program has ended. To withdraw from the liquidity pool 
               <a
                 href="/earn"
                 target="blank"
@@ -119,7 +131,7 @@ exports[`Home  should match snapshot 1`] = `
             class="sc-fmzyuX gVLFSP"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-BQMaI ihnFmL"
+              class="sc-dAlyuH kHUTXv sc-BQMaI haaNDR"
             >
               Due to the Anchorage upgrade, relayers will no longer be available.
             </p>
@@ -225,12 +237,12 @@ exports[`Home  should match snapshot 1`] = `
           class="sc-cmaqmh dFyDkZ"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-kAkpmW hXCTIs"
+            class="sc-dAlyuH kHUTXv sc-kAkpmW hXCTIs"
           >
             ©2023 Enya Labs
           </p>
           <p
-            class="sc-dAlyuH eGlSty sc-kAkpmW hXCTIs"
+            class="sc-dAlyuH kHUTXv sc-kAkpmW hXCTIs"
           >
             v0.14.9
           </p>

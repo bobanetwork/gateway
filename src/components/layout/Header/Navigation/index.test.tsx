@@ -25,7 +25,7 @@ describe('Layout', () => {
       test('should have menu length of 4 with expected labels & paths', () => {
         renderHeaderMenu()
         const links = screen.getAllByRole('link')
-        expect(links.length).toBe(4)
+        expect(links.length).toBe(6)
         links.forEach((link, index) => {
           expect(link).toHaveTextContent(MENU_LIST[index].label)
           expect(link).toHaveAttribute('href', MENU_LIST[index].path)

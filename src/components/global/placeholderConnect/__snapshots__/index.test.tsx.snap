@@ -17,7 +17,7 @@ exports[`PlaceholderConnect PlaceholderConnect is loading 1`] = `
       </div>
     </div>
     <p
-      class="sc-fqkvVR foGdaN sc-iGgWBj gNabdA"
+      class="sc-fqkvVR cURQuQ sc-iGgWBj gNabdA"
     >
       No 
     </p>
@@ -48,7 +48,7 @@ exports[`PlaceholderConnect PlaceholderConnect is not loading 1`] = `
       </div>
     </div>
     <p
-      class="sc-fqkvVR foGdaN sc-iGgWBj gNabdA"
+      class="sc-fqkvVR cURQuQ sc-iGgWBj gNabdA"
     >
       No 
     </p>

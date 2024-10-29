@@ -83,7 +83,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             class="sc-dtInlm huKBQq"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-kdBSHD cCpVqj"
+              class="sc-dAlyuH kHUTXv sc-kdBSHD cCpVqj"
             >
               From
             </p>
@@ -134,7 +134,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
                 </svg>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH sc-eBMEME hCtJAw"
+                class="sc-dAlyuH gvFLwm sc-eBMEME hCtJAw"
               >
                 ethereum
               </p>
@@ -173,7 +173,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
             class="sc-dtInlm huKBQq"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-kdBSHD cCpVqj"
+              class="sc-dAlyuH kHUTXv sc-kdBSHD cCpVqj"
             >
               To
             </p>
@@ -238,7 +238,7 @@ exports[`Bridging Component should match snapshot on when bridge type is CLASSIC
                 </svg>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH sc-eBMEME hCtJAw"
+                class="sc-dAlyuH gvFLwm sc-eBMEME hCtJAw"
               >
                 boba
               </p>
@@ -363,7 +363,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
           class="sc-dZoequ gLLVgX"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-kdBSHD cCpVqj"
+            class="sc-dAlyuH kHUTXv sc-kdBSHD cCpVqj"
           >
             Third party bridges
           </p>
@@ -371,7 +371,7 @@ exports[`Bridging Component should match snapshot on when bridge type is THIRD_P
             class="sc-eZkCL cCsJJJ"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               Loading ...
             </p>

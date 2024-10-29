@@ -10,12 +10,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
+        class="sc-dAlyuH kHUTXv sc-fPXMVe gdvqZB"
       >
         Ethereum
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
+        class="sc-dAlyuH kHUTXv sc-gFqAkR kIHBzR"
       >
         10 Gwei
       </p>
@@ -24,12 +24,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
+        class="sc-dAlyuH kHUTXv sc-fPXMVe gdvqZB"
       >
         Boba ETH
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
+        class="sc-dAlyuH kHUTXv sc-gFqAkR kIHBzR"
       >
         20 Gwei
       </p>
@@ -38,12 +38,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
+        class="sc-dAlyuH kHUTXv sc-fPXMVe gdvqZB"
       >
         Savings
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
+        class="sc-dAlyuH kHUTXv sc-gFqAkR kIHBzR"
       >
         1x
       </p>
@@ -52,12 +52,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
+        class="sc-dAlyuH kHUTXv sc-fPXMVe gdvqZB"
       >
         L1
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
+        class="sc-dAlyuH kHUTXv sc-gFqAkR kIHBzR"
       >
         110000
       </p>
@@ -66,12 +66,12 @@ exports[`Footer GasWatcher should match snapshot when gas has value 1`] = `
       class="sc-eldPxv jHaztR"
     >
       <p
-        class="sc-dAlyuH eGlSty sc-fPXMVe gdvqZB"
+        class="sc-dAlyuH kHUTXv sc-fPXMVe gdvqZB"
       >
         L2
       </p>
       <p
-        class="sc-dAlyuH eGlSty sc-gFqAkR kIHBzR"
+        class="sc-dAlyuH kHUTXv sc-gFqAkR kIHBzR"
       >
         220000
       </p>

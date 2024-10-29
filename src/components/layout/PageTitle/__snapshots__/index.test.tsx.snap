@@ -7,7 +7,7 @@ exports[`PageTitle should match snapshots head 1`] = `
     id="title"
   >
     <h1
-      class="sc-aXZVg isOYYe sc-fqkvVR jFHvxB"
+      class="sc-aXZVg isOYYe sc-fqkvVR jqWeRQ"
     >
       Page Title
     </h1>

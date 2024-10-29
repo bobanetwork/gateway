@@ -9,7 +9,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
       class="sc-kOHTFB gytHNh"
     >
       <p
-        class="sc-dAlyuH jxulBe"
+        class="sc-dAlyuH kAqBRX"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -38,7 +38,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
             data-testid="tab-l1"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               ethereum Pools
             </p>
@@ -48,7 +48,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
             data-testid="tab-l2"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               boba Pools
             </p>
@@ -79,7 +79,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
                 </div>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH"
+                class="sc-dAlyuH gvFLwm"
               >
                 My Stakes Only
               </p>
@@ -95,7 +95,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           style="max-width: 225px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Token
           </p>
@@ -105,7 +105,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           style="max-width: 145px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Available Balance
           </p>
@@ -127,7 +127,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           style="max-width: 115px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Total Staked
           </p>
@@ -149,7 +149,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           style="max-width: 85px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             APR
           </p>
@@ -171,7 +171,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           style="max-width: 90px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Your Stake
           </p>
@@ -181,7 +181,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           style="max-width: 110px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Earned
           </p>
@@ -191,7 +191,7 @@ exports[`Earn  should match snapshot & trigger action when accountEnabled with l
           style="max-width: 75px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Actions
           </p>
@@ -234,7 +234,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
       class="sc-kOHTFB gytHNh"
     >
       <p
-        class="sc-dAlyuH jxulBe"
+        class="sc-dAlyuH kAqBRX"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -272,7 +272,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           />
         </svg>
         <p
-          class="sc-dAlyuH eGlSty sc-dtInlm fjsaFe"
+          class="sc-dAlyuH kHUTXv sc-dtInlm fjsaFe"
         >
           You are on L1. To transact on L2, SWITCH LAYER to L2
         </p>
@@ -304,7 +304,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
             data-testid="tab-l1"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               ethereum Pools
             </p>
@@ -314,7 +314,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
             data-testid="tab-l2"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               boba Pools
             </p>
@@ -345,7 +345,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
                 </div>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH"
+                class="sc-dAlyuH gvFLwm"
               >
                 My Stakes Only
               </p>
@@ -361,7 +361,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           style="max-width: 225px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Token
           </p>
@@ -371,7 +371,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           style="max-width: 145px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Available Balance
           </p>
@@ -393,7 +393,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           style="max-width: 115px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Total Staked
           </p>
@@ -415,7 +415,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           style="max-width: 85px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             APR
           </p>
@@ -437,7 +437,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           style="max-width: 90px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Your Stake
           </p>
@@ -447,7 +447,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           style="max-width: 110px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Earned
           </p>
@@ -457,7 +457,7 @@ exports[`Earn  should match snapshot on switching between tabs on L1 1`] = `
           style="max-width: 75px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Actions
           </p>
@@ -500,7 +500,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
       class="sc-kOHTFB gytHNh"
     >
       <p
-        class="sc-dAlyuH jxulBe"
+        class="sc-dAlyuH kAqBRX"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -538,7 +538,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           />
         </svg>
         <p
-          class="sc-dAlyuH eGlSty sc-dtInlm fjsaFe"
+          class="sc-dAlyuH kHUTXv sc-dtInlm fjsaFe"
         >
           You are on L2. To transact on L1, SWITCH LAYER to L1
         </p>
@@ -570,7 +570,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
             data-testid="tab-l1"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               ethereum Pools
             </p>
@@ -580,7 +580,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
             data-testid="tab-l2"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               boba Pools
             </p>
@@ -611,7 +611,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
                 </div>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH"
+                class="sc-dAlyuH gvFLwm"
               >
                 My Stakes Only
               </p>
@@ -627,7 +627,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           style="max-width: 225px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Token
           </p>
@@ -637,7 +637,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           style="max-width: 145px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Available Balance
           </p>
@@ -659,7 +659,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           style="max-width: 115px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Total Staked
           </p>
@@ -681,7 +681,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           style="max-width: 85px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             APR
           </p>
@@ -703,7 +703,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           style="max-width: 90px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Your Stake
           </p>
@@ -713,7 +713,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           style="max-width: 110px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Earned
           </p>
@@ -723,7 +723,7 @@ exports[`Earn  should match snapshot on switching between tabs on L2 1`] = `
           style="max-width: 75px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Actions
           </p>
@@ -766,7 +766,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
       class="sc-kOHTFB gytHNh"
     >
       <p
-        class="sc-dAlyuH jxulBe"
+        class="sc-dAlyuH kAqBRX"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -804,7 +804,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           />
         </svg>
         <p
-          class="sc-dAlyuH eGlSty sc-fPXMVe"
+          class="sc-dAlyuH kHUTXv sc-fPXMVe"
         >
           Connect to Wallet to see your balances and contribute to the liquidity pool 
         </p>
@@ -833,7 +833,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
             data-testid="tab-l1"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               ethereum Pools
             </p>
@@ -843,7 +843,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
             data-testid="tab-l2"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               boba Pools
             </p>
@@ -874,7 +874,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
                 </div>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH"
+                class="sc-dAlyuH gvFLwm"
               >
                 My Stakes Only
               </p>
@@ -890,7 +890,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           style="max-width: 225px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Token
           </p>
@@ -900,7 +900,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           style="max-width: 145px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Available Balance
           </p>
@@ -922,7 +922,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           style="max-width: 115px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Total Staked
           </p>
@@ -944,7 +944,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           style="max-width: 85px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             APR
           </p>
@@ -966,7 +966,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           style="max-width: 90px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Your Stake
           </p>
@@ -976,7 +976,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           style="max-width: 110px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Earned
           </p>
@@ -986,7 +986,7 @@ exports[`Earn  should match snapshot when account is not enabled & layer is L1 1
           style="max-width: 75px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Actions
           </p>
@@ -1029,7 +1029,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
       class="sc-kOHTFB gytHNh"
     >
       <p
-        class="sc-dAlyuH jxulBe"
+        class="sc-dAlyuH kAqBRX"
       >
         Bridging fees are proportionally distributed to stakers. The bridges are not farms. Your earnings only increase when someone uses the bridge you have staked into.
       </p>
@@ -1058,7 +1058,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
             data-testid="tab-l1"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               ethereum Pools
             </p>
@@ -1068,7 +1068,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
             data-testid="tab-l2"
           >
             <p
-              class="sc-dAlyuH cZLdsH"
+              class="sc-dAlyuH gvFLwm"
             >
               boba Pools
             </p>
@@ -1099,7 +1099,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
                 </div>
               </div>
               <p
-                class="sc-dAlyuH cZLdsH"
+                class="sc-dAlyuH gvFLwm"
               >
                 My Stakes Only
               </p>
@@ -1115,7 +1115,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           style="max-width: 225px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Token
           </p>
@@ -1125,7 +1125,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           style="max-width: 145px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Available Balance
           </p>
@@ -1147,7 +1147,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           style="max-width: 115px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Total Staked
           </p>
@@ -1169,7 +1169,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           style="max-width: 85px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             APR
           </p>
@@ -1191,7 +1191,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           style="max-width: 90px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Your Stake
           </p>
@@ -1201,7 +1201,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           style="max-width: 110px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Earned
           </p>
@@ -1211,7 +1211,7 @@ exports[`Earn  should trigger actoins when basedEnabled & accountEnabled 1`] = `
           style="max-width: 75px;"
         >
           <p
-            class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+            class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
           >
             Actions
           </p>

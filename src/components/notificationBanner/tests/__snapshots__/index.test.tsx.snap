@@ -6,7 +6,7 @@ exports[`NotificationBanner  should match snapshot and check show banner when op
     class="sc-eDPEul kZpgoL open "
   >
     <p
-      class="sc-dAlyuH eGlSty sc-eldPxv jydBbR"
+      class="sc-dAlyuH kHUTXv sc-eldPxv jydBbR"
       data-testid="message"
     >
       Banner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
@@ -27,7 +27,7 @@ exports[`NotificationBanner  should match snapshot without message 1`] = `
     class="sc-eDPEul kZpgoL open "
   >
     <p
-      class="sc-dAlyuH eGlSty sc-eldPxv jydBbR"
+      class="sc-dAlyuH kHUTXv sc-eldPxv jydBbR"
       data-testid="message"
     >
       Banner message lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum

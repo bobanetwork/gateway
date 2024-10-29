@@ -8,7 +8,7 @@ exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`]
     class="sc-eeDRCY jQGxeL"
   >
     <p
-      class="sc-dAlyuH eGlSty sc-fHjqPf iYUju"
+      class="sc-dAlyuH kHUTXv sc-fHjqPf iYUju"
     >
       Third party bridges
     </p>
@@ -33,7 +33,7 @@ exports[`3rd Party Bridges should match snapshot when network is ETH Mainnet 1`]
           />
         </div>
         <p
-          class="sc-dAlyuH hQXXHy sc-jsJBEP czKeTg"
+          class="sc-dAlyuH kHtXaE sc-jsJBEP czKeTg"
         >
           Banxa
         </p>

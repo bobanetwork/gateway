@@ -30,7 +30,7 @@ exports[`Testing history page Test History Page 1`] = `
         class="sc-bmzYkS cdtBam"
       >
         <p
-          class="sc-dAlyuH eGlSty sc-uVWWZ kuvvxg"
+          class="sc-dAlyuH kHUTXv sc-uVWWZ kuvvxg"
         >
           Date Range From
         </p>
@@ -44,7 +44,7 @@ exports[`Testing history page Test History Page 1`] = `
           </div>
         </div>
         <p
-          class="sc-dAlyuH eGlSty sc-uVWWZ kuvvxg"
+          class="sc-dAlyuH kHUTXv sc-uVWWZ kuvvxg"
         >
           To
         </p>
@@ -62,7 +62,7 @@ exports[`Testing history page Test History Page 1`] = `
         class="sc-iHGNWf hEfXFe"
       >
         <p
-          class="sc-dAlyuH eGlSty sc-hCPjZK exZQBf"
+          class="sc-dAlyuH kHUTXv sc-hCPjZK exZQBf"
         >
           Date Range
         </p>
@@ -91,7 +91,7 @@ exports[`Testing history page Test History Page 1`] = `
             class="sc-dtBdUo fKCqqq"
           >
             <p
-              class="sc-dAlyuH eGlSty"
+              class="sc-dAlyuH kHUTXv"
             >
               From
             </p>
@@ -120,7 +120,7 @@ exports[`Testing history page Test History Page 1`] = `
                     </div>
                   </div>
                   <p
-                    class="sc-dAlyuH eGlSty"
+                    class="sc-dAlyuH kHUTXv"
                     data-testid="label-"
                   >
                     All Networks
@@ -153,7 +153,7 @@ exports[`Testing history page Test History Page 1`] = `
               </div>
             </div>
             <p
-              class="sc-dAlyuH eGlSty"
+              class="sc-dAlyuH kHUTXv"
             >
               To
             </p>
@@ -182,7 +182,7 @@ exports[`Testing history page Test History Page 1`] = `
                     </div>
                   </div>
                   <p
-                    class="sc-dAlyuH eGlSty"
+                    class="sc-dAlyuH kHUTXv"
                     data-testid="label-"
                   >
                     All Networks
@@ -236,7 +236,7 @@ exports[`Testing history page Test History Page 1`] = `
             style="max-width: 168px;"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+              class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
             >
               Date
             </p>
@@ -246,7 +246,7 @@ exports[`Testing history page Test History Page 1`] = `
             style="max-width: 142px;"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+              class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
             >
               From
             </p>
@@ -256,7 +256,7 @@ exports[`Testing history page Test History Page 1`] = `
             style="max-width: 142px;"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+              class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
             >
               To
             </p>
@@ -266,7 +266,7 @@ exports[`Testing history page Test History Page 1`] = `
             style="max-width: 90px;"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+              class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
             >
               Token
             </p>
@@ -276,7 +276,7 @@ exports[`Testing history page Test History Page 1`] = `
             style="max-width: 80px;"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+              class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
             >
               Amount
             </p>
@@ -286,7 +286,7 @@ exports[`Testing history page Test History Page 1`] = `
             style="max-width: 80px;"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+              class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
             >
               Status
             </p>
@@ -296,7 +296,7 @@ exports[`Testing history page Test History Page 1`] = `
             style="max-width: 88px;"
           >
             <p
-              class="sc-dAlyuH eGlSty sc-cwHptR btmDVI"
+              class="sc-dAlyuH kHUTXv sc-cwHptR btmDVI"
             >
               Action
             </p>
