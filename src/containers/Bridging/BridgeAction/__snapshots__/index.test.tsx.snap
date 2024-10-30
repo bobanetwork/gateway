@@ -28,20 +28,38 @@ exports[`BridgeAction AccountEnabled is true should match snapshot 1`] = `
   <div
     class="sc-gFqAkR bkXCIc"
   >
-    <button
-      class="sc-gsFSXq jLgYJo sc-ikkxIA"
-      data-testid="bridge-btn"
-      label="[object Object]"
-      style="width: 100%;"
-      type="button"
+    <div
+      style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; gap: 10px;"
     >
-       
-      <h3
-        class="sc-jlZhew bOWxgm"
+      <button
+        class="sc-gsFSXq jLgYJo sc-ikkxIA"
+        data-testid="bridge-btn"
+        label="[object Object]"
+        style="width: 100%;"
+        type="button"
       >
-        Bridge
-      </h3>
-    </button>
+         
+        <h3
+          class="sc-jlZhew bOWxgm"
+        >
+          Bridge
+        </h3>
+      </button>
+      <button
+        class="sc-gsFSXq copFJf sc-ikkxIA"
+        data-testid="connect-btn"
+        label="[object Object]"
+        style="width: 100%;"
+        type="button"
+      >
+         
+        <h3
+          class="sc-jlZhew bOWxgm"
+        >
+          By With Ramp Network
+        </h3>
+      </button>
+    </div>
   </div>
 </DocumentFragment>
 `;
