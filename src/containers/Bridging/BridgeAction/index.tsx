@@ -10,6 +10,7 @@ import {
   selectTokenToBridge,
 } from 'selectors'
 import { BridgeActionButton, BridgeActionContainer } from '../styles'
+import { PURCHASE_RAMP_URL } from 'util/constant'
 
 const BridgeAction = () => {
   const dispatch = useDispatch<any>()
@@ -42,12 +43,31 @@ const BridgeAction = () => {
           label={<Heading variant="h3">Connect Wallet</Heading>}
         />
       ) : (
-        <BridgeActionButton
-          disabled={isBridgeActionDisabled()}
-          onClick={onBridge}
-          data-testid="bridge-btn"
-          label={<Heading variant="h3">Bridge</Heading>}
-        />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            gap: '10px',
+          }}
+        >
+          <BridgeActionButton
+            disabled={isBridgeActionDisabled()}
+            onClick={onBridge}
+            data-testid="bridge-btn"
+            label={<Heading variant="h3">Bridge</Heading>}
+          />
+          <BridgeActionButton
+            outline
+            onClick={() => {
+              window.open(PURCHASE_RAMP_URL, 'blank')
+            }}
+            data-testid="connect-btn"
+            label={<Heading variant="h3">By With Ramp Network</Heading>}
+          />
+        </div>
       )}
     </BridgeActionContainer>
   )
