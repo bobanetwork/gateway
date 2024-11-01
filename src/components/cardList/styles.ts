@@ -46,6 +46,7 @@ export const Card = styled.div`
   width: 100%;
   max-width: 250px;
   min-width: 250px;
+  height: 220px;
   border: 1px solid
     ${({ theme: { colors, name } }) =>
       name === 'light' ? colors.gray[400] : colors.gray[300]};
