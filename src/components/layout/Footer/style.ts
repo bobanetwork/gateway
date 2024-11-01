@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { mobile } from 'themes/screens'
+import { mobile, tablet } from 'themes/screens'
 
 export const StyledFooter = styled.div`
   display: flex;
@@ -21,4 +21,10 @@ export const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  ${tablet(css`
+    flex-direction: column-reverse;
+  `)}
+  ${mobile(css`
+    flex-direction: column-reverse;
+  `)}
 `
