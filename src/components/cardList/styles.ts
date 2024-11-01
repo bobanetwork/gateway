@@ -9,6 +9,7 @@ export const CardList = styled.div`
   min-height: 650px;
   max-height: 850px;
   overflow-y: scroll;
+  padding-bottom: 5px;
 
   ${sdesktop`
     grid-template-columns: repeat(4, 1fr);
