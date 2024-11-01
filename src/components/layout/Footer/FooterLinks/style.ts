@@ -1,11 +1,18 @@
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import { mobile } from 'themes/screens'
+import { mobile, tablet } from 'themes/screens'
 
 export const StyledLinks = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
+
+  ${mobile(css`
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 80%;
+  `)}
 `
 export const ScanContainer = styled.div`
   margin: 10px 0px;
@@ -18,6 +25,12 @@ export const LinkContainer = styled.div`
   justify-content: space-between;
   margin: 0;
   gap: 32px;
+
+  ${tablet(css`
+    flex-direction: row;
+    align-items: center;
+    margin: 10px auto;
+  `)}
 
   ${mobile(css`
     width: 100%;

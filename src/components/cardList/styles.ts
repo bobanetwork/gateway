@@ -1,32 +1,15 @@
 import styled, { css } from 'styled-components'
 import { mobile, sdesktop, tablet } from 'themes/screens'
 
-export const PageContainer = styled.div`
-  margin: 0px auto 20px auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 0px 50px 50px 50px;
-  width: 100%;
-  max-width: 1164px;
-  ${sdesktop(css`
-    padding: 0px 0px 50px 0px;
-  `)}
-  ${tablet(css`
-    padding: 0px 50px;
-  `)}
-  ${mobile(css`
-    padding: 0px 25px;
-    margin: auto;
-  `)}
-`
-
 export const CardList = styled.div`
   display: grid;
   gap: 15px;
   grid-template-columns: repeat(4, 1fr);
-  max-height: calc(100vh - 320px);
+  height: calc(100vh - 320px);
+  min-height: 650px;
+  max-height: 850px;
   overflow-y: scroll;
+  padding-bottom: 5px;
 
   ${sdesktop`
     grid-template-columns: repeat(4, 1fr);
@@ -39,7 +22,12 @@ export const CardList = styled.div`
 
   ${mobile`
     grid-template-columns: repeat(1, 1fr);
+    max-height: 100%;
   `}
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const Card = styled.div`
@@ -72,8 +60,9 @@ export const Card = styled.div`
   ${mobile`
     padding: 16px;
     gap: 8px;
-    max-width: 350px;
-  min-width: 350px;
+    max-width: 280px;
+    min-width: 280px;
+    margin:auto;
   `}
 `
 
@@ -100,6 +89,10 @@ export const Title = styled.a`
   &:hover {
     text-decoration: underline;
   }
+
+  ${tablet`
+   font-size: 14px;
+  `}
 
   ${(props) => css`
     color: ${props.theme.name === 'light'

@@ -1,14 +1,19 @@
 import { Typography } from 'components/global'
 import styled, { css } from 'styled-components'
-import { mobile } from 'themes/screens'
+import { mobile, tablet } from 'themes/screens'
 
 export const GasListContainer = styled.div`
   self-align: flex-end;
   display: flex;
   gap: 24px;
   justify-content: flex-end;
+  ${tablet(css`
+    margin: 10px auto;
+  `)}
   ${mobile(css`
-    display: none;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   `)}
 `
 
