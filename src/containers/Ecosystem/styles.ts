@@ -25,8 +25,10 @@ export const CardList = styled.div`
   display: grid;
   gap: 15px;
   grid-template-columns: repeat(4, 1fr);
-  max-height: calc(100vh - 320px);
   overflow-y: scroll;
+  height: calc(100vh - 320px);
+  min-height: 650px;
+  max-height: 850px;
 
   ${sdesktop`
     grid-template-columns: repeat(4, 1fr);
@@ -39,7 +41,12 @@ export const CardList = styled.div`
 
   ${mobile`
     grid-template-columns: repeat(1, 1fr);
+    max-height: 100%;
   `}
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const Card = styled.div`
@@ -72,8 +79,9 @@ export const Card = styled.div`
   ${mobile`
     padding: 16px;
     gap: 8px;
-    max-width: 320px;
-    min-width: 320px;
+    max-width: 280px;
+    min-width: 280px;
+    margin:auto;
   `}
 `
 
