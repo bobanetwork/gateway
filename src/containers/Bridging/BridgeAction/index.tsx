@@ -62,10 +62,11 @@ const BridgeAction = () => {
           <BridgeActionButton
             outline
             onClick={() => {
+              console.log(`PURCHASE_RAMP_URL`, PURCHASE_RAMP_URL)
               window.open(PURCHASE_RAMP_URL, 'blank')
             }}
             data-testid="connect-btn"
-            label={<Heading variant="h3">By With Ramp Network</Heading>}
+            label={<Heading variant="h3">Buy with Ramp Network</Heading>}
           />
         </div>
       )}
