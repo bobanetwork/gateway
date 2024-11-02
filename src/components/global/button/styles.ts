@@ -66,8 +66,8 @@ export const ButtonContainer = styled.button.withConfig({
     ${(props) =>
     props.outline &&
     `
-      border: 1px solid ${props.theme.colors.green[300]};
-      color: ${props.theme.colors.green[300]};
+      border: 1px solid ${props.theme.name !== 'light' ? props.theme.colors.green[300] : props.theme.colors.gray[500]};
+      color: ${props.theme.name !== 'light' ? props.theme.colors.green[300] : props.theme.colors.gray[800]};
       background: transparent;
       box-shadow:none;
       &:hover {

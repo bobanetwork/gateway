@@ -22,6 +22,8 @@ export const DISABLE_WALLETCONNECT: EnvType =
 export const GATEWAY_DATA_BRANCH: EnvType =
   process.env.REACT_APP_GATEWAY_DATA_BRANCH || 'main'
 
+export const ONRAMP_API_KEY: EnvType = process.env.REACT_APP_ONRAMP_API_KEY
+
 /*********************
  * Routes Constants **
  *********************/
@@ -111,3 +113,7 @@ export const TRADE_LIST = `${GATEWAY_DATA_RAW}${GATEWAY_DATA_BRANCH}/ecosystem/c
 export const COIN_GECKO_URL = `https://api.coingecko.com/api/v3/`
 
 export const ERROR_CODE = 'GATEWAY ERROR:'
+
+const BOBA_LOGO_URL = 'https://gateway.boba.network/favicon.png'
+
+export const PURCHASE_RAMP_URL = `https://app.ramp.network?hostApiKey=${ONRAMP_API_KEY}&hostAppName=boba.network&hostLogoUrl=${BOBA_LOGO_URL}`
