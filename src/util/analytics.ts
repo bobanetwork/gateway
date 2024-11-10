@@ -19,7 +19,16 @@ export const sendPageView = (path: string) => {
   })
 }
 
+export const trackClick = (category: string, action: string, label: string) => {
+  ReactGA.event({
+    category,
+    action,
+    label,
+  })
+}
+
 export default {
   init,
   sendPageView,
+  trackClick,
 }
