@@ -13,6 +13,7 @@ import {
 import { BridgeActionButton, BridgeActionContainer } from '../styles'
 import { PURCHASE_RAMP_URL } from 'util/constant'
 import { NetworkType } from 'util/network/network.util'
+import { trackClick } from 'util/analytics'
 
 const BridgeAction = () => {
   const dispatch = useDispatch<any>()
@@ -68,6 +69,7 @@ const BridgeAction = () => {
             <BridgeActionButton
               outline
               onClick={() => {
+                trackClick('button', 'button_click', 'Buy With Ramp Network')
                 window.open(PURCHASE_RAMP_URL, 'blank')
               }}
               data-testid="connect-btn"
