@@ -42,7 +42,7 @@
     "@sentry/react": "^7.104.0",
     "@sentry/tracing": "^7.104.0",
     "@walletconnect/ethereum-provider": "^2.10.5",
-    "@walletconnect/modal": "^2.6.2",
+    "@walletconnect/modal": "^2.7.0",
     "assert": "^2.0.0",
     "axios": "^1.7.3",
     "bignumber.js": "^9.0.1",
