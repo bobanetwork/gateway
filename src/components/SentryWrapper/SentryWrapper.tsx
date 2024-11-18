@@ -80,7 +80,7 @@ const SentryWrapper = (props: ISentryWrapperProps) => {
         dsn: sentryDns,
         environment: `${APP_ENV}-${network}`,
         integrations: [
-          new Sentry.Integrations.GlobalHandlers({
+          Sentry.globalHandlersIntegration({
             onunhandledrejection: false, /// will avoid to send unhandle browser error.
             onerror: false,
           }),
