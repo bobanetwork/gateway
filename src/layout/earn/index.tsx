@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Earn = () => {
+const EarnPage = () => {
   return (
-    <div>Earn</div>
+    <div>EarnPage</div>
   )
 }
 
-export default Earn
+export default EarnPage

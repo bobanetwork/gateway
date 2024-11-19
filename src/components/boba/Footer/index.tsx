@@ -1,4 +1,4 @@
-import { Text, Tooltip } from "@/components/ui";
+import { Text, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import { useFooter } from "./useFooter";
 import bobaLogo from "@/assets/boba/boba-logo.svg";
 import { IconFileText, IconBrandTwitter, IconBrandDiscord, IconBrandTelegram } from "@tabler/icons-react";
@@ -49,10 +49,15 @@ export const Footer = () => {
         </div>
 
         <div className="flex space-x-4">
-          {socialNavLinks.map((linkItem, index) => (<Tooltip key={linkItem.label} content={<Text variant="sm">{linkItem.label}</Text>}>
-            <a key={index} href={linkItem.href} target="_blank">
-              {socialIconMap[linkItem.icon]}
-            </a>
+          {socialNavLinks.map((linkItem, index) => (<Tooltip key={linkItem.label}>
+            <TooltipContent>
+              <Text variant="sm">{linkItem.label}</Text>
+            </TooltipContent>
+            <TooltipTrigger asChild>
+              <a key={index} href={linkItem.href} target="_blank">
+                {socialIconMap[linkItem.icon]}
+              </a>
+            </TooltipTrigger>
           </Tooltip>))}
         </div>
       </div>

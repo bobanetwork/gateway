@@ -1,9 +1,11 @@
+import BridgePage from "@/layout/bridge";
+import DaoPage from "@/layout/dao";
+import EarnPage from "@/layout/earn";
+import EcosystemPage from "@/layout/ecosystem";
+import HistoryPage from "@/layout/history";
 import Home from "@/layout/home";
-import Bridge from "@/layout/bridge";
-import History from "@/layout/history";
-import Stake from "@/layout/stake";
-import Earn from "@/layout/earn";
-import Dao from "@/layout/dao";
+import StakePage from "@/layout/stake";
+import TradePage from "@/layout/trade";
 import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 
 const RouteList: RouteObject[] = [{
@@ -16,23 +18,31 @@ const RouteList: RouteObject[] = [{
     },
     {
       path: "bridge",
-      element: <Bridge />,
+      element: <BridgePage />,
     },
     {
       path: "history",
-      element: <History />,
+      element: <HistoryPage />,
     },
     {
       path: "stake",
-      element: <Stake />,
+      element: <StakePage />,
     },
     {
       path: "earn",
-      element: <Earn />,
+      element: <EarnPage />,
     },
     {
       path: "dao",
-      element: <Dao />,
+      element: <DaoPage />,
+    },
+    {
+      path: "ecosystem",
+      element: <EcosystemPage />,
+    },
+    {
+      path: "trade",
+      element: <TradePage />,
     },
   ]
 }]

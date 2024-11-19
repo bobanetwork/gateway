@@ -29,6 +29,14 @@ const navItems = [
     label: 'Dao',
     path: '/dao'
   },
+  {
+    label: 'Ecosystem',
+    path: '/ecosystem'
+  },
+  {
+    label: 'Trade',
+    path: '/trade'
+  },
 ]
 
 interface LinkItemProps {
