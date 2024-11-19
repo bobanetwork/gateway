@@ -1,11 +1,109 @@
+/* Montserrat and Inter Fonts Installation */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Optional Tailwind Base Styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+  NOTE:
+    Light Mode (:root): Mapped the colors from your provided palette to the appropriate variables. --background,
+    --card,
+    --popover: Set to Gray 50 (#FCFCFD). --primary: Set to Green 300 (Main Green). --secondary,
+    --muted,
+    --border,
+    etc.: Updated with the appropriate Gray shades. --destructive: Set to Red 300 for error states. --chart-*: Applied the colors you provided for charts. Dark Mode (.dark): Applied the corresponding dark colors from your theme. --background,
+    --card,
+    --popover: Set to Dark Gray 600 (#191919). --primary: Set to Dark Green 300. --secondary,
+    --muted,
+    --border,
+    etc.: Updated with the darker shades. --destructive: Set to Dark Red 300 for error states.
+*/
+
+
+@layer base {
+  :root {
+    /* Light Mode Colors */
+    --background: #FCFCFD; /* Gray 50 */
+    --foreground: #22221E; /* Gray 800 */
+    --card: #FCFCFD; /* Same as background */
+    --card-foreground: #22221E; /* Same as foreground */
+    --popover: #FCFCFD; /* Same as background */
+    --popover-foreground: #22221E; /* Same as foreground */
+    
+    --primary: #AEDB01; /* Green 300 - Main Green */
+    --primary-foreground: #FFFFFF; /* White text on primary */
+    
+    --secondary: #DEE0D8; /* Gray 400 */
+    --secondary-foreground: #22221E; /* Foreground on secondary */
+    
+    --muted: #F0F1EA; /* Gray 100 */
+    --muted-foreground: #5E6058; /* Gray 700 */
+    
+    --accent: #90B406; /* Green 400 */
+    --accent-foreground: #22221E; /* Foreground on accent */
+    
+    --destructive: #A52015; /* Red 300 */
+    --destructive-foreground: #FFFFFF; /* White text on destructive */
+    
+    --border: #C8CAC2; /* Gray 500 */
+    --input: #E5E5E1; /* Gray 200 */
+    --ring: #4972DA; /* Information 300 */
+    
+    /* Charts */
+    --chart-1: #F5B441; /* Yellow 300 */
+    --chart-2: #BEE234; /* Green 200 */
+    --chart-3: #6E8EE1; /* Information 200 */
+    --chart-4: #936C27; /* Yellow 400 */
+    --chart-5: #A52015; /* Red 300 */
+    
+    /* Border Radius */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark Mode Colors */
+    --background: #191919; /* Dark Gray 600 */
+    --foreground: #EEEEEE; /* Light Gray 50 */
+    --card: #191919; /* Same as background */
+    --card-foreground: #EEEEEE; /* Same as foreground */
+    --popover: #191919; /* Same as background */
+    --popover-foreground: #EEEEEE; /* Same as foreground */
+    
+    --primary: #AEDB01; /* Dark Green 300 - Main Green */
+    --primary-foreground: #FFFFFF; /* White text on primary */
+    
+    --secondary: #393939; /* Dark Gray 400 */
+    --secondary-foreground: #EEEEEE; /* Foreground on secondary */
+    
+    --muted: #545454; /* Dark Gray 300 */
+    --muted-foreground: #A8A8A8; /* Dark Gray 100 */
+    
+    --accent: #90B406; /* Dark Green 400 */
+    --accent-foreground: #EEEEEE; /* Foreground on accent */
+    
+    --destructive: #D84F4F; /* Dark Red 300 */
+    --destructive-foreground: #FFFFFF; /* White text on destructive */
+    
+    --border: #5F5F5F; /* Dark Gray 200 */
+    --input: #5F5F5F; /* Same as border */
+    --ring: #4A72DA; /* Dark Information 300 */
+    
+    /* Charts */
+    --chart-1: #F5B441; /* Dark Yellow 300 */
+    --chart-2: #BEE234; /* Dark Green 200 */
+    --chart-3: #6E8EE1; /* Dark Information 200 */
+    --chart-4: #936C27; /* Dark Yellow 400 */
+    --chart-5: #D84F4F; /* Dark Red 300 */
+  }
+}
+
 :root {
-  background-color: #181818;
-  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--background);
+  color: var(--foreground);
   color-scheme: light dark;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-synthesis: none;
   font-weight: 400;
   line-height: 1.5;
@@ -15,67 +113,19 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
+/* Light Mode Styles */
 @media (prefers-color-scheme: light) {
   :root {
-    background-color: #f8f8f8;
-    color: #181818;
+    --background-color: #FCFCFD;
+    --text-color: #22221E;
   }
 }
 
-@layer base {
+/* Dark Mode Styles */
+@media (prefers-color-scheme: dark) {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background-color: #191919;
+    --text-color: #EEEEEE;
   }
 }
 
