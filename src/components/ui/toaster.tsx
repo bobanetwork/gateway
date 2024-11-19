@@ -3,7 +3,6 @@ import {
   Toast,
   ToastClose,
   ToastDescription,
-  ToastIcon,
   ToastProvider,
   ToastTitle,
   ToastViewport,
@@ -17,7 +16,6 @@ export function Toaster() {
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>
-            <ToastIcon {...props} />
             <div className="grid gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (
@@ -33,5 +31,3 @@ export function Toaster() {
     </ToastProvider>
   )
 }
-
-export default Toaster;
