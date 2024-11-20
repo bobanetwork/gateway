@@ -6,7 +6,7 @@ const BridgePage = () => {
     <div className="container">
       <div className="flex gap-5 items-center justify-center p-5 mx-auto w-10/12">
         <div className="flex flex-1">
-          <Card className="w-4/5 min-h-[500px] rounded-lg shadow-lg bg-white opacity-95 border border-gray-400">
+          <Card className="w-full md:w-4/5 min-h-[500px] rounded-lg shadow-lg bg-white opacity-95 border border-gray-400">
             <CardHeader className="p-6 pb-5">
               <div className="flex w-full justify-between items-center">
                 <div className="p-1 border-2 border-green-300 bg-green-50 rounded-full">
@@ -158,7 +158,7 @@ const BridgePage = () => {
             </CardFooter>
           </Card>
         </div>
-        <div className="flex justify-center items-center m-auto w-5/12">
+        <div className="hidden lg:flex justify-center items-center m-auto w-5/12">
           <h1 className="text-3xl md:text-5xl text-black font-bold font-montserrat whitespace-nowrap">
             Connect to a <span className="text-green-300">New <br />
               World</span> of dApps
