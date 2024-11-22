@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@bobanetwork/graphql-utils": "^1.1.16",
+    "@bobanetwork/graphql-utils": "^1.1.18",
     "@bobanetwork/light-bridge-chains": "^1.1.0",
     "@bobanetwork/register": "^0.0.26",
     "@bobanetwork/sdk": "1.0.7",
