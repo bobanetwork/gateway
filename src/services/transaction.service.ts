@@ -359,7 +359,6 @@ class TransactionService {
                   sendEvent.sourceChainId,
                   sendEvent.toChainId
                 ) ?? '0',
-                sendEvent.amount.toString(),
                 sendEvent.depositId
               )
             if (
@@ -372,7 +371,6 @@ class TransactionService {
                   networkService.account!,
                   sendEvent.sourceChainId,
                   sendEvent.toChainId,
-                  sendEvent.amount.toString(),
                   sendEvent.depositId
                 )
               if (receiveEvent) {
@@ -382,7 +380,6 @@ class TransactionService {
                     networkService.account!,
                     sendEvent.sourceChainId,
                     sendEvent.toChainId,
-                    sendEvent.amount.toString(),
                     sendEvent.depositId
                   )
               }
@@ -407,7 +404,6 @@ class TransactionService {
       networkConfig!.L2!.chainId,
       networkConfig!.L1!.chainId
     )
-
     return [...L1Txs, ...L2Txs]
   }
 
