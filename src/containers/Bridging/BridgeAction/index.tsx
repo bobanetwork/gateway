@@ -40,6 +40,11 @@ const BridgeAction = () => {
     }
   }
 
+  console.log(`isMainnet && ONRAMP_API_KEY`, {
+    isMainnet,
+    ONRAMP_API_KEY,
+  })
+
   return (
     <BridgeActionContainer>
       {!accountEnabled ? (
