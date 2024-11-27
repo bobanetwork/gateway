@@ -10,6 +10,11 @@ export const titleData = [
     path: '/earn',
   },
   {
+    title: 'Smart Account',
+    slug: 'Initiate transactions in a more secure wallet',
+    path: '/smartaccount',
+  },
+  {
     title: 'Stake',
     slug: 'Stake BOBA and earn rewards.',
     path: '/stake',

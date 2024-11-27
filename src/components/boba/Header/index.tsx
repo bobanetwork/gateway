@@ -8,11 +8,20 @@ import NetworkOption from "./components/NetworkOption";
 import ThemeToggleButton from "./components/ThemeToggle";
 import UserOption from "./components/UserOption";
 import BobaLogo from "../BobaLogo";
+import { useAccount } from "wagmi";
 
 const navItems = [
   {
     label: 'Bridge',
     path: '/bridge'
+  },
+  {
+    label: 'Trade',
+    path: '/trade'
+  },
+  {
+    label: 'Smart Account',
+    path: '/smartaccount'
   },
   {
     label: 'History',
@@ -22,10 +31,10 @@ const navItems = [
     label: 'Stake',
     path: '/stake'
   },
-  {
-    label: 'Earn',
-    path: '/earn'
-  },
+  // {
+  //   label: 'Earn',
+  //   path: '/earn'
+  // },
   {
     label: 'Dao',
     path: '/dao'
@@ -34,10 +43,7 @@ const navItems = [
     label: 'Ecosystem',
     path: '/ecosystem'
   },
-  {
-    label: 'Trade',
-    path: '/trade'
-  },
+
 ]
 
 interface LinkItemProps {
@@ -64,6 +70,8 @@ const LinkItem: FC<LinkItemProps> = ({
 
 export const Header: React.FC<any> = () => {
 
+  const { isConnected } = useAccount()
+
   return <header className="w-full px-4 py-3 lg:py-4 lg:px-12 flex justify-between items-center shadow-sm">
     <div className="text-xl font-bold flex self-center items-center gap-6 lg:hidden">
       <BobaLogo className="h-8 w-8 object-cover" />
@@ -83,11 +91,13 @@ export const Header: React.FC<any> = () => {
       </div>
     </div>
     <div className="text-xl font-bold hidden md:flex self-end gap-2">
-      <div className="hidden lg:flex gap-2">
+
+      {isConnected ? <div className="hidden lg:flex gap-2">
         <NetworkOption />
         <UserOption />
-      </div>
-      <Button className="rounded-full px-4" size="sm">Connect Wallet</Button>
+      </div> : <Button className="rounded-full px-4" size="sm" onClick={() => {
+
+      }}>Connect Wallet</Button>}
       <div className="flex gap-2">
         <AppNotification />
         <div className="h-full w-px bg-gray-500 dark:bg-dark-gray-100"></div>

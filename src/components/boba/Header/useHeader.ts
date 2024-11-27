@@ -1,11 +1,11 @@
 import { shortenAddress } from "@/utils/format";
-import { useState } from "react";
+import { useAccount } from "wagmi";
 
 export function useHeader() {
-  const [account, _] = useState<string>("0x970387428874288742887428");
+  const { address } = useAccount();
   return {
-    account,
-    shortAccount: shortenAddress(account, '...', 4)
+    account: address,
+    shortAccount: shortenAddress(address as any, '...', 4)
   }
 }
 

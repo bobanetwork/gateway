@@ -81,7 +81,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   menuGroups
 }) => {
   return <DropdownMenu>
-    <DropdownMenuTrigger className="px-2.5 py-4 h-9 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium 
+    <DropdownMenuTrigger className="px-2.5 py-4 h-9 inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium 
     transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none
     gap-2 border border-gray-500 text-gray-800 bg-gray-50 dark:text-dark-gray-50 dark:border-dark-gray-200 dark:bg-dark-gray-400">
       {buttonLabel}

@@ -6,6 +6,7 @@ import HistoryPage from "@/layout/history";
 import Home from "@/layout/home";
 import StakePage from "@/layout/stake";
 import TradePage from "@/layout/trade";
+import SmartAccountPage from "@/layout/SmartAccountPage";
 import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 
 const RouteList: RouteObject[] = [{
@@ -27,6 +28,10 @@ const RouteList: RouteObject[] = [{
     {
       path: "stake",
       element: <StakePage />,
+    },
+    {
+      path: "smartaccount",
+      element: <SmartAccountPage />,
     },
     {
       path: "earn",

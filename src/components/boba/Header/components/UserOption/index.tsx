@@ -57,6 +57,7 @@ const UserOption = () => {
         type: "button",
         iconLeft: <IconCopy className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />,
         onClick: () => {
+          if (!account) return;
           copyToClipboard(account)
             .then(success => {
               if (success) {
