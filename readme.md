@@ -65,18 +65,19 @@ $ yarn prepare # to setup husky on your local.
 ## Environment variable configuration.
 
 Copy `.env.example` file and name by excluding `.example` and populate the variables listed below
-
-| Environment Vars              | Required | Default Valu | Description                                                                                                                                                                                |
-| ----------------------------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| REACT_APP_POLL_INTERVAL       | Yes      | 20000        | Interval to poll the fetch api about the records                                                                                                                                           |
-| REACT_APP_WALLET_VERSION      | Yes      | N/A          | This will be useful while prepare the build.                                                                                                                                               |
-| REACT_APP_ENV                 | Yes      | dev          | This will be used in case of sentry configuration.                                                                                                                                         |
-| REACT_APP_GA4_MEASUREMENT_ID  | Yes      | N/A          | Google analytics api key                                                                                                                                                                   |
-| REACT_APP_SENTRY_DSN          | Yes      | N/A          | Sentry DSN url to catch the error on frontend                                                                                                                                              |
-| REACT_APP_GAS_POLL_INTERVAL   | Yes      | 30000        | Poll interval to fetch the gas price status                                                                                                                                   |
-| REACT_APP_WC_PROJECT_ID=      | Yes      | N/A          | Wallet Connect project ID                                                                                                                                                                  |
-| NETWORK_NAME                  | Yes      | sepolia       | Starting network for wallet                                                                                                                                                                |
-| REACT_APP_THE_GRAPH_API_KEY   | Yes      | N/A       | API key for graph application to fetch the data from subgraph.                                                                                                                                                                |
+| Environment Vars             | Required | Default Value | Description                                                       |
+| ---------------------------- | -------- | ------------- | ----------------------------------------------------------------- |
+| REACT_APP_POLL_INTERVAL      | Yes      | 20000         | Interval to poll the fetch API about the records                  |
+| REACT_APP_WALLET_VERSION     | Yes      | N/A           | This will be useful while preparing the build.                    |
+| REACT_APP_ENV                | Yes      | dev           | This will be used for Sentry configuration.                       |
+| REACT_APP_GA4_MEASUREMENT_ID | Yes      | N/A           | Google Analytics API key                                          |
+| REACT_APP_SENTRY_DSN         | Yes      | N/A           | Sentry DSN URL to catch errors on the frontend                    |
+| REACT_APP_GAS_POLL_INTERVAL  | Yes      | 30000         | Poll interval to fetch the gas price status                       |
+| REACT_APP_WC_PROJECT_ID      | Yes      | N/A           | Wallet Connect project ID                                         |
+| NETWORK_NAME                 | Yes      | sepolia       | Starting network for the wallet                                   |
+| REACT_APP_THE_GRAPH_API_KEY  | Yes      | N/A           | API key for the graph application to fetch data from the subgraph |
+| REACT_APP_ONRAMP_APP_URL     | Yes      | N/A           | On ramp network widget url                                        |
+| REACT_APP_ONRAMP_API_KEY     | Yes      | N/A           | API key for onramp.network                                        |
 
 ### To start local dev-server
 
