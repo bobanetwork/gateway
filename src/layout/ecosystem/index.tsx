@@ -9,7 +9,7 @@ const EcosystemPage = () => {
   const { isLoading, error, data } = useFetchData(dataUrl);
 
   return (
-    <div className="container mx-auto overflow-scroll h-full">
+    <div className="container mx-auto">
       {isLoading ? (
         <div className="flex flex-col items-center justify-center p-1 md:p-5 mx-auto w-full md:w-10/12">
           <div className="spinner border-4 border-gray-300 border-t-green-300 rounded-full w-16 h-16 animate-spin"></div>
@@ -31,7 +31,7 @@ const EcosystemPage = () => {
                     className="w-16 h-16 rounded-full mb-4"
                   />
                   <a
-                    href={appItem.url}
+                    href={appItem.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:underline cursor-pointer"

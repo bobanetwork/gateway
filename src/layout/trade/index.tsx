@@ -45,7 +45,7 @@ const TradePage = () => {
                     {exchange.pairName}
                   </Text>
                   <a
-                    href={exchange.url}
+                    href={exchange.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:underline cursor-pointer"
