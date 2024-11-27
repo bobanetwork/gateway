@@ -11,7 +11,7 @@ import {
   selectTokenToBridge,
 } from 'selectors'
 import { BridgeActionButton, BridgeActionContainer } from '../styles'
-import { PURCHASE_RAMP_URL } from 'util/constant'
+import { ONRAMP_API_KEY, PURCHASE_RAMP_URL } from 'util/constant'
 import { NetworkType } from 'util/network/network.util'
 import { trackClick } from 'util/analytics'
 
@@ -40,6 +40,11 @@ const BridgeAction = () => {
     }
   }
 
+  console.log(`isMainnet && ONRAMP_API_KEY`, {
+    isMainnet,
+    ONRAMP_API_KEY,
+  })
+
   return (
     <BridgeActionContainer>
       {!accountEnabled ? (
@@ -65,7 +70,7 @@ const BridgeAction = () => {
             data-testid="bridge-btn"
             label={<Heading variant="h3">Bridge</Heading>}
           />
-          {isMainnet && (
+          {isMainnet && ONRAMP_API_KEY ? (
             <BridgeActionButton
               outline
               onClick={() => {
@@ -75,7 +80,7 @@ const BridgeAction = () => {
               data-testid="connect-btn"
               label={<Heading variant="h3">Buy with Ramp Network</Heading>}
             />
-          )}
+          ) : null}
         </div>
       )}
     </BridgeActionContainer>
