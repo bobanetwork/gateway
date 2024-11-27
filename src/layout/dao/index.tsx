@@ -1,8 +1,9 @@
-import React from 'react'
 
 const DaoPage = () => {
   return (
-    <div>DaoPage</div>
+    <div className="container h-dvh">
+
+    </div>
   )
 }
 

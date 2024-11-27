@@ -1,5 +1,6 @@
 import { Footer, Header } from "@/components/boba";
 import { LayoutBackground } from "@/components/boba/LayoutBackground";
+import PageTitle from "@/components/boba/PageTitle";
 import { Outlet } from "react-router-dom";
 
 function Home() {
@@ -9,8 +10,9 @@ function Home() {
       <LayoutBackground />
       <div className="relative flex flex-col">
         <Header />
-        <main className="flex-1 overflow-y-auto px-2 py-4 md:py-12 md:px-12 w-full">
-          <div className="min-h-[calc(100vh-473px)]">
+        <main className="flex-1 px-2 py-4 md:py-12 md:px-12 w-full">
+          <div className="h-dvh mx-auto">
+            <PageTitle />
             <Outlet />
           </div>
         </main>

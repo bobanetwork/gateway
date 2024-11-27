@@ -3,7 +3,7 @@ import { IconBuildingBridge, IconCircle, IconExternalLink, IconHelp, IconSetting
 
 const BridgePage = () => {
   return (
-    <div className="container h-dvh">
+    <div className="container">
       <div className="flex gap-5 items-center justify-center p-1 md:p-5 mx-auto w-full md:w-10/12">
         <div className="flex flex-1 items-center justify-center">
           <Card className="w-full md:w-4/5 min-h-[500px] rounded-lg shadow-lg bg-white opacity-95 border border-gray-400">
@@ -167,8 +167,6 @@ const BridgePage = () => {
           </h1>
         </div>
       </div>
-
-
     </div>
   )
 }
