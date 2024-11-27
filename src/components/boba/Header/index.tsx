@@ -1,4 +1,3 @@
-import bobaLogo from "@/assets/boba/boba-logo.svg";
 import { Button, Text } from "@/components/ui";
 import { cn } from "@/utils/class-merge";
 import { IconMenu2 } from "@tabler/icons-react";
@@ -8,6 +7,7 @@ import AppNotification from "./components/AppNotification";
 import NetworkOption from "./components/NetworkOption";
 import ThemeToggleButton from "./components/ThemeToggle";
 import UserOption from "./components/UserOption";
+import BobaLogo from "../BobaLogo";
 
 const navItems = [
   {
@@ -66,10 +66,10 @@ export const Header: React.FC<any> = () => {
 
   return <header className="w-full px-4 py-3 lg:py-4 lg:px-12 flex justify-between items-center shadow-sm">
     <div className="text-xl font-bold flex self-center items-center gap-6 lg:hidden">
-      <img className="h-8 w-8 object-cover" src={bobaLogo} alt="Boba Logo" />
+      <BobaLogo className="h-8 w-8 object-cover" />
     </div>
     <div className="text-xl font-bold hidden lg:flex self-center items-center gap-6">
-      <img className="h-8 w-8 object-cover" src={bobaLogo} alt="Boba Logo" />
+      <BobaLogo className="h-8 w-8 object-cover" />
       {navItems.map(({ path, label }) => <Fragment key={path}>
         <LinkItem path={path} label={label} />
       </Fragment>)}
