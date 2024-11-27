@@ -1,12 +1,13 @@
 import bobaLogo from "@/assets/boba/boba-logo.svg";
 import { Button, Text } from "@/components/ui";
-import AppNotification from "./components/AppNotification";
-import ThemeToggleButton from "./components/ThemeToggle";
-import UserOption from "./components/UserOption";
-import NetworkOption from "./components/NetworkOption";
+import { cn } from "@/utils/class-merge";
+import { IconMenu2 } from "@tabler/icons-react";
 import { FC, Fragment } from "react";
 import { NavLink } from "react-router-dom";
-import { cn } from "@/utils/class-merge";
+import AppNotification from "./components/AppNotification";
+import NetworkOption from "./components/NetworkOption";
+import ThemeToggleButton from "./components/ThemeToggle";
+import UserOption from "./components/UserOption";
 
 const navItems = [
   {
@@ -63,17 +64,30 @@ const LinkItem: FC<LinkItemProps> = ({
 
 export const Header: React.FC<any> = () => {
 
-  return <header className="w-full py-4 px-12 flex justify-between items-center shadow-sm">
-    <div className="text-xl font-bold flex self-center items-center gap-6">
+  return <header className="w-full px-4 py-3 lg:py-4 lg:px-12 flex justify-between items-center shadow-sm">
+    <div className="text-xl font-bold flex self-center items-center gap-6 lg:hidden">
+      <img className="h-8 w-8 object-cover" src={bobaLogo} alt="Boba Logo" />
+    </div>
+    <div className="text-xl font-bold hidden lg:flex self-center items-center gap-6">
       <img className="h-8 w-8 object-cover" src={bobaLogo} alt="Boba Logo" />
       {navItems.map(({ path, label }) => <Fragment key={path}>
         <LinkItem path={path} label={label} />
       </Fragment>)}
     </div>
-    <div className="text-xl font-bold flex self-end gap-2">
-      <NetworkOption />
-      <UserOption />
-      <Button>Connect Wallet</Button>
+    <div className="text-xl font-bold flex md:hidden self-end gap-2">
+      <Button className="rounded-full px-4" size="sm">Connect Wallet</Button>
+      <div className="flex justify-between items-center gap-1">
+        <AppNotification />
+        <div className="h-full w-px bg-gray-500 dark:bg-dark-gray-100"></div>
+        <IconMenu2 className="ml-2 w-5 h-5 stroke-gray-600 dark:stroke-dark-gray-100" />
+      </div>
+    </div>
+    <div className="text-xl font-bold hidden md:flex self-end gap-2">
+      <div className="hidden lg:flex gap-2">
+        <NetworkOption />
+        <UserOption />
+      </div>
+      <Button className="rounded-full px-4" size="sm">Connect Wallet</Button>
       <div className="flex gap-2">
         <AppNotification />
         <div className="h-full w-px bg-gray-500 dark:bg-dark-gray-100"></div>

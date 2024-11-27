@@ -15,7 +15,7 @@ export const Footer = () => {
 
   return <footer className="w-full py-10 px-12 shadow-md">
     <div className="flex flex-col space-y-4">
-      <div className="text-left flex gap-2">
+      <div className="text-left hidden md:flex justify-center lg:justify-start gap-2">
         <a href="https://boba.network" target="_blank">
           <img className="h-6 w-6 object-cover" src={bobaLogo} alt="Boba Logo" />
         </a>
@@ -24,7 +24,7 @@ export const Footer = () => {
         </a>
       </div>
 
-      <div className="flex justify-between">
+      <div className="hidden md:flex flex-col-reverse lg:flex-row items-center gap-4 justify-between">
         <div className="flex space-x-4">
           {footerNavLinks.map((linkItem, index) => <a key={index} href={linkItem.href} target="_blank">
             <Text variant="sm" fontWeight="medium" className="hover:text-gray-800 text-gray-600 dark:text-dark-gray-100 dark:hover:text-green-300 hover:underline"> {linkItem.label} </Text>
@@ -40,14 +40,19 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t border-dark-gray-100 dark:border-dark-gray-200"></div>
+      <div className="hidden md:flex border-t border-dark-gray-100 dark:border-dark-gray-200"></div>
 
-      <div className="flex justify-between">
+      <div className="flex flex-col-reverse items-center md:flex-row gap-4 justify-between">
         <div className="flex gap-4">
           <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> ©2024 Enya Labs - All rights reserved. </Text>
           <Text variant="sm" fontWeight="medium" className="text-gray-600 dark:text-dark-gray-200"> v.3.0.0 </Text>
         </div>
 
+        <div className="flex md:hidden space-x-4">
+          {footerNavLinks.map((linkItem, index) => <a key={index} href={linkItem.href} target="_blank">
+            <Text variant="xs" fontWeight="medium" className="hover:text-gray-800 text-gray-600 dark:text-dark-gray-100 dark:hover:text-green-300 hover:underline"> {linkItem.label} </Text>
+          </a>)}
+        </div>
         <div className="flex space-x-4">
           {socialNavLinks.map((linkItem, index) => (<Tooltip key={linkItem.label}>
             <TooltipContent>

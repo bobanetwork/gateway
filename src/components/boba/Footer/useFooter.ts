@@ -28,6 +28,11 @@ const footerNavLinks: Array<FooterLinkItem> = [
     href: "https://boba.network/terms-of-use/",
     target: "_blank"
   },
+  {
+    label: "Boba Network",
+    href: "https://boba.network",
+    target: "_blank"
+  },
 ]
 
 const socialNavLinks: Array<SocialLinkItem> = [

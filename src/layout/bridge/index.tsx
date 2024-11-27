@@ -1,11 +1,11 @@
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Tabs, TabsContent, TabsList, TabsTrigger, Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui'
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Tabs, TabsContent, TabsList, TabsTrigger, Text, Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui'
 import { IconBuildingBridge, IconCircle, IconExternalLink, IconHelp, IconSettings, IconSwitchHorizontal } from '@tabler/icons-react'
 
 const BridgePage = () => {
   return (
-    <div className="container">
-      <div className="flex gap-5 items-center justify-center p-5 mx-auto w-10/12">
-        <div className="flex flex-1">
+    <div className="container h-dvh">
+      <div className="flex gap-5 items-center justify-center p-1 md:p-5 mx-auto w-full md:w-10/12">
+        <div className="flex flex-1 items-center justify-center">
           <Card className="w-full md:w-4/5 min-h-[500px] rounded-lg shadow-lg bg-white opacity-95 border border-gray-400">
             <CardHeader className="p-6 pb-5">
               <div className="flex w-full justify-between items-center">
@@ -15,7 +15,7 @@ const BridgePage = () => {
                 <IconSettings className="w-6 h-6 hover:text-gray-800 text-gray-600 dark:text-dark-gray-200 dark:hover:text-green-300 cursor-pointer" />
               </div>
               <CardTitle className="flex gap-2 items-center">
-                <p className="font-montserrat font-bold text-xl">Bridge</p>
+                <Text variant="xl" fontFamily="montserrat" fontWeight="bold">Bridge</Text>
                 <Tooltip>
                   <TooltipContent>Show bridging information</TooltipContent>
                   <TooltipTrigger>
@@ -23,7 +23,9 @@ const BridgePage = () => {
                   </TooltipTrigger>
                 </Tooltip>
               </CardTitle>
-              <CardDescription>[Short Description of the function of the bridge]</CardDescription>
+              <CardDescription className="hidden md:flex">
+                <Text variant="sm" className="">[Short description of the function of the bridge]</Text>
+              </CardDescription>
             </CardHeader>
             <CardContent className="px-6 py-0 w-full">
               <Tabs defaultValue="classic" className="w-full py-0">
@@ -40,7 +42,7 @@ const BridgePage = () => {
                         <IconCircle className="w-5 h-5 text-gray-600" /> Boba Network
                       </div>
                     </div>
-                    <div className="flex flex-col items-center">
+                    <div className="hidden md:flex flex-col items-center">
                       <p className="text-sm font-inter text-gray-800 invisible">switch</p>
                       <div className="flex flex-col shadow-sm items-center justify-center p-1 border border-gray-600 rounded-full">
                         <IconSwitchHorizontal className="w-5 h-5 hover:text-gray-800 text-green-300 dark:text-dark-gray-200 dark:hover:text-green-300 cursor-pointer" />
