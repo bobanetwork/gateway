@@ -2,6 +2,7 @@ import Dropdown from "@/components/boba/Dropdown"
 import { IconBracketsAngle, IconCopy, IconLogout } from "@tabler/icons-react"
 import useHeader from "../../useHeader"
 import { useCopyToClipboard } from "usehooks-ts"
+import { useAppKitAccount, useDisconnect } from "@reown/appkit/react"
 
 const explorerMenu = {
   label: 'Block Explorer',
@@ -48,6 +49,8 @@ const explorerMenu = {
 const UserOption = () => {
   const { account, shortAccount } = useHeader()
   const [_, copyToClipboard] = useCopyToClipboard();
+  const { isConnected } = useAppKitAccount()
+  const { disconnect } = useDisconnect()
 
   const accountMenu = {
     label: 'Account',
@@ -71,12 +74,20 @@ const UserOption = () => {
       {
         label: "Disconnect",
         type: "button",
-        iconLeft: <IconLogout className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />
+        iconLeft: <IconLogout className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />,
+        onClick: () => {
+          if (isConnected) {
+            disconnect()
+          }
+        }
       },
       {
         label: "Switch to testnet",
         type: "button",
-        iconLeft: <IconBracketsAngle className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />
+        iconLeft: <IconBracketsAngle className="w-4 h-4 text-gray-800 dark:text-dark-gray-50" />,
+        onClick: () => {
+          console.log(`switch to testnet!`)
+        }
       },
     ]
   }

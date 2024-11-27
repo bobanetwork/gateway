@@ -1,7 +1,7 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui';
 import Text from '@/components/ui/text';
 import { IconChevronDown, IconCopy, IconExternalLink } from '@tabler/icons-react';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 // @todo all explorer links needs to be swap based on networkType.
 
@@ -72,16 +72,16 @@ interface IMenuGroup {
 }
 
 interface DropdownProps {
-  buttonLabel: string
+  buttonLabel: string | ReactNode
   menuGroups: IMenuGroup[]
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
   buttonLabel,
-  menuGroups
+  menuGroups,
 }) => {
   return <DropdownMenu>
-    <DropdownMenuTrigger className="px-2.5 py-4 h-9 inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium 
+    <DropdownMenuTrigger className="px-2.5 py-4 h-9 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium 
     transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none
     gap-2 border border-gray-500 text-gray-800 bg-gray-50 dark:text-dark-gray-50 dark:border-dark-gray-200 dark:bg-dark-gray-400">
       {buttonLabel}

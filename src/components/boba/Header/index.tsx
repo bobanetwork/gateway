@@ -9,6 +9,7 @@ import ThemeToggleButton from "./components/ThemeToggle";
 import UserOption from "./components/UserOption";
 import BobaLogo from "../BobaLogo";
 import { useAccount } from "wagmi";
+import { useAppKit } from "@reown/appkit/react";
 
 const navItems = [
   {
@@ -71,6 +72,7 @@ const LinkItem: FC<LinkItemProps> = ({
 export const Header: React.FC<any> = () => {
 
   const { isConnected } = useAccount()
+  const { open } = useAppKit()
 
   return <header className="w-full px-4 py-3 lg:py-4 lg:px-12 flex justify-between items-center shadow-sm">
     <div className="text-xl font-bold flex self-center items-center gap-6 lg:hidden">
@@ -96,7 +98,7 @@ export const Header: React.FC<any> = () => {
         <NetworkOption />
         <UserOption />
       </div> : <Button className="rounded-full px-4" size="sm" onClick={() => {
-
+          open()
       }}>Connect Wallet</Button>}
       <div className="flex gap-2">
         <AppNotification />
