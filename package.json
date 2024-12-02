@@ -120,7 +120,7 @@
     "react-app-rewired": "^2.2.1",
     "redux-mock-store": "^1.5.4",
     "ts-prune": "^0.10.3",
-    "typescript": "^5.1.6"
+    "typescript": "^5.7.2"
   },
   "jest": {
     "moduleNameMapper": {
