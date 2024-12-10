@@ -3,6 +3,7 @@ import { useFetchData } from '@/hooks/useFetchData';
 import { DATA_URL_ECOSYSTEM_LIST, DATA_URL_TRADE_ASSET } from '@/utils/constant';
 import { ExternalLinkIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
+import { useDarkMode } from 'usehooks-ts';
 
 const ecoOption = [
   {
@@ -54,7 +55,7 @@ const ecoOption = [
 const EcosystemPage = () => {
   const dataUrl = DATA_URL_ECOSYSTEM_LIST;
   const [selectedFilter, setSelectedFilter] = useState(ecoOption[0].value)
-
+  const { isDarkMode } = useDarkMode()
   const { isLoading, error, data } = useFetchData(dataUrl);
 
   return (
@@ -89,7 +90,7 @@ const EcosystemPage = () => {
                     <Card key={index} className="shadow-lg rounded-xl">
                       <CardContent className="p-6 flex flex-col items-center gap-1">
                         <img
-                          src={`${DATA_URL_TRADE_ASSET}${appItem.icon.dark}`}
+                          src={`${DATA_URL_TRADE_ASSET}${!isDarkMode ? appItem.icon.dark : appItem.icon.light}`}
                           alt={appItem.name}
                           className="w-16 h-16 rounded-full mb-4"
                         />

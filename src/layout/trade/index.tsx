@@ -2,10 +2,11 @@ import { Card, CardContent, Text } from '@/components/ui';
 import { useFetchData } from '@/hooks/useFetchData';
 import { DATA_URL_TRADE_ASSET, DATA_URL_TRADE_LIST } from '@/utils/constant';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
+import { useDarkMode } from 'usehooks-ts';
 
 const TradePage = () => {
   const dataUrl = DATA_URL_TRADE_LIST;
-
+  const { isDarkMode } = useDarkMode()
   const { isLoading, error, data } = useFetchData(dataUrl);
 
   return (
@@ -26,7 +27,7 @@ const TradePage = () => {
               <Card key={index} className="shadow-lg rounded-xl">
                 <CardContent className="p-6 flex flex-col items-center gap-1">
                   <img
-                    src={`${DATA_URL_TRADE_ASSET}${exchange.icon.dark}`}
+                    src={`${DATA_URL_TRADE_ASSET}${!isDarkMode ? exchange.icon.dark : exchange.icon.light}`}
                     alt={exchange.name}
                     className="w-16 h-16 rounded-full mb-4"
                   />

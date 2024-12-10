@@ -42,7 +42,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@reown/appkit": "^1.5.2",
     "@reown/appkit-adapter-wagmi": "^1.5.2",
-    "@tabler/icons-react": "^3.17.0",
+    "@tabler/icons-react": "^3.22.0",
     "@tanstack/react-query": "^5.61.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
