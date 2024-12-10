@@ -51,6 +51,7 @@ createAppKit({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
+    {/* @ts-ignore */}
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider delayDuration={0} >
