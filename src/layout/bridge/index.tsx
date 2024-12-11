@@ -1,8 +1,15 @@
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Tabs, TabsContent, TabsList, TabsTrigger, Text, Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui'
 import { IconBuildingBridge, IconCircle, IconExternalLink, IconHelp, IconSettings, IconSwitchHorizontal } from '@tabler/icons-react'
+import SettingModal from './SettingModal'
+import { useModalStore } from '@/stores/modal.store'
+import { ModalIds } from '@/types/modal'
 
 const BridgePage = () => {
+  const { openModal } = useModalStore();
+
   return (
+    <>
+      <SettingModal />
     <div className="container">
       <div className="flex gap-5 items-center justify-center p-1 md:p-5 mx-auto w-full md:w-10/12">
         <div className="flex flex-1 items-center justify-center">
@@ -12,7 +19,11 @@ const BridgePage = () => {
                 <div className="p-1 border-2 border-green-300 bg-green-50 rounded-full">
                   <IconBuildingBridge className="w-6 h-6 text-green-400 dark:text-dark-gray-200 dark:hover:text-green-400" />
                 </div>
-                <IconSettings className="w-6 h-6 hover:text-gray-800 text-gray-600 dark:text-dark-gray-200 dark:hover:text-green-300 cursor-pointer" />
+                  <IconSettings
+                    onClick={() => {
+                      openModal(ModalIds.SettingModal)
+                    }}
+                    className="w-6 h-6 hover:text-gray-800 text-gray-600 dark:text-dark-gray-200 dark:hover:text-green-300 cursor-pointer" />
               </div>
               <CardTitle className="flex gap-2 items-center">
                 <Text variant="xl" fontFamily="montserrat" fontWeight="bold">Bridge</Text>
@@ -158,6 +169,7 @@ const BridgePage = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
