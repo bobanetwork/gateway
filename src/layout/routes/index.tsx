@@ -6,7 +6,7 @@ import HistoryPage from "@/layout/history";
 import Home from "@/layout/home";
 import StakePage from "@/layout/stake";
 import TradePage from "@/layout/trade";
-import SmartAccountPage from "@/layout/SmartAccountPage";
+import SmartAccountPage from "@/layout/smartAccount";
 import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 
 const RouteList: RouteObject[] = [{

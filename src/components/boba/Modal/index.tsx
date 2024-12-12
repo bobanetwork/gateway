@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Text } from '@/components/ui';
 import { ModalConfig } from '@/types/modal';
@@ -10,19 +10,10 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ config, isOpen }) => {
   const [mounted, setMounted] = useState(false);
-  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (isOpen && dialogRef.current) {
-      dialogRef.current.showModal();
-    } else if (dialogRef.current) {
-      dialogRef.current.close();
-    }
-  }, [isOpen]);
 
   const handleClose = () => {
     if (config.onClose) {
