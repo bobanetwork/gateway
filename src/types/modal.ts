@@ -2,6 +2,8 @@
 // can use this to make code more readable.
 export enum ModalIds {
   SettingModal = 'settingModal',
+  StakeModal = 'StakeModal',
+  UnStakeModal = 'UnStakeModal',
   // Add other modal IDs here as needed
 }
 

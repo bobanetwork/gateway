@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui"
 import Text from "@/components/ui/text"
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/useToast"
 import { IconAlertCircle, IconCircleCheck, IconAlertTriangle } from "@tabler/icons-react"
 
 

@@ -36,15 +36,16 @@ const Modal: React.FC<ModalProps> = ({ config, isOpen }) => {
         <DialogDescription className="py-4">{config.content}</DialogDescription>
 
         {config.actions && (
-          <DialogFooter className="flex justify-end gap-2">
+          <DialogFooter className="flex gap-2">
             {config.actions.map((action, index) => (
               <Button
                 key={index}
                 variant={action.variant || 'default'}
                 onClick={action.onClick}
                 className="w-full rounded-full"
+                size="md"
               >
-                {action.label}
+                <Text fontFamily="montserrat" variant="md" fontWeight="bold">{action.label}</Text>
               </Button>
             ))}
           </DialogFooter>
