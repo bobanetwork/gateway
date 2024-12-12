@@ -77,6 +77,8 @@ const StakePage: React.FC = () => {
                 <Text variant="sm">{stakedAmount} BOBA</Text>
               </div>
             </div>
+            {/* TODO: show only incase of L2 network */}
+            {/* TODO: should be disabled if boba balance is 0 */}
             <Button
               className="w-64"
               variant="default"
