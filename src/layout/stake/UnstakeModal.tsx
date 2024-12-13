@@ -6,9 +6,7 @@ import { ModalConfig, ModalIds } from '@/types/modal';
 import { IconStackPop } from "@tabler/icons-react";
 import React from 'react';
 
-interface UnStakeModalProps { }
-
-const UnStakeModal: React.FC<UnStakeModalProps> = () => {
+const UnStakeModal: React.FC = () => {
   const { isOpen, closeModal } = useModalStore();
   const {
     showTestnet,
