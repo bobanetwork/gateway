@@ -1,19 +1,20 @@
+import { StakeInfo } from '@/types/stake'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 interface StakingState {
-  selectedStakeId: string | null
-  setSelectedStakeId: (id: string | null) => void
+  selectedStake: StakeInfo
+  setSelectedStake: (id: StakeInfo | null) => void
 }
 
 export const useStakingStore = create<StakingState>()(
   devtools(
     (set) => ({
-      selectedStakeId: null,
-      setSelectedStakeId: (id) => set({ selectedStakeId: id }),
+      selectedStake: null,
+      setSelectedStakeId: (info: StakeInfo) => set({ selectedStake: info }),
     }),
     {
-      name: 'staking-store',
+      name: 'staking-info-store',
     }
   )
 )

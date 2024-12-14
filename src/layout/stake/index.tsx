@@ -1,5 +1,6 @@
 import { Button, Card, CardContent, Text } from '@/components/ui'
-import { useStaking } from '@/hooks/useStaking'
+import { useStakingStats } from '@/hooks/staking/useStakingStats'
+import { useBalances } from '@/hooks/useTokenBalances'
 import { useModalStore } from '@/stores/modal.store'
 import { useStakingStore } from '@/stores/stake.store'
 import { ModalIds } from '@/types/modal'
@@ -7,8 +8,10 @@ import { IconPlus } from '@tabler/icons-react'
 import React from 'react'
 import StakeModal from './StakeModal'
 import UnStakeModal from './UnstakeModal'
+import StakeHistoryItem from './StakeHistoryItem'
+import { StakeInfo } from '@/types/stake'
 
-const stakingHistory = [
+const stakingHistoryMock = [
   {
     id: '1',
     date: '27 Jan 2023 02:48 AM',
@@ -34,9 +37,20 @@ const stakingHistory = [
 
 const StakePage: React.FC = () => {
 
-  const { setSelectedStakeId } = useStakingStore()
+  const { setSelectedStake } = useStakingStore()
   const { openModal } = useModalStore()
-  const { bobaBalance, xBobaBalance, apy, stakedAmount } = useStaking()
+  const { tokenBalance: bobaBalance } = useBalances();
+  const { stakingHistory,
+    totalStaked,
+    apy,
+    isLoading } = useStakingStats()
+
+  console.log(`stakeCount`, {
+    stakingHistory,
+    totalStaked,
+    apy,
+    isLoading
+  });
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -58,10 +72,10 @@ const StakePage: React.FC = () => {
 
               <div className="flex flex-col justify-center">
                 <Text variant="md" fontWeight="bold" fontFamily="montserrat">APY</Text>
-                <Text variant="sm">{apy}%</Text>
+                <Text variant="sm">5.0%</Text>
               </div>
 
-              <div className="flex flex-col justify-center">
+              {/* <div className="flex flex-col justify-center">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 bg-primary rounded-full" />
                   <Text variant="md" fontWeight="bold" fontFamily="montserrat">xBOBA</Text>
@@ -70,11 +84,11 @@ const StakePage: React.FC = () => {
                   </Button>
                 </div>
                 <Text variant="sm">{xBobaBalance} xBOBA</Text>
-              </div>
+              </div> */}
 
               <div className="flex flex-col justify-center">
                 <Text variant="md" fontWeight="bold" fontFamily="montserrat">Staked</Text>
-                <Text variant="sm">{stakedAmount} BOBA</Text>
+                <Text variant="sm">{totalStaked} BOBA</Text>
               </div>
             </div>
             {/* TODO: show only incase of L2 network */}
@@ -119,8 +133,21 @@ const StakePage: React.FC = () => {
 
         <div className="space-y-4">
           {stakingHistory.map((stake) => (
+            <StakeHistoryItem
+              key={stake.stakeId}
+              stake={stake}
+              onUnstake={(info: StakeInfo) => {
+                setSelectedStake(info);
+                openModal(ModalIds.UnStakeModal);
+              }}
+            />
+          ))}
+
+        </div>
+        <div className="space-y-4">
+          {stakingHistory.map((stake) => (
             <div
-              key={stake.id}
+              key={stake.stakeId}
               className="flex flex-col md:flex-row items-center justify-between p-4 bg-white shadow rounded-lg"
             >
               <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
@@ -131,12 +158,14 @@ const StakePage: React.FC = () => {
 
                 <div className="text-sm">
                   <span className="block font-medium">Amount Staked</span>
-                  <span>{stake.amount} BOBA</span>
+                  <span>{stake.depositAmount
+                    ? stake.depositAmount.toLocaleString()
+                    : '0'}</span>
                 </div>
 
                 <div className="text-sm">
                   <span className="block font-medium">Earned</span>
-                  <span>{stake.earned} xBOBA</span>
+                  <span>{'stake.earned'}</span>
                 </div>
 
                 <div className="text-sm">

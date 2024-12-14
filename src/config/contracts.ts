@@ -1,33 +1,25 @@
-import { type Address } from 'viem'
+import { type Address, type Abi, parseAbi } from 'viem'
 import { stakingABI } from './abis/stakingABI'
 
 
 interface ContractConfig {
   address: Address
-  abi: typeof stakingABI
+  abi: Abi
 }
 
 interface TokenAddresses {
   [chainId: number]: Address
 }
 
-interface StakingContracts {
-  [chainId: number]: ContractConfig
-}
-
 export const stakingContractConfig = {
   staking: {
-    1: {
-      // "BobaFixedSavings": "0xA9F76f4556044ACE32Af0989A10eB8CF40963128",
-      // "Proxy__BobaFixedSavings": "0x9Fb3051148ff6EFCD0B5bA0Afa22EB0B9fC67A69",
-      address: '0x9Fb3051148ff6EFCD0B5bA0Afa22EB0B9fC67A69' as Address,
-      abi: stakingABI,
-    },
-    // Add other networks
-  } as StakingContracts,
+    address: '0x9fb3051148ff6efcd0b5ba0afa22eb0b9fc67a69' as Address,
+    abi: parseAbi(stakingABI),
+  } as ContractConfig,
 
   bobaToken: {
     1: "0x42bBFa2e77757C645eeaAd1655E0911a7553Efbc" as Address,
+    288: "0xa18bf3994c0cc6e3b63ac420308e5383f53120d7" as Address,
     // Add other networks
   } as TokenAddresses,
 }

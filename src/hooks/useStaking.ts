@@ -7,13 +7,12 @@ import {
   useBalance,
   useChainId,
 } from 'wagmi'
-import { formatEther, parseEther, type Hash, type Address } from 'viem'
+import { formatEther, parseEther } from 'viem'
 import { stakingContractConfig } from '../config/contracts'
 import { useCallback } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { stakingService } from '../services/staking'
-import { erc20Abi } from 'wagmi'
-import { waitForTransactionReceipt } from 'viem/actions'
+import { erc20Abi } from 'viem'
 
 export function useStaking() {
   const { address } = useAccount()
@@ -30,6 +29,7 @@ export function useStaking() {
     functionName: 'stakedBalance',
     args: [address!]
   })
+  console.log(`stakeAmount`, stakedAmount);
 
   const { data: apy, isLoading: isLoadingApy } = useReadContract({
     ...stakingContractConfig.staking[chainId],
@@ -41,16 +41,14 @@ export function useStaking() {
     address: stakingContractConfig.bobaToken[chainId],
     abi: erc20Abi,
     functionName: 'allowance',
-    args: [address!, stakingContractConfig.staking[chainId].address],
-    enabled: Boolean(address),
+    args: [address!, stakingContractConfig.staking[chainId].address]
   })
 
   // Simulate token approval
   const { data: approveSimulation } = useSimulateContract({
     address: stakingContractConfig.bobaToken[chainId],
     abi: erc20Abi,
-    functionName: 'approve',
-    enabled: false,
+    functionName: 'approve'
   })
 
   // Write contract hooks for approval
@@ -133,10 +131,10 @@ export function useStaking() {
           address: stakingContractConfig.bobaToken[chainId],
           args: [stakingContractConfig.staking[chainId].address, totalApprovalAmount],
         })
-
-        // Wait for approval transaction
-        const approveReceipt = await waitForTransactionReceipt(approveTx)
-        if (!approveReceipt.status) throw new Error('Approval failed')
+        console.log(approveTx);
+        // TODO Wait for approval transaction
+        // const approveReceipt = await waitForTransactionReceipt(approveTx)
+        // if (!approveReceipt.status) throw new Error('Approval failed')
       }
 
       // Proceed with staking
@@ -179,7 +177,7 @@ export function useStaking() {
   return {
     // Balances
     bobaBalance: bobaBalance ? formatEther(bobaBalance.value) : '0',
-    stakedAmount: stakedAmount ? stakingService.formatStakingData(stakedAmount) : '0',
+    stakedAmount: stakedAmount ? stakedAmount : '0',
     apy: apy ? (Number(apy) / 100).toFixed(2) : '0',
 
     // Loading states

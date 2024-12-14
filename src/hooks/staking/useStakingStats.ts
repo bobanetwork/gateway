@@ -13,10 +13,14 @@ export function useStakingStats() {
 
   // Fetch stake count for the account
   const { data: stakeCount } = useReadContract({
-    address: stakingContractConfig.staking[chainId].address,
-    abi: stakingContractConfig.staking[chainId].abi,
+    address: stakingContractConfig.staking.address,
+    abi: stakingContractConfig.staking.abi,
     functionName: 'personalStakeCount',
-    args: [address!]
+    args: [address!],
+    chainId,
+    query: {
+      enabled: !!address
+    }
   });
 
   // Use React Query to manage the staking history data
@@ -26,29 +30,27 @@ export function useStakingStats() {
       if (!address || !stakeCount) return [];
       const stakeInfo: StakeInfo[] = [];
       const count = Number(stakeCount);
-
       for (let i = 0; i < count; i++) {
         // Get stake ID
         const stakeId = await readContract(publicClientConfig, {
-          address: stakingContractConfig.staking[chainId].address,
-          abi: stakingContractConfig.staking[chainId].abi,
+          address: stakingContractConfig.staking.address,
+          abi: stakingContractConfig.staking.abi,
           functionName: 'personalStakePos',
           args: [address, BigInt(i)],
         });
-
         // Get stake data
-        const stakeData = await readContract(publicClientConfig, {
-          address: stakingContractConfig.staking[chainId].address,
-          abi: stakingContractConfig.staking[chainId].abi,
+        const [, , depositAmount, depositTimestamp, isActive] = await readContract(publicClientConfig, {
+          address: stakingContractConfig.staking.address,
+          abi: stakingContractConfig.staking.abi,
           functionName: 'stakeDataMap',
           args: [stakeId],
         }) as unknown as any;
 
         stakeInfo.push({
           stakeId: Number(stakeId),
-          depositTimestamp: Number(stakeData.depositTimestamp),
-          depositAmount: formatEther(stakeData.depositAmount),
-          isActive: stakeData.isActive,
+          depositTimestamp: Number(depositTimestamp),
+          depositAmount: formatEther(depositAmount),
+          isActive: isActive,
         });
       }
 
