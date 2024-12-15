@@ -4,6 +4,7 @@ export enum ModalIds {
   SettingModal = 'settingModal',
   StakeModal = 'StakeModal',
   UnStakeModal = 'UnStakeModal',
+  NetworkSwitchModal = 'NetworkSwitchModal'
   // Add other modal IDs here as needed
 }
 

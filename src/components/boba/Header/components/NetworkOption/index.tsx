@@ -4,15 +4,24 @@ import bnbImg from "@/assets/chain-logos/bnb.svg";
 import bobaBnbImg from "@/assets/chain-logos/boba-bnb.svg";
 import bobaEthImg from "@/assets/chain-logos/boba-eth.svg";
 import ethImg from "@/assets/chain-logos/ethereum.svg";
-import { useNetworkSwitch } from '@/hooks/useSwitchNetwork';
+import { useNetworkSwitch } from '@/hooks/useNetworkSwitch';
 import { boba, bsc, mainnet } from 'wagmi/chains';
 import { BOBABSC_CHAIN } from '@/config/chainConfig/bobaBnb';
 import { useAccount } from 'wagmi';
+import { NetworkSwitchModal } from '@/components/boba/NetworkSwitchModal';
 
 const NetworkOption = () => {
-
-  const { switchToChain } = useNetworkSwitch()
   const { chainId } = useAccount()
+  const {
+    switchToChain,
+    switchState,
+    targetChain,
+    error,
+    isModalOpen,
+    confirmSwitch,
+    addNetwork,
+    closeModal, } = useNetworkSwitch()
+
 
   const networkMenu = {
     menu: [
@@ -74,6 +83,15 @@ const NetworkOption = () => {
       <Dropdown
         buttonLabel={renderLabel()}
         menuGroups={[networkMenu]}
+      />
+      <NetworkSwitchModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        state={switchState}
+        targetChain={targetChain}
+        error={error}
+        onConfirm={confirmSwitch}
+        onAddNetwork={addNetwork}
       />
     </>
   )

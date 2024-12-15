@@ -12,8 +12,10 @@ import { boba } from 'wagmi/chains'
 import StakeHistory from './StakeHistory'
 import StakeModal from './StakeModal'
 import UnStakeModal from './UnstakeModal'
+import { useAccount } from 'wagmi'
 
 const StakePage: React.FC = () => {
+  const { chainId } = useAccount()
   const { isStakingEnabled } = useChainConfig()
   const { openModal } = useModalStore()
   const { tokenBalance: bobaBalance, tokenDecimals, tokenSymbol, tokenAddress } = useBalances();
@@ -21,14 +23,14 @@ const StakePage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <Card>
+      {chainId !== boba.id && <Card>
         <CardContent className="p-4 flex flex-col md:flex-row justify-between items-center">
-          <Text variant="sm" className=" text-gray-600 dark:text-dark-gray-50">Please connect to Boba (Mainnet) to stake and earn reward.</Text>
-          <NetworkSwitchButton targetChain={boba} className="rounded-full">
+          <Text variant="sm" fontWeight="medium" className="text-muted-foreground">Please connect to Boba (Mainnet) to stake and earn reward.</Text>
+          <NetworkSwitchButton toNewChain={boba} className="rounded-full">
             Connect to Boba
           </NetworkSwitchButton>
         </CardContent>
-      </Card>
+      </Card>}
 
       <div className="flex gap-20 my-8 justify-between">
         <Card className="w-5/12">

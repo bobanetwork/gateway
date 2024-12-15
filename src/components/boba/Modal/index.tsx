@@ -30,7 +30,7 @@ const Modal: React.FC<ModalProps> = ({ config, isOpen }) => {
             <DialogTitle
               className={clsx(
                 "flex items-center",
-                `${config.titleStack ? 'flex-col gap-2 items-start' : ''}`
+                `${config.titleStack ? 'flex-col gap-2 items-start' : 'gap-2'}`
               )}>
               {config.icon &&
                 <div className="p-1 border-2 border-green-300 bg-green-50 dark:bg-dark-green-500  rounded-full text-green-400 dark:text-dark-green-300">
@@ -53,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({ config, isOpen }) => {
                 className="w-full rounded-full"
                 size="md"
               >
-                <Text fontFamily="montserrat" variant="md" fontWeight="bold">{action.label}</Text>
+                {action.label}
               </Button>
             ))}
           </DialogFooter>
