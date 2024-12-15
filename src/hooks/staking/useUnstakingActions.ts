@@ -1,20 +1,18 @@
+import { stakingContractConfig } from '@/config/contracts'
 import { useCallback } from 'react'
 import {
   useAccount,
-  useChainId,
   useSimulateContract,
   useWaitForTransactionReceipt,
   useWriteContract
 } from 'wagmi'
-import { stakingContractConfig } from '@/config/contracts'
 
-export function useStaking() {
+export function useUnstakingActions() {
   const { address } = useAccount()
-  const chainId = useChainId()
 
   // Simulate unstaking
   const { data: unstakeSimulation, error: unstakeSimulateError } = useSimulateContract({
-    ...stakingContractConfig.staking[chainId],
+    ...stakingContractConfig.staking,
     functionName: 'unstake',
     args: [0], // Placeholder, replace with actual stakeId
   })

@@ -1,3 +1,4 @@
+import { stakingContractConfig } from '@/config/contracts'
 import { useCallback } from 'react'
 import { parseEther } from 'viem'
 import {
@@ -7,10 +8,9 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract
 } from 'wagmi'
-import { stakingContractConfig } from '@/config/contracts'
 import { useTokenApproval } from '../useTokenApproval'
 
-export function useStaking() {
+export function useStakingActions() {
   const { address } = useAccount()
   const chainId = useChainId()
 
@@ -18,7 +18,7 @@ export function useStaking() {
 
   // Simulate staking
   const { data: stakeSimulation, error: stakeSimulateError } = useSimulateContract({
-    ...stakingContractConfig.staking[chainId],
+    ...stakingContractConfig.staking,
     functionName: 'stake'
   })
 
@@ -53,7 +53,7 @@ export function useStaking() {
         const approveTx = await approveWrite({
           ...approveSimulation.request,
           address: stakingContractConfig.bobaToken[chainId],
-          args: [stakingContractConfig.staking[chainId].address, totalApprovalAmount],
+          args: [stakingContractConfig.staking.address, totalApprovalAmount],
         })
         console.log(approveTx);
         // TODO Wait for approval transaction

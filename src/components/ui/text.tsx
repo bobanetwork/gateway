@@ -50,6 +50,7 @@ export const Text: React.FC<TypographyProps> = ({
 
   return (
     <p className={clsx(
+      `text-gray-700 dark:text-dark-gray-100`,
       variantClasses[variant],
       alignClasses[align],
       `font-${fontWeight}`,

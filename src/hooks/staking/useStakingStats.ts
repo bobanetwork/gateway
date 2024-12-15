@@ -3,13 +3,19 @@ import { StakeInfo } from '@/types/stake';
 import { publicClientConfig } from '@/wagmi/publicconfig';
 import { useQuery } from '@tanstack/react-query';
 import { readContract } from '@wagmi/core';
+import { useEffect } from 'react';
 import { formatEther } from 'viem';
 import { useAccount, useChainId, useReadContract } from 'wagmi';
 
 
 export function useStakingStats() {
+
   const chainId = useChainId();
   const { address } = useAccount();
+
+  useEffect(() => {
+    console.log(`console staking stats`);
+  }, [])
 
   // Fetch stake count for the account
   const { data: stakeCount } = useReadContract({
@@ -70,7 +76,7 @@ export function useStakingStats() {
   return {
     stakingHistory: stakingHistory || [],
     totalStaked: totalStaked?.toString() || '0',
-    apy: '5.0%', // NOTE Predefined const.
+    apy: '5.0', // NOTE Predefined const.
     isLoading,
   };
 }
