@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Text } from '@/components/ui';
 import { ModalConfig } from '@/types/modal';
+import clsx from 'clsx';
 
 interface ModalProps {
   config: ModalConfig;
@@ -25,11 +26,18 @@ const Modal: React.FC<ModalProps> = ({ config, isOpen }) => {
     <Dialog open={isOpen}>
       <DialogContent className="sm:max-w-[420px]" onClose={handleClose}>
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle className="flex items-center space-x-2">
-              {config.icon && <span>{config.icon}</span>}
+          <div className="flex flex-col items-start justify-between gap-2">
+            <DialogTitle
+              className={clsx(
+                "flex items-center",
+                `${config.titleStack ? 'flex-col gap-2 items-start' : ''}`
+              )}>
+              {config.icon &&
+                <div className="p-1 border-2 border-green-300 bg-green-50 dark:bg-dark-green-500  rounded-full text-green-400 dark:text-dark-green-300">
+                  {config.icon}</div>}
               <Text variant="lg" fontFamily="montserrat" >{config.title}</Text>
             </DialogTitle>
+            {config.subtitle && <Text variant="sm" className="text-muted-foreground">{config.subtitle}</Text>}
           </div>
         </DialogHeader>
 

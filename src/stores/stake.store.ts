@@ -11,7 +11,7 @@ export const useStakingStore = create<StakingState>()(
   devtools(
     (set) => ({
       selectedStake: null,
-      setSelectedStakeId: (info: StakeInfo) => set({ selectedStake: info }),
+      setSelectedStake: (info: StakeInfo) => set({ selectedStake: info }),
     }),
     {
       name: 'staking-info-store',

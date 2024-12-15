@@ -9,6 +9,8 @@ export enum ModalIds {
 
 export interface ModalConfig {
   title: string;
+  subtitle?: string;
+  titleStack?: boolean;
   icon?: React.ReactNode;
   content: React.ReactNode;
   actions?: {
