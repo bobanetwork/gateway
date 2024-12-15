@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useAccount, useSwitchChain } from 'wagmi'
 import { Chain } from 'wagmi/chains'
 
-export const useSwitchNetwork = () => {
+export const useNetworkSwitch = () => {
   const { chain: currentChain } = useAccount()
   const { switchChainAsync } = useSwitchChain()
 

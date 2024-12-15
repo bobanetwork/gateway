@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui'
-import { useSwitchNetwork } from '@/hooks/useSwitchNetwork'
+import { useNetworkSwitch } from '@/hooks/useSwitchNetwork'
 import { Chain } from 'viem'
 
 import { useAccount } from 'wagmi'
@@ -16,7 +16,7 @@ export const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
   children
 }) => {
   const { chainId } = useAccount()
-  const { switchToChain } = useSwitchNetwork()
+  const { switchToChain } = useNetworkSwitch()
 
   return (
     <Button
