@@ -70,7 +70,7 @@ export function useStakingStats() {
   return {
     stakingHistory: stakingHistory || [],
     totalStaked: totalStaked?.toString() || '0',
-    apy: '5.0%', // TODO: move to constants.
+    apy: '5.0%', // NOTE Predefined const.
     isLoading,
   };
 }
