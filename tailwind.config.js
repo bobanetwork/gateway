@@ -181,7 +181,8 @@ export default {
 				'grid-lines': `linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 0),
                        linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 0)`,
 				'light-gradient': `radial-gradient(70% 90% at 50% 50%,rgba(199,219,1,0.9) 20%,rgba(216,243,1,0.1) 50%,rgba(174,219,1,0) 0%)`,
-				'dark-gradient': `radial-gradient(55.87% 55.87% at 50.00% 50.00%, rgba(174, 219, 1, 0.24) 19.79%, rgba(174, 219, 1, 0.08) 62.50%, rgba(174, 219, 1, 0.00) 91.67%)`
+				'dark-gradient': `radial-gradient(55.87% 55.87% at 50.00% 50.00%, rgba(174, 219, 1, 0.24) 19.79%, rgba(174, 219, 1, 0.08) 62.50%, rgba(174, 219, 1, 0.00) 91.67%)`,
+				'card-linear-gradient': `linear-gradient(151.67deg, rgba(48, 48, 48, 0.8) 7.91%, rgba(48, 48, 48, 0.8) 45.81%, rgba(37, 37, 37, 0.8) 85.18%)`
 			},
 			backgroundSize: {
 				'50x50': '50px 50px',

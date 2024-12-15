@@ -43,3 +43,22 @@ export function shortenString(
     str.length
   )}`;
 }
+
+/**
+ * 
+ * @param num 
+ * 
+ * @returns formatted fixed to 2 digit bumber.
+ * 
+ * // Example usage:
+ * const num = 12345.6789;
+ * console.log(formatNumberWithIntl(num)); // Output: "12,345.68"
+ * 
+ */
+
+export const formatNumberWithIntl = (num: number, fract: number = 2): string => {
+  return new Intl.NumberFormat(undefined, {
+    maximumFractionDigits: fract,
+  }).format(num);
+};
+

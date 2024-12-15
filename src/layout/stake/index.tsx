@@ -142,49 +142,6 @@ const StakePage: React.FC = () => {
               }}
             />
           ))}
-
-        </div>
-        <div className="space-y-4">
-          {stakingHistory.map((stake) => (
-            <div
-              key={stake.stakeId}
-              className="flex flex-col md:flex-row items-center justify-between p-4 bg-white shadow rounded-lg"
-            >
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-                <div className="text-sm">
-                  <span className="block font-medium">Date</span>
-                  <span>{stake.date}</span>
-                </div>
-
-                <div className="text-sm">
-                  <span className="block font-medium">Amount Staked</span>
-                  <span>{stake.depositAmount
-                    ? stake.depositAmount.toLocaleString()
-                    : '0'}</span>
-                </div>
-
-                <div className="text-sm">
-                  <span className="block font-medium">Earned</span>
-                  <span>{'stake.earned'}</span>
-                </div>
-
-                <div className="text-sm">
-                  <span className="block font-medium">Unstake Window</span>
-                  <span>{stake.unstakeWindow}</span>
-                </div>
-              </div>
-
-              <Button
-                className="bg-[#D1F366] text-black hover:bg-[#bfdf5c] mt-4 md:mt-0"
-                onClick={() => {
-                  setSelectedStakeId(stake.id);
-                  openModal(ModalIds.UnStakeModal);
-                }}
-              >
-                Unstake
-              </Button>
-            </div>
-          ))}
         </div>
       </div>
 
