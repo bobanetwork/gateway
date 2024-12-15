@@ -1,42 +1,36 @@
 import { AddToMetaMaskButton } from '@/components/boba/AddToMetaMaskButton'
+import { NetworkSwitchButton } from '@/components/boba/NetworkSwitchButton'
 import { Button, Card, CardContent, Text } from '@/components/ui'
 import { useStakingStats } from '@/hooks/staking/useStakingStats'
+import { useChainConfig } from '@/hooks/useChainConfig'
 import { useBalances } from '@/hooks/useTokenBalances'
 import { useModalStore } from '@/stores/modal.store'
-import { useStakingStore } from '@/stores/stake.store'
 import { ModalIds } from '@/types/modal'
-import { StakeInfo } from '@/types/stake'
 import { formatNumberWithIntl } from '@/utils/format'
-import { calculateStakeEarnings } from '@/utils/stake'
 import React from 'react'
-import StakeHistoryItem from './StakeHistoryItem'
+import { boba } from 'wagmi/chains'
+import StakeHistory from './StakeHistory'
 import StakeModal from './StakeModal'
 import UnStakeModal from './UnstakeModal'
 
 const StakePage: React.FC = () => {
-
-  const { setSelectedStake } = useStakingStore()
+  const { isStakingEnabled } = useChainConfig()
   const { openModal } = useModalStore()
   const { tokenBalance: bobaBalance, tokenDecimals, tokenSymbol, tokenAddress } = useBalances();
-  const { stakingHistory, totalStaked, apy } = useStakingStats()
-
-  const calculateTotalEarned = () => {
-    return stakingHistory.reduce((total, stake) => {
-      const earned = calculateStakeEarnings(
-        Number(stake.depositAmount),
-        stake.depositTimestamp
-      );
-      return total + earned;
-    }, 0);
-  };
-
-  const totalEarned = calculateTotalEarned();
-
+  const { stakingHistory, totalStaked, apy, isLoading } = useStakingStats()
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="flex gap-20 mb-8">
-        {/* Card for BOBA and xBOBA balances */}
+      <Card>
+        <CardContent className="p-4 flex flex-col md:flex-row justify-between items-center">
+          <Text variant="sm" className=" text-gray-600 dark:text-dark-gray-50">Please connect to Boba (Mainnet) to stake and earn reward.</Text>
+          <NetworkSwitchButton targetChain={boba} className="rounded-full">
+            Connect to Boba
+          </NetworkSwitchButton>
+        </CardContent>
+      </Card>
+
+      <div className="flex gap-20 my-8 justify-between">
         <Card className="w-5/12">
           <CardContent className="p-6 flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-8">
@@ -64,14 +58,14 @@ const StakePage: React.FC = () => {
               </div>
             </div>
             {/* TODO: show only incase of L2 network */}
-            <Button
+            {isStakingEnabled && <Button
               className="w-40 rounded-full"
               variant="default"
               onClick={() => openModal(ModalIds.StakeModal)}
               disabled={Number(bobaBalance) <= 0}
             >
               Stake
-            </Button>
+            </Button>}
           </CardContent>
         </Card>
 
@@ -97,25 +91,8 @@ const StakePage: React.FC = () => {
         </Card>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <Text variant="xl" fontWeight="semibold" className="text-gray-800 dark:text-dark-gray-50">Staking History</Text>
-          <Text variant="sm" fontWeight="medium" className="text-muted-foreground">Total Earned: {formatNumberWithIntl(totalEarned, 2)} BOBA</Text>
-        </div>
 
-        <div className="space-y-4">
-          {stakingHistory.map((stake) => (
-            <StakeHistoryItem
-              key={stake.stakeId}
-              stake={stake}
-              onUnstake={(info: StakeInfo) => {
-                setSelectedStake(info);
-                openModal(ModalIds.UnStakeModal);
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      <StakeHistory stakingHistory={stakingHistory} loading={isLoading} />
 
       <StakeModal />
       <UnStakeModal />
