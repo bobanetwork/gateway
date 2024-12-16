@@ -11,7 +11,7 @@ import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 
 const RouteList: RouteObject[] = [{
   path: "/",
-  element: <Home />,
+  element: <DaoPage />,
   children: [
     {
       path: "",
