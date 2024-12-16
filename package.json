@@ -51,7 +51,7 @@
     "browserify-zlib": "^0.2.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.4.7",
     "eslint-config-react-app": "^7.0.0",
     "ethers": "5.7.2",
     "graphql": "^16.8.1",
