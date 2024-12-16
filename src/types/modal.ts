@@ -16,6 +16,7 @@ export interface ModalConfig {
   content: React.ReactNode;
   actions?: {
     label: string;
+    className?: string;
     onClick: () => void;
     variant?: 'default' | 'select' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
   }[];

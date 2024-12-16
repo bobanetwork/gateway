@@ -1,6 +1,8 @@
+// import { defineChain } from "@reown/appkit/networks";
+
 import { defineChain } from "viem";
 
-export const BOBABSC_CHAIN = defineChain({
+export const BOBABNB_CHAIN = defineChain({
   id: 56288,
   name: 'Boba BNB Mainnet',
   nativeCurrency: {
@@ -9,7 +11,10 @@ export const BOBABSC_CHAIN = defineChain({
     symbol: 'BOBA',
   },
   rpcUrls: {
-    default: { http: [`https://bnb.boba.network`, `https://replica.bnb.boba.network`] },
+    default: {
+      http: [`https://bnb.boba.network`, `https://replica.bnb.boba.network`],
+      webSocket: [`wss://boba-bnb.gateway.tenderly.co`, `https://gateway.tenderly.co/public/boba-bnb`]
+    },
   },
   blockExplorers: {
     default: {
@@ -17,6 +22,7 @@ export const BOBABSC_CHAIN = defineChain({
       url: 'https://bnb.bobascan.com/',
     },
   },
-  contracts: {
-  },
+  contracts: {},
+  chainNamespace: "eip155",
+  caipNetworkId: "eip155:56288"
 })

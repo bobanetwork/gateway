@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Text } from '@/components/ui';
+import { Button, Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from '@/components/ui';
 import { ModalConfig } from '@/types/modal';
 import clsx from 'clsx';
 
@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({ config, isOpen }) => {
 
   return mounted ? (
     <Dialog open={isOpen}>
-      <DialogContent className="sm:max-w-[420px]" onClose={handleClose}>
+      <DialogContent className="sm:max-w-[400px]" onClose={handleClose}>
         <DialogHeader>
           <div className="flex flex-col items-start justify-between gap-2">
             <DialogTitle
@@ -41,16 +41,18 @@ const Modal: React.FC<ModalProps> = ({ config, isOpen }) => {
           </div>
         </DialogHeader>
 
-        <DialogDescription className="py-4">{config.content}</DialogDescription>
+        {/* TODO: look into fixing the aria roles here for description. */}
+        {/* <DialogDescription className="py-4">{config.content}</DialogDescription> */}
+        {config.content}
 
         {config.actions && (
-          <DialogFooter className="flex gap-2">
+          <DialogFooter className="flex gap-2 items-center justify-center">
             {config.actions.map((action, index) => (
               <Button
                 key={index}
                 variant={action.variant || 'default'}
                 onClick={action.onClick}
-                className="w-full rounded-full"
+                className={`w-full rounded-full ${action.className}`}
                 size="md"
               >
                 {action.label}

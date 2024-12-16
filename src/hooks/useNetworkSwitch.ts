@@ -42,10 +42,12 @@ export const useNetworkSwitch = () => {
 
     try {
       setSwitchState('switching')
-      await switchChainAsync({ chainId: targetChain.id as any })
+      const res = await switchChainAsync({ chainId: targetChain.id as any })
+      console.log(`switch chain reponse`, res)
       setSwitchState('success')
       return true
     } catch (error) {
+      console.log(`switch chain error`, error)
       handleError(error)
       return false
     }
@@ -55,12 +57,14 @@ export const useNetworkSwitch = () => {
     if (!targetChain) return
 
     try {
+      console.log(`adding target chain!`, targetChain);
       // TODO: make use viem method 
       // TODO: make sure wallet add chain works for other wallets or disable function if not supported.
       // https://viem.sh/docs/actions/wallet/addChain#chain
       // Implementation depends on your wallet provider
       // Example for MetaMask:
-      await (window.ethereum as any)?.request({
+
+      const res = await (window.ethereum as any)?.request({
         method: 'wallet_addEthereumChain',
         params: [
           {
@@ -72,9 +76,11 @@ export const useNetworkSwitch = () => {
           },
         ],
       })
+      console.log(`res of add chain`, res);
       // After adding, try switching again
       await confirmSwitch()
     } catch (error) {
+      console.log(`add chain error`, error);
       handleError(error)
     }
   }

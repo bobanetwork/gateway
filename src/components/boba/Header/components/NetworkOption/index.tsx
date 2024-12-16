@@ -6,7 +6,7 @@ import bobaEthImg from "@/assets/chain-logos/boba-eth.svg";
 import ethImg from "@/assets/chain-logos/ethereum.svg";
 import { useNetworkSwitch } from '@/hooks/useNetworkSwitch';
 import { boba, bsc, mainnet } from 'wagmi/chains';
-import { BOBABSC_CHAIN } from '@/config/chainConfig/bobaBnb';
+import { BOBABNB_CHAIN } from '@/config/chainConfig/bobaBnb';
 import { useAccount } from 'wagmi';
 import { NetworkSwitchModal } from '@/components/boba/NetworkSwitchModal';
 
@@ -53,12 +53,12 @@ const NetworkOption = () => {
         }
       },
       {
-        id: BOBABSC_CHAIN.id,
+        id: BOBABNB_CHAIN.id,
         label: 'Boba BNB',
         type: 'button',
         iconLeft: <img src={bobaBnbImg} alt="network icon" className="w-6 h-6 object-cover" />,
         onClick: () => {
-          switchToChain(BOBABSC_CHAIN)
+          switchToChain(BOBABNB_CHAIN)
         }
       },
     ]
