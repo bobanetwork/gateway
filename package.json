@@ -32,7 +32,7 @@
     "@bobanetwork/register": "^0.0.26",
     "@bobanetwork/sdk": "1.0.7",
     "@cfx-kit/wallet-avatar": "^0.0.5",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/styled": "^11.14.0",
     "@ethersproject/providers": "^5.7.2",
     "@mui/base": "5.0.0-alpha.72",
     "@mui/icons-material": "^5.15.4",
