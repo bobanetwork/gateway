@@ -22,7 +22,7 @@ const StakePage: React.FC = () => {
   const { stakingHistory, totalStaked, apy, isLoading } = useStakingStats()
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="container mx-auto px-4 pb-8 max-w-6xl">
       {chainConfig && chainId !== boba.id && <Card>
         <CardContent className="p-4 flex flex-col md:flex-row justify-between items-center">
           <Text variant="sm" fontWeight="medium" className="text-muted-foreground">Please connect to Boba (Mainnet) to stake and earn reward.</Text>

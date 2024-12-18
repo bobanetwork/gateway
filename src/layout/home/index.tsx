@@ -9,7 +9,7 @@ function Home() {
       <LayoutBackground />
       <div className="relative flex flex-col">
         <Header />
-        <main className="flex-1 px-2 py-4 md:py-12 md:px-12 w-full">
+        <main className="flex-1 px-2 py-4 md:py-8 md:px-12 w-full">
           <div className="h-dvh mx-auto overflow-scroll">
             <PageTitle />
             <Outlet />

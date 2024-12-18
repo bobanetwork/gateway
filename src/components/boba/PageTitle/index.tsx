@@ -16,7 +16,7 @@ const PageTitle = () => {
   }
 
   return (
-    <div className="flex flex-col justify-start items-center gap-2 py-4">
+    <div className="flex flex-col justify-start items-center gap-2 py-3">
       <Text variant="3xl" fontWeight="bold" className="text-gray-800 dark:text-dark-gray-50">{title}</Text>
       <Text variant="sm" fontWeight="medium" className="text-center">{slug}</Text>
     </div>

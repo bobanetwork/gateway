@@ -52,7 +52,7 @@ const StakeHistoryItem: React.FC<StakeHistoryItemProps> = ({ stake, onUnstake })
   const { timeDeposit, earned, unlockTimeRange, isLocked } = calculateEarningsAndUnlockTime();
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between py-5 px-8 border-[1px] border-gray-400 dark:border-dark-gray-300 shadow-md rounded-[55px]">
+    <div className="flex flex-col md:flex-row items-center justify-between py-3 px-6 border-[1px] border-gray-400 dark:border-dark-gray-300 shadow-md rounded-[55px]">
 
       <div className="flex">
         <Text variant="sm" fontWeight="medium">{timeDeposit}</Text>

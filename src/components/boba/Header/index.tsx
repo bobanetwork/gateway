@@ -59,7 +59,7 @@ const LinkItem: FC<LinkItemProps> = ({
     to={path}
     className={({ isActive }) => (isActive ? 'active' : '')}
   >
-    {({ isActive }) => (<Text variant="md" fontWeight="medium"
+    {({ isActive }) => (<Text variant="md" fontWeight="semibold"
       className={cn(
         "cursor-pointer hover:text-gray-800 text-gray-600 dark:text-dark-gray-100 dark:hover:text-green-300",
         isActive ? 'text-gray-800 dark:text-green-300' : ''
@@ -74,11 +74,11 @@ export const Header: React.FC<any> = () => {
   const { isConnected } = useAccount()
   const { open } = useAppKit()
 
-  return <header className="w-full px-4 py-3 lg:py-4 lg:px-12 flex justify-between items-center shadow-sm">
+  return <header className="w-full px-4 py-2 lg:py-2.5 lg:px-12 flex justify-between items-center shadow-lg">
     <div className="text-xl font-bold flex self-center items-center gap-6 lg:hidden">
       <BobaLogo className="h-8 w-8 object-cover" />
     </div>
-    <div className="text-xl font-bold hidden lg:flex self-center items-center gap-6">
+    <div className="text-xl font-bold hidden lg:flex self-center items-center gap-4">
       <BobaLogo className="h-8 w-8 object-cover" />
       {navItems.map(({ path, label }) => <Fragment key={path}>
         <LinkItem path={path} label={label} />
