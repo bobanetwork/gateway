@@ -13,8 +13,7 @@ import { useTokenApproval } from '../useTokenApproval'
 export function useStakingActions() {
   const { address } = useAccount()
   const chainId = useChainId()
-
-  const { tokenAllowance, approveSimulation, approveWrite } = useTokenApproval(address, chainId)
+  const { toast } = useToast()
 
   // Simulate staking
   const { data: stakeSimulation, error: stakeSimulateError } = useSimulateContract({
