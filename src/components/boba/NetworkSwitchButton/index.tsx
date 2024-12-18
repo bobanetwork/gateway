@@ -2,6 +2,7 @@ import { Button } from '@/components/ui'
 import { useNetworkSwitch } from '@/hooks/useNetworkSwitch'
 import { Chain } from 'viem'
 
+import { useAppKit } from '@reown/appkit/react'
 import { useAccount } from 'wagmi'
 import { NetworkSwitchModal } from '../NetworkSwitchModal'
 
@@ -16,7 +17,8 @@ export const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
   className,
   children
 }) => {
-  const { chainId } = useAccount()
+  const { chainId, isConnected } = useAccount()
+  const { open } = useAppKit()
   const {
     switchToChain,
     switchState,
@@ -26,7 +28,6 @@ export const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
     confirmSwitch,
     addNetwork,
     closeModal, } = useNetworkSwitch()
-
 
 
   return (
@@ -41,14 +42,20 @@ export const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
         onAddNetwork={addNetwork}
       />
 
-    <Button
-      variant="default"
-      className={className}
-        onClick={() => switchToChain(toNewChain)}
+      <Button
+        variant="default"
+        className={className}
+        onClick={() => {
+          if (isConnected) {
+            switchToChain(toNewChain)
+          } else {
+            open()
+          }
+        }}
         disabled={chainId === toNewChain.id}
-    >
+      >
         {children || `Connect to ${toNewChain.name}`}
-    </Button>
+      </Button>
     </>
   )
 }

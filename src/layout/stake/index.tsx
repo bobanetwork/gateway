@@ -8,22 +8,22 @@ import { useModalStore } from '@/stores/modal.store'
 import { ModalIds } from '@/types/modal'
 import { formatNumberWithIntl } from '@/utils/format'
 import React from 'react'
+import { useAccount } from 'wagmi'
 import { boba } from 'wagmi/chains'
 import StakeHistory from './StakeHistory'
 import StakeModal from './StakeModal'
 import UnStakeModal from './UnstakeModal'
-import { useAccount } from 'wagmi'
 
 const StakePage: React.FC = () => {
   const { chainId } = useAccount()
-  const { isStakingEnabled } = useChainConfig()
+  const { isStakingEnabled, chainConfig } = useChainConfig()
   const { openModal } = useModalStore()
   const { tokenBalance: bobaBalance, tokenDecimals, tokenSymbol, tokenAddress } = useBalances();
   const { stakingHistory, totalStaked, apy, isLoading } = useStakingStats()
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      {chainId !== boba.id && <Card>
+      {chainConfig && chainId !== boba.id && <Card>
         <CardContent className="p-4 flex flex-col md:flex-row justify-between items-center">
           <Text variant="sm" fontWeight="medium" className="text-muted-foreground">Please connect to Boba (Mainnet) to stake and earn reward.</Text>
           <NetworkSwitchButton toNewChain={boba} className="rounded-full">
@@ -94,7 +94,9 @@ const StakePage: React.FC = () => {
       </div>
 
 
-      <StakeHistory stakingHistory={stakingHistory} loading={isLoading} />
+      <StakeHistory
+        stakingHistory={stakingHistory}
+        loading={isLoading} />
 
       <StakeModal />
       <UnStakeModal />
