@@ -52,6 +52,7 @@ const Modal: React.FC<ModalProps> = ({ config, isOpen }) => {
                 key={index}
                 variant={action.variant || 'default'}
                 onClick={action.onClick}
+                disabled={action.disabled}
                 className={`w-full rounded-full ${action.className}`}
                 size="md"
               >

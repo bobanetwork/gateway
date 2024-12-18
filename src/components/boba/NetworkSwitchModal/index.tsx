@@ -77,7 +77,7 @@ export const NetworkSwitchModal: React.FC<NetworkSwitchModalProps> = ({
             <IconSquareCheck className="h-14 w-14 text-green-400 dark:text-dark-green-300" />
             <Text variant="lg" fontWeight="bold" fontFamily="montserrat" className="text-gray-800 dark:text-dark-gray-50">Successful</Text>
             <Text variant="sm" fontWeight="medium">Successfully switched to
-              <span className="pl-1 font-semibold">{`${targetChain?.name}`}?</span>
+              <span className="pl-1 font-semibold">{`${targetChain?.name}`}</span>
             </Text>
           </div>
         ),

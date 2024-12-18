@@ -13,12 +13,12 @@ import { useTokenApproval } from '../useTokenApproval'
 export function useStakingActions() {
   const { address } = useAccount()
   const chainId = useChainId()
-  const { toast } = useToast()
 
   // Simulate staking
   const { data: stakeSimulation, error: stakeSimulateError } = useSimulateContract({
     ...stakingContractConfig.staking,
-    functionName: 'stake'
+    functionName: 'stake',
+    args: [BigInt(1)]
   })
 
   const {
@@ -35,13 +35,23 @@ export function useStakingActions() {
     hash: stakeTxHash,
   })
 
+  const { tokenAllowance, approveSimulation, approveWrite, approveSimulationError } = useTokenApproval(address, chainId);
+
   // Action handlers
-  const stake = useCallback(async (amount: string) => {
+  const stake = useCallback(async (amount: number) => {
     try {
       if (!address) throw new Error('Wallet not connected')
-      if (!approveSimulation || !stakeSimulation) throw new Error('Simulation failed')
 
-      const amountToStake = parseEther(amount)
+      if (!approveSimulation) {
+        console.log(`ap simulation error`, approveSimulationError)
+        throw new Error('Approve Simulation failed')
+      }
+
+      if (!stakeSimulation) {
+        throw new Error('Stake Simulation failed')
+      }
+      //TODO: amount need to be in weigh string.
+      const amountToStake = parseEther(amount.toString())
       // Add buffer for approval (similar to your original code)
       const approvalBuffer = parseEther('0.000000000001') // 1000000000000 in your original code
       const totalApprovalAmount = amountToStake + approvalBuffer
@@ -49,18 +59,17 @@ export function useStakingActions() {
       // Check if we need to approve
       if (!tokenAllowance || totalApprovalAmount > tokenAllowance) {
         // Approve tokens first
-        const approveTx = await approveWrite({
+        await approveWrite({
           ...approveSimulation.request,
           address: stakingContractConfig.bobaToken[chainId],
           args: [stakingContractConfig.staking.address, totalApprovalAmount],
         })
-        console.log(approveTx);
         // TODO Wait for approval transaction
         // const approveReceipt = await waitForTransactionReceipt(approveTx)
         // if (!approveReceipt.status) throw new Error('Approval failed')
       }
 
-      console.log(`processding with staking!`);
+      console.log(`staking boba!`);
 
       // Proceed with staking
       const stakeTx = await stakeWrite({
@@ -76,11 +85,8 @@ export function useStakingActions() {
   }, [
     address,
     chainId,
-    approveSimulation,
     stakeSimulation,
-    approveWrite,
     stakeWrite,
-    tokenAllowance,
   ])
 
   return {

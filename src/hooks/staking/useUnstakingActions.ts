@@ -40,9 +40,9 @@ export function useUnstakingActions() {
         ...unstakeSimulation.request,
         args: [stakeId],
       })
-      return tx
+      return tx;
     } catch (error) {
-      console.error('Unstaking error:', error)
+      console.error('UnStaking error:', error)
       throw error
     }
   }, [unstakeWrite, unstakeSimulation, address])

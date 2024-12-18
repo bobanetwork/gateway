@@ -17,6 +17,7 @@ export interface ModalConfig {
   actions?: {
     label: string;
     className?: string;
+    disabled?: boolean;
     onClick: () => void;
     variant?: 'default' | 'select' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
   }[];
