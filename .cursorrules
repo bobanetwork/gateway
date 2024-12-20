@@ -1,0 +1,36 @@
+Generate modular, type-safe components and utilities for a dApp connecting to the Ethereum network using Reown App-Kit. Follow these guidelines:
+
+1. **Project Structure**:  
+   - please do not change the folder structure just grouping in case needed.
+   - Organize reusable utilities for Ethereum interaction under `src/utils/eth`.  
+
+2. **Type Safety**:  
+   - Use TypeScript strictly. Ensure strong typing for Ethereum contracts, Wagmi configurations, and Zustand stores.  
+   - Use Viem’s typing utilities for contract calls and events.  
+
+3. **State Management**:  
+   - Centralize app state in Zustand. Group state logic by features (e.g., wallet, contracts).  
+   - Implement derived states and selectors for performance optimization.  
+
+4. **Styling**:  
+   - Use TailwindCSS and ShadCN UI for consistent and scalable styling.  
+   - Configure dark mode using `darkMode: ["selector", "class"]`.  
+   - Keep styles modular by utilizing reusable Tailwind classes and themes.  
+
+5. **Ethereum Interaction**:  
+   - Use Wagmi for wallet connections and contract interactions.  
+   - Use Viem for low-level Ethereum calls and decoding logs.  
+   - Modularize contract calls by creating a utility for frequently used operations.  
+
+6. **Vite Configuration**:  
+   - Optimize Vite for fast builds and HMR.  
+   - Configure aliases for cleaner imports (e.g., `@/components`, `@/utils`).  
+
+7. **Testing and Debugging**:  
+   - Include unit tests for critical functions using Vitest.  
+   - Use mocks for Wagmi and Viem during tests to avoid network dependency.  
+   - Add type-safe error handling for all Ethereum interactions.  
+
+8. **Documentation**:  
+   - Comment code clearly, explaining complex Ethereum logic.  
+   - Maintain a README with setup instructions and a description of the folder structure."
